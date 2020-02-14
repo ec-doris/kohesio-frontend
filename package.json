@@ -1,0 +1,19 @@
+{
+  "name": "kohesio.eu",
+  "version": "1.0.0",
+  "description": "Kohesio website",
+  "main": "index.html",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphdom/kohesio.eu.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raphdom/kohesio.eu/issues"
+  },
+  "homepage": "https://github.com/raphdom/kohesio.eu#readme"
+}
