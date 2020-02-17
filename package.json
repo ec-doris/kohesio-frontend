@@ -15,5 +15,9 @@
   "bugs": {
     "url": "https://github.com/raphdom/kohesio.eu/issues"
   },
-  "homepage": "https://github.com/raphdom/kohesio.eu#readme"
+  "homepage": "https://github.com/raphdom/kohesio.eu#readme",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "fs": "0.0.1-security"
+  }
 }
