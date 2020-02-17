@@ -1,2 +1,4 @@
 /.idea/
 /kohesio.eu.iml
+/package-lock.json
+/public/points.json
