@@ -1,3 +1,43 @@
+fetch('filters.json')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+    })
+    .then(json => {
+        /*COUNTRIES SELECT*/
+        const countrySelect = new SlimSelect({
+            select: '#countries-select'
+        });
+        const countriesData = [{
+            'text': 'All'
+        }];
+        for(let country of json.countries){
+            countriesData.push({
+                text: country[1]
+            })
+        }
+        countrySelect.setData(countriesData);
+
+        /*TOPICS SELECT*/
+        const topicSelect = new SlimSelect({
+            select: '#topics-select'
+        });
+        const topicsData = [{
+            'text': 'All'
+        }];
+        for(let topic of json.topics){
+            topicsData.push({
+                text: topic[1]
+            })
+        }
+        topicSelect.setData(topicsData);
+    })
+    .catch(function () {
+        this.dataError = true;
+    });
+
 window.map = L.map('mapId').setView([48, 4], 5);
 /*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

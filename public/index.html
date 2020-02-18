@@ -10,10 +10,23 @@
             integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
             crossorigin=""></script>
     <script src="js/leaflet.markercluster.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.25.0/slimselect.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/slim-select/1.25.0/slimselect.min.css">
+
     <title>Kohesio</title>
 </head>
 <body>
     <h1>Kohesio website</h1>
+    <section id="filters">
+        <div id="basic-filters" style="display: flex;padding: 20px;">
+            <select id="countries-select"></select>
+            <select id="topics-select"></select>
+        </div>
+        <div id="advanced-filters">
+
+        </div>
+    </section>
     <div id="mapId" style="height: 800px;"></div>
     <script src="js/customMap.js"></script>
 </body>
