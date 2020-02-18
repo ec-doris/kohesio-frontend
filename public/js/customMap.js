@@ -32,7 +32,7 @@ L.custom = {
                 const markerOnClick = function(e){
                     const id = e.target.options.id;
                     const projectUrl = 'https://linkedopendata.eu/wiki/Item:Q' + id;
-                    const server = 'http://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
+                    const server = 'https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
                     const query = 'select * where {' +
                         '<https://linkedopendata.eu/entity/Q'+id+'> rdfs:label ?label.' +
                         'FILTER (langMatches( lang(?label), "en" ) )' +
