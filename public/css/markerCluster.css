@@ -85,7 +85,7 @@
 .mycluster div{
     color:#000;
     font-weight: bold;
-    flex: 1;
+    font-size: 16px;
 }
 
 .mycluster.size1{
