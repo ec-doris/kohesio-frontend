@@ -1,7 +1,13 @@
 window.map = L.map('mapId').setView([48, 4], 5);
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+/*L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(window.map);*/
+/*Osmec2 European Commission Open Street Map version 2*/
+L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
+        '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
 }).addTo(window.map);
+
 
 fetch('points.json')
     .then(response => {
