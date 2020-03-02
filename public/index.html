@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="css/style.css" media="screen" rel="stylesheet"/>
     <link href="css/markerCluster.css" media="screen" rel="stylesheet"/>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
           integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
@@ -17,17 +18,31 @@
     <title>Kohesio</title>
 </head>
 <body>
-    <h1>Kohesio website</h1>
-    <section id="filters">
-        <div id="basic-filters" style="display: flex;padding: 20px;">
-            <select id="countries-select"></select>
-            <select id="topics-select"></select>
-        </div>
-        <div id="advanced-filters">
+    <div id="kohesio-wrapper">
+        <header>
+            <h1>Kohesio website</h1>
+        </header>
+        <section id="content">
+            <section id="filters">
+                <div id="basic-filters" style="display: flex;padding: 20px;">
+                    <label for="countries-select">Countries</label>
+                    <select id="countries-select" multiple></select>
+                    <label for="topics-select">Topics</label>
+                    <select id="topics-select" multiple></select>
+                    <button type="button" onclick="onSearchClick()">Search</button>
+                </div>
+                <div id="advanced-filters">
 
-        </div>
-    </section>
-    <div id="mapId" style="height: 800px;"></div>
+                </div>
+            </section>
+            <div id="mapId" style="height: 800px;"></div>
+            <section id="projects-list">
+                <h2>Projects</h2>
+            </section>
+        </section>
+        <footer></footer>
+    </div>
     <script src="js/customMap.js"></script>
+    <script src="js/scripts.js"></script>
 </body>
 </html>

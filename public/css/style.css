@@ -1,0 +1,16 @@
+body{
+    background-color: #EEE;
+    margin:0;
+    padding:0;
+}
+
+#kohesio-wrapper{
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: white;
+}
+
+header{
+    display:flex;
+}

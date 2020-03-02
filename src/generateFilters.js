@@ -2,9 +2,10 @@ const axios = require('axios');
 const fs = require('fs');
 
 const server = 'http://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
-const queryGetCountries = 'select distinct (REPLACE(STR(?country),".*Q","") AS ?countryId) ?countryLabel where {' +
+const queryGetCountries = 'select distinct (CONCAT(CONCAT(REPLACE(STR(?country),".*Q",""), ","), ?countrycode) AS ?countryId) ?countryLabel where {' +
     '?s <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934> .' +
     '?s <https://linkedopendata.eu/prop/direct/P32> ?country .' +
+    '?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .' +
     'SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }' +
     '}';
 const queryGetTopics = 'select distinct ?objectiveId ?objectiveLabel where {\n' +
