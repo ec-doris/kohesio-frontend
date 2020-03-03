@@ -13,8 +13,6 @@ fetch('points.json').then(response => {
     }
     return response.json();
 }).then(json => {
-    console.log("RENDERED IS STARTED " + window.performance.now());
-    window.layersCountriesRendered = 5;
     window.mapDataPoints = json;
     setPointsOnMapByCountry(window.mapDataPoints);
 }).catch(function () {
@@ -63,19 +61,25 @@ function updateProgressBar(processed, total, elapsed, layersArray){
     if (processed === total) {
         window.layersCountriesRendered = window.layersCountriesRendered - 1;
         if (window.layersCountriesRendered === 0) {
-            console.log("RENDERED IS FINISHED " + window.performance.now());
+            const time = (window.performance.now() - window.mapStartRenderer) / 1000;
+            console.log("MAP RENDERED IS FINISHED TOOK: " + time.toFixed(2) + 'sec');
         }
     }
 }
 
 function setPointsOnMapByCountry(data){
+    window.mapStartRenderer = window.performance.now();
+    //console.log("RENDERED IS STARTED " + window.performance.now());
     const countryLayers = [];
+    window.layersCountriesRendered = Object.keys(data).length;
     for(let country in data){
         const markersListPerCountry = [];
         const markers = L.markerClusterGroup({
             showCoverageOnHover: false,
             maxClusterRadius: 120,
             chunkedLoading: true,
+            spiderfyOnMaxZoom: false,
+            zoomToBoundsOnClick:false,
             chunkProgress: updateProgressBar,
             maxZoom: 18,
             iconCreateFunction: function(cluster) {
@@ -101,10 +105,30 @@ function setPointsOnMapByCountry(data){
                 return L.divIcon({ html: '<div>'+total+'</div>', className: className, iconSize: iconSize });
             }
         });
+        markers.on('clusterclick', (a)=>{
+            const maxZoom = map.getMaxZoom();
+            let cluster = a.layer,
+                bottomCluster = cluster;
+
+            while (bottomCluster._childClusters.length === 1) {
+                bottomCluster = bottomCluster._childClusters[0];
+            }
+
+            if (bottomCluster._zoom === maxZoom &&
+                bottomCluster._childCount === cluster._childCount) {
+                if (bottomCluster._childCount > 100) {
+                    map.openPopup('<p>Cluster with too many points!</p>', a.layer.getLatLng());
+                }else{
+                    a.layer.spiderfy();
+                }
+            }else{
+                a.layer.zoomToBounds();
+            }
+        });
         for(let point of data[country]){
             const marker = L.marker(L.latLng(point[2], point[1]), {id: point[0]});
             marker.on('click', markerOnClick);
-            markers.addLayers(marker);
+            markers.addLayer(marker);
         }
         countryLayers.push(markers);
     }

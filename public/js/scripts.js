@@ -11,10 +11,7 @@ fetch('filters.json')
     .then(json => {
         /*COUNTRIES SELECT*/
         countrySelect = new SlimSelect({
-            select: '#countries-select',
-            onChange: (info) => {
-                console.log(info)
-            }
+            select: '#countries-select'
         });
         const countriesData = [];
         for(let country of json.countries){
