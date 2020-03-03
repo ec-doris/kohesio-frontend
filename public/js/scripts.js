@@ -11,6 +11,7 @@ fetch('filters.json')
     .then(json => {
         /*COUNTRIES SELECT*/
         countrySelect = new SlimSelect({
+            placeholder: 'All countries',
             select: '#countries-select'
         });
         const countriesData = [];
@@ -24,6 +25,7 @@ fetch('filters.json')
 
         /*TOPICS SELECT*/
         topicSelect = new SlimSelect({
+            placeholder: 'All topics',
             select: '#topics-select'
         });
         const topicsData = [];

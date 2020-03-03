@@ -25,9 +25,11 @@ function markerOnClick(e){
     const id = e.target.options.id;
     const projectUrl = 'https://linkedopendata.eu/wiki/Item:Q' + id;
     const server = 'https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
-    const query = 'select * where {' +
-        '<https://linkedopendata.eu/entity/Q'+id+'> rdfs:label ?label.' +
+    const query = 'select ?label ?description where {' +
+        '<https://linkedopendata.eu/entity/Q' + id + '> rdfs:label ?label.' +
+        '<https://linkedopendata.eu/entity/Q' + id + '> <https://linkedopendata.eu/prop/direct/P836> ?description .' +
         'FILTER (langMatches( lang(?label), "en" ) )' +
+        'FILTER (lang(?description) = \'en\')' +
         '}';
     const url = server + '?query=' + query;
     fetch(encodeURI(url),{
@@ -41,10 +43,11 @@ function markerOnClick(e){
         return response.json();
     }).then(json => {
         let title = projectUrl;
+        let description = '';
         if (json.results.bindings.length > 0) {
             title = json.results.bindings[0].label.value;
+            description = json.results.bindings[0].description.value;
         }
-        let description = '';
         const htmlContent = '<div>' +
             '<h4><a href="' + projectUrl + '" class="map-marker" target="_blank">' + title + '</a></h4>' +
             '<div style="display:flex;align-items: center;">' +
