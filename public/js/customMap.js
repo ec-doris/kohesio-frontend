@@ -7,13 +7,15 @@ L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
 }).addTo(window.map);
 
 
-fetch('points.json').then(response => {
+fetch('points.gzip').then(response => {
     if (!response.ok) {
         throw new Error("HTTP error " + response.status);
     }
-    return response.json();
-}).then(json => {
-    window.mapDataPoints = json;
+    return response.arrayBuffer();
+}).then(arrayBuffer => {
+    const byteArray = new Uint8Array(arrayBuffer);
+    const data = pako.ungzip(byteArray,{ to: 'string' });
+    window.mapDataPoints = JSON.parse(data);
     setPointsOnMapByCountry(window.mapDataPoints);
 }).catch(function () {
     this.dataError = true;

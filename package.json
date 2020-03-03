@@ -18,6 +18,7 @@
   "homepage": "https://github.com/raphdom/kohesio.eu#readme",
   "dependencies": {
     "axios": "^0.19.2",
-    "fs": "0.0.1-security"
+    "fs": "0.0.1-security",
+    "pako": "^1.0.11"
   }
 }

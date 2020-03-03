@@ -1,5 +1,6 @@
 const axios = require('axios');
 const fs = require('fs');
+const pako = require('pako');
 
 const server = 'http://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
 const query = 'select (REPLACE(STR(?project),".*Q","") AS ?projectid) ?countrycode ?coordinates ?objectiveId where {' +
@@ -45,7 +46,8 @@ class GenerateMapPoints{
                         ]
                     )
                 }
-                fs.writeFile('public/points.json', JSON.stringify(resultJSON), (err) => {
+                const gzip = pako.gzip(JSON.stringify(resultJSON));
+                fs.writeFile('public/points.gzip', gzip, (err) => {
                     if (err) throw err;
                     console.log('INFO: File points.json is created successfully.');
                 });
