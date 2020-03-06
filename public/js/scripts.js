@@ -14,17 +14,19 @@ const months = [
     'November',
     'December'
 ];
+const server = 'https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
+
 function formatBudget (value) {
     // Nine Zeroes for Billions
     return Math.abs(Number(value)) >= 1.0e+9
-        ? Math.abs(Number(value)) / 1.0e+9 + "B"
+        ? (Math.abs(Number(value)) / 1.0e+9).toFixed(0) + "B"
         // Six Zeroes for Millions
         : Math.abs(Number(value)) >= 1.0e+6
-            ? Math.abs(Number(value)) / 1.0e+6 + "M"
+            ? (Math.abs(Number(value)) / 1.0e+6).toFixed(0) + "M"
             // Three Zeroes for Thousands
             : Math.abs(Number(value)) >= 1.0e+3
-                ? Math.abs(Number(value)) / 1.0e+3 + "K"
-                : Math.abs(Number(value));
+                ? (Math.abs(Number(value)) / 1.0e+3).toFixed(0) + "K"
+                : Math.abs(Number(value)).toFixed(0);
 }
 
 fetch('filters.json')
@@ -69,71 +71,74 @@ fetch('filters.json')
     });
 
 //Getting the project details
-const server = 'https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql';
-const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId WHERE { ' +
-    '  ?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>. ' +
-    '  { ' +
-    '    ?s0 rdfs:label ?label. ' +
-    '    FILTER((LANG(?label)) = "en") ' +
-    '  }' +
-    '  {' +
-    '    ?s0 <https://linkedopendata.eu/prop/direct/P836> ?description. ' +
-    '    FILTER((LANG(?description)) = "en")' +
-    '  }' +
-    '  { ?s0 <https://linkedopendata.eu/prop/direct/P20> ?startTime. } ' +
-    '  { ?s0 <https://linkedopendata.eu/prop/direct/P835> ?euBudget. }' +
-    '  OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P147> ?image. }' +
-    '  OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P851> ?image. }' +
-    '  { ?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates. }' +
-    '  { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. }' +
-    '  { ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. }' +
-    '  { ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
-    '}' +
-    'LIMIT 11';
-const urlProjects = encodeURI(server + '?query=' + queryProjects);
-fetch(urlProjects,{
-    headers: {
-        'Accept': 'application/sparql-results+json'
-    }
-}).then(response => {
-    if (!response.ok) {
-        throw new Error("HTTP error " + response.status);
-    }
-    return response.json();
-}).then(json => {
-    let html = '';
-    let i = 1;
-    for (let project of json.results.bindings){
-        //let objectiveId = (i<10 ? "TO0" : "TO") + i;
-        let objectiveId = project.objectiveId.value;
-        let title = project.label.value.length > 60 ?
-            project.label.value.substring(0,60) + '...' :
-            project.label.value;
-        let description = project.description.value.length > 500 ?
-            project.description.value.substring(0,500) + '...' :
-            project.description.value;
-        const startTime = new Date(project.startTime.value);
-        const startTimeFormatted = months[startTime.getMonth()] + ' ' + startTime.getFullYear();
-        let budget = formatBudget(parseInt(project.euBudget.value)) + '€';
-        html +=
-            '<div class="card '+objectiveId + '">' +
+
+function getProjectList() {
+    const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId WHERE { ' +
+        '  ?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>. ' +
+        '  { ' +
+        '    ?s0 rdfs:label ?label. ' +
+        '    FILTER((LANG(?label)) = "en") ' +
+        '  }' +
+        '  {' +
+        '    ?s0 <https://linkedopendata.eu/prop/direct/P836> ?description. ' +
+        '    FILTER((LANG(?description)) = "en")' +
+        '  }' +
+        '  { ?s0 <https://linkedopendata.eu/prop/direct/P20> ?startTime. } ' +
+        '  { ?s0 <https://linkedopendata.eu/prop/direct/P835> ?euBudget. }' +
+        '  OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P147> ?image. }' +
+        '  OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P851> ?image. }' +
+        '  { ?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates. }' +
+        '  { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. }' +
+        '  { ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. }' +
+        '  { ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
+        generateFilters() +
+        '}' +
+        'LIMIT 12';
+    const urlProjects = encodeURI(server + '?query=' + queryProjects);
+    fetch(urlProjects, {
+        headers: {
+            'Accept': 'application/sparql-results+json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+    }).then(json => {
+        let html = '';
+        let i = 1;
+        for (let project of json.results.bindings) {
+            //let objectiveId = (i<10 ? "TO0" : "TO") + i;
+            let objectiveId = project.objectiveId.value;
+            let title = project.label.value.length > 60 ?
+                project.label.value.substring(0, 60) + '...' :
+                project.label.value;
+            let description = project.description.value.length > 500 ?
+                project.description.value.substring(0, 500) + '...' :
+                project.description.value;
+            const startTime = new Date(project.startTime.value);
+            const startTimeFormatted = months[startTime.getMonth()] + ' ' + startTime.getFullYear();
+            let budget = formatBudget(parseInt(project.euBudget.value)) + '€';
+            html +=
+                '<div class="card ' + objectiveId + '">' +
                 '<div class="header">' +
-                    /*'<img src="images/TO'+project.objectiveId.value+'_80.png">' +*/
-                    '<img src="images/'+objectiveId+'_80.png">' +
-                    '<h1>' + title +'</h1>' +
+                /*'<img src="images/TO'+project.objectiveId.value+'_80.png">' +*/
+                '<img src="images/' + objectiveId + '_80.png">' +
+                '<h1>' + title + '</h1>' +
                 '</div>' +
                 '<div class="info-bar">' +
-                    '<div class="startDate">'+ startTimeFormatted + '</div>' +
-                    '<div class="budget">'+ budget +'</div>' +
+                '<div class="startDate">' + startTimeFormatted + '</div>' +
+                '<div class="budget">' + budget + '</div>' +
                 '</div>' +
                 '<p>' + description + '</p>' +
-            '</div>';
-        i++;
-    }
-    document.getElementById('projects-grid').innerHTML = html;
-}).catch(function () {
+                '</div>';
+            i++;
+        }
+        document.getElementById('projects-grid').innerHTML = html;
+    }).catch(function () {
 
-});
+    });
+}
 
 function onSearchClick(){
     const countriesSelected = countrySelect.selected();
@@ -149,4 +154,44 @@ function onSearchClick(){
         clearAllLayers();
         setPointsOnMapByCountry(window.mapDataPoints);
     }
+    getProjectList();
+    getCountProjects();
 }
+
+function getCountProjects() {
+    fetch(encodeURI(server + '?query=SELECT (COUNT(*) as ?count) WHERE{' +
+        '  ?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>.' +
+        generateFilters() +
+        '}'), {
+        headers: {
+            'Accept': 'application/sparql-results+json'
+        }
+    }).then(response => {
+        if (!response.ok) {
+            throw new Error("HTTP error " + response.status);
+        }
+        return response.json();
+    }).then(json => {
+        console.log('COUNT=' + json.results.bindings[0].count.value);
+    }).catch(function () {
+
+    });
+}
+
+function generateFilters(){
+    let filters = '';
+    //Country filter
+    if (countrySelect) {
+        const countriesSelected = countrySelect.selected();
+        if (countriesSelected.length > 0) {
+            for (let country of countriesSelected) {
+                let countryCode = country.split(",")[0];
+                filters += '{?s0 <https://linkedopendata.eu/prop/direct/P32> <https://linkedopendata.eu/entity/Q' + countryCode + '>}';
+            }
+        }
+    }
+    return filters;
+}
+
+getCountProjects();
+getProjectList();

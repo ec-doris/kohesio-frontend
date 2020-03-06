@@ -73,6 +73,9 @@ function updateProgressBar(processed, total, elapsed, layersArray){
 }
 
 function setPointsOnMapByCountry(data){
+    if (!data){
+        return;
+    }
     window.mapStartRenderer = window.performance.now();
     //console.log("RENDERED IS STARTED " + window.performance.now());
     const countryLayers = [];
@@ -143,7 +146,9 @@ function setPointsOnMapByCountry(data){
     window.countryLayers = countryLayers;
 }
 function clearAllLayers(){
-    for (let layer of window.countryLayers){
-        layer.clearLayers();
+    if (window.countryLayers) {
+        for (let layer of window.countryLayers) {
+            layer.clearLayers();
+        }
     }
 }
