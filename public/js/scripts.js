@@ -142,11 +142,30 @@ function getProjectList() {
 
 function onSearchClick(){
     const countriesSelected = countrySelect.selected();
-    if (countriesSelected.length > 0){
-        const points = {};
-        for(let country of countriesSelected){
-            let countryCode = country.split(",")[1];
-            points[countryCode] = window.mapDataPoints[countryCode];
+    const topicsSelected = topicSelect.selected();
+    if (countriesSelected.length > 0 || topicsSelected.length > 0){
+        let points = {};
+        if (countriesSelected.length > 0) {
+            for (let country of countriesSelected) {
+                let countryCode = country.split(",")[1];
+                points[countryCode] = window.mapDataPoints[countryCode];
+            }
+        }else{
+            points = Object.assign({}, window.mapDataPoints);
+        }
+        if (topicsSelected.length > 0){
+            for (let country in points) {
+                let results = [];
+                for(let point of points[country]){
+                    for (let topic of topicsSelected) {
+                        if (point[3] === topic){
+                            results.push(point);
+                            break;
+                        }
+                    }
+                }
+                points[country] = results;
+            }
         }
         clearAllLayers();
         setPointsOnMapByCountry(points);
@@ -159,10 +178,18 @@ function onSearchClick(){
 }
 
 function getCountProjects() {
-    fetch(encodeURI(server + '?query=SELECT (COUNT(*) as ?count) WHERE{' +
-        '  ?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>.' +
+    const countQuery = 'SELECT (COUNT(*) as ?count) WHERE{' +
+        '?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>.' +
+        '?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .' +
+        '?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .' +
+        '?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates .' +
+        '?s0 <https://linkedopendata.eu/prop/direct/P888> ?category .' +
+        '?category <https://linkedopendata.eu/prop/direct/P302> ?objective .' +
+        '?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId .' +
         generateFilters() +
-        '}'), {
+        '}';
+    const urlCount = encodeURI(server + '?query=' + countQuery);
+    fetch(urlCount, {
         headers: {
             'Accept': 'application/sparql-results+json'
         }
@@ -184,10 +211,26 @@ function generateFilters(){
     if (countrySelect) {
         const countriesSelected = countrySelect.selected();
         if (countriesSelected.length > 0) {
-            for (let country of countriesSelected) {
+            filters += '{';
+            for (let i=0; i<countriesSelected.length; ++i) {
+                let country = countriesSelected[i];
                 let countryCode = country.split(",")[0];
                 filters += '{?s0 <https://linkedopendata.eu/prop/direct/P32> <https://linkedopendata.eu/entity/Q' + countryCode + '>}';
+                filters += (countriesSelected.length > 1 && i !== countriesSelected.length -1) ? ' UNION' : '';
             }
+            filters += '}';
+        }
+    }
+    if (topicSelect) {
+        const topicsSelected = topicSelect.selected();
+        if (topicsSelected.length > 0) {
+            filters += '{';
+            for (let i=0; i<topicsSelected.length; ++i) {
+                let topic = topicsSelected[i];
+                filters += '{?objective <https://linkedopendata.eu/prop/direct/P1105> "' + topic + '"}';
+                filters += (topicsSelected.length > 1 && i !== topicsSelected.length -1) ? ' UNION' : '';
+            }
+            filters += '}';
         }
     }
     return filters;

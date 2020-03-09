@@ -16,11 +16,16 @@ const queryGetTopics = 'select distinct ?objectiveId ?objectiveLabel where {\n' 
     'SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }\n' +
     '} order by ?objectiveId';
 
+const countriesStatic = [["12,DK","Denmark"],["13,PL","Poland"],["15,IT","Italy"],["2,IE","Ireland"],["20,FR","France"],["25,CZ","Czech Republic"]];
+
 class GenerateFilters{
     constructor() {
     }
     run(){
-        const countriesPromise = this.getValuesUsingQuery(queryGetCountries, 'countryId', 'countryLabel');
+        //const countriesPromise = this.getValuesUsingQuery(queryGetCountries, 'countryId', 'countryLabel');
+        const countriesPromise = new Promise((resolve,reject)=>{
+           resolve(countriesStatic);
+        });
         const topicsPromise = this.getValuesUsingQuery(queryGetTopics, 'objectiveId', 'objectiveLabel');
         Promise.all([countriesPromise, topicsPromise]).then(results=>{
             const jsonFile = {
