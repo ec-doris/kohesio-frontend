@@ -85,6 +85,9 @@ button{
     margin-right: 5px;
     width:24px;
 }
+.ss-content .ss-list .ss-option.ss-disabled img{
+    opacity: 0.5;
+}
 
 .ss-value-text{
     display: flex;
@@ -155,8 +158,15 @@ button{
 }
 
 
-.projects-grid .card .header img{
+.projects-grid .card .header .images{
+    display: flex;
+    flex-direction: column;
     margin-right: 10px;
+    align-items: center;
+}
+.projects-grid .card .header .images .flag{
+    width: 24px;
+    margin-top: -14px;
 }
 .projects-grid .card .info-bar{
     display: flex;
@@ -164,6 +174,9 @@ button{
     padding: 10px;
     background-color: #0065a2;
     color: white;
+}
+.projects-grid .card .info-bar img{
+    width:24px;
 }
 .projects-grid .card p{
     margin: 0;

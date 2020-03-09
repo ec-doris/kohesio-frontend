@@ -46,7 +46,8 @@ fetch('filters.json')
         for(let country of json.countries){
             countriesData.push({
                 value: country[0],
-                text: country[1]
+                text: country[1],
+                innerHTML: '<img src="images/flags/'+country[0].split(',')[1].toLowerCase()+'.png">'+country[1]
             })
         }
         countrySelect.setData(countriesData);
@@ -73,7 +74,7 @@ fetch('filters.json')
 //Getting the project details
 
 function getProjectList() {
-    const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId WHERE { ' +
+    const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId ?countrycode WHERE { ' +
         '  ?s0 <https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>. ' +
         '  { ' +
         '    ?s0 rdfs:label ?label. ' +
@@ -91,6 +92,8 @@ function getProjectList() {
         '  { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. }' +
         '  { ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. }' +
         '  { ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
+        '  { ?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .}' +
+        '  { ?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .}' +
         generateFilters() +
         '}' +
         'LIMIT 12';
@@ -119,11 +122,15 @@ function getProjectList() {
             const startTime = new Date(project.startTime.value);
             const startTimeFormatted = months[startTime.getMonth()] + ' ' + startTime.getFullYear();
             let budget = formatBudget(parseInt(project.euBudget.value)) + '€';
+            let countryCode = project.countrycode.value;
             html +=
                 '<div class="card ' + objectiveId + '">' +
                 '<div class="header">' +
                 /*'<img src="images/TO'+project.objectiveId.value+'_80.png">' +*/
-                '<img src="images/' + objectiveId + '_80.png">' +
+                '<div class="images">' +
+                    '<img class="topic" src="images/' + objectiveId + '_80.png">' +
+                    '<img class="flag" src="images/flags/' + countryCode.toLowerCase() + '.png">' +
+                '</div>' +
                 '<h1>' + title + '</h1>' +
                 '</div>' +
                 '<div class="info-bar">' +
