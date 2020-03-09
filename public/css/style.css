@@ -182,6 +182,7 @@ button{
     margin: 0;
     padding: 10px;
     line-height: 1.4;
+    word-break: break-word;
 }
 
 
