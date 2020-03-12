@@ -123,7 +123,9 @@ function getProjectList() {
             const startTimeFormatted = months[startTime.getMonth()] + ' ' + startTime.getFullYear();
             let budget = formatBudget(parseInt(project.euBudget.value)) + '€';
             let countryCode = project.countrycode.value;
+            let link = project.s0.value;
             html +=
+                '<a href="'+link+'" class="project-link" target="_blank">' +
                 '<div class="card ' + objectiveId + '">' +
                 '<div class="header">' +
                 /*'<img src="images/TO'+project.objectiveId.value+'_80.png">' +*/
@@ -138,7 +140,8 @@ function getProjectList() {
                 '<div class="budget">' + budget + '</div>' +
                 '</div>' +
                 '<p>' + description + '</p>' +
-                '</div>';
+                '</div>' +
+                '</a>';
             i++;
         }
         document.getElementById('projects-grid').innerHTML = html;
