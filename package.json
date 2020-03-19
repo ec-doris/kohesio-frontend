@@ -1,24 +1,43 @@
 {
-  "name": "kohesio.eu",
-  "version": "1.0.0",
-  "description": "Kohesio website",
-  "main": "index.html",
-  "scripts": {
-    "test": "test"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/raphdom/kohesio.eu.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/raphdom/kohesio.eu/issues"
-  },
-  "homepage": "https://github.com/raphdom/kohesio.eu#readme",
-  "dependencies": {
-    "axios": "^0.19.2",
-    "fs": "0.0.1-security",
-    "pako": "^1.0.11"
-  }
+    "name": "kohesio-ui",
+    "version": "7.14.8",
+    "license": "EUPL-1.1",
+    "scripts": {
+        "ng": "ng",
+        "e2e": "ng e2e",
+        "stylelint": "stylelint \"src/**/*.scss\"",
+        "tslint": "tslint \"src/**/*.ts\"",
+        "clean": "rimraf out-tsc dist packages/**/dist/** packages/**/out-tsc/** packages/**/src/lib/**/*.js packages/**/src/lib/**/*.js.map",
+        "start-mock-server-mean": "nodemon --ext js --watch ./mock/mean ./mock/mean/server.js",
+        "start-mock-server": "nodemon --ext js --watch ./mock/json ./mock/json/server.js",
+        "start-serve": "eui-scripts serve-app --configuration=proxy-mock",
+        "start": "npm run clean && npm-run-all --parallel start-mock-server start-serve",
+        "start-mean": "npm run clean && npm-run-all --parallel start-mock-server-mean start-serve",
+        "start-proxy": "npm run clean && eui-scripts serve-app --configuration=proxy",
+        "start-openid": "npm run clean && eui-scripts serve-app --configuration=local-openid",
+        "build": "eui-scripts build-app",
+        "build-dev": "eui-scripts build-app --configuration=dev",
+        "build-prod": "eui-scripts build-app --configuration=production",
+        "build-prod-skip-test": "eui-scripts build-app --configuration=production --extraWebpackConfig --skipTest",
+        "build-prod-ci": "ncp tsconfig-ci.json tsconfig.json && npm run build-prod",
+        "build-prod-stats": "eui-scripts build-app --configuration=production --extraWebpackConfig --statsJson",
+        "pkg:init": "eui-cli -m",
+        "pkg:clean": "eui-scripts clean-package",
+        "pkg:clean-all": "eui-scripts clean-all",
+        "pkg:test": "eui-scripts test-package",
+        "pkg:build": "eui-scripts build-package",
+        "pkg:build-deps": "eui-scripts build-deps",
+        "pkg:build-all": "eui-scripts build-all",
+        "pkg:build-element": "eui-scripts build-element",
+        "build-prod:all": "npm run pkg:build-all && npm run build",
+        "pkg:publish": "eui-scripts publish",
+        "pkg:publish-all": "eui-scripts publish-all",
+        "generate-changelog": "eui-scripts generate-changelog"
+    },
+    "private": true,
+    "dependencies": {
+        "@eui/deps-base": "7.14.8",
+        "aws-amplify": "^2.2.6",
+        "aws-amplify-angular": "^4.1.7"
+    }
 }

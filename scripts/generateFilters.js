@@ -32,7 +32,7 @@ class GenerateFilters{
                 countries: results[0].isAxiosError ? [] : results[0],
                 topics: results[1].isAxiosError ? [] : results[1]
             };
-            fs.writeFile('public/filters.json', JSON.stringify(jsonFile), (err) => {
+            fs.writeFile('src/assets/data/filters.json', JSON.stringify(jsonFile), (err) => {
                 if (err) throw err;
                 console.log('INFO: File filters.json is created successfully.');
             });
