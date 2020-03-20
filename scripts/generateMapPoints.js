@@ -47,9 +47,11 @@ class GenerateMapPoints{
                     )
                 }
                 const gzip = pako.gzip(JSON.stringify(resultJSON));
-                fs.writeFile('src/assets/data/points.gzip', gzip, (err) => {
-                    if (err) throw err;
-                    console.log('INFO: File points.json is created successfully.');
+                fs.mkdir('src/assets/data', { recursive: true }, (err) => {
+                    fs.writeFile('src/assets/data/points.gzip', gzip, (err) => {
+                        if (err) throw err;
+                        console.log('INFO: File points.json is created successfully.');
+                    });
                 });
             })
             .catch(function (error) {
