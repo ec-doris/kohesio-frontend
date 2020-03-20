@@ -79,7 +79,7 @@
                     "with": "src/environments/environment.dev.ts"
                   }
                 ],
-
+                  "proxyConfig": "proxy.conf.json"
               }
             }
           },
