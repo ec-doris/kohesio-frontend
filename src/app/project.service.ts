@@ -76,21 +76,4 @@ export class ProjectService {
         return filtersQuery;
     }
 
-    getFilters(): Promise<any>{
-        return new Promise((resolve,reject)=>{
-            fetch('assets/data/filters.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("HTTP error " + response.status);
-                    }
-                    return response.json();
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(function () {
-                    reject("error getting filters");
-                });
-        });
-    }
 }
