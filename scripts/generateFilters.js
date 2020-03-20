@@ -17,6 +17,7 @@ const queryGetTopics = 'select distinct ?objectiveId ?objectiveLabel where {\n' 
     '} order by ?objectiveId';
 
 const countriesStatic = [["12,DK","Denmark"],["13,PL","Poland"],["15,IT","Italy"],["2,IE","Ireland"],["20,FR","France"],["25,CZ","Czech Republic"]];
+const topicsStatic = [["TO01","Research and innovation"],["TO02","ICT and broadband"],["TO03","Competitiveness of SMEs"],["TO04","Low carbon economy"],["TO05","Climate change adaptation and risk management"],["TO06","Environment and resource efficiency"],["TO07","Transport and key network infrastructures"],["TO08","Employment and labour mobility"],["TO09","Social inclusion and combating poverty"],["TO10","Education, training and vocational training"],["TO11","Institutional capacity efficient public administration"]];
 
 class GenerateFilters{
     constructor() {
@@ -26,7 +27,10 @@ class GenerateFilters{
         const countriesPromise = new Promise((resolve,reject)=>{
            resolve(countriesStatic);
         });
-        const topicsPromise = this.getValuesUsingQuery(queryGetTopics, 'objectiveId', 'objectiveLabel');
+        //const topicsPromise = this.getValuesUsingQuery(queryGetTopics, 'objectiveId', 'objectiveLabel');
+        const topicsPromise = new Promise((resolve,reject)=>{
+            resolve(topicsStatic);
+        });
         Promise.all([countriesPromise, topicsPromise]).then(results=>{
             const jsonFile = {
                 countries: results[0].isAxiosError ? [] : results[0],
