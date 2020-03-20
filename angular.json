@@ -69,7 +69,8 @@
                     "maximumWarning": "3mb",
                     "maximumError": "5mb"
                   }
-                ]
+                ],
+                "proxyConfig": "proxy.conf.json"
               },
               "dev": {
                 "fileReplacements": [
@@ -95,10 +96,6 @@
                 "browserTarget": "app:build",
                 "proxyConfig": "proxy.conf.json"
               },
-                "proxy-prod": {
-                    "browserTarget": "app:build:production",
-                    "proxyConfig": "proxy.conf.json"
-                },
               "production": {
                 "browserTarget": "app:build:production"
               }
