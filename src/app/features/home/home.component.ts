@@ -3,6 +3,9 @@ import { UxAutoCompleteTagItem } from '@eui/core';
 import {ProjectService} from "../../project.service";
 import { UxDynamicModalService, UxDynamicModalConfig } from '@eui/core';
 import {MapviewModalComponent} from "./components/mapview-modal/mapview-modal.component";
+import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import {Project} from "../../shared/models/project.model";
+import {Filters} from "../../shared/models/filters.model";
 
 
 @Component({
@@ -12,30 +15,24 @@ export class HomeComponent {
 
     public countries: UxAutoCompleteTagItem[] = [];
     public topics: UxAutoCompleteTagItem[] = [];
-    public projects = [];
+    public projects: Project[] = [];
+    public myForm: FormGroup;
+
 
     constructor(private projectService: ProjectService,
-                public uxDynamicModalService: UxDynamicModalService){}
+                public uxDynamicModalService: UxDynamicModalService,
+                private formBuilder: FormBuilder){}
 
     ngOnInit(){
-        this.projectService.getProjects().subscribe((result:any) => {
-           const rawProjects = result.results.bindings;
-           for(let rawProject of rawProjects){
-               this.projects.push({
-                   link: rawProject.s0.value,
-                   objectiveId: rawProject.objectiveId.value,
-                   countryCode: rawProject.countrycode.value,
-                   title: rawProject.label.value.length > 60 ?
-                       rawProject.label.value.substring(0, 60) + '...' :
-                       rawProject.label.value,
-                   startTimeFormatted: rawProject.startTime.value,
-                   budget: rawProject.euBudget.value,
-                   description: rawProject.description.value.length > 500 ?
-                       rawProject.description.value.substring(0, 500) + '...' :
-                       rawProject.description.value
-               })
-           }
+        this.myForm = this.formBuilder.group({
+            countries: [
+                { value: null, disabled: false }
+            ],
+            topics: [
+                { value: null, disabled: false }
+            ]
         });
+        this.getProjectList(null);
         this.projectService.getFilters().then(result=>{
             //Countries
             for (let country of result.countries){
@@ -61,6 +58,12 @@ export class HomeComponent {
         });
     }
 
+    private getProjectList(filters:Filters){
+        this.projectService.getProjects(filters).subscribe((result:Project[]) => {
+            this.projects = result;
+        });
+    }
+
     openMapModal(){
         const config = new UxDynamicModalConfig({
             id: 'MapViewModal',
@@ -71,6 +74,11 @@ export class HomeComponent {
         });
 
         this.uxDynamicModalService.openModal(config);
+    }
+
+    onSubmit(form: FormGroup) {
+        const filters = new Filters().deserialize(form.value);
+        this.getProjectList(filters);
     }
 
 }

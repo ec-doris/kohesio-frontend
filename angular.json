@@ -95,6 +95,10 @@
                 "browserTarget": "app:build",
                 "proxyConfig": "proxy.conf.json"
               },
+                "proxy-prod": {
+                    "browserTarget": "app:build:production",
+                    "proxyConfig": "proxy.conf.json"
+                },
               "production": {
                 "browserTarget": "app:build:production"
               }
