@@ -37,7 +37,7 @@ export class ProjectService {
             this.generateFilters(filters) +
             '}' +
             'LIMIT 12';
-        const urlProjects = encodeURI('api/bigdata/namespace/wdq/sparql?query=' + queryProjects);
+        const urlProjects = encodeURI('https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql?query=' + queryProjects);
 
         const httpOptions = {
             headers: new HttpHeaders({
