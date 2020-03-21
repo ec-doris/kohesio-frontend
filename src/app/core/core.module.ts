@@ -40,27 +40,7 @@ import { SharedModule } from '../shared/shared.module';
             provide: REDUCER_TOKEN,
             deps: [],
             useFactory: getReducers
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CorsSecurityInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: EuLoginSessionTimeoutHandlingInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CsrfPreventionInterceptor,
-            multi: true,
-        },
-        {
-            provide: HTTP_INTERCEPTORS,
-            useClass: CachePreventionInterceptor,
-            multi: true,
-        },
+        }
     ]
 })
 export class CoreModule {

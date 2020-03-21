@@ -5,6 +5,7 @@ import {Project} from "./shared/models/project.model";
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Filters} from "./shared/models/filters.model";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -37,15 +38,15 @@ export class ProjectService {
             this.generateFilters(filters) +
             '}' +
             'LIMIT 12';
-        const urlProjects = encodeURI('https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql?query=' + queryProjects);
+        const urlProjects = encodeURI(environment.sparqlBaseUrl + '?query=' + queryProjects);
 
         const httpOptions = {
             headers: new HttpHeaders({
-                'Content-Type':  'application/sparql-results+json'
+                'Accept':  'application/sparql-results+json'
             })
         };
 
-        return this.http.get<any>(urlProjects).pipe(
+        return this.http.get<any>(urlProjects,httpOptions).pipe(
             map(data => data.results.bindings.map(data => new Project().deserialize(data)))
         );
     }
