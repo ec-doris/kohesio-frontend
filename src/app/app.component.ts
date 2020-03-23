@@ -41,16 +41,7 @@ export class AppComponent implements OnInit {
             ),
             new UxLink(
                 {
-                    label: 'Module1', url: '/module1', children: [
-                        new UxLink({ label: 'disabled item', disabled: true }),
-                        new UxLink({ label: 'Page 1', url: '/module1/page1' }),
-                        new UxLink({ label: 'Page 2', url: '/module1/page2' })
-                    ]
-                }
-            ),
-            new UxLink(
-                {
-                    label: 'Module2', url: '/module2'
+                    label: 'Map View', url: '/map-view'
                 }
             )
         ];

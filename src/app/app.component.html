@@ -2,7 +2,6 @@
                      headerAppShortName="Kohesio"
                      [headerUserInfos]="(userState | async)?.fullName"
                      (headerLanguageChanged)="onLanguageChanged($event)"
-                     [navBarNotificationLinks]="notificationLinks"
                      [navBarTopMenuLinks]="menuLinks"
                      footerAppVersion="@eui.version"
                      footerAppReleaseDate="@timestamp@">

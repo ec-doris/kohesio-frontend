@@ -5,7 +5,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
-import { MapviewModalComponent } from './components/mapview-modal/mapview-modal.component';
+import {BudgetPipe} from "../../shared/budget.pipe";
 
 @NgModule({
     imports: [
@@ -14,7 +14,7 @@ import { MapviewModalComponent } from './components/mapview-modal/mapview-modal.
     ],
     declarations: [
         HomeComponent,
-        MapviewModalComponent,
+        BudgetPipe
     ],
 })
 export class Module {}

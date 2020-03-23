@@ -1,50 +1,45 @@
-<ux-layout-page-header pageTitle="" pageSubtitle="">
-    <uxLayoutPageHeaderActionsContent>
-        <ux-button (click)="openMapModal()">View the Map</ux-button>
-    </uxLayoutPageHeaderActionsContent>
-</ux-layout-page-header>
-
-<form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
-    <ux-panel label="Filters">
-
-        <!--<div class="row">
-            <div class="col-md-12">
-                <ux-form-group label="Text:" [isVertical]="true">
-                    <input class="form-control" type="text" />
+<div style="display: flex;">
+    <ux-layout-page-column mainTitle="Search filters" size="xxl" [isCollapsible]="true">
+        <ux-filter>
+            <uxFilterQuickFilter>
+            <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+                <ux-form-group label="Term:" [isVertical]="true">
+                    <input class="form-control" type="text" formControlName="term"/>
                 </ux-form-group>
-            </div>
-        </div>-->
-        <div class="row">
-            <div class="col-md-6">
                 <ux-form-group label="Countries:" [isVertical]="true">
                     <ux-autocomplete-tag formControlName="countries" [items]="countries" [isFreeTagsAllowed]="false" [chipsPosition]="'inside'"></ux-autocomplete-tag>
                 </ux-form-group>
-            </div>
-            <div class="col-md-6">
                 <ux-form-group label="Topics:" [isVertical]="true">
                     <ux-autocomplete-tag formControlName="topics" [items]="topics" [isFreeTagsAllowed]="false" [chipsPosition]="'inside'"></ux-autocomplete-tag>
                 </ux-form-group>
-            </div>
-        </div>
-        <ux-button iconClass="fa fa-search" type="submit">SEARCH</ux-button>
-    </ux-panel>
-</form>
+                <ux-button iconClass="fa fa-search" type="submit">SEARCH</ux-button>
+            </form>
+            </uxFilterQuickFilter>
+            <uxFilterAdvancedFilter>
+            </uxFilterAdvancedFilter>
+        </ux-filter>
+    </ux-layout-page-column>
 
-<div class="projects-grid" id="projects-grid">
-    <a *ngFor="let project of projects" href="{{project.link}}" class="project-link" target="_blank">
-        <div class="{{'card ' + project.objectiveId}}">
-            <div class="header">
-                <div class="images">
-                    <img class="topic" src="{{'assets/images/topics/' + project.objectiveId + '_80.png'}}">
-                    <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+    <ux-layout-page-column mainTitle="Projects / Search Results">
+        <div class="projects-grid" id="projects-grid">
+            <a *ngFor="let project of projects" href="{{project.link}}" class="project-link" target="_blank">
+                <div class="{{'card ' + project.objectiveId}}">
+                    <div class="header">
+                        <div class="images">
+                            <img class="topic" src="{{'assets/images/topics/' + project.objectiveId + '_80.png'}}">
+                            <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+                        </div>
+                        <h1>{{project.title}}</h1>
+                    </div>
+                    <div class="info-bar">
+                        <div class="startDate">
+                            <ux-a-date-tag [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                        </div>
+                        <div class="budget">{{ project.budget | budget}}</div>
+                    </div>
+                    <p>{{ project.description }}</p>
                 </div>
-                <h1>{{project.title}}</h1>
-            </div>
-            <div class="info-bar">
-                <div class="startDate">{{ project.startTime }}</div>
-                <div class="budget">{{ project.budget }}</div>
-            </div>
-            <p>{{ project.description }}</p>
+            </a>
         </div>
-    </a>
+    </ux-layout-page-column>
 </div>

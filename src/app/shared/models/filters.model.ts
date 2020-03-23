@@ -2,6 +2,7 @@ import {Deserializable} from "./deserializable.model";
 
 export class Filters implements Deserializable{
 
+    public term:String;
     public countries: Array<string>;
     public topics: Array<string>;
 
@@ -12,7 +13,8 @@ export class Filters implements Deserializable{
             }) : undefined,
             topics: input.topics ? input.topics.map(topic => {
                 return topic.id;
-            }) : undefined
+            }) : undefined,
+            term: input.term ? input.term : undefined
         });
     }
 }
