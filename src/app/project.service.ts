@@ -54,10 +54,11 @@ export class ProjectService {
             map(data => {
                 if (!data || !data.results || !data.results.bindings){
                     return [];
+                }else {
+                    return data.results.bindings.map(data => {
+                        return new Project().deserialize(data);
+                    });
                 }
-                data.results.bindings.map(data => {
-                    new Project().deserialize(data);
-                })
             })
         );
     }

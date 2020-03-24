@@ -19,7 +19,7 @@ export class Module1Component implements AfterViewInit {
         });
         tiles.addTo(this.map);
 
-        //this.markerService.makeMarkers(this.map);
+        this.markerService.makeMarkers(this.map);
 
     }
 
