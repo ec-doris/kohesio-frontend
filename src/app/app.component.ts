@@ -38,11 +38,6 @@ export class AppComponent implements OnInit {
                 {
                     label: 'HOME', url: '/', isHome: true
                 }
-            ),
-            new UxLink(
-                {
-                    label: 'Map View', url: '/map-view'
-                }
             )
         ];
     }
