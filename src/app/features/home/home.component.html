@@ -1,3 +1,13 @@
+<ux-modal id="mapModal" titleLabel="Map View" [isSizeFullScreen]="true" [isFooterVisible]="false">
+    <uxModalBody>
+        <div class="map-container">
+            <div class="map-frame">
+                <div id="map-inside"></div>
+            </div>
+        </div>
+    </uxModalBody>
+</ux-modal>
+
 <div style="display: flex;">
     <ux-layout-page-column mainTitle="Search filters" size="xxl" [isCollapsible]="true">
         <ux-filter>
@@ -21,6 +31,11 @@
     </ux-layout-page-column>
 
     <ux-layout-page-column mainTitle="Projects / Search Results">
+        <uxLayoutPageColumnHeaderRightContent>
+            <div class="flex-container">
+                <ux-button (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>
+            </div>
+        </uxLayoutPageColumnHeaderRightContent>
         <div class="loading" *ngIf="isLoading">Loading...</div>
         <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
         <div class="projects-grid" id="projects-grid">

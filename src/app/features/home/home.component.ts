@@ -1,24 +1,26 @@
-import { Component } from '@angular/core';
-import { UxAutoCompleteTagItem } from '@eui/core';
+import {AfterViewInit, Component} from '@angular/core';
+import { UxAutoCompleteTagItem, UxService } from '@eui/core';
 import {ProjectService} from "../../project.service";
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
 import {Filters} from "../../shared/models/filters.model";
-
+declare let L;
 
 @Component({
     templateUrl: './home.component.html'
 })
-export class HomeComponent {
+export class HomeComponent implements AfterViewInit {
 
     public countries: UxAutoCompleteTagItem[] = [];
     public topics: UxAutoCompleteTagItem[] = [];
     public projects: Project[] = [];
     public myForm: FormGroup;
     public isLoading = false;
+    public map;
 
     constructor(private projectService: ProjectService,
-                private formBuilder: FormBuilder){}
+                private formBuilder: FormBuilder,
+                private uxService:UxService){}
 
     ngOnInit(){
         this.myForm = this.formBuilder.group({
@@ -54,6 +56,15 @@ export class HomeComponent {
             }
         });
         this.getProjectList(null);
+    }
+
+    ngAfterViewInit(): void {
+        this.map = L.map('map-inside').setView([48, 4], 5);
+        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
+                '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
+        });
+        tiles.addTo(this.map);
     }
 
     private getProjectList(filters:Filters){
