@@ -15,7 +15,7 @@ export class HomeComponent {
     public topics: UxAutoCompleteTagItem[] = [];
     public projects: Project[] = [];
     public myForm: FormGroup;
-
+    public isLoading = true;
 
     constructor(private projectService: ProjectService,
                 private formBuilder: FormBuilder){}
@@ -53,12 +53,14 @@ export class HomeComponent {
                 )
             }
         });
-        this.getProjectList(null);
+        //this.getProjectList(null);
     }
 
     private getProjectList(filters:Filters){
+        this.isLoading = true;
         this.projectService.getProjects(filters).subscribe((result:Project[]) => {
             this.projects = result;
+            this.isLoading = false;
         });
     }
 

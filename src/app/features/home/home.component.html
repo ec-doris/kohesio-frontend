@@ -21,6 +21,8 @@
     </ux-layout-page-column>
 
     <ux-layout-page-column mainTitle="Projects / Search Results">
+        <div class="loading" *ngIf="isLoading">Loading...</div>
+        <div class="no-results" *ngIf="projects.length === 0 && !isLoading">No results</div>
         <div class="projects-grid" id="projects-grid">
             <a *ngFor="let project of projects" href="{{project.link}}" class="project-link" target="_blank">
                 <div class="{{'card ' + project.objectiveId}}">
