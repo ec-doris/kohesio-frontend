@@ -1,4 +1,4 @@
-<ux-modal id="mapModal" titleLabel="Map View" [isSizeFullScreen]="true" [isFooterVisible]="false">
+<ux-modal id="mapModal" titleLabel="Map View" [isSizeLarge]="true" [isFooterVisible]="false" (onAnimationEnd)="onMapModalAnimationEnd($event)">
     <uxModalBody>
         <div class="map-container">
             <div class="map-frame">

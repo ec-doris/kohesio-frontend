@@ -277,7 +277,10 @@
     padding: 40px;
 }
 
-.map-frame, .map-container, #map-inside{
+.map-frame, .map-container{
     width:100%;
     height: 100%;
+}
+#map-inside{
+    height: 600px;
 }
