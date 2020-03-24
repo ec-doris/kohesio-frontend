@@ -12,6 +12,28 @@ export class MarkerService {
 
     constructor(private http: HttpClient) { }
 
+    public getServerPoints(): Promise<any>{
+        return new Promise((resolve,reject)=> {
+            if (!this.mapDataPoints) {
+                fetch('assets/data/points.gzip').then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.arrayBuffer();
+                }).then(arrayBuffer => {
+                    const byteArray = new Uint8Array(arrayBuffer);
+                    const data = pako.ungzip(byteArray, {to: 'string'});
+                    this.mapDataPoints = JSON.parse(data);
+                    resolve(true);
+                }).catch(function () {
+                    reject(false);
+                });
+            } else {
+                resolve(true);
+            }
+        });
+    }
+
     public makeMarkers(map): void {
         if (!this.mapDataPoints) {
             fetch('assets/data/points.gzip').then(response => {

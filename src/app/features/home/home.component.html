@@ -31,7 +31,7 @@
     </ux-layout-page-column>
 
     <ux-layout-page-column mainTitle="Projects / Search Results">
-        <uxLayoutPageColumnHeaderRightContent>
+        <uxLayoutPageColumnHeaderRightContent *ngIf="this.loadedDataPoints">
             <div class="flex-container">
                 <ux-button (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>
             </div>

@@ -4,6 +4,7 @@ import {ProjectService} from "../../project.service";
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
 import {Filters} from "../../shared/models/filters.model";
+import {MarkerService} from "../module1/marker.service";
 declare let L;
 
 @Component({
@@ -17,10 +18,12 @@ export class HomeComponent implements AfterViewInit {
     public myForm: FormGroup;
     public isLoading = false;
     public map;
+    public loadedDataPoints = false;
 
     constructor(private projectService: ProjectService,
                 private formBuilder: FormBuilder,
-                private uxService:UxService){}
+                private uxService:UxService,
+                private markerService:MarkerService){}
 
     ngOnInit(){
         this.myForm = this.formBuilder.group({
@@ -56,6 +59,9 @@ export class HomeComponent implements AfterViewInit {
             }
         });
         this.getProjectList(null);
+        this.markerService.getServerPoints().then(result=>{
+            this.loadedDataPoints = result;
+        });
     }
 
     ngAfterViewInit(): void {
@@ -83,6 +89,8 @@ export class HomeComponent implements AfterViewInit {
                     '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
             });
             tiles.addTo(this.map);
+
+            this.markerService.makeMarkers(this.map);
         }
     }
 
