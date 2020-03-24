@@ -50,7 +50,7 @@ export class HomeComponent implements AfterViewInit {
                     new UxAutoCompleteTagItem({
                         id: topic[0],
                         label: topic[1],
-                        iconClass: 'flag-icon topic-icon-' + topic[0]
+                        iconClass: 'topic-icon ' + topic[0]
                     })
                 )
             }

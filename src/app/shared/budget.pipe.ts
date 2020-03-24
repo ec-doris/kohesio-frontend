@@ -19,13 +19,13 @@ export class BudgetPipe implements PipeTransform {
         if (!isNagtiveValues) {
             exp = Math.floor(Math.log(input) / Math.log(1000));
 
-            return (input / Math.pow(1000, exp)).toFixed(args) + suffixes[exp - 1];
+            return (input / Math.pow(1000, exp)).toFixed(args) + suffixes[exp - 1] + '€';
         } else {
             input = input * -1;
 
             exp = Math.floor(Math.log(input) / Math.log(1000));
 
-            return (input * -1 / Math.pow(1000, exp)).toFixed(args) + suffixes[exp - 1];
+            return (input * -1 / Math.pow(1000, exp)).toFixed(args) + suffixes[exp - 1] + '€';
         }
 
     }
