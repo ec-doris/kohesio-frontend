@@ -55,7 +55,7 @@
                         </div>
                         <div class="budget">{{ project.budget | budget}}</div>
                     </div>
-                    <p>{{ project.description }}</p>
+                    <p [innerHTML]="project.getFullDescription()"></p>
                 </div>
             </a>
         </div>

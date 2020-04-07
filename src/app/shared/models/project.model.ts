@@ -9,6 +9,7 @@ export class Project implements Deserializable{
     public startTime: Date;
     public budget: number;
     public description: string;
+    public snippet: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -22,7 +23,18 @@ export class Project implements Deserializable{
             budget: input.euBudget ? parseFloat(input.euBudget.value) : undefined,
             description: input.description ? input.description.value.length > 500 ?
                 input.description.value.substring(0, 500) + '...' :
-                input.description.value : ''
+                input.description.value : '',
+            snippet: input.snippet ? input.snippet.value.length > 500 ?
+                input.snippet.value.substring(0, 500) + '...' :
+                input.snippet.value : ''
         });
+    }
+
+    getFullDescription(){
+        if (this.snippet){
+            return this.snippet;
+        }else{
+            return this.description;
+        }
     }
 }

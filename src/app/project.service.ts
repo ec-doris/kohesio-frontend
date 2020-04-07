@@ -19,8 +19,9 @@ export class ProjectService {
             '<http://www.openrdf.org/contrib/lucenesail#matches> _:b0 . _:b0 <http://www.openrdf.org/contrib/lucenesail#query>"'+filters.term+'" ; <http://www.openrdf.org/contrib/lucenesail#snippet> ?snippet . ' :
             '<https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>.';
 
-        const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId ?countrycode WHERE { ' +
+        const queryProjects = 'SELECT DISTINCT ?s0 ?snippet ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId ?countrycode WHERE { ' +
             '?s0 ' + fullSearchText +
+            this.generateFilters(filters) +
             '{ ?s0 <http://www.w3.org/2000/01/rdf-schema#label> ?label. FILTER((LANG(?label)) = "en") }' +
             ' OPTIONAL {' +
             ' ?s0 <https://linkedopendata.eu/prop/direct/P836> ?description.' +
@@ -36,7 +37,6 @@ export class ProjectService {
             ' ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .' +
             ' ?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .} ' +
-            this.generateFilters(filters) +
             '}LIMIT 12';
 
         const urlProjects =environment.fullTextSearchUrl + '&query=' + encodeURIComponent(queryProjects);
