@@ -21,24 +21,21 @@ export class ProjectService {
 
         const queryProjects = 'SELECT DISTINCT ?s0 ?label ?description ?startTime ?euBudget ?image ?coordinates ?objectiveId ?countrycode WHERE { ' +
             '?s0 ' + fullSearchText +
-            '{' +
-            ' ?s0 rdfs:label ?label.' +
-            ' FILTER((LANG(?label)) = "en")' +
-            ' }' +
-            ' {' +
+            '{ ?s0 <http://www.w3.org/2000/01/rdf-schema#label> ?label. FILTER((LANG(?label)) = "en") }' +
+            ' OPTIONAL {' +
             ' ?s0 <https://linkedopendata.eu/prop/direct/P836> ?description.' +
             ' FILTER((LANG(?description)) = "en")' +
             ' }' +
-            ' { ?s0 <https://linkedopendata.eu/prop/direct/P20> ?startTime. }' +
-            ' { ?s0 <https://linkedopendata.eu/prop/direct/P835> ?euBudget. }' +
+            ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P20> ?startTime. }' +
+            ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P835> ?euBudget. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P147> ?image. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P851> ?image. }' +
-            ' { ?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates. }' +
+            ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates. }' +
             ' { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. }' +
             ' { ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. }' +
             ' { ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
-            ' { ?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .}' +
-            ' { ?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .} ' +
+            ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .' +
+            ' ?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .} ' +
             this.generateFilters(filters) +
             '}LIMIT 12';
 

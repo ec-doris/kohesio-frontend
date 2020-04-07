@@ -18,8 +18,8 @@ export class Project implements Deserializable{
             title: input.label.value.length > 40 ?
                 input.label.value.substring(0, 40) + '...' :
                 input.label.value,
-            startTime: input.startTime.value,
-            budget: parseFloat(input.euBudget.value),
+            startTime: input.startTime ? input.startTime.value : undefined,
+            budget: input.euBudget ? parseFloat(input.euBudget.value) : undefined,
             description: input.description.value.length > 500 ?
                 input.description.value.substring(0, 500) + '...' :
                 input.description.value

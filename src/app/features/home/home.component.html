@@ -50,7 +50,7 @@
                     </div>
                     <div class="info-bar">
                         <div class="startDate">
-                            <ux-a-date-tag [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
                         </div>
                         <div class="budget">{{ project.budget | budget}}</div>
                     </div>
