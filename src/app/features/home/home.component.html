@@ -43,7 +43,8 @@
                 <div class="{{'card ' + project.objectiveId}}">
                     <div class="header">
                         <div class="images">
-                            <img class="topic" src="{{'assets/images/topics/' + project.objectiveId + '_80.png'}}">
+                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '_80.png'}}">
+                            <div *ngIf="!project.objectiveId" class="without-obcjetive-id"></div>
                             <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
                         </div>
                         <h1>{{project.title}}</h1>

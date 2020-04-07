@@ -25,7 +25,7 @@
     grid-gap:15px
 }
 .projects-grid .card{
-    border: 2px solid #009fe3;
+    border: 2px solid #AAAAAA;
     border-radius: 20px;
     min-height: 470px;
 }
@@ -33,7 +33,7 @@
     display: flex;
     padding: 10px;
     align-items: center;
-    background-color: #009fe3;
+    background-color: #AAAAAA;
     border-radius: 16px 16px 0 0;
     height: 100px;
 }
@@ -284,4 +284,9 @@
 }
 #map-inside{
     height: 600px;
+}
+
+.without-obcjetive-id{
+    width: 80px;
+    height: 80px;
 }

@@ -31,9 +31,9 @@ export class ProjectService {
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P147> ?image. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P851> ?image. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P127> ?coordinates. }' +
-            ' { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. }' +
-            ' { ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. }' +
-            ' { ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
+            ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P888> ?category. ' +
+            ' ?category <https://linkedopendata.eu/prop/direct/P302> ?objective. ' +
+            ' ?objective <https://linkedopendata.eu/prop/direct/P1105> ?objectiveId. }' +
             ' OPTIONAL { ?s0 <https://linkedopendata.eu/prop/direct/P32> ?country .' +
             ' ?country <https://linkedopendata.eu/prop/direct/P173> ?countrycode .} ' +
             this.generateFilters(filters) +

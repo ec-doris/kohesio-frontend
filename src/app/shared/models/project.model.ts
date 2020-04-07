@@ -13,16 +13,16 @@ export class Project implements Deserializable{
     deserialize(input: any): this {
         return Object.assign(this, {
             link: input.s0.value,
-            objectiveId: input.objectiveId.value,
+            objectiveId: input.objectiveId ? input.objectiveId.value : '',
             countryCode: input.countrycode.value,
             title: input.label.value.length > 40 ?
                 input.label.value.substring(0, 40) + '...' :
                 input.label.value,
             startTime: input.startTime ? input.startTime.value : undefined,
             budget: input.euBudget ? parseFloat(input.euBudget.value) : undefined,
-            description: input.description.value.length > 500 ?
+            description: input.description ? input.description.value.length > 500 ?
                 input.description.value.substring(0, 500) + '...' :
-                input.description.value
+                input.description.value : ''
         });
     }
 }
