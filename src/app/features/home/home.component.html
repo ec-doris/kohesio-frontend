@@ -17,10 +17,16 @@
                     <input class="form-control" type="text" formControlName="term"/>
                 </ux-form-group>
                 <ux-form-group label="Countries:" [isVertical]="true">
-                    <ux-autocomplete-tag formControlName="countries" [items]="countries" [isFreeTagsAllowed]="false" [chipsPosition]="'inside'"></ux-autocomplete-tag>
+                    <ux-form-control formControlName="countries"
+                                     [isSelect]="true"
+                                     [selectOptions]="countries">
+                    </ux-form-control>
                 </ux-form-group>
                 <ux-form-group label="Topics:" [isVertical]="true">
-                    <ux-autocomplete-tag formControlName="topics" [items]="topics" [isFreeTagsAllowed]="false" [chipsPosition]="'inside'"></ux-autocomplete-tag>
+                    <ux-form-control formControlName="topics"
+                                     [isSelect]="true"
+                                     [selectOptions]="topics">
+                    </ux-form-control>
                 </ux-form-group>
                 <ux-button iconClass="fa fa-search" type="submit">SEARCH</ux-button>
             </form>
@@ -59,5 +65,11 @@
                 </div>
             </a>
         </div>
+        <!--<mat-paginator [length]="projects.length"
+                       [pageSize]="10"
+                       [pageSizeOptions]="[10, 25, 50, 100]"
+                       (page)="">
+        </mat-paginator>-->
+        <!--<mat-card>Simple card</mat-card>-->
     </ux-layout-page-column>
 </div>

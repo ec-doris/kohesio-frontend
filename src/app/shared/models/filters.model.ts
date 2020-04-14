@@ -3,17 +3,13 @@ import {Deserializable} from "./deserializable.model";
 export class Filters implements Deserializable{
 
     public term:String;
-    public countries: Array<string>;
-    public topics: Array<string>;
+    public country: String;
+    public topic: String;
 
     deserialize(input: any): this {
         return Object.assign(this, {
-            countries: input.countries ? input.countries.map(country => {
-                return country.id;
-            }) : undefined,
-            topics: input.topics ? input.topics.map(topic => {
-                return topic.id;
-            }) : undefined,
+            country: input.countries ? input.countries : undefined,
+            topic: input.topics ? input.topics : undefined,
             term: input.term ? input.term : undefined
         });
     }

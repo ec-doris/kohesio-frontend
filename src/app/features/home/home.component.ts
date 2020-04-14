@@ -1,5 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
-import { UxAutoCompleteTagItem, UxService } from '@eui/core';
+import { UxAutoCompleteTagItem, UxAutoCompleteItem, UxService } from '@eui/core';
 import {ProjectService} from "../../project.service";
 import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
@@ -12,8 +12,8 @@ declare let L;
 })
 export class HomeComponent implements AfterViewInit {
 
-    public countries: UxAutoCompleteTagItem[] = [];
-    public topics: UxAutoCompleteTagItem[] = [];
+    public countries: any[] = [];
+    public topics: any[] = [];
     public projects: Project[] = [];
     public myForm: FormGroup;
     public isLoading = false;
@@ -27,12 +27,8 @@ export class HomeComponent implements AfterViewInit {
 
     ngOnInit(){
         this.myForm = this.formBuilder.group({
-            countries: [
-                { value: null, disabled: false }
-            ],
-            topics: [
-                { value: null, disabled: false }
-            ],
+            countries: [null],
+            topics: [null],
             term: ""
         });
         this.projectService.getFilters().then(result=>{
@@ -40,25 +36,21 @@ export class HomeComponent implements AfterViewInit {
             for (let country of result.countries){
                 let countryCode = country[0].split(",")[1].toLowerCase();
                 let countryId= country[0].split(",")[0];
-                this.countries.push(
-                    new UxAutoCompleteTagItem({
-                        id: countryId,
-                        label: country[1],
-                        iconClass: 'flag-icon flag-icon-' + countryCode
-                    })
-                )
+                this.countries.push({
+                    id: countryId,
+                    value: country[1],
+                    iconClass: 'flag-icon flag-icon-' + countryCode
+                })
             }
             //Topics
             for (let topic of result.topics){
                 let topicCode = topic[0].split(",")[0];
                 let topicId= topic[0].split(",")[1];
-                this.topics.push(
-                    new UxAutoCompleteTagItem({
-                        id: topicId,
-                        label: topic[1],
-                        iconClass: 'topic-icon ' + topicCode
-                    })
-                )
+                this.topics.push({
+                    id: topicId,
+                    value: topic[1],
+                    iconClass: 'topic-icon ' + topicCode
+                })
             }
         });
         this.getProjectList(null);
