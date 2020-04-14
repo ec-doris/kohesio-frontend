@@ -39,9 +39,10 @@ export class HomeComponent implements AfterViewInit {
             //Countries
             for (let country of result.countries){
                 let countryCode = country[0].split(",")[1].toLowerCase();
+                let countryId= country[0].split(",")[0];
                 this.countries.push(
                     new UxAutoCompleteTagItem({
-                        id: country[0],
+                        id: countryId,
                         label: country[1],
                         iconClass: 'flag-icon flag-icon-' + countryCode
                     })
@@ -49,11 +50,13 @@ export class HomeComponent implements AfterViewInit {
             }
             //Topics
             for (let topic of result.topics){
+                let topicCode = topic[0].split(",")[0];
+                let topicId= topic[0].split(",")[1];
                 this.topics.push(
                     new UxAutoCompleteTagItem({
-                        id: topic[0],
+                        id: topicId,
                         label: topic[1],
-                        iconClass: 'topic-icon ' + topic[0]
+                        iconClass: 'topic-icon ' + topicCode
                     })
                 )
             }

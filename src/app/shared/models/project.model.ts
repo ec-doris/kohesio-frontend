@@ -10,24 +10,32 @@ export class Project implements Deserializable{
     public budget: number;
     public description: string;
     public snippet: string;
+    public item: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
-            link: input.s0.value,
-            objectiveId: input.objectiveId ? input.objectiveId.value : '',
-            countryCode: input.countrycode.value,
-            title: input.label.value.length > 40 ?
-                input.label.value.substring(0, 40) + '...' :
-                input.label.value,
-            startTime: input.startTime ? input.startTime.value : undefined,
-            budget: input.euBudget ? parseFloat(input.euBudget.value) : undefined,
-            description: input.description ? input.description.value.length > 500 ?
-                input.description.value.substring(0, 500) + '...' :
-                input.description.value : '',
-            snippet: input.snippet ? input.snippet.value.length > 500 ?
-                input.snippet.value.substring(0, 500) + '...' :
-                input.snippet.value : ''
+            item: input.item,
+            link: input.link,
+            objectiveId: this.getValueFromPropertyArray(input.objectiveIds),
+            countryCode: this.getValueFromPropertyArray(input.countrycode),
+            title: this.getValueFromPropertyArray(input.labels, 40),
+            startTime: this.getValueFromPropertyArray(input.startTimes),
+            budget: this.getValueFromPropertyArray(input.euBudgets),
+            description: this.getValueFromPropertyArray(input.descriptions, 500),
+            snippet: this.getValueFromPropertyArray(input.snippet, 500),
         });
+    }
+
+    getValueFromPropertyArray(array, size=undefined){
+        if (Array.isArray(array) && array.length) {
+            if (size) {
+                return array[0].substring(0, size) + '...';
+            } else {
+                return array[0];
+            }
+        }else{
+            return undefined;
+        }
     }
 
     getFullDescription(){

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { HttpHeaders } from '@angular/common/http';
 import {Project} from "./shared/models/project.model";
 import {map} from 'rxjs/operators';
@@ -14,7 +14,7 @@ export class ProjectService {
 
     constructor(private http: HttpClient) { }
 
-    getProjects(filters:Filters): Observable<Project[]>  {
+    /*getProjects(filters:Filters): Observable<Project[]>  {
         const fullSearchText = filters && filters.term ?
             '<http://www.openrdf.org/contrib/lucenesail#matches> _:b0 . _:b0 <http://www.openrdf.org/contrib/lucenesail#query>"'+filters.term+'" ; <http://www.openrdf.org/contrib/lucenesail#snippet> ?snippet . ' :
             '<https://linkedopendata.eu/prop/direct/P35> <https://linkedopendata.eu/entity/Q9934>.';
@@ -84,7 +84,7 @@ export class ProjectService {
             }
         }
         return filtersQuery;
-    }
+    }*/
 
     getFilters(): Promise<any>{
         return new Promise((resolve,reject)=>{
@@ -102,6 +102,36 @@ export class ProjectService {
                     reject("error getting filters");
                 });
         });
+    }
+
+    getProjects(filters:Filters): Observable<Project[]>  {
+        const urlProjects = environment.apiSearch;
+        let params = {
+            'user': 'Max',
+            'kb': 'eu'
+        };
+        for (const filter in filters){
+            if (filters[filter] && filter != 'deserialize') {
+                if (Array.isArray(filters[filter])) {
+                    if (filters[filter].length) {
+                        params[filter] = filters[filter].toString();
+                    }
+                }else {
+                    params[filter] = filters[filter];
+                }
+            }
+        }
+        return this.http.get<any>(urlProjects,{ params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    return [];
+                }else {
+                    return data.map(data => {
+                        return new Project().deserialize(data);
+                    });
+                }
+            })
+        );
     }
 
 }
