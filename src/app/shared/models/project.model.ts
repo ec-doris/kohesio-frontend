@@ -28,7 +28,7 @@ export class Project implements Deserializable{
 
     getValueFromPropertyArray(array, size=undefined){
         if (Array.isArray(array) && array.length) {
-            if (size) {
+            if (size && array[0].length > size) {
                 return array[0].substring(0, size) + '...';
             } else {
                 return array[0];
