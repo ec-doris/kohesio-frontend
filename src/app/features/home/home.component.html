@@ -39,13 +39,20 @@
     <ux-layout-page-column mainTitle="Projects / Search Results">
         <uxLayoutPageColumnHeaderRightContent *ngIf="this.loadedDataPoints">
             <div class="flex-container">
+                <mat-paginator [length]="projects.length"
+                               [pageSize]="10"
+                               [pageSizeOptions]="[10, 25, 50, 100]"
+                               (page)="onPaginate($event)">
+                </mat-paginator>
                 <ux-button (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>
             </div>
         </uxLayoutPageColumnHeaderRightContent>
+
+
         <div class="loading" *ngIf="isLoading">Loading...</div>
         <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
         <div class="projects-grid" id="projects-grid">
-            <a *ngFor="let project of projects" href="{{project.link}}" class="project-link" target="_blank">
+            <a *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])" href="{{project.link}}" class="project-link" target="_blank">
                 <div class="{{'card ' + project.objectiveId}}">
                     <div class="header">
                         <div class="images">
@@ -65,11 +72,7 @@
                 </div>
             </a>
         </div>
-        <!--<mat-paginator [length]="projects.length"
-                       [pageSize]="10"
-                       [pageSizeOptions]="[10, 25, 50, 100]"
-                       (page)="">
-        </mat-paginator>-->
-        <!--<mat-card>Simple card</mat-card>-->
+
+
     </ux-layout-page-column>
 </div>

@@ -106,10 +106,7 @@ export class ProjectService {
 
     getProjects(filters:Filters): Observable<Project[]>  {
         const urlProjects = environment.apiSearch;
-        let params = {
-            'user': 'Max',
-            'kb': 'eu'
-        };
+        let params = {};
         for (const filter in filters){
             if (filters[filter] && filter != 'deserialize') {
                 if (Array.isArray(filters[filter])) {

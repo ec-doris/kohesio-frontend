@@ -1,10 +1,11 @@
-import {AfterViewInit, Component} from '@angular/core';
-import { UxAutoCompleteTagItem, UxAutoCompleteItem, UxService } from '@eui/core';
+import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import { UxService } from '@eui/core';
 import {ProjectService} from "../../project.service";
-import { FormGroup, FormControl, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
 import {Filters} from "../../shared/models/filters.model";
 import {MarkerService} from "../module1/marker.service";
+import { MatPaginator } from '@angular/material/paginator';
 declare let L;
 
 @Component({
@@ -19,6 +20,7 @@ export class HomeComponent implements AfterViewInit {
     public isLoading = false;
     public map;
     public loadedDataPoints = false;
+    @ViewChild(MatPaginator) paginator: MatPaginator;
 
     constructor(private projectService: ProjectService,
                 private formBuilder: FormBuilder,
@@ -66,6 +68,7 @@ export class HomeComponent implements AfterViewInit {
         this.isLoading = true;
         this.projectService.getProjects(filters).subscribe((result:Project[]) => {
             this.projects = result;
+            this.paginator.firstPage();
             this.isLoading = false;
         });
     }
@@ -87,6 +90,17 @@ export class HomeComponent implements AfterViewInit {
 
             this.markerService.makeMarkers(this.map);
         }
+    }
+
+    onPaginate(event){
+    }
+
+    getPageIndexStart(){
+        return this.paginator ? this.paginator.pageSize * this.paginator.pageIndex : 0;
+    }
+
+    getPageIndexEnd(){
+        return this.paginator ? this.getPageIndexStart() + this.paginator.pageSize : 10;
     }
 
 }

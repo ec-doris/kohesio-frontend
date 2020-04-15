@@ -16,7 +16,7 @@ const queryGetTopics = 'select distinct ?objectiveId ?objectiveLabel where {\n' 
     'SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }\n' +
     '} order by ?objectiveId';
 
-const countriesStatic = [["12,DK","Denmark"],["13,PL","Poland"],["15,IT","Italy"],["2,IE","Ireland"],["20,FR","France"],["25,CZ","Czech Republic"]];
+const countriesStatic = [["Q12,DK","Denmark"],["Q13,PL","Poland"],["Q15,IT","Italy"],["Q2,IE","Ireland"],["Q20,FR","France"],["Q25,CZ","Czech Republic"]];
 //const topicsStatic = [["TO01","Research and innovation"],["TO02","ICT and broadband"],["TO03","Competitiveness of SMEs"],["TO04","Low carbon economy"],["TO05","Climate change adaptation and risk management"],["TO06","Environment and resource efficiency"],["TO07","Transport and key network infrastructures"],["TO08","Employment and labour mobility"],["TO09","Social inclusion and combating poverty"],["TO10","Education, training and vocational training"],["TO11","Institutional capacity efficient public administration"]];
 const topicsStatic = [["TO01,Q236689","Research and innovation"],["TO02,Q236690","ICT and broadband"],["TO03,Q236691","Competitiveness of SMEs"],["TO04,Q236692","Low carbon economy"],["TO05,Q236693","Climate change adaptation and risk management"],["TO06,Q236694","Environment and resource efficiency"],["TO07,Q236695","Transport and key network infrastructures"],["TO08,Q236696","Employment and labour mobility"],["TO09,Q236697","Social inclusion and combating poverty"],["TO10,Q236698","Education, training and vocational training"],["TO11,Q236699","Institutional capacity efficient public administration"]];
 
