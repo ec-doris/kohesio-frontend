@@ -14,13 +14,13 @@
         grid-template-columns: 1fr 1fr;
     }
     @media only screen and (min-width: 992px) {
-        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr;
     }
     @media only screen and (min-width: 1200px) {
-        grid-template-columns: 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr;
     }
     @media only screen and (min-width: 1800px) {
-        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     }
     grid-gap:15px
 }

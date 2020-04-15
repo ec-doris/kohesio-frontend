@@ -100,7 +100,7 @@ export class HomeComponent implements AfterViewInit {
     }
 
     getPageIndexEnd(){
-        return this.paginator ? this.getPageIndexStart() + this.paginator.pageSize : 10;
+        return this.paginator ? this.getPageIndexStart() + this.paginator.pageSize : 15;
     }
 
 }
