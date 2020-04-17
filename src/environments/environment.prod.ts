@@ -13,5 +13,6 @@ export const environment = {
                 base: '',
             },
         },
-    }
+    },
+    apiSearch: 'https://qanswer-core1.univ-st-etienne.fr/api/facet/eu'
 };

@@ -68,8 +68,8 @@ export class HomeComponent implements AfterViewInit {
         this.isLoading = true;
         this.projectService.getProjects(filters).subscribe((result:Project[]) => {
             this.projects = result;
-            this.paginator.firstPage();
             this.isLoading = false;
+            this.paginator.firstPage();
         });
     }
 
