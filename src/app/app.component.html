@@ -1,23 +1,67 @@
 <ux-layout-app-shell headerAppFullName="Kohesio"
                      headerAppShortName="Kohesio"
-                     [headerUserInfos]="(userState | async)?.fullName"
-                     (headerLanguageChanged)="onLanguageChanged($event)"
-                     [navBarTopMenuLinks]="menuLinks"
-                     footerAppVersion="@eui.version"
-                     footerAppReleaseDate="@timestamp@">
+                     isContract = true
+                     appHomeUrl="/"
+                     [isFooterStyleInverse]="true"
+                     [hasNavBar] = false>
 
-    <uxAppShellNavBarItemsContent>
-        <ux-layout-nav-bar-action-item iconClass="fa fa-info-circle">
-            <ul>
-                <li><a href="http://www.google.be" target="_blank">About</a></li>
-                <li><a>Contact</a></li>
-            </ul>
-            <ul>
-                <li><a>Legal notice</a></li>
-                <li><a>...</a></li>
-            </ul>
-        </ux-layout-nav-bar-action-item>
-    </uxAppShellNavBarItemsContent>
+
+    <uxAppShellHeaderTitleContent>
+        <h1 class="kohesio-title">Kohesio</h1>
+        <h2 class="kohesio-subtitle">OPEN PROJECT PLATFORM</h2>
+        <h1 class="short">Kohesio</h1>
+    </uxAppShellHeaderTitleContent>
+
+    <uxAppShellTopMessageContent>
+        <div class="top-header">
+            <div class="right-tools">
+                <ux-language-selector (languageChanged)="onLanguageChanged($event)"
+                                      [selectedLanguage]="selectedLanguage">
+                </ux-language-selector>
+                <div class="professionalSpace">
+                    <ux-a-icon  iconClass="fa fa-user" [isLarge]="true" [isRounded]="false"></ux-a-icon>
+                    <ux-a-label labelStyleClass="professionalSpace-label" label="Professional space"></ux-a-label>
+                </div>
+                <div class="search-projects-input">
+                    <div class="input-group">
+                        <input type="text" class="form-control ux-a-toolbar-filter-filter-input"
+                           placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                           (keyup.enter)="onFilter($event)"/>
+                        <span class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="ux-icon ux-icon-search"></span>
+                            </span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </uxAppShellTopMessageContent>
+
+    <uxAppShellHeaderRightContent>
+        <ul class="right-menu">
+            <li>
+                <a [routerLink]="['/projects']">PROJECTS</a>
+            </li>
+            <li>
+                <a [routerLink]="['/beneficiaries']">BENEFICIARIES</a>
+            </li>
+        </ul>
+    </uxAppShellHeaderRightContent>
+
+    <uxAppShellFooterContent>
+        <ul>
+            <span><i class="ux-icon fa fa-copyright" aria-hidden="true"></i>&nbsp;European Commission</span>
+            <li>
+                <a href="/">About</a>
+            </li>
+            <li>
+                <a href="/">Confidentiality</a>
+            </li>
+            <li>
+                <a href="/">Terms and conditions</a>
+            </li>
+        </ul>
+    </uxAppShellFooterContent>
 
 </ux-layout-app-shell>
-

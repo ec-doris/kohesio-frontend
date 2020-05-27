@@ -1,9 +1,9 @@
 import {AfterViewInit, Component} from '@angular/core';
 
 @Component({
-    templateUrl: './home.component.html'
+    templateUrl: './beneficiaries.component.html'
 })
-export class HomeComponent implements AfterViewInit {
+export class BeneficiariesComponent implements AfterViewInit {
 
 
     constructor(){}

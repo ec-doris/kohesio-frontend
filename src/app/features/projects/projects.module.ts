@@ -2,9 +2,10 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../../shared/shared.module';
 
-import { HomeRoutingModule } from './home-routing.module';
+import { ProjectsRoutingModule } from './projects-routing.module';
 
-import { HomeComponent } from './home.component';
+import { ProjectsComponent } from './projects.component';
+import {BudgetPipe} from "../../shared/budget.pipe";
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
@@ -12,12 +13,13 @@ import {MatTableModule} from '@angular/material/table';
 @NgModule({
     imports: [
         SharedModule,
-        HomeRoutingModule,
+        ProjectsRoutingModule,
         MatPaginatorModule,
         MatTableModule
     ],
     declarations: [
-        HomeComponent
+        ProjectsComponent,
+        BudgetPipe
     ],
 })
 export class Module {}

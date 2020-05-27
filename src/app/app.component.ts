@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { UserState, getUserState, UxLink, UxLanguage } from '@eui/core';
 
@@ -11,48 +12,29 @@ import { UserState, getUserState, UxLink, UxLanguage } from '@eui/core';
 })
 export class AppComponent implements OnInit {
     userState: Observable<UserState>;
-
-    menuLinks: UxLink[] = [];
-    notificationLinks: UxLink[] = [];
+    @Input() selectedLanguage: UxLanguage;
+    filterValue: string;
 
     constructor(
         private translateService: TranslateService,
         private store: Store<any>,
+        private router: Router
     ) {
     }
 
     ngOnInit() {
         this.userState = <any>this.store.select(getUserState);
-
-        this._createMenuLinks();
-        this._createNotifications();
     }
 
     onLanguageChanged(language: UxLanguage) {
         this.translateService.use(language.code);
     }
 
-    private _createMenuLinks() {
-        this.menuLinks = [
-            new UxLink(
-                {
-                    label: 'HOME', url: '/', isHome: true
-                }
-            )
-        ];
+    onFilter(event){
+        if (this.filterValue && this.filterValue.trim() != "") {
+            this.router.navigate(['/projects'], { queryParams: { term: this.filterValue } });
+            this.filterValue = "";
+        }
     }
 
-    private _createNotifications() {
-        this.notificationLinks = [
-            new UxLink(
-                { label: 'Notification title', subLabel: 'This is the description of the noficiation' }
-            ),
-            new UxLink(
-                { label: 'Notification title', subLabel: 'This is the description of the noficiation' }
-            ),
-            new UxLink(
-                 { label: 'Notification title', subLabel: 'This is the description of the noficiation' }
-            ),
-        ];
-    }
 }

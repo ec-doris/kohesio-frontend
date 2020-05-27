@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 
 import { SharedModule } from '../../shared/shared.module';
 
-import { HomeRoutingModule } from './home-routing.module';
+import { BeneficiariesRoutingModule } from './beneficiaries-routing.module';
 
-import { HomeComponent } from './home.component';
+import { BeneficiariesComponent } from './beneficiaries.component';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
@@ -12,12 +12,12 @@ import {MatTableModule} from '@angular/material/table';
 @NgModule({
     imports: [
         SharedModule,
-        HomeRoutingModule,
+        BeneficiariesRoutingModule,
         MatPaginatorModule,
         MatTableModule
     ],
     declarations: [
-        HomeComponent
+        BeneficiariesComponent
     ],
 })
 export class Module {}

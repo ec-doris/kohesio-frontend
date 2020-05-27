@@ -1,4 +1,11 @@
 /* You can add global styles to this file, and also import other style files */
+
+@font-face {
+    font-family: SackersGothicHeavy;
+    src: url("assets/fonts/SackersGothicHeavy.ttf");
+}
+
+
 .projects-grid a{
     color:initial;
     text-decoration: none;
@@ -290,4 +297,89 @@
 .without-obcjetive-id{
     width: 80px;
     height: 80px;
+}
+
+.kohesio-title{
+    margin-top:5px !important;
+    font-size:39px !important;
+    font-family: "SackersGothicHeavy" !important;
+    color:#FBC11D !important;
+    text-shadow: 0 3px 6px #00000029;
+}
+.kohesio-subtitle{
+    margin-top:0 !important;
+    font-weight: normal !important;
+    letter-spacing: 3.3px;
+    color: #707070 !important;
+    font-size:10px !important;
+    text-transform: uppercase;
+}
+
+#app-header .right-content{
+    position:initial !important;
+    float: right;
+    margin-top: 0 !important;
+}
+
+.right-menu{
+    display: flex;
+    height: 90px;
+    align-items: center;
+}
+
+.right-menu li{
+    margin: 15px;
+}
+
+.right-menu li a{
+    font-size:16px;
+}
+
+
+.top-header{
+    height: 50px;
+    background-color: #003D84;
+    padding-left: 10%;
+    padding-right: 10%;
+    color: white;
+}
+
+.top-header .right-tools{
+    float: right;
+    display: flex;
+    align-items: center;
+    height: 49px;
+}
+
+#app-header{
+    box-shadow: 0 1px 6px #00449429;
+}
+
+.ux-language-selector .ecl-link{
+    color:white;
+    flex-direction: row-reverse;
+}
+.ux-icon-language-selector.ux-u-color-primary{
+    color: white !important;
+}
+.ecl-site-header__language-code{
+    color: #003D84 !important;
+}
+
+
+.professionalSpace{
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.professionalSpace .professionalSpace-label{
+    color: white;
+    font-size:14px;
+}
+
+.search-projects-input{
+    width:300px;
 }
