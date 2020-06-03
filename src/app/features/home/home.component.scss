@@ -8,6 +8,10 @@
             background-color: rgba(255,255,255,0.5);
             border-radius: 35px;
             padding: 10px;
+            color: #003D84;
+        }
+        span.ux-icon.ux-carousel-items__arrow--inactive{
+            color:#d2d2d2;
         }
     }
     .col-1.text-center:last-child{
@@ -17,6 +21,10 @@
         flex: 1;
         max-width: initial;
     }
+}
+
+:host ::ng-deep .ux-carousel-items .row.flex-container.ux-carousel-items__summary-indicators{
+    margin-top: -50px;
 }
 
 .section-container {
