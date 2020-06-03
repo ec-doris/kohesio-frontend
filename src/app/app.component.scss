@@ -1,0 +1,15 @@
+/*Breadcrumbs*/
+:host ::ng-deep .ux-layout-breadcrumbs__item::before{
+    color: #707070 !important;
+}
+:host ::ng-deep .ux-layout-breadcrumbs__item:first-child{
+    margin-top: 4px;
+}
+:host ::ng-deep .ux-layout-breadcrumbs__item span{
+    color: #707070 !important;
+    font-size: 16px !important;
+}
+:host ::ng-deep .ux-layout-breadcrumbs__item a>span{
+    color: #004494 !important;
+    font-size: 16px !important;
+}

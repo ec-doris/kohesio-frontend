@@ -4,7 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { BeneficiariesComponent } from './beneficiaries.component';
 
 const routes: Routes = [
-    { path: '', component: BeneficiariesComponent },
+    { path: '', component: BeneficiariesComponent,
+        data: {
+            breadcrumb: {
+                label: 'Beneficiaries'
+            },
+            pageId:'beneficiaries'
+        }},
 ];
 
 @NgModule({

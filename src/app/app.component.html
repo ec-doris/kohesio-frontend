@@ -7,8 +7,8 @@
 
 
     <uxAppShellHeaderTitleContent>
-        <h1 class="kohesio-title">Kohesio</h1>
-        <h2 class="kohesio-subtitle">OPEN PROJECT PLATFORM</h2>
+        <h1 class="kohesio-title">Kohesio Open Projects</h1>
+        <h2 class="kohesio-subtitle">Project Information Portal for Regional Policy</h2>
         <h1 class="short">Kohesio</h1>
     </uxAppShellHeaderTitleContent>
 
@@ -48,6 +48,11 @@
             </li>
         </ul>
     </uxAppShellHeaderRightContent>
+
+    <uxAppShellMainContent>
+        <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/'"></ux-layout-breadcrumbs>
+        <router-outlet></router-outlet>
+    </uxAppShellMainContent>
 
     <uxAppShellFooterContent>
         <ul>
