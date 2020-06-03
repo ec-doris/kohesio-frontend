@@ -79,6 +79,11 @@ h2{
         margin-top: 93px;
         max-width: 110px;
         align-items: center;
+
+        &:hover {
+            cursor:pointer;
+            color:#404040;
+        }
     }
 
     .theme-container{
@@ -135,5 +140,5 @@ h2{
 }
 
 #map-inside{
-    height: 300px;
+    height: 350px;
 }
