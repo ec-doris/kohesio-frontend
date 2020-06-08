@@ -3,7 +3,8 @@
                      isContract = true
                      appHomeUrl="/"
                      [isFooterStyleInverse]="true"
-                     [hasNavBar] = false>
+                     [hasNavBar]="false"
+                     [hasHeader]="this.router.url != '/404'">
 
 
     <uxAppShellHeaderTitleContent>
@@ -13,7 +14,7 @@
     </uxAppShellHeaderTitleContent>
 
     <uxAppShellTopMessageContent>
-        <div class="top-header">
+        <div class="top-header" *ngIf="this.router.url != '/404'">
             <div class="right-tools">
                 <ux-language-selector (languageChanged)="onLanguageChanged($event)"
                                       [selectedLanguage]="selectedLanguage">
@@ -50,7 +51,7 @@
     </uxAppShellHeaderRightContent>
 
     <uxAppShellMainContent>
-        <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/'"></ux-layout-breadcrumbs>
+        <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/' && this.router.url != '/404'"></ux-layout-breadcrumbs>
         <router-outlet></router-outlet>
     </uxAppShellMainContent>
 
