@@ -415,33 +415,90 @@
         float: left;
         margin-left: 15px;
         width: 100%;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
     }
 
     // Title
     &__title {
-        font-family: Arial;
         font-size: 19px;
         font-weight: bold;
-        color: #404040;
+
+        a {
+            color: #404040;
+        }
     }
 
     // Description
     &__content {
         float: left;
-        margin-left: 15px;
+        font-size: 14px;
+        color: #000;
     }
 
     // Footer
     &__footer {
-        background: #F8F8F8;
+        background: #ebebeb;
         border-radius: 12px;
-        padding: 5px 15px;
-        margin: 5px 0 20px;
+        padding: 8px 15px;
+        margin: 5px 0 15px;
 
-        li {
+        ul {
             display: flex;
             align-items: center;
             justify-content: space-between;
+
+            li {
+                flex-direction: column;
+                align-items: center;
+                justify-content: space-between;
+            }
         }
+    }
+
+    // Helpers
+    .nowrap  {
+        -webkit-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    }
+
+    &__theme {
+        font-size: 12px;
+        font-weight: bold;
+    }
+
+    &__amount {
+        &--inner {}
+
+        .flag {
+            float: left;
+        }
+
+        .amount {
+            color: #000;
+            margin-left: 5px;
+            font-weight: bold;
+            float: left;
+
+            .euro {
+                color: #404040;
+                font-weight: normal;
+            }
+
+            .support {
+                font-size: 9px;
+                font-style: italic;
+                color: #9c9c9c;
+                display: block;
+            }
+        }
+
+    }
+
+    &__years {
+
     }
 }
