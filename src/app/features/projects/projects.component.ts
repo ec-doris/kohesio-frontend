@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Renderer2, ViewChild} from '@angular/core';
 import { UxService } from '@eui/core';
 import {ProjectService} from "../../project.service";
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -7,6 +7,7 @@ import {Filters} from "../../shared/models/filters.model";
 import {MarkerService} from "../module1/marker.service";
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
+import {DOCUMENT} from "@angular/common";
 declare let L;
 
 @Component({
@@ -15,7 +16,8 @@ declare let L;
 export class ProjectsComponent implements AfterViewInit {
 
     public countries: any[] = [];
-    public topics: any[] = [];
+    public regions: any[] = [];
+    public themes: any[] = [];
     public projects: Project[] = [];
     public myForm: FormGroup;
     public isLoading = false;
@@ -28,15 +30,19 @@ export class ProjectsComponent implements AfterViewInit {
                 private uxService:UxService,
                 private markerService:MarkerService,
                 private _route: ActivatedRoute,
-                private _router: Router){}
+                private _router: Router,
+                private _renderer2: Renderer2,
+                @Inject(DOCUMENT) private _document: Document){}
 
     ngOnInit(){
         this.myForm = this.formBuilder.group({
-            countries: [this._route.snapshot.queryParamMap.get('countries')],
-            topics: [this._route.snapshot.queryParamMap.get('topics')],
-            term: this._route.snapshot.queryParamMap.get('term')
+            country: [this._route.snapshot.queryParamMap.get('country')],
+            region: [this._route.snapshot.queryParamMap.get('regions')],
+            theme: [this._route.snapshot.queryParamMap.get('topics')],
+            keywords: this._route.snapshot.queryParamMap.get('keywords')
         });
         this.projectService.getFilters().then(result=>{
+
             //Countries
             for (let country of result.countries){
                 let countryCode = country[0].split(",")[1].toLowerCase();
@@ -47,24 +53,67 @@ export class ProjectsComponent implements AfterViewInit {
                     iconClass: 'flag-icon flag-icon-' + countryCode
                 })
             }
-            //Topics
-            for (let topic of result.topics){
-                let topicCode = topic[0].split(",")[0];
-                let topicId= topic[0].split(",")[1];
-                this.topics.push({
+            if (this._route.snapshot.queryParamMap.get('country')){
+                this.myForm.patchValue({
+                    country: this.projectService.getFilterKey("countries",this._route.snapshot.queryParamMap.get('country'))
+                });
+                this.getRegions();
+            }
+            //Themes
+            for (let topic of result.themes){
+                let topicCode = topic[0].split(",")[1];
+                let topicId= topic[0].split(",")[0];
+                this.themes.push({
                     id: topicId,
                     value: topic[1],
                     iconClass: 'topic-icon ' + topicCode
                 })
             }
+            if (this._route.snapshot.queryParamMap.get('theme')){
+                this.myForm.patchValue({
+                    theme: this.projectService.getFilterKey("themes", this._route.snapshot.queryParamMap.get('theme'))
+                });
+            }
+            if (this._route.snapshot.queryParamMap.get('region')){
+                this.getRegions().then(regions=>{
+                    this.myForm.patchValue({
+                        region: this.projectService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
+                    });
+                    this.getProjectList();
+                });
+            }else{
+                this.getProjectList();
+            }
+
         });
-        this.getProjectList();
         this.markerService.getServerPoints().then(result=>{
             this.loadedDataPoints = result;
         });
     }
 
     ngAfterViewInit(): void {
+        //this.onMapModalAnimationEnd();
+        /*let script = this._renderer2.createElement('script');
+        script.type = `application/json`;
+        script.text = `
+            {
+                "service": "map",
+                "renderTo" : "map-inside",
+                "map": {
+                    "center": [
+                        46,
+                        4
+                    ],
+                    "zoom": 4,
+                    "background": [
+                        "osmec"
+                    ],
+                    "maxZoom": 18
+                },
+                "version": "2.0"
+            }
+        `;
+        this._renderer2.appendChild(this._document.body, script);*/
     }
 
     private getProjectList(){
@@ -77,21 +126,19 @@ export class ProjectsComponent implements AfterViewInit {
         });
     }
 
-    onSubmit(form: FormGroup) {
+    onSubmit() {
         this.projects = [];
-        const filters = new Filters().deserialize(form.value);
+        const filters = new Filters().deserialize(this.myForm.value);
         this.getProjectList();
 
-        const queryParams = Object.assign(form.value);
-        queryParams.term = queryParams.term ? queryParams.term : null;
         this._router.navigate([], {
             relativeTo: this._route,
-            queryParams: queryParams,
+            queryParams: this.getFormValues(),
             queryParamsHandling: 'merge'
         });
     }
 
-    onMapModalAnimationEnd(event){
+    onMapModalAnimationEnd(){
         if (!this.map) {
             this.map = L.map('map-inside').setView([48, 4], 5);
             const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
@@ -100,7 +147,7 @@ export class ProjectsComponent implements AfterViewInit {
             });
             tiles.addTo(this.map);
 
-            this.markerService.makeMarkers(this.map);
+            //this.markerService.makeMarkers(this.map);
         }
     }
 
@@ -114,5 +161,38 @@ export class ProjectsComponent implements AfterViewInit {
     getPageIndexEnd(){
         return this.paginator ? this.getPageIndexStart() + this.paginator.pageSize : 15;
     }
+
+    getFormValues(){
+        return {
+            keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
+            country: this.projectService.getFilterLabel("countries", this.myForm.value.country),
+            region: this.projectService.getFilterLabel("regions", this.myForm.value.region),
+            theme: this.projectService.getFilterLabel("themes", this.myForm.value.theme)
+        }
+    }
+
+    onCountryChange(){
+        this.getRegions();
+        this.myForm.patchValue({
+            region: null
+        });
+    }
+
+    getRegions(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            this.projectService.getRegions(this.myForm.value.country).subscribe(regions => {
+                this.regions = [];
+                for (let region of regions) {
+                    let regionId = region[0];
+                    this.regions.push({
+                        id: regionId,
+                        value: region[1]
+                    })
+                }
+                resolve(true);
+            });
+        });
+    }
+
 
 }

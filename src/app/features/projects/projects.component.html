@@ -1,4 +1,4 @@
-<ux-modal id="mapModal" titleLabel="Map View" [isSizeLarge]="true" [isFooterVisible]="false" (onAnimationEnd)="onMapModalAnimationEnd($event)">
+<!--<ux-modal id="mapModal" titleLabel="Map View" [isSizeLarge]="true" [isFooterVisible]="false" (onAnimationEnd)="onMapModalAnimationEnd($event)">
     <uxModalBody>
         <div class="map-container">
             <div class="map-frame">
@@ -6,24 +6,31 @@
             </div>
         </div>
     </uxModalBody>
-</ux-modal>
+</ux-modal>-->
 
 <div style="display: flex;">
     <ux-layout-page-column mainTitle="SEARCH ON PROJECTS" size="xxxl" [isCollapsible]="false">
-        <form [formGroup]="myForm" (ngSubmit)="onSubmit(myForm)">
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <ux-form-group label="KEYWORDS" [isVertical]="true">
-                <input class="form-control" type="text" formControlName="term"/>
+                <input class="form-control" type="text" formControlName="keywords"/>
             </ux-form-group>
             <ux-form-group label="COUNTRIES" [isVertical]="true">
-                <ux-form-control formControlName="countries"
+                <ux-form-control formControlName="country"
                                  [isSelect]="true"
-                                 [selectOptions]="countries">
+                                 [selectOptions]="countries"
+                (modelChange)="onCountryChange()">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-form-group label="REGIONS" [isVertical]="true">
+                <ux-form-control formControlName="region"
+                                 [isSelect]="true"
+                                 [selectOptions]="regions">
                 </ux-form-control>
             </ux-form-group>
             <ux-form-group label="THEMES" [isVertical]="true">
-                <ux-form-control formControlName="topics"
+                <ux-form-control formControlName="theme"
                                  [isSelect]="true"
-                                 [selectOptions]="topics">
+                                 [selectOptions]="themes">
                 </ux-form-control>
             </ux-form-group>
             <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">
@@ -63,8 +70,8 @@
             <ux-tab label="Audio-visual">
                 Audio-visual
             </ux-tab>
-            <ux-tab label="Map">
-                Map
+            <ux-tab label="Map" [isActive]="false">
+                    <div id="map-inside"></div>
             </ux-tab>
             <uxTabsRightContent>
                 <mat-paginator [length]="projects.length"
