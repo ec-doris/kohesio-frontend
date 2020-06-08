@@ -114,7 +114,8 @@
     box-shadow: 5px 5px 15px 0px rgba(156,156,156,0.78);
 }
 
-.topic-icon{
+/*
+.topic-icon {
     border: 1px solid rgba(255,255,255,0.35);
     height: 1.6rem;
     width: 1.6rem;
@@ -166,6 +167,7 @@
 .topic-icon.TO11{
     background-image: url("assets/images/topics/TO11_80.png");
 }
+*/
 
 #map {
     height: 600px;
@@ -299,41 +301,59 @@
     height: 80px;
 }
 
-.kohesio-title{
-    margin-top:5px !important;
-    font-size:28px !important;
-    font-family: "SackersGothicHeavy" !important;
-    color:#4E4E4E !important;
-}
-.kohesio-subtitle{
-    margin-top:0 !important;
-    font-weight: normal !important;
-    color: #707070 !important;
-    font-size:16px !important;
+// Logo Kohesio
+#app-header .title.title { // css hack to avoid !important attribute
+    float: none;
+    overflow: hidden;
+    display: inline-block;
 }
 
-#app-header .right-content{
+.logo-khso {
+    margin: 27px 0 0 10px;
+
+    &--brand-name {
+        font-size: 22px !important;
+        color: #3C3C3B !important;
+        font-weight: normal !important;
+        margin: 0 !important;
+
+        &__short {}
+    }
+
+    &--brand-caption {
+        font-family: "Helvetica" !important;
+        color: #3C3C3B !important;
+        font-size: 14px !important;
+        font-weight: normal !important;
+        margin: 0 !important;
+    }
+}
+
+#app-header .right-content {
     position:initial !important;
     float: right;
     margin-top: 0 !important;
 }
 
-.right-menu{
+.right-menu {
     display: flex;
     height: 90px;
     align-items: center;
+
+    li {
+        margin: 15px;
+
+        a {
+            font-size: 16px;
+
+            &:hover {
+                color: #404040;
+            }
+        }
+    }
 }
 
-.right-menu li{
-    margin: 15px;
-}
-
-.right-menu li a{
-    font-size:16px;
-}
-
-
-.top-header{
+.top-header {
     height: 50px;
     background-color: #003D84;
     padding-left: 10%;
@@ -379,4 +399,49 @@
 
 .search-projects-input{
     width:300px;
+}
+
+
+// Results articles page
+.article--post {
+    overflow: hidden;
+    display: flex;
+
+    &__image {
+        float: left;
+    }
+
+    &__inner {
+        float: left;
+        margin-left: 15px;
+        width: 100%;
+    }
+
+    // Title
+    &__title {
+        font-family: Arial;
+        font-size: 19px;
+        font-weight: bold;
+        color: #404040;
+    }
+
+    // Description
+    &__content {
+        float: left;
+        margin-left: 15px;
+    }
+
+    // Footer
+    &__footer {
+        background: #F8F8F8;
+        border-radius: 12px;
+        padding: 5px 15px;
+        margin: 5px 0 20px;
+
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+    }
 }

@@ -38,6 +38,28 @@
             <ux-tab label="Results">
                 <div class="loading" *ngIf="isLoading">Loading...</div>
                 <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
+                <!-- <div class="projects-grid" id="projects-grid">
+                    <a *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])" href="{{project.link}}" class="project-link" target="_blank">
+                        <div class="{{'card ' + project.objectiveId}}">
+                            <div class="header">
+                                <div class="images">
+                                    <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '_80.png'}}">
+                                    <div *ngIf="!project.objectiveId" class="without-obcjetive-id"></div>
+                                    <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+                                </div>
+                                <h1>{{project.title}}</h1>
+                            </div>
+                            <div class="info-bar">
+                                <div class="startDate">
+                                    <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                                </div>
+                                <div class="budget">{{ project.budget | budget}}</div>
+                            </div>
+                            <p [innerHTML]="project.getFullDescription()"></p>
+                        </div>
+                    </a>
+                </div> -->
+
                 <div class="projects-grid" id="projects-grid">
                     <a *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])" href="{{project.link}}" class="project-link" target="_blank">
                         <div class="{{'card ' + project.objectiveId}}">
@@ -59,6 +81,53 @@
                         </div>
                     </a>
                 </div>
+
+
+
+
+                <article class="article--post">
+                    <header>
+                        <div class="article--post__image">
+                            <figure role="presentation" class="prj-image">
+                                <a href="#" class="prj-image--link">
+                                    <div class="prj-image--wrapper">
+                                        <img src="#" alt="#" class="prj-image--image">
+                                    </div>
+                                </a>
+                            </figure>
+                        </div>
+                    </header>
+
+                    <div class="article--post__inner">
+                        <h1 class="article--post__title">
+                            <a href="#">Main title</a>
+                        </h1>
+                        <footer class="article--post__footer">
+                            <ul>
+                                <li class="article--post__theme">
+                                    <span class="icon"></span> Theme name to be added dinamicaly here
+                                </li>
+                                <li class="article--post__amount">
+                                    <span class="flag">Icon flag</span>
+                                    <span class="amount-euro">€</span>
+                                    <span class="support">Amount EU support</span>
+                                </li>
+                                <li>
+
+                                </li>
+                            </ul>
+                        </footer>
+                        <div class="article--post__content">
+                            <p class="article--post__teaser">Description of the project
+                            </p>
+                        </div>
+                    </div>
+                </article>
+
+
+
+
+
             </ux-tab>
             <ux-tab label="Audio-visual">
                 Audio-visual
