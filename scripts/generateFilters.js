@@ -35,7 +35,7 @@ class GenerateFilters{
         Promise.all([countriesPromise, topicsPromise]).then(results=>{
             const jsonFile = {
                 countries: results[0].isAxiosError ? [] : results[0],
-                topics: results[1].isAxiosError ? [] : results[1]
+                themes: results[1].isAxiosError ? [] : results[1]
             };
             fs.mkdir('src/assets/data', { recursive: true }, (err) => {
                 fs.writeFile('src/assets/data/filters.json', JSON.stringify(jsonFile), (err) => {
