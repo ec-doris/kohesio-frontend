@@ -406,9 +406,23 @@
 .article--post {
     overflow: hidden;
     display: flex;
+    position: relative;
+
+    &::before {
+        content: "";
+        height: 100%;
+        background: #404040;
+        width: 6px;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border-radius: 20px;
+    }
 
     &__image {
         float: left;
+        margin-left: 50px;
+        border-radius: 10px;
     }
 
     &__inner {
