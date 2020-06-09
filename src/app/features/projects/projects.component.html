@@ -53,7 +53,7 @@
                                     <div class="prj-image--wrapper">
                                         <img src="#" alt="#" class="prj-image--image" *ngIf="project.images && project.images.length">
                                         <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
-                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.svg'}}">
+                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </div>
                                     </div>
                                 </a>
@@ -68,7 +68,7 @@
                             <ul class="nowrap">
                                 <li class="article--post__theme">
                                     <span class="icon">
-                                        <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.svg'}}">
+                                        <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                     </span> {{projectService.getThemeLabel(project.objectiveId)}}
                                 </li>
                                 <li class="article--post__amount">
@@ -81,7 +81,8 @@
                                     </div>
                                 </li>
                                 <li class="article--post__years">
-                                    <span class="icon">#todo:add icon</span><ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                                    <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
+                                    <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
                                 </li>
                             </ul>
                         </footer>

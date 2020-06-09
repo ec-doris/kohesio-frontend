@@ -419,10 +419,25 @@
         border-radius: 20px;
     }
 
+    img {
+        width: 24px;
+        height: 24px;
+    }
+
     &__image {
         float: left;
         margin-left: 50px;
         border-radius: 10px;
+
+        .detault-theme-image {
+            width: 87px;
+            height: 87px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f8fe;
+            border-radius: 12px;
+        }
     }
 
     &__inner {
@@ -482,6 +497,13 @@
     &__theme {
         font-size: 12px;
         font-weight: bold;
+
+        .icon img {
+            width: 22px;
+            display: inline-block;
+            background: transparent;
+            border-radius: 0;
+        }
     }
 
     &__amount {
@@ -489,6 +511,7 @@
 
         .flag {
             float: left;
+            width: 26px;
         }
 
         .amount {
