@@ -9,6 +9,7 @@ import {BudgetPipe} from "../../shared/budget.pipe";
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import {ProjectDetailComponent} from "./project-detail.component";
 
 @NgModule({
     imports: [
@@ -19,6 +20,7 @@ import {MatTableModule} from '@angular/material/table';
     ],
     declarations: [
         ProjectsComponent,
+        ProjectDetailComponent,
         BudgetPipe
     ],
 })

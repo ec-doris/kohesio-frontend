@@ -122,4 +122,18 @@ export class ProjectService {
         );
     }
 
+    getThemeLabel(key:string) {
+        let result = null;
+        if (key) {
+            const record = this.filters.themes.find(filter => {
+                const k = filter[0].split(',')[1];
+                return k == key;
+            });
+            if (record) {
+                result = record[1];
+            }
+        }
+        return result;
+    }
+
 }

@@ -18,7 +18,7 @@ export class Project implements Deserializable{
             link: input.link,
             objectiveId: this.getValueFromPropertyArray(input.objectiveIds),
             countryCode: this.getValueFromPropertyArray(input.countrycode),
-            title: this.getValueFromPropertyArray(input.labels, 40),
+            title: this.getValueFromPropertyArray(input.labels, 500),
             startTime: this.getValueFromPropertyArray(input.startTimes),
             budget: this.getValueFromPropertyArray(input.euBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 500),

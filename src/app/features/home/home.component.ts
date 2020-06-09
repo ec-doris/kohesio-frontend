@@ -29,7 +29,7 @@ export class HomeComponent implements AfterViewInit {
 
     public ngOnInit() {
 
-        /*let script = this._renderer2.createElement('script');
+        let script = this._renderer2.createElement('script');
         script.type = `application/json`;
         script.text = `
             {
@@ -82,7 +82,8 @@ export class HomeComponent implements AfterViewInit {
             }
         `;
 
-        this._renderer2.appendChild(this._document.body, script);*/
+        this._renderer2.appendChild(this._document.body, script);
+        window.scrollTo(0,1);
     }
 
 }
