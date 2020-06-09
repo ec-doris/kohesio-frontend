@@ -95,7 +95,7 @@
             <ux-tab label="Audio-visual">
                 Audio-visual
             </ux-tab>
-            <ux-tab label="Map" [isActive]="true">
+            <ux-tab label="Map" [isActive]="!this._route.snapshot.queryParamMap.keys.length">
                     <div id="map-inside"></div>
             </ux-tab>
             <uxTabsRightContent>

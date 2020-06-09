@@ -35,6 +35,7 @@ export class ProjectsComponent implements AfterViewInit {
                 @Inject(DOCUMENT) private _document: Document){}
 
     ngOnInit(){
+        console.log("QUERY PARAMETER MAP=", this._route.snapshot.queryParamMap);
         this.myForm = this.formBuilder.group({
             country: [this._route.snapshot.queryParamMap.get('country')],
             region: [this._route.snapshot.queryParamMap.get('regions')],
@@ -92,30 +93,7 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        //this.onMapModalAnimationEnd();
-        let script = this._renderer2.createElement('script');
-        script.type = `application/json`;
-        script.text = `
-            {
-                "service": "map",
-                "renderTo" : "map-inside",
-                "map": {
-                    "center": [
-                        46,
-                        4
-                    ],
-                    "zoom": 4,
-                    "background": [
-                        "osmec"
-                    ],
-                    "maxZoom": 18
-                },
-                "version": "2.0"
-            }
-        `;
-        this._renderer2.appendChild(this._document.body, script);
-        this._document.getElementById('map-inside').style.width = "100%";
-        window.scrollTo(0,1);
+        this.onMapModalAnimationEnd();
     }
 
     private getProjectList(){
