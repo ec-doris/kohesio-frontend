@@ -48,4 +48,4 @@ Thumbs.db
 /public/points.json
 /node_modules/
 /public/filters.json
-/src/assets/data/
+/src/assets/data/filters.json
