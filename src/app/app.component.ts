@@ -33,7 +33,7 @@ export class AppComponent implements OnInit {
 
     onFilter(event){
         if (this.filterValue && this.filterValue.trim() != "") {
-            this.router.navigate(['/projects'], { queryParams: { term: this.filterValue } });
+            this.router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
             this.filterValue = "";
         }
     }

@@ -35,7 +35,6 @@ export class ProjectsComponent implements AfterViewInit {
                 @Inject(DOCUMENT) private _document: Document){}
 
     ngOnInit(){
-        console.log("QUERY PARAMETER MAP=", this._route.snapshot.queryParamMap);
         this.myForm = this.formBuilder.group({
             country: [this._route.snapshot.queryParamMap.get('country')],
             region: [this._route.snapshot.queryParamMap.get('regions')],
@@ -93,7 +92,9 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.onMapModalAnimationEnd();
+        if (!this._route.snapshot.queryParamMap.keys.length) {
+            this.onMapModalAnimationEnd();
+        }
     }
 
     private getProjectList(){
@@ -126,9 +127,9 @@ export class ProjectsComponent implements AfterViewInit {
                     '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
             });
             tiles.addTo(this.map);
-
             //this.markerService.makeMarkers(this.map);
         }
+        setTimeout(() => {this.map.invalidateSize(true)},100);
     }
 
     onPaginate(event){
@@ -172,6 +173,12 @@ export class ProjectsComponent implements AfterViewInit {
                 resolve(true);
             });
         });
+    }
+
+    onTabSelected(event){
+        if(event.label == "Map"){
+            this.onMapModalAnimationEnd();
+        }
     }
 
 

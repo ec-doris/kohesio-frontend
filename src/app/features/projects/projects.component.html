@@ -41,7 +41,7 @@
     </ux-layout-page-column>
 
     <ux-layout-page-column>
-        <ux-tabs>
+        <ux-tabs (tabSelected)="onTabSelected($event)">
             <ux-tab label="Results">
                 <div class="loading" *ngIf="isLoading">Loading...</div>
                 <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>

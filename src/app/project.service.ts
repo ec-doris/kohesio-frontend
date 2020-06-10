@@ -6,6 +6,7 @@ import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Filters} from "./shared/models/filters.model";
 import {environment} from "../environments/environment";
+import {ProjectDetail} from "./shared/models/project-detail.model";
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,22 @@ export class ProjectService {
                     return data.map(data => {
                         return new Project().deserialize(data);
                     });
+                }
+            })
+        );
+    }
+
+    getProjectDetail(id: string): Observable<ProjectDetail> {
+        const url = environment.api + '/project';
+        let params = {
+            id: environment.entityURL + id
+        };
+        return this.http.get<any>(url, { params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    return undefined;
+                }else {
+                    return new ProjectDetail().deserialize(data);
                 }
             })
         );
@@ -134,6 +151,24 @@ export class ProjectService {
             }
         }
         return result;
+    }
+
+    getCountryGeoJson(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            fetch('assets/data/countriesGeoJson.json')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("HTTP error " + response.status);
+                    }
+                    return response.json();
+                })
+                .then(json => {
+                    resolve(json);
+                })
+                .catch(function () {
+                    reject("error getting filters");
+                });
+        });
     }
 
 }

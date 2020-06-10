@@ -1,7 +1,11 @@
 <div style="display: flex;">
     <ux-layout-page-column size="xxxl" [isCollapsible]="false">
 
-        COL LEFT
+        <ul>
+            <li>Id: {{project?.item}}</li>
+            <li>Title: {{project?.label}}</li>
+            <li>Description: {{project?.description}}</li>
+        </ul>
 
     </ux-layout-page-column>
 

@@ -19,7 +19,8 @@ const routes: Routes = [
         component: ProjectDetailComponent,
         data: {
             breadcrumb: {
-                label: 'Project Detail'
+                label: 'Project Detail',
+                previousAllowed: 'projects'
             },
             pageId:'project-detail'
         }
