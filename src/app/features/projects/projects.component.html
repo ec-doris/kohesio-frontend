@@ -45,53 +45,59 @@
             <ux-tab label="Results">
                 <div class="loading" *ngIf="isLoading">Loading...</div>
                 <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
-                <article class="article--post" *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
-                    <header>
-                        <div class="article--post__image">
-                            <figure role="presentation" class="prj-image">
-                                <a href="#" class="prj-image--link">
-                                    <div class="prj-image--wrapper">
-                                        <img src="#" alt="#" class="prj-image--image" *ngIf="project.images && project.images.length">
-                                        <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
-                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                <div class="article--post__wrapper">
+                    <article class="article--post" *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                        <header>
+                            <div class="article--post__image">
+                                <figure role="presentation" class="prj-image">
+                                    <a href="#" class="prj-image--link">
+                                        <div class="prj-image--wrapper">
+                                            <img src="#" alt="#" class="prj-image--image" *ngIf="project.images && project.images.length">
+                                            <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
+                                                <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                            </div>
                                         </div>
-                                    </div>
-                                </a>
-                            </figure>
-                        </div>
-                    </header>
-                    <div class="article--post__inner">
-                        <h1 class="article--post__title">
-                            <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
-                        </h1>
-                        <footer class="article--post__footer">
-                            <ul class="nowrap">
-                                <li class="article--post__theme">
-                                    <span class="icon">
-                                        <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                    </span> {{projectService.getThemeLabel(project.objectiveId)}}
-                                </li>
-                                <li class="article--post__amount">
-                                    <div class="article--post__amount--inner">
-                                        <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
-                                        <span class="amount">
-                                            <span class="euro">€</span> {{ project.budget | budget}}
-                                            <span class="support">Amount EU support</span>
+                                    </a>
+                                </figure>
+                            </div>
+                        </header>
+                        <div class="article--post__inner">
+                            <h1 class="article--post__title">
+                                <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                            </h1>
+                            <footer class="article--post__footer">
+                                <ul class="nowrap">
+                                    <li class="article--post__theme">
+                                        <span class="icon">
+                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                        </span> {{projectService.getThemeLabel(project.objectiveId)}}
+                                    </li>
+                                    <li class="article--post__amount">
+                                        <div class="article--post__amount--inner">
+                                            <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                            <span class="amount">
+                                                <!--span class="euro">€</span--> {{ project.budget | budget}}
+                                                <span class="support">Amount EU support</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="article--post__years">
+                                        <span class="icons">
+                                            <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                         </span>
-                                    </div>
-                                </li>
-                                <li class="article--post__years">
-                                    <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
-                                    <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
-                                </li>
-                            </ul>
-                        </footer>
-                        <div class="article--post__content">
-                            <p class="article--post__teaser" [innerHTML]="project.getFullDescription()">
-                            </p>
+                                        <span class="time-start-end">
+                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </footer>
+                            <div class="article--post__content">
+                                <p class="article--post__teaser" [innerHTML]="project.getFullDescription()">
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </article>
+                    </article>
+                </div>
             </ux-tab>
             <ux-tab label="Audio-visual">
                 Audio-visual
