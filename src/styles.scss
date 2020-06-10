@@ -5,6 +5,10 @@
     src: url("assets/fonts/SackersGothicHeavy.ttf");
 }
 
+// Re-writes
+.ux-layout-page-column {
+    border: 0 !important;
+}
 
 .projects-grid a{
     color:initial;
@@ -403,10 +407,23 @@
 
 
 // Results articles page
+.article--post__wrapper {
+    &::before {
+        content: "";
+        height: 92%;
+        background: #707070;
+        width: 1px;
+        position: absolute;
+        top: 80px;
+        left: 2.9px;
+    }
+}
+
 .article--post {
     overflow: hidden;
     display: flex;
     position: relative;
+    margin-bottom: 25px;
 
     &::before {
         content: "";
@@ -419,10 +436,24 @@
         border-radius: 20px;
     }
 
+    img {
+        height: 18px;
+    }
+
     &__image {
         float: left;
         margin-left: 50px;
         border-radius: 10px;
+
+        .detault-theme-image {
+            width: 87px;
+            height: 87px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f1f8fe;
+            border-radius: 12px;
+        }
     }
 
     &__inner {
@@ -438,11 +469,17 @@
 
     // Title
     &__title {
-        font-size: 19px;
+        font-size: 1.2rem;
         font-weight: bold;
+        line-height: 1.2;
+        font-family: Arial;
 
         a {
             color: #404040;
+
+            &:hover {
+                color: #404040;
+            }
         }
     }
 
@@ -457,7 +494,7 @@
     &__footer {
         background: #ebebeb;
         border-radius: 12px;
-        padding: 8px 15px;
+        padding: 3px 15px;
         margin: 5px 0 15px;
 
         ul {
@@ -482,6 +519,13 @@
     &__theme {
         font-size: 12px;
         font-weight: bold;
+
+        .topic {
+            display: inline-block;
+            background: transparent;
+            border-radius: 0;
+            margin-right: 3px;
+        }
     }
 
     &__amount {
@@ -489,12 +533,17 @@
 
         .flag {
             float: left;
+            width: 26px;
+            height: 30px;
+            margin-right: 3px;
         }
 
         .amount {
             color: #000;
+            margin-top: 5px;
             margin-left: 5px;
             font-weight: bold;
+            line-height: .8rem;
             float: left;
 
             .euro {
@@ -513,7 +562,12 @@
     }
 
     &__years {
+        .icons {
+            float: left;
+            margin-right: 3px;
+        }
 
+        .time-start-end {}
     }
 }
 
