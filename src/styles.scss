@@ -1,9 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 
-@font-face {
-    font-family: SackersGothicHeavy;
-    src: url("assets/fonts/SackersGothicHeavy.ttf");
-}
+// @font-face {
+//     font-family: SackersGothicHeavy;
+//     src: url("assets/fonts/SackersGothicHeavy.ttf");
+// }
 
 // Re-writes
 .ux-layout-page-column {
@@ -325,7 +325,6 @@
     }
 
     &--brand-caption {
-        font-family: "Helvetica" !important;
         color: #3C3C3B !important;
         font-size: 14px !important;
         font-weight: normal !important;
@@ -406,7 +405,11 @@
 }
 
 
-// Results articles page
+// Results project page
+.prjt-results {
+    display: flex;
+}
+
 .article--post__wrapper {
     &::before {
         content: "";
@@ -472,7 +475,6 @@
         font-size: 1.2rem;
         font-weight: bold;
         line-height: 1.2;
-        font-family: Arial;
 
         a {
             color: #404040;
@@ -571,17 +573,446 @@
     }
 }
 
+// Project detail page
+.prjt-detalis {
+    display: flex;
 
+    .prjt-box {
+        background: #ebebeb;
+        border-radius: 6px;
+        padding: 15px;
+        margin-bottom: 30px;
 
-.info {
-    padding: 6px 8px;
-    font: 14px/16px Arial, Helvetica, sans-serif;
-    background: white;
-    background: rgba(255,255,255,0.8);
-    box-shadow: 0 0 15px rgba(0,0,0,0.2);
-    border-radius: 5px;
+        &--title {
+            color: #404040;
+            font-size: 1rem;
+            font-weight: bold;
+            font-variant: small-caps;
+            margin-bottom: 15px;
+        }
+
+        &--content {
+            color: #000;
+            font-size: 14px;
+            margin-left: 25px;
+            line-height: 1.6;
+
+            span:first-child {
+                font-weight: bold;
+            }
+
+            p {
+                margin: 0;
+            }
+        }
+    }
+
+    // Re-write default styles of results project page
+    .article--post__wrapper,
+    .article--post {
+        &::before {
+            display: none;
+        }
+
+        &__image {
+            margin: 0;
+
+            .detault-theme-image {
+                width: 154px;
+                height: 154px;
+            }
+
+            .prj-image {
+                footer {
+                    width: 154px;
+                    color: #9c9c9c;
+                    font-size: 0.6rem;
+                    font-style: italic;
+                    line-height: 0.9;
+                    margin-top: 3px;
+                    text-align: center;
+                }
+            }
+        }
+    }
+
+    // Map
+    .map__wrapper {
+        margin-bottom: 30px;
+
+        .title {
+            font-size: 14px;
+            font-weight: bold;
+        }
+    }
+
+    // Box large
+    .prjt-box__large {
+        margin-bottom: 30px;
+
+        .prjt-box {
+            &--title {
+                font-size: 1.3rem;
+                font-weight: bold;
+                margin: 5px;
+            }
+
+            span {
+                display: block;
+
+                &:first-child {
+                    font-weight: normal;
+                }
+            }
+        }
+    }
 }
-.info h4 {
-    margin: 0 0 5px;
-    color: #777;
+
+// Social icons
+// @import "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css";
+
+@mixin font-smoothing() {
+    // Font antialising on Mac OS X
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.social-icons__wrapper {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 10px;
+
+    .title {
+        font-variant: small-caps;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+}
+
+.social-icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: inline-block;
+        margin: 0 0.25em;
+    }
+
+    span {
+        display: block;
+        width: 0; height: 0;
+        overflow: hidden;
+    }
+
+    a {
+        display: inline-block;
+        width: 2.5em;
+        height: 2.5em;
+        border-radius: 50%;
+        text-decoration: none;
+        color: white;
+        text-align: center;
+
+        &:before {
+            font: 1.5em/1.75 "FontAwesome";
+            @include font-smoothing();
+        }
+
+        $icons: (
+            twitter:  (char: "\f099", color: #55acee),
+            google:   (char: "\f0d5", color: #dd4b39),
+            facebook: (char: "\f09a", color: #3b5998),
+            github:   (char: "\f09b", color: #231f20),
+            linkedin: (char: "\f0e1", color: #0977b5),
+            dribbble: (char: "\f17d", color: #ea4c89),
+            rss:      (char: "\f09e", color: #ff6600)
+        );
+
+        @each $social, $icon in $icons {
+            &[href*="#{$social}"] {
+                background-color: map-get($icon, color);
+
+                &:before {
+                    content: map-get($icon, char);
+                }
+            }
+        }
+    }
+}
+
+// Theme pages
+.prjt-themes {
+    &--inner {
+        width: 80%;
+        margin: 0 auto 25px auto;
+
+        .header-title {
+            &--h2 {
+                font-size: 3.2rem;
+                color: #002F67;
+                margin-bottom: 15px;
+                text-align: center;
+                font-variant: small-caps;
+            }
+        }
+
+        .description {
+            font-size: 1.4rem;
+        }
+    }
+
+    .prjt-box {
+        border-radius: 6px;
+        padding: 30px;
+        margin-bottom: 30px;
+        min-height: 164px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: center;
+
+        &--blue {
+            background: #1c679d;
+        }
+
+        &--green {
+            background: #34B392;
+        }
+
+        &--yellow{
+            background: #ABC91E;
+        }
+
+        .icon {
+            position: absolute;
+            top: 13px;
+            left: 22px;
+        }
+
+        .title {
+            color: #fff;
+        }
+    }
+}
+
+/**
+ * Tooltip Styles
+ **/
+
+// Base styles for the element that has a tooltip
+[data-tooltip],
+.tooltip {
+  position: relative;
+  cursor: pointer;
+}
+
+// Base styles for the entire tooltip
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after {
+  position: absolute;
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition:
+	  opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		-webkit-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+	-moz-transition:
+		opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		-moz-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+	transition:
+		opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform:    translate3d(0, 0, 0);
+  transform:         translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+// Show the entire tooltip on hover and focus
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+// Base styles for the tooltip's directional arrow
+.tooltip:before,
+[data-tooltip]:before {
+  z-index: 1001;
+  border: 6px solid transparent;
+  background: transparent;
+  content: "";
+}
+
+// Base styles for the tooltip's content area
+.tooltip:after,
+[data-tooltip]:after {
+  z-index: 1000;
+  padding: 15px;
+  width: 420px;
+  background-color: #fff;
+  background-color: hsla(0, 100%, 100%, 0.9);
+  color: #404040;
+  content: attr(data-tooltip);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  border-radius: 6px;
+}
+
+// Directions
+
+// Top (default)
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after,
+.tooltip-top:before,
+.tooltip-top:after {
+  bottom: 100%;
+  left: 50%;
+}
+
+[data-tooltip]:before,
+.tooltip:before,
+.tooltip-top:before {
+  margin-left: -6px;
+  margin-bottom: -12px;
+  border-top-color: #fff;
+  border-top-color: hsla(0, 100%, 100%, 0.9);
+}
+
+// Horizontally align top/bottom tooltips
+[data-tooltip]:after,
+.tooltip:after,
+.tooltip-top:after {
+  margin-left: -210px;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after,
+.tooltip-top:hover:before,
+.tooltip-top:hover:after,
+.tooltip-top:focus:before,
+.tooltip-top:focus:after {
+  -webkit-transform: translateY(-12px);
+  -moz-transform:    translateY(-12px);
+  transform:         translateY(-12px);
+}
+
+
+// Left
+.tooltip-left:before,
+.tooltip-left:after {
+  right: 100%;
+  bottom: 50%;
+  left: auto;
+}
+
+.tooltip-left:before {
+  margin-left: 0;
+  margin-right: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-left-color: #fff;
+  border-left-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-left:hover:before,
+.tooltip-left:hover:after,
+.tooltip-left:focus:before,
+.tooltip-left:focus:after {
+  -webkit-transform: translateX(-12px);
+  -moz-transform:    translateX(-12px);
+  transform:         translateX(-12px);
+}
+
+// Bottom
+.tooltip-bottom:before,
+.tooltip-bottom:after {
+  top: 100%;
+  bottom: auto;
+  left: 50%;
+}
+
+.tooltip-bottom:before {
+  margin-top: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-bottom-color: #fff;
+  border-bottom-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-bottom:hover:before,
+.tooltip-bottom:hover:after,
+.tooltip-bottom:focus:before,
+.tooltip-bottom:focus:after {
+  -webkit-transform: translateY(12px);
+  -moz-transform:    translateY(12px);
+  transform:         translateY(12px);
+}
+
+// Right
+.tooltip-right:before,
+.tooltip-right:after {
+  bottom: 50%;
+  left: 100%;
+}
+
+.tooltip-right:before {
+  margin-bottom: 0;
+  margin-left: -12px;
+  border-top-color: transparent;
+  border-right-color: #fff;
+  border-right-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-right:hover:before,
+.tooltip-right:hover:after,
+.tooltip-right:focus:before,
+.tooltip-right:focus:after {
+  -webkit-transform: translateX(12px);
+  -moz-transform:    translateX(12px);
+  transform:         translateX(12px);
+}
+
+// Move directional arrows down a bit for left/right tooltips
+.tooltip-left:before,
+.tooltip-right:before {
+  top: 3px;
+}
+
+// Vertically center tooltip content for left/right tooltips
+.tooltip-left:after,
+.tooltip-right:after {
+  margin-left: 0;
+  margin-bottom: -16px;
 }

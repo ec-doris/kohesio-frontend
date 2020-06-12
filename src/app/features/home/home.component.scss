@@ -11,7 +11,7 @@
             color: #003D84;
         }
         span.ux-icon.ux-carousel-items__arrow--inactive{
-            color:#d2d2d2;
+            color: #d2d2d2;
         }
     }
     .col-1.text-center:last-child{
@@ -53,24 +53,24 @@
     }
 
 }
-h2{
+h2 {
     font-size: 32px;
     color: #002F67;
     margin-bottom: 15px;
 }
 
-#themes{
+#themes {
     margin-top: 45px;
 
-    .theme-division{
+    .theme-division {
         display: flex;
     }
 
-    .explore-more{
+    .explore-more {
         border: 1px solid #002F67;
         padding: 20px;
         color: #002F67;
-        font-size:14px;
+        font-size: 14px;
         font-weight: bold;
         display: flex;
         justify-content: center;
@@ -82,14 +82,14 @@ h2{
 
         &:hover {
             cursor:pointer;
-            color:#404040;
+            color: #404040;
         }
     }
 
-    .theme-container{
+    .theme-container {
         flex: 1;
 
-        .themes-main-category{
+        .themes-main-category {
             background-color: #2CBD7B;
             color: white;
             font-size: 28px;
@@ -100,18 +100,22 @@ h2{
             border-radius: 6px;
         }
 
-        .theme-categories .theme-category-card:last-child{
+        .themes-title {
+            color: #fff;
+        }
+
+        .theme-categories .theme-category-card:last-child {
             margin-right: 0;
         }
 
-        .theme-categories{
+        .theme-categories {
             display: flex;
             margin-top: -30px;
             justify-content: space-between;
 
-            .theme-category-card{
+            .theme-category-card {
                 box-shadow: 0px 3px 6px #00000029;
-                padding:35px;
+                padding: 35px 25px;
                 display: flex;
                 flex-direction: column;
                 background-color: white;
@@ -119,19 +123,31 @@ h2{
                 margin-right: 10px;
                 flex: 1;
 
-                .title{
-                    color:#404040;
-                    font-size: 20px;
+                .title {
+                    color: #404040;
+                    font-size: 18px;
                     font-weight: bold;
                     margin-bottom: 25px;
+                    min-height: 44px;
                 }
 
-                .number{
-                    color:#002F67;
+                .number {
+                    position: relative;
+                    color: #002F67;
                     font-size: 10px;
                     display: flex;
                     align-items: flex-end;
                     flex: 1;
+
+                    &:after {
+                        content: "";
+                        position: absolute;
+                        right: 0;
+                        top: 6px;
+                        height: 1px;
+                        width: 15vw;
+                        background: #002F67;
+                    }
                 }
             }
         }
