@@ -5,12 +5,16 @@
             <span class="prjt-box--title">project info</span>
             <div class="prjt-box--content">
                 <span>Start time: </span>
-                <span>1 April 2016</span>
+                <span>
+                    <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                </span>
             </div>
 
             <div class="prjt-box--content">
                 <span>End time: </span>
-                <span>21 December 2017</span>
+                <span>
+                    <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                </span>
             </div>
 
             <div class="prjt-box--content">
@@ -57,7 +61,7 @@
         <div class="prjt-box prjt-box--grey">
             <span class="prjt-box--title">themes</span>
             <div class="prjt-box--content">
-                <span>Research & Innovation</span>
+                <span>{{project?.objectiveLabel}}</span>
             </div>
         </div>
 
@@ -91,10 +95,10 @@ Research and innovation processes in SMEs (including voucher schemes, process, d
                 </header>
                 <div class="article--post__inner">
                     <h1 class="article--post__title">
-                        <a href="#" title="project title">project title</a>
+                        <a href="#" title="project title">{{project?.label}}</a>
                     </h1>
                     <div class="article--post__content">
-                        <p class="article--post__teaser">project Description</p>
+                        <p class="article--post__teaser">{{project?.description}}</p>
                     </div>
 
                     <div class="social-icons__wrapper">
@@ -146,6 +150,7 @@ Research and innovation processes in SMEs (including voucher schemes, process, d
                 <img class="flag" src="#">
                 IN [THE REGION]
             </h2>
+            <div id="map-inside"></div>
         </div>
 
         <!-- Box large 1 -->
@@ -159,41 +164,4 @@ Research and innovation processes in SMEs (including voucher schemes, process, d
             </div>
         </div>
     </ux-layout-page-column>
-</div>
-
-<div class="prjt-themes">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <div class="prjt-themes--inner">
-                    <h2 class="header-title header-title--h2">exploring the data by themes</h2>
-                    <p class="description">Through the filters above you can explore the distribution of finances and expected achievements (targets) under the eleven "thematic objectives" set for the European Structural and Investment Funds for 2014-2020.</p>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="prjt-box prjt-box--blue">
-                    <span class="icon">
-                        <img src="#">
-                    </span>
-                    <a href="#" class="title" title="Research & Innovation">Research & Innovation</a>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="prjt-box prjt-box--green">
-                    <span class="icon">
-                        <img src="#">
-                    </span>
-                    <a href="#" class="title" title="Climate change Adaptation & Risk Prevention">Climate change Adaptation & Risk Prevention</a>
-                </div>
-            </div>
-            <div class="col-xl-4">
-                <div class="prjt-box prjt-box--yellow">
-                    <span class="icon">
-                        <img src="#">
-                    </span>
-                    <a href="#" class="title" title="Sustainable & Quality Employment">Sustainable & Quality Employment</a>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
