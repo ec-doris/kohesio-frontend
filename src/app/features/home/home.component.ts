@@ -3,7 +3,7 @@ declare let L;
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import {ProjectService} from "../../services/project.service";
+import {FilterService} from "../../services/filter.service";
 
 @Component({
     templateUrl: './home.component.html',
@@ -27,13 +27,13 @@ export class HomeComponent implements AfterViewInit {
     constructor(private _renderer2: Renderer2,
                 @Inject(DOCUMENT) private _document: Document,
                 private _router: Router,
-                private projectService: ProjectService){}
+                private filterService: FilterService){}
 
     ngAfterViewInit(): void {
     }
 
     public ngOnInit() {
-        this.projectService.getCountryGeoJson().then((data:any[])=>{
+        this.filterService.getCountryGeoJson().then((data:any[])=>{
             data.forEach(country=>{
                 country.properties['projects'] = this.countriesFigures[country.properties['name']]
             });
