@@ -27,6 +27,7 @@ export class ProjectsComponent implements AfterViewInit {
     public loadedDataPoints = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
+    public selectedTabIndex:number = 1;
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -106,6 +107,9 @@ export class ProjectsComponent implements AfterViewInit {
             this.projects = result;
             this.isLoading = false;
             this.paginator.firstPage();
+            if (this.selectedTabIndex == 3){
+                this.createMarkers();
+            }
         });
     }
 
@@ -167,8 +171,20 @@ export class ProjectsComponent implements AfterViewInit {
     onTabSelected(event){
         if(event.label == "Map"){
             this.map.refreshView();
+            this.createMarkers();
+            this.selectedTabIndex = event.index;
         }
         this.isNotResultsTab = event.label != "Results";
+    }
+
+    createMarkers(){
+        this.map.removeAllMarkers();
+        for(let project of this.projects){
+            if (project.coordinates && project.coordinates.length > 1) {
+                const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
+                this.map.addMarkerPopup(project.coordinates[1], project.coordinates[0], popupContent);
+            }
+        }
     }
 
 

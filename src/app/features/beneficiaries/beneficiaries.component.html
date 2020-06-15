@@ -34,26 +34,20 @@
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <img class="flag" src="{{'assets/images/flags/fr.png'}}">
+                    <img class="flag" src="{{'assets/images/flags/' + row.countryCode.toLowerCase() + '.png'}}">
                     {{row.label}}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="type">
-                <mat-header-cell *matHeaderCellDef>BENEFICIARY TYPE</mat-header-cell>
-                <mat-cell *matCellDef="let row">
-                    {{row.type}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="budget">
                 <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    {{row.budget}}
+                    {{ row.budget | budget}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="euBudget">
                 <mat-header-cell *matHeaderCellDef>AMOUNT EU SUPPORT</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    {{row.euBudget}}
+                    {{row.euBudget | budget}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="numberProjects">

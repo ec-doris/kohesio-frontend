@@ -20,7 +20,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     public dataSource:MatTableDataSource<Beneficiary>;
     public isLoading = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
-    displayedColumns: string[] = ['name', 'type', 'budget', 'euBudget', 'numberProjects'];
+    displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
 
     constructor(private beneficaryService: BeneficiaryService,
                 private filterService: FilterService,

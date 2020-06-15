@@ -20,8 +20,7 @@ import {ProjectDetailComponent} from "./project-detail.component";
     ],
     declarations: [
         ProjectsComponent,
-        ProjectDetailComponent,
-        BudgetPipe
+        ProjectDetailComponent
     ],
 })
 export class Module {}

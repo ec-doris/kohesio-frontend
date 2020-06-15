@@ -11,6 +11,7 @@ export class Project implements Deserializable{
     public description: string;
     public snippet: string;
     public item: string;
+    public coordinates: number[];
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -23,6 +24,7 @@ export class Project implements Deserializable{
             budget: this.getValueFromPropertyArray(input.euBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
+            coordinates: this.getCoords(input.coordinates)
         });
     }
 
@@ -44,5 +46,15 @@ export class Project implements Deserializable{
         }else{
             return this.description;
         }
+    }
+
+    getCoords(coordinates){
+        let result = undefined;
+        if (coordinates && coordinates.length){
+            result = coordinates[0].replace(")^^http://www.opengis.net/ont/geosparql#wktLiteral","");
+            result = result.replace("Point(","");
+            result = result.split(" ");
+        }
+        return result;
     }
 }
