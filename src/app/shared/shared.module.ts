@@ -4,6 +4,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { UxAllModule, UxBreadcrumbsService } from '@eui/core';
 import {NotFoundComponent} from "./notfound.component";
 import {MapComponent} from "./components/map/map.component";
+import {BudgetPipe} from "./budget.pipe";
 
 @NgModule({
     imports: [
@@ -12,13 +13,15 @@ import {MapComponent} from "./components/map/map.component";
     ],
     declarations: [
         NotFoundComponent,
-        MapComponent
+        MapComponent,
+        BudgetPipe
     ],
     exports: [
         UxAllModule,
         TranslateModule,
         NotFoundComponent,
-        MapComponent
+        MapComponent,
+        BudgetPipe
     ],
     providers: [
         UxBreadcrumbsService
