@@ -19,12 +19,12 @@
 
             <div class="prjt-box--content">
                 <span>Managing authority name: </span>
-                <a src="#" title="link to managing authority">???????</a>
+                <a src="#" title="link to managing authority">{{project?.managingAuthorityLabel}}</a>
             </div>
 
             <div class="prjt-box--content">
                 <span>Original source: </span>
-                <a src="#" title="link to project">???????</a>
+                <a src="#" title="link to project"></a>{{project?.source}}
             </div>
         </div>
 
@@ -33,27 +33,27 @@
             <span class="prjt-box--title">funding</span>
             <div class="prjt-box--content">
                 <span>Fund: </span>
-                <span>???????</span>
+                <span>{{project?.fundLabel}}</span>
             </div>
 
             <div class="prjt-box--content">
                 <span>Programming period: </span>
-                <span>???????</span>
+                <span>2014-2021</span>
             </div>
 
             <div class="prjt-box--content">
                 <span>Programme: </span>
-                <span>???????</span>
+                <span>{{project?.programLabel}}</span>
             </div>
 
             <div class="prjt-box--content">
                 <span>Total budget: </span>
-                <span>€ ???????</span>
+                <span>€ {{project?.budget}}</span>
             </div>
 
             <div class="prjt-box--content">
                 <span>Funded by EU: </span>
-                <span>€ ???????</span>
+                <span>€ {{project?.euBudget}}</span>
             </div>
         </div>
 
@@ -69,7 +69,20 @@
         <div class="prjt-box prjt-box--grey">
             <span class="prjt-box--title">category of intervention</span>
             <div class="prjt-box--content">
-                <p>???????</p>
+                <p>{{project?.categoryLabel}}</p>
+            </div>
+        </div>
+
+        <!-- Box 5 -->
+        <div class="prjt-box prjt-box--grey">
+            <span class="prjt-box--title">beneficiary</span>
+            <div class="prjt-box--content">
+                <span>Beneficiary name: </span>
+                <span *ngIf="project?.beneficiaries && project?.beneficiaries.length">€ {{project?.beneficiaries[0].beneficiaryLabel}}</span>
+            </div>
+            <div class="prjt-box--content">
+                <span>Beneficiary: </span>
+                <span></span>
             </div>
         </div>
 
@@ -83,8 +96,9 @@
                         <figure role="presentation" class="prj-image">
                             <a href="#" class="prj-image--link">
                                 <div class="prj-image--wrapper">
-                                    <div class="detault-theme-image">
-                                        <img class="topic" src="#">
+                                    <img src="#" alt="#" class="prj-image--image" *ngIf="project?.images && project?.images.length">
+                                    <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
+                                        <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                     </div>
                                 </div>
                             </a>
@@ -146,10 +160,10 @@
 
         <div class="map__wrapper">
             <h2 class="title">
-                <img class="flag" src="#">
+                <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
                 IN [THE REGION]
             </h2>
-            <div id="map-inside"></div>
+            <app-map></app-map>
         </div>
 
         <!-- Box large 1 -->
@@ -157,7 +171,6 @@
             <div class="prjt-box prjt-box--grey">
                 <h2 class="prjt-box--title">related materials</h2>
                 <div class="prjt-box--content">
-                    <span>??????????</span>
                     <span>Image & Videos</span>
                     <span>Communication campaign</span>
                 </div>

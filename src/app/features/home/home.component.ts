@@ -3,7 +3,7 @@ declare let L;
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import {ProjectService} from "../../project.service";
+import {ProjectService} from "../../services/project.service";
 
 @Component({
     templateUrl: './home.component.html',
@@ -14,6 +14,7 @@ export class HomeComponent implements AfterViewInit {
     public map;
     public mapInfo;
     public geojson;
+    public layerPopup;
     public countriesFigures={
         "France":35785,
         "Czech Republic":46276,
@@ -50,7 +51,6 @@ export class HomeComponent implements AfterViewInit {
             tiles.addTo(this.map);
         }
         this.buildCountriesLayers(data);
-        this.addInfoControl();
     }
 
     buildCountriesLayers(data){
@@ -61,6 +61,12 @@ export class HomeComponent implements AfterViewInit {
         this.geojson = L.geoJson(countriesData, {
             style: this.style,
             onEachFeature: (feature, layer)=>{
+                const popup = L.popup();
+                popup.setContent(
+                    "<div>Country: <b>" + feature.properties.name +"</b></div>" +
+                    "<div>Projects: <b>" + feature.properties.projects +"</b></div>"
+                );
+                layer.bindPopup(popup);
                 layer.on({
                     mouseover: (e)=>{
                         const layer = e.target;
@@ -76,11 +82,18 @@ export class HomeComponent implements AfterViewInit {
                             layer.bringToFront();
                         }
 
-                        this.mapInfo.update(layer.feature.properties);
+                        if (this.map) {
+                            const popup = layer.getPopup();
+                            popup.setLatLng(e.latlng).openOn(this.map);
+                        }
                     },
                     mouseout: (e)=>{
                         this.geojson.resetStyle(e.target);
-                        this.mapInfo.update();
+                        e.target.closePopup();
+                    },
+                    mousemove: (e)=>{
+                        const popup = e.target.getPopup();
+                        popup.setLatLng(e.latlng).openOn(this.map);
                     },
                     click: (e)=>{
                         this._router.navigate(['/projects'], { queryParams: { country: e.target.feature.properties.name } });
@@ -99,24 +112,5 @@ export class HomeComponent implements AfterViewInit {
             fillOpacity: 0.7
         };
     }
-
-    addInfoControl(){
-        this.mapInfo = L.control();
-
-        this.mapInfo.onAdd = function (map) {
-            this._div = L.DomUtil.create('div', 'info'); // create a div with a class "info"
-            this.update();
-            return this._div;
-        };
-
-        this.mapInfo.update = function (props) {
-            this._div.innerHTML = '<h4>Number of Projects</h4>' +  (props ?
-                '<b>' + props.name + '</b><br />' + props.projects
-                : 'Hover over a country');
-        };
-
-        this.mapInfo.addTo(this.map);
-    }
-
 
 }

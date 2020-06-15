@@ -1,13 +1,14 @@
 import {AfterViewInit, Component, Inject, Renderer2, ViewChild} from '@angular/core';
 import { UxService } from '@eui/core';
-import {ProjectService} from "../../project.service";
+import {ProjectService} from "../../services/project.service";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
 import {Filters} from "../../shared/models/filters.model";
-import {MarkerService} from "../module1/marker.service";
+import {MarkerService} from "../../services/marker.service";
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
 import {DOCUMENT} from "@angular/common";
+import {MapComponent} from "../../shared/components/map/map.component";
 declare let L;
 
 @Component({
@@ -21,9 +22,10 @@ export class ProjectsComponent implements AfterViewInit {
     public projects: Project[] = [];
     public myForm: FormGroup;
     public isLoading = false;
-    public map;
+    public isNotResultsTab = false;
     public loadedDataPoints = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MapComponent) map: MapComponent;
 
     constructor(private projectService: ProjectService,
                 private formBuilder: FormBuilder,
@@ -92,9 +94,7 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        if (!this._route.snapshot.queryParamMap.keys.length) {
-            this.onMapModalAnimationEnd();
-        }
+
     }
 
     private getProjectList(){
@@ -117,19 +117,6 @@ export class ProjectsComponent implements AfterViewInit {
             queryParams: this.getFormValues(),
             queryParamsHandling: 'merge'
         });
-    }
-
-    onMapModalAnimationEnd(){
-        if (!this.map) {
-            this.map = L.map('map-inside').setView([48, 4], 5);
-            const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-                    '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
-            });
-            tiles.addTo(this.map);
-            //this.markerService.makeMarkers(this.map);
-        }
-        setTimeout(() => {this.map.invalidateSize(true)},100);
     }
 
     onPaginate(event){
@@ -177,8 +164,9 @@ export class ProjectsComponent implements AfterViewInit {
 
     onTabSelected(event){
         if(event.label == "Map"){
-            this.onMapModalAnimationEnd();
+            this.map.refreshView();
         }
+        this.isNotResultsTab = event.label != "Results";
     }
 
 

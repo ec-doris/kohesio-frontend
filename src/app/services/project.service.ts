@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { HttpHeaders } from '@angular/common/http';
-import {Project} from "./shared/models/project.model";
+import {Project} from "../shared/models/project.model";
 import {map} from 'rxjs/operators';
 import {Observable} from 'rxjs';
-import {Filters} from "./shared/models/filters.model";
-import {environment} from "../environments/environment";
-import {ProjectDetail} from "./shared/models/project-detail.model";
+import {Filters} from "../shared/models/filters.model";
+import {environment} from "../../environments/environment";
+import {ProjectDetail} from "../shared/models/project-detail.model";
 
 @Injectable({
   providedIn: 'root'

@@ -13,13 +13,16 @@ export class ProjectDetail implements Deserializable{
     cofinancingRate: string;
     source: string;
     objectiveLabel: string;
-    beneficiariesNames: [];
+    beneficiaries: [any];
     startTime: Date;
     euBudget: string;
     endTime: Date;
-    beneficiariesName: [];
     budget: string;
     programLabel: string;
+    managingAuthorityLabel: string;
+    fundLabel: string;
+    countryCode: string;
+    objectiveId: string;
 
     deserialize(input: any): this {
         return Object.assign(this, input);

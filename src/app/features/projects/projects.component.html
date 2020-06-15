@@ -45,7 +45,7 @@
             <ux-tab label="Results">
                 <div class="loading" *ngIf="isLoading">Loading...</div>
                 <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
-                <div class="article--post__wrapper">
+                <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0 && !isLoading">
                     <article class="article--post" *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
                         <header>
                             <div class="article--post__image">
@@ -103,7 +103,7 @@
                 Audio-visual
             </ux-tab>
             <ux-tab label="Map">
-                    <div id="map-inside"></div>
+                <app-map></app-map>
             </ux-tab>
             <uxTabsRightContent>
                 <mat-paginator [length]="projects.length"
@@ -111,7 +111,7 @@
                                [hidePageSize]="true"
                                [pageSizeOptions]="[15, 30, 60]"
                                (page)="onPaginate($event)"
-                               [hidden]="isLoading">
+                               [hidden]="isLoading || isNotResultsTab">
                 </mat-paginator>
                 <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
             </uxTabsRightContent>
