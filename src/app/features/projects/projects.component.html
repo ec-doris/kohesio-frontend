@@ -70,7 +70,7 @@
                                     <li class="article--post__theme">
                                         <span class="icon">
                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                        </span> {{projectService.getThemeLabel(project.objectiveId)}}
+                                        </span> {{filterService.getThemeLabel(project.objectiveId)}}
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
@@ -106,10 +106,9 @@
                 <app-map></app-map>
             </ux-tab>
             <uxTabsRightContent>
-                <mat-paginator [length]="projects.length"
+                <mat-paginator [length]="count"
                                [pageSize]="15"
                                [hidePageSize]="true"
-                               [pageSizeOptions]="[15, 30, 60]"
                                (page)="onPaginate($event)"
                                [hidden]="isLoading || isNotResultsTab">
                 </mat-paginator>

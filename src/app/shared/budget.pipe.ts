@@ -30,13 +30,14 @@ export class BudgetPipe implements PipeTransform {
 
     }
     isNumeric(value): boolean {
-        if (value < 0) value = value * -1;
+        /*if (value < 0) value = value * -1;
         if (/^-{0,1}\d+$/.test(value)) {
             return true;
         } else if (/^\d+\.\d+$/.test(value)) {
             return true;
         } else {
             return false;
-        }
+        }*/
+        return !isNaN(value - parseFloat(value));
     }
 }

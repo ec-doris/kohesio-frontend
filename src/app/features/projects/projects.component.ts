@@ -9,6 +9,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
 import {DOCUMENT} from "@angular/common";
 import {MapComponent} from "../../shared/components/map/map.component";
+import {FilterService} from "../../services/filter.service";
+import {ProjectList} from "../../shared/models/project-list.model";
 declare let L;
 
 @Component({
@@ -20,14 +22,17 @@ export class ProjectsComponent implements AfterViewInit {
     public regions: any[] = [];
     public themes: any[] = [];
     public projects: Project[] = [];
+    public count = 0;
     public myForm: FormGroup;
     public isLoading = false;
     public isNotResultsTab = false;
     public loadedDataPoints = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
+    public selectedTabIndex:number = 1;
 
     constructor(private projectService: ProjectService,
+                private filterService: FilterService,
                 private formBuilder: FormBuilder,
                 private uxService:UxService,
                 private markerService:MarkerService,
@@ -43,7 +48,7 @@ export class ProjectsComponent implements AfterViewInit {
             theme: [this._route.snapshot.queryParamMap.get('topics')],
             keywords: this._route.snapshot.queryParamMap.get('keywords')
         });
-        this.projectService.getFilters().then(result=>{
+        this.filterService.getFilters().then(result=>{
 
             //Countries
             for (let country of result.countries){
@@ -57,7 +62,7 @@ export class ProjectsComponent implements AfterViewInit {
             }
             if (this._route.snapshot.queryParamMap.get('country')){
                 this.myForm.patchValue({
-                    country: this.projectService.getFilterKey("countries",this._route.snapshot.queryParamMap.get('country'))
+                    country: this.filterService.getFilterKey("countries",this._route.snapshot.queryParamMap.get('country'))
                 });
                 this.getRegions();
             }
@@ -73,13 +78,13 @@ export class ProjectsComponent implements AfterViewInit {
             }
             if (this._route.snapshot.queryParamMap.get('theme')){
                 this.myForm.patchValue({
-                    theme: this.projectService.getFilterKey("themes", this._route.snapshot.queryParamMap.get('theme'))
+                    theme: this.filterService.getFilterKey("themes", this._route.snapshot.queryParamMap.get('theme'))
                 });
             }
             if (this._route.snapshot.queryParamMap.get('region')){
                 this.getRegions().then(regions=>{
                     this.myForm.patchValue({
-                        region: this.projectService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
+                        region: this.filterService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
                     });
                     this.getProjectList();
                 });
@@ -100,10 +105,14 @@ export class ProjectsComponent implements AfterViewInit {
     private getProjectList(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.projectService.getProjects(filters).subscribe((result:Project[]) => {
-            this.projects = result;
+        this.projectService.getProjects(filters).subscribe((result:ProjectList) => {
+            this.projects = result.list;
+            this.count = result.numberResults;
             this.isLoading = false;
             this.paginator.firstPage();
+            if (this.selectedTabIndex == 3){
+                this.createMarkers();
+            }
         });
     }
 
@@ -133,9 +142,9 @@ export class ProjectsComponent implements AfterViewInit {
     getFormValues(){
         return {
             keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
-            country: this.projectService.getFilterLabel("countries", this.myForm.value.country),
-            region: this.projectService.getFilterLabel("regions", this.myForm.value.region),
-            theme: this.projectService.getFilterLabel("themes", this.myForm.value.theme)
+            country: this.filterService.getFilterLabel("countries", this.myForm.value.country),
+            region: this.filterService.getFilterLabel("regions", this.myForm.value.region),
+            theme: this.filterService.getFilterLabel("themes", this.myForm.value.theme)
         }
     }
 
@@ -148,7 +157,7 @@ export class ProjectsComponent implements AfterViewInit {
 
     getRegions(): Promise<any>{
         return new Promise((resolve, reject) => {
-            this.projectService.getRegions(this.myForm.value.country).subscribe(regions => {
+            this.filterService.getRegions(this.myForm.value.country).subscribe(regions => {
                 this.regions = [];
                 for (let region of regions) {
                     let regionId = region[0];
@@ -165,8 +174,23 @@ export class ProjectsComponent implements AfterViewInit {
     onTabSelected(event){
         if(event.label == "Map"){
             this.map.refreshView();
+            this.createMarkers();
+            this.selectedTabIndex = event.index;
         }
         this.isNotResultsTab = event.label != "Results";
+    }
+
+    createMarkers(){
+        this.map.removeAllMarkers();
+        for(let project of this.projects){
+            if (project.coordinates && project.coordinates.length) {
+                project.coordinates.forEach(coords=>{
+                    const coordinates = coords.split(",");
+                    const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
+                    this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                })
+            }
+        }
     }
 
 

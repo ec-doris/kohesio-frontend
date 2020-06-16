@@ -1,0 +1,18 @@
+mat-table{
+}
+
+mat-row{
+    padding: 5px;
+}
+mat-header-row{
+    padding-left: 10px;
+}
+
+mat-header-cell.mat-column-name,
+mat-cell.mat-column-name{
+    flex: 3;
+
+    img{
+        margin-right: 5px;
+    }
+}
