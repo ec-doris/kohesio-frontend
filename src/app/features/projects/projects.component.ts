@@ -10,6 +10,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {DOCUMENT} from "@angular/common";
 import {MapComponent} from "../../shared/components/map/map.component";
 import {FilterService} from "../../services/filter.service";
+import {ProjectList} from "../../shared/models/project-list.model";
 declare let L;
 
 @Component({
@@ -21,6 +22,7 @@ export class ProjectsComponent implements AfterViewInit {
     public regions: any[] = [];
     public themes: any[] = [];
     public projects: Project[] = [];
+    public count = 0;
     public myForm: FormGroup;
     public isLoading = false;
     public isNotResultsTab = false;
@@ -103,8 +105,9 @@ export class ProjectsComponent implements AfterViewInit {
     private getProjectList(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.projectService.getProjects(filters).subscribe((result:Project[]) => {
-            this.projects = result;
+        this.projectService.getProjects(filters).subscribe((result:ProjectList) => {
+            this.projects = result.list;
+            this.count = result.numberResults;
             this.isLoading = false;
             this.paginator.firstPage();
             if (this.selectedTabIndex == 3){
@@ -180,9 +183,12 @@ export class ProjectsComponent implements AfterViewInit {
     createMarkers(){
         this.map.removeAllMarkers();
         for(let project of this.projects){
-            if (project.coordinates && project.coordinates.length > 1) {
-                const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
-                this.map.addMarkerPopup(project.coordinates[1], project.coordinates[0], popupContent);
+            if (project.coordinates && project.coordinates.length) {
+                project.coordinates.forEach(coords=>{
+                    const coordinates = coords.split(",");
+                    const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
+                    this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                })
             }
         }
     }

@@ -106,10 +106,9 @@
                 <app-map></app-map>
             </ux-tab>
             <uxTabsRightContent>
-                <mat-paginator [length]="projects.length"
+                <mat-paginator [length]="count"
                                [pageSize]="15"
                                [hidePageSize]="true"
-                               [pageSizeOptions]="[15, 30, 60]"
                                (page)="onPaginate($event)"
                                [hidden]="isLoading || isNotResultsTab">
                 </mat-paginator>
