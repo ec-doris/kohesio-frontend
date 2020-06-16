@@ -36,4 +36,8 @@ export class ProjectDetailComponent implements AfterViewInit {
         });
     }
 
+    openWiki(event){
+        window.open("https://linkedopendata.eu/wiki/Item:" + this.project.item);
+    }
+
 }

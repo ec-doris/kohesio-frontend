@@ -1,180 +1,186 @@
-<div class="prjt-detalis">
-    <ux-layout-page-column size="xxxl" [isCollapsible]="false">
-        <!-- Box 1 -->
-        <div class="prjt-box prjt-box--grey">
-            <span class="prjt-box--title">project info</span>
-            <div class="prjt-box--content">
-                <span>Start time: </span>
-                <span>
-                    <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
-                </span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>End time: </span>
-                <span>
-                    <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
-                </span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Managing authority name: </span>
-                <a src="#" title="link to managing authority">{{project?.managingAuthorityLabel}}</a>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Original source: </span>
-                <a src="#" title="link to project"></a>{{project?.source}}
-            </div>
-        </div>
-
-        <!-- Box 2 -->
-        <div class="prjt-box prjt-box--grey">
-            <span class="prjt-box--title">funding</span>
-            <div class="prjt-box--content">
-                <span>Fund: </span>
-                <span>{{project?.fundLabel}}</span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Programming period: </span>
-                <span>2014-2021</span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Programme: </span>
-                <span>{{project?.programLabel}}</span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Total budget: </span>
-                <span>€ {{project?.budget}}</span>
-            </div>
-
-            <div class="prjt-box--content">
-                <span>Funded by EU: </span>
-                <span>€ {{project?.euBudget}}</span>
-            </div>
-        </div>
-
-        <!-- Box 3 -->
-        <div class="prjt-box prjt-box--grey">
-            <span class="prjt-box--title">themes</span>
-            <div class="prjt-box--content">
-                <span>{{project?.objectiveLabel}}</span>
-            </div>
-        </div>
-
-        <!-- Box 4 -->
-        <div class="prjt-box prjt-box--grey">
-            <span class="prjt-box--title">category of intervention</span>
-            <div class="prjt-box--content">
-                <p>{{project?.categoryLabel}}</p>
-            </div>
-        </div>
-
-        <!-- Box 5 -->
-        <div class="prjt-box prjt-box--grey">
-            <span class="prjt-box--title">beneficiary</span>
-            <div class="prjt-box--content">
-                <span>Beneficiary name: </span>
-                <span *ngIf="project?.beneficiaries && project?.beneficiaries.length">€ {{project?.beneficiaries[0].beneficiaryLabel}}</span>
-            </div>
-            <div class="prjt-box--content">
-                <span>Beneficiary: </span>
-                <span></span>
-            </div>
-        </div>
-
-    </ux-layout-page-column>
-
-    <ux-layout-page-column>
-        <div class="article--post__wrapper">
-            <article class="article--post">
-                <header>
-                    <div class="article--post__image">
-                        <figure role="presentation" class="prj-image">
-                            <a href="#" class="prj-image--link">
-                                <div class="prj-image--wrapper">
-                                    <img [src]="project?.images[0].replace('image=','')" alt="" class="prj-image--image" *ngIf="project?.images && project?.images.length">
-                                    <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
-                                        <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
-                                    </div>
-                                </div>
-                            </a>
-                            <footer><small>©Société de Gestion de la Station des Rousses, SAEM SOGESTAR / Benjamin Becker (2017)</small></footer>
-                        </figure>
-                    </div>
-                </header>
-                <div class="article--post__inner">
-                    <h1 class="article--post__title">
-                        <a href="#" title="project title">{{project?.label}}</a>
-                    </h1>
-                    <div class="article--post__content">
-                        <p class="article--post__teaser">{{project?.description}}</p>
-                    </div>
-
-                    <div class="social-icons__wrapper">
-                        <span class="title">share: </span>
-                        <ul class="social-icons">
-                            <li>
-                                <a href="https://twitter.com/">
-                                    <span>Twitter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://plus.google.com/‎">
-                                    <span>Google+</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.facebook.com/">
-                                    <span>Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://github.com/">
-                                    <span>GitHub</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.linkedin.com/">
-                                    <span>LinkedIn</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="http://dribbble.com/">
-                                    <span>Dribbble</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="/rss">
-                                    <span>RSS</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </article>
-        </div>
-
-        <div class="map__wrapper">
-            <h2 class="title">
-                <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
-                IN [THE REGION]
-            </h2>
-            <app-map></app-map>
-        </div>
-
-        <!-- Box large 1 -->
-        <div class="prjt-box__large">
+<div class="project-detail-main">
+    <div class="project-detail-right-content">
+        <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
+    </div>
+    <div class="prjt-detalis">
+        <ux-layout-page-column size="xxxl" [isCollapsible]="false">
+            <!-- Box 1 -->
             <div class="prjt-box prjt-box--grey">
-                <h2 class="prjt-box--title">related materials</h2>
+                <span class="prjt-box--title">project info</span>
                 <div class="prjt-box--content">
-                    <span>Image & Videos</span>
-                    <span>Communication campaign</span>
+                    <span>Start time: </span>
+                    <span>
+                        <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                    </span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>End time: </span>
+                    <span>
+                        <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                    </span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Managing authority name: </span>
+                    <a src="#" title="link to managing authority">{{project?.managingAuthorityLabel}}</a>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Original source: </span>
+                    <a [href]="project?.source">{{project?.source}}</a>
                 </div>
             </div>
-        </div>
-    </ux-layout-page-column>
+
+            <!-- Box 2 -->
+            <div class="prjt-box prjt-box--grey">
+                <span class="prjt-box--title">funding</span>
+                <div class="prjt-box--content">
+                    <span>Fund: </span>
+                    <span>{{project?.fundLabel}}</span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Programming period: </span>
+                    <span>2014-2021</span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Programme: </span>
+                    <span>{{project?.programLabel}}</span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Total budget: </span>
+                    <span>{{project?.budget | budget}}</span>
+                </div>
+
+                <div class="prjt-box--content">
+                    <span>Funded by EU: </span>
+                    <span>{{project?.euBudget | budget}} ({{project?.cofinancingRate}}%)</span>
+                </div>
+            </div>
+
+            <!-- Box 3 -->
+            <div class="prjt-box prjt-box--grey">
+                <span class="prjt-box--title">themes</span>
+                <div class="prjt-box--content">
+                    <span>{{project?.objectiveLabel}}</span>
+                </div>
+            </div>
+
+            <!-- Box 4 -->
+            <div class="prjt-box prjt-box--grey">
+                <span class="prjt-box--title">category of intervention</span>
+                <div class="prjt-box--content">
+                    <p>{{project?.categoryLabel}}</p>
+                </div>
+            </div>
+
+            <!-- Box 5 -->
+            <div class="prjt-box prjt-box--grey">
+                <span class="prjt-box--title">beneficiary</span>
+                <div class="prjt-box--content">
+                    <span>Beneficiary name: </span>
+                    <span *ngIf="project?.beneficiaries && project?.beneficiaries.length">{{project?.beneficiaries[0].beneficiaryLabel}}</span>
+                </div>
+                <div class="prjt-box--content">
+                    <span>Beneficiary: </span>
+                    <span></span>
+                </div>
+            </div>
+
+        </ux-layout-page-column>
+
+        <ux-layout-page-column>
+
+            <div class="article--post__wrapper">
+                <article class="article--post">
+                    <header>
+                        <div class="article--post__image">
+                            <figure role="presentation" class="prj-image">
+                                <!--<a href="#" class="prj-image&#45;&#45;link">-->
+                                    <div class="prj-image--wrapper">
+                                        <img [src]="project?.images[0].replace('image=','')" alt="" class="prj-image--image" *ngIf="project?.images && project?.images.length">
+                                        <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
+                                            <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
+                                        </div>
+                                    </div>
+                                <!--</a>-->
+                                <footer><small>©Société de Gestion de la Station des Rousses, SAEM SOGESTAR / Benjamin Becker (2017)</small></footer>
+                            </figure>
+                        </div>
+                    </header>
+                    <div class="article--post__inner">
+                        <h1 class="article--post__title">
+                            <a href="#" title="project title">{{project?.label}}</a>
+                        </h1>
+                        <div class="article--post__content">
+                            <p class="article--post__teaser">{{project?.description}}</p>
+                        </div>
+
+                        <div class="social-icons__wrapper">
+                            <span class="title">share: </span>
+                            <ul class="social-icons">
+                                <li>
+                                    <a href="https://twitter.com/">
+                                        <span>Twitter</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://plus.google.com/‎">
+                                        <span>Google+</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.facebook.com/">
+                                        <span>Facebook</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://github.com/">
+                                        <span>GitHub</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="https://www.linkedin.com/">
+                                        <span>LinkedIn</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="http://dribbble.com/">
+                                        <span>Dribbble</span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="/rss">
+                                        <span>RSS</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="map__wrapper">
+                <h2 class="title">
+                    <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
+                    IN [THE REGION]
+                </h2>
+                <app-map></app-map>
+            </div>
+
+            <!-- Box large 1 -->
+            <div class="prjt-box__large">
+                <div class="prjt-box prjt-box--grey">
+                    <h2 class="prjt-box--title">related materials</h2>
+                    <div class="prjt-box--content">
+                        <span>Image & Videos</span>
+                        <span>Communication campaign</span>
+                    </div>
+                </div>
+            </div>
+        </ux-layout-page-column>
+    </div>
 </div>
