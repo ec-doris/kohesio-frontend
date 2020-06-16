@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {Filters} from "../shared/models/filters.model";
 import {environment} from "../../environments/environment";
 import {ProjectDetail} from "../shared/models/project-detail.model";
+import {ProjectList} from "../shared/models/project-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class ProjectService {
 
     constructor(private http: HttpClient) { }
 
-    getProjects(filters:Filters): Observable<Project[]>  {
+    getProjects(filters:Filters): Observable<ProjectList>  {
         const urlProjects = environment.api;
         let params = {};
         for (const filter in filters){
@@ -35,11 +36,9 @@ export class ProjectService {
         return this.http.get<any>(urlProjects,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){
-                    return [];
+                    return null;
                 }else {
-                    return data.map(data => {
-                        return new Project().deserialize(data);
-                    });
+                    return new ProjectList().deserialize(data);
                 }
             })
         );
