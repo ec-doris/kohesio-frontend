@@ -14,7 +14,30 @@ export class BeneficiaryService {
     constructor(private http: HttpClient) { }
 
     getBeneficiaries(filters:Filters): Observable<Beneficiary[]>  {
-        const urlProjects = environment.api + "/search/beneficiaries";
+        const url = environment.api + "/search/beneficiaries";
+        let params = this.buildParameters(filters);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    return [];
+                }else {
+                    return data.map(data => {
+                        return new Beneficiary().deserialize(data);
+                    });
+                }
+            })
+        );
+    }
+
+    getCSV(filters: Filters):Observable<any>{
+        const url = environment.api + "/search/beneficiaries/csv";
+        let params = this.buildParameters(filters);
+        return this.http.get(url,{
+            responseType: 'arraybuffer',params:params}
+        );
+    }
+
+    buildParameters(filters: Filters){
         let params = {};
         for (const filter in filters){
             if (filters[filter] && filter != 'deserialize') {
@@ -31,17 +54,7 @@ export class BeneficiaryService {
                 }
             }
         }
-        return this.http.get<any>(urlProjects,{ params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    return [];
-                }else {
-                    return data.map(data => {
-                        return new Beneficiary().deserialize(data);
-                    });
-                }
-            })
-        );
+        return params;
     }
 
 }

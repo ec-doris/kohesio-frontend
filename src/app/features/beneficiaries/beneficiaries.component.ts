@@ -123,4 +123,30 @@ export class BeneficiariesComponent implements AfterViewInit {
         });
     }
 
+    getCSV(){
+        const filters = new Filters().deserialize(this.myForm.value);
+        this.beneficaryService.getCSV(filters).subscribe(response=>{
+
+            const newBlob = new Blob([response], { type: "text/csv" });
+            // IE doesn't allow using a blob object directly as link href
+            // instead it is necessary to use msSaveOrOpenBlob
+            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
+                window.navigator.msSaveOrOpenBlob(newBlob);
+                return;
+            }
+
+            const data = window.URL.createObjectURL(newBlob);
+
+            let link = document.createElement('a');
+            link.href = data;
+            link.download = "beneficiaries.csv";
+            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
+
+            setTimeout(function () {
+                window.URL.revokeObjectURL(data);
+                link.remove();
+            }, 100);
+        })
+    }
+
 }
