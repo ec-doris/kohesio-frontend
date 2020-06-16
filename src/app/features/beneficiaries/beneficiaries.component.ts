@@ -3,10 +3,10 @@ import {BeneficiaryService} from "../../services/beneficiary.service";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import { Router, ActivatedRoute } from '@angular/router';
 import {Filters} from "../../shared/models/filters.model";
-import {Beneficiary} from "../../shared/models/beneficiary.model";
-import {FilterService} from "../../services/filter.service";
 import { MatPaginator } from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
+import {Beneficiary} from "../../shared/models/beneficiary.model";
+import {FilterService} from "../../services/filter.service";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
