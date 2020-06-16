@@ -76,7 +76,7 @@
                                         <div class="article--post__amount--inner">
                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
-                                                <!--span class="euro">€</span--> {{ project.budget | budget}}
+                                                {{ project.budget | currency:'EUR'}}
                                                 <span class="support">Amount EU support</span>
                                             </span>
                                         </div>

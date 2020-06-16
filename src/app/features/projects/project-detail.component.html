@@ -52,12 +52,12 @@
 
                 <div class="prjt-box--content">
                     <span>Total budget: </span>
-                    <span>{{project?.budget | budget}}</span>
+                    <span>{{project?.budget | currency:'EUR'}}</span>
                 </div>
 
                 <div class="prjt-box--content">
                     <span>Funded by EU: </span>
-                    <span>{{project?.euBudget | budget}} ({{project?.cofinancingRate}}%)</span>
+                    <span>{{project?.euBudget | currency:'EUR'}} ({{project?.cofinancingRate}}%)</span>
                 </div>
             </div>
 
