@@ -1,12 +1,15 @@
 <ux-carousel-items>
     <ux-carousel-item>
         <img style="width:100%;" src="assets/images/banners/banner1.png">
+        <p class="carousel-title"><span>european union supports projects in all regions to make europe stronger</span></p>
     </ux-carousel-item>
     <ux-carousel-item>
         <img style="width:100%;" src="assets/images/banners/banner2.png">
+        <p class="carousel-title"><span>Title project</span></p>
     </ux-carousel-item>
     <ux-carousel-item>
         <img style="width:100%;" src="assets/images/banners/banner3.png">
+        <p class="carousel-title"><span>Title project</span></p>
     </ux-carousel-item>
 </ux-carousel-items>
 <div class="section-container">
@@ -50,20 +53,22 @@
                     Greener and carbon free Europe
                 </a>
             </div>
+
             <div class="theme-categories">
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-carbon-economy'}">Low carbon economy</a></div>
                     <div class="number">17.302 projects</div>
+                    <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-change-adaptation-and-risk-management'}">Climate change adaptation and risk management</a></div>
                     <div class="number">2.514 projects</div>
+                    <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-and-resource-efficiency'}">Environment and resource efficiency</a></div>
-                    <div class="number">
-                        11.410 projects
-                    </div>
+                    <div class="number">11.410 projects</div>
+                    <hr class="vertical-line">
                 </div>
             </div>
         </div>

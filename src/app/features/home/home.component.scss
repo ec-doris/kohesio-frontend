@@ -27,6 +27,27 @@
     margin-top: -50px;
 }
 
+/**
+ * Carousel title
+ **/
+.carousel-title {
+    font-size: 28px;
+    line-height: 45px;
+    width: 48%;
+    text-transform: uppercase;
+    text-align: left;
+    position: absolute;
+    top: 30%;
+    left: 15%;
+
+      span {
+        display: inline;
+        background: rgba(0, 0, 0, .7);
+        color: white;
+        padding: 0.25rem;
+      }
+}
+
 .section-container {
     display: flex;
     margin-top: 45px;
@@ -116,12 +137,13 @@ h2 {
             .theme-category-card {
                 box-shadow: 0px 3px 6px #00000029;
                 padding: 35px 25px;
-                display: flex;
+                // display: flex;
                 flex-direction: column;
                 background-color: white;
                 border-radius: 6px;
                 margin-right: 10px;
-                flex: 1;
+                width: 33%;
+                // flex: 1;
 
                 .title {
                     color: #404040;
@@ -135,19 +157,29 @@ h2 {
                     position: relative;
                     color: #002F67;
                     font-size: 10px;
-                    display: flex;
-                    align-items: flex-end;
-                    flex: 1;
+                    // display: flex;
+                    // align-items: flex-end;
+                    // flex: 1;
 
-                    &:after {
-                        content: "";
-                        position: absolute;
-                        right: 0;
-                        top: 6px;
-                        height: 1px;
-                        width: 15vw;
-                        background: #002F67;
-                    }
+                    width: 25%;
+                    float: left;
+                    margin-right: .5rem;
+
+                    // &:after {
+                    //     content: "";
+                    //     position: absolute;
+                    //     right: 0;
+                    //     top: 6px;
+                    //     height: 1px;
+                    //     width: 15vw;
+                    //     background: #002F67;
+                    // }
+                }
+
+                .vertical-line {
+                    width: calc(75% - .5rem);
+                    float: right;
+                    margin: 5px 0 0 0;
                 }
             }
         }
@@ -155,6 +187,6 @@ h2 {
     }
 }
 
-#map-inside{
+#map-inside {
     height: 350px;
 }
