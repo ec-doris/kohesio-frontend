@@ -55,6 +55,7 @@
     #figures, #my-region{
         flex:1;
     }
+
     #figures{
         margin-right: 60px;
     }
@@ -72,8 +73,8 @@
             }
         }
     }
-
 }
+
 h2 {
     font-size: 32px;
     color: #002F67;
@@ -82,6 +83,7 @@ h2 {
 
 #themes {
     margin-top: 45px;
+    min-height: 400px;
 
     .theme-division {
         display: flex;
@@ -137,13 +139,11 @@ h2 {
             .theme-category-card {
                 box-shadow: 0px 3px 6px #00000029;
                 padding: 35px 25px;
-                // display: flex;
                 flex-direction: column;
                 background-color: white;
                 border-radius: 6px;
                 margin-right: 10px;
                 width: 33%;
-                // flex: 1;
 
                 .title {
                     color: #404040;
@@ -157,23 +157,10 @@ h2 {
                     position: relative;
                     color: #002F67;
                     font-size: 10px;
-                    // display: flex;
-                    // align-items: flex-end;
-                    // flex: 1;
 
                     width: 25%;
                     float: left;
                     margin-right: .5rem;
-
-                    // &:after {
-                    //     content: "";
-                    //     position: absolute;
-                    //     right: 0;
-                    //     top: 6px;
-                    //     height: 1px;
-                    //     width: 15vw;
-                    //     background: #002F67;
-                    // }
                 }
 
                 .vertical-line {
