@@ -469,6 +469,17 @@
                 height: 36px;
             }
         }
+
+        .prj-image--image {
+            img {
+                width: 87px;
+                height: 87px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 12px;
+            }
+        }
     }
 
     &__inner {
@@ -649,6 +660,13 @@
 
             .topic {
                 height: 84px;
+            }
+
+            .prj-image--image {
+                img {
+                    width: 154px;
+                    height: 154px;
+                }
             }
 
             .prj-image {

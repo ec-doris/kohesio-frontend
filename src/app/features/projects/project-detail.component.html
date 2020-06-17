@@ -115,7 +115,9 @@
                             <figure role="presentation" class="prj-image">
                                 <!--<a href="#" class="prj-image&#45;&#45;link">-->
                                     <div class="prj-image--wrapper">
-                                        <img [src]="project?.images[0].replace('image=','')" alt="" class="prj-image--image" *ngIf="project?.images && project?.images.length">
+                                        <div class="prj-image--image">
+                                            <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
+                                        </div>
                                         <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
                                             <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                         </div>
