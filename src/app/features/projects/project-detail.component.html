@@ -96,8 +96,11 @@
                 </div>
                 <div class="prjt-box--content">
                     <span>Website: </span>
-                    <span><a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].link"
-                             [href]="project.beneficiaries[0].link" target="_blank">link</a></span>
+                    <span>
+                        <ng-container *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].link">n/a</ng-container>
+                        <a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].link"
+                             [href]="project.beneficiaries[0].link" target="_blank">link</a>
+                    </span>
                 </div>
             </div>
 

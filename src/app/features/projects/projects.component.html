@@ -52,7 +52,7 @@
                                 <figure role="presentation" class="prj-image">
                                     <a href="#" class="prj-image--link">
                                         <div class="prj-image--wrapper">
-                                            <img src="#" alt="#" class="prj-image--image" *ngIf="project.images && project.images.length">
+                                            <img [src]="project.images[0]" class="prj-image--image" *ngIf="project.images && project.images.length">
                                             <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
                                                 <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                             </div>
