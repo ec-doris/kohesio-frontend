@@ -1198,3 +1198,30 @@
         max-height: 270px;
     }
 }
+
+
+/**
+ * 404
+ **/
+.project-404 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    .title {
+        font-size: 250px;
+        font-weight: bold;
+        color: #F1F9FF;
+    }
+
+    .description {
+        font-size: 2rem;
+        margin: 2rem;
+        color: #002F67;
+    }
+
+    .btn {
+        text-transform: uppercase;
+    }
+}
