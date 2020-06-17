@@ -108,7 +108,13 @@
                 </div>
             </ux-tab>
             <ux-tab label="Audio-visual">
-                Audio-visual
+                <div class="audio-visual-container">
+                    <ng-container *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                        <a [routerLink]="['/projects/' + project.item]">
+                            <img *ngIf="project.images && project.images.length" [src]="project.images[0]">
+                        </a>
+                    </ng-container>
+                </div>
             </ux-tab>
             <ux-tab label="Map">
                 <app-map></app-map>

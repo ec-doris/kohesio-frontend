@@ -26,7 +26,7 @@ export class ProjectsComponent implements AfterViewInit {
     public count = 0;
     public myForm: FormGroup;
     public isLoading = false;
-    public isNotResultsTab = false;
+    public isMapTab = false;
     public loadedDataPoints = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
@@ -205,8 +205,10 @@ export class ProjectsComponent implements AfterViewInit {
             this.map.refreshView();
             this.createMarkers();
             this.selectedTabIndex = event.index;
+            this.isMapTab = true;
+        }else{
+            this.isMapTab = false;
         }
-        this.isNotResultsTab = event.label != "Results";
     }
 
     createMarkers(){
