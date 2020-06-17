@@ -13,6 +13,7 @@ import {ProjectDetail} from "../shared/models/project-detail.model";
 export class FilterService {
 
     private filters:any;
+    private countryGeoJson;
 
     constructor(private http: HttpClient) { }
 
@@ -107,19 +108,24 @@ export class FilterService {
 
     getCountryGeoJson(): Promise<any>{
         return new Promise((resolve, reject) => {
-            fetch('assets/data/countriesGeoJson.json')
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error("HTTP error " + response.status);
-                    }
-                    return response.json();
-                })
-                .then(json => {
-                    resolve(json);
-                })
-                .catch(function () {
-                    reject("error getting filters");
-                });
+            if (this.countryGeoJson) {
+                resolve(this.countryGeoJson);
+            }else {
+                fetch('assets/data/countriesGeoJson.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("HTTP error " + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(json => {
+                        this.countryGeoJson = json;
+                        resolve(json);
+                    })
+                    .catch(function () {
+                        reject("error getting filters");
+                    });
+            }
         });
     }
 

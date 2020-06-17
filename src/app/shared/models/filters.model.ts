@@ -7,6 +7,7 @@ export class Filters implements Deserializable{
     public country: String;
     public region: String;
     public theme: String;
+    public policyObjective: String;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -15,6 +16,7 @@ export class Filters implements Deserializable{
             region: input.region ? input.region : undefined,
             theme: input.theme ? input.theme : undefined,
             name: input.name ? input.name : undefined,
+            policyObjective: input.policyObjective ? input.policyObjective : undefined
         });
     }
 }

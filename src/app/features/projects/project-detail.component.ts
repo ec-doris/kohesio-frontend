@@ -32,6 +32,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                 this.map.addMarker(coords[1],coords[0]);
             }
             this.map.refreshView();
+        }else{
+            this.map.addCountryLayer(this.project.countryLabel);
         }
     }
 

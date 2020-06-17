@@ -21,6 +21,7 @@ export class ProjectsComponent implements AfterViewInit {
     public countries: any[] = [];
     public regions: any[] = [];
     public themes: any[] = [];
+    public policyObjectives:any[] = [];
     public projects: Project[] = [];
     public count = 0;
     public myForm: FormGroup;
@@ -44,8 +45,9 @@ export class ProjectsComponent implements AfterViewInit {
     ngOnInit(){
         this.myForm = this.formBuilder.group({
             country: [this._route.snapshot.queryParamMap.get('country')],
-            region: [this._route.snapshot.queryParamMap.get('regions')],
-            theme: [this._route.snapshot.queryParamMap.get('topics')],
+            region: [this._route.snapshot.queryParamMap.get('region')],
+            policyObjective: [this._route.snapshot.queryParamMap.get('policyObjective')],
+            theme: [this._route.snapshot.queryParamMap.get('theme')],
             keywords: this._route.snapshot.queryParamMap.get('keywords')
         });
         this.filterService.getFilters().then(result=>{
@@ -65,6 +67,20 @@ export class ProjectsComponent implements AfterViewInit {
                     country: this.filterService.getFilterKey("countries",this._route.snapshot.queryParamMap.get('country'))
                 });
                 this.getRegions();
+            }
+            //Policy objectives
+            for (let topic of result.policyObjectives){
+                let topicId= topic[0];
+                this.policyObjectives.push({
+                    id: topicId,
+                    value: topic[1],
+                    iconClass: 'topic-icon ' + topicId
+                })
+            }
+            if (this._route.snapshot.queryParamMap.get('policyObjective')){
+                this.myForm.patchValue({
+                    policyObjective: this.filterService.getFilterKey("policyObjectives", this._route.snapshot.queryParamMap.get('policyObjective'))
+                });
             }
             //Themes
             for (let topic of result.themes){
@@ -144,7 +160,8 @@ export class ProjectsComponent implements AfterViewInit {
             keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
             country: this.filterService.getFilterLabel("countries", this.myForm.value.country),
             region: this.filterService.getFilterLabel("regions", this.myForm.value.region),
-            theme: this.filterService.getFilterLabel("themes", this.myForm.value.theme)
+            theme: this.filterService.getFilterLabel("themes", this.myForm.value.theme),
+            policyObjective: this.filterService.getFilterLabel("policyObjectives", this.myForm.value.policyObjective),
         }
     }
 
@@ -152,6 +169,18 @@ export class ProjectsComponent implements AfterViewInit {
         this.getRegions();
         this.myForm.patchValue({
             region: null
+        });
+    }
+
+    onPolicyObjectivesChange(){
+        this.myForm.patchValue({
+            theme: null
+        });
+    }
+
+    onThemeChange(){
+        this.myForm.patchValue({
+            policyObjective: null
         });
     }
 

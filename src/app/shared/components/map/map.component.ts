@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import {MarkerService} from "../../../services/marker.service";
+import {FilterService} from "../../../services/filter.service";
 declare let L;
 
 @Component({
@@ -12,7 +13,8 @@ export class MapComponent implements AfterViewInit {
     private markersGroup;
 
 
-    constructor(private markerService:MarkerService) { }
+    constructor(private markerService:MarkerService,
+                private filterService:FilterService) { }
 
     ngAfterViewInit(): void {
         this.map = L.map('map').setView([48, 4], 5);
@@ -67,8 +69,20 @@ export class MapComponent implements AfterViewInit {
         this.addMarker(latitude, longitude, false, 15, popupContent)
     }
 
-    public addCountryLayer(country){
-
+    public addCountryLayer(countryLabel: string){
+        let countryGeoJson = undefined;
+        this.filterService.getCountryGeoJson().then(data=>{
+           data.forEach(country=>{
+               if (country.properties.name === countryLabel){
+                   countryGeoJson = country
+               }
+            });
+            const countriesData = {
+                "type": "FeatureCollection",
+                "features": [countryGeoJson]
+            };
+            L.geoJson(countriesData).addTo(this.map);;
+        });
     }
 
     public refreshView(){
