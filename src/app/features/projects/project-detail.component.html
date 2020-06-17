@@ -11,6 +11,7 @@
                     <span>Start time: </span>
                     <span>
                         <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                        <ng-container *ngIf="!project?.startTime">n/a</ng-container>
                     </span>
                 </div>
 
@@ -18,6 +19,7 @@
                     <span>End time: </span>
                     <span>
                         <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                        <ng-container *ngIf="!project?.endTime">n/a</ng-container>
                     </span>
                 </div>
 
@@ -28,7 +30,8 @@
 
                 <div class="prjt-box--content">
                     <span>Original source: </span>
-                    <a [href]="project?.source">{{project?.source}}</a>
+                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link</a>
+                    <ng-container *ngIf="!project.source">n/a</ng-container>
                 </div>
             </div>
 
@@ -81,12 +84,20 @@
             <div class="prjt-box prjt-box--grey">
                 <span class="prjt-box--title">beneficiary</span>
                 <div class="prjt-box--content">
-                    <span>Beneficiary name: </span>
-                    <span *ngIf="project?.beneficiaries && project?.beneficiaries.length">{{project?.beneficiaries[0].beneficiaryLabel}}</span>
+                    <span>Name: </span>
+                    <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].wikidata">
+                        {{project?.beneficiaries[0].beneficiaryLabel}}
+                    </span>
+                    <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].wikidata">
+                        <a [href]="project?.beneficiaries[0].wikidata" target="_blank">
+                            {{project?.beneficiaries[0].beneficiaryLabel}}
+                        </a>
+                    </span>
                 </div>
                 <div class="prjt-box--content">
-                    <span>Beneficiary: </span>
-                    <span></span>
+                    <span>Website: </span>
+                    <span><a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].link"
+                             [href]="project.beneficiaries[0].link" target="_blank">link</a></span>
                 </div>
             </div>
 

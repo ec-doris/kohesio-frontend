@@ -19,25 +19,24 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private route: ActivatedRoute){}
 
     ngOnInit(){
+        this.project = this.route.snapshot.data.project;
     }
 
     ngAfterViewInit(): void {
-        this.projectService.getProjectDetail(this.route.snapshot.paramMap.get('id')).subscribe((project:ProjectDetail)=>{
-            this.project = project;
-            if (this.project.coordinates && this.project.coordinates.length) {
-                let coords: any;
-                // @ts-ignore
-                coords = project["coordinates"][0];
-                coords = coords.replace("Point(", "").replace(")", "").split(" ");
-                if (this.map){
-                    this.map.addMarker(coords[1],coords[0]);
-                }
+        if (this.project.coordinates && this.project.coordinates.length) {
+            let coords: any;
+            // @ts-ignore
+            coords = this.project["coordinates"][0];
+            coords = coords.replace("Point(", "").replace(")", "").split(" ");
+            if (this.map){
+                this.map.addMarker(coords[1],coords[0]);
             }
-        });
+            this.map.refreshView();
+        }
     }
 
     openWiki(event){
-        window.open("https://linkedopendata.eu/wiki/Item:" + this.project.item);
+        window.open("https://linkedopendata.eu/wiki/Item:" + this.project.item, "_blank");
     }
 
 }

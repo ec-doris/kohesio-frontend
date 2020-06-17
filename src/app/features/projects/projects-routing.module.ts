@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ProjectsComponent } from './projects.component';
 import {ProjectDetailComponent} from "./project-detail.component";
+import {ProjectResolver} from "./project.resolve";
 
 const routes: Routes = [
     {
@@ -23,6 +24,9 @@ const routes: Routes = [
                 previousAllowed: 'projects'
             },
             pageId:'project-detail'
+        },
+        resolve: {
+            project: ProjectResolver
         }
     }
 ];

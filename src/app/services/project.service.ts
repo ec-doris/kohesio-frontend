@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import {Project} from "../shared/models/project.model";
 import {map} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {Observable, throwError} from 'rxjs';
 import {Filters} from "../shared/models/filters.model";
 import {environment} from "../../environments/environment";
 import {ProjectDetail} from "../shared/models/project-detail.model";
@@ -52,7 +51,7 @@ export class ProjectService {
         return this.http.get<any>(url, { params: <any>params }).pipe(
             map(data => {
                 if (!data){
-                    return undefined;
+                    throwError('Data is inconsistent');
                 }else {
                     return new ProjectDetail().deserialize(data);
                 }

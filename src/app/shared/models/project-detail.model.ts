@@ -25,6 +25,28 @@ export class ProjectDetail implements Deserializable{
     objectiveId: string;
 
     deserialize(input: any): this {
-        return Object.assign(this, input);
+        return Object.assign(this, {
+            item: input.item,
+            images: input.images,
+            countryLabel: input.countryLabel,
+            link: input.link,
+            categoryLabel: input.categoryLabel,
+            coordinates: input.coordinates,
+            description: input.description,
+            label: input.label,
+            cofinancingRate: input.cofinancingRate,
+            source: input.source,
+            objectiveLabel: input.objectiveLabel,
+            beneficiaries: input.beneficiaries,
+            startTime: input.startTime,
+            euBudget: input.euBudget,
+            endTime: input.endTime,
+            budget: input.budget,
+            programLabel: input.programLabel,
+            managingAuthorityLabel: input.managingAuthorityLabel,
+            fundLabel: input.fundLabel,
+            countryCode: input.countryCode,
+            objectiveId: input.objectiveId
+        });
     }
 }

@@ -67,6 +67,10 @@ export class MapComponent implements AfterViewInit {
         this.addMarker(latitude, longitude, false, 15, popupContent)
     }
 
+    public addCountryLayer(country){
+
+    }
+
     public refreshView(){
         setTimeout(() => {
             this.map.invalidateSize(true);
