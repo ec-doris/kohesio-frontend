@@ -54,9 +54,10 @@
     <div class="theme-division">
         <div class="theme-container">
             <div class="themes-main-category">
-                <a href="#" class="tooltip-top themes-title" data-tooltip="This new priority for the European Commission for the 2021-2027 EU funding round covers projects from 3 green related Thematic objectives of the 2014-2020 EU funding round. It is to be noted that some other green projects not covered here can also be found under other Thematic objectives, which are also green but not exclusively.">
+                <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe'}" class="tooltip-top themes-title" data-tooltip="This new priority for the European Commission for the 2021-2027 EU funding round covers projects from 3 green related Thematic objectives of the 2014-2020 EU funding round. It is to be noted that some other green projects not covered here can also be found under other Thematic objectives, which are also green but not exclusively.">
                     Greener and carbon free Europe
                 </a>
+                <div class="number">31.226 projects</div>
             </div>
 
             <div class="theme-categories">
