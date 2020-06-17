@@ -1,24 +1,27 @@
 <ux-carousel-items>
     <ux-carousel-item>
-        <img style="width:100%;" src="assets/images/banners/banner1.png">
+        <img src="assets/images/banners/banner1.png">
         <p class="carousel-title"><span>european union supports projects in all regions to make europe stronger</span></p>
-        <ux-button [routerLink]="['/about']">Learn more</ux-button>
+        <div class="carousel-btn">
+            <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]="['/about']">Learn more</ux-button>
+        </div>
     </ux-carousel-item>
     <ux-carousel-item>
-        <img style="width:100%;" src="assets/images/banners/banner2.png">
+        <img src="assets/images/banners/banner2.png">
         <a class="carousel-title" href="https://ec.europa.eu/regional_policy/en/projects/europe/france-green-technology-to-replace-mobile-electricity-generators">
             <span>Mobile, non-polluting and silencing generator, based on renewable energy and hydrogen storage</span>
         </a>
     </ux-carousel-item>
     <ux-carousel-item>
-        <img style="width:100%;" src="assets/images/banners/banner3.png">
+        <img src="assets/images/banners/banner3.png">
         <a class="carousel-title" href="https://ec.europa.eu/regional_policy/en/projects/europe/at-the-cea-in-monts-in-centre-val-de-loire-hydrogen-is-being-considered-as-an-alternative-energy-source">
             <span>Lavoisier Phase 2 <br>
             <i></i>2,375,038.17</span>
         </a>
     </ux-carousel-item>
 </ux-carousel-items>
-<div class="section-container">
+
+<div class="section-container margins-top-0">
     <section id="figures">
         <h2>KEY FIGURES</h2>
         <ul class="figures-list">
