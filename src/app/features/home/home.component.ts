@@ -59,7 +59,6 @@ export class HomeComponent implements AfterViewInit {
             "features": data
         };
         this.geojson = L.geoJson(countriesData, {
-            style: this.style,
             onEachFeature: (feature, layer)=>{
                 const popup = L.popup();
                 popup.setContent(
@@ -72,7 +71,7 @@ export class HomeComponent implements AfterViewInit {
                         const layer = e.target;
 
                         layer.setStyle({
-                            weight: 5,
+                            weight: 3,
                             color: '#666',
                             dashArray: '',
                             fillOpacity: 0.7
@@ -101,16 +100,6 @@ export class HomeComponent implements AfterViewInit {
                 });
             }
         }).addTo(this.map);
-    }
-
-    style(feature) {
-        return {
-            weight: 2,
-            opacity: 1,
-            color: 'blue',
-            dashArray: '3',
-            fillOpacity: 0.7
-        };
     }
 
 }

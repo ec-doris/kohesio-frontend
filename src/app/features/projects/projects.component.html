@@ -18,7 +18,7 @@
                 <ux-form-control formControlName="country"
                                  [isSelect]="true"
                                  [selectOptions]="countries"
-                (modelChange)="onCountryChange()">
+                                 (modelChange)="onCountryChange()">
                 </ux-form-control>
             </ux-form-group>
             <ux-form-group label="REGIONS" [isVertical]="true">
@@ -27,10 +27,18 @@
                                  [selectOptions]="regions">
                 </ux-form-control>
             </ux-form-group>
+            <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
+                <ux-form-control formControlName="policyObjective"
+                                 [isSelect]="true"
+                                 [selectOptions]="policyObjectives"
+                                 (modelChange)="onPolicyObjectivesChange()">
+                </ux-form-control>
+            </ux-form-group>
             <ux-form-group label="THEMES" [isVertical]="true">
                 <ux-form-control formControlName="theme"
                                  [isSelect]="true"
-                                 [selectOptions]="themes">
+                                 [selectOptions]="themes"
+                                 (modelChange)="onThemeChange()">
                 </ux-form-control>
             </ux-form-group>
             <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">

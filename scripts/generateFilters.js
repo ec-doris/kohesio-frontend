@@ -21,6 +21,8 @@ const countriesStatic = [["Q12,DK","Denmark"],["Q13,PL","Poland"],["Q15,IT","Ita
 //const topicStatic = [["Q236689,TO01","Research and innovation"],["Q236690,TO02","ICT and broadband"],["Q236691,TO03","Competitiveness of SMEs"],["Q236692,TO04","Low carbon economy"],["Q236693,TO05","Climate change adaptation and risk management"],["Q236694,TO06","Environment and resource efficiency"],["Q236695,TO07","Transport and key network infrastructures"],["Q236696,TO08","Employment and labour mobility"],["Q236697,TO09","Social inclusion and combating poverty"],["Q236698,TO10","Education, training and vocational training"],["Q236699,TO11","Institutional capacity efficient public administration"]];
 const topicsStatic = [["Q236689,TO01","Research & Innovation"],["Q236690,TO02","Information & Communication Technologies"],["Q236691,TO03","SME Competitiveness"],["Q236692,TO04","Low-Carbon Economy"],["Q236693,TO05","Climate Change Adaptation & Risk Prevention"],["Q236694,TO06","Environment Protection & Resource Efficiency"],["Q236695,TO07","Transport & Energy Networks"],["Q236696,TO08","Sustainable & Quality Employment"],["Q236697,TO09","Social Inclusion & Combating Poverty"],["Q236698,TO10","Education & Training"],["Q236699,TO11","Efficient Public Administration"]];
 
+const policyObjectivesStatic = [["Q2547985","Smarter Europe"],["Q2547987","Green and carbon free europe"],["Q2547988","Social Europe"]];
+
 
 class GenerateFilters{
     constructor() {
@@ -34,10 +36,15 @@ class GenerateFilters{
         const topicsPromise = new Promise((resolve,reject)=>{
             resolve(topicsStatic);
         });
-        Promise.all([countriesPromise, topicsPromise]).then(results=>{
+
+        const policyObjectives = new Promise((resolve,reject)=>{
+            resolve(policyObjectivesStatic);
+        });
+        Promise.all([countriesPromise, topicsPromise, policyObjectives]).then(results=>{
             const jsonFile = {
                 countries: results[0].isAxiosError ? [] : results[0],
-                themes: results[1].isAxiosError ? [] : results[1]
+                themes: results[1].isAxiosError ? [] : results[1],
+                policyObjectives: results[2].isAxiosError ? [] : results[2]
             };
             fs.mkdir('src/assets/data', { recursive: true }, (err) => {
                 fs.writeFile('src/assets/data/filters.json', JSON.stringify(jsonFile), (err) => {
