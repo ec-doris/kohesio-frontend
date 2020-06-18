@@ -1,18 +1,28 @@
-mat-table{
+mat-table {
 }
 
-mat-row{
+mat-row {
     padding: 5px;
 }
-mat-header-row{
+mat-header-row {
     padding-left: 10px;
 }
 
-mat-header-cell.mat-column-name,
-mat-cell.mat-column-name{
-    flex: 3;
+mat-cell {
+    justify-content: center;
+}
 
-    img{
-        margin-right: 5px;
+mat-header-cell.mat-column-name,
+mat-cell.mat-column-name {
+    flex: 3;
+    justify-content: start;
+
+    img {
+        width: 42px;
+        margin-right: 8px;
     }
+}
+
+mat-cell.mat-column-euBudget {
+    padding: 0 0 0 15px;
 }

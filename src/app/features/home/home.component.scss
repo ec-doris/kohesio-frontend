@@ -106,14 +106,28 @@
 
     .figures-list{
         list-style-type: square;
+
         li {
             display: flex;
+            align-items: baseline;
             color: #404040;
             font-size: 20px;
-            padding: 5px 0;
+            padding: 25px 0;
 
             .title {
+                display: flex;
                 flex: 1;
+                align-items: baseline;
+            }
+
+            .number {
+                font-weight: bold;
+                font-size: 30px;
+            }
+
+            img {
+                width: 22px;
+                margin-right: 8px;
             }
         }
     }
