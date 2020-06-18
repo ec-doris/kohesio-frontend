@@ -9,6 +9,7 @@ const routes: Routes = [
     { path: 'beneficiaries', loadChildren: './features/beneficiaries/beneficiaries.module#Module', pathMatch: 'full' },
     { path: 'themes', loadChildren: './features/themes/themes.module#Module', pathMatch: 'full' },
     { path: 'about', loadChildren: './features/about/about.module#Module', pathMatch: 'full' },
+    { path: 'cookie', loadChildren: './features/cookie/cookie.module#Module', pathMatch: 'full' },
     {path: '404', component: NotFoundComponent},
     {path: '**', redirectTo: '/404'}
 ];

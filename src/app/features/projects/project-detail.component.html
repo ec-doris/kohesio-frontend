@@ -28,9 +28,20 @@
                     {{project?.managingAuthorityLabel}}
                 </div>
 
-                <div class="prjt-box--content">
+                <!-- <div class="prjt-box--content">
                     <span>Original source: </span>
                     <a [href]="project?.source" *ngIf="project.source" target="_blank">link</a>
+                    <ng-container *ngIf="!project.source">n/a</ng-container>
+                </div> -->
+
+                <div class="prjt-box--content">
+                    <span>Project website: </span>
+                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link to the corresponding website, if not N/A</a>
+                    <ng-container *ngIf="!project.source">n/a</ng-container>
+                </div>
+                <div class="prjt-box--content">
+                    <span>Programme website: </span>
+                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link to the corresponding website, if not N/Ank</a>
                     <ng-container *ngIf="!project.source">n/a</ng-container>
                 </div>
             </div>
