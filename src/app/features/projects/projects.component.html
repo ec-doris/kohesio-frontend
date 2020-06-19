@@ -96,7 +96,9 @@
                                             <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                         </span>
                                         <span class="time-start-end">
-                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMMM YYYY'></ux-a-date-tag>
+                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='YYYY'></ux-a-date-tag>
+                                            -
+                                            <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='YYYY'></ux-a-date-tag>
                                         </span>
                                     </li>
                                 </ul>

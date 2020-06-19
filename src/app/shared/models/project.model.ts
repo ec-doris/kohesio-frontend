@@ -7,6 +7,7 @@ export class Project implements Deserializable{
     public countryCode: string;
     public title: string;
     public startTime: Date;
+    public endTime: Date;
     public budget: number;
     public description: string;
     public snippet: string;
@@ -22,6 +23,7 @@ export class Project implements Deserializable{
             countryCode: this.getValueFromPropertyArray(input.countrycode),
             title: this.getValueFromPropertyArray(input.labels, 500),
             startTime: this.getValueFromPropertyArray(input.startTimes),
+            endTime: this.getValueFromPropertyArray(input.endTimes),
             budget: this.getBudget(input.euBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
