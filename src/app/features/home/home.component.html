@@ -12,7 +12,7 @@
             <span>Mobile, non-polluting and silencing generator, based on renewable energy and hydrogen storage</span>
             <div class="icons">
                 <div class="icons--inner">
-                    <i class="icon fa fa-eur"></i>353,751.0
+                    {{ '353751' | currency:'EUR':'symbol':'1.0-2':'fr' }}
                 </div>
                 <div class="icons--inner">
                     <i class="icon fa fa-map-marker"></i>France
@@ -29,7 +29,7 @@
             <span>Lavoisier Phase 2</span>
             <div class="icons">
                 <div class="icons--inner">
-                    <i class="icon fa fa-eur"></i>2,375,038.17
+                    {{ '2375038' | currency:'EUR':'symbol':'1.0-2':'fr' }}
                 </div>
                 <div class="icons--inner">
                     <i class="icon fa fa-map-marker"></i>France
@@ -48,15 +48,15 @@
         <ul class="figures-list">
             <li>
                 <div class="title"><img src="{{'assets/images/figures/01.png'}}" alt="Number of projects">Number of projects:</div>
-                <div class="number">702.159</div>
+                <div class="number">702 159</div>
             </li>
             <li>
                 <div class="title"><img src="{{'assets/images/figures/03.png'}}" alt="Number of beneficiaries">Number of beneficiaries:</div>
-                <div class="number">122.489</div>
+                <div class="number">122 489</div>
             </li>
             <li>
                 <div class="title"><img src="{{'assets/images/figures/02.png'}}" alt="Total EU Amount">Total EU Amount:</div>
-                <div class="number">€ 112.451.089.689</div>
+                <div class="number">{{ '112451089689' | currency:'EUR':'symbol':'1.0-2':'fr' }}</div>
             </li>
         </ul>
     </section>
@@ -78,23 +78,23 @@
                 <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe'}" class="tooltip-top themes-title" data-tooltip="This new priority for the European Commission for the 2021-2027 EU funding round covers projects from 3 green related Thematic objectives of the 2014-2020 EU funding round. It is to be noted that some other green projects not covered here can also be found under other Thematic objectives, which are also green but not exclusively.">
                     Greener and carbon free Europe
                 </a>
-                <div class="number">31.226 projects</div>
+                <div class="number">31 226 projects</div>
             </div>
 
             <div class="theme-categories">
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-Carbon-Economy'}">Low Carbon Economy</a></div>
-                    <div class="number">17.302 projects</div>
+                    <div class="number">17 302 projects</div>
                     <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention'}">Climate Change Adaptation & Risk Prevention</a></div>
-                    <div class="number">2.514 projects</div>
+                    <div class="number">2 514 projects</div>
                     <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency'}">Environment Protection & ResourceEfficiency</a></div>
-                    <div class="number">11.410 projects</div>
+                    <div class="number">11 410 projects</div>
                     <hr class="vertical-line">
                 </div>
             </div>

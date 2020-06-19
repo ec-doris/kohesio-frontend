@@ -16,12 +16,12 @@ export class HomeComponent implements AfterViewInit {
     public geojson;
     public layerPopup;
     public countriesFigures={
-        "France":35785,
-        "Czech Republic":46276,
-        "Denmark":282,
-        "Poland":56739,
-        "Italy":565220,
-        "Ireland":769
+        "France": "35 785",
+        "Czech Republic": "46 276",
+        "Denmark": "282",
+        "Poland": "56 739",
+        "Italy": "565 220",
+        "Ireland": "769"
     }
 
     constructor(private _renderer2: Renderer2,
