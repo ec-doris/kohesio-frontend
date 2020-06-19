@@ -23,6 +23,8 @@ export class ProjectDetail implements Deserializable{
     fundLabel: string;
     countryCode: string;
     objectiveId: string;
+    projectWebsite: string;
+    programWebsite: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -46,7 +48,9 @@ export class ProjectDetail implements Deserializable{
             managingAuthorityLabel: input.managingAuthorityLabel,
             fundLabel: input.fundLabel,
             countryCode: input.countryCode,
-            objectiveId: input.objectiveId
+            objectiveId: input.objectiveId,
+            projectWebsite: input.projectWebsite,
+            programWebsite: input.programWebsite
         });
     }
 }

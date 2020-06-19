@@ -1,3 +1,11 @@
+<ux-modal id="imageOverlay" [titleLabel]="project?.label" [isFooterVisible]="false" customWidth="500px">
+    <uxModalBody>
+        <div class="modal-body">
+            <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
+        </div>
+    </uxModalBody>
+</ux-modal>
+
 <div class="project-detail margin-btm">
     <div class="project-detail-right-content">
         <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
@@ -28,21 +36,15 @@
                     {{project?.managingAuthorityLabel}}
                 </div>
 
-                <!-- <div class="prjt-box--content">
-                    <span>Original source: </span>
-                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link</a>
-                    <ng-container *ngIf="!project.source">n/a</ng-container>
-                </div> -->
-
                 <div class="prjt-box--content">
                     <span>Project website: </span>
-                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link to the corresponding website, if not N/A</a>
-                    <ng-container *ngIf="!project.source">n/a</ng-container>
+                    <a [href]="project?.projectWebsite" *ngIf="project.projectWebsite" target="_blank">link</a>
+                    <ng-container *ngIf="!project.projectWebsite">n/a</ng-container>
                 </div>
                 <div class="prjt-box--content">
                     <span>Programme website: </span>
-                    <a [href]="project?.source" *ngIf="project.source" target="_blank">link to the corresponding website, if not N/Ank</a>
-                    <ng-container *ngIf="!project.source">n/a</ng-container>
+                    <a [href]="project?.programWebsite" *ngIf="project.programWebsite" target="_blank">link</a>
+                    <ng-container *ngIf="!project.programWebsite">n/a</ng-container>
                 </div>
             </div>
 
@@ -124,16 +126,16 @@
                     <header>
                         <div class="article--post__image">
                             <figure role="presentation" class="prj-image">
-                                <!--<a href="#" class="prj-image&#45;&#45;link">-->
                                     <div class="prj-image--wrapper">
-                                        <div class="prj-image--image">
-                                            <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
-                                        </div>
+                                        <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
+                                            <div class="prj-image--image">
+                                                <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
+                                            </div>
+                                        </a>
                                         <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
                                             <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                         </div>
                                     </div>
-                                <!--</a>-->
                                 <footer><small>©Société de Gestion de la Station des Rousses, SAEM SOGESTAR / Benjamin Becker (2017)</small></footer>
                             </figure>
                         </div>

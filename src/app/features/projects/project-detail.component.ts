@@ -3,6 +3,7 @@ import {ProjectService} from "../../services/project.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import {ProjectDetail} from "../../shared/models/project-detail.model";
 import {MapComponent} from "../../shared/components/map/map.component";
+import { UxService } from '@eui/core';
 declare let L;
 
 @Component({
@@ -16,7 +17,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     public map: MapComponent;
 
     constructor(private projectService: ProjectService,
-                private route: ActivatedRoute){}
+                private route: ActivatedRoute,
+                private uxService:UxService,){}
 
     ngOnInit(){
         this.project = this.route.snapshot.data.project;
