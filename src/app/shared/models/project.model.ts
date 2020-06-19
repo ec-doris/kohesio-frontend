@@ -22,7 +22,7 @@ export class Project implements Deserializable{
             countryCode: this.getValueFromPropertyArray(input.countrycode),
             title: this.getValueFromPropertyArray(input.labels, 500),
             startTime: this.getValueFromPropertyArray(input.startTimes),
-            budget: this.getValueFromPropertyArray(input.euBudgets),
+            budget: this.getBudget(input.euBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
             coordinates: input.coordinates,
@@ -39,6 +39,15 @@ export class Project implements Deserializable{
             }
         }else{
             return undefined;
+        }
+    }
+
+    getBudget(array){
+        let budget = this.getValueFromPropertyArray(array);
+        if (budget){
+            return budget.replace("+","");
+        }else{
+            return null;
         }
     }
 

@@ -1260,3 +1260,12 @@
 .cookie-consent-banner__cta:last-child {
   margin-left: 16px;
 }
+
+.modal-body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    img{
+        max-width:460px;
+    }
+}

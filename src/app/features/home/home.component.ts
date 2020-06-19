@@ -95,7 +95,8 @@ export class HomeComponent implements AfterViewInit {
                         popup.setLatLng(e.latlng).openOn(this.map);
                     },
                     click: (e)=>{
-                        this._router.navigate(['/projects'], { queryParams: { country: e.target.feature.properties.name } });
+                        const countryName = e.target.feature.properties.name.replace(" ", "-");
+                        this._router.navigate(['/projects'], { queryParams: { country: countryName } });
                     }
                 });
             }

@@ -31,6 +31,8 @@ export class ProjectsComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex:number = 1;
+    public modalImageUrl = "";
+    public modalTitleLabel = "";
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -222,6 +224,12 @@ export class ProjectsComponent implements AfterViewInit {
                 })
             }
         }
+    }
+
+    openImageOverlay(imgUrl, projectTitle){
+        this.modalImageUrl = imgUrl;
+        this.modalTitleLabel = projectTitle;
+        this.uxService.openModal("imageOverlay")
     }
 
 

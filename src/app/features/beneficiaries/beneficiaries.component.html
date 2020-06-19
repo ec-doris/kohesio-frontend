@@ -46,13 +46,13 @@
             <ng-container matColumnDef="budget">
                 <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    {{ row.budget | currency:'EUR'}}
+                    {{ row.budget | currency:'EUR':'symbol':'6.2-2':'fr'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="euBudget">
                 <mat-header-cell *matHeaderCellDef>AMOUNT EU SUPPORT</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    {{row.euBudget | currency:'EUR'}}
+                    {{row.euBudget | currency:'EUR':'symbol':'6.2-2':'fr'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="numberProjects">

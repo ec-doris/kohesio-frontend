@@ -7,6 +7,15 @@
         </div>
     </uxModalBody>
 </ux-modal>-->
+<ux-button (click)="openImageOverlay()">Open modal</ux-button>
+<ux-modal id="imageOverlay" [titleLabel]="modalTitleLabel" [isFooterVisible]="false" customWidth="500px">
+    <uxModalBody>
+        <div class="modal-body">
+            <img [src]="modalImageUrl" style="max-width:460px;">
+        </div>
+    </uxModalBody>
+</ux-modal>
+
 
 <div class="prjt-results margin-btm">
     <ux-layout-page-column mainTitle="SEARCH ON PROJECTS" size="xxxl" [isCollapsible]="false">
@@ -58,16 +67,18 @@
                         <header>
                             <div class="article--post__image">
                                 <figure role="presentation" class="prj-image">
-                                    <a href="#" class="prj-image--link">
-                                        <div class="prj-image--wrapper">
-                                            <div class="prj-image--image">
-                                                <img [src]="project.images[0]" *ngIf="project.images && project.images.length">
-                                            </div>
-                                            <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
-                                                <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                            </div>
+                                    <div class="prj-image--wrapper">
+                                        <ng-container *ngIf="project.images && project.images.length">
+                                            <a (click)="openImageOverlay(project.images[0], project.title)" class="prj-image--link">
+                                                <div class="prj-image--image">
+                                                    <img [src]="project.images[0]">
+                                                </div>
+                                            </a>
+                                        </ng-container>
+                                        <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
+                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </div>
-                                    </a>
+                                    </div>
                                 </figure>
                             </div>
                         </header>
@@ -86,7 +97,7 @@
                                         <div class="article--post__amount--inner">
                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
-                                                {{ project.budget | currency:'EUR'}}
+                                                {{ project.budget | currency:'EUR':'symbol':'6.2-2':'fr'}}
                                                 <span class="support">Amount EU support</span>
                                             </span>
                                         </div>
@@ -126,7 +137,7 @@
                                [pageSize]="15"
                                [hidePageSize]="true"
                                (page)="onPaginate($event)"
-                               [hidden]="isLoading || isNotResultsTab">
+                               [hidden]="isLoading || isMapTab">
                 </mat-paginator>
                 <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
             </uxTabsRightContent>
