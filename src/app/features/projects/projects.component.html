@@ -7,11 +7,10 @@
         </div>
     </uxModalBody>
 </ux-modal>-->
-<ux-button (click)="openImageOverlay()">Open modal</ux-button>
 <ux-modal id="imageOverlay" [titleLabel]="modalTitleLabel" [isFooterVisible]="false" customWidth="500px">
     <uxModalBody>
         <div class="modal-body">
-            <img [src]="modalImageUrl" style="max-width:460px;">
+            <img [src]="modalImageUrl">
         </div>
     </uxModalBody>
 </ux-modal>
