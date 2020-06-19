@@ -1129,7 +1129,7 @@
 }
 
 
-.download-section{
+.download-section {
     padding: 15px;
     margin-bottom: 30px;
     background-color: #ebebeb;
@@ -1139,12 +1139,17 @@
     margin-top: 20px;
 }
 
-.audio-visual-container{
+/**
+ * Image gallery
+ **/
+.audio-visual-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     gap: 10px;
-    img{
+
+    img {
         width: 100%;
+        height: 100vh;
         max-height: 270px;
     }
 }
