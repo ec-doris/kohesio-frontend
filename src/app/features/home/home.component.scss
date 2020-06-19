@@ -79,9 +79,10 @@
 }
 
 .carousel-btn {
-    top: 66% !important;
-    left: 34% !important;
-    position: absolute !important;
+    .ux-icon{
+        background-color: transparent;
+        color:black;
+    }
 }
 
 .section-container {
