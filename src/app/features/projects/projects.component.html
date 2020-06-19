@@ -1,12 +1,3 @@
-<!--<ux-modal id="mapModal" titleLabel="Map View" [isSizeLarge]="true" [isFooterVisible]="false" (onAnimationEnd)="onMapModalAnimationEnd($event)">
-    <uxModalBody>
-        <div class="map-container">
-            <div class="map-frame">
-                <div id="map-inside"></div>
-            </div>
-        </div>
-    </uxModalBody>
-</ux-modal>-->
 <ux-modal id="imageOverlay" [titleLabel]="modalTitleLabel" [isFooterVisible]="false" customWidth="500px">
     <uxModalBody>
         <div class="modal-body">
@@ -14,7 +5,6 @@
         </div>
     </uxModalBody>
 </ux-modal>
-
 
 <div class="prjt-results margin-btm">
     <ux-layout-page-column mainTitle="SEARCH ON PROJECTS" size="xxxl" [isCollapsible]="false">
@@ -96,7 +86,7 @@
                                         <div class="article--post__amount--inner">
                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
-                                                {{ project.budget | currency:'EUR':'symbol':'6.2-2':'fr'}}
+                                                {{ project.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                 <span class="support">Amount EU support</span>
                                             </span>
                                         </div>
