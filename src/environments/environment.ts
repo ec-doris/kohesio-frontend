@@ -4,9 +4,8 @@
 export const environment = {
     production: false,
     enableDevToolRedux: true,
-    sparqlBaseUrl: 'https://query.linkedopendata.eu/bigdata/namespace/wdq/sparql',
-    fullTextSearchUrl: 'https://qanswer-core1.univ-st-etienne.fr/api/endpoint/eu/sparql?user=Max',
-    apiSearch: 'https://qanswer-core1.univ-st-etienne.fr/api/facet/eu'
+    api: 'https://qanswer-core1.univ-st-etienne.fr/api/dev/facet/eu',
+    entityURL: 'https://linkedopendata.eu/entity/'
 };
 
 /*

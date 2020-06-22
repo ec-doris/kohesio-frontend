@@ -1,0 +1,244 @@
+/*Carousel changes*/
+:host ::ng-deep .ux-carousel-items .row.flex-container{
+    position: relative;
+
+    .col-1.text-center {
+        z-index: 1;
+        position: absolute;
+
+        span.ux-icon {
+            background-color: rgba(255,255,255,0.5);
+            border-radius: 35px;
+            padding: 10px;
+            color: #003D84;
+        }
+        span.ux-icon.ux-carousel-items__arrow--inactive {
+            color: #d2d2d2;
+        }
+    }
+    .col-1.text-center:last-child {
+        right:0;
+    }
+
+    .col-10 {
+        flex: 1;
+        max-width: initial;
+    }
+}
+
+:host ::ng-deep .ux-carousel-items .row.flex-container.ux-carousel-items__summary-indicators{
+    top: -70px;
+}
+
+/**
+ * Carousel
+ **/
+
+ .ux-carousel-items {
+
+ }
+
+.carousel-title {
+    font-size: 28px;
+    line-height: 45px;
+    width: 48%;
+    text-transform: uppercase;
+    text-align: left;
+    position: absolute;
+    top: 30%;
+    left: 15%;
+
+    &:hover {
+        text-decoration: none;
+    }
+
+    span {
+        display: inline;
+        background: rgba(0, 0, 0, .7);
+        color: white;
+        padding: 0.25rem;
+    }
+
+      .icons {
+          font-size: 13px;
+          line-height: 16px;
+          margin-top: 1rem;
+          display: flex;
+          align-items: center;
+          color: #fff;
+
+          .icon.fa {
+              margin-right: 5px;
+          }
+
+          .icons--inner {
+              background: rgba(0, 0, 0, .7);
+              padding: 5px;
+          }
+      }
+}
+
+.carousel-btn {
+    .ux-icon{
+        background-color: transparent;
+        color:black;
+    }
+}
+
+.section-container {
+    display: flex;
+    // margin-top: 45px;
+
+    &.margins-top-0 {
+        margin-top: 0;
+    }
+
+    &.margins-top-45 {
+        margin-top: 20px;
+    }
+
+    #figures, #my-region {
+        flex:1;
+    }
+
+    #figures {
+        margin-right: 60px;
+    }
+
+    .figures-list{
+        list-style-type: square;
+
+        li {
+            display: flex;
+            align-items: baseline;
+            color: #404040;
+            font-size: 20px;
+            padding: 25px 0;
+
+            .title {
+                display: flex;
+                flex: 1;
+                align-items: baseline;
+            }
+
+            // .number {
+            //     font-weight: bold;
+            //     font-size: 30px;
+            // }
+
+            img {
+                width: 22px;
+                margin-right: 8px;
+            }
+        }
+    }
+}
+
+h2 {
+    font-size: 32px;
+    color: #002F67;
+    margin-bottom: 15px;
+}
+
+#themes {
+    margin-top: 45px;
+    min-height: 400px;
+
+    .theme-division {
+        display: flex;
+    }
+
+    .explore-more {
+        border: 1px solid #002F67;
+        padding: 20px;
+        color: #002F67;
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        border-radius: 6px;
+        margin-left: 15px;
+        margin-top: 93px;
+        max-width: 110px;
+        align-items: center;
+
+        &:hover {
+            cursor:pointer;
+            color: #404040;
+        }
+    }
+
+    .theme-container {
+        flex: 1;
+
+        .themes-main-category {
+            background-color: #2CBD7B;
+            color: white;
+            font-size: 28px;
+            text-shadow: 0px 3px 6px #00000029;
+            padding: 20px 0 50px 0;
+            display: flex;
+            justify-content: center;
+            border-radius: 6px;
+            flex-direction: column;
+            align-items: center;
+
+            .number{
+                font-size:18px;
+            }
+        }
+
+        .themes-title {
+            color: #fff;
+        }
+
+        .theme-categories .theme-category-card:last-child {
+            margin-right: 0;
+        }
+
+        .theme-categories {
+            display: flex;
+            margin-top: -30px;
+            justify-content: space-between;
+
+            .theme-category-card {
+                box-shadow: 0px 3px 6px #00000029;
+                padding: 35px 25px;
+                flex-direction: column;
+                background-color: white;
+                border-radius: 6px;
+                margin-right: 10px;
+                width: 33%;
+
+                .title {
+                    color: #404040;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 25px;
+                    min-height: 44px;
+                }
+
+                .number {
+                    position: relative;
+                    color: #002F67;
+                    font-size: 10px;
+
+                    width: 25%;
+                    float: left;
+                    margin-right: .5rem;
+                }
+
+                .vertical-line {
+                    width: calc(75% - .5rem);
+                    float: right;
+                    margin: 5px 0 0 0;
+                }
+            }
+        }
+
+    }
+}
+
+#map-inside {
+    height: 350px;
+}

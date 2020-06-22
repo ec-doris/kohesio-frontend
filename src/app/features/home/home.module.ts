@@ -5,7 +5,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { HomeRoutingModule } from './home-routing.module';
 
 import { HomeComponent } from './home.component';
-import {BudgetPipe} from "../../shared/budget.pipe";
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
@@ -18,8 +17,7 @@ import {MatTableModule} from '@angular/material/table';
         MatTableModule
     ],
     declarations: [
-        HomeComponent,
-        BudgetPipe
+        HomeComponent
     ],
 })
 export class Module {}

@@ -1,0 +1,69 @@
+<div class="prjt-results beneficiary__wrapper">
+    <ux-layout-page-column mainTitle="SEARCH ON" size="xxxl" [isCollapsible]="false">
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <ux-form-group label="BENEFICIARY NAME" [isVertical]="true">
+                <input class="form-control" type="text" formControlName="name"/>
+            </ux-form-group>
+            <ux-form-group label="COUNTRIES" [isVertical]="true">
+                <ux-form-control formControlName="country"
+                                 [isSelect]="true"
+                                 [selectOptions]="countries"
+                                 (modelChange)="onCountryChange()">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-form-group label="REGIONS" [isVertical]="true">
+                <ux-form-control formControlName="region"
+                                 [isSelect]="true"
+                                 [selectOptions]="regions">
+                </ux-form-control>
+            </ux-form-group>
+
+            <div class="download-section">
+                <ux-button (click)="getFile('csv')">Download CSV</ux-button>
+                <ux-button (click)="getFile('excel')">Download Excel</ux-button>
+            </div>
+
+            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">
+                Dynamic filters here
+            </ux-panel>
+            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+        </form>
+    </ux-layout-page-column>
+    <ux-layout-page-column mainTitle="BENEFICIARIES" mainSubtitle="Ranking by EU support">
+        <uxLayoutPageColumnHeaderRightContent>
+            <mat-paginator [pageSize]="15"
+                           [hidePageSize]="true"
+                           [hidden]="isLoading">
+            </mat-paginator>
+        </uxLayoutPageColumnHeaderRightContent>
+        <mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    <img class="flag" src="{{'assets/images/flags/' + row.countryCode.toLowerCase() + '.png'}}">
+                    {{row.label}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="budget">
+                <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="euBudget">
+                <mat-header-cell *matHeaderCellDef>AMOUNT EU SUPPORT</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="numberProjects">
+                <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
+                <mat-cell *matCellDef="let row">
+                    {{row.numberProjects}}
+                </mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </ux-layout-page-column>
+</div>

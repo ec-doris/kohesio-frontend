@@ -1,0 +1,158 @@
+<ux-modal id="imageOverlay" [titleLabel]="modalTitleLabel" [isFooterVisible]="false" customWidth="500px">
+    <uxModalBody>
+        <div class="modal-body">
+            <img [src]="modalImageUrl">
+        </div>
+    </uxModalBody>
+</ux-modal>
+
+<div class="prjt-results margin-btm">
+    <ux-layout-page-column mainTitle="SEARCH ON PROJECTS" size="xxxl" [isCollapsible]="false">
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <ux-form-group label="KEYWORDS" [isVertical]="true">
+                <input class="form-control" type="text" formControlName="keywords"/>
+            </ux-form-group>
+            <ux-form-group label="COUNTRIES" [isVertical]="true">
+                <ux-form-control formControlName="country"
+                                 [isSelect]="true"
+                                 [selectOptions]="countries"
+                                 (modelChange)="onCountryChange()">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-form-group label="REGIONS" [isVertical]="true">
+                <ux-form-control formControlName="region"
+                                 [isSelect]="true"
+                                 [selectOptions]="regions">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
+                <ux-form-control formControlName="policyObjective"
+                                 [isSelect]="true"
+                                 [selectOptions]="policyObjectives"
+                                 (modelChange)="onPolicyObjectivesChange()">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-form-group label="THEMES" [isVertical]="true">
+                <ux-form-control formControlName="theme"
+                                 [isSelect]="true"
+                                 [selectOptions]="themes"
+                                 (modelChange)="onThemeChange()">
+                </ux-form-control>
+            </ux-form-group>
+            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">
+                Dynamic filters here
+            </ux-panel>
+            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+        </form>
+    </ux-layout-page-column>
+
+    <ux-layout-page-column>
+        <ux-tabs (tabSelected)="onTabSelected($event)">
+            <ux-tab label="Results">
+                <div class="loading" *ngIf="isLoading">Loading...</div>
+                <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
+                <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0 && !isLoading">
+                    <article class="article--post" *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                        <header>
+                            <div class="article--post__image">
+                                <figure role="presentation" class="prj-image">
+                                    <div class="prj-image--wrapper">
+                                        <ng-container *ngIf="project.images && project.images.length">
+                                            <a (click)="openImageOverlay(project.images[0], project.title)" class="prj-image--link">
+                                                <div class="prj-image--image">
+                                                    <img [src]="project.images[0]">
+                                                </div>
+                                            </a>
+                                        </ng-container>
+                                        <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
+                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        </header>
+                        <div class="article--post__inner">
+                            <h1 class="article--post__title">
+                                <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                            </h1>
+                            <footer class="article--post__footer">
+                                <ul class="nowrap">
+                                    <li class="article--post__theme">
+                                        <span class="icon">
+                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                        </span> {{filterService.getThemeLabel(project.objectiveId)}}
+                                    </li>
+                                    <li class="article--post__amount">
+                                        <div class="article--post__amount--inner">
+                                            <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                            <span class="amount">
+                                                {{ project.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                                <span *ngIf="!project.budget">n/a</span>
+                                                <span class="support">Amount EU support</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="article--post__years">
+                                        <span class="icons">
+                                            <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
+                                        </span>
+                                        <span class="time-start-end">
+                                            <ng-container *ngIf="project.startTime || project.endTime">
+                                                <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
+                                                <span *ngIf="!project.startTime">n/a</span>
+                                                -
+                                                <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
+                                                <span *ngIf="!project.endTime">n/a</span>
+                                            </ng-container>
+                                            <span *ngIf="!project.startTime && !project.endTime">n/a</span>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </footer>
+                            <div class="article--post__content">
+                                <p class="article--post__teaser" [innerHTML]="project.getFullDescription()">
+                                </p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <mat-paginator #paginatorDown
+                               [length]="count"
+                               [pageSize]="15"
+                               [hidePageSize]="true"
+                               (page)="onPaginate($event)"
+                               [hidden]="isLoading || isMapTab">
+                </mat-paginator>
+            </ux-tab>
+            <ux-tab label="Audio-visual">
+                <div class="audio-visual-container">
+                    <ng-container *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                        <a [routerLink]="['/projects/' + project.item]">
+                            <img *ngIf="project.images && project.images.length" [src]="project.images[0]">
+                        </a>
+                    </ng-container>
+                </div>
+            </ux-tab>
+
+
+
+
+
+
+
+            <ux-tab label="Map">
+                <app-map></app-map>
+            </ux-tab>
+            <uxTabsRightContent>
+                <mat-paginator #paginatorTop
+                                [length]="count"
+                               [pageSize]="15"
+                               [hidePageSize]="true"
+                               (page)="onPaginate($event)"
+                               [hidden]="isLoading || isMapTab">
+                </mat-paginator>
+                <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
+            </uxTabsRightContent>
+        </ux-tabs>
+    </ux-layout-page-column>
+</div>
