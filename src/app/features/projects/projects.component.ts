@@ -28,7 +28,8 @@ export class ProjectsComponent implements AfterViewInit {
     public isLoading = false;
     public isMapTab = false;
     public loadedDataPoints = false;
-    @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild("paginatorTop") paginatorTop: MatPaginator;
+    @ViewChild("paginatorDown") paginatorDown: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex:number = 1;
     public modalImageUrl = "";
@@ -127,7 +128,7 @@ export class ProjectsComponent implements AfterViewInit {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
-            this.paginator.firstPage();
+            this.goFirstPage();
             if (this.selectedTabIndex == 3){
                 this.createMarkers();
             }
@@ -147,14 +148,20 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPaginate(event){
+        this.paginatorTop.pageIndex = event.pageIndex;
+        this.paginatorDown.pageIndex = event.pageIndex;
     }
 
     getPageIndexStart(){
-        return this.paginator ? this.paginator.pageSize * this.paginator.pageIndex : 0;
+        return this.paginatorTop ? this.paginatorTop.pageSize * this.paginatorTop.pageIndex : 0;
     }
 
     getPageIndexEnd(){
-        return this.paginator ? this.getPageIndexStart() + this.paginator.pageSize : 15;
+        return this.paginatorTop ? this.getPageIndexStart() + this.paginatorTop.pageSize : 15;
+    }
+    goFirstPage(){
+        this.paginatorDown.firstPage();
+        this.paginatorTop.firstPage();
     }
 
     getFormValues(){
