@@ -90,6 +90,7 @@
                 <span class="prjt-box--title">category of intervention</span>
                 <div class="prjt-box--content">
                     <p>{{project?.categoryLabel}}</p>
+                    <p *ngIf="!project.categoryLabel">Categories of intervention have not been declared by the Managing Authority</p>
                 </div>
             </div>
 

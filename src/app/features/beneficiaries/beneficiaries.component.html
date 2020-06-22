@@ -19,7 +19,8 @@
             </ux-form-group>
 
             <div class="download-section">
-                <ux-button (click)="getCSV()">Download CSV</ux-button>
+                <ux-button (click)="getFile('csv')">Download CSV</ux-button>
+                <ux-button (click)="getFile('excel')">Download Excel</ux-button>
             </div>
 
             <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">

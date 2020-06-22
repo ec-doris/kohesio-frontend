@@ -29,8 +29,8 @@ export class BeneficiaryService {
         );
     }
 
-    getCSV(filters: Filters):Observable<any>{
-        const url = environment.api + "/search/beneficiaries/csv";
+    getFile(filters: Filters, type: string):Observable<any>{
+        const url = environment.api + "/search/beneficiaries/" + type;
         let params = this.buildParameters(filters);
         return this.http.get(url,{
             responseType: 'arraybuffer',params:params}

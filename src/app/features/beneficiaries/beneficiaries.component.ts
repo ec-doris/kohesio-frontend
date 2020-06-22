@@ -21,6 +21,16 @@ export class BeneficiariesComponent implements AfterViewInit {
     public isLoading = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
+    public fileTypes = {
+        csv:{
+            extension: 'csv',
+            type: 'text/csv'
+        },
+        excel:{
+            extension: 'xls',
+            type: 'application/vnd.ms-excel'
+        }
+    }
 
     constructor(private beneficaryService: BeneficiaryService,
                 private filterService: FilterService,
@@ -123,11 +133,11 @@ export class BeneficiariesComponent implements AfterViewInit {
         });
     }
 
-    getCSV(){
+    getFile(type:string){
         const filters = new Filters().deserialize(this.myForm.value);
-        this.beneficaryService.getCSV(filters).subscribe(response=>{
+        this.beneficaryService.getFile(filters, type).subscribe(response=>{
 
-            const newBlob = new Blob([response], { type: "text/csv" });
+            const newBlob = new Blob([response], { type: this.fileTypes[type].type });
             // IE doesn't allow using a blob object directly as link href
             // instead it is necessary to use msSaveOrOpenBlob
             if (window.navigator && window.navigator.msSaveOrOpenBlob) {
@@ -139,7 +149,7 @@ export class BeneficiariesComponent implements AfterViewInit {
 
             let link = document.createElement('a');
             link.href = data;
-            link.download = "beneficiaries.csv";
+            link.download = "beneficiaries." + this.fileTypes[type].extension;
             link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
 
             setTimeout(function () {
