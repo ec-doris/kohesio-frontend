@@ -19,7 +19,7 @@ export class AppComponent implements OnInit {
     constructor(
         private translateService: TranslateService,
         private store: Store<any>,
-        private router: Router
+        public router: Router
     ) {
     }
 

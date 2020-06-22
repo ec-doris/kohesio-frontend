@@ -18,7 +18,7 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     constructor(private projectService: ProjectService,
                 private route: ActivatedRoute,
-                private uxService:UxService,){}
+                public uxService:UxService,){}
 
     ngOnInit(){
         this.project = this.route.snapshot.data.project;
