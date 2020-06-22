@@ -16,7 +16,7 @@
             <div class="prjt-box prjt-box--grey">
                 <span class="prjt-box--title">project info</span>
                 <div class="prjt-box--content">
-                    <span>Start time: </span>
+                    <span>Start date: </span>
                     <span>
                         <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
                         <ng-container *ngIf="!project?.startTime">n/a</ng-container>
@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="prjt-box--content">
-                    <span>End time: </span>
+                    <span>End date: </span>
                     <span>
                         <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
                         <ng-container *ngIf="!project?.endTime">n/a</ng-container>

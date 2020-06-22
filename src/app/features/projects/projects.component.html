@@ -96,9 +96,9 @@
                                             <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                         </span>
                                         <span class="time-start-end">
-                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='YYYY'></ux-a-date-tag>
+                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
                                             -
-                                            <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='YYYY'></ux-a-date-tag>
+                                            <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
                                         </span>
                                     </li>
                                 </ul>
@@ -110,6 +110,13 @@
                         </div>
                     </article>
                 </div>
+                <mat-paginator #paginatorDown
+                               [length]="count"
+                               [pageSize]="15"
+                               [hidePageSize]="true"
+                               (page)="onPaginate($event)"
+                               [hidden]="isLoading || isMapTab">
+                </mat-paginator>
             </ux-tab>
             <ux-tab label="Audio-visual">
                 <div class="audio-visual-container">
@@ -131,7 +138,8 @@
                 <app-map></app-map>
             </ux-tab>
             <uxTabsRightContent>
-                <mat-paginator [length]="count"
+                <mat-paginator #paginatorTop
+                                [length]="count"
                                [pageSize]="15"
                                [hidePageSize]="true"
                                (page)="onPaginate($event)"
