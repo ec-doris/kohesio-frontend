@@ -87,6 +87,7 @@
                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
                                                 {{ project.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                                <span *ngIf="!project.budget">n/a</span>
                                                 <span class="support">Amount EU support</span>
                                             </span>
                                         </div>
@@ -96,9 +97,14 @@
                                             <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                         </span>
                                         <span class="time-start-end">
-                                            <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
-                                            -
-                                            <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
+                                            <ng-container *ngIf="project.startTime || project.endTime">
+                                                <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
+                                                <span *ngIf="!project.startTime">n/a</span>
+                                                -
+                                                <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
+                                                <span *ngIf="!project.endTime">n/a</span>
+                                            </ng-container>
+                                            <span *ngIf="!project.startTime && !project.endTime">n/a</span>
                                         </span>
                                     </li>
                                 </ul>
