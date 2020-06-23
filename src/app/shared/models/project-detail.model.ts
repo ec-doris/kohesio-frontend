@@ -25,6 +25,7 @@ export class ProjectDetail implements Deserializable{
     objectiveId: string;
     projectWebsite: string;
     programWebsite: string;
+    programmingPeriodLabel: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -50,7 +51,8 @@ export class ProjectDetail implements Deserializable{
             countryCode: input.countryCode,
             objectiveId: input.objectiveId,
             projectWebsite: input.projectWebsite,
-            programWebsite: input.programWebsite
+            programWebsite: input.programWebsite,
+            programmingPeriodLabel: input.programmingPeriodLabel
         });
     }
 }
