@@ -80,7 +80,9 @@
                                     <li class="article--post__theme">
                                         <span class="icon">
                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                        </span> {{filterService.getThemeLabel(project.objectiveId)}}
+                                        </span>
+                                        {{filterService.getThemeLabel(project.objectiveId)}}
+                                        <ng-container *ngIf="!project.objectiveId">Category of intervention have not been declared by the Managing Authority</ng-container>
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">

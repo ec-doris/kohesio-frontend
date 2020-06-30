@@ -41,7 +41,7 @@
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode.toLowerCase() + '.png'}}">
-                    {{row.label}}
+                    <span>{{row.label}}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="budget">

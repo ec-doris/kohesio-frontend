@@ -10,7 +10,7 @@ export class ProjectDetail implements Deserializable{
     coordinates: [];
     description: string;
     label: string;
-    cofinancingRate: string;
+    cofinancingRate: number;
     source: string;
     objectiveLabel: string;
     beneficiaries: [any];
@@ -37,7 +37,7 @@ export class ProjectDetail implements Deserializable{
             coordinates: input.coordinates,
             description: input.description,
             label: input.label,
-            cofinancingRate: input.cofinancingRate,
+            cofinancingRate: input.cofinancingRate ? parseFloat(input.cofinancingRate) : 0,
             source: input.source,
             objectiveLabel: input.objectiveLabel,
             beneficiaries: input.beneficiaries,

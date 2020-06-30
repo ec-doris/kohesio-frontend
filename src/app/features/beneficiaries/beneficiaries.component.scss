@@ -16,11 +16,15 @@ mat-cell, mat-header-cell {
 mat-header-cell.mat-column-name,
 mat-cell.mat-column-name {
     flex: 3;
-    justify-content: start;
+    justify-content: flex-start;
 
     img {
         width: 42px;
-        margin-right: 8px;
+        height: 42px;
+        margin-right: 10px;
+    }
+    span {
+        flex:1;
     }
 }
 
