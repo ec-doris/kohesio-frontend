@@ -14,6 +14,6 @@ export const environment = {
             },
         },
     },
-    api: 'https://qanswer-core1.univ-st-etienne.fr/api/dev/facet/eu',
+    api: 'https://kohesio.linkedopendata.eu/api/facet/eu',
     entityURL: 'https://linkedopendata.eu/entity/'
 };
