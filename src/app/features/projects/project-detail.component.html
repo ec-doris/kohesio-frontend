@@ -73,7 +73,7 @@
 
                 <div class="prjt-box--content">
                     <span>Funded by EU: </span>
-                    <span>{{project?.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}} ({{project?.cofinancingRate}}%)</span>
+                    <span>{{project?.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}} ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
                 </div>
             </div>
 
@@ -90,7 +90,7 @@
                 <span class="prjt-box--title">category of intervention</span>
                 <div class="prjt-box--content">
                     <p>{{project?.categoryLabel}}</p>
-                    <p *ngIf="!project.categoryLabel">Categories of intervention have not been declared by the Managing Authority</p>
+                    <p *ngIf="!project.categoryLabel">n/a</p>
                 </div>
             </div>
 
@@ -157,11 +157,11 @@
                                         <span>Twitter</span>
                                     </a>
                                 </li>
-                                <li>
+                                <!-- <li>
                                     <a href="https://plus.google.com/‎">
                                         <span>Google+</span>
                                     </a>
-                                </li>
+                                </li> -->
                                 <li>
                                     <a href="https://www.facebook.com/">
                                         <span>Facebook</span>
@@ -196,7 +196,11 @@
             <div class="map__wrapper">
                 <h2 class="title">
                     <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
-                    IN [THE REGION]
+                    In
+                    <ng-container *ngIf="project?.region">
+                        {{project?.region}}
+                    </ng-container>
+                    <ng-container *ngIf="!project?.region">[THE REGION]</ng-container>
                 </h2>
                 <app-map></app-map>
             </div>
