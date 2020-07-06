@@ -15,7 +15,7 @@ export class ProjectService {
     constructor(private http: HttpClient) { }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>  {
-        const urlProjects = environment.api;
+        const urlProjects = environment.api + '/search/project';
         let params = {
             offset: offset,
             limit: limit
