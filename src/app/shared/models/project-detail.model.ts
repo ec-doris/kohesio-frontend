@@ -26,6 +26,7 @@ export class ProjectDetail implements Deserializable{
     projectWebsite: string;
     programWebsite: string;
     programmingPeriodLabel: string;
+    region: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -52,7 +53,35 @@ export class ProjectDetail implements Deserializable{
             objectiveId: input.objectiveId,
             projectWebsite: input.projectWebsite,
             programWebsite: input.programWebsite,
-            programmingPeriodLabel: input.programmingPeriodLabel
+            programmingPeriodLabel: input.programmingPeriodLabel,
+            region: this.getRegion(input)
         });
     }
+
+    getRegion(input){
+        let region = "";
+        if (input.region){
+            region = input.region.trim()
+        }
+        if (input.regionUpper1 &&
+            input.regionUpper1.toUpperCase() != input.region.toUpperCase()){
+
+            region += ", " + input.regionUpper1.trim()
+        }
+        if (input.regionUpper2 &&
+            input.regionUpper2 != input.region.toUpperCase() &&
+            input.regionUpper2.toUpperCase() != input.regionUpper1.toUpperCase()){
+
+            region += ", " + input.regionUpper2.trim()
+        }
+        if (input.regionUpper3 &&
+            input.regionUpper3 != input.region.toUpperCase() &&
+            input.regionUpper3.toUpperCase() != input.regionUpper2.toUpperCase() &&
+            input.regionUpper3.toUpperCase() != input.regionUpper1.toUpperCase()){
+
+            region += ", " + input.regionUpper3.trim()
+        }
+        return region;
+    }
+
 }
