@@ -31,7 +31,11 @@ export class ProjectDetailComponent implements AfterViewInit {
             coords = this.project["coordinates"][0];
             coords = coords.replace("Point(", "").replace(")", "").split(" ");
             if (this.map){
-                this.map.addMarker(coords[1],coords[0]);
+                this.map.addMarker(coords[1],coords[0], false);
+            }
+            if (this.project.geoJson){
+                const poly = this.map.drawPolygons(this.project.geoJson);
+                this.map.fitBounds(poly.getBounds());
             }
             this.map.refreshView();
         }else{

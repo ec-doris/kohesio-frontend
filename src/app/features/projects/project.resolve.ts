@@ -14,6 +14,7 @@ export class ProjectResolver implements Resolve<ProjectDetail> {
     resolve(route: ActivatedRouteSnapshot,state: RouterStateSnapshot): Observable<ProjectDetail> {
         return this.service.getProjectDetail(route.paramMap.get('id')).pipe(
             catchError(err => {
+                console.error(err);
                 this.router.navigate(["/404"]);
                 return Observable.of(null);
             }));

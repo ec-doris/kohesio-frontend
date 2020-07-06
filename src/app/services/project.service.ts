@@ -27,7 +27,7 @@ export class ProjectService {
                         params[filter] = environment.entityURL + filters[filter].toString();
                     }
                 }else {
-                    if (filter != 'keywords') {
+                    if (filter != 'keywords' && filter != 'region') {
                         params[filter] = environment.entityURL + filters[filter];
                     }else{
                         params[filter] = filters[filter];
