@@ -124,11 +124,12 @@ export class ProjectsComponent implements AfterViewInit {
     private getProjectList(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.projectService.getProjects(filters).subscribe((result:ProjectList) => {
+        let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize;
+        this.projectService.getProjects(filters, offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
-            this.goFirstPage();
+            //this.goFirstPage();
             if (this.selectedTabIndex == 3){
                 this.createMarkers();
             }
@@ -138,7 +139,11 @@ export class ProjectsComponent implements AfterViewInit {
     onSubmit() {
         this.projects = [];
         const filters = new Filters().deserialize(this.myForm.value);
-        this.getProjectList();
+        if (this.paginatorTop.pageIndex==0) {
+            this.getProjectList();
+        }else{
+            this.goFirstPage();
+        }
 
         this._router.navigate([], {
             relativeTo: this._route,
@@ -150,6 +155,7 @@ export class ProjectsComponent implements AfterViewInit {
     onPaginate(event){
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
+        this.getProjectList();
     }
 
     getPageIndexStart(){

@@ -14,9 +14,12 @@ export class ProjectService {
 
     constructor(private http: HttpClient) { }
 
-    getProjects(filters:Filters): Observable<ProjectList>  {
+    getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>  {
         const urlProjects = environment.api;
-        let params = {};
+        let params = {
+            offset: offset,
+            limit: limit
+        };
         for (const filter in filters){
             if (filters[filter] && filter != 'deserialize') {
                 if (Array.isArray(filters[filter])) {
@@ -24,7 +27,7 @@ export class ProjectService {
                         params[filter] = environment.entityURL + filters[filter].toString();
                     }
                 }else {
-                    if (filter != 'keywords') {
+                    if (filter != 'keywords' && filter != 'region') {
                         params[filter] = environment.entityURL + filters[filter];
                     }else{
                         params[filter] = filters[filter];

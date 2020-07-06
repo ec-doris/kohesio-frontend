@@ -43,11 +43,12 @@ export class MapComponent implements AfterViewInit {
                 {
                     icon: L.icon({
                         iconUrl: 'assets/images/map/marker-icon-2x.png',
-                        iconAnchor: [22, 94],
-                        popupAnchor: [-3, -76],
                         shadowUrl: 'assets/images/map/marker-shadow.png',
-                        shadowSize: [68, 95],
-                        shadowAnchor: [22, 105]
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        tooltipAnchor: [16, -28],
+                        shadowSize: [41, 41]
                     })
                 }
             );
@@ -85,6 +86,10 @@ export class MapComponent implements AfterViewInit {
         });
     }
 
+    public drawPolygons(polygons){
+        return L.geoJson(polygons).addTo(this.map);
+    }
+
     public refreshView(){
         setTimeout(() => {
             this.map.invalidateSize(true);
@@ -96,6 +101,10 @@ export class MapComponent implements AfterViewInit {
             this.map.removeLayer(this.markersGroup);
             this.markersGroup = null;
         }
+    }
+
+    public fitBounds(bounds){
+        this.map.fitBounds(bounds);
     }
 
 }
