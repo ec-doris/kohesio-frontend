@@ -15,11 +15,41 @@ export class ProjectService {
     constructor(private http: HttpClient) { }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>  {
-        const urlProjects = environment.api + '/search/project';
-        let params = {
-            offset: offset,
-            limit: limit
-        };
+        const url = environment.api + '/search/project';
+        const params = this.generateParameters(filters, offset, limit);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    return null;
+                }else {
+                    return new ProjectList().deserialize(data);
+                }
+            })
+        );
+    }
+
+    getMapPoints(filters): Observable<any>{
+        const url = environment.api + '/search/project/map';
+        const params = this.generateParameters(filters, 0, -1);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
+            map(data => {
+                if (!data && !data.list){
+                    return null;
+                }else {
+                    return data.list;
+                }
+            })
+        );
+    }
+
+    generateParameters(filters:Filters, offset: number = 0, limit: number = 15){
+        let params = {};
+        if (limit !== -1){
+            params = {
+                offset: offset,
+                limit: limit
+            };
+        }
         for (const filter in filters){
             if (filters[filter] && filter != 'deserialize') {
                 if (Array.isArray(filters[filter])) {
@@ -35,15 +65,7 @@ export class ProjectService {
                 }
             }
         }
-        return this.http.get<any>(urlProjects,{ params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    return null;
-                }else {
-                    return new ProjectList().deserialize(data);
-                }
-            })
-        );
+        return params;
     }
 
     getProjectDetail(id: string): Observable<ProjectDetail> {

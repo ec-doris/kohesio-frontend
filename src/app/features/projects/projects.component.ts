@@ -228,15 +228,18 @@ export class ProjectsComponent implements AfterViewInit {
 
     createMarkers(){
         this.map.removeAllMarkers();
-        for(let project of this.projects){
-            if (project.coordinates && project.coordinates.length) {
-                project.coordinates.forEach(coords=>{
-                    const coordinates = coords.split(",");
-                    const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
-                    this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                })
+        const filters = new Filters().deserialize(this.myForm.value);
+        this.projectService.getMapPoints(filters).subscribe(mapPoints=>{
+            for(let project of mapPoints){
+                if (project.coordinates && project.coordinates.length) {
+                    project.coordinates.forEach(coords=>{
+                        const coordinates = coords.split(",");
+                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                        this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                    })
+                }
             }
-        }
+        });
     }
 
     openImageOverlay(imgUrl, projectTitle){
