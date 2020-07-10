@@ -27,6 +27,7 @@ export class ProjectDetail implements Deserializable{
     programWebsite: string;
     programmingPeriodLabel: string;
     region: string;
+    geoJson: any;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -54,8 +55,14 @@ export class ProjectDetail implements Deserializable{
             projectWebsite: input.projectWebsite,
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
-            region: this.getRegion(input)
+            region: this.getRegion(input),
+            geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null
         });
+    }
+
+    parseJSON(json){
+        const validJSON = json.replace(/'/g, '"');
+        return JSON.parse(validJSON);
     }
 
     getRegion(input){

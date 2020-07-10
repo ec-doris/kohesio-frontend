@@ -52,7 +52,7 @@
                 <div class="loading" *ngIf="isLoading">Loading...</div>
                 <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
                 <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0 && !isLoading">
-                    <article class="article--post" *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                    <article class="article--post" *ngFor="let project of projects">
                         <header>
                             <div class="article--post__image">
                                 <figure role="presentation" class="prj-image">
@@ -82,7 +82,7 @@
                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </span>
                                         {{filterService.getThemeLabel(project.objectiveId)}}
-                                        <ng-container *ngIf="!project.objectiveId">Category of intervention have not been declared by the Managing Authority</ng-container>
+                                        <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
@@ -128,7 +128,7 @@
             </ux-tab>
             <ux-tab label="Audio-visual">
                 <div class="audio-visual-container">
-                    <ng-container *ngFor="let project of (projects ? projects.slice(getPageIndexStart(),getPageIndexEnd()): [])">
+                    <ng-container *ngFor="let project of projects">
                         <a [routerLink]="['/projects/' + project.item]">
                             <img *ngIf="project.images && project.images.length" [src]="project.images[0]">
                         </a>

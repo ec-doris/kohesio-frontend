@@ -124,11 +124,12 @@ export class ProjectsComponent implements AfterViewInit {
     private getProjectList(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.projectService.getProjects(filters).subscribe((result:ProjectList) => {
+        let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize;
+        this.projectService.getProjects(filters, offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
-            this.goFirstPage();
+            //this.goFirstPage();
             if (this.selectedTabIndex == 3){
                 this.createMarkers();
             }
@@ -138,7 +139,11 @@ export class ProjectsComponent implements AfterViewInit {
     onSubmit() {
         this.projects = [];
         const filters = new Filters().deserialize(this.myForm.value);
-        this.getProjectList();
+        if (this.paginatorTop.pageIndex==0) {
+            this.getProjectList();
+        }else{
+            this.goFirstPage();
+        }
 
         this._router.navigate([], {
             relativeTo: this._route,
@@ -150,6 +155,7 @@ export class ProjectsComponent implements AfterViewInit {
     onPaginate(event){
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
+        this.getProjectList();
     }
 
     getPageIndexStart(){
@@ -222,15 +228,18 @@ export class ProjectsComponent implements AfterViewInit {
 
     createMarkers(){
         this.map.removeAllMarkers();
-        for(let project of this.projects){
-            if (project.coordinates && project.coordinates.length) {
-                project.coordinates.forEach(coords=>{
-                    const coordinates = coords.split(",");
-                    const popupContent = "<a href='/projects/" + project.item +"'>"+project.title+"</a>";
-                    this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                })
+        const filters = new Filters().deserialize(this.myForm.value);
+        this.projectService.getMapPoints(filters).subscribe(mapPoints=>{
+            for(let project of mapPoints){
+                if (project.coordinates && project.coordinates.length) {
+                    project.coordinates.forEach(coords=>{
+                        const coordinates = coords.split(",");
+                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                        this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                    })
+                }
             }
-        }
+        });
     }
 
     openImageOverlay(imgUrl, projectTitle){
