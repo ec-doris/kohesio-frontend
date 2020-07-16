@@ -46,7 +46,7 @@ export class BeneficiaryService {
                         params[filter] = environment.entityURL + filters[filter].toString();
                     }
                 }else {
-                    if (filter != 'name') {
+                    if (filter != 'name' && filter != 'region') {
                         params[filter] = environment.entityURL + filters[filter];
                     }else{
                         params[filter] = filters[filter];
