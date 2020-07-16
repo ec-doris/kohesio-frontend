@@ -129,6 +129,11 @@ export class ProjectsComponent implements AfterViewInit {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
+
+            //go to the top
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+
             //this.goFirstPage();
             if (this.selectedTabIndex == 3){
                 this.createMarkers();
