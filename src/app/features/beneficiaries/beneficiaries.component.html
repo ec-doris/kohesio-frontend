@@ -7,14 +7,14 @@
             <ux-form-group label="COUNTRIES" [isVertical]="true">
                 <ux-form-control formControlName="country"
                                  [isSelect]="true"
-                                 [selectOptions]="countries"
+                                 [selectOptions]="filters.countries"
                                  (modelChange)="onCountryChange()">
                 </ux-form-control>
             </ux-form-group>
             <ux-form-group label="REGIONS" [isVertical]="true">
                 <ux-form-control formControlName="region"
                                  [isSelect]="true"
-                                 [selectOptions]="regions">
+                                 [selectOptions]="filters.regions">
                 </ux-form-control>
             </ux-form-group>
 

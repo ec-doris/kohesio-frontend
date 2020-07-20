@@ -11,6 +11,7 @@ import {DOCUMENT} from "@angular/common";
 import {MapComponent} from "../../shared/components/map/map.component";
 import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
+import {FiltersApi} from "../../shared/models/filters-api.model";
 declare let L;
 
 @Component({
@@ -18,11 +19,8 @@ declare let L;
 })
 export class ProjectsComponent implements AfterViewInit {
 
-    public countries: any[] = [];
-    public regions: any[] = [];
-    public themes: any[] = [];
-    public policyObjectives:any[] = [];
     public projects: Project[] = [];
+    public filters: FiltersApi;
     public count = 0;
     public myForm: FormGroup;
     public isLoading = false;
@@ -46,75 +44,46 @@ export class ProjectsComponent implements AfterViewInit {
                 @Inject(DOCUMENT) private _document: Document){}
 
     ngOnInit(){
-        this.myForm = this.formBuilder.group({
-            country: [this._route.snapshot.queryParamMap.get('country')],
-            region: [this._route.snapshot.queryParamMap.get('region')],
-            policyObjective: [this._route.snapshot.queryParamMap.get('policyObjective')],
-            theme: [this._route.snapshot.queryParamMap.get('theme')],
-            keywords: this._route.snapshot.queryParamMap.get('keywords')
-        });
-        this.filterService.getFilters().then(result=>{
+        this.filters = this._route.snapshot.data.filters;
 
-            //Countries
-            for (let country of result.countries){
-                let countryCode = country[0].split(",")[1].toLowerCase();
-                let countryId= country[0].split(",")[0];
-                this.countries.push({
-                    id: countryId,
-                    value: country[1],
-                    iconClass: 'flag-icon flag-icon-' + countryCode
-                })
-            }
-            if (this._route.snapshot.queryParamMap.get('country')){
-                this.myForm.patchValue({
-                    country: this.filterService.getFilterKey("countries",this._route.snapshot.queryParamMap.get('country'))
-                });
-                this.getRegions();
-            }
-            //Policy objectives
-            for (let topic of result.policyObjectives){
-                let topicId= topic[0];
-                this.policyObjectives.push({
-                    id: topicId,
-                    value: topic[1],
-                    iconClass: 'topic-icon ' + topicId
-                })
-            }
-            if (this._route.snapshot.queryParamMap.get('policyObjective')){
-                this.myForm.patchValue({
-                    policyObjective: this.filterService.getFilterKey("policyObjectives", this._route.snapshot.queryParamMap.get('policyObjective'))
-                });
-            }
-            //Themes
-            for (let topic of result.themes){
-                let topicCode = topic[0].split(",")[1];
-                let topicId= topic[0].split(",")[0];
-                this.themes.push({
-                    id: topicId,
-                    value: topic[1],
-                    iconClass: 'topic-icon ' + topicCode
-                })
-            }
-            if (this._route.snapshot.queryParamMap.get('theme')){
-                this.myForm.patchValue({
-                    theme: this.filterService.getFilterKey("themes", this._route.snapshot.queryParamMap.get('theme'))
-                });
-            }
-            if (this._route.snapshot.queryParamMap.get('region')){
-                this.getRegions().then(regions=>{
+        this.myForm = this.formBuilder.group({
+            keywords: this._route.snapshot.queryParamMap.get('keywords'),
+            country: [this.getFilterKey("countries","country")],
+            region: [],
+            policyObjective: [this.getFilterKey("policy_objective","policyObjective")],
+            theme: [this.getFilterKey("thematic_objectives","theme")],
+            programPeriod: ['2021-2027'],
+            fund:[this.getFilterKey("funds","fund")],
+            program:[this.getFilterKey("programs","program")],
+            categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
+        });
+
+        if (this._route.snapshot.queryParamMap.get('country')){
+            this.getRegions().then(regions => {
+                if (this._route.snapshot.queryParamMap.get('region')) {
                     this.myForm.patchValue({
-                        region: this.filterService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
+                        region: this.getFilterKey("regions","region")
                     });
                     this.getProjectList();
-                });
-            }else{
-                this.getProjectList();
-            }
+                }
+            });
+        }
 
-        });
+        if (!this._route.snapshot.queryParamMap.get('region')) {
+            this.getProjectList();
+        }
+
         this.markerService.getServerPoints().then(result=>{
             this.loadedDataPoints = result;
         });
+    }
+
+    private getFilterKey(type: string, queryParam: string){
+        return this.filterService.getFilterKey(type,this._route.snapshot.queryParamMap.get(queryParam))
+    }
+
+    private getFilterLabel(type: string, label: string){
+        return this.filterService.getFilterLabel(type,label)
     }
 
     ngAfterViewInit(): void {
@@ -124,7 +93,7 @@ export class ProjectsComponent implements AfterViewInit {
     private getProjectList(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize;
+        let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize | 0;
         this.projectService.getProjects(filters, offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
@@ -152,7 +121,7 @@ export class ProjectsComponent implements AfterViewInit {
 
         this._router.navigate([], {
             relativeTo: this._route,
-            queryParams: this.getFormValues(),
+            queryParams: this.generateQueryParams(),
             queryParamsHandling: 'merge'
         });
     }
@@ -175,13 +144,16 @@ export class ProjectsComponent implements AfterViewInit {
         this.paginatorTop.firstPage();
     }
 
-    getFormValues(){
+    generateQueryParams(){
         return {
             keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
-            country: this.filterService.getFilterLabel("countries", this.myForm.value.country),
-            region: this.filterService.getFilterLabel("regions", this.myForm.value.region),
-            theme: this.filterService.getFilterLabel("themes", this.myForm.value.theme),
-            policyObjective: this.filterService.getFilterLabel("policyObjectives", this.myForm.value.policyObjective),
+            country: this.getFilterLabel("countries", this.myForm.value.country),
+            region: this.getFilterLabel("regions", this.myForm.value.region),
+            theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
+            policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+            fund: this.getFilterLabel("funds", this.myForm.value.fund),
+            program: this.getFilterLabel("programs", this.myForm.value.program),
+            categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention)
         }
     }
 
@@ -207,14 +179,6 @@ export class ProjectsComponent implements AfterViewInit {
     getRegions(): Promise<any>{
         return new Promise((resolve, reject) => {
             this.filterService.getRegions(this.myForm.value.country).subscribe(regions => {
-                this.regions = [];
-                for (let region of regions) {
-                    let regionId = region[0];
-                    this.regions.push({
-                        id: regionId,
-                        value: region[1]
-                    })
-                }
                 resolve(true);
             });
         });
