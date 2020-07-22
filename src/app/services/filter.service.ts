@@ -1,111 +1,71 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import {Project} from "../shared/models/project.model";
 import {map} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable} from 'rxjs';
+import {Filters} from "../shared/models/filters.model";
 import {environment} from "../../environments/environment";
-import {FiltersApi} from "../shared/models/filters-api.model";
+import {ProjectDetail} from "../shared/models/project-detail.model";
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilterService {
 
-    private filters:FiltersApi;
+    private filters:any;
     private countryGeoJson;
 
     constructor(private http: HttpClient) { }
 
-
-    getProjectsFilters(): Observable<FiltersApi>{
-        return this.getFilters(
-            Observable.forkJoin(
-                this.getFilter('thematic_objectives'),
-                this.getFilter('policy_objective'),
-                this.getFilter('funds'),
-                this.getFilter('programs'),
-                this.getFilter('categoriesOfIntervention')
-            )
-        );
-    }
-
-    getBeneficiariesFilters(): Observable<FiltersApi>{
-        return this.getFilters(
-            Observable.forkJoin(
-                this.getFilter('funds'),
-                this.getFilter('programs')
-            )
-        );
-    }
-
-    getFilters(filtersList): Observable<FiltersApi>{
-        return filtersList.pipe(
-            map((data:any[]) => {
-                let obj = {};
-                data.forEach(d=>{
-                   obj = {
-                       ...obj,
-                       ...d
-                   }
-                });
-                this.filters = new FiltersApi().deserialize(obj);
-                return this.filters;
-            })
-        );
-    }
-
-    getFilter(type: string):Observable<any>{
-        const url = environment.api + '/' + type;
-        return this.http.get<any>(url).pipe(
-            map(results => {
-                const data = {};
-                data[type] = [];
-                results.forEach(item=>{
-                    data[type].push({
-                        id: this.cleanId(item.instance),
-                        value: item.instanceLabel
+    getFilters(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            if (this.filters) {
+                resolve(this.filters);
+            }else {
+                fetch('assets/data/filters.json')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error("HTTP error " + response.status);
+                        }
+                        return response.json();
+                    })
+                    .then(json => {
+                        this.filters = json;
+                        resolve(json);
+                    })
+                    .catch(function () {
+                        reject("error getting filters");
                     });
-                })
-               return data;
-            }));
-    }
-
-    private cleanId(id:string){
-        return id.replace("https://linkedopendata.eu/entity/", "")
-            .replace("fund=", "")
-            .replace("to=", "")
-            .replace("program=", "")
-            .replace("instance=", "");
+            }
+        });
     }
 
     getFilterLabel(type:string, key:string) {
         let result = null;
         if (key) {
             const record = this.filters[type].find(filter => {
-                return filter.id == key;
+                const k = filter[0].split(',')[0];
+                return k == key;
             });
             if (record) {
-                result = record.value.split(' ').join('-');
+                result = record[1].split(' ').join('-');
             }
         }
        return result;
     }
 
     getFilterKey(type:string, label:string){
-        if (type && label) {
-            let result = '';
-            const record = this.filters[type].find(filter => {
-                label = label.split('-').join('');
-                let l = filter.value.split('-').join('');
-                l = l.split(' ').join('');
-                return l == label;
-            });
-            if (record) {
-                result = record.id;
-            }
-            return result;
-        }else{
-            return null;
+        let result = '';
+        const record = this.filters[type].find(filter=>{
+            label = label.split('-').join('');
+            let l = filter[1].split('-').join('');
+            l = l.split(' ').join('');
+            return l == label;
+        });
+        if (record){
+            result = record[0].split(",")[0];
         }
+        return result;
     }
 
     getRegions(country: string): Observable<any[]>{
@@ -119,10 +79,11 @@ export class FilterService {
                     return [];
                 }else {
                     const regions = data.map(data => {
-                        return {
-                            id: this.cleanId(data.region),
-                            value: data.name
-                        };
+                        const key = data.region.replace("region=https://linkedopendata.eu/entity/", "") + "," + country
+                        return [
+                            data.region.replace("region=https://linkedopendata.eu/entity/", ""),
+                            data.name
+                        ];
                     });
                     this.filters.regions = regions;
                     return regions;
@@ -134,11 +95,12 @@ export class FilterService {
     getThemeLabel(key:string) {
         let result = null;
         if (key) {
-            const record:any = this.filters.thematic_objectives.find((filter:any) => {
-                return filter.pk == key;
+            const record = this.filters.themes.find(filter => {
+                const k = filter[0].split(',')[1];
+                return k == key;
             });
             if (record) {
-                result = record.value;
+                result = record[1];
             }
         }
         return result;

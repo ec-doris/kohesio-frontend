@@ -15,7 +15,8 @@ export class BeneficiaryService {
 
     getBeneficiaries(filters:Filters): Observable<Beneficiary[]>  {
         const url = environment.api + "/search/beneficiaries";
-        return this.http.get<any>(url,{ params: <any>filters.getBeneficiariesFilters() }).pipe(
+        let params = this.buildParameters(filters);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){
                     return [];
@@ -30,9 +31,30 @@ export class BeneficiaryService {
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.api + "/search/beneficiaries/" + type;
+        let params = this.buildParameters(filters);
         return this.http.get(url,{
-            responseType: 'arraybuffer',params:filters.getBeneficiariesFilters()}
+            responseType: 'arraybuffer',params:params}
         );
+    }
+
+    buildParameters(filters: Filters){
+        let params = {};
+        for (const filter in filters){
+            if (filters[filter] && filter != 'deserialize') {
+                if (Array.isArray(filters[filter])) {
+                    if (filters[filter].length) {
+                        params[filter] = environment.entityURL + filters[filter].toString();
+                    }
+                }else {
+                    if (filter != 'name') {
+                        params[filter] = environment.entityURL + filters[filter];
+                    }else{
+                        params[filter] = filters[filter];
+                    }
+                }
+            }
+        }
+        return params;
     }
 
 }

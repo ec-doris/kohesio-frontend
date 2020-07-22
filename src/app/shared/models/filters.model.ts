@@ -1,82 +1,22 @@
 import {Deserializable} from "./deserializable.model";
-import {environment} from "../../../environments/environment";
 
 export class Filters implements Deserializable{
 
-    public keywords: string;
-    public name: string;
-    private country: string;
-    public region: string;
-    public theme: string;
-    public policyObjective: string;
-    public fund: string;
-    public program: string;
-    public categoryOfIntervention: string;
-    public budgetSmallerThan: number;
-    public budgetBiggerThan: number;
-    public budgetEUSmallerThan: number;
-    public budgetEUBiggerThan: number;
-    public startDateAfter: string;
-    public endDateBefore: string;
+    public keywords:String;
+    public name:String;
+    public country: String;
+    public region: String;
+    public theme: String;
+    public policyObjective: String;
 
     deserialize(input: any): this {
-
-        let totalProjectBudget = null;
-        if(input.totalProjectBudget) {
-            totalProjectBudget = input.totalProjectBudget.split("-");
-        }
-
-        let amountEUSupport = null;
-        if(input.amountEUSupport) {
-            amountEUSupport = input.amountEUSupport.split("-");
-        }
-
         return Object.assign(this, {
             keywords: input.keywords ? input.keywords : undefined,
             country: input.country ? input.country : undefined,
             region: input.region ? input.region : undefined,
             theme: input.theme ? input.theme : undefined,
             name: input.name ? input.name : undefined,
-            policyObjective: input.policyObjective ? input.policyObjective : undefined,
-            fund: input.fund ? input.fund : undefined,
-            program: input.program ? input.program : undefined,
-            categoryOfIntervention: input.categoryOfIntervention ? input.categoryOfIntervention : undefined,
-            budgetSmallerThan: input.totalProjectBudget ? totalProjectBudget[1] : undefined,
-            budgetBiggerThan: input.totalProjectBudget ? totalProjectBudget[0] : undefined,
-            budgetEUSmallerThan: input.amountEUSupport ? amountEUSupport[1] : undefined,
-            budgetEUBiggerThan: input.amountEUSupport ? amountEUSupport[0] : undefined,
-            startDateAfter: input.projectStart ? input.projectStart : undefined,
-            endDateBefore: input.projectEnd ? input.projectEnd : undefined
+            policyObjective: input.policyObjective ? input.policyObjective : undefined
         });
     }
-
-    public getProjectsFilters(){
-        return {
-            ...(this.keywords) && {keywords: this.keywords},
-            ...(this.country) && {country: environment.entityURL + this.country},
-            ...(this.region) && {region: environment.entityURL + this.region},
-            ...(this.theme) && {theme: environment.entityURL + this.theme},
-            ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
-            ...(this.fund) && {fund: environment.entityURL + this.fund},
-            ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.categoryOfIntervention) && {categoryOfIntervention: environment.entityURL + this.categoryOfIntervention},
-            ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
-            ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
-            ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
-            ...(this.budgetEUBiggerThan) && {budgetEUBiggerThan: this.budgetEUBiggerThan},
-            ...(this.startDateAfter) && {startDateAfter: this.startDateAfter},
-            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore}
-        }
-    }
-
-    public getBeneficiariesFilters(){
-        return {
-            ...(this.keywords) && {keywords: this.keywords},
-            ...(this.country) && {country: environment.entityURL + this.country},
-            ...(this.region) && {region: environment.entityURL + this.region},
-            ...(this.fund) && {fund: environment.entityURL + this.fund},
-            ...(this.program) && {program: environment.entityURL + this.program}
-        }
-    }
-
 }

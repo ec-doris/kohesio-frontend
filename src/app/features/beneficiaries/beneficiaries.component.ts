@@ -7,7 +7,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import {MatTableDataSource} from '@angular/material/table';
 import {Beneficiary} from "../../shared/models/beneficiary.model";
 import {FilterService} from "../../services/filter.service";
-import {FiltersApi} from "../../shared/models/filters-api.model";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -16,7 +15,8 @@ import {FiltersApi} from "../../shared/models/filters-api.model";
 export class BeneficiariesComponent implements AfterViewInit {
 
     public myForm: FormGroup;
-    public filters: FiltersApi;
+    public countries: any[] = [];
+    public regions: any[] = [];
     public dataSource:MatTableDataSource<Beneficiary>;
     public isLoading = false;
     @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -31,7 +31,6 @@ export class BeneficiariesComponent implements AfterViewInit {
             type: 'application/vnd.ms-excel'
         }
     }
-    public advancedFilterExpanded = false;
 
     constructor(private beneficaryService: BeneficiaryService,
                 private filterService: FilterService,
@@ -40,40 +39,40 @@ export class BeneficiariesComponent implements AfterViewInit {
                 private _router: Router,){}
 
     ngOnInit(){
-        this.filters = this._route.snapshot.data.filters;
-
         this.myForm = this.formBuilder.group({
             name: [this._route.snapshot.queryParamMap.get('name')],
-            country: [this.getFilterKey("countries","country")],
-            region: [],
-            fund:[this.getFilterKey("funds","fund")],
-            program:[this.getFilterKey("programs","program")]
+            country: [this._route.snapshot.queryParamMap.get('country')],
+            region: [this._route.snapshot.queryParamMap.get('regions')]
         });
+        this.filterService.getFilters().then(result=> {
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program;
-
-        if (this._route.snapshot.queryParamMap.get('country')) {
-            this.getRegions().then(regions=>{
-                if (this._route.snapshot.queryParamMap.get('region')) {
+            //Countries
+            for (let country of result.countries) {
+                let countryCode = country[0].split(",")[1].toLowerCase();
+                let countryId = country[0].split(",")[0];
+                this.countries.push({
+                    id: countryId,
+                    value: country[1],
+                    iconClass: 'flag-icon flag-icon-' + countryCode
+                })
+            }
+            if (this._route.snapshot.queryParamMap.get('country')) {
+                this.myForm.patchValue({
+                    country: this.filterService.getFilterKey("countries", this._route.snapshot.queryParamMap.get('country'))
+                });
+                this.getRegions();
+            }
+            if (this._route.snapshot.queryParamMap.get('region')){
+                this.getRegions().then(regions=>{
                     this.myForm.patchValue({
                         region: this.filterService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
                     });
                     this.performSearch();
-                }
-            });
-        }
-
-        if (!this._route.snapshot.queryParamMap.get('region')) {
-            this.performSearch();
-        }
-    }
-
-    private getFilterKey(type: string, queryParam: string){
-        return this.filterService.getFilterKey(type,this._route.snapshot.queryParamMap.get(queryParam))
-    }
-
-    private getFilterLabel(type: string, label: string){
-        return this.filterService.getFilterLabel(type,label)
+                });
+            }else{
+                this.performSearch();
+            }
+        });
     }
 
     ngAfterViewInit(): void {
@@ -105,16 +104,23 @@ export class BeneficiariesComponent implements AfterViewInit {
     getFormValues(){
         return {
             name: this.myForm.value.name ? this.myForm.value.name : null,
-            country: this.getFilterLabel("countries", this.myForm.value.country),
-            region: this.getFilterLabel("regions", this.myForm.value.region),
-            fund: this.getFilterLabel("funds", this.myForm.value.fund),
-            program: this.getFilterLabel("programs", this.myForm.value.program)
+            country: this.filterService.getFilterLabel("countries", this.myForm.value.country),
+            region: this.filterService.getFilterLabel("regions", this.myForm.value.region),
+            theme: this.filterService.getFilterLabel("themes", this.myForm.value.theme)
         }
     }
 
     getRegions(): Promise<any>{
         return new Promise((resolve, reject) => {
             this.filterService.getRegions(this.myForm.value.country).subscribe(regions => {
+                this.regions = [];
+                for (let region of regions) {
+                    let regionId = region[0];
+                    this.regions.push({
+                        id: regionId,
+                        value: region[1]
+                    })
+                }
                 resolve(true);
             });
         });
@@ -151,10 +157,6 @@ export class BeneficiariesComponent implements AfterViewInit {
                 link.remove();
             }, 100);
         })
-    }
-
-    resetForm(){
-        this.myForm.reset();
     }
 
 }

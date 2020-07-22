@@ -50,9 +50,21 @@ export class ProjectService {
                 limit: limit
             };
         }
-        params = Object.assign(
-            params,
-            filters.getProjectsFilters());
+        for (const filter in filters){
+            if (filters[filter] && filter != 'deserialize') {
+                if (Array.isArray(filters[filter])) {
+                    if (filters[filter].length) {
+                        params[filter] = environment.entityURL + filters[filter].toString();
+                    }
+                }else {
+                    if (filter != 'keywords' && filter != 'region') {
+                        params[filter] = environment.entityURL + filters[filter];
+                    }else{
+                        params[filter] = filters[filter];
+                    }
+                }
+            }
+        }
         return params;
     }
 

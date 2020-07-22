@@ -4,7 +4,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { ProjectsComponent } from './projects.component';
 import {ProjectDetailComponent} from "./project-detail.component";
 import {ProjectResolver} from "./project.resolve";
-import {ProjectListResolver} from "./projects.resolve";
 
 const routes: Routes = [
     {
@@ -16,9 +15,6 @@ const routes: Routes = [
             },
             pageId:'projects'
         },
-        resolve: {
-            filters: ProjectListResolver
-        }
     },{
         path: ':id',
         component: ProjectDetailComponent,
