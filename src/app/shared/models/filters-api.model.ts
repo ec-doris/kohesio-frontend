@@ -39,6 +39,14 @@ export class FiltersApi implements Deserializable{
             id: '2021-2027',
             value: '2021 - 2027',
         }];
+        FiltersApi.prototype.totalProjectBudget = [{
+            id: '10000-100000',
+            value: '10 000 - 100 000',
+        }];
+        FiltersApi.prototype.amountEUSupport = [{
+            id: '10000-100000',
+            value: '10 000 - 100 000',
+        }];
     })();
 
     deserialize(input: any): this {

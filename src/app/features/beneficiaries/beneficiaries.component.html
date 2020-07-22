@@ -23,10 +23,24 @@
                 <ux-button (click)="getFile('excel')">Download Excel</ux-button>
             </div>
 
-            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">
-                Dynamic filters here
+            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
+                <ux-form-group label="FUNDS" [isVertical]="true">
+                    <ux-form-control formControlName="fund"
+                                     [isSelect]="true"
+                                     [selectOptions]="this.filters.funds">
+                    </ux-form-control>
+                </ux-form-group>
+                <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
+                    <ux-form-control formControlName="program"
+                                     [isSelect]="true"
+                                     [selectOptions]="this.filters.programs">
+                    </ux-form-control>
+                </ux-form-group>
             </ux-panel>
-            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+            <div class="search-buttons">
+                <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
+                <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+            </div>
         </form>
     </ux-layout-page-column>
     <ux-layout-page-column mainTitle="BENEFICIARIES" mainSubtitle="Ranking by EU support">

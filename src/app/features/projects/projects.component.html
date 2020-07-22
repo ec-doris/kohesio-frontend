@@ -39,7 +39,7 @@
                                  (modelChange)="onThemeChange()">
                 </ux-form-control>
             </ux-form-group>
-            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true">
+            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
                 <ux-form-group label="PROGRAMMING PERIOD" [isVertical]="true">
                     <ux-form-control formControlName="programPeriod"
                                      [isSelect]="true"
@@ -65,8 +65,29 @@
                                      [selectOptions]="this.filters.categoriesOfIntervention">
                     </ux-form-control>
                 </ux-form-group>
+                <ux-form-group label="TOTAL PROJECT BUDGET" [isVertical]="true">
+                    <ux-form-control formControlName="totalProjectBudget"
+                                     [isSelect]="true"
+                                     [selectOptions]="this.filters.totalProjectBudget">
+                    </ux-form-control>
+                </ux-form-group>
+                <ux-form-group label="AMOUNT EU SUPPORT" [isVertical]="true">
+                    <ux-form-control formControlName="amountEUSupport"
+                                     [isSelect]="true"
+                                     [selectOptions]="this.filters.amountEUSupport">
+                    </ux-form-control>
+                </ux-form-group>
+                <ux-form-group label="START - END" [isVertical]="true" >
+                    <div class="kohesio-data-range">
+                        <ux-datepicker #startDate formControlName="projectStart" [maxDate]="endDate.input.value ? endDate.input.value : null"></ux-datepicker>
+                        <ux-datepicker #endDate formControlName="projectEnd" [minDate]="startDate.input.value ? startDate.input.value : null"></ux-datepicker>
+                    </div>
+                </ux-form-group>
             </ux-panel>
-            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+            <div class="search-buttons">
+                <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
+                <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+            </div>
         </form>
     </ux-layout-page-column>
 
