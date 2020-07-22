@@ -31,6 +31,7 @@ export class BeneficiariesComponent implements AfterViewInit {
             type: 'application/vnd.ms-excel'
         }
     }
+    public advancedFilterExpanded = false;
 
     constructor(private beneficaryService: BeneficiaryService,
                 private filterService: FilterService,
@@ -44,8 +45,12 @@ export class BeneficiariesComponent implements AfterViewInit {
         this.myForm = this.formBuilder.group({
             name: [this._route.snapshot.queryParamMap.get('name')],
             country: [this.getFilterKey("countries","country")],
-            region: []
+            region: [],
+            fund:[this.getFilterKey("funds","fund")],
+            program:[this.getFilterKey("programs","program")]
         });
+
+        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program;
 
         if (this._route.snapshot.queryParamMap.get('country')) {
             this.getRegions().then(regions=>{
@@ -101,7 +106,9 @@ export class BeneficiariesComponent implements AfterViewInit {
         return {
             name: this.myForm.value.name ? this.myForm.value.name : null,
             country: this.getFilterLabel("countries", this.myForm.value.country),
-            region: this.getFilterLabel("regions", this.myForm.value.region)
+            region: this.getFilterLabel("regions", this.myForm.value.region),
+            fund: this.getFilterLabel("funds", this.myForm.value.fund),
+            program: this.getFilterLabel("programs", this.myForm.value.program)
         }
     }
 
@@ -144,6 +151,10 @@ export class BeneficiariesComponent implements AfterViewInit {
                 link.remove();
             }, 100);
         })
+    }
+
+    resetForm(){
+        this.myForm.reset();
     }
 
 }

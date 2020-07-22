@@ -7,7 +7,7 @@ import {Filters} from "../../shared/models/filters.model";
 import {MarkerService} from "../../services/marker.service";
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
-import {DOCUMENT} from "@angular/common";
+import {DatePipe, DOCUMENT} from "@angular/common";
 import {MapComponent} from "../../shared/components/map/map.component";
 import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
@@ -32,6 +32,7 @@ export class ProjectsComponent implements AfterViewInit {
     public selectedTabIndex:number = 1;
     public modalImageUrl = "";
     public modalTitleLabel = "";
+    public advancedFilterExpanded = false;
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -41,7 +42,8 @@ export class ProjectsComponent implements AfterViewInit {
                 private _route: ActivatedRoute,
                 private _router: Router,
                 private _renderer2: Renderer2,
-                @Inject(DOCUMENT) private _document: Document){}
+                @Inject(DOCUMENT) private _document: Document,
+                private datePipe: DatePipe){}
 
     ngOnInit(){
         this.filters = this._route.snapshot.data.filters;
@@ -52,11 +54,20 @@ export class ProjectsComponent implements AfterViewInit {
             region: [],
             policyObjective: [this.getFilterKey("policy_objective","policyObjective")],
             theme: [this.getFilterKey("thematic_objectives","theme")],
+            //Advanced filters
             programPeriod: ['2021-2027'],
             fund:[this.getFilterKey("funds","fund")],
             program:[this.getFilterKey("programs","program")],
             categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
+            totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
+            amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
+            projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
+            projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
         });
+
+        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program ||
+            this.myForm.value.categoryOfIntervention || this.myForm.value.totalProjectBudget ||
+            this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
         if (this._route.snapshot.queryParamMap.get('country')){
             this.getRegions().then(regions => {
@@ -91,10 +102,9 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     private getProjectList(){
-        const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
         let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize | 0;
-        this.projectService.getProjects(filters, offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
+        this.projectService.getProjects(this.getFilters(), offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
@@ -112,7 +122,6 @@ export class ProjectsComponent implements AfterViewInit {
 
     onSubmit() {
         this.projects = [];
-        const filters = new Filters().deserialize(this.myForm.value);
         if (this.paginatorTop.pageIndex==0) {
             this.getProjectList();
         }else{
@@ -153,7 +162,11 @@ export class ProjectsComponent implements AfterViewInit {
             policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
             program: this.getFilterLabel("programs", this.myForm.value.program),
-            categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention)
+            categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention),
+            totalProjectBudget:this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
+            amountEUSupport:this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
+            projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
+            projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null
         }
     }
 
@@ -195,10 +208,16 @@ export class ProjectsComponent implements AfterViewInit {
         }
     }
 
+    getFilters(){
+        const formValues = Object.assign({},this.myForm.value);
+        formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'dd-MM-yyyy') : undefined;
+        formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'dd-MM-yyyy') : undefined;
+        return new Filters().deserialize(formValues);
+    }
+
     createMarkers(){
         this.map.removeAllMarkers();
-        const filters = new Filters().deserialize(this.myForm.value);
-        this.projectService.getMapPoints(filters).subscribe(mapPoints=>{
+        this.projectService.getMapPoints(this.getFilters()).subscribe(mapPoints=>{
             for(let project of mapPoints){
                 if (project.coordinates && project.coordinates.length) {
                     project.coordinates.forEach(coords=>{
@@ -215,6 +234,23 @@ export class ProjectsComponent implements AfterViewInit {
         this.modalImageUrl = imgUrl;
         this.modalTitleLabel = projectTitle;
         this.uxService.openModal("imageOverlay")
+    }
+
+    getDate(dateStringFormat){
+        if (dateStringFormat) {
+            const dateSplit = dateStringFormat.split('-');
+            const javascriptFormat = dateSplit[1] + "/" + dateSplit[0] + "/" + dateSplit[2];
+            return dateStringFormat ? new Date(
+                javascriptFormat
+            ) : undefined;
+        }
+    }
+
+    resetForm(){
+        this.myForm.reset();
+        this.myForm.patchValue({
+            programPeriod: ["2021-2027"]
+        });
     }
 
 
