@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 
+import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import LocaleEnglish from '@angular/common/locales/en';
 import LocaleFrench from '@angular/common/locales/fr';
@@ -31,5 +32,8 @@ registerLocaleData(LocaleFrench);
     bootstrap: [
         AppComponent
     ],
+    providers: [
+        DatePipe
+    ]
 })
 export class AppModule {}

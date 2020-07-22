@@ -1275,3 +1275,18 @@
         max-width:460px;
     }
 }
+
+.kohesio-data-range{
+    display:flex;
+    justify-content: space-between;
+}
+
+.search-buttons{
+    display: flex;
+    .d-block{
+        flex:1
+    }
+    .d-block:first-child{
+        margin-right:10px;
+    }
+}
