@@ -12,6 +12,7 @@ import {MapComponent} from "../../shared/components/map/map.component";
 import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
 import {FiltersApi} from "../../shared/models/filters-api.model";
+import {environment} from "../../../environments/environment";
 declare let L;
 
 @Component({
@@ -33,6 +34,7 @@ export class ProjectsComponent implements AfterViewInit {
     public modalImageUrl = "";
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
+    public mapIsLoaded = false;
 
     public mapRegions = [{
         label: "Europe",
@@ -91,9 +93,9 @@ export class ProjectsComponent implements AfterViewInit {
             this.getProjectList();
         }
 
-        this.markerService.getServerPoints().then(result=>{
+        /*this.markerService.getServerPoints().then(result=>{
             this.loadedDataPoints = result;
-        });
+        });*/
     }
 
     private getFilterKey(type: string, queryParam: string){
@@ -124,7 +126,18 @@ export class ProjectsComponent implements AfterViewInit {
 
             //this.goFirstPage();
             if (this.selectedTabIndex == 3){
-                this.loadMapRegion();
+                let granularityRegion = undefined;
+                if (this.myForm.value.country){
+                    granularityRegion = environment.entityURL + this.myForm.value.country;
+                    this.mapRegions.push({
+                        label: this.getFilterLabel("countries", this.myForm.value.country),
+                        region: granularityRegion,
+                        bounds: undefined
+                    })
+                }
+                this.loadMapRegion(granularityRegion);
+            }else{
+                this.mapIsLoaded = false;
             }
         });
     }
@@ -208,8 +221,14 @@ export class ProjectsComponent implements AfterViewInit {
 
     onTabSelected(event){
         if(event.label == "Map"){
-            this.map.refreshView();
-            this.loadMapRegion();
+            if (!this.mapIsLoaded) {
+                this.mapIsLoaded = true;
+                this.map.refreshView();
+                setTimeout(
+                    () => {
+                        this.loadMapRegion();
+                    }, 1000);
+            }
             this.selectedTabIndex = event.index;
             this.isMapTab = true;
         }else{
@@ -219,8 +238,8 @@ export class ProjectsComponent implements AfterViewInit {
 
     getFilters(){
         const formValues = Object.assign({},this.myForm.value);
-        formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'dd-MM-yyyy') : undefined;
-        formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'dd-MM-yyyy') : undefined;
+        formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
+        formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         return new Filters().deserialize(formValues);
     }
 
