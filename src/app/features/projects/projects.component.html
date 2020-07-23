@@ -189,7 +189,7 @@
 
             <ux-tab label="Map">
                 <div class="map-regions-wrapper">
-                    <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(region.region)" iconClass="fa fa-globe" [isSecondary]="region.region">{{region.label}}</ux-button>
+                    <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(region.region)" iconClass="fa fa-globe" typeClass="warning">{{region.label}}</ux-button>
                 </div>
                 <app-map></app-map>
             </ux-tab>

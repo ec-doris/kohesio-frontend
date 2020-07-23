@@ -148,7 +148,9 @@ export class MapComponent implements AfterViewInit {
     }
 
     public fitBounds(bounds){
-        this.map.fitBounds(bounds);
+        if (this.map) {
+            this.map.fitBounds(bounds);
+        }
     }
 
 }
