@@ -130,7 +130,7 @@
 }
 
 #map {
-    height: 450px;
+    height: 650px;
 }
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
     -webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
@@ -1288,5 +1288,29 @@
     }
     .d-block:first-child{
         margin-right:10px;
+    }
+}
+
+.map-regions-wrapper{
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+    padding-right: 0;
+
+    ux-button{
+        margin-left: 5px;
+    }
+}
+
+.regionWrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    .regionName{
+        font-weight: bold;
+        font-size: 12px;
+    }
+    .regionCount{
+        font-size: 11px;
     }
 }

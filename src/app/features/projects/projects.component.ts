@@ -34,6 +34,13 @@ export class ProjectsComponent implements AfterViewInit {
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
 
+    public mapRegions = [{
+        label: "Europe",
+        region: undefined,
+        bounds: L.latLngBounds(L.latLng(67.57571741708057, 102.58059833176651), L.latLng(33.50475906922609, -78.91354229323352))
+    }];
+    public franceBounds = L.latLngBounds(L.latLng(51.09662294502995, 26.323205470629702), L.latLng(41.244772343082076, -19.050329685620305));
+
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
@@ -113,9 +120,11 @@ export class ProjectsComponent implements AfterViewInit {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
 
+            this.mapRegions = this.mapRegions.slice(0,1);
+
             //this.goFirstPage();
             if (this.selectedTabIndex == 3){
-                this.createMarkers();
+                this.loadMapRegion();
             }
         });
     }
@@ -200,7 +209,7 @@ export class ProjectsComponent implements AfterViewInit {
     onTabSelected(event){
         if(event.label == "Map"){
             this.map.refreshView();
-            this.createMarkers();
+            this.loadMapRegion();
             this.selectedTabIndex = event.index;
             this.isMapTab = true;
         }else{
@@ -215,17 +224,90 @@ export class ProjectsComponent implements AfterViewInit {
         return new Filters().deserialize(formValues);
     }
 
-    createMarkers(){
+    loadMapRegion(granularityRegion?: string){
+        const index = this.mapRegions.findIndex(x => x.region ===granularityRegion);
+        if (this.mapRegions[index].bounds) {
+            this.map.fitBounds(this.mapRegions[index].bounds);
+        }
+        this.mapRegions = this.mapRegions.slice(0,index+1);
+        this.loadMapVisualization(granularityRegion);
+    }
+
+    loadMapVisualization(granularityRegion?: string){
         this.map.removeAllMarkers();
-        this.projectService.getMapPoints(this.getFilters()).subscribe(mapPoints=>{
-            for(let project of mapPoints){
-                if (project.coordinates && project.coordinates.length) {
-                    project.coordinates.forEach(coords=>{
-                        const coordinates = coords.split(",");
-                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                        this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                    })
+        this.map.cleanAllLayers();
+        this.projectService.getMapInfo(this.getFilters(), granularityRegion).subscribe(data=>{
+            if (data.list && data.list.length){
+                for(let project of data.list){
+                    if (project.coordinates && project.coordinates.length) {
+                        project.coordinates.forEach(coords=>{
+                            const coordinates = coords.split(",");
+                            const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                            this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                        })
+                    }
                 }
+            }else {
+                data.forEach(region => {
+                    const featureCollection = {
+                        "type": "FeatureCollection",
+                        features: []
+                    }
+                    const validJSON = region.geoJson.replace(/'/g, '"');
+                    const countryProps = Object.assign({}, region);
+                    delete countryProps.geoJson;
+                    featureCollection.features.push({
+                        "type": "Feature",
+                        "properties": countryProps,
+                        "geometry": JSON.parse(validJSON)
+                    });
+                    this.map.addLayer(featureCollection, (feature, layer) => {
+                        layer.on({
+                            click: (e) => {
+                                const region = e.target.feature.properties.region;
+                                const count = e.target.feature.properties.count;
+                                const label = e.target.feature.properties.regionLabel;
+                                if (count) {
+                                    let bounds = layer.getBounds();
+                                    if (label == 'France'){
+                                        bounds = this.franceBounds;
+                                    }
+                                    this.map.fitBounds(bounds);
+                                    this.loadMapVisualization(region);
+                                    this.mapRegions.push({
+                                        label: label,
+                                        region: region,
+                                        bounds: bounds
+                                    })
+                                }
+                            },
+                            mouseover: (e) => {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    fillOpacity: 1
+                                });
+                            },
+                            mouseout: (e) => {
+                                const layer = e.target;
+                                layer.setStyle({
+                                    fillOpacity: 0.5
+                                });
+                            },
+                        });
+                    }, (feature) => {
+                        let style = {
+                            color: "#ff7800",
+                            opacity: 1,
+                            weight: 2,
+                            fillOpacity: 0.5,
+                            fillColor: "#ff7800",
+                        }
+                        if (!feature.properties.count) {
+                            style.fillColor = "#AAAAAA";
+                        }
+                        return style;
+                    });
+                })
             }
         });
     }
