@@ -26,7 +26,6 @@ export class ProjectsComponent implements AfterViewInit {
     public myForm: FormGroup;
     public isLoading = false;
     public isMapTab = false;
-    public loadedDataPoints = false;
     @ViewChild("paginatorTop") paginatorTop: MatPaginator;
     @ViewChild("paginatorDown") paginatorDown: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
@@ -66,7 +65,7 @@ export class ProjectsComponent implements AfterViewInit {
             //Advanced filters
             programPeriod: ['2021-2027'],
             fund:[this.getFilterKey("funds","fund")],
-            program:[this.getFilterKey("programs","program")],
+            program:[],
             categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
             totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
@@ -74,28 +73,34 @@ export class ProjectsComponent implements AfterViewInit {
             projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program ||
+        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program') ||
             this.myForm.value.categoryOfIntervention || this.myForm.value.totalProjectBudget ||
             this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
         if (this._route.snapshot.queryParamMap.get('country')){
-            this.getRegions().then(regions => {
+            Promise.all([this.getRegions(), this.getPrograms()]).then(results=>{
                 if (this._route.snapshot.queryParamMap.get('region')) {
                     this.myForm.patchValue({
                         region: this.getFilterKey("regions","region")
                     });
+                }
+                if (this._route.snapshot.queryParamMap.get('program')) {
+                    this.myForm.patchValue({
+                        program: this.getFilterKey("programs","program")
+                    });
+                }
+                if(this._route.snapshot.queryParamMap.get('region') ||
+                    this._route.snapshot.queryParamMap.get('program')) {
                     this.getProjectList();
                 }
             });
         }
 
-        if (!this._route.snapshot.queryParamMap.get('region')) {
+        if (!this._route.snapshot.queryParamMap.get('region') &&
+            !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
 
-        /*this.markerService.getServerPoints().then(result=>{
-            this.loadedDataPoints = result;
-        });*/
     }
 
     private getFilterKey(type: string, queryParam: string){
@@ -193,9 +198,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onCountryChange(){
-        this.getRegions();
+        this.getRegions().then();
+        this.getPrograms().then();
         this.myForm.patchValue({
-            region: null
+            region: null,
+            program: null
         });
     }
 
@@ -214,6 +221,17 @@ export class ProjectsComponent implements AfterViewInit {
     getRegions(): Promise<any>{
         return new Promise((resolve, reject) => {
             this.filterService.getRegions(this.myForm.value.country).subscribe(regions => {
+                resolve(true);
+            });
+        });
+    }
+
+    getPrograms(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            const country = environment.entityURL + this.myForm.value.country;
+            this.filterService.getFilter("programs",{country:country}).subscribe(result => {
+                this.filterService.filters.programs = result.programs;
+                this.filters.programs = result.programs;
                 resolve(true);
             });
         });
@@ -257,6 +275,17 @@ export class ProjectsComponent implements AfterViewInit {
         this.map.cleanAllLayers();
         this.projectService.getMapInfo(this.getFilters(), granularityRegion).subscribe(data=>{
             if (data.list && data.list.length){
+                const featureCollection = {
+                    "type": "FeatureCollection",
+                    features: []
+                }
+                const validJSON = data.geoJson.replace(/'/g, '"');
+                featureCollection.features.push({
+                    "type": "Feature",
+                    "properties": null,
+                    "geometry": JSON.parse(validJSON)
+                });
+                this.addFeatureCollectionLayer(featureCollection);
                 for(let project of data.list){
                     if (project.coordinates && project.coordinates.length) {
                         project.coordinates.forEach(coords=>{
@@ -280,54 +309,62 @@ export class ProjectsComponent implements AfterViewInit {
                         "properties": countryProps,
                         "geometry": JSON.parse(validJSON)
                     });
-                    this.map.addLayer(featureCollection, (feature, layer) => {
-                        layer.on({
-                            click: (e) => {
-                                const region = e.target.feature.properties.region;
-                                const count = e.target.feature.properties.count;
-                                const label = e.target.feature.properties.regionLabel;
-                                if (count) {
-                                    let bounds = layer.getBounds();
-                                    if (label == 'France'){
-                                        bounds = this.franceBounds;
-                                    }
-                                    this.map.fitBounds(bounds);
-                                    this.loadMapVisualization(region);
-                                    this.mapRegions.push({
-                                        label: label,
-                                        region: region,
-                                        bounds: bounds
-                                    })
-                                }
-                            },
-                            mouseover: (e) => {
-                                const layer = e.target;
-                                layer.setStyle({
-                                    fillOpacity: 1
-                                });
-                            },
-                            mouseout: (e) => {
-                                const layer = e.target;
-                                layer.setStyle({
-                                    fillOpacity: 0.5
-                                });
-                            },
-                        });
-                    }, (feature) => {
-                        let style = {
-                            color: "#ff7800",
-                            opacity: 1,
-                            weight: 2,
-                            fillOpacity: 0.5,
-                            fillColor: "#ff7800",
-                        }
-                        if (!feature.properties.count) {
-                            style.fillColor = "#AAAAAA";
-                        }
-                        return style;
-                    });
+                    this.addFeatureCollectionLayer(featureCollection);
                 })
             }
+        });
+    }
+
+    addFeatureCollectionLayer(featureCollection){
+        this.map.addLayer(featureCollection, (feature, layer) => {
+            layer.on({
+                click: (e) => {
+                    const region = e.target.feature.properties.region;
+                    const count = e.target.feature.properties.count;
+                    const label = e.target.feature.properties.regionLabel;
+                    if (count) {
+                        let bounds = layer.getBounds();
+                        if (label == 'France'){
+                            bounds = this.franceBounds;
+                        }
+                        this.map.fitBounds(bounds);
+                        this.loadMapVisualization(region);
+                        this.mapRegions.push({
+                            label: label,
+                            region: region,
+                            bounds: bounds
+                        })
+                    }
+                },
+                mouseover: (e) => {
+                    const layer = e.target;
+                    if (layer.feature.properties) {
+                        layer.setStyle({
+                            fillOpacity: 1
+                        });
+                    }
+                },
+                mouseout: (e) => {
+                    const layer = e.target;
+                    if (layer.feature.properties) {
+                        layer.setStyle({
+                            fillOpacity: 0.5
+                        });
+                    }
+                },
+            });
+        }, (feature) => {
+            let style = {
+                color: "#ff7800",
+                opacity: 1,
+                weight: 2,
+                fillOpacity: 0.5,
+                fillColor: "#ff7800",
+            }
+            if (feature.properties && !feature.properties.count) {
+                style.fillColor = "#AAAAAA";
+            }
+            return style;
         });
     }
 

@@ -110,15 +110,7 @@ export class MapComponent implements AfterViewInit {
             onEachFeature: clickCallback,
             style: style
         }).addTo(this.map);
-        const center = l.getBounds().getCenter();
-        const labelMarker = L.marker(center, {
-            icon: L.divIcon({
-                className: 'label',
-                html: layerGeoJson.features[0].properties.regionLabel + "(" + layerGeoJson.features[0].properties.count + ") projects",
-                iconSize: [100, 40]
-            })
-        });
-        if (layerGeoJson.features[0].properties.count) {
+        if (layerGeoJson.features[0].properties && layerGeoJson.features[0].properties.count) {
             const html = "<div class='regionWrapper'>" +
                 "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
                 "<div class='regionCount'>" + layerGeoJson.features[0].properties.count + " projects</div>" +
