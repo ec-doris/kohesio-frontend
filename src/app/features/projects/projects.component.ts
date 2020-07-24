@@ -39,15 +39,15 @@ export class ProjectsComponent implements AfterViewInit {
     public mapRegions = [{
         label: "Europe",
         region: undefined,
-        bounds: L.latLngBounds(L.latLng(67.80924450600011, 42.45122710389114), L.latLng(34.016241889667036, -20.478460396108844))
+        bounds: L.latLngBounds(L.latLng(67.37369797436554, 39.46330029192563), L.latLng(33.063924198120645, -17.13826220807438))
     }];
     public countriesBoundaries = {
-        Q20 : L.latLngBounds(L.latLng(51.09662294502995, 26.323205470629702), L.latLng(41.244772343082076, -19.050329685620305)), //France
-        Q15 : L.latLngBounds(L.latLng(47.18971246448421, 21.423114882369163), L.latLng(36.59788913307022, 4.152607069869157)),      //Italy
-        Q13 : L.latLngBounds(L.latLng(56.54737205307899, 43.174862051221886), L.latLng(47.82790816919329, -2.1986731050281465)),  //Poland
-        Q25 : L.latLngBounds(L.latLng(52.247982985281865, 27.036717089873143), L.latLng(47.657987988142274, 4.349949511748141)),  //Czech Republic
-        Q2  : L.latLngBounds(L.latLng(55.54728069864083, 3.0096174804981417), L.latLng(51.29627609493991, -19.677150097626864)),  //Ireland
-        Q12 : L.latLngBounds(L.latLng(58.12431960569377, 22.982762011748143), L.latLng(54.149567212540525, 0.29599443362314126)), //Denmark
+        Q20 : L.latLngBounds(L.latLng(51.138001488062564, 10.153629941986903), L.latLng(41.29431726315258, -5.051448183013119)), //France
+        Q15 : L.latLngBounds(L.latLng(47.11499982620772, 19.840596320855976), L.latLng(36.50963615733049, 4.152119758355975)),      //Italy
+        Q13 : L.latLngBounds(L.latLng(56.75272287205736, 25.68595317276812), L.latLng(48.07807894349862, 12.89786723526812)),  //Poland
+        Q25 : L.latLngBounds(L.latLng(51.70660846336452, 19.33647915386496), L.latLng(47.06263847995432, 11.73394009136496)),  //Czech Republic
+        Q2  : L.latLngBounds(L.latLng(55.51619215717891, -4.843840018594397), L.latLng(51.26191485308451, -11.237882987344397)),  //Ireland
+        Q12 : L.latLngBounds(L.latLng(58.048818457936505, 15.492176077966223), L.latLng(54.06583577161281, 7.647937796716221)), //Denmark
     };
 
     constructor(private projectService: ProjectService,
