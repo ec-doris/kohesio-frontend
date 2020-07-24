@@ -39,11 +39,11 @@ export class ProjectsComponent implements AfterViewInit {
     public mapRegions = [{
         label: "Europe",
         region: undefined,
-        bounds: L.latLngBounds(L.latLng(67.57571741708057, 102.58059833176651), L.latLng(33.50475906922609, -78.91354229323352))
+        bounds: L.latLngBounds(L.latLng(67.80924450600011, 42.45122710389114), L.latLng(34.016241889667036, -20.478460396108844))
     }];
     public countriesBoundaries = {
         Q20 : L.latLngBounds(L.latLng(51.09662294502995, 26.323205470629702), L.latLng(41.244772343082076, -19.050329685620305)), //France
-        Q15 : L.latLngBounds(L.latLng(47.41322033016904, 35.85758811231211), L.latLng(36.86204269508728, -9.5159470439379)),      //Italy
+        Q15 : L.latLngBounds(L.latLng(47.18971246448421, 21.423114882369163), L.latLng(36.59788913307022, 4.152607069869157)),      //Italy
         Q13 : L.latLngBounds(L.latLng(56.54737205307899, 43.174862051221886), L.latLng(47.82790816919329, -2.1986731050281465)),  //Poland
         Q25 : L.latLngBounds(L.latLng(52.247982985281865, 27.036717089873143), L.latLng(47.657987988142274, 4.349949511748141)),  //Czech Republic
         Q2  : L.latLngBounds(L.latLng(55.54728069864083, 3.0096174804981417), L.latLng(51.29627609493991, -19.677150097626864)),  //Ireland
