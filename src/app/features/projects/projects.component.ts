@@ -34,13 +34,21 @@ export class ProjectsComponent implements AfterViewInit {
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
     public mapIsLoaded = false;
+    public lastFiltersSearch;
 
     public mapRegions = [{
         label: "Europe",
         region: undefined,
         bounds: L.latLngBounds(L.latLng(67.57571741708057, 102.58059833176651), L.latLng(33.50475906922609, -78.91354229323352))
     }];
-    public franceBounds = L.latLngBounds(L.latLng(51.09662294502995, 26.323205470629702), L.latLng(41.244772343082076, -19.050329685620305));
+    public countriesBoundaries = {
+        Q20 : L.latLngBounds(L.latLng(51.09662294502995, 26.323205470629702), L.latLng(41.244772343082076, -19.050329685620305)), //France
+        Q15 : L.latLngBounds(L.latLng(47.41322033016904, 35.85758811231211), L.latLng(36.86204269508728, -9.5159470439379)),      //Italy
+        Q13 : L.latLngBounds(L.latLng(56.54737205307899, 43.174862051221886), L.latLng(47.82790816919329, -2.1986731050281465)),  //Poland
+        Q25 : L.latLngBounds(L.latLng(52.247982985281865, 27.036717089873143), L.latLng(47.657987988142274, 4.349949511748141)),  //Czech Republic
+        Q2  : L.latLngBounds(L.latLng(55.54728069864083, 3.0096174804981417), L.latLng(51.29627609493991, -19.677150097626864)),  //Ireland
+        Q12 : L.latLngBounds(L.latLng(58.12431960569377, 22.982762011748143), L.latLng(54.149567212540525, 0.29599443362314126)), //Denmark
+    };
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -137,7 +145,7 @@ export class ProjectsComponent implements AfterViewInit {
                     this.mapRegions.push({
                         label: this.getFilterLabel("countries", this.myForm.value.country),
                         region: granularityRegion,
-                        bounds: undefined
+                        bounds: this.countriesBoundaries[this.myForm.value.country]
                     })
                 }
                 this.loadMapRegion(granularityRegion);
@@ -258,7 +266,8 @@ export class ProjectsComponent implements AfterViewInit {
         const formValues = Object.assign({},this.myForm.value);
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
-        return new Filters().deserialize(formValues);
+        this.lastFiltersSearch = new Filters().deserialize(formValues);
+        return this.lastFiltersSearch;
     }
 
     loadMapRegion(granularityRegion?: string){
@@ -273,7 +282,7 @@ export class ProjectsComponent implements AfterViewInit {
     loadMapVisualization(granularityRegion?: string){
         this.map.removeAllMarkers();
         this.map.cleanAllLayers();
-        this.projectService.getMapInfo(this.getFilters(), granularityRegion).subscribe(data=>{
+        this.projectService.getMapInfo(this.lastFiltersSearch, granularityRegion).subscribe(data=>{
             if (data.list && data.list.length){
                 const featureCollection = {
                     "type": "FeatureCollection",
@@ -324,8 +333,9 @@ export class ProjectsComponent implements AfterViewInit {
                     const label = e.target.feature.properties.regionLabel;
                     if (count) {
                         let bounds = layer.getBounds();
-                        if (label == 'France'){
-                            bounds = this.franceBounds;
+                        const regionKey = region.replace(environment.entityURL, "");
+                        if (this.countriesBoundaries[regionKey]){
+                            bounds = this.countriesBoundaries[regionKey];
                         }
                         this.map.fitBounds(bounds);
                         this.loadMapVisualization(region);
