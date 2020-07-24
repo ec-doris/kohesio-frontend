@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {Beneficiary} from "../../shared/models/beneficiary.model";
 import {FilterService} from "../../services/filter.service";
 import {FiltersApi} from "../../shared/models/filters-api.model";
+import {environment} from "../../../environments/environment";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -47,25 +48,35 @@ export class BeneficiariesComponent implements AfterViewInit {
             country: [this.getFilterKey("countries","country")],
             region: [],
             fund:[this.getFilterKey("funds","fund")],
-            program:[this.getFilterKey("programs","program")]
+            program:[]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program;
+        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program');
 
-        if (this._route.snapshot.queryParamMap.get('country')) {
-            this.getRegions().then(regions=>{
+        if (this._route.snapshot.queryParamMap.get('country')){
+            Promise.all([this.getRegions(), this.getPrograms()]).then(results=>{
                 if (this._route.snapshot.queryParamMap.get('region')) {
                     this.myForm.patchValue({
-                        region: this.filterService.getFilterKey("regions", this._route.snapshot.queryParamMap.get('region'))
+                        region: this.getFilterKey("regions","region")
                     });
+                }
+                if (this._route.snapshot.queryParamMap.get('program')) {
+                    this.myForm.patchValue({
+                        program: this.getFilterKey("programs","program")
+                    });
+                }
+                if(this._route.snapshot.queryParamMap.get('region') ||
+                    this._route.snapshot.queryParamMap.get('program')) {
                     this.performSearch();
                 }
             });
         }
 
-        if (!this._route.snapshot.queryParamMap.get('region')) {
+        if (!this._route.snapshot.queryParamMap.get('region') &&
+            !this._route.snapshot.queryParamMap.get('program')) {
             this.performSearch();
         }
+
     }
 
     private getFilterKey(type: string, queryParam: string){
@@ -120,10 +131,23 @@ export class BeneficiariesComponent implements AfterViewInit {
         });
     }
 
+    getPrograms(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            const country = environment.entityURL + this.myForm.value.country;
+            this.filterService.getFilter("programs",{country:country}).subscribe(result => {
+                this.filterService.filters.programs = result.programs;
+                this.filters.programs = result.programs;
+                resolve(true);
+            });
+        });
+    }
+
     onCountryChange(){
-        this.getRegions();
+        this.getRegions().then();
+        this.getPrograms().then();
         this.myForm.patchValue({
-            region: null
+            region: null,
+            program: null
         });
     }
 
