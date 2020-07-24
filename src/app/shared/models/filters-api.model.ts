@@ -36,6 +36,9 @@ export class FiltersApi implements Deserializable{
                 value:"Czech Republic"
         }];
         FiltersApi.prototype.programmingPeriods = [{
+            id: '2014-2020',
+            value: '2014 - 2020',
+        },{
             id: '2021-2027',
             value: '2021 - 2027',
         }];

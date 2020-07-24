@@ -71,7 +71,7 @@ export class ProjectsComponent implements AfterViewInit {
             policyObjective: [this.getFilterKey("policy_objective","policyObjective")],
             theme: [this.getFilterKey("thematic_objectives","theme")],
             //Advanced filters
-            programPeriod: ['2021-2027'],
+            programPeriod: [this.getFilterKey("programmingPeriods","programPeriod")],
             fund:[this.getFilterKey("funds","fund")],
             program:[],
             categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
@@ -81,7 +81,8 @@ export class ProjectsComponent implements AfterViewInit {
             projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program') ||
+        this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
+            this._route.snapshot.queryParamMap.get('program') ||
             this.myForm.value.categoryOfIntervention || this.myForm.value.totalProjectBudget ||
             this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
@@ -124,6 +125,14 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     private getProjectList(){
+
+        //Hack to program period for projects 2021-2027
+        if (this.myForm.value.programPeriod == "2021-2027") {
+            this.projects = [];
+            this.loadMapRegion();
+            return;
+        }
+
         this.isLoading = true;
         let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize | 0;
         this.projectService.getProjects(this.getFilters(), offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
@@ -195,6 +204,7 @@ export class ProjectsComponent implements AfterViewInit {
             region: this.getFilterLabel("regions", this.myForm.value.region),
             theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
             policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+            programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
             program: this.getFilterLabel("programs", this.myForm.value.program),
             categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention),
@@ -252,8 +262,17 @@ export class ProjectsComponent implements AfterViewInit {
                 this.map.refreshView();
                 setTimeout(
                     () => {
-                        this.loadMapRegion();
-                    }, 1000);
+                        let granularityRegion = undefined;
+                        if (this.myForm.value.country){
+                            granularityRegion = environment.entityURL + this.myForm.value.country;
+                            this.mapRegions.push({
+                                label: this.getFilterLabel("countries", this.myForm.value.country),
+                                region: granularityRegion,
+                                bounds: this.countriesBoundaries[this.myForm.value.country]
+                            })
+                        }
+                        this.loadMapRegion(granularityRegion);
+                    }, 500);
             }
             this.selectedTabIndex = event.index;
             this.isMapTab = true;
@@ -271,12 +290,19 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     loadMapRegion(granularityRegion?: string){
+
         const index = this.mapRegions.findIndex(x => x.region ===granularityRegion);
         if (this.mapRegions[index].bounds) {
             this.map.fitBounds(this.mapRegions[index].bounds);
         }
         this.mapRegions = this.mapRegions.slice(0,index+1);
-        this.loadMapVisualization(granularityRegion);
+        //Hack to program period for projects 2021-2027
+        if (this.myForm.value.programPeriod == "2021-2027") {
+            this.map.removeAllMarkers();
+            this.map.cleanAllLayers();
+        }else {
+            this.loadMapVisualization(granularityRegion);
+        }
     }
 
     loadMapVisualization(granularityRegion?: string){
@@ -396,9 +422,6 @@ export class ProjectsComponent implements AfterViewInit {
 
     resetForm(){
         this.myForm.reset();
-        this.myForm.patchValue({
-            programPeriod: ["2021-2027"]
-        });
     }
 
 
