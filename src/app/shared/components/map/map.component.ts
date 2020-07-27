@@ -1,6 +1,6 @@
-import { AfterViewInit, Component } from '@angular/core';
-import {MarkerService} from "../../../services/marker.service";
+import { AfterViewInit, Component, Input } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
+import {MapService} from "../../../services/map.service";
 declare let L;
 
 @Component({
@@ -13,8 +13,11 @@ export class MapComponent implements AfterViewInit {
     private markersGroup;
     private layers: any[] = [];
 
+    @Input()
+    public hideNavigation = false;
 
-    constructor(private markerService:MarkerService,
+
+    constructor(private mapService: MapService,
                 private filterService:FilterService) { }
 
     ngAfterViewInit(): void {
@@ -75,16 +78,6 @@ export class MapComponent implements AfterViewInit {
         this.addMarker(latitude, longitude, false, 15, popupContent)
     }
 
-    public addCircleMarker(latitude: any, longitude: any){
-        if (!this.markersGroup){
-            this.markersGroup = new L.FeatureGroup();
-            this.map.addLayer(this.markersGroup);
-        }
-        const circleMarker = L.circleMarker([latitude,longitude]);
-
-        this.markersGroup.addLayer(circleMarker);
-    }
-
     public addCountryLayer(countryLabel: string){
         let countryGeoJson = undefined;
         this.filterService.getCountryGeoJson().then(data=>{
@@ -120,6 +113,11 @@ export class MapComponent implements AfterViewInit {
         this.layers.push(l);
     }
 
+    public cleanMap(){
+        this.cleanAllLayers();
+        this.removeAllMarkers();
+    }
+
     public cleanAllLayers(){
         this.layers.forEach(layer=>{
             this.map.removeLayer(layer);
@@ -143,6 +141,26 @@ export class MapComponent implements AfterViewInit {
         if (this.map) {
             this.map.fitBounds(bounds);
         }
+    }
+
+    public onProjectsNearByClick(){
+        this.cleanMap();
+        this.mapService.getPointsNearBy().subscribe(data=>{
+            for(let project of data.list){
+                if (project.coordinates && project.coordinates.length) {
+                    project.coordinates.forEach(coords=>{
+                        const coordinates = coords.split(",");
+                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                        this.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                    });
+                }
+            }
+            if(data.coordinates) {
+                const c = data.coordinates.split(",");
+                const coords = new L.LatLng(c[0],c[1],5);
+                this.map.setView(coords, 8);
+            }
+        })
     }
 
 }

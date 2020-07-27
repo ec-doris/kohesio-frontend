@@ -13,6 +13,7 @@ import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
 import {FiltersApi} from "../../shared/models/filters-api.model";
 import {environment} from "../../../environments/environment";
+import {MapService} from "../../services/map.service";
 declare let L;
 
 @Component({
@@ -52,6 +53,7 @@ export class ProjectsComponent implements AfterViewInit {
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
+                private mapService: MapService,
                 private formBuilder: FormBuilder,
                 private uxService:UxService,
                 private markerService:MarkerService,
@@ -308,19 +310,21 @@ export class ProjectsComponent implements AfterViewInit {
     loadMapVisualization(granularityRegion?: string){
         this.map.removeAllMarkers();
         this.map.cleanAllLayers();
-        this.projectService.getMapInfo(this.lastFiltersSearch, granularityRegion).subscribe(data=>{
+        this.mapService.getMapInfo(this.lastFiltersSearch, granularityRegion).subscribe(data=>{
             if (data.list && data.list.length){
-                const featureCollection = {
-                    "type": "FeatureCollection",
-                    features: []
+                if (data.geoJson) {
+                    const featureCollection = {
+                        "type": "FeatureCollection",
+                        features: []
+                    }
+                    const validJSON = data.geoJson.replace(/'/g, '"');
+                    featureCollection.features.push({
+                        "type": "Feature",
+                        "properties": null,
+                        "geometry": JSON.parse(validJSON)
+                    });
+                    this.addFeatureCollectionLayer(featureCollection);
                 }
-                const validJSON = data.geoJson.replace(/'/g, '"');
-                featureCollection.features.push({
-                    "type": "Feature",
-                    "properties": null,
-                    "geometry": JSON.parse(validJSON)
-                });
-                this.addFeatureCollectionLayer(featureCollection);
                 for(let project of data.list){
                     if (project.coordinates && project.coordinates.length) {
                         project.coordinates.forEach(coords=>{
