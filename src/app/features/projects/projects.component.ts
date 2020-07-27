@@ -37,23 +37,8 @@ export class ProjectsComponent implements AfterViewInit {
     public mapIsLoaded = false;
     public lastFiltersSearch;
 
-    public mapRegions = [{
-        label: "Europe",
-        region: undefined,
-        bounds: L.latLngBounds(L.latLng(67.37369797436554, 39.46330029192563), L.latLng(33.063924198120645, -17.13826220807438))
-    }];
-    public countriesBoundaries = {
-        Q20 : L.latLngBounds(L.latLng(51.138001488062564, 10.153629941986903), L.latLng(41.29431726315258, -5.051448183013119)), //France
-        Q15 : L.latLngBounds(L.latLng(47.11499982620772, 19.840596320855976), L.latLng(36.50963615733049, 4.152119758355975)),      //Italy
-        Q13 : L.latLngBounds(L.latLng(56.75272287205736, 25.68595317276812), L.latLng(48.07807894349862, 12.89786723526812)),  //Poland
-        Q25 : L.latLngBounds(L.latLng(51.70660846336452, 19.33647915386496), L.latLng(47.06263847995432, 11.73394009136496)),  //Czech Republic
-        Q2  : L.latLngBounds(L.latLng(55.51619215717891, -4.843840018594397), L.latLng(51.26191485308451, -11.237882987344397)),  //Ireland
-        Q12 : L.latLngBounds(L.latLng(58.048818457936505, 15.492176077966223), L.latLng(54.06583577161281, 7.647937796716221)), //Denmark
-    };
-
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
-                private mapService: MapService,
                 private formBuilder: FormBuilder,
                 private uxService:UxService,
                 private markerService:MarkerService,
@@ -131,7 +116,7 @@ export class ProjectsComponent implements AfterViewInit {
         //Hack to program period for projects 2021-2027
         if (this.myForm.value.programPeriod == "2021-2027") {
             this.projects = [];
-            this.loadMapRegion();
+            this.map.loadMapRegion(new Filters());
             return;
         }
 
@@ -146,20 +131,8 @@ export class ProjectsComponent implements AfterViewInit {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
 
-            this.mapRegions = this.mapRegions.slice(0,1);
-
-            //this.goFirstPage();
             if (this.selectedTabIndex == 3){
-                let granularityRegion = undefined;
-                if (this.myForm.value.country){
-                    granularityRegion = environment.entityURL + this.myForm.value.country;
-                    this.mapRegions.push({
-                        label: this.getFilterLabel("countries", this.myForm.value.country),
-                        region: granularityRegion,
-                        bounds: this.countriesBoundaries[this.myForm.value.country]
-                    })
-                }
-                this.loadMapRegion(granularityRegion);
+                this.map.loadMapRegion(this.lastFiltersSearch);
             }else{
                 this.mapIsLoaded = false;
             }
@@ -264,16 +237,7 @@ export class ProjectsComponent implements AfterViewInit {
                 this.map.refreshView();
                 setTimeout(
                     () => {
-                        let granularityRegion = undefined;
-                        if (this.myForm.value.country){
-                            granularityRegion = environment.entityURL + this.myForm.value.country;
-                            this.mapRegions.push({
-                                label: this.getFilterLabel("countries", this.myForm.value.country),
-                                region: granularityRegion,
-                                bounds: this.countriesBoundaries[this.myForm.value.country]
-                            })
-                        }
-                        this.loadMapRegion(granularityRegion);
+                        this.map.loadMapRegion(this.lastFiltersSearch);
                     }, 500);
             }
             this.selectedTabIndex = event.index;
@@ -289,123 +253,6 @@ export class ProjectsComponent implements AfterViewInit {
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         this.lastFiltersSearch = new Filters().deserialize(formValues);
         return this.lastFiltersSearch;
-    }
-
-    loadMapRegion(granularityRegion?: string){
-
-        const index = this.mapRegions.findIndex(x => x.region ===granularityRegion);
-        if (this.mapRegions[index].bounds) {
-            this.map.fitBounds(this.mapRegions[index].bounds);
-        }
-        this.mapRegions = this.mapRegions.slice(0,index+1);
-        //Hack to program period for projects 2021-2027
-        if (this.myForm.value.programPeriod == "2021-2027") {
-            this.map.removeAllMarkers();
-            this.map.cleanAllLayers();
-        }else {
-            this.loadMapVisualization(granularityRegion);
-        }
-    }
-
-    loadMapVisualization(granularityRegion?: string){
-        this.map.removeAllMarkers();
-        this.map.cleanAllLayers();
-        this.mapService.getMapInfo(this.lastFiltersSearch, granularityRegion).subscribe(data=>{
-            if (data.list && data.list.length){
-                if (data.geoJson) {
-                    const featureCollection = {
-                        "type": "FeatureCollection",
-                        features: []
-                    }
-                    const validJSON = data.geoJson.replace(/'/g, '"');
-                    featureCollection.features.push({
-                        "type": "Feature",
-                        "properties": null,
-                        "geometry": JSON.parse(validJSON)
-                    });
-                    this.addFeatureCollectionLayer(featureCollection);
-                }
-                for(let project of data.list){
-                    if (project.coordinates && project.coordinates.length) {
-                        project.coordinates.forEach(coords=>{
-                            const coordinates = coords.split(",");
-                            const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                            this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                        })
-                    }
-                }
-            }else {
-                data.forEach(region => {
-                    const featureCollection = {
-                        "type": "FeatureCollection",
-                        features: []
-                    }
-                    const validJSON = region.geoJson.replace(/'/g, '"');
-                    const countryProps = Object.assign({}, region);
-                    delete countryProps.geoJson;
-                    featureCollection.features.push({
-                        "type": "Feature",
-                        "properties": countryProps,
-                        "geometry": JSON.parse(validJSON)
-                    });
-                    this.addFeatureCollectionLayer(featureCollection);
-                })
-            }
-        });
-    }
-
-    addFeatureCollectionLayer(featureCollection){
-        this.map.addLayer(featureCollection, (feature, layer) => {
-            layer.on({
-                click: (e) => {
-                    const region = e.target.feature.properties.region;
-                    const count = e.target.feature.properties.count;
-                    const label = e.target.feature.properties.regionLabel;
-                    if (count) {
-                        let bounds = layer.getBounds();
-                        const regionKey = region.replace(environment.entityURL, "");
-                        if (this.countriesBoundaries[regionKey]){
-                            bounds = this.countriesBoundaries[regionKey];
-                        }
-                        this.map.fitBounds(bounds);
-                        this.loadMapVisualization(region);
-                        this.mapRegions.push({
-                            label: label,
-                            region: region,
-                            bounds: bounds
-                        })
-                    }
-                },
-                mouseover: (e) => {
-                    const layer = e.target;
-                    if (layer.feature.properties) {
-                        layer.setStyle({
-                            fillOpacity: 1
-                        });
-                    }
-                },
-                mouseout: (e) => {
-                    const layer = e.target;
-                    if (layer.feature.properties) {
-                        layer.setStyle({
-                            fillOpacity: 0.5
-                        });
-                    }
-                },
-            });
-        }, (feature) => {
-            let style = {
-                color: "#ff7800",
-                opacity: 1,
-                weight: 2,
-                fillOpacity: 0.5,
-                fillColor: "#ff7800",
-            }
-            if (feature.properties && !feature.properties.count) {
-                style.fillColor = "#AAAAAA";
-            }
-            return style;
-        });
     }
 
     openImageOverlay(imgUrl, projectTitle){

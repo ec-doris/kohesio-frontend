@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, Input } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
+import {environment} from "../../../../environments/environment";
+import {Filters} from "../../models/filters.model";
 declare let L;
 
 @Component({
@@ -12,9 +14,26 @@ export class MapComponent implements AfterViewInit {
     private map;
     private markersGroup;
     private layers: any[] = [];
+    private filters: Filters = new Filters();
+    public mapRegions = [{
+        label: "Europe",
+        region: undefined,
+        bounds: L.latLngBounds(L.latLng(67.37369797436554, 39.46330029192563), L.latLng(33.063924198120645, -17.13826220807438))
+    }];
+    public countriesBoundaries = {
+        Q20 : L.latLngBounds(L.latLng(51.138001488062564, 10.153629941986903), L.latLng(41.29431726315258, -5.051448183013119)), //France
+        Q15 : L.latLngBounds(L.latLng(47.11499982620772, 19.840596320855976), L.latLng(36.50963615733049, 4.152119758355975)),      //Italy
+        Q13 : L.latLngBounds(L.latLng(56.75272287205736, 25.68595317276812), L.latLng(48.07807894349862, 12.89786723526812)),  //Poland
+        Q25 : L.latLngBounds(L.latLng(51.70660846336452, 19.33647915386496), L.latLng(47.06263847995432, 11.73394009136496)),  //Czech Republic
+        Q2  : L.latLngBounds(L.latLng(55.51619215717891, -4.843840018594397), L.latLng(51.26191485308451, -11.237882987344397)),  //Ireland
+        Q12 : L.latLngBounds(L.latLng(58.048818457936505, 15.492176077966223), L.latLng(54.06583577161281, 7.647937796716221)), //Denmark
+    };
 
     @Input()
     public hideNavigation = false;
+
+    @Input()
+    public hideProjectsNearBy = false;
 
 
     constructor(private mapService: MapService,
@@ -161,6 +180,125 @@ export class MapComponent implements AfterViewInit {
                 this.map.setView(coords, 8);
             }
         })
+    }
+
+    loadMapRegion(filters: Filters, granularityRegion?: string){
+        this.filters = filters;
+        if (filters.country && !granularityRegion){
+            this.mapRegions = this.mapRegions.slice(0,1);
+            granularityRegion = environment.entityURL + filters.country;
+            this.mapRegions.push({
+                label: this.filterService.getFilterLabel("countries", filters.country),
+                region: granularityRegion,
+                bounds: this.countriesBoundaries[filters.country]
+            })
+        }
+        const index = this.mapRegions.findIndex(x => x.region ===granularityRegion);
+        if (this.mapRegions[index].bounds) {
+            this.fitBounds(this.mapRegions[index].bounds);
+        }
+        this.mapRegions = this.mapRegions.slice(0,index+1);
+        this.loadMapVisualization(filters, granularityRegion);
+    }
+
+    loadMapVisualization(filters: Filters, granularityRegion: string,){
+        this.cleanMap();
+        this.mapService.getMapInfo(filters, granularityRegion).subscribe(data=>{
+            if (data.list && data.list.length){
+                if (data.geoJson) {
+                    const featureCollection = {
+                        "type": "FeatureCollection",
+                        features: []
+                    }
+                    const validJSON = data.geoJson.replace(/'/g, '"');
+                    featureCollection.features.push({
+                        "type": "Feature",
+                        "properties": null,
+                        "geometry": JSON.parse(validJSON)
+                    });
+                    this.addFeatureCollectionLayer(featureCollection);
+                }
+                for(let project of data.list){
+                    if (project.coordinates && project.coordinates.length) {
+                        project.coordinates.forEach(coords=>{
+                            const coordinates = coords.split(",");
+                            const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                            this.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                        })
+                    }
+                }
+            }else {
+                data.forEach(region => {
+                    const featureCollection = {
+                        "type": "FeatureCollection",
+                        features: []
+                    }
+                    const validJSON = region.geoJson.replace(/'/g, '"');
+                    const countryProps = Object.assign({}, region);
+                    delete countryProps.geoJson;
+                    featureCollection.features.push({
+                        "type": "Feature",
+                        "properties": countryProps,
+                        "geometry": JSON.parse(validJSON)
+                    });
+                    this.addFeatureCollectionLayer(featureCollection);
+                })
+            }
+        });
+    }
+
+    addFeatureCollectionLayer(featureCollection){
+        this.addLayer(featureCollection, (feature, layer) => {
+            layer.on({
+                click: (e) => {
+                    const region = e.target.feature.properties.region;
+                    const count = e.target.feature.properties.count;
+                    const label = e.target.feature.properties.regionLabel;
+                    if (count) {
+                        let bounds = layer.getBounds();
+                        const regionKey = region.replace(environment.entityURL, "");
+                        if (this.countriesBoundaries[regionKey]){
+                            bounds = this.countriesBoundaries[regionKey];
+                        }
+                        this.fitBounds(bounds);
+                        this.loadMapVisualization(this.filters,region);
+                        this.mapRegions.push({
+                            label: label,
+                            region: region,
+                            bounds: bounds
+                        })
+                    }
+                },
+                mouseover: (e) => {
+                    const layer = e.target;
+                    if (layer.feature.properties) {
+                        layer.setStyle({
+                            fillOpacity: 1
+                        });
+                    }
+                },
+                mouseout: (e) => {
+                    const layer = e.target;
+                    if (layer.feature.properties) {
+                        layer.setStyle({
+                            fillOpacity: 0.5
+                        });
+                    }
+                },
+            });
+        }, (feature) => {
+            let style = {
+                color: "#ff7800",
+                opacity: 1,
+                weight: 2,
+                fillOpacity: 0.5,
+                fillColor: "#ff7800",
+            }
+            if (feature.properties && !feature.properties.count) {
+                style.fillColor = "#AAAAAA";
+            }
+            return style;
+        });
     }
 
 }
