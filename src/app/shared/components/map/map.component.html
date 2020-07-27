@@ -1,4 +1,7 @@
 <div class="map-container">
+    <div class="map-tools" *ngIf="!hideNavigation">
+        <ux-button type="button" [isBlock]="true" (click)="onProjectsNearByClick()">PROJECTS NEAR BY ME</ux-button>
+    </div>
     <div class="map-frame">
         <div id="map"></div>
     </div>
