@@ -114,7 +114,9 @@ export class MapComponent implements AfterViewInit {
     }
 
     public drawPolygons(polygons){
-        return L.geoJson(polygons).addTo(this.map);
+        return L.geoJson(polygons,{
+            style: this.defaultStyle
+        }).addTo(this.map);
     }
 
     public addLayer(layerGeoJson, clickCallback, style){
@@ -177,6 +179,11 @@ export class MapComponent implements AfterViewInit {
             if(data.coordinates) {
                 const c = data.coordinates.split(",");
                 const coords = new L.LatLng(c[0],c[1],5);
+                L.circle(coords, {
+                    radius: 2000,
+                    fillColor: "#FF7800",
+                    color: "#FF7800"
+                }).addTo(this.map);
                 this.map.setView(coords, 8);
             }
         })
@@ -286,19 +293,31 @@ export class MapComponent implements AfterViewInit {
                     }
                 },
             });
-        }, (feature) => {
-            let style = {
-                color: "#ff7800",
-                opacity: 1,
-                weight: 2,
-                fillOpacity: 0.5,
-                fillColor: "#ff7800",
-            }
-            if (feature.properties && !feature.properties.count) {
-                style.fillColor = "#AAAAAA";
-            }
-            return style;
-        });
+        }, this.polygonsStyle);
+    }
+
+    private polygonsStyle(feature){
+        let style = {
+            color: "#ff7800",
+            opacity: 1,
+            weight: 2,
+            fillOpacity: 0.5,
+            fillColor: "#ff7800",
+        };
+        if (feature.properties && !feature.properties.count) {
+            style.fillColor = "#AAAAAA";
+        }
+        return style;
+    }
+
+    private defaultStyle(){
+        return {
+            color: "#ff7800",
+            opacity: 1,
+            weight: 2,
+            fillOpacity: 0.5,
+            fillColor: "#ff7800",
+        }
     }
 
 }
