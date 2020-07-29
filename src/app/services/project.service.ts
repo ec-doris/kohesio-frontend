@@ -28,20 +28,6 @@ export class ProjectService {
         );
     }
 
-    getMapPoints(filters): Observable<any>{
-        const url = environment.api + '/search/project/map';
-        const params = this.generateParameters(filters, 0, -1);
-        return this.http.get<any>(url,{ params: <any>params }).pipe(
-            map(data => {
-                if (!data && !data.list){
-                    return null;
-                }else {
-                    return data.list;
-                }
-            })
-        );
-    }
-
     generateParameters(filters:Filters, offset: number = 0, limit: number = 15){
         let params = {};
         if (limit !== -1){

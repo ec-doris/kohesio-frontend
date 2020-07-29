@@ -36,17 +36,38 @@ export class FiltersApi implements Deserializable{
                 value:"Czech Republic"
         }];
         FiltersApi.prototype.programmingPeriods = [{
+            id: '2014-2020',
+            value: '2014 - 2020',
+        },{
             id: '2021-2027',
             value: '2021 - 2027',
         }];
         FiltersApi.prototype.totalProjectBudget = [{
+            id: '0-1000',
+            value: '0 - 1 000',
+        },{
+            id: '1000-10000',
+            value: '1 000 - 10 000',
+        },{
             id: '10000-100000',
             value: '10 000 - 100 000',
+        },{
+            id: '100000-1000000',
+            value: '100 000 - 1 000 000',
+        },{
+            id: '1000000-10000000',
+            value: '1 000 000 - 10 000 000',
+        },{
+            id: '10000000-100000000',
+            value: '10 000 000 - 100 000 000',
+        },{
+            id: '100000000-1000000000',
+            value: '100 000 000 - 1 000 000 000',
+        },{
+            id: '1000000000-10000000000',
+            value: '1 000 000 000 - 10 000 000 000'
         }];
-        FiltersApi.prototype.amountEUSupport = [{
-            id: '10000-100000',
-            value: '10 000 - 100 000',
-        }];
+        FiltersApi.prototype.amountEUSupport = FiltersApi.prototype.totalProjectBudget;
     })();
 
     deserialize(input: any): this {

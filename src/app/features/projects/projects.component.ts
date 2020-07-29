@@ -12,6 +12,8 @@ import {MapComponent} from "../../shared/components/map/map.component";
 import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
 import {FiltersApi} from "../../shared/models/filters-api.model";
+import {environment} from "../../../environments/environment";
+import {MapService} from "../../services/map.service";
 declare let L;
 
 @Component({
@@ -25,7 +27,6 @@ export class ProjectsComponent implements AfterViewInit {
     public myForm: FormGroup;
     public isLoading = false;
     public isMapTab = false;
-    public loadedDataPoints = false;
     @ViewChild("paginatorTop") paginatorTop: MatPaginator;
     @ViewChild("paginatorDown") paginatorDown: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
@@ -33,6 +34,8 @@ export class ProjectsComponent implements AfterViewInit {
     public modalImageUrl = "";
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
+    public mapIsLoaded = false;
+    public lastFiltersSearch;
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -55,9 +58,9 @@ export class ProjectsComponent implements AfterViewInit {
             policyObjective: [this.getFilterKey("policy_objective","policyObjective")],
             theme: [this.getFilterKey("thematic_objectives","theme")],
             //Advanced filters
-            programPeriod: ['2021-2027'],
+            programPeriod: [this.getFilterKey("programmingPeriods","programPeriod")],
             fund:[this.getFilterKey("funds","fund")],
-            program:[this.getFilterKey("programs","program")],
+            program:[],
             categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
             totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
@@ -65,28 +68,35 @@ export class ProjectsComponent implements AfterViewInit {
             projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this.myForm.value.program ||
+        this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
+            this._route.snapshot.queryParamMap.get('program') ||
             this.myForm.value.categoryOfIntervention || this.myForm.value.totalProjectBudget ||
             this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
         if (this._route.snapshot.queryParamMap.get('country')){
-            this.getRegions().then(regions => {
+            Promise.all([this.getRegions(), this.getPrograms()]).then(results=>{
                 if (this._route.snapshot.queryParamMap.get('region')) {
                     this.myForm.patchValue({
                         region: this.getFilterKey("regions","region")
                     });
+                }
+                if (this._route.snapshot.queryParamMap.get('program')) {
+                    this.myForm.patchValue({
+                        program: this.getFilterKey("programs","program")
+                    });
+                }
+                if(this._route.snapshot.queryParamMap.get('region') ||
+                    this._route.snapshot.queryParamMap.get('program')) {
                     this.getProjectList();
                 }
             });
         }
 
-        if (!this._route.snapshot.queryParamMap.get('region')) {
+        if (!this._route.snapshot.queryParamMap.get('region') &&
+            !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
 
-        this.markerService.getServerPoints().then(result=>{
-            this.loadedDataPoints = result;
-        });
     }
 
     private getFilterKey(type: string, queryParam: string){
@@ -102,6 +112,14 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     private getProjectList(){
+
+        //Hack to program period for projects 2021-2027
+        if (this.myForm.value.programPeriod == "2021-2027") {
+            this.projects = [];
+            this.map.loadMapRegion(new Filters());
+            return;
+        }
+
         this.isLoading = true;
         let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize | 0;
         this.projectService.getProjects(this.getFilters(), offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
@@ -113,9 +131,10 @@ export class ProjectsComponent implements AfterViewInit {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
 
-            //this.goFirstPage();
             if (this.selectedTabIndex == 3){
-                this.createMarkers();
+                this.map.loadMapRegion(this.lastFiltersSearch);
+            }else{
+                this.mapIsLoaded = false;
             }
         });
     }
@@ -160,6 +179,7 @@ export class ProjectsComponent implements AfterViewInit {
             region: this.getFilterLabel("regions", this.myForm.value.region),
             theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
             policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+            programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
             program: this.getFilterLabel("programs", this.myForm.value.program),
             categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention),
@@ -171,9 +191,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onCountryChange(){
-        this.getRegions();
+        this.getRegions().then();
+        this.getPrograms().then();
         this.myForm.patchValue({
-            region: null
+            region: null,
+            program: null
         });
     }
 
@@ -197,10 +219,27 @@ export class ProjectsComponent implements AfterViewInit {
         });
     }
 
+    getPrograms(): Promise<any>{
+        return new Promise((resolve, reject) => {
+            const country = environment.entityURL + this.myForm.value.country;
+            this.filterService.getFilter("programs",{country:country}).subscribe(result => {
+                this.filterService.filters.programs = result.programs;
+                this.filters.programs = result.programs;
+                resolve(true);
+            });
+        });
+    }
+
     onTabSelected(event){
         if(event.label == "Map"){
-            this.map.refreshView();
-            this.createMarkers();
+            if (!this.mapIsLoaded) {
+                this.mapIsLoaded = true;
+                this.map.refreshView();
+                setTimeout(
+                    () => {
+                        this.map.loadMapRegion(this.lastFiltersSearch);
+                    }, 500);
+            }
             this.selectedTabIndex = event.index;
             this.isMapTab = true;
         }else{
@@ -210,24 +249,10 @@ export class ProjectsComponent implements AfterViewInit {
 
     getFilters(){
         const formValues = Object.assign({},this.myForm.value);
-        formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'dd-MM-yyyy') : undefined;
-        formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'dd-MM-yyyy') : undefined;
-        return new Filters().deserialize(formValues);
-    }
-
-    createMarkers(){
-        this.map.removeAllMarkers();
-        this.projectService.getMapPoints(this.getFilters()).subscribe(mapPoints=>{
-            for(let project of mapPoints){
-                if (project.coordinates && project.coordinates.length) {
-                    project.coordinates.forEach(coords=>{
-                        const coordinates = coords.split(",");
-                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                        this.map.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                    })
-                }
-            }
-        });
+        formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
+        formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
+        this.lastFiltersSearch = new Filters().deserialize(formValues);
+        return this.lastFiltersSearch;
     }
 
     openImageOverlay(imgUrl, projectTitle){
@@ -248,9 +273,6 @@ export class ProjectsComponent implements AfterViewInit {
 
     resetForm(){
         this.myForm.reset();
-        this.myForm.patchValue({
-            programPeriod: ["2021-2027"]
-        });
     }
 
 

@@ -10,7 +10,7 @@ import {FiltersApi} from "../shared/models/filters-api.model";
 })
 export class FilterService {
 
-    private filters:FiltersApi;
+    public filters:FiltersApi;
     private countryGeoJson;
 
     constructor(private http: HttpClient) { }
@@ -22,7 +22,6 @@ export class FilterService {
                 this.getFilter('thematic_objectives'),
                 this.getFilter('policy_objective'),
                 this.getFilter('funds'),
-                this.getFilter('programs'),
                 this.getFilter('categoriesOfIntervention')
             )
         );
@@ -31,8 +30,7 @@ export class FilterService {
     getBeneficiariesFilters(): Observable<FiltersApi>{
         return this.getFilters(
             Observable.forkJoin(
-                this.getFilter('funds'),
-                this.getFilter('programs')
+                this.getFilter('funds')
             )
         );
     }
@@ -53,9 +51,9 @@ export class FilterService {
         );
     }
 
-    getFilter(type: string):Observable<any>{
+    getFilter(type: string, params = {}):Observable<any>{
         const url = environment.api + '/' + type;
-        return this.http.get<any>(url).pipe(
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data = {};
                 data[type] = [];

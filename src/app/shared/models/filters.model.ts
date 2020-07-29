@@ -5,7 +5,7 @@ export class Filters implements Deserializable{
 
     public keywords: string;
     public name: string;
-    private country: string;
+    public country: string;
     public region: string;
     public theme: string;
     public policyObjective: string;

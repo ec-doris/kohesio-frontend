@@ -43,7 +43,6 @@
                 <ux-form-group label="PROGRAMMING PERIOD" [isVertical]="true">
                     <ux-form-control formControlName="programPeriod"
                                      [isSelect]="true"
-                                     [selectNoBlankLine]="true"
                                      [selectOptions]="this.filters.programmingPeriods">
                     </ux-form-control>
                 </ux-form-group>
@@ -188,7 +187,7 @@
 
 
             <ux-tab label="Map">
-                <app-map></app-map>
+                <app-map hideProjectsNearBy="true"></app-map>
             </ux-tab>
             <uxTabsRightContent>
                 <mat-paginator #paginatorTop
