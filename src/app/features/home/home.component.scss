@@ -36,6 +36,13 @@
 
  .ux-carousel-items {
 
+     // @include media-breakpoint(desktop) {
+         .carousel-item--img {
+             width: 50%;
+
+             border: 2px solid yellow;
+         }
+     // }
  }
 
 .carousel-title {
@@ -46,7 +53,9 @@
     text-align: left;
     position: absolute;
     top: 30%;
-    left: 15%;
+    left: 8%;
+
+    border: 1px solid green;
 
     &:hover {
         text-decoration: none;
@@ -81,7 +90,7 @@
 .carousel-btn {
     .ux-icon{
         background-color: transparent;
-        color:black;
+        color: black;
     }
 }
 
