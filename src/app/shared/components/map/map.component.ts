@@ -236,12 +236,8 @@ export class MapComponent implements AfterViewInit {
     }
 
     loadMapVisualization(filters: Filters, granularityRegion: string,){
-        console.time("getData");
         this.cleanMap();
         this.mapService.getMapInfo(filters, granularityRegion).subscribe(data=>{
-            console.timeEnd("getData");
-            console.time("renderRegion");
-            console.time("renderMarkers");
             if (data.list && data.list.length){
                 if (data.geoJson) {
                     const featureCollection = {
@@ -256,8 +252,6 @@ export class MapComponent implements AfterViewInit {
                     });
                     this.addFeatureCollectionLayer(featureCollection);
                 }
-                console.timeEnd("renderRegion");
-
                 const points = [];
                 data.list.forEach(project=>{
                     if (project.coordinates && project.coordinates.length) {
@@ -289,17 +283,6 @@ export class MapComponent implements AfterViewInit {
                     popupContent += '</div>';
                     this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                 })
-
-                /*for(let project of data.list){
-                    if (project.coordinates && project.coordinates.length) {
-                        project.coordinates.forEach(coords=>{
-                            const coordinates = coords.split(",");
-                            const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                            this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                        })
-                    }
-                }*/
-                console.timeEnd("renderMarkers");
             }else {
                 data.forEach(region => {
                     const featureCollection = {
