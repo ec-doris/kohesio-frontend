@@ -40,7 +40,7 @@ export class MapComponent implements AfterViewInit {
                 private filterService:FilterService) { }
 
     ngAfterViewInit(): void {
-        this.map = L.map('map').setView([48, 4], 4);
+        this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
         const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
@@ -80,6 +80,32 @@ export class MapComponent implements AfterViewInit {
                 }
             );
 
+            if (popupContent) {
+                marker.bindPopup(popupContent,{
+                    maxWidth: '600px',
+                    width: 'auto'
+                });
+            }
+
+            this.markersGroup.addLayer(marker);
+
+            if (centralize) {
+                this.map.setView(coords, zoomWhenCentralize);
+            }
+        }
+    }
+
+    public addCircleMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:string = undefined){
+        const coords = [latitude,longitude];
+        if (this.map) {
+            if (!this.markersGroup){
+                this.markersGroup = new L.FeatureGroup();
+                this.map.addLayer(this.markersGroup);
+            }
+
+            const marker = L.circleMarker(coords, {
+                color: '#3388ff'
+            });
 
             if (popupContent) {
                 marker.bindPopup(popupContent);
@@ -93,9 +119,10 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
-    public addMarkerPopup(latitude: any, longitude: any, popupContent: string){
-        this.addMarker(latitude, longitude, false, 15, popupContent)
+    public addCircleMarkerPopup(latitude: any, longitude: any, popupContent: string){
+        this.addCircleMarker(latitude, longitude, false, 15, popupContent)
     }
+
 
     public addCountryLayer(countryLabel: string){
         let countryGeoJson = undefined;
@@ -114,7 +141,9 @@ export class MapComponent implements AfterViewInit {
     }
 
     public drawPolygons(polygons){
-        return L.geoJson(polygons).addTo(this.map);
+        return L.geoJson(polygons,{
+            style: this.defaultStyle
+        }).addTo(this.map);
     }
 
     public addLayer(layerGeoJson, clickCallback, style){
@@ -170,13 +199,18 @@ export class MapComponent implements AfterViewInit {
                     project.coordinates.forEach(coords=>{
                         const coordinates = coords.split(",");
                         const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                        this.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                        this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                     });
                 }
             }
             if(data.coordinates) {
                 const c = data.coordinates.split(",");
                 const coords = new L.LatLng(c[0],c[1],5);
+                L.circle(coords, {
+                    radius: 2000,
+                    fillColor: "#FF7800",
+                    color: "#FF7800"
+                }).addTo(this.map);
                 this.map.setView(coords, 8);
             }
         })
@@ -218,15 +252,37 @@ export class MapComponent implements AfterViewInit {
                     });
                     this.addFeatureCollectionLayer(featureCollection);
                 }
-                for(let project of data.list){
+                const points = [];
+                data.list.forEach(project=>{
                     if (project.coordinates && project.coordinates.length) {
-                        project.coordinates.forEach(coords=>{
-                            const coordinates = coords.split(",");
-                            const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                            this.addMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                        })
+                        project.coordinates.forEach(coordinate=>{
+                            let point = points.find(point=>{
+                                return point.coordinate == coordinate;
+                            });
+                            if (point){
+                                point.projects.push(project);
+                            }else{
+                                points.push({
+                                    coordinate: coordinate,
+                                    projects: [project]
+                                });
+                            }
+                        });
                     }
-                }
+                });
+                points.forEach(point=>{
+                    const coordinates = point.coordinate.split(",");
+                    let popupContent = "<div class='kohesio-map-popup-wrapper'>";
+                    if(point.projects.length == 1){
+                        popupContent = "<a href='/projects/" + point.projects[0].item +"'>"+point.projects[0].labels[0]+"</a>";
+                    }else{
+                        point.projects.forEach(project=>{
+                            popupContent += "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
+                        });
+                    }
+                    popupContent += '</div>';
+                    this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                })
             }else {
                 data.forEach(region => {
                     const featureCollection = {
@@ -286,19 +342,31 @@ export class MapComponent implements AfterViewInit {
                     }
                 },
             });
-        }, (feature) => {
-            let style = {
-                color: "#ff7800",
-                opacity: 1,
-                weight: 2,
-                fillOpacity: 0.5,
-                fillColor: "#ff7800",
-            }
-            if (feature.properties && !feature.properties.count) {
-                style.fillColor = "#AAAAAA";
-            }
-            return style;
-        });
+        }, this.polygonsStyle);
+    }
+
+    private polygonsStyle(feature){
+        let style = {
+            color: "#ff7800",
+            opacity: 1,
+            weight: 2,
+            fillOpacity: 0.5,
+            fillColor: "#ff7800",
+        };
+        if (feature.properties && !feature.properties.count) {
+            style.fillColor = "#AAAAAA";
+        }
+        return style;
+    }
+
+    private defaultStyle(){
+        return {
+            color: "#ff7800",
+            opacity: 1,
+            weight: 2,
+            fillOpacity: 0.5,
+            fillColor: "#ff7800",
+        }
     }
 
 }
