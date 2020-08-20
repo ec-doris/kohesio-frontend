@@ -1,23 +1,23 @@
-/*Carousel changes*/
-:host ::ng-deep .ux-carousel-items .row.flex-container{
+/* Carousel changes */
+:host ::ng-deep .ux-carousel-items .row.flex-container {
     position: relative;
 
     .col-1.text-center {
-        z-index: 1;
-        position: absolute;
+        // z-index: 1;
+        // position: absolute;
 
         span.ux-icon {
-            background-color: rgba(255,255,255,0.5);
+            background-color: rgba(0, 0, 0, 0.3);
             border-radius: 35px;
             padding: 10px;
-            color: #003D84;
+            color: #fff;
         }
         span.ux-icon.ux-carousel-items__arrow--inactive {
             color: #d2d2d2;
         }
     }
     .col-1.text-center:last-child {
-        right:0;
+        right: 0;
     }
 
     .col-10 {
@@ -26,52 +26,50 @@
     }
 }
 
-:host ::ng-deep .ux-carousel-items .row.flex-container.ux-carousel-items__summary-indicators{
-    top: -70px;
-}
+// :host ::ng-deep .ux-carousel-items .row.flex-container.ux-carousel-items__summary-indicators{
+//     top: -70px;
+// }
 
 /**
  * Carousel
  **/
 
- .ux-carousel-items {
+ :host ::ng-deep .ux-carousel-items li {
+     display: flex !important;
+ }
 
-     // @include media-breakpoint(desktop) {
-         .carousel-item--img {
-             width: 50%;
-
-             border: 2px solid yellow;
-         }
-     // }
+ .carousel-item--img {
+     width: 50%;
+     height: 30vh;
  }
 
 .carousel-title {
-    font-size: 28px;
-    line-height: 45px;
-    width: 48%;
+    font-size: 24px;
+    line-height: 30px;
+    width: 49%;
     text-transform: uppercase;
     text-align: left;
-    position: absolute;
-    top: 30%;
-    left: 8%;
+    margin-right: 1%;
+    display: flow-root;
+    justify-content: center;
+    align-self: center;
 
-    // border: 1px solid green;
+    // border: 2px solid red;
 
     &:hover {
         text-decoration: none;
     }
 
-    span {
-        display: inline;
-        background: rgba(0, 0, 0, .7);
-        color: white;
-        padding: 0.25rem;
+    > span {
+        display: block;
+        // background: rgba(0, 0, 0, .7);
+        color: #004494;
+        padding-bottom: 2%;
     }
 
       .icons {
           font-size: 13px;
           line-height: 16px;
-          margin-top: 1rem;
           display: flex;
           align-items: center;
           color: #fff;
@@ -87,12 +85,12 @@
       }
 }
 
-.carousel-btn {
-    .ux-icon{
-        background-color: transparent;
-        color: black;
-    }
-}
+// .carousel-btn {
+//     .ux-icon {
+//         // background-color: transparent;
+//         color: black;
+//     }
+// }
 
 .section-container {
     display: flex;
