@@ -7,7 +7,7 @@
         // position: absolute;
 
         span.ux-icon {
-            background-color: rgba(0, 0, 0, 0.3);
+            background-color: rgba(0, 0, 0, 0.1);
             border-radius: 35px;
             padding: 10px;
             color: #fff;
@@ -72,14 +72,15 @@
           line-height: 16px;
           display: flex;
           align-items: center;
-          color: #fff;
+          color: #404040;
+          font-weight: bold;
 
           .icon.fa {
               margin-right: 5px;
           }
 
           .icons--inner {
-              background: rgba(0, 0, 0, .7);
+              // background: rgba(0, 0, 0, .3);
               padding: 5px;
           }
       }
