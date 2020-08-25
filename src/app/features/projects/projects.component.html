@@ -167,7 +167,7 @@
                                [pageSize]="15"
                                [hidePageSize]="true"
                                (page)="onPaginate($event)"
-                               [hidden]="isLoading || isMapTab">
+                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab">
                 </mat-paginator>
             </ux-tab>
             <ux-tab label="Audio-visual">
@@ -195,7 +195,7 @@
                                [pageSize]="15"
                                [hidePageSize]="true"
                                (page)="onPaginate($event)"
-                               [hidden]="isLoading || isMapTab">
+                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab">
                 </mat-paginator>
                 <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
             </uxTabsRightContent>
