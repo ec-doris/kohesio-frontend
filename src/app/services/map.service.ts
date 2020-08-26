@@ -37,4 +37,18 @@ export class MapService {
         );
     }
 
+    public getProjectsPerCoordinate(coordinates: string, filters?: Filters): Observable<any>{
+        const url = environment.api + '/search/project/map/point';
+        let params:any = {}
+        if (filters){
+            params = Object.assign(filters.getProjectsFilters());
+        }
+        params.coordinate = coordinates;
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
+            map(data => {
+                return data;
+            })
+        );
+    }
+
 }

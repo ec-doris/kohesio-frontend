@@ -95,7 +95,7 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
-    public addCircleMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:string = undefined){
+    public addCircleMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:any = undefined){
         const coords = [latitude,longitude];
         if (this.map) {
             if (!this.markersGroup){
@@ -107,9 +107,22 @@ export class MapComponent implements AfterViewInit {
                 color: '#3388ff'
             });
 
-            if (popupContent) {
+            if (popupContent && popupContent.type != 'async') {
                 marker.bindPopup(popupContent);
+            }else if(popupContent && popupContent.type == 'async'){
+                marker.on('click', ()=>{
+                    this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
+                        let popupContent = "<div class='kohesio-map-popup-wrapper'>";
+                        projects.forEach(project=>{
+                            const item = project.item.replace("https://linkedopendata.eu/entity/","");
+                            popupContent += "<a href='/projects/" + item +"'>"+project.label+"</a>";
+                        });
+                        popupContent += '</div>';
+                        marker.bindPopup(popupContent).openPopup();
+                    })
+                });
             }
+
 
             this.markersGroup.addLayer(marker);
 
@@ -119,7 +132,7 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
-    public addCircleMarkerPopup(latitude: any, longitude: any, popupContent: string){
+    public addCircleMarkerPopup(latitude: any, longitude: any, popupContent: any){
         this.addCircleMarker(latitude, longitude, false, 15, popupContent)
     }
 
@@ -194,15 +207,15 @@ export class MapComponent implements AfterViewInit {
     public onProjectsNearByClick(){
         this.cleanMap();
         this.mapService.getPointsNearBy().subscribe(data=>{
-            for(let project of data.list){
-                if (project.coordinates && project.coordinates.length) {
-                    project.coordinates.forEach(coords=>{
-                        const coordinates = coords.split(",");
-                        const popupContent = "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                        this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
-                    });
+            data.list.forEach(point=>{
+                const coordinates = point.split(",");
+                const popupContent = {
+                    type: 'async',
+                    filters: undefined,
+                    coordinates: point
                 }
-            }
+                this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+            })
             if(data.coordinates) {
                 const c = data.coordinates.split(",");
                 const coords = new L.LatLng(c[0],c[1],5);
@@ -239,6 +252,7 @@ export class MapComponent implements AfterViewInit {
         this.cleanMap();
         this.mapService.getMapInfo(filters, granularityRegion).subscribe(data=>{
             if (data.list && data.list.length){
+                //Draw markers to each coordinate
                 if (data.geoJson) {
                     const featureCollection = {
                         "type": "FeatureCollection",
@@ -252,38 +266,17 @@ export class MapComponent implements AfterViewInit {
                     });
                     this.addFeatureCollectionLayer(featureCollection);
                 }
-                const points = [];
-                data.list.forEach(project=>{
-                    if (project.coordinates && project.coordinates.length) {
-                        project.coordinates.forEach(coordinate=>{
-                            let point = points.find(point=>{
-                                return point.coordinate == coordinate;
-                            });
-                            if (point){
-                                point.projects.push(project);
-                            }else{
-                                points.push({
-                                    coordinate: coordinate,
-                                    projects: [project]
-                                });
-                            }
-                        });
+                data.list.forEach(point=>{
+                    const coordinates = point.split(",");
+                    const popupContent = {
+                        type: 'async',
+                        filters: filters,
+                        coordinates: point
                     }
-                });
-                points.forEach(point=>{
-                    const coordinates = point.coordinate.split(",");
-                    let popupContent = "<div class='kohesio-map-popup-wrapper'>";
-                    if(point.projects.length == 1){
-                        popupContent = "<a href='/projects/" + point.projects[0].item +"'>"+point.projects[0].labels[0]+"</a>";
-                    }else{
-                        point.projects.forEach(project=>{
-                            popupContent += "<a href='/projects/" + project.item +"'>"+project.labels[0]+"</a>";
-                        });
-                    }
-                    popupContent += '</div>';
                     this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                 })
             }else {
+                //Draw polygons of the regions
                 data.forEach(region => {
                     const featureCollection = {
                         "type": "FeatureCollection",
