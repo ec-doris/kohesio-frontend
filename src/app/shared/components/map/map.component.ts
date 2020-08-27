@@ -169,7 +169,7 @@ export class MapComponent implements AfterViewInit {
                 "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
                 "<div class='regionCount'>" + layerGeoJson.features[0].properties.count + " projects</div>" +
                 "</div>";
-            l.bindTooltip(html, {permanent: true, direction: "center"})
+            l.bindTooltip(html, {permanent: false, direction: "center"})
         }
         this.layers.push(l);
     }
