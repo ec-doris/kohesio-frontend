@@ -171,21 +171,15 @@
                 </mat-paginator>
             </ux-tab>
             <ux-tab label="Audio-visual">
+                <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
                 <div class="audio-visual-container">
-                    <ng-container *ngFor="let project of projects">
-                        <a [routerLink]="['/projects/' + project.item]">
-                            <img *ngIf="project.images && project.images.length" [src]="project.images[0]">
+                    <ng-container *ngFor="let asset of assets">
+                        <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
+                            <img [src]="asset.image">
                         </a>
                     </ng-container>
                 </div>
             </ux-tab>
-
-
-
-
-
-
-
             <ux-tab label="Map">
                 <app-map hideProjectsNearBy="true"></app-map>
             </ux-tab>
@@ -195,7 +189,14 @@
                                [pageSize]="15"
                                [hidePageSize]="true"
                                (page)="onPaginate($event)"
-                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab">
+                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isAudioVisualTab">
+                </mat-paginator>
+                <mat-paginator #paginatorAssets
+                               [length]="assetsCount"
+                               [pageSize]="15"
+                               [hidePageSize]="true"
+                               (page)="onPaginate($event)"
+                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isResultsTab">
                 </mat-paginator>
                 <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
             </uxTabsRightContent>

@@ -28,6 +28,12 @@ export class ProjectService {
         );
     }
 
+    getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{
+        const url = environment.api + '/search/project/image';
+        const params = this.generateParameters(filters, offset, limit);
+        return this.http.get<any>(url,{ params: <any>params });
+    }
+
     generateParameters(filters:Filters, offset: number = 0, limit: number = 15){
         let params = {};
         if (limit !== -1){

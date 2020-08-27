@@ -22,13 +22,18 @@ declare let L;
 export class ProjectsComponent implements AfterViewInit {
 
     public projects: Project[] = [];
+    public assets: [] = [];
+    public assetsCount = 0;
     public filters: FiltersApi;
     public count = 0;
     public myForm: FormGroup;
     public isLoading = false;
+    public isResultsTab = true;
     public isMapTab = false;
+    public isAudioVisualTab = false;
     @ViewChild("paginatorTop") paginatorTop: MatPaginator;
     @ViewChild("paginatorDown") paginatorDown: MatPaginator;
+    @ViewChild("paginatorAssets") paginatorAssets: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex:number = 1;
     public modalImageUrl = "";
@@ -36,6 +41,7 @@ export class ProjectsComponent implements AfterViewInit {
     public advancedFilterExpanded = false;
     public mapIsLoaded = false;
     public lastFiltersSearch;
+    public entityURL = environment.entityURL;
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -137,6 +143,11 @@ export class ProjectsComponent implements AfterViewInit {
                 this.mapIsLoaded = false;
             }
         });
+        let offsetAssets = this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize | 0;
+        this.projectService.getAssets(this.getFilters(),offsetAssets, this.paginatorAssets.pageSize).subscribe(result=>{
+            this.assets = result.list;
+            this.assetsCount = result.numberResults;
+        });
     }
 
     onSubmit() {
@@ -160,16 +171,10 @@ export class ProjectsComponent implements AfterViewInit {
         this.getProjectList();
     }
 
-    getPageIndexStart(){
-        return this.paginatorTop ? this.paginatorTop.pageSize * this.paginatorTop.pageIndex : 0;
-    }
-
-    getPageIndexEnd(){
-        return this.paginatorTop ? this.getPageIndexStart() + this.paginatorTop.pageSize : 15;
-    }
     goFirstPage(){
         this.paginatorDown.firstPage();
         this.paginatorTop.firstPage();
+        this.paginatorAssets.firstPage();
     }
 
     generateQueryParams(){
@@ -231,19 +236,28 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onTabSelected(event){
-        if(event.label == "Map"){
-            if (!this.mapIsLoaded) {
-                this.mapIsLoaded = true;
-                this.map.refreshView();
-                setTimeout(
-                    () => {
-                        this.map.loadMapRegion(this.lastFiltersSearch);
-                    }, 500);
-            }
-            this.selectedTabIndex = event.index;
-            this.isMapTab = true;
-        }else{
-            this.isMapTab = false;
+        this.isAudioVisualTab = false;
+        this.isMapTab = false;
+        this.isResultsTab = false;
+        switch(event.index){
+            case 1: //Results
+                this.isResultsTab = true;
+                break;
+            case 2: //Audio-visual
+                this.isAudioVisualTab = true;
+                break;
+            case 3: //Map
+                if (!this.mapIsLoaded) {
+                    this.mapIsLoaded = true;
+                    this.map.refreshView();
+                    setTimeout(
+                        () => {
+                            this.map.loadMapRegion(this.lastFiltersSearch);
+                        }, 500);
+                }
+                this.selectedTabIndex = event.index;
+                this.isMapTab = true;
+                break;
         }
     }
 
