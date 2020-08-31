@@ -17,6 +17,7 @@
         "start-openid": "npm run clean && eui-scripts serve-app --configuration=local-openid",
         "build": "eui-scripts build-app",
         "build-dev": "eui-scripts build-app --configuration=dev",
+        "build-acc": "eui-scripts build-app --configuration=acc",
         "build-prod": "eui-scripts build-app --configuration=production",
         "build-prod-skip-test": "eui-scripts build-app --configuration=production --extraWebpackConfig --skipTest",
         "build-prod-ci": "ncp tsconfig-ci.json tsconfig.json && npm run build-prod",

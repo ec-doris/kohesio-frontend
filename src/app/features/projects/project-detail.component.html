@@ -81,7 +81,8 @@
             <div class="prjt-box prjt-box--grey">
                 <span class="prjt-box--title">themes</span>
                 <div class="prjt-box--content">
-                    <span>{{project?.objectiveLabel}}</span>
+                    <p>{{project?.objectiveLabel}}</p>
+                    <p *ngIf="!project.objectiveLabel">n/a</p>
                 </div>
             </div>
 
