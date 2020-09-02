@@ -142,7 +142,7 @@
                                             <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                         </div>
                                     </div>
-                                <footer>{{project?.images[0].imageCopyright}}</footer>
+                                <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>
                             </figure>
                         </div>
                     </header>
