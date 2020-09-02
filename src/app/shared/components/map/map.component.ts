@@ -43,7 +43,8 @@ export class MapComponent implements AfterViewInit {
         this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
         const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-                '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>'
+                '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
+                '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
         });
         /*const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,

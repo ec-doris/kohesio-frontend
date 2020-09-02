@@ -1,7 +1,7 @@
 <ux-modal id="imageOverlay" [titleLabel]="project?.label" [isFooterVisible]="false" customWidth="500px">
     <uxModalBody>
         <div class="modal-body">
-            <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
+            <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
         </div>
     </uxModalBody>
 </ux-modal>
@@ -131,14 +131,14 @@
                                     <div class="prj-image--wrapper">
                                         <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
                                             <div class="prj-image--image">
-                                                <img [src]="project?.images[0].replace('image=','')" alt="" *ngIf="project?.images && project?.images.length">
+                                                <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                             </div>
                                         </a>
                                         <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
                                             <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                         </div>
                                     </div>
-                                <footer><small>©Société de Gestion de la Station des Rousses, SAEM SOGESTAR / Benjamin Becker (2017)</small></footer>
+                                <footer><small>{{project?.images[0].imageCopyright}}</small></footer>
                             </figure>
                         </div>
                     </header>
