@@ -5,6 +5,10 @@
         </div>
     </uxModalBody>
 </ux-modal>
+<ux-message-box titleLabel="INFORMATION" acceptLabel="PROCEED" dismissLabel="CANCEL" typeClass="info" (clicked)="openWikidataLink($event)">
+    <p>Please note that you are now leaving the Kohesio website from the European Commission. The EC cannot be held responsible for incorrect information published on Wikidata</p>
+</ux-message-box>
+
 
 <div class="project-detail margin-btm">
     <div class="project-detail-right-content">
@@ -104,7 +108,7 @@
                         {{project?.beneficiaries[0].beneficiaryLabel}}
                     </span>
                     <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].wikidata">
-                        <a [href]="project?.beneficiaries[0].wikidata" target="_blank">
+                        <a (click)="openGDPRInfoBox(project?.beneficiaries[0].wikidata)" target="_blank">
                             {{project?.beneficiaries[0].beneficiaryLabel}}
                         </a>
                     </span>
@@ -138,7 +142,7 @@
                                             <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                         </div>
                                     </div>
-                                <footer><small>{{project?.images[0].imageCopyright}}</small></footer>
+                                <footer>{{project?.images[0].imageCopyright}}</footer>
                             </figure>
                         </div>
                     </header>

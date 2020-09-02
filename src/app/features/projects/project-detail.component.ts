@@ -12,6 +12,7 @@ declare let L;
 export class ProjectDetailComponent implements AfterViewInit {
 
     public project: ProjectDetail;
+    public wikidataLink: string;
 
     @ViewChild(MapComponent)
     public map: MapComponent;
@@ -43,6 +44,17 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     openWiki(event){
         window.open("https://linkedopendata.eu/wiki/Item:" + this.project.item, "_blank");
+    }
+
+    openWikidataLink(event){
+        if (event){
+            window.open(this.wikidataLink,'blank');
+        }
+    }
+
+    openGDPRInfoBox(link: string){
+        this.wikidataLink = link;
+        this.uxService.openMessageBox()
     }
 
 }
