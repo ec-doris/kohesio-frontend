@@ -16,7 +16,7 @@ export class HomeComponent implements AfterViewInit {
 
     @ViewChild(MapComponent) map: MapComponent;
 
-    public stats = {};
+    public stats:any = {};
 
     constructor(private _renderer2: Renderer2,
                 @Inject(DOCUMENT) private _document: Document,
