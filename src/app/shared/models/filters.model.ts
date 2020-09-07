@@ -71,7 +71,7 @@ export class Filters implements Deserializable{
 
     public getBeneficiariesFilters(){
         return {
-            ...(this.keywords) && {keywords: this.keywords},
+            ...(this.name) && {name: this.name},
             ...(this.country) && {country: environment.entityURL + this.country},
             ...(this.region) && {region: environment.entityURL + this.region},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
