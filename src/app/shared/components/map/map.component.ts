@@ -3,6 +3,7 @@ import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
 import {Filters} from "../../models/filters.model";
+import { DecimalPipe } from '@angular/common';
 declare let L;
 
 @Component({
@@ -37,7 +38,8 @@ export class MapComponent implements AfterViewInit {
 
 
     constructor(private mapService: MapService,
-                private filterService:FilterService) { }
+                private filterService:FilterService,
+                private _decimalPipe: DecimalPipe) { }
 
     ngAfterViewInit(): void {
         this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
@@ -168,7 +170,8 @@ export class MapComponent implements AfterViewInit {
         if (layerGeoJson.features[0].properties && layerGeoJson.features[0].properties.count) {
             const html = "<div class='regionWrapper'>" +
                 "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
-                "<div class='regionCount'>" + layerGeoJson.features[0].properties.count + " projects</div>" +
+                "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
+                (layerGeoJson.features[0].properties.count > 0 ? "projects" : "project") + "</div>" +
                 "</div>";
             l.bindTooltip(html, {permanent: false, direction: "center"})
         }
@@ -361,6 +364,10 @@ export class MapComponent implements AfterViewInit {
             fillOpacity: 0.5,
             fillColor: "#ff7800",
         }
+    }
+
+    ngOnDestroy(){
+        document.getElementById("map").outerHTML = "";
     }
 
 }

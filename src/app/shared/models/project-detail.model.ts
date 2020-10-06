@@ -27,6 +27,7 @@ export class ProjectDetail implements Deserializable{
     programWebsite: string;
     programmingPeriodLabel: string;
     region: string;
+    regionText: string;
     geoJson: any;
 
     deserialize(input: any): this {
@@ -43,9 +44,9 @@ export class ProjectDetail implements Deserializable{
             source: input.source,
             objectiveLabel: input.objectiveLabel,
             beneficiaries: input.beneficiaries,
-            startTime: input.startTime,
+            startTime: new Date(input.startTime),
             euBudget: input.euBudget,
-            endTime: input.endTime,
+            endTime: new Date(input.endTime),
             budget: input.budget,
             programLabel: input.programLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
@@ -56,6 +57,7 @@ export class ProjectDetail implements Deserializable{
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
             region: this.getRegion(input),
+            regionText: input.regionText,
             geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null
         });
     }

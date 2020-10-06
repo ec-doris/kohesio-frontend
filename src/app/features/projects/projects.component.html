@@ -6,143 +6,148 @@
     </uxModalBody>
 </ux-modal>
 
-<div class="prjt-results margin-btm">
-    <ux-layout-page-column mainTitle="SEARCH BY PROJECTS" size="xxxl" [isCollapsible]="false">
-        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-            <ux-form-group label="KEYWORDS" [isVertical]="true">
-                <input class="form-control" type="text" formControlName="keywords"/>
-            </ux-form-group>
-            <ux-form-group label="COUNTRIES" [isVertical]="true">
-                <ux-form-control formControlName="country"
-                                 [isSelect]="true"
-                                 [selectOptions]="this.filters.countries"
-                                 (modelChange)="onCountryChange()">
-                </ux-form-control>
-            </ux-form-group>
-            <ux-form-group label="REGIONS" [isVertical]="true">
-                <ux-form-control formControlName="region"
-                                 [isSelect]="true"
-                                 [selectOptions]="this.filters.regions">
-                </ux-form-control>
-            </ux-form-group>
-            <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
-                <ux-form-control formControlName="policyObjective"
-                                 [isSelect]="true"
-                                 [selectOptions]="this.filters.policy_objective"
-                                 (modelChange)="onPolicyObjectivesChange()">
-                </ux-form-control>
-            </ux-form-group>
-            <ux-form-group label="THEMES" [isVertical]="true">
-                <ux-form-control formControlName="theme"
-                                 [isSelect]="true"
-                                 [selectOptions]="this.filters.thematic_objectives"
-                                 (modelChange)="onThemeChange()">
-                </ux-form-control>
-            </ux-form-group>
-            <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
-                <ux-form-group label="PROGRAMMING PERIOD" [isVertical]="true">
-                    <ux-form-control formControlName="programPeriod"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.programmingPeriods">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="FUNDS" [isVertical]="true">
-                    <ux-form-control formControlName="fund"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.funds">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
-                    <ux-form-control formControlName="program"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.programs">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="INTERVENTION FIELD" [isVertical]="true">
-                    <ux-form-control formControlName="categoryOfIntervention"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.categoriesOfIntervention">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="TOTAL PROJECT BUDGET" [isVertical]="true">
-                    <ux-form-control formControlName="totalProjectBudget"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.totalProjectBudget">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="AMOUNT EU SUPPORT" [isVertical]="true">
-                    <ux-form-control formControlName="amountEUSupport"
-                                     [isSelect]="true"
-                                     [selectOptions]="this.filters.amountEUSupport">
-                    </ux-form-control>
-                </ux-form-group>
-                <ux-form-group label="START - END" [isVertical]="true" >
-                    <div class="kohesio-data-range">
-                        <ux-datepicker #startDate formControlName="projectStart" [maxDate]="endDate.input.value ? endDate.input.value : null"></ux-datepicker>
-                        <ux-datepicker #endDate formControlName="projectEnd" [minDate]="startDate.input.value ? startDate.input.value : null"></ux-datepicker>
-                    </div>
-                </ux-form-group>
-            </ux-panel>
-            <div class="search-buttons">
-                <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
-                <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
-            </div>
-        </form>
-    </ux-layout-page-column>
+<eui-page class="projects-list">
+    <eui-page-content>
+        <eui-page-columns>
+            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
+                <eui-page-column-body>
+                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                        <ux-form-group label="KEYWORDS" [isVertical]="true">
+                            <input class="form-control" type="text" formControlName="keywords"/>
+                        </ux-form-group>
+                        <ux-form-group label="COUNTRIES" [isVertical]="true">
+                            <ux-form-control formControlName="country"
+                                             [isSelect]="true"
+                                             [selectOptions]="this.filters.countries"
+                                             (modelChange)="onCountryChange()">
+                            </ux-form-control>
+                        </ux-form-group>
+                        <ux-form-group label="REGIONS" [isVertical]="true">
+                            <ux-form-control formControlName="region"
+                                             [isSelect]="true"
+                                             [selectOptions]="this.filters.regions">
+                            </ux-form-control>
+                        </ux-form-group>
+                        <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
+                            <ux-form-control formControlName="policyObjective"
+                                             [isSelect]="true"
+                                             [selectOptions]="this.filters.policy_objective"
+                                             (modelChange)="onPolicyObjectivesChange()">
+                            </ux-form-control>
+                        </ux-form-group>
+                        <ux-form-group label="THEMES" [isVertical]="true">
+                            <ux-form-control formControlName="theme"
+                                             [isSelect]="true"
+                                             [selectOptions]="this.filters.thematic_objectives"
+                                             (modelChange)="onThemeChange()">
+                            </ux-form-control>
+                        </ux-form-group>
+                        <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
+                            <ux-form-group label="PROGRAMMING PERIOD" [isVertical]="true">
+                                <ux-form-control formControlName="programPeriod"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.programmingPeriods">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="FUNDS" [isVertical]="true">
+                                <ux-form-control formControlName="fund"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.funds">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
+                                <ux-form-control formControlName="program"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.programs">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="INTERVENTION FIELD" [isVertical]="true">
+                                <ux-form-control formControlName="categoryOfIntervention"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.categoriesOfIntervention">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="TOTAL PROJECT BUDGET" [isVertical]="true">
+                                <ux-form-control formControlName="totalProjectBudget"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.totalProjectBudget">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="AMOUNT EU SUPPORT" [isVertical]="true">
+                                <ux-form-control formControlName="amountEUSupport"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.amountEUSupport">
+                                </ux-form-control>
+                            </ux-form-group>
+                            <ux-form-group label="START - END" [isVertical]="true" >
+                                <div class="kohesio-data-range">
+                                    <ux-datepicker placeholder="Start" #startDate formControlName="projectStart" [maxDate]="endDate.input.value ? endDate.input.value : null"></ux-datepicker>
+                                    <ux-datepicker placeholder="End" #endDate formControlName="projectEnd" [minDate]="startDate.input.value ? startDate.input.value : null"></ux-datepicker>
+                                </div>
+                            </ux-form-group>
+                        </ux-panel>
+                        <div class="search-buttons">
+                            <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
+                            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+                        </div>
+                    </form>
+                </eui-page-column-body>
+            </eui-page-column>
 
-    <ux-layout-page-column>
-        <ux-tabs (tabSelected)="onTabSelected($event)">
-            <ux-tab label="Results">
-                <div class="loading" *ngIf="isLoading">Loading...</div>
-                <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
-                <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0 && !isLoading">
-                    <article class="article--post" *ngFor="let project of projects">
-                        <header>
-                            <div class="article--post__image">
-                                <figure role="presentation" class="prj-image">
-                                    <div class="prj-image--wrapper">
-                                        <ng-container *ngIf="project.images && project.images.length">
-                                            <a (click)="openImageOverlay(project.images[0], project.title)" class="prj-image--link">
-                                                <div class="prj-image--image">
-                                                    <img [src]="project.images[0]">
+            <eui-page-column class="column-without-title column-without-padding-top">
+                <eui-page-column-body>
+                    <ux-tabs (tabSelected)="onTabSelected($event)">
+                        <ux-tab label="Results">
+                            <div class="loading" *ngIf="isLoading">Loading...</div>
+                            <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
+                            <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0 && !isLoading">
+                                <article class="article--post" *ngFor="let project of projects">
+                                    <header>
+                                        <div class="article--post__image">
+                                            <figure role="presentation" class="prj-image">
+                                                <div class="prj-image--wrapper">
+                                                    <ng-container *ngIf="project.images && project.images.length">
+                                                        <a (click)="openImageOverlay(project.images[0], project.title)" class="prj-image--link">
+                                                            <div class="prj-image--image">
+                                                                <img [src]="project.images[0]">
+                                                            </div>
+                                                        </a>
+                                                    </ng-container>
+                                                    <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
+                                                        <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                                    </div>
                                                 </div>
-                                            </a>
-                                        </ng-container>
-                                        <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
-                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                            </figure>
                                         </div>
-                                    </div>
-                                </figure>
-                            </div>
-                        </header>
-                        <div class="article--post__inner">
-                            <h1 class="article--post__title">
-                                <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
-                            </h1>
-                            <footer class="article--post__footer">
-                                <ul class="nowrap">
-                                    <li class="article--post__theme">
+                                    </header>
+                                    <div class="article--post__inner">
+                                        <h1 class="article--post__title">
+                                            <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                        </h1>
+                                        <footer class="article--post__footer">
+                                            <ul class="nowrap">
+                                                <li class="article--post__theme">
                                         <span class="icon">
                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </span>
-                                        {{filterService.getThemeLabel(project.objectiveId)}}
-                                        <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
-                                    </li>
-                                    <li class="article--post__amount">
-                                        <div class="article--post__amount--inner">
-                                            <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
-                                            <span class="amount">
+                                                    {{filterService.getThemeLabel(project.objectiveId)}}
+                                                    <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
+                                                </li>
+                                                <li class="article--post__amount">
+                                                    <div class="article--post__amount--inner">
+                                                        <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                                        <span class="amount">
                                                 {{ project.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
-                                                <span *ngIf="!project.budget">n/a</span>
+                                                            <span *ngIf="!project.budget">n/a</span>
                                                 <span class="support">Amount EU support</span>
                                             </span>
-                                        </div>
-                                    </li>
-                                    <li class="article--post__years">
+                                                    </div>
+                                                </li>
+                                                <li class="article--post__years">
                                         <span class="icons">
                                             <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                         </span>
-                                        <span class="time-start-end">
+                                                    <span class="time-start-end">
                                             <ng-container *ngIf="project.startTime || project.endTime">
                                                 <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
                                                 <span *ngIf="!project.startTime">n/a</span>
@@ -152,54 +157,57 @@
                                             </ng-container>
                                             <span *ngIf="!project.startTime && !project.endTime">n/a</span>
                                         </span>
-                                    </li>
-                                </ul>
-                            </footer>
-                            <div class="article--post__content">
-                                <p class="article--post__teaser" [innerHTML]="project.getFullDescription()">
-                                </p>
+                                                </li>
+                                            </ul>
+                                        </footer>
+                                        <div class="article--post__content">
+                                            <p class="article--post__teaser" [innerHTML]="project.getFullDescription()">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </article>
                             </div>
-                        </div>
-                    </article>
-                </div>
-                <mat-paginator #paginatorDown
-                               [length]="count"
-                               [pageSize]="15"
-                               [hidePageSize]="true"
-                               (page)="onPaginate($event)"
-                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab">
-                </mat-paginator>
-            </ux-tab>
-            <ux-tab label="Audio-visual">
-                <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
-                <div class="audio-visual-container">
-                    <ng-container *ngFor="let asset of assets">
-                        <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
-                            <img [src]="asset.image">
-                        </a>
-                    </ng-container>
-                </div>
-            </ux-tab>
-            <ux-tab label="Map">
-                <app-map hideProjectsNearBy="true"></app-map>
-            </ux-tab>
-            <uxTabsRightContent>
-                <mat-paginator #paginatorTop
-                                [length]="count"
-                               [pageSize]="15"
-                               [hidePageSize]="true"
-                               (page)="onPaginate($event)"
-                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isAudioVisualTab">
-                </mat-paginator>
-                <mat-paginator #paginatorAssets
-                               [length]="assetsCount"
-                               [pageSize]="15"
-                               [hidePageSize]="true"
-                               (page)="onPaginate($event)"
-                               [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isResultsTab">
-                </mat-paginator>
-                <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
-            </uxTabsRightContent>
-        </ux-tabs>
-    </ux-layout-page-column>
-</div>
+                            <mat-paginator #paginatorDown
+                                           [length]="count"
+                                           [pageSize]="15"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)"
+                                           [hidden]="(projects && projects.length === 0) || isLoading || isMapTab">
+                            </mat-paginator>
+                        </ux-tab>
+                        <ux-tab label="Audio-visual">
+                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
+                            <div class="audio-visual-container">
+                                <ng-container *ngFor="let asset of assets">
+                                    <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
+                                        <img [src]="asset.image">
+                                    </a>
+                                </ng-container>
+                            </div>
+                        </ux-tab>
+                        <ux-tab label="Map">
+                            <app-map hideProjectsNearBy="true"></app-map>
+                        </ux-tab>
+                        <uxTabsRightContent>
+                            <mat-paginator #paginatorTop
+                                           [length]="count"
+                                           [pageSize]="15"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)"
+                                           [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isAudioVisualTab">
+                            </mat-paginator>
+                            <mat-paginator #paginatorAssets
+                                           [length]="assetsCount"
+                                           [pageSize]="15"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)"
+                                           [hidden]="(projects && projects.length === 0) || isLoading || isMapTab || isResultsTab">
+                            </mat-paginator>
+                            <!--<ux-button *ngIf="this.loadedDataPoints" (click)="uxService.openModal('mapModal')" iconClass="fa fa-globe">Map View</ux-button>-->
+                        </uxTabsRightContent>
+                    </ux-tabs>
+                </eui-page-column-body>
+            </eui-page-column>
+        </eui-page-columns>
+    </eui-page-content>
+</eui-page>

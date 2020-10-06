@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import {MatPaginatorIntl} from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
-import { UxAllModule, UxBreadcrumbsService } from '@eui/core';
+import { UxAllModule, UxBreadcrumbsService } from '@eui/components';
+import { EclAllModule } from '@eui/ecl-core';
+import { EuiAllModule } from '@eui/components-next';
 import {NotFoundComponent} from "./notfound.component";
 import {MapComponent} from "./components/map/map.component";
 import {BudgetPipe} from "./budget.pipe";
@@ -12,7 +14,9 @@ import { DecimalPipe } from '@angular/common';
 @NgModule({
     imports: [
         UxAllModule,
-        TranslateModule
+        EclAllModule,
+        EuiAllModule,
+        TranslateModule,
     ],
     declarations: [
         NotFoundComponent,
@@ -21,6 +25,8 @@ import { DecimalPipe } from '@angular/common';
     ],
     exports: [
         UxAllModule,
+        EclAllModule,
+        EuiAllModule,
         TranslateModule,
         NotFoundComponent,
         MapComponent,
