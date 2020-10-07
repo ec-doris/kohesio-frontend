@@ -1424,3 +1424,8 @@
         min-width: 280px;
     }
 }
+
+.ux-form-group__label-wrapper.form-control-label{
+    display: flex;
+    align-items: center;
+}
