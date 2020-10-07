@@ -1370,6 +1370,13 @@
     font-size: 22px;
 }
 
+.loading{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+}
+
 /*Fixing the position for the eui-page-columns*/
 .eui-page--with-columns{
     position: relative !important;
@@ -1408,4 +1415,12 @@
 
 .search-input{
     color: var(--eui-color-grey-darkest) !important;
+}
+
+.tab-right-content-results-wrapper{
+    display: flex;
+    align-items: center;
+    .mat-paginator{
+        min-width: 280px;
+    }
 }

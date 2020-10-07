@@ -18,6 +18,10 @@ export class Filters implements Deserializable{
     public budgetEUBiggerThan: number;
     public startDateAfter: string;
     public endDateBefore: string;
+    public orderStartDate: boolean;
+    public orderEndDate: boolean;
+    public orderEuBudget: boolean;
+    public orderTotalBudget: boolean;
 
     deserialize(input: any): this {
 
@@ -46,11 +50,38 @@ export class Filters implements Deserializable{
             budgetEUSmallerThan: input.amountEUSupport ? amountEUSupport[1] : undefined,
             budgetEUBiggerThan: input.amountEUSupport ? amountEUSupport[0] : undefined,
             startDateAfter: input.projectStart ? input.projectStart : undefined,
-            endDateBefore: input.projectEnd ? input.projectEnd : undefined
+            endDateBefore: input.projectEnd ? input.projectEnd : undefined,
+            orderStartDate: this.buildSort("orderStartDate",input.sort),
+            orderEndDate:  this.buildSort("orderEndDate",input.sort),
+            orderEuBudget:  this.buildSort("orderEuBudget",input.sort),
+            orderTotalBudget:  this.buildSort("orderTotalBudget",input.sort)
         });
     }
 
     public getProjectsFilters(){
+        return {
+            ...(this.keywords) && {keywords: this.keywords},
+            ...(this.country) && {country: environment.entityURL + this.country},
+            ...(this.region) && {region: environment.entityURL + this.region},
+            ...(this.theme) && {theme: environment.entityURL + this.theme},
+            ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
+            ...(this.fund) && {fund: environment.entityURL + this.fund},
+            ...(this.program) && {program: environment.entityURL + this.program},
+            ...(this.categoryOfIntervention) && {categoryOfIntervention: environment.entityURL + this.categoryOfIntervention},
+            ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
+            ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
+            ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
+            ...(this.budgetEUBiggerThan) && {budgetEUBiggerThan: this.budgetEUBiggerThan},
+            ...(this.startDateAfter) && {startDateAfter: this.startDateAfter},
+            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
+            ...(this.orderStartDate != undefined) && {orderStartDate: this.orderStartDate},
+            ...(this.orderEndDate != undefined) && {orderEndDate: this.orderEndDate},
+            ...(this.orderEuBudget != undefined) && {orderEuBudget: this.orderEuBudget},
+            ...(this.orderTotalBudget != undefined) && {orderTotalBudget: this.orderTotalBudget},
+        }
+    }
+
+    public getAssetsFilters(){
         return {
             ...(this.keywords) && {keywords: this.keywords},
             ...(this.country) && {country: environment.entityURL + this.country},
@@ -77,6 +108,19 @@ export class Filters implements Deserializable{
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program}
         }
+    }
+
+    private buildSort(column, value){
+        if (value) {
+            const orderColumn = value.split("-")[0];
+            if (orderColumn == column){
+                const orderDirection = value.split("-")[1];
+                return orderDirection == 'true';
+            }else{
+                return undefined;
+            }
+        }
+        return undefined;
     }
 
 }

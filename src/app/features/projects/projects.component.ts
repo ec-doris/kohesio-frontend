@@ -70,7 +70,8 @@ export class ProjectsComponent implements AfterViewInit {
             totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
             projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
-            projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
+            projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
+            sort: [null]
         });
 
         this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -286,6 +287,10 @@ export class ProjectsComponent implements AfterViewInit {
 
     resetForm(){
         this.myForm.reset();
+    }
+
+    onSortChange(){
+        this.getProjectList();
     }
 
 

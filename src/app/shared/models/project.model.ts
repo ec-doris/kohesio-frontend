@@ -58,12 +58,4 @@ export class Project implements Deserializable{
         }
     }
 
-    getFullDescription(){
-        if (this.snippet){
-            return this.snippet;
-        }else{
-            return this.description;
-        }
-    }
-
 }
