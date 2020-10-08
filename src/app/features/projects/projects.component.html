@@ -5,6 +5,12 @@
         </div>
     </uxModalBody>
 </ux-modal>
+<ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
+    <p>The default boolean operator is AND, so searching for <b>green carbon</b> (or <b>carbon green</b>) retrieves only documents containing both words in any order.</p>
+    <p>To include also documents containing either word, use <b>green OR carbon</b>.</p>
+    <p>You can also search for an exact expression using quotes: <b>"artificial intelligence"</b> for instance will look for the sequence in that order.</p>
+    <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
+</ux-popover>
 
 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 <eui-page class="projects-list">
@@ -12,10 +18,13 @@
         <eui-page-columns>
             <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
                 <eui-page-column-body>
-                        <ux-form-group label="KEYWORDS" [isVertical]="true">
+                        <ux-form-group label="KEYWORDS" [isVertical]="true" infoLabel="">
+                            <uxFormGroupLeftTitleContent>
+                                <i class="eui-icon ux-icon-info-circle ux-u-cursor-help" (click)="popoverHelpKeywords.toggle($event)"></i>
+                            </uxFormGroupLeftTitleContent>
                             <input class="form-control" type="text" formControlName="keywords"/>
                         </ux-form-group>
-                        <ux-form-group label="COUNTRIES" [isVertical]="true" infoLabel="Countries">
+                        <ux-form-group label="COUNTRIES" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.countries"
