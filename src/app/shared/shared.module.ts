@@ -9,7 +9,8 @@ import {NotFoundComponent} from "./notfound.component";
 import {MapComponent} from "./components/map/map.component";
 import {BudgetPipe} from "./budget.pipe";
 import {MatPaginatorKohesio} from "./components/paginator/mat-paginator-intl.component";
-import { DecimalPipe } from '@angular/common';
+import {CommonModule, DecimalPipe} from '@angular/common';
+import {MapPopupComponent} from "./components/map/map-popup.component";
 
 @NgModule({
     imports: [
@@ -17,11 +18,13 @@ import { DecimalPipe } from '@angular/common';
         EclAllModule,
         EuiAllModule,
         TranslateModule,
+        CommonModule,
     ],
     declarations: [
         NotFoundComponent,
         MapComponent,
-        BudgetPipe
+        BudgetPipe,
+        MapPopupComponent
     ],
     exports: [
         UxAllModule,
@@ -31,6 +34,9 @@ import { DecimalPipe } from '@angular/common';
         NotFoundComponent,
         MapComponent,
         BudgetPipe
+    ],
+    entryComponents:[
+        MapPopupComponent
     ],
     providers: [
         UxBreadcrumbsService,

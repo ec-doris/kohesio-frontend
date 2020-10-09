@@ -1,9 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
 import {Filters} from "../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
+import {MapPopupComponent} from "./map-popup.component";
 declare let L;
 
 @Component({
@@ -39,7 +40,9 @@ export class MapComponent implements AfterViewInit {
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
-                private _decimalPipe: DecimalPipe) { }
+                private _decimalPipe: DecimalPipe,
+                private resolver: ComponentFactoryResolver,
+                private injector: Injector) { }
 
     ngAfterViewInit(): void {
         this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
@@ -98,6 +101,10 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
+    public goToProject(item){
+        console.log("goToProject="+item);
+    }
+
     public addCircleMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:any = undefined){
         const coords = [latitude,longitude];
         if (this.map) {
@@ -115,14 +122,11 @@ export class MapComponent implements AfterViewInit {
             }else if(popupContent && popupContent.type == 'async'){
                 marker.on('click', ()=>{
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
-                        let popupContent = "<div class='kohesio-map-popup-wrapper'>";
-                        projects.forEach(project=>{
-                            const item = project.item.replace("https://linkedopendata.eu/entity/","");
-                            popupContent += "<a href='/projects/" + item +"'>"+project.label+"</a>";
-                        });
-                        popupContent += '</div>';
-                        marker.bindPopup(popupContent).openPopup();
-                    })
+                        const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
+                        component.instance.projects = projects;
+                        marker.bindPopup(component.location.nativeElement).openPopup();
+                        component.changeDetectorRef.detectChanges();
+                    });
                 });
             }
 
