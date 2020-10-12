@@ -12,12 +12,12 @@
     <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
 </ux-popover>
 
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
             <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
                 <eui-page-column-body>
+                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="KEYWORDS" [isVertical]="true" infoLabel="">
                             <uxFormGroupLeftTitleContent>
                                 <i class="eui-icon ux-icon-info-circle ux-u-cursor-help" (click)="popoverHelpKeywords.toggle($event)"></i>
@@ -99,7 +99,7 @@
                             <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
                             <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
                         </div>
-
+                    </form>
                 </eui-page-column-body>
             </eui-page-column>
 
@@ -202,12 +202,14 @@
                         </ux-tab>
                         <uxTabsRightContent>
                             <div class="tab-right-content-results-wrapper" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
-                                <ux-form-control formControlName="sort"
-                                                 [isSelect]="true"
-                                                 [selectOptions]="this.filters.sort"
-                                                 placeholderLabel="No sort"
-                                                 (modelChange)="onSortChange()">
-                                </ux-form-control>
+                                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                    <ux-form-control formControlName="sort"
+                                                     [isSelect]="true"
+                                                     [selectOptions]="this.filters.sort"
+                                                     placeholderLabel="No sort"
+                                                     (modelChange)="onSortChange()">
+                                    </ux-form-control>
+                                </form>
                                 <mat-paginator #paginatorTop
                                                [length]="count"
                                                [pageSize]="15"
@@ -229,4 +231,3 @@
         </eui-page-columns>
     </eui-page-content>
 </eui-page>
-</form>
