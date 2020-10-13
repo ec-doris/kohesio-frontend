@@ -26,7 +26,7 @@
                 </div>
                 <div class="search-projects-input">
                     <div class="input-group">
-                        <input type="text" class="form-control ux-a-toolbar-filter-filter-input"
+                        <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
                            placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
                            (keyup.enter)="onFilter($event)"/>
                         <span class="input-group-prepend">
@@ -60,11 +60,11 @@
         <ul class="urls--footer">
             <span><i class="ux-icon fa fa-copyright" aria-hidden="true"></i>&nbsp;European Commission</span>
             <li>
-                <a href="mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=feedback">Contact</a>
+                <a href="mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback" target="_blank">Contact</a>
             </li>
-            <li>
+            <!--<li>
                 <a [routerLink]="['/cookie']">Cookies</a>
-            </li>
+            </li>-->
             <li>
                 <a [routerLink]="['/about']">About</a>
             </li>

@@ -16,7 +16,7 @@ export class ProjectService {
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>  {
         const url = environment.api + '/search/project';
-        const params = this.generateParameters(filters, offset, limit);
+        const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){
@@ -30,11 +30,11 @@ export class ProjectService {
 
     getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{
         const url = environment.api + '/search/project/image';
-        const params = this.generateParameters(filters, offset, limit);
+        const params = this.generateParameters(filters.getAssetsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params });
     }
 
-    generateParameters(filters:Filters, offset: number = 0, limit: number = 15){
+    generateParameters(filters:any, offset: number = 0, limit: number = 15){
         let params = {};
         if (limit !== -1){
             params = {
@@ -44,7 +44,7 @@ export class ProjectService {
         }
         params = Object.assign(
             params,
-            filters.getProjectsFilters());
+            filters);
         return params;
     }
 

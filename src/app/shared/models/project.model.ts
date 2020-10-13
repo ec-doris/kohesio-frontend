@@ -22,8 +22,8 @@ export class Project implements Deserializable{
             objectiveId: this.getValueFromPropertyArray(input.objectiveIds),
             countryCode: this.getValueFromPropertyArray(input.countrycode),
             title: this.getValueFromPropertyArray(input.labels, 500),
-            startTime: this.getValueFromPropertyArray(input.startTimes),
-            endTime: this.getValueFromPropertyArray(input.endTimes),
+            startTime: this.getDateFromPropertyArray(input.startTimes),
+            endTime: this.getDateFromPropertyArray(input.endTimes),
             budget: this.getBudget(input.euBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
@@ -44,20 +44,17 @@ export class Project implements Deserializable{
         }
     }
 
+    getDateFromPropertyArray(array){
+        const value = this.getValueFromPropertyArray(array);
+        return new Date(value);
+    }
+
     getBudget(array){
         let budget = this.getValueFromPropertyArray(array);
         if (budget){
             return budget.replace("+","");
         }else{
             return null;
-        }
-    }
-
-    getFullDescription(){
-        if (this.snippet){
-            return this.snippet;
-        }else{
-            return this.description;
         }
     }
 

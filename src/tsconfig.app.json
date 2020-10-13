@@ -6,6 +6,10 @@
   },
   "exclude": [
     "test.ts",
-    "**/*.spec.ts"
+    "**/*.spec.ts",
+    "app/shared/testing/router.mock.ts",
+    "environments/environment.prod.ts",
+    "environments/environment.acc.ts",
+    "environments/environment.dev.ts"
   ]
 }

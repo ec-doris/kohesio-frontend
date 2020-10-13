@@ -1,8 +1,10 @@
-import { AfterViewInit, Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
 import {Filters} from "../../models/filters.model";
+import { DecimalPipe } from '@angular/common';
+import {MapPopupComponent} from "./map-popup.component";
 declare let L;
 
 @Component({
@@ -24,7 +26,7 @@ export class MapComponent implements AfterViewInit {
         Q20 : L.latLngBounds(L.latLng(51.138001488062564, 10.153629941986903), L.latLng(41.29431726315258, -5.051448183013119)), //France
         Q15 : L.latLngBounds(L.latLng(47.11499982620772, 19.840596320855976), L.latLng(36.50963615733049, 4.152119758355975)),      //Italy
         Q13 : L.latLngBounds(L.latLng(56.75272287205736, 25.68595317276812), L.latLng(48.07807894349862, 12.89786723526812)),  //Poland
-        Q25 : L.latLngBounds(L.latLng(51.70660846336452, 19.33647915386496), L.latLng(47.06263847995432, 11.73394009136496)),  //Czech Republic
+        Q25 : L.latLngBounds(L.latLng(51.70660846336452, 19.33647915386496), L.latLng(47.06263847995432, 11.73394009136496)),  //Czechia
         Q2  : L.latLngBounds(L.latLng(55.51619215717891, -4.843840018594397), L.latLng(51.26191485308451, -11.237882987344397)),  //Ireland
         Q12 : L.latLngBounds(L.latLng(58.048818457936505, 15.492176077966223), L.latLng(54.06583577161281, 7.647937796716221)), //Denmark
     };
@@ -37,7 +39,10 @@ export class MapComponent implements AfterViewInit {
 
 
     constructor(private mapService: MapService,
-                private filterService:FilterService) { }
+                private filterService:FilterService,
+                private _decimalPipe: DecimalPipe,
+                private resolver: ComponentFactoryResolver,
+                private injector: Injector) { }
 
     ngAfterViewInit(): void {
         this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
@@ -96,6 +101,10 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
+    public goToProject(item){
+        console.log("goToProject="+item);
+    }
+
     public addCircleMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:any = undefined){
         const coords = [latitude,longitude];
         if (this.map) {
@@ -113,14 +122,11 @@ export class MapComponent implements AfterViewInit {
             }else if(popupContent && popupContent.type == 'async'){
                 marker.on('click', ()=>{
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
-                        let popupContent = "<div class='kohesio-map-popup-wrapper'>";
-                        projects.forEach(project=>{
-                            const item = project.item.replace("https://linkedopendata.eu/entity/","");
-                            popupContent += "<a href='/projects/" + item +"'>"+project.label+"</a>";
-                        });
-                        popupContent += '</div>';
-                        marker.bindPopup(popupContent).openPopup();
-                    })
+                        const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
+                        component.instance.projects = projects;
+                        marker.bindPopup(component.location.nativeElement).openPopup();
+                        component.changeDetectorRef.detectChanges();
+                    });
                 });
             }
 
@@ -168,7 +174,8 @@ export class MapComponent implements AfterViewInit {
         if (layerGeoJson.features[0].properties && layerGeoJson.features[0].properties.count) {
             const html = "<div class='regionWrapper'>" +
                 "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
-                "<div class='regionCount'>" + layerGeoJson.features[0].properties.count + " projects</div>" +
+                "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
+                (layerGeoJson.features[0].properties.count > 0 ? "projects" : "project") + "</div>" +
                 "</div>";
             l.bindTooltip(html, {permanent: false, direction: "center"})
         }
@@ -361,6 +368,10 @@ export class MapComponent implements AfterViewInit {
             fillOpacity: 0.5,
             fillColor: "#ff7800",
         }
+    }
+
+    ngOnDestroy(){
+        document.getElementById("map").outerHTML = "";
     }
 
 }

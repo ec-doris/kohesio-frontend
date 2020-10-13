@@ -9,8 +9,9 @@ import {
     CorsSecurityInterceptor,
     CsrfPreventionInterceptor,
     EuLoginSessionTimeoutHandlingInterceptor,
-    CoreModule as UxCoreModule,
+    CoreModule as EuiCoreModule,
     translateConfig,
+    EUI_CONFIG_TOKEN
 } from '@eui/core';
 
 import './operators';
@@ -25,7 +26,7 @@ import { SharedModule } from '../shared/shared.module';
 @NgModule({
     imports: [
         SharedModule,
-        UxCoreModule.forRoot({ appConfig: appConfig, environment: environment }),
+        EuiCoreModule.forRoot(),
         TranslateModule.forRoot(translateConfig),
         StoreModule.forRoot(REDUCER_TOKEN, { metaReducers }),
         !environment.production ? StoreDevtoolsModule.instrument({ maxAge: 50 }) : [],
@@ -40,6 +41,10 @@ import { SharedModule } from '../shared/shared.module';
             provide: REDUCER_TOKEN,
             deps: [],
             useFactory: getReducers
+        },
+        {
+            provide: EUI_CONFIG_TOKEN,
+            useValue: { appConfig: appConfig, environment: environment }
         }
     ]
 })

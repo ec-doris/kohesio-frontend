@@ -1,30 +1,42 @@
 import { NgModule } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
-import {MatPaginatorIntl} from '@angular/material';
+import { MatPaginatorIntl } from '@angular/material/paginator';
 
-import { UxAllModule, UxBreadcrumbsService } from '@eui/core';
+import { UxAllModule, UxBreadcrumbsService } from '@eui/components';
+import { EclAllModule } from '@eui/ecl-core';
+import { EuiAllModule } from '@eui/components-next';
 import {NotFoundComponent} from "./notfound.component";
 import {MapComponent} from "./components/map/map.component";
 import {BudgetPipe} from "./budget.pipe";
 import {MatPaginatorKohesio} from "./components/paginator/mat-paginator-intl.component";
-import { DecimalPipe } from '@angular/common';
+import {CommonModule, DecimalPipe} from '@angular/common';
+import {MapPopupComponent} from "./components/map/map-popup.component";
 
 @NgModule({
     imports: [
         UxAllModule,
-        TranslateModule
+        EclAllModule,
+        EuiAllModule,
+        TranslateModule,
+        CommonModule,
     ],
     declarations: [
         NotFoundComponent,
         MapComponent,
-        BudgetPipe
+        BudgetPipe,
+        MapPopupComponent
     ],
     exports: [
         UxAllModule,
+        EclAllModule,
+        EuiAllModule,
         TranslateModule,
         NotFoundComponent,
         MapComponent,
         BudgetPipe
+    ],
+    entryComponents:[
+        MapPopupComponent
     ],
     providers: [
         UxBreadcrumbsService,

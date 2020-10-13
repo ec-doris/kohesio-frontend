@@ -1,0 +1,3 @@
+<div class='kohesio-map-popup-wrapper'>
+    <a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>
+</div>

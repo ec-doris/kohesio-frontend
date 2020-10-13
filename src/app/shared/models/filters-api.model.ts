@@ -9,11 +9,13 @@ export class FiltersApi implements Deserializable{
     public categoriesOfIntervention: [];
     public regions: [];
 
+
     //Static
     public countries: any[];
     public programmingPeriods: any[];
     public totalProjectBudget: any[];
     public amountEUSupport: any[];
+    public sort: any[];
 
     protected static SInit = (() => {
         FiltersApi.prototype.countries = [{
@@ -33,7 +35,7 @@ export class FiltersApi implements Deserializable{
                 value:"France"
             },{
                 id:"Q25",
-                value:"Czech Republic"
+                value:"Czechia"
         }];
         FiltersApi.prototype.programmingPeriods = [{
             id: '2014-2020',
@@ -68,6 +70,31 @@ export class FiltersApi implements Deserializable{
             value: '1 000 000 000 - 10 000 000 000'
         }];
         FiltersApi.prototype.amountEUSupport = FiltersApi.prototype.totalProjectBudget;
+        FiltersApi.prototype.sort = [{
+            id: 'orderStartDate-true',
+            value: 'Start Date (ascending)'
+        },{
+            id: 'orderStartDate-false',
+            value: 'Start Date (descending)'
+        },{
+           id: 'orderEndDate-true',
+           value: 'End Date (ascending)'
+        },{
+            id: 'orderEndDate-false',
+            value: 'End Date (descending)'
+        },{
+            id: 'orderEuBudget-true',
+            value: 'EU Budget (ascending)'
+        },{
+            id: 'orderEuBudget-false',
+            value: 'EU Budget (descending)'
+        },{
+            id: 'orderTotalBudget-true',
+            value: 'Total Budget (ascending)'
+        },{
+            id: 'orderTotalBudget-false',
+            value: 'Total Budget (descending)'
+        }];
     })();
 
     deserialize(input: any): this {

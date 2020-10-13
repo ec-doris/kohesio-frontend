@@ -1,5 +1,5 @@
 import {AfterViewInit, Component, Inject, Renderer2, ViewChild} from '@angular/core';
-import { UxService } from '@eui/core';
+import { UxAppShellService } from '@eui/core';
 import {ProjectService} from "../../services/project.service";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import {Project} from "../../shared/models/project.model";
@@ -13,7 +13,6 @@ import {FilterService} from "../../services/filter.service";
 import {ProjectList} from "../../shared/models/project-list.model";
 import {FiltersApi} from "../../shared/models/filters-api.model";
 import {environment} from "../../../environments/environment";
-import {MapService} from "../../services/map.service";
 declare let L;
 
 @Component({
@@ -46,7 +45,7 @@ export class ProjectsComponent implements AfterViewInit {
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
-                private uxService:UxService,
+                private uxService:UxAppShellService,
                 private markerService:MarkerService,
                 private _route: ActivatedRoute,
                 private _router: Router,
@@ -71,7 +70,8 @@ export class ProjectsComponent implements AfterViewInit {
             totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
             projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
-            projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))]
+            projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
+            sort: [null]
         });
 
         this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -127,8 +127,8 @@ export class ProjectsComponent implements AfterViewInit {
         }
 
         this.isLoading = true;
-        let offset = this.paginatorTop.pageIndex * this.paginatorTop.pageSize | 0;
-        this.projectService.getProjects(this.getFilters(), offset, this.paginatorTop.pageSize).subscribe((result:ProjectList) => {
+        let offset = this.paginatorTop ? (this.paginatorTop.pageIndex * this.paginatorTop.pageSize) : 0;
+        this.projectService.getProjects(this.getFilters(), offset).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
             this.isLoading = false;
@@ -143,8 +143,8 @@ export class ProjectsComponent implements AfterViewInit {
                 this.mapIsLoaded = false;
             }
         });
-        let offsetAssets = this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize | 0;
-        this.projectService.getAssets(this.getFilters(),offsetAssets, this.paginatorAssets.pageSize).subscribe(result=>{
+        let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
+        this.projectService.getAssets(this.getFilters(),offsetAssets).subscribe(result=>{
             this.assets = result.list;
             this.assetsCount = result.numberResults;
         });
@@ -287,6 +287,10 @@ export class ProjectsComponent implements AfterViewInit {
 
     resetForm(){
         this.myForm.reset();
+    }
+
+    onSortChange(){
+        this.getProjectList();
     }
 
 
