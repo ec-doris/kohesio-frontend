@@ -53,17 +53,14 @@
         <ul class="figures-list">
             <li>
                 <div class="title"><img src="{{'assets/images/figures/01.png'}}" alt="Number of projects">Number of projects</div>
-                <!--<div class="number">702 159</div>-->
                 <div class="number">{{stats.numberProjects | number:'1.0-3':'fr'}}</div>
             </li>
             <li>
                 <div class="title"><img src="{{'assets/images/figures/03.png'}}" alt="Number of beneficiaries">Number of beneficiaries</div>
-                <!--<div class="number">122 489</div>-->
                 <div class="number">{{stats.numberBeneficiaries | number:'1.0-3':'fr'}}</div>
             </li>
             <li>
                 <div class="title"><img src="{{'assets/images/figures/02.png'}}" alt="Total EU Amount">Total EU Amount</div>
-                <!--<div class="number">{{ '112451089689' | currency:'EUR':'symbol':'1.0-2':'fr' }}</div>-->
                 <div class="number">{{ stats.totalEuBudget | currency:'EUR':'symbol':'1.0-2':'fr' }}</div>
             </li>
         </ul>
@@ -82,23 +79,23 @@
                 <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe'}" class="themes-title">
                     Greener and carbon free Europe
                 </a>
-                <div class="number">31 226 projects</div>
+                <div class="number">{{stats.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
             </div>
 
             <div class="theme-categories">
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-Carbon-Economy'}">Low Carbon Economy</a></div>
-                    <div class="number">17 302 projects</div>
+                    <div class="number">{{stats.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects</div>
                     <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention'}">Climate Change Adaptation & Risk Prevention</a></div>
-                    <div class="number">2 514 projects</div>
+                    <div class="number">{{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects</div>
                     <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
                     <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency'}">Environment Protection & ResourceEfficiency</a></div>
-                    <div class="number">11 410 projects</div>
+                    <div class="number">{{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects</div>
                     <hr class="vertical-line">
                 </div>
             </div>

@@ -24,6 +24,7 @@ export class MapComponent implements AfterViewInit {
     };
     public mapRegions = [];
     public isLoading = false;
+    public dataRetrieved = false;
 
     @Input()
     public hideNavigation = false;
@@ -225,7 +226,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     loadMapRegion(filters: Filters, granularityRegion?: string){
-        this.isLoading = true;
+        //this.isLoading = true;
         this.filters = filters;
         if (!granularityRegion){
             this.mapRegions = [];
@@ -250,9 +251,21 @@ export class MapComponent implements AfterViewInit {
         this.loadMapVisualization(filters, granularityRegion);
     }
 
+    activeLoadingAfter1Second(){
+        setTimeout(
+            () => {
+                if (!this.dataRetrieved){
+                    this.isLoading = true;
+                }
+            }, 1000);
+    }
+
     loadMapVisualization(filters: Filters, granularityRegion: string,){
         this.cleanMap();
+        this.dataRetrieved = false;
+        this.activeLoadingAfter1Second()
         this.mapService.getMapInfo(filters, granularityRegion).subscribe(data=>{
+            this.dataRetrieved = true;
             if (data.list && data.list.length){
                 //Draw markers to each coordinate
                 this.drawPolygonsForRegion(data.geoJson, null);
@@ -268,11 +281,13 @@ export class MapComponent implements AfterViewInit {
                 })
             }else {
                 //Draw polygons of the regions
-                data.subregions.forEach(region => {
-                    const countryProps = Object.assign({}, region);
-                    delete countryProps.geoJson;
-                    this.drawPolygonsForRegion(region.geoJson, countryProps);
-                });
+                if (data.subregions && data.subregions.length) {
+                    data.subregions.forEach(region => {
+                        const countryProps = Object.assign({}, region);
+                        delete countryProps.geoJson;
+                        this.drawPolygonsForRegion(region.geoJson, countryProps);
+                    });
+                }
                 if (data.region && data.geoJson){
                     this.fitToGeoJson(data.geoJson);
                 }
@@ -316,7 +331,7 @@ export class MapComponent implements AfterViewInit {
             layer.on({
                 click: (e) => {
                     if (e.target.feature.properties) {
-                        this.isLoading = true;
+                        //this.isLoading = true;
                         const region = e.target.feature.properties.region;
                         const count = e.target.feature.properties.count;
                         const label = e.target.feature.properties.regionLabel;
