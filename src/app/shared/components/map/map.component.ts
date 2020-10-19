@@ -268,8 +268,10 @@ export class MapComponent implements AfterViewInit {
             this.dataRetrieved = true;
             if (data.list && data.list.length){
                 //Draw markers to each coordinate
-                this.drawPolygonsForRegion(data.geoJson, null);
-                this.fitToGeoJson(data.geoJson);
+                if (data.geoJson) {
+                    this.drawPolygonsForRegion(data.geoJson, null);
+                    this.fitToGeoJson(data.geoJson);
+                }
                 data.list.forEach(point=>{
                     const coordinates = point.split(",");
                     const popupContent = {
