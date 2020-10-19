@@ -281,19 +281,18 @@ export class MapComponent implements AfterViewInit {
                     }
                     this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                 })
-            }else {
+            }else if (data.subregions && data.subregions.length) {
                 //Draw polygons of the regions
-                if (data.subregions && data.subregions.length) {
-                    data.subregions.forEach(region => {
-                        const countryProps = Object.assign({}, region);
-                        delete countryProps.geoJson;
-                        this.drawPolygonsForRegion(region.geoJson, countryProps);
-                    });
-                }
                 if (data.region && data.geoJson){
                     this.fitToGeoJson(data.geoJson);
                 }
+                data.subregions.forEach(region => {
+                    const countryProps = Object.assign({}, region);
+                    delete countryProps.geoJson;
+                    this.drawPolygonsForRegion(region.geoJson, countryProps);
+                });
             }
+
             this.isLoading = false;
         });
     }
