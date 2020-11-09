@@ -5,7 +5,7 @@
 //     src: url("assets/fonts/SackersGothicHeavy.ttf");
 // }
 
-#main-content{
+#main-content {
     padding-bottom: 200px !important;
 }
 
@@ -14,11 +14,11 @@
     border: 0 !important;
 }
 
-.projects-grid a{
+.projects-grid a {
     color:initial;
     text-decoration: none;
 }
-.projects-grid{
+.projects-grid {
     display: grid;
     grid-template-columns: 1fr;
     @media only screen and (max-width: 600px) {
@@ -39,12 +39,12 @@
     }
     grid-gap:15px
 }
-.projects-grid .card{
+.projects-grid .card {
     border: 2px solid #AAAAAA;
     border-radius: 20px;
     min-height: 470px;
 }
-.projects-grid .card .header{
+.projects-grid .card .header {
     display: flex;
     padding: 10px;
     align-items: center;
@@ -52,7 +52,7 @@
     border-radius: 16px 16px 0 0;
     height: 100px;
 }
-.projects-grid .card .header h1{
+.projects-grid .card .header h1 {
     font-size: 18px;
     font-weight: bold;
     word-break: break-word;
@@ -60,48 +60,48 @@
 .projects-grid .card.TO01 .header,
 .projects-grid .card.TO02 .header,
 .projects-grid .card.TO03 .header,
-.projects-grid .card.TO04 .header{
+.projects-grid .card.TO04 .header {
     background-color: #ff9900;
 }
 .projects-grid .card.TO05 .header,
 .projects-grid .card.TO06 .header,
-.projects-grid .card.TO07 .header{
+.projects-grid .card.TO07 .header {
     background-color: #76b043;
 }
 .projects-grid .card.TO08 .header,
 .projects-grid .card.TO09 .header,
 .projects-grid .card.TO10 .header,
-.projects-grid .card.TO11 .header{
+.projects-grid .card.TO11 .header {
     background-color: #009fe3;
 }
 .projects-grid .card.TO01,
 .projects-grid .card.TO02,
 .projects-grid .card.TO03,
-.projects-grid .card.TO04{
+.projects-grid .card.TO04 {
     border: 2px solid #ff9900;
 }
 .projects-grid .card.TO05,
 .projects-grid .card.TO06,
-.projects-grid .card.TO07{
+.projects-grid .card.TO07 {
     border: 2px solid #76b043;
 }
 .projects-grid .card.TO08,
 .projects-grid .card.TO09,
 .projects-grid .card.TO10,
-.projects-grid .card.TO11{
+.projects-grid .card.TO11 {
     border: 2px solid #009fe3;
 }
-.projects-grid .card .header .images{
+.projects-grid .card .header .images {
     display: flex;
     flex-direction: column;
     margin-right: 10px;
     align-items: center;
 }
-.projects-grid .card .header .images .flag{
+.projects-grid .card .header .images .flag {
     width: 24px;
     margin-top: -14px;
 }
-.projects-grid .card .info-bar{
+.projects-grid .card .info-bar {
     display: flex;
     justify-content: space-between;
     padding: 10px;
@@ -109,22 +109,22 @@
     color: white;
     min-height: 38px;
 }
-.projects-grid .card .info-bar img{
+.projects-grid .card .info-bar img {
     width:24px;
 }
-.projects-grid .card p{
+.projects-grid .card p {
     margin: 0;
     padding: 10px;
     line-height: 1.4;
     word-break: break-word;
 }
-.project-link:hover > .card{
+.project-link:hover > .card {
     box-shadow: 5px 5px 15px 0px rgba(156,156,156,0.78);
 }
 
 
 // Helpers
-.nowrap  {
+.nowrap {
     -webkit-flex-wrap: nowrap;
     flex-wrap: nowrap;
 }
@@ -220,47 +220,47 @@
     opacity: 0.9 !important;
 }
 
-.mycluster div{
+.mycluster div {
     color:#000;
     font-weight: bold;
     font-size: 16px;
 }
 
-.mycluster.size1{
+.mycluster.size1 {
     background-color: #2196F3;
     box-shadow: 0px 0px 0px 4px rgba(33,150,243,0.3);
     padding: 10px;
 }
-.mycluster.size2{
+.mycluster.size2 {
     background-color: #FBC02D;
     box-shadow: 0px 0px 0px 4px rgba(251,192,45,0.3);
     padding: 15px;
 }
-.mycluster.size3{
+.mycluster.size3 {
     background-color: #F44336;
     box-shadow: 0px 0px 0px 4px rgba(244,67,54,0.3);
     padding: 20px;
 }
-.mycluster.size4{
+.mycluster.size4 {
     background-color: #E91E63;
     box-shadow: 0px 0px 0px 4px rgba(233,30,99,0.3);
     padding: 30px;
 }
-.mycluster.size5{
+.mycluster.size5 {
     background-color: #9C27B0;
     box-shadow: 0px 0px 0px 4px rgba(156,39,176,0.3);
     padding: 40px;
 }
 
-.map-frame, .map-container{
+.map-frame, .map-container {
     width:100%;
     height: 100%;
 }
-#map-inside{
+#map-inside {
     height: 600px;
 }
 
-.without-obcjetive-id{
+.without-obcjetive-id {
     width: 80px;
     height: 80px;
 }
@@ -336,7 +336,8 @@
 }
 
 .ux-language-selector .ecl-link {
-    color:white;
+    color: white;
+    font-size: 14px;
     flex-direction: row-reverse;
 }
 .ux-icon-language-selector.ux-u-color-primary {
@@ -361,6 +362,10 @@
     margin-left: 20px;
     margin-right: 20px;
     cursor: pointer;
+
+    .fa-user {
+        margin-right: 5px;
+    }
 }
 
 .professionalSpace .professionalSpace-label{
