@@ -3,8 +3,13 @@ import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-
-import { UserState, getUserState, UxLink, UxLanguage } from '@eui/core';
+import {
+    UserState,
+    getUserState,
+    UxAppShellService,
+    UxLanguage,
+    UxLink
+} from '@eui/core';
 
 @Component({
     selector: 'app-root',
@@ -15,9 +20,16 @@ export class AppComponent implements OnInit {
     userState: Observable<UserState>;
     @Input() selectedLanguage: UxLanguage;
     filterValue: string;
+    topMenuLinks: UxLink[] = [
+        new UxLink({label: 'Home', url: '/', isHome: true}),
+        new UxLink({label: 'Projects', url: 'projects'}),
+        new UxLink({label: 'Beneficiaries', url: 'beneficiaries'}),
+        new UxLink({label: 'Professional Space', url: 'professionaSpace'})
+    ];
 
     constructor(
         private translateService: TranslateService,
+        public uxAppShellService: UxAppShellService,
         private store: Store<any>,
         public router: Router
     ) {

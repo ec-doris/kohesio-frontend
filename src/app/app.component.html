@@ -1,20 +1,22 @@
-<ux-layout-app-shell headerAppFullName="Kohesio"
+<ux-layout-app-shell headerAppFullName="Kohesio Open Projects"
                      headerAppShortName="Kohesio"
+                     headerAppSubtitle="Project Information Portal for Regional Policy"
                      isContract = true
                      appHomeUrl="/"
+                     [hasNavBar]="(uxAppShellService.breakpoints$ | async).isMobile"
                      [isFooterStyleInverse]="true"
-                     [hasNavBar]="false"
+                     [navBarTopMenuLinks]="topMenuLinks"
                      [hasHeader]="this.router.url != '/404'">
 
     <uxAppShellHeaderTitleContent>
       <div class="logo-khso">
-        <h1 class="logo-khso--brand-name">Kohesio Open Projects</h1>
+        <h1 class="full logo-khso--brand-name">Kohesio Open Projects</h1>
         <h2 class="logo-khso--brand-caption">Project Information Portal for Regional Policy</h2>
         <h1 class="short">Kohesio</h1>
       </div>
     </uxAppShellHeaderTitleContent>
 
-    <uxAppShellTopMessageContent>
+    <uxAppShellTopMessageContent *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile">
         <div class="top-header" *ngIf="this.router.url != '/404'">
             <div class="right-tools">
                 <ux-language-selector (languageChanged)="onLanguageChanged($event)"
@@ -39,6 +41,22 @@
             </div>
         </div>
     </uxAppShellTopMessageContent>
+
+    <uxAppShellNavBarItemsContent>
+        <div class="search-projects-input">
+            <div class="input-group">
+                <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
+                       placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                       (keyup.enter)="onFilter($event)"/>
+                <span class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="ux-icon ux-icon-search"></span>
+                            </span>
+                        </span>
+            </div>
+        </div>
+    </uxAppShellNavBarItemsContent>
+
 
     <uxAppShellHeaderRightContent>
         <ul class="right-menu">
