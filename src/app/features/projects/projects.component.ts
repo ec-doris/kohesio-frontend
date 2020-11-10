@@ -16,7 +16,8 @@ import {environment} from "../../../environments/environment";
 declare let L;
 
 @Component({
-    templateUrl: './projects.component.html'
+    templateUrl: './projects.component.html',
+    styleUrls: ['./projects.component.scss']
 })
 export class ProjectsComponent implements AfterViewInit {
 
