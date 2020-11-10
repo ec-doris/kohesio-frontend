@@ -1,3 +1,5 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
+
 /* Carousel changes */
 :host ::ng-deep .ux-carousel-items .row.flex-container {
     position: relative;
@@ -168,6 +170,11 @@ h2 {
     font-size: 32px;
     color: #002F67;
     margin-bottom: 15px;
+}
+@include media($xs) {
+    h2 {
+        color: red;
+    }
 }
 
 #themes {

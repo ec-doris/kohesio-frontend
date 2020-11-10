@@ -1,7 +1,8 @@
 import {AfterViewInit, Component} from '@angular/core';
 
 @Component({
-    templateUrl: './cookie.component.html'
+    templateUrl: './cookie.component.html',
+    styleUrls: ['./cookie.component.scss']
 })
 export class CookieComponent implements AfterViewInit {
 
