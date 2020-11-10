@@ -7,7 +7,8 @@ import { UxAppShellService } from '@eui/core';
 declare let L;
 
 @Component({
-    templateUrl: './project-detail.component.html'
+    templateUrl: './project-detail.component.html',
+    styleUrls: ['./projects.component.scss']
 })
 export class ProjectDetailComponent implements AfterViewInit {
 
