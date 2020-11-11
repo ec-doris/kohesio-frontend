@@ -167,6 +167,17 @@
             }
         }
     }
+
+    .article--post {
+        // Title
+        &__title {
+            margin-left: 9.5rem;
+
+            @include media($eui-bkp-mobile-up) {
+                margin-left: 0;
+            }
+        }
+    }
 }
 
 
@@ -398,7 +409,7 @@
     }
 }
 
-.right-table-tools{
+.right-table-tools {
     display: flex;
     justify-content: flex-end;
     align-items: center;
@@ -414,4 +425,12 @@
     .ux-tab-content {
         padding: 0;
     }
+}
+
+.project-detail-right-content {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: -50px;
+    margin-bottom: 30px;
+    margin-right: 10px;
 }
