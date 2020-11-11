@@ -1,0 +1,19 @@
+.leaflet-popup-content {
+    width:auto !important;
+    overflow: auto;
+    max-height: 300px;
+    min-width: 300px;
+}
+.kohesio-map-popup-wrapper {
+    max-width: 600px;
+    min-width: 300px;
+    display: flex;
+    flex-direction: column;
+
+    a {
+        padding: 5px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+}

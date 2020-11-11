@@ -107,6 +107,22 @@
                 <eui-page-column-body>
                     <ux-tabs (tabSelected)="onTabSelected($event)">
                         <ux-tab label="Results">
+                            <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
+                                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                    <ux-form-control formControlName="sort"
+                                                     [isSelect]="true"
+                                                     [selectOptions]="this.filters.sort"
+                                                     placeholderLabel="No sort"
+                                                     (modelChange)="onSortChange()">
+                                    </ux-form-control>
+                                </form>
+                                <mat-paginator #paginatorTop
+                                               [length]="count"
+                                               [pageSize]="15"
+                                               [hidePageSize]="true"
+                                               (page)="onPaginate($event)">
+                                </mat-paginator>
+                            </div>
                             <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0">
@@ -186,6 +202,13 @@
                             </mat-paginator>
                         </ux-tab>
                         <ux-tab label="Audio-visual">
+                            <mat-paginator #paginatorAssets
+                                           [length]="assetsCount"
+                                           [pageSize]="15"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)"
+                                           [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
+                            </mat-paginator>
                             <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="audio-visual-container">
@@ -200,31 +223,6 @@
                         <ux-tab label="Map">
                             <app-map hideProjectsNearBy="true"></app-map>
                         </ux-tab>
-                        <uxTabsRightContent>
-                            <div class="tab-right-content-results-wrapper" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
-                                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                                    <ux-form-control formControlName="sort"
-                                                     [isSelect]="true"
-                                                     [selectOptions]="this.filters.sort"
-                                                     placeholderLabel="No sort"
-                                                     (modelChange)="onSortChange()">
-                                    </ux-form-control>
-                                </form>
-                                <mat-paginator #paginatorTop
-                                               [length]="count"
-                                               [pageSize]="15"
-                                               [hidePageSize]="true"
-                                               (page)="onPaginate($event)">
-                                </mat-paginator>
-                            </div>
-                            <mat-paginator #paginatorAssets
-                                           [length]="assetsCount"
-                                           [pageSize]="15"
-                                           [hidePageSize]="true"
-                                           (page)="onPaginate($event)"
-                                           [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
-                            </mat-paginator>
-                        </uxTabsRightContent>
                     </ux-tabs>
                 </eui-page-column-body>
             </eui-page-column>
