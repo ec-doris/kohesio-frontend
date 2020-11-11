@@ -1,15 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-// breakpoints
-$eui-grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px
-) !default;
-
 // @font-face {
 //     font-family: SackersGothicHeavy;
 //     src: url("assets/fonts/SackersGothicHeavy.ttf");
@@ -159,6 +149,7 @@ $eui-grid-breakpoints: (
 
 #map {
     height: 680px;
+    z-index: 0;
 }
 
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
@@ -303,121 +294,6 @@ $eui-grid-breakpoints: (
     height: 80px;
 }
 
-// Logo Kohesio
-#app-header .title.title { // css hack to avoid !important attribute
-    float: none;
-    overflow: hidden;
-    display: inline-block;
-}
-
-.logo-khso {
-    margin: 27px 0 0 10px;
-
-    &--brand-name {
-        font-size: 22px !important;
-        color: #3C3C3B !important;
-        font-weight: normal !important;
-        margin: 0 !important;
-
-        &__short {}
-    }
-
-    &--brand-caption {
-        color: #3C3C3B !important;
-        font-size: 14px !important;
-        font-weight: normal !important;
-        margin: 0 !important;
-    }
-}
-
-#app-header .right-content {
-    position:initial !important;
-    float: right;
-    margin-top: 0 !important;
-}
-
-.right-menu {
-    display: flex;
-    height: 90px;
-    align-items: center;
-
-    li {
-        margin: 15px;
-
-        a {
-            font-size: 16px;
-
-            &:hover {
-                color: #404040;
-            }
-        }
-    }
-}
-
-.top-header {
-    height: 50px;
-    background-color: #003D84;
-    padding-left: 10%;
-    padding-right: 10%;
-    color: white;
-}
-
-.top-header .right-tools{
-    float: right;
-    display: flex;
-    align-items: center;
-    height: 49px;
-}
-
-#app-header{
-    box-shadow: 0 1px 6px #00449429;
-}
-
-.ux-language-selector .ecl-link {
-    color: white;
-    font-size: 14px;
-    flex-direction: row-reverse;
-}
-
-.ux-icon-language-selector.ux-u-color-primary {
-    color: white !important;
-}
-
-// Make bigger icon behind lang choise
-.ux-icon-language-selector.ux-u-font-size-h2 {
-    font-size: 2.3rem !important;
-}
-
-.ecl-site-header__language-icon {
-    margin-right: .5rem;
-}
-
-.ecl-site-header__language-code {
-    color: #003D84 !important;
-}
-
-.professionalSpace {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-    margin-right: 20px;
-    cursor: pointer;
-
-    .fa-user {
-        margin-right: 5px;
-    }
-}
-
-.professionalSpace .professionalSpace-label {
-    color: white;
-    font-size: 14px;
-}
-
-.search-projects-input {
-    width: 300px;
-}
-
-
 // Results project page
 /*.prjt-results {
     display: flex;
@@ -506,76 +382,7 @@ $eui-grid-breakpoints: (
     }
 }
 
-// Footer link & icons
-.footer__wrapper {
-    width: 100%;
-    margin-top: 3rem;
-}
 
-.urls--footer {
-    width: 45%;
-    float: left;
-}
-
-.social-icons {
-    &--footer {
-        width: calc(55% - 2rem);
-        float: right;
-
-        li {
-            display: inline-block;
-            margin: 0 0.25rem;
-
-            &:before {
-                display: none;
-            }
-
-            a:hover {
-                text-decoration: none;
-            }
-        }
-
-        .title {
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: block;
-        }
-
-        a {
-            display: inline-block;
-            width: 2.5rem;
-            height: 2.5rem;
-            border-radius: 6%;
-            text-decoration: none;
-            color: white;
-            text-align: center;
-
-            $icons: (
-                twitter:  (char: "\f099", color: #3b5998),
-                facebook: (char: "\f09a", color: #3b5998),
-                instagram: (char: "\f16d", color: #3b5998),
-                youtube: (char: "\f16a", color: #3b5998),
-                flickr: (char: "\f16e", color: #3b5998),
-                // google:   (char: "\f0d5", color: #dd4b39),
-                // github:   (char: "\f09b", color: #231f20),
-                // linkedin: (char: "\f0e1", color: #0977b5),
-                // dribbble: (char: "\f17d", color: #ea4c89),
-                // rss:      (char: "\f09e", color: #ff6600)
-            );
-
-            @each $social, $icon in $icons {
-                &[href*="#{$social}"] {
-                    background-color: map-get($icon, color);
-
-                    &:before {
-                        // content: map-get($icon, char);
-                        content: map-get($icon, char);
-                    }
-                }
-            }
-        }
-    }
-}
 
 /**
  * Vertical line
@@ -862,14 +669,6 @@ $eui-grid-breakpoints: (
 
 .eui-page-column {
     border: 0 !important;
-}
-
-.ux-language-selector .ux-icon-language-selector {
-    color: white !important;
-}
-
-.search-input {
-    color: var(--eui-color-grey-darkest) !important;
 }
 
 .tab-right-content-results-wrapper {

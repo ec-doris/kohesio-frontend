@@ -183,8 +183,10 @@ h2 {
     margin-top: 45px;
     min-height: 400px;
 
-    .theme-division {
-        display: flex;
+    @include media($md) {
+        .theme-division {
+            display: flex;
+        }
     }
 
     .explore-more {
@@ -196,10 +198,13 @@ h2 {
         display: flex;
         justify-content: center;
         border-radius: 6px;
-        margin-left: 15px;
-        margin-top: 93px;
-        max-width: 110px;
         align-items: center;
+
+        @include media($md) {
+            margin-left: 15px;
+            margin-top: 93px;
+            max-width: 110px;
+        }
 
         &:hover {
             cursor:pointer;
@@ -222,8 +227,8 @@ h2 {
             flex-direction: column;
             align-items: center;
 
-            .number{
-                font-size:18px;
+            .number {
+                font-size: 18px;
             }
         }
 
@@ -236,9 +241,12 @@ h2 {
         }
 
         .theme-categories {
-            display: flex;
             margin-top: -30px;
             justify-content: space-between;
+
+            @include media($md) {
+                display: flex;
+            }
 
             .theme-category-card {
                 box-shadow: 0px 3px 6px #00000029;
@@ -246,8 +254,16 @@ h2 {
                 flex-direction: column;
                 background-color: white;
                 border-radius: 6px;
-                margin-right: 10px;
-                width: 33%;
+                margin-bottom: 10px;
+                flex-direction: row;
+                width: 100%;
+
+                @include media($md) {
+                    flex-direction: column;
+                    width: 33%;
+                    margin-right: 10px;
+                    margin-bottom: 0;
+                }
 
                 .title {
                     color: #404040;

@@ -1,3 +1,4 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
 /**
  * Image gallery
@@ -19,7 +20,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+
+    img {
         max-width:460px;
     }
 }
@@ -237,6 +239,7 @@
 
 .article--post__wrapper {
     position: relative;
+
     &::before {
         content: "";
         height: 92%;
@@ -417,6 +420,11 @@
             margin-right: 3px;
         }
 
-        .time-start-end {}
+        @include media($eui-bkp-mobile-down) {
+            .time-start-end {
+                font-size: 11px;
+                border: 1px solid red;
+            }
+        }
     }
 }
