@@ -1,15 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
 
-// breakpoints
-$eui-grid-breakpoints: (
-    xs: 0,
-    sm: 576px,
-    md: 768px,
-    lg: 992px,
-    xl: 1200px,
-    xxl: 1400px
-) !default;
-
 // @font-face {
 //     font-family: SackersGothicHeavy;
 //     src: url("assets/fonts/SackersGothicHeavy.ttf");
@@ -159,6 +149,7 @@ $eui-grid-breakpoints: (
 
 #map {
     height: 680px;
+    z-index: 0;
 }
 
 .leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {

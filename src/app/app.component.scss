@@ -1,18 +1,18 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
 /*Breadcrumbs*/
-:host ::ng-deep .ux-layout-breadcrumbs__item::before{
+:host ::ng-deep .ux-layout-breadcrumbs__item::before {
     color: #707070 !important;
 }
-:host ::ng-deep .ux-layout-breadcrumbs__item:first-child{
+:host ::ng-deep .ux-layout-breadcrumbs__item:first-child {
     margin-top: 5px;
 }
-:host ::ng-deep .ux-layout-breadcrumbs__item span{
+:host ::ng-deep .ux-layout-breadcrumbs__item span {
     color: #707070 !important;
     font-size: 16px !important;
 }
 :host ::ng-deep .ux-layout-breadcrumbs__item a>span,
-:host ::ng-deep .ux-layout-breadcrumbs__item a{
+:host ::ng-deep .ux-layout-breadcrumbs__item a {
     color: #004494 !important;
     font-size: 16px !important;
 }
@@ -23,11 +23,12 @@
         margin: 27px 0 0 10px;
     }
     :host ::ng-deep {
-        .ux-language-selector .ecl-site-header__selector .ecl-site-header__selector-link{
-            color:white;
+        .ux-language-selector .ecl-site-header__selector .ecl-site-header__selector-link {
+            color: white;
+            font-size: 14px;
             flex-direction: row-reverse;
         }
-        .ux-language-selector .ux-icon-language-selector{
+        .ux-language-selector .ux-icon-language-selector {
             color: white !important;
         }
         .ecl-site-header__language-code {
@@ -60,7 +61,8 @@
     padding-left: 10%;
     padding-right: 10%;
     color: white;
-    .right-tools{
+
+    .right-tools {
         float: right;
         display: flex;
         align-items: center;
@@ -69,7 +71,7 @@
 }
 
 /*App header*/
-#app-header{
+#app-header {
     box-shadow: 0 1px 6px #00449429;
 }
 
@@ -94,7 +96,7 @@
 
 // Make bigger icon behind lang choise
 .ux-icon-language-selector.ux-u-font-size-h2 {
-    font-size: 2.3rem !important;;
+    font-size: 2.3rem !important;
 }
 .ecl-site-header__language-icon {
     margin-right: .5rem;
@@ -113,6 +115,10 @@
         margin-right: 20px;
         cursor: pointer;
 
+        .fa-user {
+            margin-right: 3px;
+        }
+
         .professionalSpace-label {
             color: white;
             font-size: 14px;
@@ -120,12 +126,14 @@
     }
 }
 
-.search-projects-input{
-    width:300px;
+.search-projects-input {
+    width: 300px;
 }
-.search-input{
+
+.search-input {
     color: var(--eui-color-grey-darkest) !important;
 }
+
 @include media($eui-bkp-mobile) {
     .search-projects-input {
         width: 150px;
@@ -219,7 +227,6 @@
                     background-color: map-get($icon, color);
 
                     &:before {
-                        // content: map-get($icon, char);
                         content: map-get($icon, char);
                     }
                 }

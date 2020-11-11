@@ -1,3 +1,4 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
 /**
  * Image gallery
@@ -19,7 +20,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    img{
+
+    img {
         max-width:460px;
     }
 }
@@ -36,73 +38,6 @@
     }
     .d-block:first-child {
         margin-right:10px;
-    }
-}
-
-.map-container {
-    position: relative;
-    .map-navigation {
-        display: flex;
-        position: absolute;
-        z-index: 1000;
-        margin-top: 10px;
-        left: 50px;
-        right: 30px;
-        justify-content: space-between;
-        .left {
-            padding: 10px;
-            background-color: white;
-            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
-            border-radius: 4px;
-        }
-        .right{
-            padding: 10px;
-        }
-    }
-}
-
-.map-regions-wrapper {
-    display: flex;
-    justify-content: center;
-    padding-right: 0;
-    ux-button{
-        margin-left: 5px;
-    }
-}
-
-.regionWrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .regionName {
-        font-weight: bold;
-        font-size: 12px;
-    }
-
-    .regionCount {
-        font-size: 11px;
-    }
-}
-
-.leaflet-popup-content {
-    width:auto !important;
-    overflow: auto;
-    max-height: 300px;
-    min-width: 300px;
-}
-
-.kohesio-map-popup-wrapper {
-    max-width: 600px;
-    min-width: 300px;
-    display: flex;
-    flex-direction: column;
-
-    a {
-        padding: 5px;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
     }
 }
 
@@ -237,6 +172,7 @@
 
 .article--post__wrapper {
     position: relative;
+
     &::before {
         content: "";
         height: 92%;
@@ -417,6 +353,27 @@
             margin-right: 3px;
         }
 
-        .time-start-end {}
+        @include media($eui-bkp-mobile-down) {
+            .time-start-end {
+                font-size: 11px;
+                border: 1px solid red;
+            }
+        }
+    }
+}
+
+.right-table-tools{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    @include media($eui-bkp-mobile) {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        margin-bottom: 15px;
+    }
+}
+:host ::ng-deep {
+    .ux-tab-content {
+        padding: 0;
     }
 }
