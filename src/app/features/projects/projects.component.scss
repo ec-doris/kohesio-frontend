@@ -186,9 +186,12 @@
 
 .article--post {
     overflow: hidden;
-    display: flex;
     position: relative;
     margin-bottom: 45px;
+
+    @include media($eui-bkp-mobile-up) {
+        display: flex;
+    }
 
     &::before {
         content: "";
@@ -207,8 +210,12 @@
 
     &__image {
         float: left;
-        margin-left: 50px;
+        margin-left: 15px;
         border-radius: 10px;
+
+        @include media($eui-bkp-mobile-up) {
+            margin-left: 50px;
+        }
 
         .detault-theme-image {
             width: 87px;
@@ -237,9 +244,11 @@
     }
 
     &__inner {
-        float: left;
         margin-left: 15px;
-        width: 100%;
+
+        @include media($eui-bkp-mobile-up) {
+            float: left;
+        }
 
         p {
             margin: 0;
@@ -253,6 +262,11 @@
         font-weight: bold;
         line-height: 1.2;
         margin-bottom: 1rem;
+        margin-left: 6.2rem;
+
+        @include media($eui-bkp-mobile-up) {
+            margin-left: 0;
+        }
 
         a {
             color: #404040;
@@ -276,11 +290,20 @@
         border-radius: 12px;
         padding: 3px 15px;
         margin: 5px 0 15px;
+        overflow: hidden;
+        width: 100%;
+
+        @include media($eui-bkp-mobile-down) {
+            clear: both;
+        }
 
         ul {
-            display: flex;
             align-items: center;
             justify-content: space-between;
+
+            @include media($eui-bkp-mobile-up) {
+                display: flex;
+            }
 
             li {
                 flex-direction: column;
@@ -288,15 +311,31 @@
                 justify-content: space-between;
 
                 &:nth-child(1) {
-                    width: 48%;
+                    width: 100%;
+
+                    @include media($eui-bkp-mobile-up) {
+                        width: 48%;
+                    }
                 }
 
                 &:nth-child(2) {
-                    width: 25%;
+                    width: 49%;
+                    float: left;
+
+                    @include media($eui-bkp-mobile-up) {
+                        width: 25%;
+                        float: none;
+                    }
                 }
 
                 &:nth-child(3) {
-                    width: 27%;
+                    width: 50%;
+                    float: left;
+
+                    @include media($eui-bkp-mobile-up) {
+                        width: 27%;
+                        float: none;
+                    }
                 }
             }
         }
@@ -353,11 +392,8 @@
             margin-right: 3px;
         }
 
-        @include media($eui-bkp-mobile-down) {
-            .time-start-end {
-                font-size: 11px;
-                border: 1px solid red;
-            }
+        .time-start-end {
+            font-size: 13px;
         }
     }
 }
@@ -366,12 +402,14 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
+
     @include media($eui-bkp-mobile) {
         flex-direction: column-reverse;
         align-items: flex-end;
         margin-bottom: 15px;
     }
 }
+
 :host ::ng-deep {
     .ux-tab-content {
         padding: 0;
