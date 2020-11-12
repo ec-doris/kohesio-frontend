@@ -63,6 +63,32 @@
 .prjt-detalis {
     display: flex;
 
+        .eui-page-columns {
+            flex-direction: column;
+            display: flex;
+
+            .column-without-title:nth-child(1) {
+                order: 2;
+            }
+
+            .column-without-title:nth-child(2) {
+                order: 1;
+            }
+
+            @include media($eui-bkp-mobile-up) {
+                flex-direction: row;
+
+                .column-without-title:nth-child(1) {
+                    order: 1;
+                }
+
+                .column-without-title:nth-child(2) {
+                    order: 2;
+                }
+            }
+    }
+
+
     .prjt-box {
         background: #ebebeb;
         border-radius: 6px;
@@ -259,7 +285,13 @@
 
         @include media($eui-bkp-mobile-up) {
             float: left;
+            width: 100%;
         }
+
+        // @include media($eui-bkp-mobile-down) {
+        //     display: flex;
+        //     flex-direction: column;
+        // }
 
         p {
             margin: 0;
