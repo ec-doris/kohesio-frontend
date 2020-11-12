@@ -48,13 +48,11 @@
                 </eui-page-column-body>
             </eui-page-column>
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
-                <eui-page-column-header-right-content>
+                <eui-page-column-body>
                     <mat-paginator [pageSize]="15"
                                    [hidePageSize]="true"
                                    [hidden]="(dataSource && dataSource.data.length === 0) || isLoading">
                     </mat-paginator>
-                </eui-page-column-header-right-content>
-                <eui-page-column-body>
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
                     <mat-table [dataSource]="dataSource">
                         <ng-container matColumnDef="name">
