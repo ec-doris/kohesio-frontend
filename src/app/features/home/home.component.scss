@@ -63,7 +63,7 @@
               width: 50%;
               height: 35vh;
 
-              @include media($xs) {
+              @include media($eui-bkp-mobile-down) {
                    display: none;
                }
           }
@@ -79,6 +79,10 @@
              display: flow-root;
              justify-content: center;
              align-self: center;
+
+            @include media($eui-bkp-mobile-up) {
+                width: 50%;
+            }
 
              &:hover {
                  text-decoration: none;
@@ -107,7 +111,7 @@
                    }
                }
 
-           @include media($md) {
+           @include media($eui-bkp-mobile-up) {
                .carousel-title {
                    width: 48%;
                    padding: 0;
@@ -183,7 +187,7 @@ h2 {
     margin-top: 45px;
     min-height: 400px;
 
-    @include media($md) {
+    @include media($eui-bkp-mobile-up) {
         .theme-division {
             display: flex;
         }
@@ -200,7 +204,7 @@ h2 {
         border-radius: 6px;
         align-items: center;
 
-        @include media($md) {
+        @include media($eui-bkp-mobile-up) {
             margin-left: 15px;
             margin-top: 93px;
             max-width: 110px;
@@ -234,6 +238,7 @@ h2 {
 
         .themes-title {
             color: #fff;
+            text-align: center;
         }
 
         .theme-categories .theme-category-card:last-child {
@@ -244,7 +249,7 @@ h2 {
             margin-top: -30px;
             justify-content: space-between;
 
-            @include media($md) {
+            @include media($eui-bkp-mobile-up) {
                 display: flex;
             }
 
@@ -258,7 +263,7 @@ h2 {
                 flex-direction: row;
                 width: 100%;
 
-                @include media($md) {
+                @include media($eui-bkp-mobile-up) {
                     flex-direction: column;
                     width: 33%;
                     margin-right: 10px;
