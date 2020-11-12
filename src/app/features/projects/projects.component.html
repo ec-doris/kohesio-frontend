@@ -152,9 +152,9 @@
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
                                                     <li class="article--post__theme">
-                                            <span class="icon">
-                                                <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                            </span>
+                                                        <span class="icon">
+                                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                                        </span>
                                                         {{filterService.getThemeLabel(project.objectiveId)}}
                                                         <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
                                                     </li>
@@ -172,7 +172,7 @@
                                             <span class="icons">
                                                 <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                             </span>
-                                                        <span class="time-start-end">
+                                            <span class="time-start-end">
                                                 <ng-container *ngIf="project.startTime || project.endTime">
                                                     <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
                                                     <span *ngIf="!project.startTime">n/a</span>
