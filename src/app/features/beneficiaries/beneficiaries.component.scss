@@ -1,12 +1,15 @@
 mat-table {
+    overflow: auto;
 }
 
 mat-row {
     padding: 5px;
+    min-width:1000px;
 }
 
 mat-header-row {
     padding-left: 10px;
+    min-width:1000px;
 }
 
 mat-cell, mat-header-cell {
