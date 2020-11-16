@@ -96,8 +96,10 @@
                             </ux-form-group>
                         </ux-panel>
                         <div class="search-buttons">
-                            <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
-                            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+                            <!--<ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
+                            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>-->
+                            <button euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;
+                            <button type="submit" euiButton euiBlockButton euiPrimary (click)="resetForm()"><span euiLabel>SHOW RESULTS</span></button>
                         </div>
                     </form>
                 </eui-page-column-body>

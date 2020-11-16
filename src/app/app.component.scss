@@ -48,6 +48,32 @@
 
     }
 }
+@include media($eui-bkp-mobile-down) {
+    :host ::ng-deep {
+        #app-header .title{
+            h1 {
+                font-size: 18px !important;
+            }
+            h2 {
+                font-size: 9px !important;
+            }
+        }
+    }
+}
+
+@include media($eui-bkp-mobile-up) {
+    :host ::ng-deep {
+        #app-header .title{
+            h1 {
+                font-size: 22px !important;
+            }
+            h2 {
+                font-size: 12px !important;
+            }
+        }
+    }
+}
+
 .logo-khso {
     &--brand-name {
         font-size: 22px !important;
