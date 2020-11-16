@@ -3,10 +3,10 @@ declare let L;
 import { Renderer2, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { Router } from '@angular/router';
-import {FilterService} from "../../services/filter.service";
 import {MapComponent} from "../../shared/components/map/map.component";
 import {Filters} from "../../shared/models/filters.model";
 import {StatisticsService} from "../../services/statistics.service";
+import { UxAppShellService } from '@eui/core';
 
 @Component({
     templateUrl: './home.component.html',
@@ -17,10 +17,12 @@ export class HomeComponent implements AfterViewInit {
     @ViewChild(MapComponent) map: MapComponent;
 
     public stats:any = {};
+    filterValue: string;
 
     constructor(private _renderer2: Renderer2,
                 @Inject(DOCUMENT) private _document: Document,
                 private _router: Router,
+                public uxAppShellService: UxAppShellService,
                 private statisticsService: StatisticsService){}
 
     ngAfterViewInit(): void {
@@ -34,6 +36,13 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public ngOnInit() {
+    }
+
+    onFilter(){
+        if (this.filterValue && this.filterValue.trim() != "") {
+            this._router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
+            this.filterValue = "";
+        }
     }
 
 }

@@ -1,4 +1,4 @@
-<ux-carousel-items>
+<ux-carousel-items *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile">
     <ux-carousel-item>
         <div class="carousel-title">
             <span>european union supports projects in all regions to make europe stronger</span>
@@ -46,6 +46,21 @@
         <img class="carousel-item--img" src="assets/images/banners/banner3.jpg">
     </ux-carousel-item>
 </ux-carousel-items>
+
+<ng-container *ngIf="(uxAppShellService.breakpoints$ | async).isMobile">
+    <div class="search-projects-input">
+        <div class="input-group">
+            <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
+                   placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                   (keyup.enter)="onFilter()"/>
+            <span class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="ux-icon ux-icon-search" (click)="onFilter()"></span>
+                            </span>
+                        </span>
+        </div>
+    </div>
+</ng-container>
 
 <div class="section-container mt-5">
     <!--section id="figures">
