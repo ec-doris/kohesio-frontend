@@ -1,8 +1,16 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
-mat-table {
-    overflow: auto;
-}
+// mat-table {
+//     overflow: auto;
+// }
+
+    // xs: 0,
+    // sm: 576px,
+    // md: 768px,
+    // lg: 992px,
+    // xl: 1200px,
+    // xxl: 1400px
+
 
 @include media($eui-bkp-mobile-down) {
     mat-row {
@@ -12,9 +20,11 @@ mat-table {
         flex-direction: column;
     }
 
-    mat-header-cell:nth-child(2),
-    mat-header-cell:nth-child(3),
-    mat-header-cell:nth-child(4) {
+    // mat-header-cell:nth-child(1),
+    // mat-header-cell:nth-child(2),
+    // mat-header-cell:nth-child(3),
+    // mat-header-cell:nth-child(4)
+    mat-header-row {
         // padding-left: 10px;
         // min-width: 1000px;
         display: none;
@@ -23,15 +33,19 @@ mat-table {
     mat-row,
     mat-header-row,
     mat-footer-row {
-        // justify-content: flex-start;
-        //
-        // border: 1px solid red;
-        min-height: 2rem;
+        align-items: flex-start;
+        min-height: 1.5rem;
+    }
+
+    mat-cell:first-of-type,
+    mat-header-cell:first-of-type,
+    mat-footer-cell:first-of-type {
+        padding-left: 3px;
     }
 
     .mobile-header {
         color: rgba(0, 0, 0, 0.54);
-        font-size: 12px;
+        font-size: 11px;
         font-weight: 500;
         align-items: center;
     }
@@ -41,15 +55,36 @@ mat-table {
     mat-footer-row::after {
         display: none;
     }
+
+    .mat-column-numberProjects {
+        padding: 0 0 0 3px;
+    }
 }
 
 @include media($eui-bkp-mobile-up) {
+    mat-header-row {
+        display: flex;
+    }
+
     .mobile-header {
         display: none;
     }
 }
 
-mat-cell, mat-header-cell {
+@include media($sm) {
+    .mobile-header {
+        display: none;
+    }
+}
+
+@include media($md) {
+    .mobile-header {
+        display: none;
+    }
+}
+
+mat-cell,
+mat-header-cell {
     justify-content: center;
 }
 
@@ -64,7 +99,7 @@ mat-cell.mat-column-name {
         margin-right: 10px;
     }
     span {
-        flex:1;
+        flex: 1;
     }
 }
 
@@ -91,16 +126,19 @@ mat-header-cell:last-of-type {
         padding: 0;
     }
 }
+
 .search-buttons {
     display: flex;
-    ux-button{
-        flex:1;
+
+    ux-button {
+        flex: 1;
     }
 
     ux-button:first-child {
-        margin-right:10px;
+        margin-right: 10px;
     }
 }
+
 :host ::ng-deep {
     .ux-button {
         width: 100%
