@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
         this.translateService.use(language.code);
     }
 
-    onFilter(event){
+    onFilter(){
         if (this.filterValue && this.filterValue.trim() != "") {
             this.router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
             this.filterValue = "";

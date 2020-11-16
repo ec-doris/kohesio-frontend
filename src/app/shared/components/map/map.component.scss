@@ -1,12 +1,30 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
+
+@include media($eui-bkp-mobile) {
+    .map-container {
+        .map-navigation {
+            flex-direction: column;
+
+            .map-regions-wrapper.left{
+                height: auto;
+                min-width: 340px;
+                flex-wrap: wrap;
+                justify-content: left;
+            }
+        }
+    }
+}
+
 .map-container {
     position: relative;
     .map-navigation {
         display: flex;
         position: absolute;
-        z-index: 1000;
+        z-index: 1;
         margin-top: 10px;
         left: 50px;
         right: 30px;
+        min-height: 52px;
         justify-content: space-between;
         .left {
             padding: 10px;
@@ -17,14 +35,18 @@
         .right{
             padding: 10px;
         }
+
     }
 }
 .map-regions-wrapper {
     display: flex;
     justify-content: center;
+    align-items: center;
     padding-right: 0;
+    height: 52px;
     ux-button{
         margin-left: 5px;
+        margin-bottom: 5px;
     }
 }
 .regionWrapper {

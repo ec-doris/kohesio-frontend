@@ -10,9 +10,9 @@
 
     <uxAppShellHeaderTitleContent>
       <div class="logo-khso">
-        <h1 class="full logo-khso--brand-name">Kohesio Open Projects</h1>
+        <h1 class="logo-khso--brand-name">Kohesio Open Projects</h1>
         <h2 class="logo-khso--brand-caption">Project Information Portal for Regional Policy</h2>
-        <h1 class="short">Kohesio</h1>
+        <!--<h1 class="short">Kohesio Open Projects</h1>-->
       </div>
     </uxAppShellHeaderTitleContent>
 
@@ -30,10 +30,10 @@
                     <div class="input-group">
                         <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
                            placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
-                           (keyup.enter)="onFilter($event)"/>
+                           (keyup.enter)="onFilter()"/>
                         <span class="input-group-prepend">
                             <span class="input-group-text">
-                                <span class="ux-icon ux-icon-search"></span>
+                                <span class="ux-icon ux-icon-search" (click)="onFilter()"></span>
                             </span>
                         </span>
                     </div>
@@ -41,22 +41,6 @@
             </div>
         </div>
     </uxAppShellTopMessageContent>
-
-    <uxAppShellNavBarItemsContent>
-        <div class="search-projects-input">
-            <div class="input-group">
-                <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
-                       placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
-                       (keyup.enter)="onFilter($event)"/>
-                <span class="input-group-prepend">
-                            <span class="input-group-text">
-                                <span class="ux-icon ux-icon-search"></span>
-                            </span>
-                        </span>
-            </div>
-        </div>
-    </uxAppShellNavBarItemsContent>
-
 
     <uxAppShellHeaderRightContent>
         <ul class="right-menu">
