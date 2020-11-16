@@ -458,6 +458,20 @@
     .ux-tab-content {
         padding: 0;
     }
+
+}
+
+/*Tabs on mobile*/
+@include media($eui-bkp-mobile-down) {
+    :host ::ng-deep {
+        .ux-tab-item {
+            padding: 10px;
+
+            .ux-a-label__sub-label, .ux-a-label__label{
+                font-size: 16px;
+            }
+        }
+    }
 }
 
 .project-detail-right-content {
