@@ -65,19 +65,19 @@
                         <ng-container matColumnDef="budget">
                             <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
                             </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="euBudget">
                             <mat-header-cell *matHeaderCellDef>AMOUNT EU SUPPORT</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                <span class="mobile-header">AMOUNT EU SUPPORT&nbsp;:&nbsp;</span> {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
                             </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="numberProjects">
                             <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{row.numberProjects}}
+                                <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
                             </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
