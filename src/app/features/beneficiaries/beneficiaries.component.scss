@@ -7,12 +7,45 @@ mat-table {
 @include media($eui-bkp-mobile-down) {
     mat-row {
         padding: 5px;
-        min-width: 1000px;
+        // min-width: 1000px;
+        // display: flex;
+        flex-direction: column;
     }
 
-    mat-header-row {
-        padding-left: 10px;
-        min-width: 1000px;
+    mat-header-cell:nth-child(2),
+    mat-header-cell:nth-child(3),
+    mat-header-cell:nth-child(4) {
+        // padding-left: 10px;
+        // min-width: 1000px;
+        display: none;
+    }
+
+    mat-row,
+    mat-header-row,
+    mat-footer-row {
+        // justify-content: flex-start;
+        //
+        // border: 1px solid red;
+        min-height: 2rem;
+    }
+
+    .mobile-header {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 12px;
+        font-weight: 500;
+        align-items: center;
+    }
+
+    mat-row::after,
+    mat-header-row::after,
+    mat-footer-row::after {
+        display: none;
+    }
+}
+
+@include media($eui-bkp-mobile-up) {
+    .mobile-header {
+        display: none;
     }
 }
 
@@ -40,7 +73,11 @@ mat-cell.mat-column-budget {
 }
 
 mat-cell.mat-column-euBudget {
-    padding: 0 0 0 15px;
+    padding: 0 0 0 3px;
+
+    @include media($eui-bkp-mobile-up) {
+        padding: 0 0 0 15px;
+    }
 }
 
 mat-cell:last-of-type,
