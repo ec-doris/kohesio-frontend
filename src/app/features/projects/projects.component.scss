@@ -481,3 +481,9 @@
     margin-bottom: 30px;
     margin-right: 10px;
 }
+
+@include media($eui-bkp-mobile-down) {
+    .project-detail-right-content {
+        margin-top: -30px;
+    }
+}
