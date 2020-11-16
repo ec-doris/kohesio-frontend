@@ -312,7 +312,7 @@
     overflow: hidden;
     width: 100%;
     justify-content: flex-end;
-    margin-top: 10px;
+    margin-top: 1rem !important;
 
     .title {
         font-variant: small-caps;
@@ -340,26 +340,28 @@
 
     a {
         display: inline-block;
-        width: 2.5rem;
-        height: 2.5rem;
+        width: 2rem;
+        height: 2rem;
         border-radius: 50%;
         text-decoration: none;
-        color: white;
+        color: white !important;
         text-align: center;
+        margin-left: .5rem !important;
 
         &:before {
-            font: 1.5rem/1.75 "FontAwesome";
+            font: 1.2rem/1.75 "FontAwesome";
             @include font-smoothing();
         }
 
         &:hover {
-            text-decoration: none;
+            text-decoration: none !important;
         }
 
         $icons: (
             twitter:  (char: "\f099", color: #55acee),
             facebook: (char: "\f09a", color: #3b5998),
-            instagram: (char: "\f16d", color: #3b5998),
+            instagram: (char: "\f16d", color: #d6249f), //background: #d6249f;
+//background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);),
             youtube: (char: "\f16a", color: #3b5998),
             flickr: (char: "\f16e", color: #3b5998),
             google:   (char: "\f0d5", color: #dd4b39),
