@@ -36,6 +36,18 @@
         }
     }
 }
+@include media($eui-bkp-mobile) {
+    :host ::ng-deep {
+        #app-header .title{
+            h1, h2 {
+                position: initial;
+                color: white !important;
+                margin-left: 5px !important;
+            }
+        }
+
+    }
+}
 .logo-khso {
     &--brand-name {
         font-size: 22px !important;
@@ -160,8 +172,14 @@
 /*Footer*/
 @include media($eui-bkp-mobile) {
     :host ::ng-deep {
+        #app-header .logo.logo--en {
+            background-image: url("^logo--en.svg");
+        }
         #app-footer {
             position: absolute !important;
+        }
+        #app-header .title h2{
+            display: initial;
         }
     }
 }

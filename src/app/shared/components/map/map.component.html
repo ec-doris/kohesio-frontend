@@ -2,7 +2,7 @@
     <div class="map-container">
         <div class="map-navigation" *ngIf="!hideNavigation">
             <div class="map-regions-wrapper left">
-                <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)" iconClass="fa fa-globe" typeClass="warning">{{region.label}}</ux-button>
+                <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)" iconClass="fa fa-globe" typeClass="warning" [isSmall]="true">{{region.label}}</ux-button>
             </div>
             <div class="right" *ngIf="!hideProjectsNearBy">
                 <ux-button type="button" (click)="onProjectsNearByClick()">PROJECTS NEAR ME</ux-button>
