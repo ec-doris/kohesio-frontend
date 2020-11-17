@@ -5,6 +5,7 @@ import {Observable} from "rxjs";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
 import {Beneficiary} from "../shared/models/beneficiary.model";
+import {BeneficiaryList} from "../shared/models/beneficiary-list.model";
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +14,32 @@ export class BeneficiaryService {
 
     constructor(private http: HttpClient) { }
 
-    getBeneficiaries(filters:Filters): Observable<Beneficiary[]>  {
+    getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList>  {
         const url = environment.api + "/search/beneficiaries";
-        return this.http.get<any>(url,{ params: <any>filters.getBeneficiariesFilters() }).pipe(
+        const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){
-                    return [];
+                    return null;
                 }else {
-                    return data.map(data => {
-                        return new Beneficiary().deserialize(data);
-                    });
+                    return new BeneficiaryList().deserialize(data);
                 }
             })
         );
+    }
+
+    generateParameters(filters:any, offset: number = 0, limit: number = 15){
+        let params = {};
+        if (limit !== -1){
+            params = {
+                offset: offset,
+                limit: limit
+            };
+        }
+        params = Object.assign(
+            params,
+            filters);
+        return params;
     }
 
     getFile(filters: Filters, type: string):Observable<any>{

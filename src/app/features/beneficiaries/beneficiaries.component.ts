@@ -9,6 +9,8 @@ import {Beneficiary} from "../../shared/models/beneficiary.model";
 import {FilterService} from "../../services/filter.service";
 import {FiltersApi} from "../../shared/models/filters-api.model";
 import {environment} from "../../../environments/environment";
+import {BeneficiaryList} from "../../shared/models/beneficiary-list.model";
+import { UxAppShellService } from '@eui/core';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -20,6 +22,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     public filters: FiltersApi;
     public dataSource:MatTableDataSource<Beneficiary>;
     public isLoading = false;
+    public count = 0;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public fileTypes = {
@@ -38,7 +41,8 @@ export class BeneficiariesComponent implements AfterViewInit {
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
                 private _route: ActivatedRoute,
-                private _router: Router,){}
+                private _router: Router,
+                public uxAppShellService: UxAppShellService,){}
 
     ngOnInit(){
         this.filters = this._route.snapshot.data.filters;
@@ -105,11 +109,12 @@ export class BeneficiariesComponent implements AfterViewInit {
     performSearch(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.beneficaryService.getBeneficiaries(filters).subscribe((result:Beneficiary[]) => {
-            this.dataSource = new MatTableDataSource<Beneficiary>(result);
-            this.dataSource.paginator = this.paginator;
+        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
+        this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result:BeneficiaryList) => {
+            this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
+            this.count = result.numberResults;
+            //this.dataSource.paginator = this.paginator;
             this.isLoading = false;
-            this.paginator.firstPage();
         });
     }
 
@@ -179,6 +184,11 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     resetForm(){
         this.myForm.reset();
+    }
+
+    onPaginate(event){
+        this.paginator.pageIndex = event.pageIndex;
+        this.performSearch();
     }
 
 }
