@@ -22,7 +22,7 @@
     align-items: center;
 
     img {
-        max-width:460px;
+        max-width: 460px;
     }
 }
 
@@ -33,11 +33,13 @@
 
 .search-buttons {
     display: flex;
-    .d-block{
-        flex:1
+
+    .d-block {
+        flex: 1;
     }
+
     .d-block:first-child {
-        margin-right:10px;
+        margin-right: 10px;
     }
 }
 
@@ -88,7 +90,6 @@
             }
     }
 
-
     .prjt-box {
         background: #ebebeb;
         border-radius: 6px;
@@ -130,8 +131,13 @@
             margin: 0;
 
             .detault-theme-image {
-                width: 154px;
-                height: 154px;
+                width: 100px;
+                height: 100px;
+
+                @include media($eui-bkp-mobile-up) {
+                    width: 154px;
+                    height: 154px;
+                }
             }
 
             .topic {
@@ -140,20 +146,30 @@
 
             .prj-image--image {
                 img {
-                    width: 154px;
-                    height: 154px;
+                    width: 100px;
+                    height: 100px;
+
+                    @include media($eui-bkp-mobile-up) {
+                        width: 154px;
+                        height: 154px;
+                    }
                 }
             }
 
             .prj-image {
                 footer {
-                    width: 154px;
                     color: #9c9c9c;
                     font-size: 0.8rem;
                     font-style: italic;
                     line-height: 1;
                     margin-top: 3px;
                     text-align: center;
+
+                    width: 100px;
+
+                    @include media($eui-bkp-mobile-up) {
+                        width: 154px;
+                    }
                 }
             }
         }
@@ -197,7 +213,7 @@
     .article--post {
         // Title
         &__title {
-            margin-left: 9.5rem;
+            margin-left: 6rem;
 
             @include media($eui-bkp-mobile-up) {
                 margin-left: 0;
@@ -363,21 +379,20 @@
                 }
 
                 &:nth-child(2) {
-                    width: 49%;
+                    width: 61%;
                     float: left;
 
                     @include media($eui-bkp-mobile-up) {
-                        width: 25%;
+                        width: 28%;
                         float: none;
                     }
                 }
 
                 &:nth-child(3) {
-                    width: 50%;
                     float: left;
 
                     @include media($eui-bkp-mobile-up) {
-                        width: 27%;
+                        width: 20%;
                         float: none;
                     }
                 }

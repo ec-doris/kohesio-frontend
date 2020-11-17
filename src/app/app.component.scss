@@ -1,20 +1,41 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
 /*Breadcrumbs*/
+:host ::ng-deep .ux-layout-breadcrumbs {
+    margin-top: 1rem !important;
+
+    @include media($eui-bkp-mobile-up) {
+        margin-top: 0 !important;
+    }
+}
+
 :host ::ng-deep .ux-layout-breadcrumbs__item::before {
     color: #707070 !important;
+    font-size: 12px !important;
+
+    @include media($eui-bkp-mobile-up) {
+        font-size: 16px !important;
+    }
 }
 :host ::ng-deep .ux-layout-breadcrumbs__item:first-child {
     margin-top: 5px;
 }
 :host ::ng-deep .ux-layout-breadcrumbs__item span {
     color: #707070 !important;
-    font-size: 16px !important;
+    font-size: 12px !important;
+
+    @include media($eui-bkp-mobile-up) {
+        font-size: 16px !important;
+    }
 }
 :host ::ng-deep .ux-layout-breadcrumbs__item a>span,
 :host ::ng-deep .ux-layout-breadcrumbs__item a {
     color: #004494 !important;
-    font-size: 16px !important;
+    font-size: 12px !important;
+
+    @include media($eui-bkp-mobile-up) {
+        font-size: 16px !important;
+    }
 }
 
 /*Main Title and Subtitle*/
@@ -232,8 +253,13 @@
         float: right;
 
         li {
-            display: inline-block;
-            margin: 0 0.25rem;
+            // display: inline-block;
+            margin: 0;
+            padding: 0 !important;
+
+            @include media($eui-bkp-mobile-up) {
+                margin: 0 0.25rem;
+            }
 
             &:before {
                 display: none;
@@ -252,8 +278,8 @@
 
         a {
             display: inline-block;
-            width: 2.5rem;
-            height: 2.5rem;
+            width: 2rem;
+            height: 2rem;
             border-radius: 6%;
             text-decoration: none;
             color: white;
@@ -264,10 +290,10 @@
                 facebook: (char: "\f09a", color: #3b5998),
                 instagram: (char: "\f16d", color: #3b5998),
                 youtube: (char: "\f16a", color: #3b5998),
-                flickr: (char: "\f16e", color: #3b5998),
+                linkedin: (char: "\f0e1", color: #3b5998),
+                // flickr: (char: "\f16e", color: #3b5998),
                 // google:   (char: "\f0d5", color: #dd4b39),
                 // github:   (char: "\f09b", color: #231f20),
-                // linkedin: (char: "\f0e1", color: #0977b5),
                 // dribbble: (char: "\f17d", color: #ea4c89),
                 // rss:      (char: "\f09e", color: #ff6600)
             );
