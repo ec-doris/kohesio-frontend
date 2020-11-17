@@ -10,6 +10,7 @@ import {FilterService} from "../../services/filter.service";
 import {FiltersApi} from "../../shared/models/filters-api.model";
 import {environment} from "../../../environments/environment";
 import {BeneficiaryList} from "../../shared/models/beneficiary-list.model";
+import { UxAppShellService } from '@eui/core';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -40,7 +41,8 @@ export class BeneficiariesComponent implements AfterViewInit {
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
                 private _route: ActivatedRoute,
-                private _router: Router,){}
+                private _router: Router,
+                public uxAppShellService: UxAppShellService,){}
 
     ngOnInit(){
         this.filters = this._route.snapshot.data.filters;

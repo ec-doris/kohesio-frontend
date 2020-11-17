@@ -101,7 +101,7 @@
     background-color: #003D84;
     padding-left: 10%;
     padding-right: 10%;
-    color: white;
+    color: white !important;
 
     .right-tools {
         float: right;
@@ -163,6 +163,9 @@
         .professionalSpace-label {
             color: white;
             font-size: 14px;
+        }
+        .ux-a-icon {
+            color: white !important;
         }
     }
 }
