@@ -1,5 +1,14 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
+// Re-writes search btns
+:host ::ng-deep .ng-star-inserted {
+    font-size: 12px !important;
+}
+
+:host ::ng-deep .eui-button .eui-button__container {
+    font-size: 12px !important;
+}
+
 /**
  * Image gallery
  **/
@@ -33,6 +42,7 @@
 
 .search-buttons {
     display: flex;
+    margin-bottom: 1rem;
 
     .d-block {
         flex: 1;
