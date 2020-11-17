@@ -41,7 +41,7 @@
 }
 
 .projects-grid .card {
-    border: 2px solid #AAAAAA;
+    border: 2px solid #aaa;
     border-radius: 20px;
     min-height: 470px;
 }
@@ -50,7 +50,7 @@
     display: flex;
     padding: 10px;
     align-items: center;
-    background-color: #AAAAAA;
+    background-color: #aaa;
     border-radius: 16px 16px 0 0;
     height: 100px;
 }
@@ -360,8 +360,7 @@
         $icons: (
             twitter:  (char: "\f099", color: #55acee),
             facebook: (char: "\f09a", color: #3b5998),
-            instagram: (char: "\f16d", color: #d6249f), //background: #d6249f;
-//background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);),
+            instagram: (char: "\f16d", color: #d6249f),
             youtube: (char: "\f16a", color: #3b5998),
             flickr: (char: "\f16e", color: #3b5998),
             google:   (char: "\f0d5", color: #dd4b39),
