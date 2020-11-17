@@ -41,8 +41,8 @@
                             </ux-form-group>
                         </ux-panel>
                         <div class="search-buttons">
-                            <ux-button type="button" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
-                            <ux-button type="submit" >SHOW RESULTS</ux-button>
+                            <button euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;
+                            <button type="submit" euiButton euiBlockButton euiPrimary><span euiLabel>SHOW RESULTS</span></button>
                         </div>
                     </form>
                 </eui-page-column-body>
@@ -50,8 +50,9 @@
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
                 <eui-page-column-body>
                     <mat-paginator [pageSize]="15"
+                                   [length]="count"
                                    [hidePageSize]="true"
-                                   [hidden]="(dataSource && dataSource.data.length === 0) || isLoading">
+                                   (page)="onPaginate($event)">
                     </mat-paginator>
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
                     <mat-table [dataSource]="dataSource">
