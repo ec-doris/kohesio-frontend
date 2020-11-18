@@ -81,7 +81,7 @@
 .prjt-detalis {
     display: flex;
 
-        .eui-page-columns {
+    .eui-page-columns {
             flex-direction: column;
             display: flex;
 
@@ -238,7 +238,6 @@
     }
 }
 
-
 .article--post__wrapper {
     position: relative;
 
@@ -250,6 +249,20 @@
         position: absolute;
         top: 80px;
         left: 1.9px;
+    }
+}
+
+.projects-list .article--post {
+    &__inner {
+        margin-left: 15px;
+    }
+}
+
+.project-detail .article--post {
+    &__inner {
+        @include media($eui-bkp-mobile-up) {
+            margin-left: 15px;
+        }
     }
 }
 
@@ -317,7 +330,6 @@
         @include media($eui-bkp-mobile-up) {
             float: left;
             width: 100%;
-            margin-left: 15px;
         }
 
         p {
@@ -473,6 +485,7 @@
     justify-content: space-between;
     margin: 10px 0;
 }
+
 .right-table-tools {
     display: flex;
     justify-content: flex-end;
