@@ -229,7 +229,7 @@
     .article--post {
         // Title
         &__title {
-            margin-left: 6rem;
+            margin-left: 7rem;
 
             @include media($eui-bkp-mobile-up) {
                 margin-left: 0;
@@ -313,17 +313,12 @@
     }
 
     &__inner {
-        margin-left: 15px;
 
         @include media($eui-bkp-mobile-up) {
             float: left;
             width: 100%;
+            margin-left: 15px;
         }
-
-        // @include media($eui-bkp-mobile-down) {
-        //     display: flex;
-        //     flex-direction: column;
-        // }
 
         p {
             margin: 0;
