@@ -45,14 +45,7 @@
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
                 <eui-page-column-body>
                     <div class="right-table-tools">
-                        <div class="download-section">
-                            <ux-dropdown-button [label]="(uxAppShellService.breakpoints$ | async).isMobile ? '' : 'Download'" iconClass="eui-icon eui-icon-ecl-download">
-                                <ux-dropdown-button-item label="CSV" iconClass="eui-icon eui-icon-file-o" (click)="getFile('csv')">
-                                </ux-dropdown-button-item>
-                                <ux-dropdown-button-item label="XLS" iconClass="eui-icon eui-icon-file-o" (click)="getFile('excel')">
-                                </ux-dropdown-button-item>
-                            </ux-dropdown-button>
-                        </div>
+                        <app-download-button [form]="myForm" type="beneficiaries"></app-download-button>
                         <mat-paginator [pageSize]="15"
                                        [length]="count"
                                        [hidePageSize]="true"

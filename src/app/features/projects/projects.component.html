@@ -107,21 +107,26 @@
                 <eui-page-column-body>
                     <ux-tabs (tabSelected)="onTabSelected($event)">
                         <ux-tab label="Results">
-                            <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
-                                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                                    <ux-form-control formControlName="sort"
-                                                     [isSelect]="true"
-                                                     [selectOptions]="this.filters.sort"
-                                                     placeholderLabel="No sort"
-                                                     (modelChange)="onSortChange()">
-                                    </ux-form-control>
-                                </form>
-                                <mat-paginator #paginatorTop
-                                               [length]="count"
-                                               [pageSize]="15"
-                                               [hidePageSize]="true"
-                                               (page)="onPaginate($event)">
-                                </mat-paginator>
+                            <div class="tools">
+                                <div class="left-table-tools">
+                                    <app-download-button [form]="myForm" type="projects"></app-download-button>
+                                </div>
+                                <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
+                                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                        <ux-form-control formControlName="sort"
+                                                         [isSelect]="true"
+                                                         [selectOptions]="this.filters.sort"
+                                                         placeholderLabel="No sort"
+                                                         (modelChange)="onSortChange()">
+                                        </ux-form-control>
+                                    </form>
+                                    <mat-paginator #paginatorTop
+                                                   [length]="count"
+                                                   [pageSize]="15"
+                                                   [hidePageSize]="true"
+                                                   (page)="onPaginate($event)">
+                                    </mat-paginator>
+                                </div>
                             </div>
                             <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
                             <ux-block-content [isBlocked]="isLoading">

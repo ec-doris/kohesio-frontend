@@ -64,4 +64,13 @@ export class ProjectService {
         );
     }
 
+    getFile(filters: Filters, type: string):Observable<any>{
+        const url = environment.api + "/search/project/" + type;
+        const params = filters.getProjectsFilters();
+        return this.http.get(url,{
+            responseType: 'arraybuffer',
+            params:<any>params
+        });
+    }
+
 }

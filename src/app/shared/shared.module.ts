@@ -11,6 +11,7 @@ import {BudgetPipe} from "./budget.pipe";
 import {MatPaginatorKohesio} from "./components/paginator/mat-paginator-intl.component";
 import {CommonModule, DecimalPipe} from '@angular/common';
 import {MapPopupComponent} from "./components/map/map-popup.component";
+import {DownloadButtonComponent} from "./components/download-button/download-button.component";
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import {MapPopupComponent} from "./components/map/map-popup.component";
         NotFoundComponent,
         MapComponent,
         BudgetPipe,
-        MapPopupComponent
+        MapPopupComponent,
+        DownloadButtonComponent
     ],
     exports: [
         UxAllModule,
@@ -33,7 +35,8 @@ import {MapPopupComponent} from "./components/map/map-popup.component";
         TranslateModule,
         NotFoundComponent,
         MapComponent,
-        BudgetPipe
+        BudgetPipe,
+        DownloadButtonComponent
     ],
     entryComponents:[
         MapPopupComponent
