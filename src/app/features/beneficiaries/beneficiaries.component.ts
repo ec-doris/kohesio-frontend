@@ -25,16 +25,6 @@ export class BeneficiariesComponent implements AfterViewInit {
     public count = 0;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public fileTypes = {
-        csv:{
-            extension: 'csv',
-            type: 'text/csv'
-        },
-        excel:{
-            extension: 'xls',
-            type: 'application/vnd.ms-excel'
-        }
-    }
     public advancedFilterExpanded = false;
 
     constructor(private beneficaryService: BeneficiaryService,
@@ -42,7 +32,7 @@ export class BeneficiariesComponent implements AfterViewInit {
                 private formBuilder: FormBuilder,
                 private _route: ActivatedRoute,
                 private _router: Router,
-                public uxAppShellService: UxAppShellService,){}
+                public uxAppShellService: UxAppShellService){}
 
     ngOnInit(){
         this.filters = this._route.snapshot.data.filters;
@@ -154,32 +144,6 @@ export class BeneficiariesComponent implements AfterViewInit {
             region: null,
             program: null
         });
-    }
-
-    getFile(type:string){
-        const filters = new Filters().deserialize(this.myForm.value);
-        this.beneficaryService.getFile(filters, type).subscribe(response=>{
-
-            const newBlob = new Blob([response], { type: this.fileTypes[type].type });
-            // IE doesn't allow using a blob object directly as link href
-            // instead it is necessary to use msSaveOrOpenBlob
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(newBlob);
-                return;
-            }
-
-            const data = window.URL.createObjectURL(newBlob);
-
-            let link = document.createElement('a');
-            link.href = data;
-            link.download = "beneficiaries." + this.fileTypes[type].extension;
-            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-            setTimeout(function () {
-                window.URL.revokeObjectURL(data);
-                link.remove();
-            }, 100);
-        })
     }
 
     resetForm(){
