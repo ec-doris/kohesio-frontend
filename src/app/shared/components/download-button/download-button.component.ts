@@ -24,7 +24,7 @@ export class DownloadButtonComponent {
             type: 'text/csv'
         },
         excel:{
-            extension: 'xls',
+            extension: 'xlsx',
             type: 'application/vnd.ms-excel'
         }
     }

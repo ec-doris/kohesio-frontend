@@ -14,6 +14,7 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public project: ProjectDetail;
     public wikidataLink: string;
+    public currentUrl: string = location.href;
 
     @ViewChild(MapComponent)
     public map: MapComponent;
