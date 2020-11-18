@@ -345,7 +345,7 @@
         text-decoration: none;
         color: white !important;
         text-align: center;
-        margin-left: .5rem !important;
+        margin-left: .3rem !important;
 
         &:before {
             font: 1.2rem/1.75 "FontAwesome";
@@ -357,16 +357,17 @@
         }
 
         $icons: (
-            twitter:  (char: "\f099", color: #55acee),
             facebook: (char: "\f09a", color: #3b5998),
-            instagram: (char: "\f16d", color: #d6249f),
-            youtube: (char: "\f16a", color: #3b5998),
-            flickr: (char: "\f16e", color: #3b5998),
-            google:   (char: "\f0d5", color: #dd4b39),
-            github:   (char: "\f09b", color: #231f20),
             linkedin: (char: "\f0e1", color: #0977b5),
-            dribbble: (char: "\f17d", color: #ea4c89),
-            rss:      (char: "\f09e", color: #ff6600)
+            instagram: (char: "\f16d", color: #d6249f),
+            twitter:  (char: "\f099", color: #55acee),
+            mail:     (char: "\f0e0", color: #ff6600),
+            // youtube: (char: "\f16a", color: #3b5998),
+            // flickr: (char: "\f16e", color: #3b5998),
+            // google:   (char: "\f0d5", color: #dd4b39),
+            // github:   (char: "\f09b", color: #231f20),
+            // dribbble: (char: "\f17d", color: #ea4c89),
+            // rss:      (char: "\f09e", color: #ff6600),
         );
 
         @each $social, $icon in $icons {
