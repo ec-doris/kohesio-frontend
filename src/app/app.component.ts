@@ -26,6 +26,7 @@ export class AppComponent implements OnInit {
         new UxLink({label: 'Beneficiaries', url: 'beneficiaries'}),
         new UxLink({label: 'Professional Space', urlExternal: 'https://intragate.development.ec.europa.eu/qs_cnect_audit_hub_vp/ecas/sense/app/5472f2e1-6b20-4f3b-88b1-c853789fd765/sheet/28630e83-bf1f-45e0-b2ad-b073e518a9b5/state/analysis', urlExternalTarget: '_blank'})
     ];
+    public currentUrl: string = location.href;
 
     constructor(
         private translateService: TranslateService,
