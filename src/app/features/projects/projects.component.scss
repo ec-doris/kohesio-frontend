@@ -146,7 +146,7 @@
         &__image {
             margin: 0;
 
-            .detault-theme-image {
+            .default-theme-image {
                 width: 100px;
                 height: 100px;
 
@@ -273,6 +273,22 @@
             }
         }
     }
+
+    .default-theme-image {
+        width: 87px;
+        height: 87px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f8fe;
+        border-radius: 12px;
+
+        display: none;
+
+        @include media($eui-bkp-mobile-up) {
+            display: flex;
+        }
+    }
 }
 
 .project-detail .article--post {
@@ -316,7 +332,7 @@
             margin-left: 50px;
         }
 
-        .detault-theme-image {
+        .default-theme-image {
             width: 87px;
             height: 87px;
             display: flex;
