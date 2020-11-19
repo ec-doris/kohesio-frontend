@@ -1,9 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 
-// @font-face {
-//     font-family: SackersGothicHeavy;
-//     src: url("assets/fonts/SackersGothicHeavy.ttf");
-// }
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
 #main-content {
     padding-bottom: 200px !important;
@@ -190,7 +187,7 @@
     background-color: rgba(241, 128, 23, 0.6);
 }
 
-/* IE 6-8 fallback colors */
+// IE 6-8 fallback colors
 .leaflet-oldie .marker-cluster-small {
     background-color: rgb(181, 226, 140);
 }
@@ -293,11 +290,6 @@
     height: 80px;
 }
 
-// Results project page
-/*.prjt-results {
-    display: flex;
-}*/
-
 // Social icons
 @mixin font-smoothing() {
     // Font antialising on Mac OS X
@@ -375,7 +367,6 @@
                 background-color: map-get($icon, color);
 
                 &:before {
-                    // content: map-get($icon, char);
                     content: map-get($icon, char);
                 }
             }
@@ -668,6 +659,12 @@
     align-items: center;
     .mat-paginator{
         min-width: 280px;
+    }
+}
+
+@include media($eui-bkp-mobile) {
+    .ux-form-group__input-content .kohesio-data-range {
+            display: block !important;
     }
 }
 

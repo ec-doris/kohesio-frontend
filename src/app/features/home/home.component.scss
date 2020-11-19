@@ -10,15 +10,6 @@
             max-width: 10px;
             width: 10px;
 
-            // border: 1px solid red;
-
-            // span.ux-icon {
-            //     background-color: rgba(0, 0, 0, 0.1);
-            //     border-radius: 35px;
-            //     padding: 10px;
-            //     color: #fff;
-            //
-            // }
             .ux-icon-caret-left::before {
                 display: block;
                 position: relative;
@@ -46,10 +37,6 @@
         }
     }
 }
-
-// :host ::ng-deep .ux-carousel-items .row.flex-container.ux-carousel-items__summary-indicators{
-//     top: -70px;
-// }
 
 /**
  * Carousel
@@ -123,16 +110,8 @@
     }
 }
 
-// .carousel-btn {
-//     .ux-icon {
-//         // background-color: transparent;
-//         color: black;
-//     }
-// }
-
 .section-container {
     display: flex;
-    // margin-top: 45px;
 
     &.margins-top-0 {
         margin-top: 0;

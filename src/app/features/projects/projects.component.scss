@@ -146,7 +146,7 @@
         &__image {
             margin: 0;
 
-            .detault-theme-image {
+            .default-theme-image {
                 width: 100px;
                 height: 100px;
 
@@ -256,6 +256,39 @@
     &__inner {
         margin-left: 15px;
     }
+
+    .prj-image--image {
+        img {
+            width: 87px;
+            height: 87px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+
+            display: none;
+
+            @include media($eui-bkp-mobile-up) {
+                display: block;
+            }
+        }
+    }
+
+    .default-theme-image {
+        width: 87px;
+        height: 87px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #f1f8fe;
+        border-radius: 12px;
+
+        display: none;
+
+        @include media($eui-bkp-mobile-up) {
+            display: flex;
+        }
+    }
 }
 
 .project-detail .article--post {
@@ -299,7 +332,7 @@
             margin-left: 50px;
         }
 
-        .detault-theme-image {
+        .default-theme-image {
             width: 87px;
             height: 87px;
             display: flex;
@@ -344,11 +377,11 @@
         font-weight: bold;
         line-height: 1.2;
         margin-bottom: 1rem;
-        margin-left: 6.2rem;
+        // margin-left: 6.2rem;
 
         @include media($eui-bkp-mobile-up) {
             font-size: 1.2rem;
-            margin-left: 0;
+            // margin-left: 0;
         }
 
         a {
@@ -363,8 +396,11 @@
     // Description
     &__content {
         float: left;
-        font-size: 14px;
         color: #000;
+
+        p {
+            font-size: 12px !important;
+        }
     }
 
     // Footer
@@ -480,7 +516,7 @@
     }
 }
 
-.tools{
+.tools {
     display: flex;
     justify-content: space-between;
     margin: 10px 0;
@@ -505,13 +541,13 @@
 
 }
 
-/*Tabs on mobile*/
+// Tabs on mobile
 @include media($eui-bkp-mobile-down) {
     :host ::ng-deep {
         .ux-tab-item {
             padding: 10px;
 
-            .ux-a-label__sub-label, .ux-a-label__label{
+            .ux-a-label__sub-label, .ux-a-label__label {
                 font-size: 16px;
             }
         }
