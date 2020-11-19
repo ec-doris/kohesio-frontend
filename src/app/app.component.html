@@ -3,7 +3,7 @@
                      headerAppSubtitle="Project Information Portal for Regional Policy"
                      isContract = true
                      appHomeUrl="/"
-                     [hasNavBar]="(uxAppShellService.breakpoints$ | async).isMobile"
+                     [hasNavBar]="breakpointsValue.isMobile"
                      [isFooterStyleInverse]="true"
                      [navBarTopMenuLinks]="topMenuLinks"
                      [hasHeader]="this.router.url != '/404'">
@@ -12,11 +12,10 @@
       <div class="logo-khso">
         <h1 class="logo-khso--brand-name">Kohesio Open Projects</h1>
         <h2 class="logo-khso--brand-caption">Project Information Portal for Regional Policy</h2>
-        <!--<h1 class="short">Kohesio Open Projects</h1>-->
       </div>
     </uxAppShellHeaderTitleContent>
 
-    <uxAppShellTopMessageContent *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile">
+    <uxAppShellTopMessageContent *ngIf="!breakpointsValue.isMobile">
         <div class="top-header" *ngIf="this.router.url != '/404'">
             <div class="right-tools">
                 <ux-language-selector (languageChanged)="onLanguageChanged($event)"
@@ -66,9 +65,6 @@
             <li>
                 <a href="mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback" target="_blank">Contact</a>
             </li>
-            <!--<li>
-                <a [routerLink]="['/cookie']">Cookies</a>
-            </li>-->
             <li>
                 <a [routerLink]="['/about']">About</a>
             </li>
@@ -77,11 +73,6 @@
         <div class="social-icons--footer social-icons__inner">
             <span class="title">follow us on</span>
             <ul class="social-icons">
-                <!-- <li>
-                    <a href="https://plus.google.com/‎">
-                        <span>Google+</span>
-                    </a>
-                </li> -->
                 <li>
                     <a href="https://www.facebook.com/" target="_blank">
                         <span>Facebook</span>

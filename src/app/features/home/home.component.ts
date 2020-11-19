@@ -30,13 +30,11 @@ export class HomeComponent implements AfterViewInit {
             () => {
                 this.map.loadMapRegion(new Filters());
             }, 500);
-        this.statisticsService.getKeyFigures().subscribe((data)=>{
-           this.stats = data;
-        });
     }
 
     public ngOnInit() {
     }
+
 
     onFilter(){
         if (this.filterValue && this.filterValue.trim() != "") {

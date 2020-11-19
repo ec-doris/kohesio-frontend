@@ -5,6 +5,7 @@ import {environment} from "../../../../environments/environment";
 import {Filters} from "../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import {MapPopupComponent} from "./map-popup.component";
+import { UxAppShellService } from '@eui/core';
 declare let L;
 
 @Component({
@@ -38,6 +39,7 @@ export class MapComponent implements AfterViewInit {
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
                 private resolver: ComponentFactoryResolver,
+                public uxAppShellService: UxAppShellService,
                 private injector: Injector) { }
 
     ngAfterViewInit(): void {

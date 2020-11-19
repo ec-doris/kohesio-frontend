@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import {Component, OnInit, Input } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable } from 'rxjs/Observable';
 import { Store } from '@ngrx/store';
@@ -21,12 +21,20 @@ export class AppComponent implements OnInit {
     @Input() selectedLanguage: UxLanguage;
     filterValue: string;
     topMenuLinks: UxLink[] = [
-        new UxLink({label: 'Home', url: '/', isHome: true}),
-        new UxLink({label: 'Projects', url: 'projects'}),
-        new UxLink({label: 'Beneficiaries', url: 'beneficiaries'}),
+        new UxLink({label: 'Home', url: '/', isHome: true, children: [{label:'fake'}]}),
+        new UxLink({label: 'Projects',url: 'projects',children: [{label: 'Fake'}]}),
+        new UxLink({label: 'Beneficiaries', url: 'beneficiaries', children: [{label:'fake'}]}),
         new UxLink({label: 'Professional Space', urlExternal: 'https://intragate.development.ec.europa.eu/qs_cnect_audit_hub_vp/ecas/sense/app/5472f2e1-6b20-4f3b-88b1-c853789fd765/sheet/28630e83-bf1f-45e0-b2ad-b073e518a9b5/state/analysis', urlExternalTarget: '_blank'})
     ];
     public currentUrl: string = location.href;
+    public breakpointsValue: any = {
+        isMobile: false,
+        isTablet: false,
+        isLtDesktop: false,
+        isDesktop: false,
+        isXL: false,
+        isXXL: false
+    };
 
     constructor(
         private translateService: TranslateService,
@@ -34,10 +42,15 @@ export class AppComponent implements OnInit {
         private store: Store<any>,
         public router: Router
     ) {
+
     }
 
     ngOnInit() {
         this.userState = <any>this.store.select(getUserState);
+    }
+
+    ngAfterViewInit(): void {
+        this.uxAppShellService.breakpoints$.subscribe(bkps => this.breakpointsValue = bkps);
     }
 
     onLanguageChanged(language: UxLanguage) {

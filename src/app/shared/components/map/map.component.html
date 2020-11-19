@@ -1,11 +1,17 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container">
         <div class="map-navigation" *ngIf="!hideNavigation">
-            <div class="map-regions-wrapper left">
-                <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)" iconClass="fa fa-globe" typeClass="warning" [isSmall]="true">{{region.label}}</ux-button>
-            </div>
+            <ux-panel [isContainerOnly]="true" [isCollapsible]="true">
+                <div class="map-regions-wrapper">
+                    <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)"
+                               [iconClass]="!(uxAppShellService.breakpoints$ | async).isMobile ? 'fa fa-globe' : ''" typeClass="warning" [isSmall]="true">{{region.label}}</ux-button>
+                </div>
+            </ux-panel>
             <div class="right" *ngIf="!hideProjectsNearBy">
-                <ux-button type="button" (click)="onProjectsNearByClick()">PROJECTS NEAR ME</ux-button>
+                <button euiButton euiPrimary (click)="onProjectsNearByClick()">
+                    <span class="eui-icon eui-icon-home"></span>
+                    <span *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile" euiLabel>PROJECTS NEAR ME</span>
+                </button>&nbsp;
             </div>
         </div>
         <div class="map-frame">
