@@ -15,7 +15,7 @@
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
-            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
+            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxService.breakpoints$ | async).isMobile" >
                 <eui-page-column-body>
                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="KEYWORDS" [isVertical]="true" infoLabel="">

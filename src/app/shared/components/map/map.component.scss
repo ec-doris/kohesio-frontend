@@ -1,19 +1,5 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
-@include media($eui-bkp-mobile) {
-    .map-container {
-        .map-navigation {
-            flex-direction: column;
-
-            .map-regions-wrapper.left{
-                height: auto;
-                flex-wrap: wrap;
-                justify-content: left;
-            }
-        }
-    }
-}
-
 .map-container {
     position: relative;
     .map-navigation {
@@ -33,16 +19,16 @@
         }
         .right{
             padding: 10px;
+            padding-top: 0;
         }
-
     }
 }
 .map-regions-wrapper {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
     align-items: center;
-    padding-right: 0;
-    height: 52px;
+    padding: 10px;
     ux-button{
         margin-left: 5px;
         margin-bottom: 5px;
