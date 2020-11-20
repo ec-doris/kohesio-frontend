@@ -85,6 +85,10 @@
             flex-direction: column;
             display: flex;
 
+            .column-without-title.main-content .prjt-box__large {
+                display: none;
+            }
+
             .column-without-title:nth-child(1) {
                 order: 2;
             }
@@ -95,6 +99,14 @@
 
             @include media($eui-bkp-mobile-up) {
                 flex-direction: row;
+
+                .column-without-title.left-column .prjt-box__large {
+                    display: none;
+                }
+
+                .column-without-title.main-content .prjt-box__large {
+                    display: block;
+                }
 
                 .column-without-title:nth-child(1) {
                     order: 1;
