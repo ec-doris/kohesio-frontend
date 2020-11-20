@@ -51,9 +51,18 @@
 
 :host ::ng-deep {
     .leaflet-popup-content {
-        width: auto !important;
         overflow: auto;
         max-height: 300px;
-        min-width: 300px;
+        max-width: 200px;
+
+        border: 1px solid red;
+
+        @include media($eui-bkp-mobile-up) {
+            width: auto !important;
+            min-width: 300px;
+            max-width: 100%;
+
+            border: 1px solid green;
+        }
     }
 }
