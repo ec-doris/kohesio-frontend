@@ -1,7 +1,7 @@
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
-            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
+            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxAppShellService.breakpoints$ | async).isMobile" >
                 <eui-page-column-body>
                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="BENEFICIARY NAME" [isVertical]="true">
@@ -21,11 +21,6 @@
                             </ux-form-control>
                         </ux-form-group>
 
-                        <div class="download-section">
-                            <ux-button (click)="getFile('csv')">Download CSV</ux-button>
-                            <ux-button (click)="getFile('excel')">Download Excel</ux-button>
-                        </div>
-
                         <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
                             <ux-form-group label="FUNDS" [isVertical]="true">
                                 <ux-form-control formControlName="fund"
@@ -41,20 +36,23 @@
                             </ux-form-group>
                         </ux-panel>
                         <div class="search-buttons">
-                            <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
-                            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+                            <button type="button" euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;
+                            <button type="submit" euiButton euiBlockButton euiPrimary><span euiLabel>SHOW RESULTS</span></button>
                         </div>
                     </form>
                 </eui-page-column-body>
             </eui-page-column>
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
-                <eui-page-column-header-right-content>
-                    <mat-paginator [pageSize]="15"
-                                   [hidePageSize]="true"
-                                   [hidden]="(dataSource && dataSource.data.length === 0) || isLoading">
-                    </mat-paginator>
-                </eui-page-column-header-right-content>
                 <eui-page-column-body>
+                    <div class="right-table-tools">
+                        <app-download-button [form]="myForm" type="beneficiaries"></app-download-button>
+                        <mat-paginator [pageSize]="15"
+                                       [length]="count"
+                                       [hidePageSize]="true"
+                                       (page)="onPaginate($event)">
+                        </mat-paginator>
+                    </div>
+
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
                     <mat-table [dataSource]="dataSource">
                         <ng-container matColumnDef="name">
@@ -67,19 +65,19 @@
                         <ng-container matColumnDef="budget">
                             <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
                             </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="euBudget">
-                            <mat-header-cell *matHeaderCellDef>AMOUNT EU SUPPORT</mat-header-cell>
+                            <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
                             </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="numberProjects">
                             <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                {{row.numberProjects}}
+                                <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
                             </mat-cell>
                         </ng-container>
                         <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>

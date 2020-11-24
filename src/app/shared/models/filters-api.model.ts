@@ -84,16 +84,10 @@ export class FiltersApi implements Deserializable{
             value: 'End Date (descending)'
         },{
             id: 'orderEuBudget-true',
-            value: 'EU Budget (ascending)'
+            value: 'EU Contribution (ascending)'
         },{
             id: 'orderEuBudget-false',
-            value: 'EU Budget (descending)'
-        },{
-            id: 'orderTotalBudget-true',
-            value: 'Total Budget (ascending)'
-        },{
-            id: 'orderTotalBudget-false',
-            value: 'Total Budget (descending)'
+            value: 'EU Contribution (descending)'
         }];
     })();
 

@@ -15,7 +15,7 @@
 <eui-page class="project-detail margin-btm">
     <eui-page-content class="prjt-detalis">
         <eui-page-columns>
-            <eui-page-column size="xxxl" class="column-without-title">
+            <eui-page-column size="xxxl" class="column-without-title left-column">
                 <eui-page-column-body>
                     <!-- Box 1 -->
                     <div class="prjt-box prjt-box--grey">
@@ -123,9 +123,21 @@
                     </span>
                         </div>
                     </div>
+
+                    <!-- Box large 1 -->
+                    <div class="prjt-box__large">
+                        <div class="prjt-box prjt-box--grey">
+                            <h2 class="prjt-box--title">related materials</h2>
+                            <div class="prjt-box--content">
+                                <span>Image & Videos</span>
+                                <span>Communication campaign</span>
+                            </div>
+                        </div>
+                    </div>
                 </eui-page-column-body>
             </eui-page-column>
-            <eui-page-column class="column-without-title">
+
+            <eui-page-column class="column-without-title main-content">
                 <eui-page-column-header-right-content>
                 </eui-page-column-header-right-content>
                 <eui-page-column-body>
@@ -140,7 +152,7 @@
                                                     <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                                 </div>
                                             </a>
-                                            <div class="detault-theme-image" *ngIf="!project?.images || !project?.images.length">
+                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length">
                                                 <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
                                             </div>
                                         </div>
@@ -157,41 +169,31 @@
                                 </div>
 
                                 <div class="social-icons__wrapper">
-                                    <span class="title">share: </span>
+                                    <span class="title">share </span>
                                     <ul class="social-icons">
                                         <li>
-                                            <a href="https://twitter.com/">
-                                                <span>Twitter</span>
-                                            </a>
-                                        </li>
-                                        <!-- <li>
-                                            <a href="https://plus.google.com/‎">
-                                                <span>Google+</span>
-                                            </a>
-                                        </li> -->
-                                        <li>
-                                            <a href="https://www.facebook.com/">
+                                            <a href="https://www.facebook.com/" target="_blank">
                                                 <span>Facebook</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://github.com/">
-                                                <span>GitHub</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://www.linkedin.com/">
+                                            <a href="https://www.linkedin.com/" target="_blank">
                                                 <span>LinkedIn</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="http://dribbble.com/">
-                                                <span>Dribbble</span>
+                                            <a href="https://instagram.com/" target="_blank">
+                                                <span>Instagram</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/rss">
-                                                <span>RSS</span>
+                                            <a href="https://twitter.com/" target="_blank">
+                                                <span>Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a [href]="'mailto:mail@example.com?subject=European commission - Kohesio Open Projects&body='+ currentUrl" target="_blank">
+                                                <span>Mail</span>
                                             </a>
                                         </li>
                                     </ul>
@@ -227,5 +229,3 @@
         </eui-page-columns>
     </eui-page-content>
 </eui-page>
-
-

@@ -1,0 +1,81 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
+
+#map {
+    height: 480px;
+    z-index: 0;
+
+    @include media($eui-bkp-mobile-up) {
+        height: 680px; 
+    }
+}
+
+#map-inside {
+    height: 600px;
+}
+
+.map-container {
+    position: relative;
+
+    .map-navigation {
+        display: flex;
+        position: absolute;
+        z-index: 1;
+        margin-top: 10px;
+        left: 50px;
+        right: 30px;
+        min-height: 52px;
+        justify-content: space-between;
+
+        .left {
+            padding: 10px;
+            background-color: white;
+            box-shadow: 0 1px 5px rgba(0, 0, 0, 0.65);
+            border-radius: 4px;
+        }
+        .right{
+            padding: 10px;
+            padding-top: 0;
+        }
+    }
+}
+.map-regions-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 10px;
+
+    ux-button{
+        margin-left: 5px;
+        margin-bottom: 5px;
+    }
+}
+
+.regionWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .regionName {
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .regionCount {
+        font-size: 11px;
+    }
+}
+
+:host ::ng-deep {
+    .leaflet-popup-content {
+        overflow: auto;
+        max-height: 300px;
+        max-width: 200px;
+
+        @include media($eui-bkp-mobile-up) {
+            width: auto !important;
+            min-width: 300px;
+            max-width: 100%;
+        }
+    }
+}

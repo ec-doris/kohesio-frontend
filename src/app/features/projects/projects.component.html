@@ -15,7 +15,7 @@
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
-            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="false" >
+            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxService.breakpoints$ | async).isMobile" >
                 <eui-page-column-body>
                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="KEYWORDS" [isVertical]="true" infoLabel="">
@@ -82,7 +82,7 @@
                                                  [selectOptions]="this.filters.totalProjectBudget">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="AMOUNT EU SUPPORT" [isVertical]="true">
+                            <ux-form-group label="EU CONTRIBUTION" [isVertical]="true">
                                 <ux-form-control formControlName="amountEUSupport"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.amountEUSupport">
@@ -96,8 +96,8 @@
                             </ux-form-group>
                         </ux-panel>
                         <div class="search-buttons">
-                            <ux-button type="button" [isBlock]="true" [isSecondary]="true" (click)="resetForm()">RESET FILTERS</ux-button>
-                            <ux-button type="submit" [isBlock]="true">SHOW RESULTS</ux-button>
+                            <button type="button" euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;
+                            <button type="submit" euiButton euiBlockButton euiPrimary><span euiLabel>SHOW RESULTS</span></button>
                         </div>
                     </form>
                 </eui-page-column-body>
@@ -107,6 +107,27 @@
                 <eui-page-column-body>
                     <ux-tabs (tabSelected)="onTabSelected($event)">
                         <ux-tab label="Results">
+                            <div class="tools">
+                                <div class="left-table-tools">
+                                    <app-download-button [form]="myForm" type="projects"></app-download-button>
+                                </div>
+                                <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
+                                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                        <ux-form-control formControlName="sort"
+                                                         [isSelect]="true"
+                                                         [selectOptions]="this.filters.sort"
+                                                         placeholderLabel="No sort"
+                                                         (modelChange)="onSortChange()">
+                                        </ux-form-control>
+                                    </form>
+                                    <mat-paginator #paginatorTop
+                                                   [length]="count"
+                                                   [pageSize]="15"
+                                                   [hidePageSize]="true"
+                                                   (page)="onPaginate($event)">
+                                    </mat-paginator>
+                                </div>
+                            </div>
                             <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0">
@@ -122,7 +143,7 @@
                                                                 </div>
                                                             </a>
                                                         </ng-container>
-                                                        <div class="detault-theme-image" *ngIf="!project.images || !project.images.length">
+                                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length">
                                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                                         </div>
                                                     </div>
@@ -136,9 +157,9 @@
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
                                                     <li class="article--post__theme">
-                                            <span class="icon">
-                                                <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
-                                            </span>
+                                                        <span class="icon">
+                                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                                        </span>
                                                         {{filterService.getThemeLabel(project.objectiveId)}}
                                                         <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
                                                     </li>
@@ -148,7 +169,7 @@
                                                             <span class="amount">
                                                     {{ project.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
                                                                 <span *ngIf="!project.budget">n/a</span>
-                                                    <span class="support">Amount EU support</span>
+                                                    <span class="support">EU contribution</span>
                                                 </span>
                                                         </div>
                                                     </li>
@@ -156,7 +177,7 @@
                                             <span class="icons">
                                                 <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon>
                                             </span>
-                                                        <span class="time-start-end">
+                                            <span class="time-start-end">
                                                 <ng-container *ngIf="project.startTime || project.endTime">
                                                     <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag>
                                                     <span *ngIf="!project.startTime">n/a</span>
@@ -186,6 +207,13 @@
                             </mat-paginator>
                         </ux-tab>
                         <ux-tab label="Audio-visual">
+                            <mat-paginator #paginatorAssets
+                                           [length]="assetsCount"
+                                           [pageSize]="15"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)"
+                                           [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
+                            </mat-paginator>
                             <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="audio-visual-container">
@@ -200,31 +228,6 @@
                         <ux-tab label="Map">
                             <app-map hideProjectsNearBy="true"></app-map>
                         </ux-tab>
-                        <uxTabsRightContent>
-                            <div class="tab-right-content-results-wrapper" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
-                                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                                    <ux-form-control formControlName="sort"
-                                                     [isSelect]="true"
-                                                     [selectOptions]="this.filters.sort"
-                                                     placeholderLabel="No sort"
-                                                     (modelChange)="onSortChange()">
-                                    </ux-form-control>
-                                </form>
-                                <mat-paginator #paginatorTop
-                                               [length]="count"
-                                               [pageSize]="15"
-                                               [hidePageSize]="true"
-                                               (page)="onPaginate($event)">
-                                </mat-paginator>
-                            </div>
-                            <mat-paginator #paginatorAssets
-                                           [length]="assetsCount"
-                                           [pageSize]="15"
-                                           [hidePageSize]="true"
-                                           (page)="onPaginate($event)"
-                                           [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
-                            </mat-paginator>
-                        </uxTabsRightContent>
                     </ux-tabs>
                 </eui-page-column-body>
             </eui-page-column>

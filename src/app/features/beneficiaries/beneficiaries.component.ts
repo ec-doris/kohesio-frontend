@@ -9,6 +9,8 @@ import {Beneficiary} from "../../shared/models/beneficiary.model";
 import {FilterService} from "../../services/filter.service";
 import {FiltersApi} from "../../shared/models/filters-api.model";
 import {environment} from "../../../environments/environment";
+import {BeneficiaryList} from "../../shared/models/beneficiary-list.model";
+import { UxAppShellService } from '@eui/core';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -20,25 +22,17 @@ export class BeneficiariesComponent implements AfterViewInit {
     public filters: FiltersApi;
     public dataSource:MatTableDataSource<Beneficiary>;
     public isLoading = false;
+    public count = 0;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public fileTypes = {
-        csv:{
-            extension: 'csv',
-            type: 'text/csv'
-        },
-        excel:{
-            extension: 'xls',
-            type: 'application/vnd.ms-excel'
-        }
-    }
     public advancedFilterExpanded = false;
 
     constructor(private beneficaryService: BeneficiaryService,
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
                 private _route: ActivatedRoute,
-                private _router: Router,){}
+                private _router: Router,
+                public uxAppShellService: UxAppShellService){}
 
     ngOnInit(){
         this.filters = this._route.snapshot.data.filters;
@@ -105,11 +99,12 @@ export class BeneficiariesComponent implements AfterViewInit {
     performSearch(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        this.beneficaryService.getBeneficiaries(filters).subscribe((result:Beneficiary[]) => {
-            this.dataSource = new MatTableDataSource<Beneficiary>(result);
-            this.dataSource.paginator = this.paginator;
+        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
+        this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result:BeneficiaryList) => {
+            this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
+            this.count = result.numberResults;
+            //this.dataSource.paginator = this.paginator;
             this.isLoading = false;
-            this.paginator.firstPage();
         });
     }
 
@@ -151,34 +146,13 @@ export class BeneficiariesComponent implements AfterViewInit {
         });
     }
 
-    getFile(type:string){
-        const filters = new Filters().deserialize(this.myForm.value);
-        this.beneficaryService.getFile(filters, type).subscribe(response=>{
-
-            const newBlob = new Blob([response], { type: this.fileTypes[type].type });
-            // IE doesn't allow using a blob object directly as link href
-            // instead it is necessary to use msSaveOrOpenBlob
-            if (window.navigator && window.navigator.msSaveOrOpenBlob) {
-                window.navigator.msSaveOrOpenBlob(newBlob);
-                return;
-            }
-
-            const data = window.URL.createObjectURL(newBlob);
-
-            let link = document.createElement('a');
-            link.href = data;
-            link.download = "beneficiaries." + this.fileTypes[type].extension;
-            link.dispatchEvent(new MouseEvent('click', { bubbles: true, cancelable: true, view: window }));
-
-            setTimeout(function () {
-                window.URL.revokeObjectURL(data);
-                link.remove();
-            }, 100);
-        })
-    }
-
     resetForm(){
         this.myForm.reset();
+    }
+
+    onPaginate(event){
+        this.paginator.pageIndex = event.pageIndex;
+        this.performSearch();
     }
 
 }

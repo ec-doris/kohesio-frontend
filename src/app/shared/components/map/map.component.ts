@@ -5,11 +5,13 @@ import {environment} from "../../../../environments/environment";
 import {Filters} from "../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import {MapPopupComponent} from "./map-popup.component";
+import { UxAppShellService } from '@eui/core';
 declare let L;
 
 @Component({
     selector: 'app-map',
-    templateUrl: './map.component.html'
+    templateUrl: './map.component.html',
+    styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements AfterViewInit {
 
@@ -37,14 +39,19 @@ export class MapComponent implements AfterViewInit {
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
                 private resolver: ComponentFactoryResolver,
+                public uxAppShellService: UxAppShellService,
                 private injector: Injector) { }
 
     ngAfterViewInit(): void {
         this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
+        /*const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
+        });*/
+        // Normal Open Street Map Tile Layer
+        const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });
         tiles.addTo(this.map);
         L.Icon.Default.prototype.options = {

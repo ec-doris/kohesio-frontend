@@ -1,15 +1,99 @@
-mat-table {
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
+
+// mat-table {
+//     overflow: auto;
+// }
+
+    // xs: 0,
+    // sm: 576px,
+    // md: 768px,
+    // lg: 992px,
+    // xl: 1200px,
+    // xxl: 1400px
+
+
+@include media($eui-bkp-mobile-down) {
+    mat-row {
+        padding: 5px;
+        // min-width: 1000px;
+        // display: flex;
+        flex-direction: column;
+    }
+
+    // mat-header-cell:nth-child(1),
+    // mat-header-cell:nth-child(2),
+    // mat-header-cell:nth-child(3),
+    // mat-header-cell:nth-child(4)
+    mat-header-row {
+        // padding-left: 10px;
+        // min-width: 1000px;
+        display: none;
+    }
+
+    mat-row,
+    mat-header-row,
+    mat-footer-row {
+        align-items: flex-start;
+        min-height: 1.5rem;
+    }
+
+    mat-cell:first-of-type,
+    mat-header-cell:first-of-type,
+    mat-footer-cell:first-of-type {
+        padding-left: 3px;
+    }
+
+    .mobile-header {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 11px;
+        font-weight: 500;
+        align-items: center;
+    }
+
+    mat-row::after,
+    mat-header-row::after,
+    mat-footer-row::after {
+        display: none;
+    }
+
+    .mat-column-numberProjects {
+        padding: 0 0 0 3px;
+    }
+
+    // Re-writes search btns
+    :host ::ng-deep .ng-star-inserted {
+        font-size: 12px !important;
+    }
+
+    :host ::ng-deep .eui-button .eui-button__container {
+        font-size: 12px !important;
+    }
 }
 
-mat-row {
-    padding: 5px;
+@include media($eui-bkp-mobile-up) {
+    mat-header-row {
+        display: flex;
+    }
+
+    .mobile-header {
+        display: none;
+    }
 }
 
-mat-header-row {
-    padding-left: 10px;
+@include media($sm) {
+    .mobile-header {
+        display: none;
+    }
 }
 
-mat-cell, mat-header-cell {
+@include media($md) {
+    .mobile-header {
+        display: none;
+    }
+}
+
+mat-cell,
+mat-header-cell {
     justify-content: center;
 }
 
@@ -24,7 +108,7 @@ mat-cell.mat-column-name {
         margin-right: 10px;
     }
     span {
-        flex:1;
+        flex: 1;
     }
 }
 
@@ -33,11 +117,45 @@ mat-cell.mat-column-budget {
 }
 
 mat-cell.mat-column-euBudget {
-    padding: 0 0 0 15px;
+    padding: 0 0 0 3px;
+
+    @include media($eui-bkp-mobile-up) {
+        padding: 0 0 0 15px;
+    }
 }
 
 mat-cell:last-of-type,
 mat-footer-cell:last-of-type,
 mat-header-cell:last-of-type {
     padding-right: 5px;
+}
+
+:host ::ng-deep {
+    .ux-tab-content {
+        padding: 0;
+    }
+}
+
+.search-buttons {
+    display: flex;
+
+    ux-button {
+        flex: 1;
+    }
+
+    ux-button:first-child {
+        margin-right: 10px;
+    }
+}
+
+:host ::ng-deep {
+    .ux-button {
+        width: 100%
+    }
+}
+
+.right-table-tools {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }

@@ -1,0 +1,29 @@
+@import 'node_modules/@eui/styles/src/styles/eui-dev-only';
+
+.kohesio-map-popup-wrapper {
+    max-width: 600px;
+    min-width: 200px;
+    display: flex;
+    flex-direction: column;
+
+    @include media($eui-bkp-mobile-up) {
+        min-width: 300px;
+    }
+
+    a {
+        font-size: 12px;
+        padding: 3px;
+        margin: 3px 0;
+        background: #f1f1f1;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+
+        @include media($eui-bkp-mobile-up) {
+            font-size: 14px;
+            padding: 5px;
+            margin: 0;
+            background: none;
+        }
+    }
+}
