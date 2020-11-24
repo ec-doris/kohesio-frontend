@@ -46,7 +46,7 @@ export class ProjectsComponent implements AfterViewInit {
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
-                private uxService:UxAppShellService,
+                public uxService:UxAppShellService,
                 private markerService:MarkerService,
                 private _route: ActivatedRoute,
                 private _router: Router,
