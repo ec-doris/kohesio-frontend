@@ -86,8 +86,12 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     onSubmit() {
         this.dataSource = null;
-        const filters = new Filters().deserialize(this.myForm.value);
-        this.performSearch();
+
+        if (this.paginator.pageIndex==0) {
+            this.performSearch();
+        }else{
+            this.paginator.firstPage();
+        }
 
         this._router.navigate([], {
             relativeTo: this._route,
