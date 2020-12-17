@@ -58,7 +58,7 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     openNewTab(){
-        window.open(this.router.url + "/" + this.project.item, "_blank");
+        window.open(location.origin + "/projects/" + this.project.item, "_blank");
     }
 
     openWikidataLink(event){
