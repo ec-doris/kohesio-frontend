@@ -123,7 +123,7 @@
                                         <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
                                             <span>
-                                                <a [routerLink]="['/projects/' + row.project]">{{row.label}}</a>
+                                                <a [routerLink]="['/projects/' + row.id]">{{row.label}}</a>
                                             </span>
                                         </mat-cell>
                                     </ng-container>
