@@ -5,6 +5,7 @@ export class BeneficiaryDetail implements Deserializable{
 
     beneficiaryLabel: string;
     country: string;
+    countryCode: string;
     images: string[];
     item: string;
     maxEndTime: Date;
@@ -14,12 +15,15 @@ export class BeneficiaryDetail implements Deserializable{
     totalBudget: number;
     totalEuBudget: number;
     website: string;
+    description: string;
+    coordinates: string;
 
 
     deserialize(input: any): this {
         return Object.assign(this, {
             beneficiaryLabel: input.beneficiaryLabel,
             country: input.country,
+            countryCode: input.countryCode,
             images: input.images,
             item: input.item,
             maxEndTime: new Date(input.maxEndTime),
@@ -28,7 +32,9 @@ export class BeneficiaryDetail implements Deserializable{
             projects: this.deserializeProjects(input.projects),
             totalBudget: input.totalBudget,
             totalEuBudget: input.totalEuBudget,
-            website: input.website
+            website: input.website,
+            description: input.description,
+            coordinates: input.coordinates
         });
     }
 

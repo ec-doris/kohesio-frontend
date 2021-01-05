@@ -39,7 +39,14 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-
+        if (this.beneficiary.coordinates) {
+            let coords: any;
+            // @ts-ignore
+            coords = this.beneficiary.coordinates;
+            coords = coords.replace("Point(", "").replace(")", "").split(" ");
+            this.map.addMarker(coords[1],coords[0], false);
+            this.map.refreshView();
+        }
     }
 
     openWiki(event){

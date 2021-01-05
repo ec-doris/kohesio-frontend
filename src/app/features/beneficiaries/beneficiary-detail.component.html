@@ -48,7 +48,7 @@
                         </div>
                         <div class="prjt-box--content">
                             <span>Country: </span>
-                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/pl.png'}}"></span>
+                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
                         </div>
                     </div>
                 </eui-page-column-body>
@@ -77,7 +77,7 @@
                                     {{beneficiary?.beneficiaryLabel}}
                                 </h1>
                                 <div class="article--post__content">
-                                    <!--<p class="article&#45;&#45;post__teaser">{{project?.description}}</p>-->
+                                    <p class="article--post__teaser">{{beneficiary?.description}}</p>
                                 </div>
 
                                 <div class="social-icons__wrapper">
@@ -112,6 +112,10 @@
                                 </div>
                             </div>
                         </article>
+                    </div>
+
+                    <div class="map__wrapper" *ngIf="beneficiary?.coordinates">
+                        <app-map mapId="map-beneficiary-details" hideNavigation="true"></app-map>
                     </div>
                     <!--Projects-->
                     <div class="prjt-box__large">
