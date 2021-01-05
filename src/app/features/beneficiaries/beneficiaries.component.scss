@@ -98,7 +98,9 @@ mat-header-cell {
 }
 
 mat-header-cell.mat-column-name,
-mat-cell.mat-column-name {
+mat-header-cell.mat-column-label,
+mat-cell.mat-column-name,
+mat-cell.mat-column-label{
     flex: 3;
     justify-content: flex-start;
 

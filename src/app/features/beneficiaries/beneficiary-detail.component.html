@@ -1,0 +1,152 @@
+<ux-modal id="imageOverlay" [titleLabel]="beneficiary?.beneficiaryLabel" [isFooterVisible]="false" customWidth="500px">
+    <uxModalBody>
+        <div class="modal-body">
+            <img [src]="beneficiary?.images[0]" alt="" *ngIf="beneficiary?.images && beneficiary?.images.length">
+        </div>
+    </uxModalBody>
+</ux-modal>
+<div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
+    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
+</div>
+<eui-page class="project-detail margin-btm">
+    <eui-page-content class="prjt-detalis">
+        <eui-page-columns>
+            <eui-page-column size="xxxl" class="column-without-title left-column">
+                <eui-page-column-body>
+                    <div class="prjt-box prjt-box--grey">
+                        <span class="prjt-box--title">more info</span>
+                        <div class="prjt-box--content">
+                            <span>Start date: </span>
+                            <span>
+                                <ux-a-date-tag *ngIf="beneficiary?.minStartTime" [date]="beneficiary?.minStartTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                                <ng-container *ngIf="!beneficiary?.minStartTime">n/a</ng-container>
+                            </span>
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>End date: </span>
+                            <span>
+                                <ux-a-date-tag *ngIf="beneficiary?.maxEndTime" [date]="beneficiary?.maxEndTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
+                                <ng-container *ngIf="!beneficiary?.maxEndTime">n/a</ng-container>
+                            </span>
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>Number of projects: </span>
+                            {{beneficiary?.numberProjects}}
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>Total budget: </span>
+                            <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>Funded by EU: </span>
+                            <span>{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>Website: </span>
+                            <a [href]="beneficiary?.website" *ngIf="beneficiary?.website" target="_blank">link</a>
+                            <ng-container *ngIf="!beneficiary?.website">n/a</ng-container>
+                        </div>
+                        <div class="prjt-box--content">
+                            <span>Country: </span>
+                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/pl.png'}}"></span>
+                        </div>
+                    </div>
+                </eui-page-column-body>
+            </eui-page-column>
+
+            <eui-page-column class="column-without-title main-content">
+                <eui-page-column-body>
+                    <div class="article--post__wrapper">
+                        <article class="article--post">
+                            <header>
+                                <div class="article--post__image">
+                                    <figure role="presentation" class="prj-image">
+                                        <div class="prj-image--wrapper">
+                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
+                                                <div class="prj-image--image">
+                                                    <img [src]="beneficiary?.images[0]" alt="" *ngIf="beneficiary?.images && beneficiary?.images.length">
+                                                </div>
+                                            </a>
+                                        </div>
+                                        <!--<footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>-->
+                                    </figure>
+                                </div>
+                            </header>
+                            <div class="article--post__inner">
+                                <h1 class="article--post__title">
+                                    {{beneficiary?.beneficiaryLabel}}
+                                </h1>
+                                <div class="article--post__content">
+                                    <!--<p class="article&#45;&#45;post__teaser">{{project?.description}}</p>-->
+                                </div>
+
+                                <div class="social-icons__wrapper">
+                                    <span class="title">share </span>
+                                    <ul class="social-icons">
+                                        <li>
+                                            <a href="https://www.facebook.com/" target="_blank">
+                                                <span>Facebook</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.linkedin.com/" target="_blank">
+                                                <span>LinkedIn</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://instagram.com/" target="_blank">
+                                                <span>Instagram</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://twitter.com/" target="_blank">
+                                                <span>Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a [href]="'mailto:mail@example.com?subject=European commission - Kohesio Open Projects&body='+ currentUrl" target="_blank">
+                                                <span>Mail</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                    <!--Projects-->
+                    <div class="prjt-box__large">
+                        <div class="prjt-box prjt-box--grey">
+                            <h2 class="prjt-box--title">projects</h2>
+                            <div class="prjt-box--content">
+                                <mat-table [dataSource]="beneficiary.projects">
+                                    <ng-container matColumnDef="label">
+                                        <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            <span>
+                                                <a [routerLink]="['/projects/' + row.project]">{{row.label}}</a>
+                                            </span>
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="budget">
+                                        <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="euBudget">
+                                        <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                        </mat-cell>
+                                    </ng-container>
+                                    <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="beneficiary.projects && beneficiary.projects.length === 0"></mat-header-row>
+                                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                                </mat-table>
+                            </div>
+                        </div>
+                    </div>
+                </eui-page-column-body>
+            </eui-page-column>
+        </eui-page-columns>
+    </eui-page-content>
+</eui-page>
