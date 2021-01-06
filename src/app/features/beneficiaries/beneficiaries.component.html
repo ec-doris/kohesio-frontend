@@ -44,15 +44,18 @@
             </eui-page-column>
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
                 <eui-page-column-body>
-                    <div class="right-table-tools">
-                        <app-download-button [form]="myForm" type="beneficiaries"></app-download-button>
-                        <mat-paginator [pageSize]="15"
-                                       [length]="count"
-                                       [hidePageSize]="true"
-                                       (page)="onPaginate($event)">
-                        </mat-paginator>
+                    <div class="tools">
+                        <div class="left-table-tools">
+                            <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
+                        </div>
+                        <div class="right-table-tools">
+                            <mat-paginator [pageSize]="15"
+                                           [length]="count"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)">
+                            </mat-paginator>
+                        </div>
                     </div>
-
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
                     <mat-table [dataSource]="dataSource">
                         <ng-container matColumnDef="name">
