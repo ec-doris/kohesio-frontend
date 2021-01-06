@@ -49,6 +49,14 @@
                             <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
                         </div>
                         <div class="right-table-tools">
+                            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                <ux-form-control formControlName="sort"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.sortBeneficiaries"
+                                                 placeholderLabel="No sort"
+                                                 (modelChange)="onSortChange()">
+                                </ux-form-control>
+                            </form>
                             <mat-paginator [pageSize]="15"
                                            [length]="count"
                                            [hidePageSize]="true"

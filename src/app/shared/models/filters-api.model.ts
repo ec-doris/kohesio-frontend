@@ -16,6 +16,7 @@ export class FiltersApi implements Deserializable{
     public totalProjectBudget: any[];
     public amountEUSupport: any[];
     public sort: any[];
+    public sortBeneficiaries: any[];
 
     protected static SInit = (() => {
         FiltersApi.prototype.countries = [{
@@ -88,6 +89,25 @@ export class FiltersApi implements Deserializable{
         },{
             id: 'orderEuBudget-false',
             value: 'EU Contribution (descending)'
+        }];
+        FiltersApi.prototype.sortBeneficiaries = [{
+            id: 'orderNumProjects-true',
+            value: 'Number of Projects (ascending)'
+        },{
+            id: 'orderNumProjects-false',
+            value: 'Number of Projects (descending)'
+        },{
+            id: 'orderEuBudget-true',
+            value: 'EU Contribution (ascending)'
+        },{
+            id: 'orderEuBudget-false',
+            value: 'EU Contribution (descending)'
+        },{
+            id: 'orderTotalBudget-true',
+            value: 'Total Budget (ascending)'
+        },{
+            id: 'orderTotalBudget-false',
+            value: 'Total Budget (descending)'
         }];
     })();
 
