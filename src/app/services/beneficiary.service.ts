@@ -46,9 +46,11 @@ export class BeneficiaryService {
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.api + "/search/beneficiaries/" + type;
+        const params = filters.getBeneficiariesFilters();
         return this.http.get(url,{
-            responseType: 'arraybuffer',params:filters.getBeneficiariesFilters()}
-        );
+            responseType: 'arraybuffer',
+            params:<any>params
+        });
     }
 
     getBeneficiaryDetail(id: string): Observable<BeneficiaryDetail> {
