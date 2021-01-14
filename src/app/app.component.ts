@@ -20,6 +20,7 @@ export class AppComponent implements OnInit {
     userState: Observable<UserState>;
     @Input() selectedLanguage: UxLanguage;
     filterValue: string;
+    searchToogleMobile: boolean = false;
     topMenuLinks: UxLink[] = [
         new UxLink({label: 'Home', url: '/', isHome: true, children: [{label:'fake'}]}),
         new UxLink({label: 'Projects',url: 'projects',children: [{label: 'Fake'}]}),
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit {
         if (this.filterValue && this.filterValue.trim() != "") {
             this.router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
             this.filterValue = "";
+            this.searchToogleMobile = false;
         }
     }
 

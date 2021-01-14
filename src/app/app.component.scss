@@ -200,9 +200,10 @@
 
 @include media($eui-bkp-mobile) {
     .search-projects-input {
-        width: 150px;
+        width: 100%;
         height: 40px;
         margin-top: 5px;
+        margin-bottom: 10px;
     }
 }
 
@@ -224,7 +225,7 @@
 // Footer
 @include media($eui-bkp-mobile) {
     :host ::ng-deep {
-        #app-header .logo.logo--en {
+        #app-header .logo {
             background-image: url("^logo--en.svg");
         }
         #app-footer {
