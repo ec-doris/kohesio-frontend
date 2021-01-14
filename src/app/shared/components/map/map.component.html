@@ -9,7 +9,7 @@
             </ux-panel>
             <div class="right" *ngIf="!hideProjectsNearBy">
                 <button euiButton euiPrimary (click)="onProjectsNearByClick()">
-                    <span class="eui-icon eui-icon-home"></span>
+                    <span class="eui-icon eui-icon-map-marker"></span>
                     <span *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile" euiLabel>PROJECTS NEAR ME</span>
                 </button>&nbsp;
             </div>
