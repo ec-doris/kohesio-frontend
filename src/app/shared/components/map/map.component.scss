@@ -75,7 +75,7 @@
         @include media($eui-bkp-mobile-up) {
             width: auto !important;
             min-width: 300px;
-            max-width: 100%;
+            max-width: 300px;
         }
     }
 }

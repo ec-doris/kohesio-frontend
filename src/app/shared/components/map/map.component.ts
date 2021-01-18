@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector, ViewChild, TemplateRef } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
@@ -38,6 +38,7 @@ export class MapComponent implements AfterViewInit {
     @Input()
     public hideProjectsNearBy = false;
 
+    public collapsedBreadCrumb = false;
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -128,7 +129,16 @@ export class MapComponent implements AfterViewInit {
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
                         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
                         component.instance.projects = projects;
-                        marker.bindPopup(component.location.nativeElement).openPopup();
+                        marker.bindPopup(component.location.nativeElement,{
+                            maxWidth: 600
+                        }).openPopup();
+                        const latLngs = [ marker.getLatLng() ];
+                        const markerBounds = L.latLngBounds(latLngs);
+                        this.map.fitBounds(markerBounds,{
+                            paddingTopLeft: [0,350],
+                            maxZoom: this.map.getZoom()
+                        });
+                        this.collapsedBreadCrumb = true;
                         component.changeDetectorRef.detectChanges();
                     });
                 });
