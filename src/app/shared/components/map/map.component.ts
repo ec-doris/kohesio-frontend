@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector } from '@angular/core';
+import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector, ViewChild, TemplateRef } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
@@ -15,6 +15,7 @@ declare let L;
 })
 export class MapComponent implements AfterViewInit {
 
+
     private map;
     private markersGroup;
     private layers: any[] = [];
@@ -29,11 +30,15 @@ export class MapComponent implements AfterViewInit {
     public dataRetrieved = false;
 
     @Input()
+    public mapId = "map";
+
+    @Input()
     public hideNavigation = false;
 
     @Input()
     public hideProjectsNearBy = false;
 
+    public collapsedBreadCrumb = false;
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -43,7 +48,12 @@ export class MapComponent implements AfterViewInit {
                 private injector: Injector) { }
 
     ngAfterViewInit(): void {
-        this.map = L.map('map',{preferCanvas: true}).setView([48, 4], 4);
+        this.map = L.map(this.mapId,
+            {
+                preferCanvas: true,
+                dragging: !L.Browser.mobile,
+                tap: !L.Browser.mobile
+            }).setView([48, 4], 4);
         /*const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
@@ -119,7 +129,16 @@ export class MapComponent implements AfterViewInit {
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
                         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
                         component.instance.projects = projects;
-                        marker.bindPopup(component.location.nativeElement).openPopup();
+                        marker.bindPopup(component.location.nativeElement,{
+                            maxWidth: 600
+                        }).openPopup();
+                        const latLngs = [ marker.getLatLng() ];
+                        const markerBounds = L.latLngBounds(latLngs);
+                        this.map.fitBounds(markerBounds,{
+                            paddingTopLeft: [0,350],
+                            maxZoom: this.map.getZoom()
+                        });
+                        this.collapsedBreadCrumb = true;
                         component.changeDetectorRef.detectChanges();
                     });
                 });
@@ -397,7 +416,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     ngOnDestroy(){
-        document.getElementById("map").outerHTML = "";
+        document.getElementById(this.mapId).outerHTML = "";
     }
 
 }

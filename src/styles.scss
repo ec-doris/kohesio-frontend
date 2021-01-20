@@ -663,3 +663,9 @@
     display: flex;
     align-items: center;
 }
+
+.eui-page-column--collapsed .eui-page-column__header-left-content-label{
+    padding-right: 40px !important;
+    top: 10px !important;
+    justify-content: flex-end !important;
+}

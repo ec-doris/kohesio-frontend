@@ -9,7 +9,9 @@
     <p>Please note that you are now leaving the Kohesio website from the European Commission. The EC cannot be held responsible for any information published on Wikidata</p>
 </ux-message-box>
 
-<div class="project-detail-right-content">
+<div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
+    <ux-button *ngIf="isModal" [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openNewTab($event)">Open new tab</ux-button>
+    &nbsp;
     <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
 </div>
 <eui-page class="project-detail margin-btm">
@@ -43,13 +45,13 @@
 
                         <div class="prjt-box--content">
                             <span>Project website: </span>
-                            <a [href]="project?.projectWebsite" *ngIf="project.projectWebsite" target="_blank">link</a>
-                            <ng-container *ngIf="!project.projectWebsite">n/a</ng-container>
+                            <a [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
+                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
                         </div>
                         <div class="prjt-box--content">
                             <span>Programme website: </span>
-                            <a [href]="project?.programWebsite" *ngIf="project.programWebsite" target="_blank">link</a>
-                            <ng-container *ngIf="!project.programWebsite">n/a</ng-container>
+                            <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
+                            <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                         </div>
                     </div>
 
@@ -87,7 +89,7 @@
                         <span class="prjt-box--title">themes</span>
                         <div class="prjt-box--content">
                             <p>{{project?.objectiveLabel}}</p>
-                            <p *ngIf="!project.objectiveLabel">n/a</p>
+                            <p *ngIf="!project?.objectiveLabel">n/a</p>
                         </div>
                     </div>
 
@@ -96,7 +98,7 @@
                         <span class="prjt-box--title">category of intervention</span>
                         <div class="prjt-box--content">
                             <p>{{project?.categoryLabel}}</p>
-                            <p *ngIf="!project.categoryLabel">n/a</p>
+                            <p *ngIf="!project?.categoryLabel">n/a</p>
                         </div>
                     </div>
 
@@ -119,7 +121,7 @@
                             <span>
                         <ng-container *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].website">n/a</ng-container>
                         <a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].website"
-                           [href]="project.beneficiaries[0].website" target="_blank">link</a>
+                           [href]="project?.beneficiaries[0].website" target="_blank">link</a>
                     </span>
                         </div>
                     </div>
@@ -211,7 +213,7 @@
                             </ng-container>
                             <ng-container *ngIf="!project?.regionText">[THE REGION]</ng-container>
                         </h2>
-                        <app-map hideNavigation="true"></app-map>
+                        <app-map mapId="map-details" hideNavigation="true"></app-map>
                     </div>
 
                     <!-- Box large 1 -->
@@ -219,7 +221,7 @@
                         <div class="prjt-box prjt-box--grey">
                             <h2 class="prjt-box--title">related materials</h2>
                             <div class="prjt-box--content">
-                                <span>Image & Videos</span>
+                                <span>Images & Videos</span>
                                 <span>Communication campaign</span>
                             </div>
                         </div>

@@ -22,6 +22,7 @@ export class Filters implements Deserializable{
     public orderEndDate: boolean;
     public orderEuBudget: boolean;
     public orderTotalBudget: boolean;
+    public orderNumProjects: boolean;
 
     deserialize(input: any): this {
 
@@ -54,7 +55,8 @@ export class Filters implements Deserializable{
             orderStartDate: this.buildSort("orderStartDate",input.sort),
             orderEndDate:  this.buildSort("orderEndDate",input.sort),
             orderEuBudget:  this.buildSort("orderEuBudget",input.sort),
-            orderTotalBudget:  this.buildSort("orderTotalBudget",input.sort)
+            orderTotalBudget:  this.buildSort("orderTotalBudget",input.sort),
+            orderNumProjects:  this.buildSort("orderNumProjects",input.sort),
         });
     }
 
@@ -106,7 +108,10 @@ export class Filters implements Deserializable{
             ...(this.country) && {country: environment.entityURL + this.country},
             ...(this.region) && {region: environment.entityURL + this.region},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
-            ...(this.program) && {program: environment.entityURL + this.program}
+            ...(this.program) && {program: environment.entityURL + this.program},
+            ...(this.orderNumProjects != undefined) && {orderNumProjects: this.orderNumProjects},
+            ...(this.orderEuBudget != undefined) && {orderEuBudget: this.orderEuBudget},
+            ...(this.orderTotalBudget != undefined) && {orderTotalBudget: this.orderTotalBudget},
         }
     }
 

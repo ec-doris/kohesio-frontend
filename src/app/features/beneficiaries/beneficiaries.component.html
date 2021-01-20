@@ -1,7 +1,7 @@
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
-            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxAppShellService.breakpoints$ | async).isMobile" >
+            <eui-page-column label="Filter" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxAppShellService.breakpoints$ | async).isMobile" >
                 <eui-page-column-body>
                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="BENEFICIARY NAME" [isVertical]="true">
@@ -44,22 +44,35 @@
             </eui-page-column>
             <eui-page-column label="BENEFICIARIES (Ranking by EU support)">
                 <eui-page-column-body>
-                    <div class="right-table-tools">
-                        <app-download-button [form]="myForm" type="beneficiaries"></app-download-button>
-                        <mat-paginator [pageSize]="15"
-                                       [length]="count"
-                                       [hidePageSize]="true"
-                                       (page)="onPaginate($event)">
-                        </mat-paginator>
+                    <div class="tools">
+                        <div class="left-table-tools">
+                            <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
+                        </div>
+                        <div class="right-table-tools">
+                            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                                <ux-form-control formControlName="sort"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.sortBeneficiaries"
+                                                 placeholderLabel="No sort"
+                                                 (modelChange)="onSortChange()">
+                                </ux-form-control>
+                            </form>
+                            <mat-paginator [pageSize]="15"
+                                           [length]="count"
+                                           [hidePageSize]="true"
+                                           (page)="onPaginate($event)">
+                            </mat-paginator>
+                        </div>
                     </div>
-
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
                     <mat-table [dataSource]="dataSource">
                         <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
                             <mat-cell *matCellDef="let row">
                                 <img class="flag" src="{{'assets/images/flags/' + row.countryCode.toLowerCase() + '.png'}}">
-                                <span>{{row.label}}</span>
+                                <span>
+                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a>
+                                </span>
                             </mat-cell>
                         </ng-container>
                         <ng-container matColumnDef="budget">

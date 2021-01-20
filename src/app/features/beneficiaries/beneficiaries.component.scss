@@ -98,7 +98,9 @@ mat-header-cell {
 }
 
 mat-header-cell.mat-column-name,
-mat-cell.mat-column-name {
+mat-header-cell.mat-column-label,
+mat-cell.mat-column-name,
+mat-cell.mat-column-label{
     flex: 3;
     justify-content: flex-start;
 
@@ -154,8 +156,20 @@ mat-header-cell:last-of-type {
     }
 }
 
-.right-table-tools {
+.tools {
     display: flex;
     justify-content: space-between;
+    margin: 10px 0;
+}
+
+.right-table-tools {
+    display: flex;
+    justify-content: flex-end;
     align-items: center;
+
+    @include media($eui-bkp-mobile) {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        margin-bottom: 15px;
+    }
 }

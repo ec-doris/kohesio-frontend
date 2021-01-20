@@ -54,7 +54,28 @@
         </ul>
     </uxAppShellHeaderRightContent>
 
+    <uxAppShellNavBarItemsContent *ngIf="(uxAppShellService.breakpoints$ | async) && this.router.url != '/'">
+        <ux-layout-nav-bar-action-item iconClass="eui-icon eui-icon-search"
+                                       [isToggleContent]="false"
+                                       (clicked)="searchToogleMobile = !searchToogleMobile">
+        </ux-layout-nav-bar-action-item>
+    </uxAppShellNavBarItemsContent>
+
     <uxAppShellMainContent>
+        <ng-container *ngIf="(uxAppShellService.breakpoints$ | async).isMobile && (this.searchToogleMobile || this.router.url == '/')">
+            <div class="search-projects-input">
+                <div class="input-group">
+                    <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
+                           placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                           (keyup.enter)="onFilter()"/>
+                    <span class="input-group-prepend">
+                            <span class="input-group-text">
+                                <span class="ux-icon ux-icon-search" (click)="onFilter()"></span>
+                            </span>
+                        </span>
+                </div>
+            </div>
+        </ng-container>
         <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/' && this.router.url != '/404'"></ux-layout-breadcrumbs>
         <router-outlet></router-outlet>
     </uxAppShellMainContent>

@@ -8,6 +8,7 @@
 <ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
     <p>The default boolean operator is AND, so searching for <b>green carbon</b> (or <b>carbon green</b>) retrieves only documents containing both words in any order.</p>
     <p>To include also documents containing either word, use <b>green OR carbon</b>.</p>
+    <p>To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
     <p>You can also search for an exact expression using quotes: <b>"artificial intelligence"</b> for instance will look for the sequence in that order.</p>
     <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
 </ux-popover>
@@ -15,7 +16,7 @@
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
-            <eui-page-column label="Search" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxService.breakpoints$ | async).isMobile" >
+            <eui-page-column label="Filter" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxService.breakpoints$ | async).isMobile" >
                 <eui-page-column-body>
                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                         <ux-form-group label="KEYWORDS" [isVertical]="true" infoLabel="">
@@ -109,7 +110,7 @@
                         <ux-tab label="Results">
                             <div class="tools">
                                 <div class="left-table-tools">
-                                    <app-download-button [form]="myForm" type="projects"></app-download-button>
+                                    <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button>
                                 </div>
                                 <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
                                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">

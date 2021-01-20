@@ -8,6 +8,7 @@ import { BeneficiariesComponent } from './beneficiaries.component';
 
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
+import {BeneficiaryDetailComponent} from "./beneficiary-detail.component";
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import {MatTableModule} from '@angular/material/table';
         MatTableModule
     ],
     declarations: [
-        BeneficiariesComponent
+        BeneficiariesComponent,
+        BeneficiaryDetailComponent
     ],
 })
 export class Module {}

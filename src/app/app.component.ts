@@ -20,11 +20,12 @@ export class AppComponent implements OnInit {
     userState: Observable<UserState>;
     @Input() selectedLanguage: UxLanguage;
     filterValue: string;
+    searchToogleMobile: boolean = false;
     topMenuLinks: UxLink[] = [
         new UxLink({label: 'Home', url: '/', isHome: true, children: [{label:'fake'}]}),
         new UxLink({label: 'Projects',url: 'projects',children: [{label: 'Fake'}]}),
         new UxLink({label: 'Beneficiaries', url: 'beneficiaries', children: [{label:'fake'}]}),
-        new UxLink({label: 'Professional Space', urlExternal: 'https://intragate.development.ec.europa.eu/qs_cnect_audit_hub_vp/ecas/sense/app/5472f2e1-6b20-4f3b-88b1-c853789fd765/sheet/28630e83-bf1f-45e0-b2ad-b073e518a9b5/state/analysis', urlExternalTarget: '_blank'})
+        new UxLink({label: 'Professional Space', urlExternal: 'https://intragate.development.ec.europa.eu/qs_cnect_audit_hub_vp/ecas/hub/stream/c64d563e-d9c9-4e7d-8794-914cd8964567', urlExternalTarget: '_blank'})
     ];
     public currentUrl: string = location.href;
     public breakpointsValue: any = {
@@ -61,6 +62,7 @@ export class AppComponent implements OnInit {
         if (this.filterValue && this.filterValue.trim() != "") {
             this.router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
             this.filterValue = "";
+            this.searchToogleMobile = false;
         }
     }
 

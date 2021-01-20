@@ -574,6 +574,10 @@
     margin-right: 10px;
 }
 
+.project-detail-right-content.is-modal{
+    margin-top: 0;
+}
+
 @include media($eui-bkp-mobile-down) {
     .project-detail-right-content {
         margin-top: -30px;

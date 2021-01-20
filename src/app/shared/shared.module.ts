@@ -12,6 +12,8 @@ import {MatPaginatorKohesio} from "./components/paginator/mat-paginator-intl.com
 import {CommonModule, DecimalPipe} from '@angular/common';
 import {MapPopupComponent} from "./components/map/map-popup.component";
 import {DownloadButtonComponent} from "./components/download-button/download-button.component";
+import {ProjectDetailComponent} from "../features/projects/project-detail.component";
+import {ProjectDetailModalComponent} from "./components/project-detail-modal/project-detail-modal.component";
 
 @NgModule({
     imports: [
@@ -26,7 +28,9 @@ import {DownloadButtonComponent} from "./components/download-button/download-but
         MapComponent,
         BudgetPipe,
         MapPopupComponent,
-        DownloadButtonComponent
+        DownloadButtonComponent,
+        ProjectDetailComponent,
+        ProjectDetailModalComponent
     ],
     exports: [
         UxAllModule,
@@ -36,7 +40,8 @@ import {DownloadButtonComponent} from "./components/download-button/download-but
         NotFoundComponent,
         MapComponent,
         BudgetPipe,
-        DownloadButtonComponent
+        DownloadButtonComponent,
+        ProjectDetailComponent
     ],
     entryComponents:[
         MapPopupComponent

@@ -42,7 +42,8 @@ export class BeneficiariesComponent implements AfterViewInit {
             country: [this.getFilterKey("countries","country")],
             region: [],
             fund:[this.getFilterKey("funds","fund")],
-            program:[]
+            program:[],
+            sort: [null]
         });
 
         this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program');
@@ -86,8 +87,12 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     onSubmit() {
         this.dataSource = null;
-        const filters = new Filters().deserialize(this.myForm.value);
-        this.performSearch();
+
+        if (this.paginator.pageIndex==0) {
+            this.performSearch();
+        }else{
+            this.paginator.firstPage();
+        }
 
         this._router.navigate([], {
             relativeTo: this._route,
@@ -152,6 +157,10 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     onPaginate(event){
         this.paginator.pageIndex = event.pageIndex;
+        this.performSearch();
+    }
+
+    onSortChange(){
         this.performSearch();
     }
 

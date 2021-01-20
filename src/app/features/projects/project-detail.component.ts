@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import {ProjectDetail} from "../../shared/models/project-detail.model";
@@ -7,12 +7,18 @@ import { UxAppShellService } from '@eui/core';
 declare let L;
 
 @Component({
+    selector: 'app-project-detail',
     templateUrl: './project-detail.component.html',
     styleUrls: ['./projects.component.scss']
 })
 export class ProjectDetailComponent implements AfterViewInit {
 
+    @Input()
     public project: ProjectDetail;
+
+    @Input()
+    public isModal: boolean = false;
+
     public wikidataLink: string;
     public currentUrl: string = location.href;
 
@@ -21,10 +27,13 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     constructor(private projectService: ProjectService,
                 private route: ActivatedRoute,
-                public uxService:UxAppShellService,){}
+                public uxService:UxAppShellService,
+                private router: Router){}
 
     ngOnInit(){
-        this.project = this.route.snapshot.data.project;
+        if (!this.project) {
+            this.project = this.route.snapshot.data.project;
+        }
     }
 
     ngAfterViewInit(): void {
@@ -46,6 +55,10 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     openWiki(event){
         window.open("https://linkedopendata.eu/wiki/Item:" + this.project.item, "_blank");
+    }
+
+    openNewTab(){
+        window.open(location.origin + "/projects/" + this.project.item, "_blank");
     }
 
     openWikidataLink(event){

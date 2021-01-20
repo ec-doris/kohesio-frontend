@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Filters} from "../shared/models/filters.model";
-import {Observable} from "rxjs";
+import {Observable, throwError} from "rxjs";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
 import {Beneficiary} from "../shared/models/beneficiary.model";
 import {BeneficiaryList} from "../shared/models/beneficiary-list.model";
+import {ProjectDetail} from "../shared/models/project-detail.model";
+import {BeneficiaryDetail} from "../shared/models/beneficiary-detail.model";
 
 @Injectable({
   providedIn: 'root'
@@ -44,8 +46,26 @@ export class BeneficiaryService {
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.api + "/search/beneficiaries/" + type;
+        const params = filters.getBeneficiariesFilters();
         return this.http.get(url,{
-            responseType: 'arraybuffer',params:filters.getBeneficiariesFilters()}
+            responseType: 'arraybuffer',
+            params:<any>params
+        });
+    }
+
+    getBeneficiaryDetail(id: string): Observable<BeneficiaryDetail> {
+        const url = environment.api + '/beneficiary';
+        let params = {
+            id: environment.entityURL + id
+        };
+        return this.http.get<any>(url, { params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    throwError('Data is inconsistent');
+                }else {
+                    return new BeneficiaryDetail().deserialize(data);
+                }
+            })
         );
     }
 

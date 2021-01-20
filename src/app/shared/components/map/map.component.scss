@@ -1,11 +1,11 @@
 @import 'node_modules/@eui/styles/src/styles/eui-dev-only';
 
-#map {
+#map, #map-details, #map-beneficiary-details {
     height: 480px;
     z-index: 0;
 
     @include media($eui-bkp-mobile-up) {
-        height: 680px; 
+        height: 680px;
     }
 }
 
@@ -75,7 +75,7 @@
         @include media($eui-bkp-mobile-up) {
             width: auto !important;
             min-width: 300px;
-            max-width: 100%;
+            max-width: 300px;
         }
     }
 }

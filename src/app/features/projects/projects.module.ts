@@ -14,8 +14,9 @@ import {ProjectDetailComponent} from "./project-detail.component";
         MatTableModule
     ],
     declarations: [
-        ProjectsComponent,
-        ProjectDetailComponent
+        ProjectsComponent
     ],
+    exports: [
+    ]
 })
 export class Module {}
