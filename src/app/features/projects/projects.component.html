@@ -220,7 +220,10 @@
                                 <div class="audio-visual-container">
                                     <ng-container *ngFor="let asset of assets">
                                         <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
-                                            <img [src]="asset.image">
+                                            <div class="container">
+                                                <img [src]="asset.image">
+                                                <div class="title">{{asset.title}}</div>
+                                            </div>
                                         </a>
                                     </ng-container>
                                 </div>
