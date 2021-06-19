@@ -22,7 +22,8 @@ export class FilterService {
                 this.getFilter('thematic_objectives'),
                 this.getFilter('policy_objective'),
                 this.getFilter('funds'),
-                this.getFilter('categoriesOfIntervention')
+                this.getFilter('categoriesOfIntervention'),
+                this.getFilter('countries')
             )
         );
     }

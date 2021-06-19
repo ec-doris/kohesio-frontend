@@ -19,25 +19,6 @@ export class FiltersApi implements Deserializable{
     public sortBeneficiaries: any[];
 
     protected static SInit = (() => {
-        FiltersApi.prototype.countries = [{
-                id:"Q12",
-                value:"Denmark"
-            },{
-                id: "Q13",
-                value:"Poland"
-            },{
-                id:"Q15",
-                value:"Italy"
-            },{
-                id:"Q2",
-                value:"Ireland"
-            },{
-                id:"Q20",
-                value:"France"
-            },{
-                id:"Q25",
-                value:"Czechia"
-        }];
         FiltersApi.prototype.programmingPeriods = [{
             id: '2014-2020',
             value: '2014 - 2020',
@@ -118,7 +99,7 @@ export class FiltersApi implements Deserializable{
             funds: input.funds,
             programs: input.programs,
             categoriesOfIntervention: input.categoriesOfIntervention,
-            countries: this.countries,
+            countries: input.countries,
             programmingPeriods: this.programmingPeriods,
             totalProjectBudget: this.totalProjectBudget,
             amountEUSupport: this.amountEUSupport
