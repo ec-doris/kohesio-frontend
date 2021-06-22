@@ -31,7 +31,8 @@ export class FilterService {
     getBeneficiariesFilters(): Observable<FiltersApi>{
         return this.getFilters(
             Observable.forkJoin(
-                this.getFilter('funds')
+                this.getFilter('funds'),
+                this.getFilter('countries')
             )
         );
     }

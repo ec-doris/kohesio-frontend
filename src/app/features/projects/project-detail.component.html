@@ -12,6 +12,7 @@
 <div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
     <ux-button *ngIf="isModal" [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openNewTab($event)">Open new tab</ux-button>
     &nbsp;
+    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openGraph($event)">Graph</ux-button>
     <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
 </div>
 <eui-page class="project-detail margin-btm">
@@ -96,7 +97,7 @@
 
                     <!-- Box 4 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">category of intervention</span>
+                        <span class="prjt-box--title">intervention field</span>
                         <div class="prjt-box--content">
                             <p>{{project?.categoryLabel}}</p>
                             <p *ngIf="!project?.categoryLabel">n/a</p>
