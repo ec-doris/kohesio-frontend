@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {ProjectDetail} from "../../shared/models/project-detail.model";
 import {MapComponent} from "../../shared/components/map/map.component";
 import { UxAppShellService } from '@eui/core';
+import { environment } from 'src/environments/environment';
 declare let L;
 
 @Component({
@@ -24,6 +25,8 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     @ViewChild(MapComponent)
     public map: MapComponent;
+
+    public entityURL = environment.entityURL;
 
     constructor(private projectService: ProjectService,
                 private route: ActivatedRoute,

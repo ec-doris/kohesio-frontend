@@ -105,26 +105,13 @@
                     </div>
 
                     <!-- Box 5 -->
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">beneficiary</span>
-                        <div class="prjt-box--content">
-                            <span>Name: </span>
-                            <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].wikidata">
-                        {{project?.beneficiaries[0].beneficiaryLabel}}
-                    </span>
-                            <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].wikidata">
-                        <a (click)="openGDPRInfoBox(project?.beneficiaries[0].wikidata)" target="_blank">
-                            {{project?.beneficiaries[0].beneficiaryLabel}}
-                        </a>
-                    </span>
-                        </div>
-                        <div class="prjt-box--content">
-                            <span>Website: </span>
-                            <span>
-                        <ng-container *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].website">n/a</ng-container>
-                        <a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].website"
-                           [href]="project?.beneficiaries[0].website" target="_blank">link</a>
-                    </span>
+                    <div class="prjt-box prjt-box--grey" >
+                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length == 1">beneficiary</span>
+                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length > 1">beneficiaries</span>
+                        <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries">
+                            <a  [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
+                                {{beneficiary.beneficiaryLabel}}
+                            </a>
                         </div>
                     </div>
 
