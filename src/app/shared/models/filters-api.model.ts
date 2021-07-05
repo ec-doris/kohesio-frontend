@@ -98,12 +98,29 @@ export class FiltersApi implements Deserializable{
             policy_objective: input.policy_objective,
             funds: input.funds,
             programs: input.programs,
-            categoriesOfIntervention: input.categoriesOfIntervention,
+            categoriesOfIntervention: this.shortString(input.categoriesOfIntervention),
             countries: input.countries,
             programmingPeriods: this.programmingPeriods,
             totalProjectBudget: this.totalProjectBudget,
             amountEUSupport: this.amountEUSupport
         });
+    }
+
+    private shortString(categoriesOfIntervention){
+        categoriesOfIntervention.forEach(cat=>{
+            if (cat.value.length > 50){
+                cat.value = cat.value.substring(0,50) + '...';
+            }
+            return cat;
+        });
+        return categoriesOfIntervention;
+    }
+
+    private createGroupsOfInterventionField(categoriesOfIntervention){
+        return [{
+            value: 'Productive investment',
+            options: categoriesOfIntervention
+        }];
     }
 
     private themes(themes){

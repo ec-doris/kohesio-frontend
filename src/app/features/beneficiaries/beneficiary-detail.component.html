@@ -6,8 +6,8 @@
     </uxModalBody>
 </ux-modal>
 <div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
-    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
     <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openGraph($event)">Graph</ux-button>
+    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
 </div>
 <eui-page class="project-detail margin-btm">
     <eui-page-content class="prjt-detalis">

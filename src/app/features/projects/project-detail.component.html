@@ -108,7 +108,7 @@
                     <div class="prjt-box prjt-box--grey" >
                         <span class="prjt-box--title" *ngIf="project?.beneficiaries.length == 1">beneficiary</span>
                         <span class="prjt-box--title" *ngIf="project?.beneficiaries.length > 1">beneficiaries</span>
-                        <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries">
+                        <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
                             <a  [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
                                 {{beneficiary.beneficiaryLabel}}
                             </a>
