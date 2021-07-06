@@ -120,14 +120,16 @@ export class FiltersApi implements Deserializable{
     }
 
     private createGroupsOfInterventionField(categoriesOfIntervention){
-        const categories = [];
-        categoriesOfIntervention.forEach(cat=>{
-            categories.push({
-                value: cat.areaOfInterventionLabel,
-                options: this.shortString(cat.options)
+        if (categoriesOfIntervention){
+            const categories = [];
+            categoriesOfIntervention.forEach(cat=>{
+                categories.push({
+                    value: cat.areaOfInterventionLabel,
+                    options: this.shortString(cat.options)
+                });
             });
-        });
-        return categories;
+            return categories;
+        }
     }
 
     private themes(themes){

@@ -76,13 +76,13 @@
 
                         <div class="prjt-box--content">
                             <span>Total budget: </span>
-                            <span>{{project?.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                            <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="!project?.budget">n/a</span>
                         </div>
 
                         <div class="prjt-box--content">
                             <span>Funded by EU: </span>
-                            <span>{{project?.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}} ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
+                            <span>{{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
                         </div>
                     </div>
 
