@@ -98,7 +98,7 @@ export class FiltersApi implements Deserializable{
             policy_objective: input.policy_objective,
             funds: input.funds,
             programs: input.programs,
-            categoriesOfIntervention: this.shortString(input.categoriesOfIntervention),
+            categoriesOfIntervention: this.createGroupsOfInterventionField(input.categoriesOfIntervention),
             countries: input.countries,
             programmingPeriods: this.programmingPeriods,
             totalProjectBudget: this.totalProjectBudget,
@@ -106,21 +106,28 @@ export class FiltersApi implements Deserializable{
         });
     }
 
-    private shortString(categoriesOfIntervention){
-        categoriesOfIntervention.forEach(cat=>{
-            if (cat.value.length > 50){
-                cat.value = cat.value.substring(0,50) + '...';
-            }
-            return cat;
+    private shortString(rawOptions){
+        const options = [];
+        rawOptions.forEach(cat=>{
+            options.push({
+                id: this.cleanId(cat.instance),
+                value: cat.instanceLabel.length > 100 ? 
+                            cat.instanceLabel.substring(0,100) + '...' : cat.instanceLabel,
+                fullValue: cat.instanceLabel
+            });
         });
-        return categoriesOfIntervention;
+        return options;
     }
 
     private createGroupsOfInterventionField(categoriesOfIntervention){
-        return [{
-            value: 'Productive investment',
-            options: categoriesOfIntervention
-        }];
+        const categories = [];
+        categoriesOfIntervention.forEach(cat=>{
+            categories.push({
+                value: cat.areaOfInterventionLabel,
+                options: this.shortString(cat.options)
+            });
+        });
+        return categories;
     }
 
     private themes(themes){
@@ -132,6 +139,18 @@ export class FiltersApi implements Deserializable{
             })
         }
         return themes;
+    }
+
+    private cleanId(id:string){
+        if (id){
+        return id.replace("https://linkedopendata.eu/entity/", "")
+            .replace("fund=", "")
+            .replace("to=", "")
+            .replace("program=", "")
+            .replace("instance=", "");
+        }else{
+            return null
+        }
     }
 
 }
