@@ -22,7 +22,8 @@ export class FilterService {
                 this.getFilter('thematic_objectives'),
                 this.getFilter('policy_objective'),
                 this.getFilter('funds'),
-                this.getFilter('categoriesOfIntervention')
+                this.getFilter('categoriesOfIntervention'),
+                this.getFilter('countries')
             )
         );
     }
@@ -30,7 +31,8 @@ export class FilterService {
     getBeneficiariesFilters(): Observable<FiltersApi>{
         return this.getFilters(
             Observable.forkJoin(
-                this.getFilter('funds')
+                this.getFilter('funds'),
+                this.getFilter('countries')
             )
         );
     }
@@ -58,31 +60,52 @@ export class FilterService {
                 const data = {};
                 data[type] = [];
                 results.forEach(item=>{
-                    data[type].push({
-                        id: this.cleanId(item.instance),
-                        value: item.instanceLabel
-                    });
+                    if (item.instance){
+                        data[type].push({
+                            id: this.cleanId(item.instance),
+                            value: item.instanceLabel
+                        });
+                    }else{
+                        data[type].push(item);
+                    }
                 })
                return data;
             }));
     }
 
     private cleanId(id:string){
+        if (id){
         return id.replace("https://linkedopendata.eu/entity/", "")
             .replace("fund=", "")
             .replace("to=", "")
             .replace("program=", "")
             .replace("instance=", "");
+        }else{
+            return null
+        }
     }
 
     getFilterLabel(type:string, key:string) {
         let result = null;
         if (key) {
-            const record = this.filters[type].find(filter => {
-                return filter.id == key;
+            let record = this.filters[type].find(filter => {
+                if (filter.id){
+                    return filter.id == key;
+                }else if (filter.options){
+                    return filter.options.find(filterLevel=>{
+                        return filterLevel.id == key;
+                    });
+                }
             });
+
+            if (record && record.options){
+                record = record.options.find(filter=>{
+                    return filter.id == key;
+                });
+            }
             if (record) {
-                result = record.value.split(' ').join('-');
+                const value = record.fullValue ? record.fullValue : record.value;
+                result = value.split(' ').join('-');
             }
         }
        return result;
@@ -90,20 +113,38 @@ export class FilterService {
 
     getFilterKey(type:string, label:string){
         if (type && label) {
-            let result = '';
-            const record = this.filters[type].find(filter => {
-                label = label.split('-').join('');
-                let l = filter.value.split('-').join('');
-                l = l.split(' ').join('');
-                return l == label;
+            label = label.split('-').join('');
+            let result;
+            this.filters[type].forEach(filter => {
+                if (filter.options){
+                    filter.options.forEach(sub => {
+                        let l = this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
+                        if(l == label){
+                            result = sub.id;
+                            return;
+                        }
+                    });
+                    if (result){
+                        return;
+                    }
+                }else{
+                    let l = this.harmonizeLabel(filter.value);
+                    if(l == label){
+                        result = filter.id;
+                        return;
+                    }
+                }
             });
-            if (record) {
-                result = record.id;
-            }
             return result;
         }else{
             return null;
         }
+    }
+
+    harmonizeLabel(label: string){
+        let l = label.split('-').join('');
+        l = l.split(' ').join('');
+        return l;
     }
 
     getRegions(country: string): Observable<any[]>{

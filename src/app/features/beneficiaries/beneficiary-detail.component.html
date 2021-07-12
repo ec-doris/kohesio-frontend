@@ -6,6 +6,7 @@
     </uxModalBody>
 </ux-modal>
 <div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
+    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openGraph($event)">Graph</ux-button>
     <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
 </div>
 <eui-page class="project-detail margin-btm">
@@ -35,11 +36,11 @@
                         </div>
                         <div class="prjt-box--content">
                             <span>Total budget: </span>
-                            <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                            <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                         </div>
                         <div class="prjt-box--content">
                             <span>Funded by EU: </span>
-                            <span>{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                            <span>{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                         </div>
                         <div class="prjt-box--content">
                             <span>Website: </span>
@@ -134,13 +135,13 @@
                                     <ng-container matColumnDef="budget">
                                         <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
-                                            {{ row.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                            {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                                         </mat-cell>
                                     </ng-container>
                                     <ng-container matColumnDef="euBudget">
                                         <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
-                                            {{row.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                            {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                                         </mat-cell>
                                     </ng-container>
                                     <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="beneficiary.projects && beneficiary.projects.length === 0"></mat-header-row>

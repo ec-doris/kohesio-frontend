@@ -162,13 +162,13 @@
                                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                                         </span>
                                                         {{filterService.getThemeLabel(project.objectiveId)}}
-                                                        <ng-container *ngIf="!project.objectiveId">Category of intervention not declared by the Managing Authority</ng-container>
+                                                        <ng-container *ngIf="!project.objectiveId">Intervention field not declared by the Managing Authority</ng-container>
                                                     </li>
                                                     <li class="article--post__amount">
                                                         <div class="article--post__amount--inner">
                                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                                             <span class="amount">
-                                                    {{ project.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}
+                                                    {{ project.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                                 <span *ngIf="!project.budget">n/a</span>
                                                     <span class="support">EU contribution</span>
                                                 </span>

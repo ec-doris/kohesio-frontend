@@ -131,6 +131,13 @@
     }
 }
 
+.top-header.message {
+    background-color: #da2131;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 // App header
 #app-header {
     box-shadow: 0 1px 6px #00449429;

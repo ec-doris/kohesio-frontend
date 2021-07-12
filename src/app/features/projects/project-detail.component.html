@@ -12,6 +12,7 @@
 <div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
     <ux-button *ngIf="isModal" [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openNewTab($event)">Open new tab</ux-button>
     &nbsp;
+    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openGraph($event)">Graph</ux-button>
     <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-pencil" (click)="openWiki($event)">Edit</ux-button>
 </div>
 <eui-page class="project-detail margin-btm">
@@ -75,13 +76,14 @@
 
                         <div class="prjt-box--content">
                             <span>Total budget: </span>
-                            <span>{{project?.budget | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                            <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="!project?.budget">n/a</span>
                         </div>
 
                         <div class="prjt-box--content">
                             <span>Funded by EU: </span>
-                            <span>{{project?.euBudget | currency:'EUR':'symbol':'1.0-2':'fr'}} ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
+                            <span *ngIf="!project?.eduBudget">n/a ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
+                            <span *ngIf="project?.eduBudget">{{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)</span>
                         </div>
                     </div>
 
@@ -96,7 +98,7 @@
 
                     <!-- Box 4 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">category of intervention</span>
+                        <span class="prjt-box--title">intervention field</span>
                         <div class="prjt-box--content">
                             <p>{{project?.categoryLabel}}</p>
                             <p *ngIf="!project?.categoryLabel">n/a</p>
@@ -104,26 +106,13 @@
                     </div>
 
                     <!-- Box 5 -->
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">beneficiary</span>
-                        <div class="prjt-box--content">
-                            <span>Name: </span>
-                            <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].wikidata">
-                        {{project?.beneficiaries[0].beneficiaryLabel}}
-                    </span>
-                            <span *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].wikidata">
-                        <a (click)="openGDPRInfoBox(project?.beneficiaries[0].wikidata)" target="_blank">
-                            {{project?.beneficiaries[0].beneficiaryLabel}}
-                        </a>
-                    </span>
-                        </div>
-                        <div class="prjt-box--content">
-                            <span>Website: </span>
-                            <span>
-                        <ng-container *ngIf="project?.beneficiaries && project?.beneficiaries.length && !project?.beneficiaries[0].website">n/a</ng-container>
-                        <a *ngIf="project?.beneficiaries && project?.beneficiaries.length && project?.beneficiaries[0].website"
-                           [href]="project?.beneficiaries[0].website" target="_blank">link</a>
-                    </span>
+                    <div class="prjt-box prjt-box--grey" >
+                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length == 1">beneficiary</span>
+                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length > 1">beneficiaries</span>
+                        <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
+                            <a  [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
+                                {{beneficiary.beneficiaryLabel}}
+                            </a>
                         </div>
                     </div>
 

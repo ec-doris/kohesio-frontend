@@ -16,7 +16,7 @@
             <span>Mobile, non-polluting and silencing generator, based on renewable energy and hydrogen storage</span>
             <div class="icons">
                 <div class="icons--inner">
-                    {{ '353751' | currency:'EUR':'symbol':'1.0-2':'fr' }}
+                    {{ '353751' | currency:'EUR':'symbol':'1.2-2':'fr' }}
                 </div>
                 <div class="icons--inner">
                     <i class="icon fa fa-map-marker"></i>France
@@ -33,7 +33,7 @@
             <span>Lavoisier Phase 2</span>
             <div class="icons">
                 <div class="icons--inner">
-                    {{ '2375038' | currency:'EUR':'symbol':'1.0-2':'fr' }}
+                    {{ '2375038' | currency:'EUR':'symbol':'1.2-2':'fr' }}
                 </div>
                 <div class="icons--inner">
                     <i class="icon fa fa-map-marker"></i>France
@@ -51,7 +51,7 @@
     <div class="search-projects-input">
         <div class="input-group">
             <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
-                   placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                   placeholder="Search projects" [(ngModel)]="filterValue"
                    (keyup.enter)="onFilter()"/>
             <span class="input-group-prepend">
                             <span class="input-group-text">
@@ -109,7 +109,7 @@
                     <hr class="vertical-line">
                 </div>
                 <div class="theme-category-card">
-                    <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency'}">Environment Protection & ResourceEfficiency</a></div>
+                    <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency'}">Environment Protection & Resource Efficiency</a></div>
                     <div class="number">{{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects</div>
                     <hr class="vertical-line">
                 </div>

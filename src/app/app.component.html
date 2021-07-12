@@ -16,6 +16,9 @@
     </uxAppShellHeaderTitleContent>
 
     <uxAppShellTopMessageContent *ngIf="!breakpointsValue.isMobile">
+        <div class="top-header message" *ngIf="this.router.url != '/404'">
+            <div>Kohesio test version: data import and enrichment in progress</div>
+        </div>
         <div class="top-header" *ngIf="this.router.url != '/404'">
             <div class="right-tools">
                 <ux-language-selector (languageChanged)="onLanguageChanged($event)"
@@ -30,7 +33,7 @@
                 <div class="search-projects-input">
                     <div class="input-group">
                         <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
-                           placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                           placeholder="Search projects" [(ngModel)]="filterValue"
                            (keyup.enter)="onFilter()"/>
                         <span class="input-group-prepend">
                             <span class="input-group-text">
@@ -66,7 +69,7 @@
             <div class="search-projects-input">
                 <div class="input-group">
                     <input type="text" class="form-control ux-a-toolbar-filter-filter-input search-input"
-                           placeholder="Search projects, regions and territories" [(ngModel)]="filterValue"
+                           placeholder="Search projects" [(ngModel)]="filterValue"
                            (keyup.enter)="onFilter()"/>
                     <span class="input-group-prepend">
                             <span class="input-group-text">
@@ -100,7 +103,7 @@
                     </a>
                 </li>
                 <li>
-                    <a href="https://www.linkedin.com/" target="_blank">
+                    <a href="https://www.linkedin.com/feed/hashtag/euinmyregion/" target="_blank">
                         <span>LinkedIn</span>
                     </a>
                 </li>
