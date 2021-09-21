@@ -14,6 +14,7 @@ export class Project implements Deserializable{
     public item: string;
     public coordinates: string[];
     public images: string[];
+    public labels: string[];
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -28,7 +29,8 @@ export class Project implements Deserializable{
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
             coordinates: input.coordinates,
-            images: input.images
+            images: input.images,
+            labels: input.labels
         });
     }
 

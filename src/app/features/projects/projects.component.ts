@@ -37,6 +37,7 @@ export class ProjectsComponent implements AfterViewInit {
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex:number = 1;
     public modalImageUrl = "";
+    public modalImageTitle = "";
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
     public mapIsLoaded = false;
@@ -270,9 +271,12 @@ export class ProjectsComponent implements AfterViewInit {
         return this.lastFiltersSearch;
     }
 
-    openImageOverlay(imgUrl, projectTitle){
+    openImageOverlay(imgUrl, projectTitle, labels){
         this.modalImageUrl = imgUrl;
         this.modalTitleLabel = projectTitle;
+        if (labels && labels.length){
+            this.modalImageTitle = labels[0];
+        }
         this.uxService.openModal("imageOverlay")
     }
 
