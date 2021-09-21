@@ -43,7 +43,7 @@ export class BeneficiariesComponent implements AfterViewInit {
             region: [],
             fund:[this.getFilterKey("funds","fund")],
             program:[],
-            sort: [null]
+            sort: [this.getFilterKey("sortBeneficiaries","sort")]
         });
 
         this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program');
@@ -119,7 +119,8 @@ export class BeneficiariesComponent implements AfterViewInit {
             country: this.getFilterLabel("countries", this.myForm.value.country),
             region: this.getFilterLabel("regions", this.myForm.value.region),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
-            program: this.getFilterLabel("programs", this.myForm.value.program)
+            program: this.getFilterLabel("programs", this.myForm.value.program),
+            sort: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort)
         }
     }
 
@@ -161,7 +162,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     }
 
     onSortChange(){
-        this.performSearch();
+        this.onSubmit();
     }
 
 }

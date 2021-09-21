@@ -73,7 +73,7 @@ export class ProjectsComponent implements AfterViewInit {
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
             projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
             projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
-            sort: [null]
+            sort: [this.getFilterKey("sort","sort")]
         });
 
         this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -173,6 +173,10 @@ export class ProjectsComponent implements AfterViewInit {
         this.getProjectList();
     }
 
+    onPaginateAssets(event){
+        this.getProjectList();
+    }
+
     goFirstPage(){
         this.paginatorDown.firstPage();
         this.paginatorTop.firstPage();
@@ -193,7 +197,8 @@ export class ProjectsComponent implements AfterViewInit {
             totalProjectBudget:this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
             amountEUSupport:this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
             projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
-            projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null
+            projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
+            sort: this.getFilterLabel("sort", this.myForm.value.sort)
         }
     }
 
@@ -295,7 +300,7 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onSortChange(){
-        this.getProjectList();
+        this.onSubmit();
     }
 
 

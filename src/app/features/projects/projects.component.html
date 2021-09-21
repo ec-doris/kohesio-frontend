@@ -213,7 +213,7 @@
                                            [length]="assetsCount"
                                            [pageSize]="15"
                                            [hidePageSize]="true"
-                                           (page)="onPaginate($event)"
+                                           (page)="onPaginateAssets($event)"
                                            [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                             </mat-paginator>
                             <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
