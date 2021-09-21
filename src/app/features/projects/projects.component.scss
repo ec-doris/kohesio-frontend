@@ -152,12 +152,16 @@
 
         &--content {
             color: #000;
-            font-size: 14px;
+            font-size: 12px;
             margin-left: 25px;
             line-height: 1.6;
 
             span:first-child {
                 font-weight: bold;
+            }
+
+            span:first-child.no-bold {
+                font-weight: normal;
             }
 
             p {
@@ -430,6 +434,7 @@
 
         p {
             font-size: 12px !important;
+            line-height: 1.4;
         }
     }
 
