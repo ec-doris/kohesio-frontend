@@ -22,7 +22,7 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
     public wikidataLink: string;
     public currentUrl: string = location.href;
 
-    public displayedColumns: string[] = ['label', 'budget', 'euBudget'];
+    public displayedColumns: string[] = ['label', 'budget', 'euBudget', 'fundLabel'];
 
     @ViewChild(MapComponent)
     public map: MapComponent;

@@ -52,6 +52,13 @@
                             <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
                         </div>
                     </div>
+                    <div class="prjt-box prjt-box--grey" *ngIf="beneficiary?.budgetsPerFund && beneficiary?.budgetsPerFund.length">
+                        <span class="prjt-box--title">funds</span>
+                        <div class="prjt-box--content" *ngFor="let fund of beneficiary.budgetsPerFund">
+                            <span>{{fund.fundLabel}}: </span>
+                            <span>{{fund.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                        </div>
+                    </div>
                 </eui-page-column-body>
             </eui-page-column>
 
@@ -142,6 +149,12 @@
                                         <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
                                             {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
+                                        </mat-cell>
+                                    </ng-container>
+                                    <ng-container matColumnDef="fundLabel">
+                                        <mat-header-cell *matHeaderCellDef>FUND</mat-header-cell>
+                                        <mat-cell *matCellDef="let row">
+                                            {{row.fundLabel ? row.fundLabel : 'n/a'}}
                                         </mat-cell>
                                     </ng-container>
                                     <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="beneficiary.projects && beneficiary.projects.length === 0"></mat-header-row>
