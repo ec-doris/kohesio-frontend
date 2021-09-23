@@ -306,11 +306,13 @@ export class ProjectsComponent implements AfterViewInit {
         this.onSubmit();
     }
 
-    onRestrictSearch(){
-        const keywordsValue = "\"" + this.myForm.value.keywords + "\"";
-        this.myForm.patchValue({"keywords": keywordsValue});
-        this.semanticTerms = [];
-        this.onSubmit();
+    onRestrictSearch(event:any){
+        if (this.semanticTerms && this.semanticTerms.length){
+            const keywordsValue = "\"" + this.myForm.value.keywords + "\"";
+            this.myForm.patchValue({"keywords": keywordsValue});
+            this.semanticTerms = [];
+            this.onSubmit();
+        }
     }
 
 }

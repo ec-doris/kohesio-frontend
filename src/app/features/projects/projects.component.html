@@ -37,7 +37,7 @@
                                 </div>
                             </div>
                             <div class="bottom">
-                                <button euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch()">Use my keyword only</button>&nbsp;
+                                <button type="button" euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keyword only</button>&nbsp;
                             </div>
                         </div>
                         <ux-form-group label="COUNTRIES" [isVertical]="true">
