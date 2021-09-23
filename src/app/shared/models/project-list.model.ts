@@ -5,6 +5,7 @@ export class ProjectList implements Deserializable{
 
     public list: Project[];
     public numberResults: number;
+    public similarWords: String[]
 
     deserialize(input: any): this {
         const projects: Project[] = input.list.map(prj => {
@@ -13,7 +14,8 @@ export class ProjectList implements Deserializable{
 
         return Object.assign(this, {
             list: projects,
-            numberResults: input.numberResults
+            numberResults: input.numberResults,
+            similarWords: input.similarWords
         });
 
 

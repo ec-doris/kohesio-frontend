@@ -618,3 +618,42 @@
         margin-top: -30px;
     }
 }
+
+.semantic-terms{
+    margin-bottom: 10px;
+    margin-top: -5px;
+    border-radius: 12px;
+    background-color: #f1f8fe;
+    padding: 5px 7px;
+
+    .top{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+        .title{
+            font-size: 0.8rem;
+            margin-left: 5px;
+        }
+    }
+    
+    .terms {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0.7rem;
+        margin: 5px 0;
+        
+        .term{
+            padding: 5px;
+            background-color: #b3c7df;
+            margin: 3px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    }
+
+    .bottom{
+        display: flex;
+        justify-content: flex-end;
+    }
+}
