@@ -7,9 +7,9 @@
     </uxModalBody>
 </ux-modal>
 <ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
-    <p>By default, semantic search is enabled which means that your keyword is automatically expanded to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). The list of expanded keywords will be displayed below. To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>) or boolean operators.</p>
-    <p>The default boolean operator is AND, so searching for <b>green carbon</b> (or <b>carbon green</b>) retrieves only documents containing both words in any order.</p>
-    <p>To include also documents containing either word, use <b>green OR carbon</b>.</p>
+    <p>By default, semantic search automatically expands your keywords to similar words (searching for <b>ml</b> will also include results containg <b>machine learning</b> as well as <b>ai algorithms</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ml"</b>) or boolean operators described below.</p>
+    <p>The operator AND can be used for conjunction: <b>green AND carbon</b> (or <b>carbon AND green</b>) only retrieves documents containing both words in any order.</p>
+    <p>To also include documents containing either word, use <b>green OR carbon</b>.</p>
     <p>To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
     <p>You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> will only return results with the sequence in that order.</p>
     <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
