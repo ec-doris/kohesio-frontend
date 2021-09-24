@@ -27,6 +27,19 @@
                             </uxFormGroupLeftTitleContent>
                             <input class="form-control" type="text" formControlName="keywords"/>
                         </ux-form-group>
+                        <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
+                            <div class="top">
+                                <div class="title">Also matching results containing:</div>
+                            </div>
+                            <div class="terms">
+                                <div class="term" *ngFor="let semanticTerm of semanticTerms">
+                                    {{semanticTerm}}
+                                </div>
+                            </div>
+                            <div class="bottom">
+                                <button type="button" euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keyword only</button>&nbsp;
+                            </div>
+                        </div>
                         <ux-form-group label="COUNTRIES" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"

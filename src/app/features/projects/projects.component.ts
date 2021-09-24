@@ -44,6 +44,8 @@ export class ProjectsComponent implements AfterViewInit {
     public lastFiltersSearch;
     public entityURL = environment.entityURL;
 
+    public semanticTerms = [];
+
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
                 private formBuilder: FormBuilder,
@@ -133,6 +135,7 @@ export class ProjectsComponent implements AfterViewInit {
         this.projectService.getProjects(this.getFilters(), offset).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
+            this.semanticTerms = result.similarWords;
             this.isLoading = false;
 
             //go to the top
@@ -303,5 +306,13 @@ export class ProjectsComponent implements AfterViewInit {
         this.onSubmit();
     }
 
+    onRestrictSearch(event:any){
+        if (this.semanticTerms && this.semanticTerms.length){
+            const keywordsValue = "\"" + this.myForm.value.keywords + "\"";
+            this.myForm.patchValue({"keywords": keywordsValue});
+            this.semanticTerms = [];
+            this.onSubmit();
+        }
+    }
 
 }
