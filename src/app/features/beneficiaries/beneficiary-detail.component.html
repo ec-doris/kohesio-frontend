@@ -41,7 +41,7 @@
                         <div class="prjt-box--content">
                             <span>Funded by EU: </span>
                             <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                            <span *ngIf="!beneficiary?.totalEuBudget==0">n/a</span>
+                            <span *ngIf="beneficiary?.totalEuBudget==0">n/a</span>
                         </div>
                         <div class="prjt-box--content">
                             <span>Website: </span>
@@ -58,7 +58,7 @@
                         <div class="prjt-box--content" *ngFor="let fund of beneficiary.budgetsPerFund">
                             <span>{{fund.fundLabel}}: </span>
                             <span *ngIf="fund?.totalEuBudget!=0">{{fund.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                            <span *ngIf="!fund?.totalEuBudget==0">n/a</span>
+                            <span *ngIf="fund?.totalEuBudget==0">n/a</span>
                         </div>
                     </div>
                 </eui-page-column-body>
