@@ -29,15 +29,13 @@
                         </ux-form-group>
                         <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                             <div class="top">
-                                <div class="title">Also matching results containing:</div>
+                                <div class="title">Also matching:</div>
+                                <button type="button" euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>&nbsp;
                             </div>
                             <div class="terms">
                                 <div class="term" *ngFor="let semanticTerm of semanticTerms">
                                     {{semanticTerm}}
                                 </div>
-                            </div>
-                            <div class="bottom">
-                                <button type="button" euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keyword only</button>&nbsp;
                             </div>
                         </div>
                         <ux-form-group label="COUNTRIES" [isVertical]="true">

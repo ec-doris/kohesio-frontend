@@ -9,6 +9,7 @@ export class Project implements Deserializable{
     public startTime: Date;
     public endTime: Date;
     public budget: number;
+    public totalBudget: number;
     public description: string;
     public snippet: string;
     public item: string;
@@ -26,6 +27,7 @@ export class Project implements Deserializable{
             startTime: this.getDateFromPropertyArray(input.startTimes),
             endTime: this.getDateFromPropertyArray(input.endTimes),
             budget: this.getBudget(input.euBudgets),
+            totalBudget: this.getBudget(input.totalBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
             coordinates: input.coordinates,
