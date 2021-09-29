@@ -115,13 +115,16 @@
 
                     <!-- Box 5 -->
                     <div class="prjt-box prjt-box--grey" >
-                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length == 1">beneficiary</span>
+                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length <= 1">beneficiary</span>
                         <span class="prjt-box--title" *ngIf="project?.beneficiaries.length > 1">beneficiaries</span>
                         <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
                             <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
                             <a *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
                                 {{beneficiary.beneficiaryLabel}}
                             </a>
+                        </div>
+                        <div class="prjt-box--content" *ngIf="project?.beneficiaries.length == 0">
+                            <span class="no-bold" >n/a</span>
                         </div>
                     </div>
 
