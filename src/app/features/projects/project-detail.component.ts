@@ -40,11 +40,13 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        let markers = [];
         if (this.project.coordinates && this.project.coordinates.length) {
             this.project.coordinates.forEach(coords=>{
                 this.project["coordinates"][0];
                 const coord = coords.replace("Point(", "").replace(")", "").split(" ");
-                this.map.addMarker(coord[1],coord[0], false);
+                const marker = this.map.addMarker(coord[1],coord[0], false);
+                markers.push(marker);
             });
             this.map.refreshView();
         }
@@ -52,8 +54,11 @@ export class ProjectDetailComponent implements AfterViewInit {
             if (Array.isArray(this.project.geoJson)){
                 this.project.geoJson.forEach(geoJson=>{
                     const poly = this.map.drawPolygons(geoJson);
-                    this.map.fitBounds(poly.getBounds());
-                })
+                });
+                if (markers && markers.length){
+                    const group = new L.featureGroup(markers);
+                    this.map.fitBounds(group.getBounds());
+                }
             }else{
                 const poly = this.map.drawPolygons(this.project.geoJson);
                 this.map.fitBounds(poly.getBounds());
