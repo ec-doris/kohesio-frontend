@@ -49,8 +49,15 @@ export class ProjectDetailComponent implements AfterViewInit {
             this.map.refreshView();
         }
         if(this.project.geoJson){
-            const poly = this.map.drawPolygons(this.project.geoJson);
-            this.map.fitBounds(poly.getBounds());
+            if (Array.isArray(this.project.geoJson)){
+                this.project.geoJson.forEach(geoJson=>{
+                    const poly = this.map.drawPolygons(geoJson);
+                    this.map.fitBounds(poly.getBounds());
+                })
+            }else{
+                const poly = this.map.drawPolygons(this.project.geoJson);
+                this.map.fitBounds(poly.getBounds());
+            }
         }else{
             this.map.addCountryLayer(this.project.countryLabel);
         }
