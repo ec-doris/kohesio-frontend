@@ -7,7 +7,7 @@ export class ProjectDetail implements Deserializable{
     countryLabel: string;
     link: string;
     categoryLabel: string;
-    coordinates: [];
+    coordinates: [string];
     description: string;
     label: string;
     cofinancingRate: number;

@@ -41,11 +41,11 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         if (this.project.coordinates && this.project.coordinates.length) {
-            let coords: any;
-            // @ts-ignore
-            coords = this.project["coordinates"][0];
-            coords = coords.replace("Point(", "").replace(")", "").split(" ");
-            this.map.addMarker(coords[1],coords[0], false);
+            this.project.coordinates.forEach(coords=>{
+                this.project["coordinates"][0];
+                const coord = coords.replace("Point(", "").replace(")", "").split(" ");
+                this.map.addMarker(coord[1],coord[0], false);
+            });
             this.map.refreshView();
         }
         if(this.project.geoJson){
