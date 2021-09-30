@@ -103,6 +103,8 @@ export class MapComponent implements AfterViewInit {
             if (centralize) {
                 this.map.setView(coords, zoomWhenCentralize);
             }
+
+            return marker;
         }
     }
 

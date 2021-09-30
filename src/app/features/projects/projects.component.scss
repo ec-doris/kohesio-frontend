@@ -619,6 +619,13 @@
     }
 }
 
+:host ::ng-deep .top span.eui-button__container{
+    font-size: 0.8rem !important;
+}
+:host ::ng-deep .top button.eui-button{
+    padding: 2px !important;
+}
+
 .semantic-terms{
     margin-bottom: 10px;
     margin-top: -5px;
@@ -634,6 +641,7 @@
         .title{
             font-size: 0.8rem;
             margin-left: 5px;
+            flex: 1;
         }
     }
     
@@ -654,6 +662,5 @@
 
     .bottom{
         display: flex;
-        justify-content: flex-end;
     }
 }
