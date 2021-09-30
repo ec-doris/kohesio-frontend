@@ -2,14 +2,16 @@
     <uxModalBody>
         <div class="modal-body">
             <img [src]="modalImageUrl">
+            <div class="title">{{modalImageTitle}}</div>
         </div>
     </uxModalBody>
 </ux-modal>
 <ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
-    <p>The default boolean operator is AND, so searching for <b>green carbon</b> (or <b>carbon green</b>) retrieves only documents containing both words in any order.</p>
-    <p>To include also documents containing either word, use <b>green OR carbon</b>.</p>
+    <p>By default, semantic search automatically expands your keywords to similar words (searching for <b>ml</b> will also include results containg <b>machine learning</b> as well as <b>ai algorithms</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ml"</b>).</p>
+    <p>The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
+    <p>To also include documents containing either word, use <b>green OR carbon</b>.</p>
     <p>To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
-    <p>You can also search for an exact expression using quotes: <b>"artificial intelligence"</b> for instance will look for the sequence in that order.</p>
+    <p>You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
     <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
 </ux-popover>
 
@@ -25,6 +27,17 @@
                             </uxFormGroupLeftTitleContent>
                             <input class="form-control" type="text" formControlName="keywords"/>
                         </ux-form-group>
+                        <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
+                            <div class="top">
+                                <div class="title">Also matching:</div>
+                                <button type="button" euiButton euiBasicButton euiSecondary euiSizeS (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>&nbsp;
+                            </div>
+                            <div class="terms">
+                                <div class="term" *ngFor="let semanticTerm of semanticTerms">
+                                    {{semanticTerm}}
+                                </div>
+                            </div>
+                        </div>
                         <ux-form-group label="COUNTRIES" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"
@@ -138,7 +151,7 @@
                                                 <figure role="presentation" class="prj-image">
                                                     <div class="prj-image--wrapper">
                                                         <ng-container *ngIf="project.images && project.images.length">
-                                                            <a (click)="openImageOverlay(project.images[0], project.title)" class="prj-image--link">
+                                                            <a (click)="openImageOverlay(project.images[0], project.title, project.labels)" class="prj-image--link">
                                                                 <div class="prj-image--image">
                                                                     <img [src]="project.images[0]">
                                                                 </div>
@@ -168,9 +181,9 @@
                                                         <div class="article--post__amount--inner">
                                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                                             <span class="amount">
-                                                    {{ project.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}
-                                                                <span *ngIf="!project.budget">n/a</span>
-                                                    <span class="support">EU contribution</span>
+                                                    {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
+                                                                <span *ngIf="!project.totalBudget">n/a</span>
+                                                    <span class="support">Total project budget</span>
                                                 </span>
                                                         </div>
                                                     </li>
@@ -212,7 +225,7 @@
                                            [length]="assetsCount"
                                            [pageSize]="15"
                                            [hidePageSize]="true"
-                                           (page)="onPaginate($event)"
+                                           (page)="onPaginateAssets($event)"
                                            [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                             </mat-paginator>
                             <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>

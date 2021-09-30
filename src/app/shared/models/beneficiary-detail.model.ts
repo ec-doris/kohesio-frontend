@@ -17,6 +17,10 @@ export class BeneficiaryDetail implements Deserializable{
     website: string;
     description: string;
     coordinates: string;
+    budgetsPerFund: [{
+        fundLabel: string;
+        totalEuBudget: number;
+    }]
 
 
     deserialize(input: any): this {
@@ -34,7 +38,8 @@ export class BeneficiaryDetail implements Deserializable{
             totalEuBudget: input.totalEuBudget,
             website: input.website,
             description: input.description,
-            coordinates: input.coordinates
+            coordinates: input.coordinates,
+            budgetsPerFund: input.budgetsPerFund
         });
     }
 
@@ -46,7 +51,8 @@ export class BeneficiaryDetail implements Deserializable{
                    id: project.project.replace(environment.entityURL, ""),
                    label: project.label,
                    budget: project.budget,
-                   euBudget: project.euBudget
+                   euBudget: project.euBudget,
+                   fundLabel: project.fundLabel
                 });
             });
         }

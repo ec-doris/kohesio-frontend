@@ -9,11 +9,13 @@ export class Project implements Deserializable{
     public startTime: Date;
     public endTime: Date;
     public budget: number;
+    public totalBudget: number;
     public description: string;
     public snippet: string;
     public item: string;
     public coordinates: string[];
     public images: string[];
+    public labels: string[];
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -25,10 +27,12 @@ export class Project implements Deserializable{
             startTime: this.getDateFromPropertyArray(input.startTimes),
             endTime: this.getDateFromPropertyArray(input.endTimes),
             budget: this.getBudget(input.euBudgets),
+            totalBudget: this.getBudget(input.totalBudgets),
             description: this.getValueFromPropertyArray(input.descriptions, 250),
             snippet: this.getValueFromPropertyArray(input.snippet, 500),
             coordinates: input.coordinates,
-            images: input.images
+            images: input.images,
+            labels: input.labels
         });
     }
 

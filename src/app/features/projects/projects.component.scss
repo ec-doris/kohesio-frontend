@@ -57,6 +57,18 @@
     img {
         max-width: 460px;
     }
+
+    .title{
+        position: absolute;
+        bottom: 27px;
+        left: 11px;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 6px;
+        width: 95%;
+        padding: 5px;
+        font-size: 10px;
+        color: black;
+    }
 }
 
 .kohesio-data-range {
@@ -152,12 +164,16 @@
 
         &--content {
             color: #000;
-            font-size: 14px;
+            font-size: 1rem;
             margin-left: 25px;
             line-height: 1.6;
 
             span:first-child {
                 font-weight: bold;
+            }
+
+            span:first-child.no-bold {
+                font-weight: normal;
             }
 
             p {
@@ -429,7 +445,8 @@
         color: #000;
 
         p {
-            font-size: 12px !important;
+            font-size: 1rem !important;
+            line-height: 1.4;
         }
     }
 
@@ -599,5 +616,51 @@
 @include media($eui-bkp-mobile-down) {
     .project-detail-right-content {
         margin-top: -30px;
+    }
+}
+
+:host ::ng-deep .top span.eui-button__container{
+    font-size: 0.8rem !important;
+}
+:host ::ng-deep .top button.eui-button{
+    padding: 2px !important;
+}
+
+.semantic-terms{
+    margin-bottom: 10px;
+    margin-top: -5px;
+    border-radius: 12px;
+    background-color: #f1f8fe;
+    padding: 5px 7px;
+
+    .top{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 5px;
+        .title{
+            font-size: 0.8rem;
+            margin-left: 5px;
+            flex: 1;
+        }
+    }
+    
+    .terms {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 0.7rem;
+        margin: 5px 0;
+        
+        .term{
+            padding: 5px;
+            background-color: #b3c7df;
+            margin: 3px;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+    }
+
+    .bottom{
+        display: flex;
     }
 }

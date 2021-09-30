@@ -7,7 +7,7 @@ export class ProjectDetail implements Deserializable{
     countryLabel: string;
     link: string;
     categoryLabel: string;
-    coordinates: [];
+    coordinates: [string];
     description: string;
     label: string;
     cofinancingRate: number;
@@ -63,8 +63,17 @@ export class ProjectDetail implements Deserializable{
     }
 
     parseJSON(json){
-        const validJSON = json.replace(/'/g, '"');
-        return JSON.parse(validJSON);
+        if (Array.isArray(json)){
+            const resultArray = [];
+            json.forEach(geoJson=>{
+                const validJSON = geoJson.replace(/'/g, '"');    
+                resultArray.push(JSON.parse(validJSON))
+            });
+            return resultArray;
+        }else{
+            const validJSON = json.replace(/'/g, '"');
+            return JSON.parse(validJSON);
+        }
     }
 
     getRegion(input){

@@ -37,11 +37,14 @@ export class ProjectsComponent implements AfterViewInit {
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex:number = 1;
     public modalImageUrl = "";
+    public modalImageTitle = "";
     public modalTitleLabel = "";
     public advancedFilterExpanded = false;
     public mapIsLoaded = false;
     public lastFiltersSearch;
     public entityURL = environment.entityURL;
+
+    public semanticTerms = [];
 
     constructor(private projectService: ProjectService,
                 private filterService: FilterService,
@@ -72,7 +75,7 @@ export class ProjectsComponent implements AfterViewInit {
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
             projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
             projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
-            sort: [null]
+            sort: [this.getFilterKey("sort","sort")]
         });
 
         this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -132,6 +135,7 @@ export class ProjectsComponent implements AfterViewInit {
         this.projectService.getProjects(this.getFilters(), offset).subscribe((result:ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
+            this.semanticTerms = result.similarWords;
             this.isLoading = false;
 
             //go to the top
@@ -172,6 +176,10 @@ export class ProjectsComponent implements AfterViewInit {
         this.getProjectList();
     }
 
+    onPaginateAssets(event){
+        this.getProjectList();
+    }
+
     goFirstPage(){
         this.paginatorDown.firstPage();
         this.paginatorTop.firstPage();
@@ -192,7 +200,8 @@ export class ProjectsComponent implements AfterViewInit {
             totalProjectBudget:this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
             amountEUSupport:this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
             projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
-            projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null
+            projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
+            sort: this.getFilterLabel("sort", this.myForm.value.sort)
         }
     }
 
@@ -270,9 +279,12 @@ export class ProjectsComponent implements AfterViewInit {
         return this.lastFiltersSearch;
     }
 
-    openImageOverlay(imgUrl, projectTitle){
+    openImageOverlay(imgUrl, projectTitle, labels){
         this.modalImageUrl = imgUrl;
         this.modalTitleLabel = projectTitle;
+        if (labels && labels.length){
+            this.modalImageTitle = labels[0];
+        }
         this.uxService.openModal("imageOverlay")
     }
 
@@ -291,8 +303,16 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onSortChange(){
-        this.getProjectList();
+        this.onSubmit();
     }
 
+    onRestrictSearch(event:any){
+        if (this.semanticTerms && this.semanticTerms.length){
+            const keywordsValue = "\"" + this.myForm.value.keywords + "\"";
+            this.myForm.patchValue({"keywords": keywordsValue});
+            this.semanticTerms = [];
+            this.onSubmit();
+        }
+    }
 
 }
