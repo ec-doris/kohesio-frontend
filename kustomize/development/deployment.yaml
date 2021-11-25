@@ -17,7 +17,7 @@ spec:
       - name: regcred
       containers:
       - name: kohesio-frontend-container
-        image: 294118183257.dkr.ecr.eu-west-1.amazonaws.com/kohesio-frontend-dev
+        image: 294118183257.dkr.ecr.eu-west-1.amazonaws.com/kohesio-frontend-dev:latest
         ports:
         - containerPort: 80
         livenessProbe:
