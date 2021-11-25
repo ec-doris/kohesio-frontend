@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dev.kohesio.eu
+  labels:
+    app: dev.kohesio.eu
+spec:
+  selector:
+    matchLabels:
+      app: dev.kohesio.eu
+  template:
+    metadata:
+      labels:
+        app: dev.kohesio.eu
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: dev.kohesio.eu
+        image: 294118183257.dkr.ecr.eu-west-1.amazonaws.com/dev.kohesio.eu
+        ports:
+        - containerPort: 80
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+        resources:
+          limits:
+            cpu: 100m
+            memory: 256Mi
+          requests:
+            cpu: 80m
+            memory: 128Mi
+
