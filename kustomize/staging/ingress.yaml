@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gitops-base-app
+  name: kohesio-frontend-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -15,7 +15,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-           name: argo-combined-app
+           name: kohesio-frontend-service
            port:
              number: 80
-    host: staging.gitops-base-app.cnect.eu
+    host: staging.kohesio.eu

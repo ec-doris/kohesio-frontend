@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: dev.kohesio.eu
+  name: kohesio-frontend-service
   labels:
-    app: dev.kohesio.eu
+    app: kohesio-frontend-service
 spec:
   type: ClusterIP
   ports:

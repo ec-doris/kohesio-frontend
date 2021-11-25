@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: gitops-base-app
+  name: kohesio-frontend-deployment
   labels:
-    app: gitops-base-app
+    app: kohesio-frontend-deployment
 spec:
   selector:
     matchLabels:
-      app: gitops-base-app
+      app: kohesio-frontend-deployment
   template:
     metadata:
       labels:
-        app: gitops-base-app
+        app: kohesio-frontend-deployment
     spec:
       imagePullSecrets:
       - name: regcred
       containers:
-      - name: gitops-base-app
-        image: 752222480905.dkr.ecr.eu-west-1.amazonaws.com/gitops-base-app
+      - name: kohesio-frontend-container
+        image: 294118183257.dkr.ecr.eu-west-1.amazonaws.com/kohesio-frontend-dev
         ports:
         - containerPort: 80
         livenessProbe:

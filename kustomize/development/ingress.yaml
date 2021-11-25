@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: dev.kohesio.eu
+  name: kohesio-frontend-ingress
   annotations:
     ingress.kubernetes.io/ssl-redirect: "false"
     nginx.ingress.kubernetes.io/ssl-redirect: "false"
@@ -15,7 +15,7 @@ spec:
         pathType: ImplementationSpecific
         backend:
           service:
-           name: dev.kohesio.eu
+           name: kohesio-frontend-service
            port:
              number: 80
     host: dev.kohesio.eu
