@@ -12,4 +12,4 @@ spec:
     protocol: TCP
     name: http
   selector:
-    app: kohesio-frontend-service
+    app: kohesio-frontend-deployment
