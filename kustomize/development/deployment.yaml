@@ -5,6 +5,7 @@ metadata:
   labels:
     app: kohesio-frontend-deployment
 spec:
+  replicas: 3
   selector:
     matchLabels:
       app: kohesio-frontend-deployment
@@ -13,7 +14,6 @@ spec:
       labels:
         app: kohesio-frontend-deployment
     spec:
-      replicas: 3
       imagePullSecrets:
       - name: regcred
       containers:
