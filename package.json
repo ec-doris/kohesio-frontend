@@ -38,8 +38,6 @@
     "private": true,
     "dependencies": {
         "@eui/deps-base": "10.2.0",
-        "aws-amplify": "^2.2.6",
-        "aws-amplify-angular": "^4.1.7",
         "leaflet": "^1.6.0",
         "leaflet.markercluster": "^1.4.1",
         "pako": "^1.0.11"

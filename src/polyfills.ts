@@ -19,7 +19,7 @@
  */
 
 /** IE9, IE10 and IE11 requires all of the following polyfills. **/
-import 'core-js/es/symbol';
+/*import 'core-js/es/symbol';
 import 'core-js/es/object';
 import 'core-js/es/function';
 import 'core-js/es/parse-int';
@@ -32,17 +32,17 @@ import 'core-js/es/array';
 import 'core-js/es/regexp';
 import 'core-js/es/map';
 import 'core-js/es/weak-map';
-import 'core-js/es/set';
+import 'core-js/es/set';*/
 
 /** IE10 and IE11 requires the following for NgClass support on SVG elements */
-import 'classlist.js';  // Run `npm install --save classlist.js`.
+//import 'classlist.js';  // Run `npm install --save classlist.js`.
 
 /** IE10 and IE11 requires the following for the Reflect API. */
-import 'core-js/es/reflect';
+//import 'core-js/es/reflect';
 
 /** Evergreen browsers require these. **/
 // Used for reflect-metadata in JIT. If you use AOT (and only Angular decorators), you can remove.
-import 'core-js/es/reflect';
+//import 'core-js/es/reflect';
 
 /**
  * Web Animations `@angular/platform-browser/animations`
@@ -69,23 +69,24 @@ import 'core-js/es/reflect';
 /***************************************************************************************************
  * Zone JS is required by default for Angular itself.
  */
-import 'zone.js/dist/zone';  // Included with Angular CLI.
+ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
-/***************************************************************************************************
- * APPLICATION IMPORTS
- */
-
+ /***************************************************************************************************
+  * APPLICATION IMPORTS
+  */
+ 
+  /**
+  * Date, currency, decimal and percent pipes.
+  * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
+  */
+ // import 'intl';  // Run `npm install --save intl`.
  /**
- * Date, currency, decimal and percent pipes.
- * Needed for: All but Chrome, Firefox, Edge, IE11 and Safari 10
- */
-// import 'intl';  // Run `npm install --save intl`.
-/**
- * Need to import at least one locale-data with intl.
- */
-// import 'intl/locale-data/jsonp/en';
-
-declare global {
-    interface Window { global: any; }
-}
-window.global = window;
+  * Need to import at least one locale-data with intl.
+  */
+ // import 'intl/locale-data/jsonp/en';
+ 
+ /*declare global {
+     interface Window { global: any; }
+ }
+ window.global = window;*/
+ 

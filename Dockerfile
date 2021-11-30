@@ -1,10 +1,14 @@
-# nginx state for serving content
-FROM nginx:alpine
-# Set working directory to nginx asset directory
-WORKDIR /usr/share/nginx/html
-# Remove default nginx static assets
-RUN rm -rf ./*
-# Copy static assets over
-COPY ./public/* ./
-# Containers run nginx with global directives and daemon off
+#Build image
+FROM node:12.16.1-alpine As builder
+RUN apk --no-cache add --virtual native-deps \
+    g++ gcc libgcc libstdc++ linux-headers make python2 && \
+    npm install --quiet node-gyp -g
+WORKDIR /usr/src/app
+COPY package.json ./
+RUN yarn install
+COPY . .
+#Final image
+RUN npm run ng -- build --configuration=dev --outputHashing=all
+FROM nginx:1.15.8-alpine
+COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
