@@ -13,6 +13,7 @@ spec:
       labels:
         app: kohesio-frontend-deployment
     spec:
+      replicas: 3
       imagePullSecrets:
       - name: regcred
       containers:
