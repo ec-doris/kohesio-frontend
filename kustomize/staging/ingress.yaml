@@ -15,7 +15,7 @@ spec:
     - host: kohesio-staging.cnect.eu
       http:
         paths:
-          - path: /
+          - path: /*
             backend:
               serviceName: kohesio-frontend-service
               servicePort: 80
