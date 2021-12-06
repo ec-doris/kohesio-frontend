@@ -6,6 +6,7 @@
 export const environment = {
     production: true,
     enableDevToolRedux: false,
+    configPath: "assets/config/config.prod.json",
     modules: {
         // CORE
         core: {

@@ -6,16 +6,19 @@ import {Filters} from "../shared/models/filters.model";
 import {environment} from "../../environments/environment";
 import {ProjectDetail} from "../shared/models/project-detail.model";
 import {ProjectList} from "../shared/models/project-list.model";
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) {
+    }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>  {
-        const url = environment.api + '/search/project';
+        //const url = environment.api + '/search/project';
+        const url = this.configService.apiBaseUrl + '/search/project';
         const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
