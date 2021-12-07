@@ -8,16 +8,17 @@ import {Beneficiary} from "../shared/models/beneficiary.model";
 import {BeneficiaryList} from "../shared/models/beneficiary-list.model";
 import {ProjectDetail} from "../shared/models/project-detail.model";
 import {BeneficiaryDetail} from "../shared/models/beneficiary-detail.model";
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BeneficiaryService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) { }
 
     getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList>  {
-        const url = environment.api + "/search/beneficiaries";
+        const url = this.configService.apiBaseUrl + "/search/beneficiaries";
         const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -45,7 +46,7 @@ export class BeneficiaryService {
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
-        const url = environment.api + "/search/beneficiaries/" + type;
+        const url = this.configService.apiBaseUrl + "/search/beneficiaries/" + type;
         const params = filters.getBeneficiariesFilters();
         return this.http.get(url,{
             responseType: 'arraybuffer',
@@ -54,7 +55,7 @@ export class BeneficiaryService {
     }
 
     getBeneficiaryDetail(id: string): Observable<BeneficiaryDetail> {
-        const url = environment.api + '/beneficiary';
+        const url = this.configService.apiBaseUrl + '/beneficiary';
         let params = {
             id: environment.entityURL + id
         };
