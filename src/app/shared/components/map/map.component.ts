@@ -40,6 +40,15 @@ export class MapComponent implements AfterViewInit {
 
     public collapsedBreadCrumb = false;
 
+    public breakpointsValue: any = {
+        isMobile: false,
+        isTablet: false,
+        isLtDesktop: false,
+        isDesktop: false,
+        isXL: false,
+        isXXL: false
+    };
+
     constructor(private mapService: MapService,
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
@@ -68,6 +77,9 @@ export class MapComponent implements AfterViewInit {
             iconUrl: 'assets/images/map/marker-icon-2x.png',
             shadowUrl: 'assets/images/map/marker-shadow.png'
         }
+        this.uxAppShellService.breakpoints$.subscribe(bkps => {
+            this.breakpointsValue = bkps
+        });
     }
 
     public addMarker(latitude, longitude, centralize=true, zoomWhenCentralize = 15, popupContent:string = undefined){
