@@ -81,6 +81,15 @@
         .ux-layout-breadcrumbs{
             display: initial;
         }
+
+    }
+}
+
+@media (max-width: 350px) {
+    :host ::ng-deep {
+        .eui-icon.eui-icon-search{
+            display: none;
+        }
     }
 }
 
@@ -233,7 +242,7 @@
 @include media($eui-bkp-mobile) {
     :host ::ng-deep {
         #app-header .logo {
-            background-image: url("^logo--en.svg");
+            background-image: url("^assets/images/logo-mobile.svg");
         }
         #app-footer {
             position: absolute !important;
