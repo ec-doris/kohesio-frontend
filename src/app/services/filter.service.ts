@@ -105,7 +105,7 @@ export class FilterService {
                 });
             }
             if (record) {
-                const value = record.fullValue ? record.fullValue : record.value;
+                const value = record.shortValue ? record.shortValue : record.value;
                 result = value.split(' ').join('-');
             }
         }
@@ -119,7 +119,7 @@ export class FilterService {
             this.filters[type].forEach(filter => {
                 if (filter.options){
                     filter.options.forEach(sub => {
-                        let l = this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
+                        let l = sub.shortValue ? this.harmonizeShortLabel(sub.shortValue) : this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
                         if(l == label){
                             result = sub.id;
                             return;
@@ -145,6 +145,11 @@ export class FilterService {
     harmonizeLabel(label: string){
         let l = label.split('-').join('');
         l = l.split(' ').join('');
+        return l;
+    }
+
+    harmonizeShortLabel(label: string){
+        let l = label.split('-')[0].trim();
         return l;
     }
 

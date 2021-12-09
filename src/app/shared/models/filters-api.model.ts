@@ -113,7 +113,8 @@ export class FiltersApi implements Deserializable{
                 id: this.cleanId(cat.instance),
                 value: cat.instanceLabel.length > 100 ? 
                             cat.instanceLabel.substring(0,100) + '...' : cat.instanceLabel,
-                fullValue: cat.instanceLabel
+                fullValue: cat.instanceLabel,
+                shortValue: cat.instanceLabel.split("-")[0].trim()
             });
         });
         return options;
