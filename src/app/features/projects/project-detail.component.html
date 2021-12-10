@@ -98,19 +98,25 @@
 
                     <!-- Box 3 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">themes</span>
-                        <div class="prjt-box--content">
-                            <span class="no-bold">{{project?.objectiveLabel}}</span>
-                            <span class="no-bold" *ngIf="!project?.objectiveLabel">n/a</span>
+                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length <= 1">theme</span>
+                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length > 1">themes</span>
+                        <div class="prjt-box--content" *ngFor="let item of project?.objectiveLabels">
+                            <span class="no-bold">- {{item}}</span>
+                        </div>
+                        <div class="prjt-box--content" *ngIf="project?.objectiveLabels.length == 0">
+                            <span class="no-bold" >n/a</span>
                         </div>
                     </div>
 
                     <!-- Box 4 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">intervention field</span>
-                        <div class="prjt-box--content">
-                            <span class="no-bold">{{project?.categoryLabel}}</span>
-                            <span class="no-bold" *ngIf="!project?.categoryLabel">n/a</span>
+                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length <= 1">intervention field</span>
+                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length > 1">intervention fields</span>
+                        <div class="prjt-box--content" *ngFor="let item of project?.categoryLabels">
+                            <span class="no-bold">- {{item}}</span>
+                        </div>
+                        <div class="prjt-box--content" *ngIf="project?.categoryLabels.length == 0">
+                            <span class="no-bold" >n/a</span>
                         </div>
                     </div>
 
