@@ -34,6 +34,12 @@
                                                  [selectOptions]="this.filters.programs">
                                 </ux-form-control>
                             </ux-form-group>
+                            <ux-form-group label="TYPE" [isVertical]="true">
+                                <ux-form-control formControlName="beneficiaryType"
+                                                 [isSelect]="true"
+                                                 [selectOptions]="this.filters.beneficiaryType">
+                                </ux-form-control>
+                            </ux-form-group>
                         </ux-panel>
                         <div class="search-buttons">
                             <button type="button" euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;

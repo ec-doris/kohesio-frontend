@@ -17,6 +17,7 @@ export class FiltersApi implements Deserializable{
     public amountEUSupport: any[];
     public sort: any[];
     public sortBeneficiaries: any[];
+    public beneficiaryType: any[];
 
     protected static SInit = (() => {
         FiltersApi.prototype.programmingPeriods = [{
@@ -89,6 +90,13 @@ export class FiltersApi implements Deserializable{
         },{
             id: 'orderTotalBudget-false',
             value: 'Total Budget (descending)'
+        }];
+        FiltersApi.prototype.beneficiaryType = [{
+            id: 'public',
+            value: 'Public',
+        },{
+            id: 'private',
+            value: 'Private',
         }];
     })();
 
