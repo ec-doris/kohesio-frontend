@@ -1,3 +1,7 @@
+<ux-popover #popoverHelpBeneficiaryType title="TYPE">
+    <p>The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
+</ux-popover>
+
 <eui-page class="projects-list">
     <eui-page-content>
         <eui-page-columns>
@@ -35,6 +39,9 @@
                                 </ux-form-control>
                             </ux-form-group>
                             <ux-form-group label="TYPE" [isVertical]="true">
+                                <uxFormGroupLeftTitleContent>
+                                    <i class="eui-icon ux-icon-info-circle ux-u-cursor-help" (click)="popoverHelpBeneficiaryType.toggle($event)"></i>
+                                </uxFormGroupLeftTitleContent>
                                 <ux-form-control formControlName="beneficiaryType"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.beneficiaryType">
