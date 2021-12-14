@@ -161,7 +161,9 @@
             font-variant: small-caps;
             margin-bottom: 15px;
         }
-
+        &--content.padding {
+            padding: 2px 0px
+        }
         &--content {
             color: #000;
             font-size: 1rem;
@@ -179,6 +181,7 @@
             p {
                 margin: 0;
             }
+
         }
     }
 

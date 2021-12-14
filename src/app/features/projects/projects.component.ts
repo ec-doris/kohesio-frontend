@@ -279,11 +279,11 @@ export class ProjectsComponent implements AfterViewInit {
         return this.lastFiltersSearch;
     }
 
-    openImageOverlay(imgUrl, projectTitle, labels){
+    openImageOverlay(imgUrl, projectTitle, imageCopyright){
         this.modalImageUrl = imgUrl;
         this.modalTitleLabel = projectTitle;
-        if (labels && labels.length){
-            this.modalImageTitle = labels[0];
+        if (imageCopyright && imageCopyright.length){
+            this.modalImageTitle = imageCopyright[0];
         }
         this.uxService.openModal("imageOverlay")
     }

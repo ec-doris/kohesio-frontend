@@ -100,7 +100,7 @@
                     <div class="prjt-box prjt-box--grey">
                         <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length <= 1">theme</span>
                         <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length > 1">themes</span>
-                        <div class="prjt-box--content" *ngFor="let item of project?.objectiveLabels">
+                        <div class="prjt-box--content  padding" *ngFor="let item of project?.objectiveLabels">
                             <span class="no-bold">{{item}}</span>
                         </div>
                         <div class="prjt-box--content" *ngIf="project?.objectiveLabels.length == 0">
@@ -112,7 +112,7 @@
                     <div class="prjt-box prjt-box--grey">
                         <span class="prjt-box--title" *ngIf="project?.categoryLabels.length <= 1">intervention field</span>
                         <span class="prjt-box--title" *ngIf="project?.categoryLabels.length > 1">intervention fields</span>
-                        <div class="prjt-box--content" *ngFor="let item of project?.categoryLabels">
+                        <div class="prjt-box--content padding" *ngFor="let item of project?.categoryLabels">
                             <span class="no-bold">{{item}}</span>
                         </div>
                         <div class="prjt-box--content" *ngIf="project?.categoryLabels.length == 0">
