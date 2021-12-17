@@ -43,10 +43,12 @@ export class BeneficiariesComponent implements AfterViewInit {
             region: [],
             fund:[this.getFilterKey("funds","fund")],
             program:[],
+            beneficiaryType:[this.getFilterKey("beneficiaryType","beneficiaryType")],
             sort: [this.getFilterKey("sortBeneficiaries","sort")]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program');
+        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program') ||
+                                        this.myForm.value.beneficiaryType;
 
         if (this._route.snapshot.queryParamMap.get('country')){
             Promise.all([this.getRegions(), this.getPrograms()]).then(results=>{
@@ -120,7 +122,8 @@ export class BeneficiariesComponent implements AfterViewInit {
             region: this.getFilterLabel("regions", this.myForm.value.region),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
             program: this.getFilterLabel("programs", this.myForm.value.program),
-            sort: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort)
+            sort: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort),
+            beneficiaryType: this.getFilterLabel("beneficiaryType", this.myForm.value.beneficiaryType),
         }
     }
 

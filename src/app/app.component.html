@@ -46,6 +46,8 @@
         </div>
     </uxAppShellTopMessageContent>
 
+<!-- Test line -->
+
     <uxAppShellHeaderRightContent>
         <ul class="right-menu">
             <li>
@@ -57,7 +59,7 @@
         </ul>
     </uxAppShellHeaderRightContent>
 
-    <uxAppShellNavBarItemsContent *ngIf="(uxAppShellService.breakpoints$ | async) && this.router.url != '/'">
+    <uxAppShellNavBarItemsContent *ngIf="(uxAppShellService.breakpoints$ | async).isMobile && this.router.url != '/'">
         <ux-layout-nav-bar-action-item iconClass="eui-icon eui-icon-search"
                                        [isToggleContent]="false"
                                        (clicked)="searchToogleMobile = !searchToogleMobile">

@@ -81,31 +81,6 @@
                 ],
                 "proxyConfig": "proxy.conf.json"
               },
-                "acc": {
-                    "fileReplacements": [
-                        {
-                            "replace": "src/environments/environment.ts",
-                            "with": "src/environments/environment.acc.ts"
-                        }
-                    ],
-                    "optimization": true,
-                    "outputHashing": "all",
-                    "sourceMap": false,
-                    "extractCss": true,
-                    "namedChunks": true,
-                    "aot": true,
-                    "extractLicenses": true,
-                    "vendorChunk": false,
-                    "buildOptimizer": true,
-                    "budgets": [
-                        {
-                            "type": "initial",
-                            "maximumWarning": "5mb",
-                            "maximumError": "10mb"
-                        }
-                    ],
-                    "proxyConfig": "proxy.conf.json"
-                },
               "dev": {
                 "fileReplacements": [
                   {

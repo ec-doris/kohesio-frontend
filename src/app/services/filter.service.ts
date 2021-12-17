@@ -4,6 +4,7 @@ import {map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {FiltersApi} from "../shared/models/filters-api.model";
+import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,7 @@ export class FilterService {
     public filters:FiltersApi;
     private countryGeoJson;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private configService: ConfigService) { }
 
 
     getProjectsFilters(): Observable<FiltersApi>{
@@ -54,7 +55,7 @@ export class FilterService {
     }
 
     getFilter(type: string, params = {}):Observable<any>{
-        const url = environment.api + '/' + type;
+        const url = this.configService.apiBaseUrl + '/' + type;
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data = {};
@@ -104,7 +105,7 @@ export class FilterService {
                 });
             }
             if (record) {
-                const value = record.fullValue ? record.fullValue : record.value;
+                const value = record.shortValue ? record.shortValue : record.value;
                 result = value.split(' ').join('-');
             }
         }
@@ -118,7 +119,7 @@ export class FilterService {
             this.filters[type].forEach(filter => {
                 if (filter.options){
                     filter.options.forEach(sub => {
-                        let l = this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
+                        let l = sub.shortValue ? this.harmonizeShortLabel(sub.shortValue) : this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
                         if(l == label){
                             result = sub.id;
                             return;
@@ -147,8 +148,13 @@ export class FilterService {
         return l;
     }
 
+    harmonizeShortLabel(label: string){
+        let l = label.split('-')[0].trim();
+        return l;
+    }
+
     getRegions(country: string): Observable<any[]>{
-        const urlRegions = environment.api + '/regions';
+        const urlRegions = this.configService.apiBaseUrl + '/regions';
         let params = {
             country: 'https://linkedopendata.eu/entity/' + country
         };

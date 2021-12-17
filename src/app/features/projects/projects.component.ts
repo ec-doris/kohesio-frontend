@@ -70,7 +70,7 @@ export class ProjectsComponent implements AfterViewInit {
             programPeriod: [this.getFilterKey("programmingPeriods","programPeriod")],
             fund:[this.getFilterKey("funds","fund")],
             program:[],
-            categoryOfIntervention:[this.getFilterKey("categoriesOfIntervention","categoryOfIntervention")],
+            interventionField:[this.getFilterKey("categoriesOfIntervention","interventionField")],
             totalProjectBudget:[this.getFilterKey("totalProjectBudget","totalProjectBudget")],
             amountEUSupport:[this.getFilterKey("amountEUSupport","amountEUSupport")],
             projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
@@ -80,7 +80,7 @@ export class ProjectsComponent implements AfterViewInit {
 
         this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
             this._route.snapshot.queryParamMap.get('program') ||
-            this.myForm.value.categoryOfIntervention || this.myForm.value.totalProjectBudget ||
+            this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
             this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
         if (this._route.snapshot.queryParamMap.get('country')){
@@ -196,7 +196,7 @@ export class ProjectsComponent implements AfterViewInit {
             programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
             fund: this.getFilterLabel("funds", this.myForm.value.fund),
             program: this.getFilterLabel("programs", this.myForm.value.program),
-            categoryOfIntervention:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.categoryOfIntervention),
+            interventionField:this.getFilterLabel("categoriesOfIntervention", this.myForm.value.interventionField),
             totalProjectBudget:this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
             amountEUSupport:this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
             projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
@@ -279,11 +279,11 @@ export class ProjectsComponent implements AfterViewInit {
         return this.lastFiltersSearch;
     }
 
-    openImageOverlay(imgUrl, projectTitle, labels){
+    openImageOverlay(imgUrl, projectTitle, imageCopyright){
         this.modalImageUrl = imgUrl;
         this.modalTitleLabel = projectTitle;
-        if (labels && labels.length){
-            this.modalImageTitle = labels[0];
+        if (imageCopyright && imageCopyright.length){
+            this.modalImageTitle = imageCopyright[0];
         }
         this.uxService.openModal("imageOverlay")
     }

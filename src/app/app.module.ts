@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -12,10 +12,14 @@ import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import LocaleEnglish from '@angular/common/locales/en';
 import LocaleFrench from '@angular/common/locales/fr';
+import { ConfigService } from './services/config.service';
 
 registerLocaleData(LocaleEnglish);
 registerLocaleData(LocaleFrench);
 
+export function init_app(appService: ConfigService) {
+    return () => { };
+}
 
 @NgModule({
     declarations: [
@@ -33,7 +37,13 @@ registerLocaleData(LocaleFrench);
         AppComponent
     ],
     providers: [
-        DatePipe
+        DatePipe,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: init_app,
+            multi: true,
+            deps: [ConfigService]
+        }
     ]
 })
 export class AppModule {}

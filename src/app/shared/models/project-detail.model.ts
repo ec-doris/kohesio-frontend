@@ -6,13 +6,13 @@ export class ProjectDetail implements Deserializable{
     public images: [];
     countryLabel: string;
     link: string;
-    categoryLabel: string;
+    categoryLabels: [string];
     coordinates: [string];
     description: string;
     label: string;
     cofinancingRate: number;
     source: string;
-    objectiveLabel: string;
+    objectiveLabels: [string];
     beneficiaries: [any];
     startTime: Date;
     euBudget: string;
@@ -36,13 +36,13 @@ export class ProjectDetail implements Deserializable{
             images: input.images,
             countryLabel: input.countryLabel,
             link: input.link,
-            categoryLabel: input.categoryLabel,
+            categoryLabels: input.categoryLabels,
             coordinates: input.coordinates,
             description: input.description,
             label: input.label,
             cofinancingRate: input.cofinancingRate ? parseFloat(input.cofinancingRate) : 0,
             source: input.source,
-            objectiveLabel: input.objectiveLabel,
+            objectiveLabels: input.objectiveLabels,
             beneficiaries: input.beneficiaries,
             startTime: input.startTime ? new Date(input.startTime) : undefined,
             euBudget: input.euBudget,

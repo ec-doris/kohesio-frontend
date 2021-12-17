@@ -17,6 +17,7 @@ export class FiltersApi implements Deserializable{
     public amountEUSupport: any[];
     public sort: any[];
     public sortBeneficiaries: any[];
+    public beneficiaryType: any[];
 
     protected static SInit = (() => {
         FiltersApi.prototype.programmingPeriods = [{
@@ -90,6 +91,13 @@ export class FiltersApi implements Deserializable{
             id: 'orderTotalBudget-false',
             value: 'Total Budget (descending)'
         }];
+        FiltersApi.prototype.beneficiaryType = [{
+            id: 'public',
+            value: 'Public',
+        },{
+            id: 'private',
+            value: 'Private',
+        }];
     })();
 
     deserialize(input: any): this {
@@ -113,7 +121,8 @@ export class FiltersApi implements Deserializable{
                 id: this.cleanId(cat.instance),
                 value: cat.instanceLabel.length > 100 ? 
                             cat.instanceLabel.substring(0,100) + '...' : cat.instanceLabel,
-                fullValue: cat.instanceLabel
+                fullValue: cat.instanceLabel,
+                shortValue: cat.instanceLabel.split("-")[0].trim()
             });
         });
         return options;

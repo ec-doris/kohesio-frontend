@@ -43,14 +43,15 @@
                         <div class="prjt-box--content">
                             <span>Managing authority name: </span>
                             {{project?.managingAuthorityLabel}}
+                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
                         </div>
 
-                        <div class="prjt-box--content">
+                        <div class="prjt-box--content" *ngIf="project?.projectWebsite">
                             <span>Project website: </span>
                             <a [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
                         </div>
-                        <div class="prjt-box--content">
+                        <div class="prjt-box--content" *ngIf="project?.programWebsite">
                             <span>Programme website: </span>
                             <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
@@ -97,19 +98,25 @@
 
                     <!-- Box 3 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">themes</span>
-                        <div class="prjt-box--content">
-                            <span class="no-bold">{{project?.objectiveLabel}}</span>
-                            <span class="no-bold" *ngIf="!project?.objectiveLabel">n/a</span>
+                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length <= 1">theme</span>
+                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length > 1">themes</span>
+                        <div class="prjt-box--content  padding" *ngFor="let item of project?.objectiveLabels">
+                            <span class="no-bold">{{item}}</span>
+                        </div>
+                        <div class="prjt-box--content" *ngIf="project?.objectiveLabels.length == 0">
+                            <span class="no-bold" >n/a</span>
                         </div>
                     </div>
 
                     <!-- Box 4 -->
                     <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">intervention field</span>
-                        <div class="prjt-box--content">
-                            <span class="no-bold">{{project?.categoryLabel}}</span>
-                            <span class="no-bold" *ngIf="!project?.categoryLabel">n/a</span>
+                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length <= 1">intervention field</span>
+                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length > 1">intervention fields</span>
+                        <div class="prjt-box--content padding" *ngFor="let item of project?.categoryLabels">
+                            <span class="no-bold">{{item}}</span>
+                        </div>
+                        <div class="prjt-box--content" *ngIf="project?.categoryLabels.length == 0">
+                            <span class="no-bold" >n/a</span>
                         </div>
                     </div>
 
@@ -176,12 +183,12 @@
                                     <span class="title">share </span>
                                     <ul class="social-icons">
                                         <li>
-                                            <a href="https://www.facebook.com/" target="_blank">
+                                            <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank">
                                                 <span>Facebook</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://www.linkedin.com/" target="_blank">
+                                            <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank">
                                                 <span>LinkedIn</span>
                                             </a>
                                         </li>
@@ -191,7 +198,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="https://twitter.com/" target="_blank">
+                                            <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank">
                                                 <span>Twitter</span>
                                             </a>
                                         </li>

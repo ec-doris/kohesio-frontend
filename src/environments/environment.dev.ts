@@ -6,6 +6,6 @@
 export const environment = {
     production: false,
     enableDevToolRedux: true,
-    api: 'https://dev.kohesio.linkedopendata.eu/api/facet/eu',
+    configPath: "assets/config/config.dev.json",
     entityURL: 'https://linkedopendata.eu/entity/'
 };

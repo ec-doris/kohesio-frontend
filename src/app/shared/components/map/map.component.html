@@ -1,7 +1,7 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container">
-        <div class="map-navigation" *ngIf="!hideNavigation">
-            <ux-panel [isContainerOnly]="true" [isCollapsible]="true" [isCollapsed] = "collapsedBreadCrumb">
+        <ng-container *ngIf="!hideNavigation">
+            <ux-panel [isContainerOnly]="true" [isCollapsible]="true" [isCollapsed] = "collapsedBreadCrumb && breakpointsValue.isMobile" class="left">
                 <div class="map-regions-wrapper">
                     <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)"
                                [iconClass]="!(uxAppShellService.breakpoints$ | async).isMobile ? 'fa fa-globe' : ''" typeClass="warning" [isSmall]="true">{{region.label}}</ux-button>
@@ -13,7 +13,7 @@
                     <span *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile" euiLabel>PROJECTS NEAR ME</span>
                 </button>&nbsp;
             </div>
-        </div>
+        </ng-container>
         <div class="map-frame">
             <div [id]="mapId"></div>
         </div>

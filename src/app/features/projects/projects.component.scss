@@ -161,12 +161,14 @@
             font-variant: small-caps;
             margin-bottom: 15px;
         }
-
+        &--content.padding {
+            padding: 3px 0px
+        }
         &--content {
             color: #000;
             font-size: 1rem;
             margin-left: 25px;
-            line-height: 1.6;
+            line-height: 1.4;
 
             span:first-child {
                 font-weight: bold;
@@ -179,6 +181,7 @@
             p {
                 margin: 0;
             }
+
         }
     }
 
