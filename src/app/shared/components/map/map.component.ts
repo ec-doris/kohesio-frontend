@@ -133,7 +133,7 @@ export class MapComponent implements AfterViewInit {
             }
 
             const marker = L.circleMarker(coords, {
-                color: '#3388ff'
+                color: popupContent.isHighlighted ? '#FF0000' : '#3388ff'
             });
 
             if (popupContent && popupContent.type != 'async') {
@@ -243,12 +243,13 @@ export class MapComponent implements AfterViewInit {
     public onProjectsNearByClick(){
         this.cleanMap();
         this.mapService.getPointsNearBy().subscribe(data=>{
-            data.list.forEach(point=>{
-                const coordinates = point.split(",");
+            data.list.slice().reverse().forEach(point=>{
+                const coordinates = point.coordinates.split(",");
                 const popupContent = {
                     type: 'async',
                     filters: undefined,
-                    coordinates: point
+                    coordinates: point.coordinates,
+                    isHighlighted: point.isHighlighted
                 }
                 this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
             })
@@ -312,12 +313,13 @@ export class MapComponent implements AfterViewInit {
                     this.drawPolygonsForRegion(data.geoJson, null);
                     this.fitToGeoJson(data.geoJson);
                 }
-                data.list.forEach(point=>{
-                    const coordinates = point.split(",");
+                data.list.slice().reverse().forEach(point=>{
+                    const coordinates = point.coordinates.split(",");
                     const popupContent = {
                         type: 'async',
                         filters: filters,
-                        coordinates: point
+                        coordinates: point.coordinates,
+                        isHighlighted: point.isHighlighted,
                     }
                     this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                 })
