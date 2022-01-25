@@ -50,7 +50,9 @@
                         </div>
                         <div class="prjt-box--content">
                             <span>Country: </span>
-                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
+                            <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                            </ux-popover>
+                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)"></span>
                         </div>
                     </div>
                     <div class="prjt-box prjt-box--grey" *ngIf="beneficiary?.budgetsPerFund && beneficiary?.budgetsPerFund.length">
