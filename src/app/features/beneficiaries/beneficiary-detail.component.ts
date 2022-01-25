@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {MapComponent} from "../../shared/components/map/map.component";
 import { UxAppShellService } from '@eui/core';
 import {BeneficiaryDetail} from "../../shared/models/beneficiary-detail.model";
+import { MatPaginator } from '@angular/material/paginator';
 declare let L;
 
 @Component({
@@ -24,8 +25,12 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
 
     public displayedColumns: string[] = ['label', 'budget', 'euBudget', 'fundLabel'];
 
+    public displayProjects: any[] = [];
+
     @ViewChild(MapComponent)
     public map: MapComponent;
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
  
     constructor(private projectService: ProjectService,
                 private route: ActivatedRoute,
@@ -60,6 +65,16 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
             + entity
             + "%3E%7D%20%3Fitem%20%3FpDirect%20%3FlinkTo%20.%0A%20%20%3Fitem%20rdfs%3Alabel%20%3FitemLabel%20.%0A%20%20FILTER(lang(%3FitemLabel)%3D%22en%22)%0A%7D",
         "_blank");
+    }
+
+    getProjectsPerPage(){
+        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
+        this.displayProjects = this.beneficiary.projects.slice(offset, 15);
+    }
+
+    onPaginate(event){
+        this.paginator.pageIndex = event.pageIndex;
+        this.getProjectsPerPage();
     }
 
 }

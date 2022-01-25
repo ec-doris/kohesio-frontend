@@ -132,6 +132,15 @@
                         <div class="prjt-box prjt-box--grey">
                             <h2 class="prjt-box--title">projects</h2>
                             <div class="prjt-box--content">
+                                <div class="tools">
+                                    <div class="right-table-tools">
+                                        <mat-paginator [pageSize]="15"
+                                                       [length]="beneficiary.projects.length"
+                                                       [hidePageSize]="true"
+                                                       (page)="onPaginate($event)">
+                                        </mat-paginator>
+                                    </div>
+                                </div>
                                 <mat-table [dataSource]="beneficiary.projects">
                                     <ng-container matColumnDef="label">
                                         <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
