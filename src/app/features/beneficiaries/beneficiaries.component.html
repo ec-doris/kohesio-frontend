@@ -84,7 +84,7 @@
                             <mat-cell *matCellDef="let row">
                                 <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                                 <span>
-                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a>
+                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}} <span *ngIf="row.transliteration" class="muted-text">({{row.transliteration}})</span></a>
                                 </span>
                             </mat-cell>
                         </ng-container>
