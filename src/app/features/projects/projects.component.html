@@ -45,9 +45,10 @@
                                              (modelChange)="onCountryChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="REGIONS" [isVertical]="true">
+                        <ux-form-group [label]="this.regionSelectorLabel" [isVertical]="true">
                             <ux-form-control formControlName="region"
                                              [isSelect]="true"
+                                             [isDisabled]="this.regionSelectorDisabled"
                                              [selectOptions]="this.filters.regions">
                             </ux-form-control>
                         </ux-form-group>
@@ -78,8 +79,9 @@
                                                  [selectOptions]="this.filters.funds">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
+                            <ux-form-group [label]="this.programSelectorLabel" [isVertical]="true">
                                 <ux-form-control formControlName="program"
+                                                 [isDisabled]="this.programSelectorDisabled"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.programs">
                                 </ux-form-control>
