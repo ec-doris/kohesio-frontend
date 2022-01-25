@@ -41,9 +41,8 @@
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Managing authority name: </span>
-                            {{project?.managingAuthorityLabel}}
-                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
+                            <span>Managing authority: </span>
+                            {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
                         </div>
 
                         <div class="prjt-box--content" *ngIf="project?.projectWebsite">
