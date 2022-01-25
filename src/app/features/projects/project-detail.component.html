@@ -41,9 +41,8 @@
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Managing authority name: </span>
-                            {{project?.managingAuthorityLabel}}
-                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
+                            <span>Managing authority: </span>
+                            {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
                         </div>
 
                         <div class="prjt-box--content" *ngIf="project?.projectWebsite">
@@ -158,13 +157,13 @@
                                 <div class="article--post__image">
                                     <figure role="presentation" class="prj-image">
                                         <div class="prj-image--wrapper">
-                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
+                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
                                                 <div class="prj-image--image">
-                                                    <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
+                                                   <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                                 </div>
                                             </a>
                                             <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length">
-                                                <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
+                                                <img *ngIf="project?.objectiveIds" class="topic" src="{{'assets/images/topics/' + project?.objectiveIds[0] + '.png'}}">
                                             </div>
                                         </div>
                                         <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>

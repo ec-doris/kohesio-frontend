@@ -23,6 +23,7 @@ export class ProjectDetail implements Deserializable{
     fundLabel: string;
     countryCode: string;
     objectiveId: string;
+    objectiveIds: [string];
     projectWebsite: string;
     programWebsite: string;
     programmingPeriodLabel: string;
@@ -53,6 +54,7 @@ export class ProjectDetail implements Deserializable{
             fundLabel: input.fundLabel,
             countryCode: input.countryCode,
             objectiveId: input.objectiveId,
+            objectiveIds: input.objectiveIds,
             projectWebsite: input.projectWebsite,
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
