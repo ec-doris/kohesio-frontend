@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BeneficiariesComponent } from './beneficiaries.component';
 import {BeneficiariesListResolver} from "./beneficiaries.resolve";
 import {BeneficiaryDetailComponent} from "./beneficiary-detail.component";
+import { BeneficiaryProjectListResolver } from './beneficiary-project-list.resolve';
 import {BeneficiaryDetailResolver} from "./beneficiary.resolve";
 
 const routes: Routes = [
@@ -29,7 +30,8 @@ const routes: Routes = [
             pageId:'beneficiary-detail'
         },
         resolve: {
-            beneficiary: BeneficiaryDetailResolver
+            beneficiary: BeneficiaryDetailResolver,
+            beneficiaryProjects: BeneficiaryProjectListResolver,
         }
     }
 

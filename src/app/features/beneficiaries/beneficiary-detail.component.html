@@ -135,13 +135,13 @@
                                 <div class="tools">
                                     <div class="right-table-tools">
                                         <mat-paginator [pageSize]="15"
-                                                       [length]="beneficiary.projects.length"
+                                                       [length]="beneficiary.numberProjects"
                                                        [hidePageSize]="true"
                                                        (page)="onPaginate($event)">
                                         </mat-paginator>
                                     </div>
                                 </div>
-                                <mat-table [dataSource]="displayProjects">
+                                <mat-table [dataSource]="beneficiaryProjects">
                                     <ng-container matColumnDef="label">
                                         <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
