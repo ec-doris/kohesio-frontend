@@ -82,9 +82,11 @@
                         <ng-container matColumnDef="name">
                             <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
                             <mat-cell *matCellDef="let row">
-                                <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
+                                <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                </ux-popover>
+                                <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)">
                                 <span>
-                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a>
+                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}} <span *ngIf="row.transliteration" class="muted-text">({{row.transliteration}})</span></a>
                                 </span>
                             </mat-cell>
                         </ng-container>

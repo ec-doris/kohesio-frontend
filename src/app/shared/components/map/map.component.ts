@@ -6,6 +6,7 @@ import {Filters} from "../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import {MapPopupComponent} from "./map-popup.component";
 import { UxAppShellService } from '@eui/core';
+import { DomSanitizer } from '@angular/platform-browser';
 declare let L;
 
 @Component({
@@ -28,6 +29,39 @@ export class MapComponent implements AfterViewInit {
     public mapRegions = [];
     public isLoading = false;
     public dataRetrieved = false;
+    public outermostRegions = [{
+        label: "Madeira",
+        country: "Q18",
+        id: "Q203"
+    },{
+        label: "Azores",
+        country: "Q18",
+        id: "Q204"
+    },{
+        label: "Canary Islands",
+        country: "Q7",
+        id: "Q205"
+    },{
+        label: "Réunion",
+        country: "Q20",
+        id: "Q206"
+    },{
+        label: "French Guiana",
+        country: "Q20",
+        id: "Q201"
+    },{
+        label: "Guadeloupe",
+        country: "Q20",
+        id: "Q2576740"
+    },{
+        label: "Martinique",
+        country: "Q20",
+        id: "Q198"
+    },{
+        label: "Mayotte",
+        country: "Q20",
+        id: "Q209"
+    }];
 
     @Input()
     public mapId = "map";
@@ -54,7 +88,8 @@ export class MapComponent implements AfterViewInit {
                 private _decimalPipe: DecimalPipe,
                 private resolver: ComponentFactoryResolver,
                 public uxAppShellService: UxAppShellService,
-                private injector: Injector) { }
+                private injector: Injector,
+                private sanitizer: DomSanitizer) { }
 
     ngAfterViewInit(): void {
         this.map = L.map(this.mapId,
@@ -301,7 +336,18 @@ export class MapComponent implements AfterViewInit {
             }, 1000);
     }
 
-    loadMapVisualization(filters: Filters, granularityRegion: string,){
+    loadOutermostRegion(filters: Filters, granularityRegion: string, label: string){
+        granularityRegion = environment.entityURL + granularityRegion;
+        this.loadMapVisualization(filters, granularityRegion);
+        this.mapRegions = this.mapRegions.slice(0,2);
+        this.mapRegions.push({
+            label: label,
+            region: granularityRegion
+        });
+    }
+
+    loadMapVisualization(filters: Filters, granularityRegion: string){
+        
         this.cleanMap();
         this.dataRetrieved = false;
         this.activeLoadingAfter1Second()
@@ -369,6 +415,23 @@ export class MapComponent implements AfterViewInit {
         }
     }
 
+    showOutermostRegions(){
+        if (this.mapRegions.length > 1){
+            const countryId = this.mapRegions[1].region.replace(environment.entityURL, "");
+            const region = this.outermostRegions.filter(region=>{
+                if (region.country == countryId){
+                    return true;
+                }
+            });
+            if (region.length){
+                return true;
+            }
+        }
+        return false;
+        
+        return this.mapRegions.length > 1;
+    }
+
     addFeatureCollectionLayer(featureCollection){
         this.addLayer(featureCollection, (feature, layer) => {
             layer.on({
@@ -384,6 +447,8 @@ export class MapComponent implements AfterViewInit {
                                 label: label,
                                 region: region
                             })
+                            //Slice to force trigger the pipe of outermost regions
+                            this.mapRegions = this.mapRegions.slice(0,this.mapRegions.length);
                         }
                     }
                 },
@@ -433,6 +498,10 @@ export class MapComponent implements AfterViewInit {
 
     ngOnDestroy(){
         document.getElementById(this.mapId).outerHTML = "";
+    }
+
+    sanitizeUrl(url:string){
+        return this.sanitizer.bypassSecurityTrustResourceUrl(url);
     }
 
 }

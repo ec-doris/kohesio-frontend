@@ -27,6 +27,12 @@
         right: 5px;
         z-index: 1;
     }
+    .right-outermost-regions{
+        position: absolute;
+        top: 60px;
+        right: 10px;
+        z-index: 1;
+    }
 }
 .map-regions-wrapper {
     display: flex;
@@ -39,6 +45,11 @@
         margin-left: 5px;
         margin-bottom: 5px;
     }
+}
+
+.map-outermost-regions-wrapper{
+    display: flex;
+    flex-direction: column;
 }
 
 .regionWrapper {
@@ -68,4 +79,30 @@
             max-width: 300px;
         }
     }
+}
+
+.outermostRegion-wrapper{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    max-height: 100px;
+
+    svg g path{
+        fill-opacity: 0.5;
+        stroke-width: 2;
+        stroke-opacity: 1;
+        fill: #ff7800;
+        stroke: #ff7800;
+    }
+
+    label{
+        cursor: pointer;
+    }
+
+}
+
+.outermostRegion-wrapper:hover{
+    background-color: aliceblue;
 }

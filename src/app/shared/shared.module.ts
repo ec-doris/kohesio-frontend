@@ -15,6 +15,7 @@ import {DownloadButtonComponent} from "./components/download-button/download-but
 import {ProjectDetailComponent} from "../features/projects/project-detail.component";
 import {ProjectDetailModalComponent} from "./components/project-detail-modal/project-detail-modal.component";
 import { ArraySortPipe } from './pipes/array-sort.pipe';
+import { OutermostRegionsPipe } from './pipes/outermost-regions.pipe';
 
 @NgModule({
     imports: [
@@ -29,6 +30,7 @@ import { ArraySortPipe } from './pipes/array-sort.pipe';
         MapComponent,
         BudgetPipe,
         ArraySortPipe,
+        OutermostRegionsPipe,
         MapPopupComponent,
         DownloadButtonComponent,
         ProjectDetailComponent,
@@ -43,6 +45,7 @@ import { ArraySortPipe } from './pipes/array-sort.pipe';
         MapComponent,
         BudgetPipe,
         ArraySortPipe,
+        OutermostRegionsPipe,
         DownloadButtonComponent,
         ProjectDetailComponent
     ],
