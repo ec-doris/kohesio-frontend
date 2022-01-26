@@ -44,12 +44,6 @@ export class ProjectsComponent implements AfterViewInit {
     public lastFiltersSearch;
     public entityURL = environment.entityURL;
 
-    public programSelectorLabel = "PROGRAMME (select a country first)";
-    public programSelectorDisabled = true;
-
-    public regionSelectorLabel = "REGION (select a country first)";
-    public regionSelectorDisabled = true;
-
     public semanticTerms = [];
 
     constructor(private projectService: ProjectService,
@@ -214,17 +208,6 @@ export class ProjectsComponent implements AfterViewInit {
     onCountryChange(){
         this.getRegions().then();
         this.getPrograms().then();
-        if (this.myForm.value.country == null) {
-            this.programSelectorDisabled = true;
-            this.programSelectorLabel = "PROGRAMME (select a country first)";
-            this.regionSelectorDisabled = true;
-            this.regionSelectorLabel = "REGION (select a country first)"
-        } else {
-            this.programSelectorDisabled = false;
-            this.programSelectorLabel = "PROGRAMME";
-            this.regionSelectorDisabled = false;
-            this.regionSelectorLabel = "REGION"
-        }
         this.myForm.patchValue({
             region: null,
             program: null
