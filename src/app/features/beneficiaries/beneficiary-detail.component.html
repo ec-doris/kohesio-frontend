@@ -141,7 +141,7 @@
                                         </mat-paginator>
                                     </div>
                                 </div>
-                                <mat-table [dataSource]="beneficiary.projects">
+                                <mat-table [dataSource]="displayProjects">
                                     <ng-container matColumnDef="label">
                                         <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
                                         <mat-cell *matCellDef="let row">
