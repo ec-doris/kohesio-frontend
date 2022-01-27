@@ -86,7 +86,7 @@
                                 </ux-popover>
                                 <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)">
                                 <span>
-                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}} <span *ngIf="row.transliteration" class="muted-text">({{row.transliteration}})</span></a>
+                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                                 </span>
                             </mat-cell>
                         </ng-container>

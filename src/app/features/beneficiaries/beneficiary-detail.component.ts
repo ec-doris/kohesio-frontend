@@ -6,6 +6,7 @@ import { UxAppShellService } from '@eui/core';
 import {BeneficiaryDetail} from "../../shared/models/beneficiary-detail.model";
 import { MatPaginator } from '@angular/material/paginator';
 import { BeneficiaryService } from 'src/app/services/beneficiary.service';
+import { BeneficiaryProjectList } from 'src/app/shared/models/beneficiary-project-list.model';
 import { startWith, tap, delay } from 'rxjs/operators';
 declare let L;
 
