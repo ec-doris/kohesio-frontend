@@ -30,6 +30,8 @@ export class ProjectDetail implements Deserializable{
     region: string;
     regionText: string;
     geoJson: any;
+    infoRegioUrl: string;
+    programInfoRegioUrl: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -60,7 +62,9 @@ export class ProjectDetail implements Deserializable{
             programmingPeriodLabel: input.programmingPeriodLabel,
             region: this.getRegion(input),
             regionText: input.regionText,
-            geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null
+            geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null,
+            infoRegioUrl: input.infoRegioUrl,
+            programInfoRegioUrl: input.programInfoRegioUrl
         });
     }
 
