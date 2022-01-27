@@ -11,16 +11,17 @@
                         <ux-form-group label="BENEFICIARY NAME" [isVertical]="true">
                             <input class="form-control" type="text" formControlName="name"/>
                         </ux-form-group>
-                        <ux-form-group label="COUNTRIES" [isVertical]="true">
+                        <ux-form-group label="COUNTRY" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"
                                              [selectOptions]="filters.countries"
                                              (modelChange)="onCountryChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="REGIONS" [isVertical]="true">
+                        <ux-form-group [label]="this.myForm.value.country ? 'REGION' : 'REGION (select a country)'" [isVertical]="true">
                             <ux-form-control formControlName="region"
                                              [isSelect]="true"
+                                             [isDisabled]="!this.myForm.value.country"
                                              [selectOptions]="filters.regions">
                             </ux-form-control>
                         </ux-form-group>
@@ -32,9 +33,10 @@
                                                  [selectOptions]="this.filters.funds">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
+                            <ux-form-group [label]="this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'" [isVertical]="true">
                                 <ux-form-control formControlName="program"
                                                  [isSelect]="true"
+                                                 [isDisabled]="!this.myForm.value.country"
                                                  [selectOptions]="this.filters.programs">
                                 </ux-form-control>
                             </ux-form-group>
