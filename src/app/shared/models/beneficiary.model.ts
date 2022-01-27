@@ -13,6 +13,7 @@ export class Beneficiary implements Deserializable{
     label: string;
     link: string;
     numberProjects: number;
+    transliteration: string;
 
 
     deserialize(input: any): this {
@@ -26,7 +27,8 @@ export class Beneficiary implements Deserializable{
             id: input.id.replace(environment.entityURL,""),
             label: input.label,
             link: input.link,
-            numberProjects: input.numberProjects
+            numberProjects: input.numberProjects,
+            transliteration: input.transliteration
         });
     }
 }
