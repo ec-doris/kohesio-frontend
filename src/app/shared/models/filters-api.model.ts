@@ -53,7 +53,11 @@ export class FiltersApi implements Deserializable{
             value: '1 000 000 000 - 10 000 000 000'
         }];
         FiltersApi.prototype.amountEUSupport = FiltersApi.prototype.totalProjectBudget;
-        FiltersApi.prototype.sort = [{
+        FiltersApi.prototype.sort = [
+        {
+            id: 'relevance',
+            value: 'Relevance'
+        },{
             id: 'orderStartDate-true',
             value: 'Start Date (ascending)'
         },{
