@@ -38,28 +38,28 @@
                                 </div>
                             </div>
                         </div>
-                        <ux-form-group label="COUNTRIES" [isVertical]="true">
+                        <ux-form-group label="COUNTRY" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.countries"
                                              (modelChange)="onCountryChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group [label]="this.regionSelectorLabel" [isVertical]="true">
+                        <ux-form-group [label]="this.myForm.value.country ? 'REGION' : 'REGION (select a country)'" [isVertical]="true">
                             <ux-form-control formControlName="region"
                                              [isSelect]="true"
-                                             [isDisabled]="this.regionSelectorDisabled"
+                                             [isDisabled]="!this.myForm.value.country"
                                              [selectOptions]="this.filters.regions">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
+                        <ux-form-group label="POLICY" [isVertical]="true">
                             <ux-form-control formControlName="policyObjective"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.policy_objective"
                                              (modelChange)="onPolicyObjectivesChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="THEMES" [isVertical]="true">
+                        <ux-form-group label="THEME" [isVertical]="true">
                             <ux-form-control formControlName="theme"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.thematic_objectives"
@@ -73,15 +73,15 @@
                                                  [selectOptions]="this.filters.programmingPeriods">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="FUNDS" [isVertical]="true">
+                            <ux-form-group label="FUND" [isVertical]="true">
                                 <ux-form-control formControlName="fund"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.funds">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group [label]="this.programSelectorLabel" [isVertical]="true">
+                            <ux-form-group [label]="this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'" [isVertical]="true">
                                 <ux-form-control formControlName="program"
-                                                 [isDisabled]="this.programSelectorDisabled"
+                                                 [isDisabled]="!this.myForm.value.country"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.programs">
                                 </ux-form-control>
@@ -104,7 +104,7 @@
                                                  [selectOptions]="this.filters.amountEUSupport">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="START - END" [isVertical]="true" >
+                            <ux-form-group label="DATE" [isVertical]="true" >
                                 <div class="kohesio-data-range">
                                     <ux-datepicker placeholder="Start" #startDate formControlName="projectStart" [maxDate]="endDate.input.value ? endDate.input.value : null"></ux-datepicker>
                                     <ux-datepicker placeholder="End" #endDate formControlName="projectEnd" [minDate]="startDate.input.value ? startDate.input.value : null"></ux-datepicker>

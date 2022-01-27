@@ -73,7 +73,7 @@
 
                         <div class="prjt-box--content">
                             <span>Programme: </span>
-                            <span>{{project?.programLabel}}</span>
+                            <span><a [href]="project?.programInfoRegioUrl" *ngIf="project?.programWebsite" target="_blank">{{project?.programLabel}}</a></span>
                             <span *ngIf="!project?.programLabel">n/a</span>
                         </div>
 

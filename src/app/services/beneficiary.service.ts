@@ -9,6 +9,7 @@ import {BeneficiaryList} from "../shared/models/beneficiary-list.model";
 import {ProjectDetail} from "../shared/models/project-detail.model";
 import {BeneficiaryDetail} from "../shared/models/beneficiary-detail.model";
 import { ConfigService } from './config.service';
+import { BeneficiaryProjectList } from '../shared/models/beneficiary-project-list.model';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +66,24 @@ export class BeneficiaryService {
                     throwError('Data is inconsistent');
                 }else {
                     return new BeneficiaryDetail().deserialize(data);
+                }
+            })
+        );
+    }
+
+    getBeneficiaryProjects(id: string, pageIndex:number = 0): Observable<BeneficiaryProjectList> {
+        const url = this.configService.apiBaseUrl + '/beneficiary/project';
+        let params = {
+            id: environment.entityURL + id,
+            page: pageIndex,
+            pageSize: 15
+        };
+        return this.http.get<any>(url, { params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    throwError('Data is inconsistent');
+                }else {
+                    return new BeneficiaryProjectList().deserialize(data);
                 }
             })
         );
