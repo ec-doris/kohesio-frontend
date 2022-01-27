@@ -55,6 +55,11 @@
                             <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                         </div>
+                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl">
+                            <span><span _ngcontent-tpq-c746="" style="color: red;">★</span> Highlighted: </span>
+                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">InfoRegio Website</a>
+                            <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
+                        </div>
                     </div>
 
                     <!-- Box 2 -->
@@ -65,7 +70,7 @@
                             <span>{{project?.fundLabel}}</span>
                             <span *ngIf="!project?.fundLabel">n/a</span>
                         </div>
-
+                        
                         <div class="prjt-box--content">
                             <span>Programming period: </span>
                             <span>{{project?.programmingPeriodLabel}}</span>
