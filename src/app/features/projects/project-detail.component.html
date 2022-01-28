@@ -165,8 +165,8 @@
                                                    <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                                 </div>
                                             </a>
-                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length">
-                                                <img *ngIf="project?.objectiveIds" class="topic" src="{{'assets/images/topics/' + project?.objectiveIds[0] + '.png'}}">
+                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
+                                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
                                             </div>
                                         </div>
                                         <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>

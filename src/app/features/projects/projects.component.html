@@ -159,8 +159,8 @@
                                                                 </div>
                                                             </a>
                                                         </ng-container>
-                                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length">
-                                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
+                                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}">
                                                         </div>
                                                     </div>
                                                 </figure>
