@@ -75,10 +75,9 @@
                             <span>Programming period: </span>
                             <span>{{project?.programmingPeriodLabel}}</span>
                         </div>
-
                         <div class="prjt-box--content">
                             <span>Programme: </span>
-                            <span><a [href]="project?.programInfoRegioUrl" *ngIf="project?.programWebsite" target="_blank">{{project?.programLabel}}</a></span>
+                            <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
                             <span *ngIf="!project?.programLabel">n/a</span>
                         </div>
 
