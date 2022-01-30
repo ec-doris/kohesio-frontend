@@ -58,6 +58,10 @@ export class ProjectsComponent implements AfterViewInit {
         private datePipe: DatePipe) { }
 
     ngOnInit() {
+
+        let tab = this._route.snapshot.queryParamMap.get('tab');
+        this.initTabs(tab);
+
         this.filters = this._route.snapshot.data.filters;
 
         this.myForm = this.formBuilder.group({
@@ -106,13 +110,6 @@ export class ProjectsComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
-
-
-        let tab = this._route.snapshot.queryParamMap.get('tab');
-
-        this.isResultsTab = tab === 'results' || tab === '';
-        this.isAudioVisualTab = tab === 'audiovisual';
-        this.isMapTab = tab === 'map';
         
     }
 
@@ -252,8 +249,33 @@ export class ProjectsComponent implements AfterViewInit {
         });
     }
 
+    initTabs(tabTitle){
+        switch (tabTitle) {
+            case 1: //Results
+                this.isResultsTab = true;
+                this.selectedTabIndex = 1;
+                break;
+            case 2: //Audio-visual
+                this.isAudioVisualTab = true;
+                this.selectedTabIndex = 2;
+                break;
+            case 3: //Map
+                if (!this.mapIsLoaded) {
+                    this.isMapTab = true;
+                    this.mapIsLoaded = true;
+                    this.map.refreshView();
+                    setTimeout(
+                        () => {
+                            this.map.loadMapRegion(this.lastFiltersSearch);
+                        }, 500);
+                }
+                this.selectedTabIndex = 3;
+                break;
+        }
+    }
+
     onTabSelected(event) {
-        
+
         let tabValue = '';
         switch (event.index) {
             case 1: //Results
