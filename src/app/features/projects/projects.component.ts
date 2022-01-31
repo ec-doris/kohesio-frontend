@@ -59,9 +59,6 @@ export class ProjectsComponent implements AfterViewInit {
 
     ngOnInit() {
 
-        let tab = this._route.snapshot.queryParamMap.get('tab');
-        this.initTabs(tab);
-
         this.filters = this._route.snapshot.data.filters;
 
         this.myForm = this.formBuilder.group({
@@ -110,7 +107,7 @@ export class ProjectsComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
-        
+
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -254,17 +251,18 @@ export class ProjectsComponent implements AfterViewInit {
         });
     }
 
-    initTabs(tabTitle){
+    initTabs(tabTitle) {
+
         switch (tabTitle) {
-            case 1: //Results
+            case "results": //Results
                 this.isResultsTab = true;
                 this.selectedTabIndex = 1;
                 break;
-            case 2: //Audio-visual
+            case "audiovisual": //Audio-visual
                 this.isAudioVisualTab = true;
                 this.selectedTabIndex = 2;
                 break;
-            case 3: //Map
+            case "map": //Map
                 if (!this.mapIsLoaded) {
                     this.isMapTab = true;
                     this.mapIsLoaded = true;
@@ -280,17 +278,25 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onTabSelected(event) {
+        
+        this.isResultsTab = false;
+        this.isAudioVisualTab = false;
+        this.isMapTab = false;
 
-        let tabValue = '';
-        switch (event.index) {
-            case 1: //Results
-                tabValue = 'results';
+        let tab = this._route.snapshot.queryParamMap.get('tab');
+        
+        switch (tab) {
+            case 'results': //Results
+                // this.selectedTabIndex = 1;
+                this.isResultsTab = true;
                 break;
-            case 2: //Audio-visual
-                tabValue = 'audiovisual';
+            case 'audiovisual': //Audio-visual
+                // this.selectedTabIndex = 2;
+                this.isAudioVisualTab = true;
                 break;
-            case 3: //Map
+            case 'map': //Map
                 if (!this.mapIsLoaded) {
+                    console.log(this.map);
                     this.mapIsLoaded = true;
                     this.map.refreshView();
                     setTimeout(
@@ -299,14 +305,14 @@ export class ProjectsComponent implements AfterViewInit {
                         }, 500);
                 }
                 this.selectedTabIndex = event.index;
-                tabValue = 'map'
+                this.isMapTab = true;
                 break;
         }
 
         this._router.navigate([], {
             relativeTo: this._route,
             queryParams: {
-                tab: tabValue,
+                tab: tab,
             },
             queryParamsHandling: 'merge',
         });
