@@ -39,7 +39,7 @@
                             <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                         </div>
                         <div class="prjt-box--content">
-                            <span>Funded by EU: </span>
+                            <span>EU contribution: </span>
                             <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="beneficiary?.totalEuBudget==0">n/a</span>
                         </div>
