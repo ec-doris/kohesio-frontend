@@ -55,9 +55,8 @@
                             <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                         </div>
-                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl">
-                            <span><span _ngcontent-tpq-c746="" style="color: red;">★</span> Highlighted: </span>
-                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">InfoRegio Website</a>
+                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
+                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Discover in InfoRegio</a>
                             <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
                         </div>
                     </div>
@@ -175,7 +174,9 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{project?.label}}
+                                    <ux-popover #highlightedPopover title="Highlighted" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                    </ux-popover>
+                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{project?.description}}</p>
