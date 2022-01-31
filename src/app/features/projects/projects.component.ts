@@ -160,6 +160,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onSubmit() {
+        if (!this.myForm.value.sort) {
+            this.myForm.patchValue({
+                sort: "orderTotalBudget-false"
+            });
+        }
         this.projects = [];
         if (this.paginatorTop.pageIndex == 0) {
             this.getProjectList();
@@ -205,7 +210,7 @@ export class ProjectsComponent implements AfterViewInit {
             amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
             projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
             projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
-            sort: this.getFilterLabel("sort", this.myForm.value.sort)
+            sort: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
         }
     }
 
