@@ -349,7 +349,10 @@ export class ProjectsComponent implements AfterViewInit {
         this.myForm.reset();
     }
 
-    onSortChange() {
+    onSortChange(){
+        if (!this.myForm.value.sort) {
+            this.myForm.value.sort = "relevance"
+        }
         this.onSubmit();
     }
 

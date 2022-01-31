@@ -55,9 +55,8 @@
                             <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                         </div>
-                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl">
-                            <span><span _ngcontent-tpq-c746="" style="color: red;">★</span> Highlighted: </span>
-                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">InfoRegio Website</a>
+                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
+                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Discover in InfoRegio</a>
                             <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
                         </div>
                     </div>
@@ -75,23 +74,19 @@
                             <span>Programming period: </span>
                             <span>{{project?.programmingPeriodLabel}}</span>
                         </div>
-
                         <div class="prjt-box--content">
                             <span>Programme: </span>
-                            <span *ngIf="project?.programInfoRegioUrl">
-                                <a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a>
-                            </span>
-                            <span *ngIf="!project?.programInfoRegioUrl">{{project?.programLabel ? project?.programLabel : 'n/a'}}</span>
+                            <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Total budget: </span>
+                            <span>Budget: </span>
                             <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="!project?.budget">n/a</span>
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Funded by EU: </span>
+                            <span>EU contribution: </span>
                             <span *ngIf="!project?.euBudget">n/a</span>
                             <span *ngIf="project?.euBudget">
                                 {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} 
@@ -169,8 +164,8 @@
                                                    <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                                 </div>
                                             </a>
-                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length">
-                                                <img *ngIf="project?.objectiveIds" class="topic" src="{{'assets/images/topics/' + project?.objectiveIds[0] + '.png'}}">
+                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
+                                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
                                             </div>
                                         </div>
                                         <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>
@@ -179,7 +174,9 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{project?.label}}
+                                    <ux-popover #highlightedPopover title="Highlighted" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                    </ux-popover>
+                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{project?.description}}</p>
@@ -232,7 +229,7 @@
                     </div>
 
                     <!-- Box large 1 -->
-                    <!--<div class="prjt-box__large">
+                    <div class="prjt-box__large">
                         <div class="prjt-box prjt-box&#45;&#45;grey">
                             <h2 class="prjt-box&#45;&#45;title">related materials</h2>
                             <div class="prjt-box&#45;&#45;content">
@@ -240,7 +237,7 @@
                                 <span>Communication campaign</span>
                             </div>
                         </div>
-                    </div>-->
+                    </div>
                 </eui-page-column-body>
             </eui-page-column>
         </eui-page-columns>
