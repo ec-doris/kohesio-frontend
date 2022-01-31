@@ -13,7 +13,7 @@
                     <span *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile" euiLabel>PROJECTS NEAR ME</span>
                 </button>&nbsp;
             </div>
-            <ux-panel *ngIf="showOutermostRegions()" [isCollapsed] = "false" class="right-outermost-regions" label="Overseas Regions">
+            <ux-panel *ngIf="showOutermostRegions()" [isCollapsed] = "false" class="right-outermost-regions" label="Outermost Regions">
                 <div class="map-outermost-regions-wrapper">
                     <!-- <object data="assets/images/outermostRegions/Q205.svg"></object> -->
                     <div (click)="loadOutermostRegion(filters, outermostRegion.id, outermostRegion.label) " 
