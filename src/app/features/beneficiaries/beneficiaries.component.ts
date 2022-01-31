@@ -23,6 +23,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     public dataSource:MatTableDataSource<Beneficiary>;
     public isLoading = false;
     public count = 0;
+    public page = 0;
     @ViewChild(MatPaginator) paginator: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
@@ -35,6 +36,7 @@ export class BeneficiariesComponent implements AfterViewInit {
                 public uxAppShellService: UxAppShellService){}
 
     ngOnInit(){
+       
         this.filters = this._route.snapshot.data.filters;
 
         this.myForm = this.formBuilder.group({
@@ -73,7 +75,6 @@ export class BeneficiariesComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.performSearch();
         }
-
     }
 
     private getFilterKey(type: string, queryParam: string){
@@ -85,6 +86,11 @@ export class BeneficiariesComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+        let pageValue = this._route.snapshot.queryParamMap.get('page');
+        if(this.paginator.pageIndex != +pageValue){
+            this.paginator.pageIndex = +pageValue;
+        }
+        this.performSearch();
     }
 
     onSubmit() {
@@ -106,7 +112,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     performSearch(){
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
+        let offset = this.paginator ? this.paginator.pageIndex : 0;
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result:BeneficiaryList) => {
             this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
             this.count = result.numberResults;
@@ -162,6 +168,14 @@ export class BeneficiariesComponent implements AfterViewInit {
     onPaginate(event){
         this.paginator.pageIndex = event.pageIndex;
         this.performSearch();
+        
+        this._router.navigate([], {
+            relativeTo: this._route,
+            queryParams: {
+              page: event.pageIndex === 0 ? 0 : event.pageIndex,
+            },
+            queryParamsHandling: 'merge',
+          });
     }
 
     onSortChange(){
