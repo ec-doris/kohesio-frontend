@@ -32,35 +32,54 @@ export class MapComponent implements AfterViewInit {
     public outermostRegions = [{
         label: "Madeira",
         country: "Q18",
+        countryLabel: "Portugal",
         id: "Q203"
     },{
         label: "Azores",
         country: "Q18",
+        countryLabel: "Portugal",
         id: "Q204"
     },{
         label: "Canary Islands",
         country: "Q7",
+        countryLabel: "Spain",
         id: "Q205"
     },{
         label: "Réunion",
         country: "Q20",
+        countryLabel: "France",
         id: "Q206"
     },{
         label: "French Guiana",
         country: "Q20",
+        countryLabel: "France",
         id: "Q201"
     },{
         label: "Guadeloupe",
         country: "Q20",
+        countryLabel: "France",
         id: "Q2576740"
     },{
         label: "Martinique",
         country: "Q20",
+        countryLabel: "France",
         id: "Q198"
     },{
         label: "Mayotte",
         country: "Q20",
+        countryLabel: "France",
         id: "Q209"
+    }];
+    // Format L.latLngBounds = southWest, northEast
+    public overrideBounds = [{
+        id: 'Q20',
+        bounds: L.latLngBounds(L.latLng(41.3403079293, -4.8450636176), L.latLng(51.2587688404, 9.7020364496))
+    },{
+        id: 'Q7',
+        bounds: L.latLngBounds(L.latLng(36.037266989,-9.2600844574), L.latLng(43.8462272853,3.3209832112))
+    },{
+        id: 'Q18',
+        bounds: L.latLngBounds(L.latLng(36.8702042109,-9.5360565336), L.latLng(42.2278301749,-6.137649751))
     }];
 
     @Input()
@@ -336,12 +355,16 @@ export class MapComponent implements AfterViewInit {
             }, 1000);
     }
 
-    loadOutermostRegion(filters: Filters, granularityRegion: string, label: string){
-        granularityRegion = environment.entityURL + granularityRegion;
+    loadOutermostRegion(filters: Filters, outermostRegion: any){
+        const granularityRegion = environment.entityURL + outermostRegion.id;
         this.loadMapVisualization(filters, granularityRegion);
-        this.mapRegions = this.mapRegions.slice(0,2);
+        this.mapRegions = this.mapRegions.slice(0,1);
         this.mapRegions.push({
-            label: label,
+            label: outermostRegion.countryLabel,
+            region: environment.entityURL + outermostRegion.country
+        });
+        this.mapRegions.push({
+            label: outermostRegion.label,
             region: granularityRegion
         });
     }
@@ -372,7 +395,15 @@ export class MapComponent implements AfterViewInit {
             }else if (data.subregions && data.subregions.length) {
                 //Draw polygons of the regions
                 if (data.region && data.geoJson){
-                    this.fitToGeoJson(data.geoJson);
+                    const regionId = granularityRegion.replace(environment.entityURL, '');
+                    const overrideBound:any = this.overrideBounds.find(region=>{
+                        return region.id == regionId;
+                    })
+                    if (overrideBound){
+                        this.fitBounds(overrideBound.bounds);
+                    }else{
+                        this.fitToGeoJson(data.geoJson);
+                    }
                 }
                 data.subregions.forEach(region => {
                     const countryProps = Object.assign({}, region);
@@ -416,6 +447,9 @@ export class MapComponent implements AfterViewInit {
     }
 
     showOutermostRegions(){
+        if (this.breakpointsValue.isMobile){
+            return false;
+        }
         if (this.mapRegions.length > 1){
             const countryId = this.mapRegions[1].region.replace(environment.entityURL, "");
             const region = this.outermostRegions.filter(region=>{
@@ -423,13 +457,11 @@ export class MapComponent implements AfterViewInit {
                     return true;
                 }
             });
-            if (region.length){
-                return true;
+            if (!region.length){
+                return false;
             }
         }
-        return false;
-        
-        return this.mapRegions.length > 1;
+        return true;
     }
 
     addFeatureCollectionLayer(featureCollection){

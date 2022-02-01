@@ -32,6 +32,7 @@
         top: 60px;
         right: 10px;
         z-index: 1;
+        width: 218px;
     }
 }
 .map-regions-wrapper {
@@ -47,9 +48,19 @@
     }
 }
 
-.map-outermost-regions-wrapper{
+.map-outermost-regions-wrapper.withoutColumns{
     display: flex;
     flex-direction: column;
+    .outermostRegion-wrapper{
+        max-height: 100px;
+    }
+}
+
+.map-outermost-regions-wrapper.withColumns{
+    column-count: 2;
+    .outermostRegion-wrapper{
+        max-height: 120px;
+    }
 }
 
 .regionWrapper {
@@ -87,7 +98,7 @@
     justify-content: center;
     align-items: center;
     cursor: pointer;
-    max-height: 100px;
+    max-height: 120px;
 
     svg g path{
         fill-opacity: 0.5;
@@ -99,6 +110,7 @@
 
     label{
         cursor: pointer;
+        text-align: center;
     }
 
 }
