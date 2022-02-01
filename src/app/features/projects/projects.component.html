@@ -92,7 +92,7 @@
                                                  [selectOptions]="this.filters.categoriesOfIntervention">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="BUDGET" [isVertical]="true">
+                            <ux-form-group label="TOTAL BUDGET" [isVertical]="true">
                                 <ux-form-control formControlName="totalProjectBudget"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.totalProjectBudget">
@@ -168,7 +168,11 @@
                                         </header>
                                         <div class="article--post__inner">
                                             <h1 class="article--post__title">
+                                                <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                                    <b>Highlighted project</b>
+                                                </ux-popover>
                                                 <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                                <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> 
                                             </h1>
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
@@ -185,7 +189,7 @@
                                                             <span class="amount">
                                                     {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                                 <span *ngIf="!project.totalBudget">n/a</span>
-                                                    <span class="support">Budget</span>
+                                                    <span class="support">Total budget</span>
                                                 </span>
                                                         </div>
                                                     </li>
@@ -230,7 +234,7 @@
                                            (page)="onPaginateAssets($event)"
                                            [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                             </mat-paginator>
-                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available!</div>
+                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="audio-visual-container">
                                     <ng-container *ngFor="let asset of assets">

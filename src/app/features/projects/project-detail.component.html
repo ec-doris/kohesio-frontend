@@ -80,7 +80,7 @@
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Budget: </span>
+                            <span>Total budget: </span>
                             <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="!project?.budget">n/a</span>
                         </div>
@@ -174,7 +174,8 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    <ux-popover #highlightedPopover title="Highlighted" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                    <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                        <b>Highlighted project</b>
                                     </ux-popover>
                                     {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
                                 </h1>
@@ -230,12 +231,13 @@
 
                     <!-- Box large 1 -->
                     <div class="prjt-box__large">
-                        <div class="prjt-box prjt-box&#45;&#45;grey">
-                            <h2 class="prjt-box&#45;&#45;title">related materials</h2>
-                            <div class="prjt-box&#45;&#45;content">
-                                <span>Images & Videos</span>
-                                <span>Communication campaign</span>
-                            </div>
+                        <h3 class="prjt-box&#45;&#45;title">Audiovisual material</h3>
+                        <div class="prjt-box&#45;&#45;content">
+                            <ng-container *ngFor="let image_url of project?.images">
+                                <div class="container">
+                                    <img [src]="image_url.image">
+                                </div>
+                            </ng-container>
                         </div>
                     </div>
                 </eui-page-column-body>
