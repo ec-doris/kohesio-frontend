@@ -80,39 +80,41 @@
                         </div>
                     </div>
                     <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
-                    <mat-table [dataSource]="dataSource">
-                        <ng-container matColumnDef="name">
-                            <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
-                                </ux-popover>
-                                <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)">
-                                <span>
-                                    <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
-                                </span>
-                            </mat-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="budget">
-                            <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
-                            </mat-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="euBudget">
-                            <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
-                            </mat-cell>
-                        </ng-container>
-                        <ng-container matColumnDef="numberProjects">
-                            <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
-                            <mat-cell *matCellDef="let row">
-                                <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
-                            </mat-cell>
-                        </ng-container>
-                        <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
-                        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                    </mat-table>
+                    <ux-block-content [isBlocked]="isLoading">
+                        <mat-table [dataSource]="dataSource">
+                            <ng-container matColumnDef="name">
+                                <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                    </ux-popover>
+                                    <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)">
+                                    <span>
+                                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                                    </span>
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="budget">
+                                <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="euBudget">
+                                <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
+                                </mat-cell>
+                            </ng-container>
+                            <ng-container matColumnDef="numberProjects">
+                                <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
+                                <mat-cell *matCellDef="let row">
+                                    <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
+                                </mat-cell>
+                            </ng-container>
+                            <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
+                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                        </mat-table>
+                    </ux-block-content>
                 </eui-page-column-body>
             </eui-page-column>
         </eui-page-columns>
