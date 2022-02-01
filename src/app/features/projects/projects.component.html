@@ -92,7 +92,7 @@
                                                  [selectOptions]="this.filters.categoriesOfIntervention">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="BUDGET" [isVertical]="true">
+                            <ux-form-group label="TOTAL BUDGET" [isVertical]="true">
                                 <ux-form-control formControlName="totalProjectBudget"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.totalProjectBudget">
@@ -185,7 +185,7 @@
                                                             <span class="amount">
                                                     {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                                 <span *ngIf="!project.totalBudget">n/a</span>
-                                                    <span class="support">Budget</span>
+                                                    <span class="support">Total budget</span>
                                                 </span>
                                                         </div>
                                                     </li>
