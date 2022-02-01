@@ -174,7 +174,8 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    <ux-popover #highlightedPopover title="Highlighted" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                                    <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                        <b>Highlighted project</b>
                                     </ux-popover>
                                     {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
                                 </h1>

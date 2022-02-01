@@ -168,7 +168,11 @@
                                         </header>
                                         <div class="article--post__inner">
                                             <h1 class="article--post__title">
+                                                <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                                    <b>Highlighted project</b>
+                                                </ux-popover>
                                                 <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                                <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> 
                                             </h1>
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
