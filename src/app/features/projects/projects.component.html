@@ -234,7 +234,7 @@
                                            (page)="onPaginateAssets($event)"
                                            [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                             </mat-paginator>
-                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available!</div>
+                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="audio-visual-container">
                                     <ng-container *ngFor="let asset of assets">
