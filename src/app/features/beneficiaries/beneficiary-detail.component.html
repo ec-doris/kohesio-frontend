@@ -86,7 +86,7 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{beneficiary?.beneficiaryLabel}}
+                                    {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{beneficiary?.description}}</p>

@@ -22,6 +22,7 @@ export class BeneficiaryDetail implements Deserializable{
         fundLabel: string;
         totalEuBudget: number;
     }]
+    transliteration: string
 
 
     deserialize(input: any): this {
@@ -41,7 +42,8 @@ export class BeneficiaryDetail implements Deserializable{
             website: input.website,
             description: input.description,
             coordinates: input.coordinates,
-            budgetsPerFund: input.budgetsPerFund
+            budgetsPerFund: input.budgetsPerFund,
+            transliteration: input.transliteration
         });
     }
 
