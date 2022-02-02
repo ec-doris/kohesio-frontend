@@ -134,14 +134,12 @@
                         <div class="prjt-box prjt-box--grey">
                             <h2 class="prjt-box--title">projects</h2>
                             <div class="prjt-box--content">
-                                <div class="tools">
-                                    <div class="right-table-tools">
-                                        <mat-paginator [pageSize]="15"
-                                                       [length]="beneficiary.numberProjects"
-                                                       [hidePageSize]="true"
-                                                       (page)="onPaginate($event)">
-                                        </mat-paginator>
-                                    </div>
+                                <div class="right-table-tools">
+                                    <mat-paginator [pageSize]="15"
+                                                   [length]="beneficiary.numberProjects"
+                                                   [hidePageSize]="true"
+                                                   (page)="onPaginate($event)">
+                                    </mat-paginator>
                                 </div>
                                 <mat-table [dataSource]="beneficiaryProjects">
                                     <ng-container matColumnDef="label">
