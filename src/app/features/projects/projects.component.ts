@@ -44,6 +44,17 @@ export class ProjectsComponent implements AfterViewInit {
     public lastFiltersSearch;
     public entityURL = environment.entityURL;
 
+    public policyToThemes = {
+        Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
+        Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
+        Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
+        Q2577335: ["Q236695"],                          //Connected Europe
+        Q2577336: ["Q236699"],                          //Europe closer to citizens
+        Q2577337: ["Q2577338"],                         //Technical Assistance
+    }
+
+    public themeSelection = []
+
     public semanticTerms = [];
 
     constructor(private projectService: ProjectService,
@@ -106,6 +117,8 @@ export class ProjectsComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
+        this.onThemeChange();
+        this.getThemes();
 
     }
 
@@ -120,6 +133,17 @@ export class ProjectsComponent implements AfterViewInit {
     ngAfterViewInit(): void {
 
     }
+
+    getThemes() {
+        const policy = this.myForm.value.policyObjective
+        if (policy == null) {
+            this.themeSelection = this.filters.thematic_objectives
+        } else {
+            this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy].includes(theme["id"]))
+        }
+    }
+
+
 
     private getProjectList(){
 
@@ -220,15 +244,21 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPolicyObjectivesChange(){
+        this.getThemes();
         this.myForm.patchValue({
             theme: null
         });
     }
 
     onThemeChange(){
-        this.myForm.patchValue({
-            policyObjective: null
-        });
+        const theme = this.myForm.value.theme
+        for (const policy in this.policyToThemes) {
+            if (this.policyToThemes[policy].includes(theme)) {
+                this.myForm.patchValue({
+                    policyObjective: policy
+                });
+            }
+        }
     }
 
     getRegions(): Promise<any>{
