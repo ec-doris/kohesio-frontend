@@ -3,8 +3,8 @@
         <a href="#my-region" class="carousel-title eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
             <span>Curious to discover what Europe does in your region or city? Explore Kohesio map</span>
             <div class="carousel-btn">
-                <ux-button typeClass="accent" styleClass="carousel-btn--primary">
-                    GO TO MAP
+                <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]='' fragment='my-region'>
+                    EXPLORE THE MAP
                     <span class="ux-icon ux-icon-angle-right"></span>
                 </ux-button>
             </div>
@@ -15,7 +15,7 @@
         <a class="carousel-title eui-u-anim eui-u-anim--fadeIn"[routerLink]="['/projects']">
             <span>Are you looking for inspiration or successful EU projects to share? Enjoy the project search advanced functionalities</span>
             <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]="['/projects']">
-                GO TO PROJECTS
+                BROWSE THE PROJECTS
                 <span class="ux-icon ux-icon-angle-right"></span>
             </ux-button>
         </a>
@@ -25,7 +25,7 @@
         <a href="https://data.linkedopendata.eu/" target="_blank" class="carousel-title eui-u-anim eui-u-anim--fadeIn">
             <span>Do you want to reuse Kohesio open and linked data? Navigate the EU knowledge graph and export datasets</span>
             <ux-button typeClass="accent" styleClass="carousel-btn--primary">
-                EXPORT THE DATA
+                GET THE DATA
                 <span class="ux-icon ux-icon-angle-right"></span>
             </ux-button>
         </a>
