@@ -83,7 +83,7 @@
                 </div>
             </div>
         </ng-container>
-        <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/' && this.router.url != '/404'"></ux-layout-breadcrumbs>
+        <ux-layout-breadcrumbs homeUrl="/" *ngIf="this.router.url != '/' || this.router.url != '/#my-region'   && this.router.url != '/404'"></ux-layout-breadcrumbs>
         <router-outlet></router-outlet>
     </uxAppShellMainContent>
 
