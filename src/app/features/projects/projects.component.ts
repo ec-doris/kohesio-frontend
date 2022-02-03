@@ -45,6 +45,17 @@ export class ProjectsComponent implements AfterViewInit {
     public entityURL = environment.entityURL;
     public page: number = 0;
 
+    public policyToThemes = {
+        Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
+        Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
+        Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
+        Q2577335: ["Q236695"],                          //Connected Europe
+        Q2577336: ["Q236699"],                          //Europe closer to citizens
+        Q2577337: ["Q2577338"],                         //Technical Assistance
+    }
+
+    public themeSelection = []
+
     public semanticTerms = [];
 
     constructor(private projectService: ProjectService,
@@ -125,6 +136,8 @@ export class ProjectsComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.getProjectList();
         }
+        this.onThemeChange();
+        this.getThemes();
 
     }
 
