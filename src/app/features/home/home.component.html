@@ -1,49 +1,38 @@
 <ux-carousel-items *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile">
+    <!-- <ux-carousel-item [isActive]="index === 0"> -->
     <ux-carousel-item>
-        <div class="carousel-title">
-            <span>european union supports projects in all regions to make europe stronger</span>
+        <a href="#my-region" class="carousel-title eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
+            <span>Curious to discover what Europe does in your region or city? Explore Kohesio map</span>
             <div class="carousel-btn">
-                <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]="['/about']">
-                    LEARN MORE
+                <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]='' fragment='my-region'>
+                    EXPLORE THE MAP
                     <span class="ux-icon ux-icon-angle-right"></span>
                 </ux-button>
             </div>
-        </div>
-        <img class="carousel-item--img" src="assets/images/banners/banner1_v3.jpg">
-    </ux-carousel-item>
-    <ux-carousel-item>
-        <a class="carousel-title" [routerLink]="['/projects','Q141625']">
-            <span>Mobile, non-polluting and silencing generator, based on renewable energy and hydrogen storage</span>
-            <div class="icons">
-                <div class="icons--inner">
-                    {{ '353751' | currency:'EUR':'symbol':'1.2-2':'fr' }}
-                </div>
-                <div class="icons--inner">
-                    <i class="icon fa fa-map-marker"></i>France
-                </div>
-                <div class="icons--inner">
-                    <i class="icon fa fa-clock-o"></i>2014 - 2020
-                </div>
-            </div>
         </a>
-        <img class="carousel-item--img" src="assets/images/banners/banner2.jpg">
+        <img class="carousel-item--img eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow" src="assets/images/banners/kohesio-citizens.png">
     </ux-carousel-item>
-    <ux-carousel-item>
-        <a class="carousel-title" [routerLink]="['/projects','Q142771']">
-            <span>Lavoisier Phase 2</span>
-            <div class="icons">
-                <div class="icons--inner">
-                    {{ '2375038' | currency:'EUR':'symbol':'1.2-2':'fr' }}
-                </div>
-                <div class="icons--inner">
-                    <i class="icon fa fa-map-marker"></i>France
-                </div>
-                <div class="icons--inner">
-                    <i class="icon fa fa-clock-o"></i>2014 - 2020
-                </div>
-            </div>
+    <!-- <ux-carousel-item [isActive]="index === 1" class="eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow"> -->
+    <ux-carousel-item class="eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
+        <a class="carousel-title eui-u-anim eui-u-anim--fadeIn"[routerLink]="['/projects']">
+            <span>Are you looking for inspiration or successful EU projects to share? Enjoy the project search advanced functionalities</span>
+            <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]="['/projects']">
+                BROWSE THE PROJECTS
+                <span class="ux-icon ux-icon-angle-right"></span>
+            </ux-button>
         </a>
-        <img class="carousel-item--img" src="assets/images/banners/banner3.jpg">
+        <img class="carousel-item--img eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow" src="assets/images/banners/kohesio-policy.png">
+    </ux-carousel-item>
+    <!-- <ux-carousel-item [isActive]="index === 2"class="eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow"> -->
+    <ux-carousel-item class="eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
+        <a href="https://data.linkedopendata.eu/" target="_blank" class="carousel-title eui-u-anim eui-u-anim--fadeIn">
+            <span>Do you want to reuse Kohesio open and linked data? Navigate the EU knowledge graph and export datasets</span>
+            <ux-button typeClass="accent" styleClass="carousel-btn--primary">
+                GET THE DATA
+                <span class="ux-icon ux-icon-angle-right"></span>
+            </ux-button>
+        </a>
+        <img class="carousel-item--img eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow" src="assets/images/banners/kohesio-data.png">
     </ux-carousel-item>
 </ux-carousel-items>
 
@@ -62,7 +51,7 @@
     </div>
 </ng-container>-->
 
-<div class="section-container mt-5">
+<div class="section-container mt-2">
     <!--section id="figures">
         <h2>KEY FIGURES</h2>
         <ul class="figures-list">
