@@ -69,7 +69,6 @@ export class ProjectsComponent implements AfterViewInit {
                 if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
                     this.paginatorTop.pageIndex = this.page;
                     this.paginatorDown.pageIndex = this.page;
-                    this.paginatorAssets.pageIndex = this.page;
                 }
                 this.getProjectList();
             }
@@ -140,7 +139,6 @@ export class ProjectsComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginatorTop.pageIndex = this.page;
         this.paginatorDown.pageIndex = this.page;
-        this.paginatorAssets.pageIndex = this.page;
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
     }
@@ -200,15 +198,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPaginate(event) {
+        
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
-        // this.paginatorAssets.pageIndex = event.pageIndex;
-        this.getProjectList();
-
-        // this.paginatorTop.pageIndex = event.pageIndex;
-        // this.paginatorDown.pageIndex = event.pageIndex;
-
         this.page = event.pageIndex;
+        
         this.getProjectList();
 
         this._router.navigate([], {
