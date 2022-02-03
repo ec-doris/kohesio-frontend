@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run ng -- build --configuration=dev --outputHashing=all --no-progress
+RUN npm run ng -- build --configuration=production --outputHashing=all --no-progress
 
 #Final image
 FROM nginx:1.15.8-alpine
