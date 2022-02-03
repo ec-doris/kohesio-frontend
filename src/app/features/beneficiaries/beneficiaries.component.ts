@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
-import { Router, ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Filters } from "../../shared/models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -35,7 +35,23 @@ export class BeneficiariesComponent implements AfterViewInit {
         private _route: ActivatedRoute,
         private _router: Router,
         public uxAppShellService: UxAppShellService,
-        private changeDetectorRef: ChangeDetectorRef) { }
+        private changeDetectorRef: ChangeDetectorRef) {
+
+            this._router.events.subscribe((event: NavigationStart) => {
+                
+                this.page = +this._route.snapshot.queryParamMap.get('page');
+                
+                if (event.navigationTrigger === 'popstate') {
+
+                    this.page = +event.url.charAt(event.url.length - 1);
+                
+                    if(this.paginator){
+                        this.paginator.pageIndex = this.page;
+                    } 
+                    this.performSearch();
+                }
+            });
+         }
 
     ngOnInit() {
 
@@ -77,10 +93,6 @@ export class BeneficiariesComponent implements AfterViewInit {
             !this._route.snapshot.queryParamMap.get('program')) {
             this.performSearch();
         }
-
-        let pageValue = this._route.snapshot.queryParamMap.get('page');
-        this.page = +pageValue;
-        this.performSearch();
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -94,6 +106,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginator.pageIndex = this.page;
         this.changeDetectorRef.detectChanges();
+        this.performSearch();
     }
 
     onSubmit() {
@@ -169,12 +182,15 @@ export class BeneficiariesComponent implements AfterViewInit {
     }
 
     onPaginate(event) {
+        
         this.paginator.pageIndex = event.pageIndex;
+        this.page = event.pageIndex;
         this.performSearch();
+
         this._router.navigate([], {
             relativeTo: this._route,
             queryParams: {
-                page: event.pageIndex === this.page ? this.page : event.pageIndex,
+                page: event.pageIndex === 0 ? 0 : this.page,
             },
             queryParamsHandling: 'merge',
         });
