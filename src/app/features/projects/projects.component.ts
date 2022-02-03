@@ -155,6 +155,15 @@ export class ProjectsComponent implements AfterViewInit {
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
     }
+    
+    getThemes() {
+        const policy = this.myForm.value.policyObjective
+        if (policy == null) {
+            this.themeSelection = this.filters.thematic_objectives
+        } else {
+            this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy].includes(theme["id"]))
+        }
+    }
 
     private getProjectList() {
 
