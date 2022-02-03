@@ -25,7 +25,7 @@ export class MapComponent implements AfterViewInit {
     public europe = {
         label: "Europe",
         region: undefined,
-        bounds: L.latLngBounds(L.latLng(67.37369797436554, 39.46330029192563), L.latLng(33.063924198120645, -17.13826220807438))
+        bounds: L.latLngBounds(L.latLng(68.77369797436554, 39.46330029192563), L.latLng(33.963924198120645, -17.13826220807438))
     };
     public mapRegions = [];
     public isLoading = false;
