@@ -16,6 +16,7 @@ export class HomeComponent implements AfterViewInit {
 
     @ViewChild(MapComponent) map: MapComponent;
 
+    // public index = 0;
     public stats:any = {};
     filterValue: string;
 
@@ -36,6 +37,9 @@ export class HomeComponent implements AfterViewInit {
     }
 
     public ngOnInit() {
+        // setInterval((() => {
+        //     this.index = (this.index === 2) ? 0 : this.index + 1;
+        // }), 5000);
     }
 
 

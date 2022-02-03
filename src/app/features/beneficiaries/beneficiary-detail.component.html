@@ -86,7 +86,7 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{beneficiary?.beneficiaryLabel}}
+                                    {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{beneficiary?.description}}</p>
@@ -134,14 +134,12 @@
                         <div class="prjt-box prjt-box--grey">
                             <h2 class="prjt-box--title">projects</h2>
                             <div class="prjt-box--content">
-                                <div class="tools">
-                                    <div class="right-table-tools">
-                                        <mat-paginator [pageSize]="15"
-                                                       [length]="beneficiary.numberProjects"
-                                                       [hidePageSize]="true"
-                                                       (page)="onPaginate($event)">
-                                        </mat-paginator>
-                                    </div>
+                                <div class="right-table-tools">
+                                    <mat-paginator [pageSize]="15"
+                                                   [length]="beneficiary.numberProjects"
+                                                   [hidePageSize]="true"
+                                                   (page)="onPaginate($event)">
+                                    </mat-paginator>
                                 </div>
                                 <mat-table [dataSource]="beneficiaryProjects">
                                     <ng-container matColumnDef="label">

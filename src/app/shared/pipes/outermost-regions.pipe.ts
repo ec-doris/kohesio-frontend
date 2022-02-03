@@ -15,7 +15,7 @@ export class OutermostRegionsPipe  implements PipeTransform {
       });
       return regions;
     }else{
-      return null;
+      return array;
     }
   }
 }
