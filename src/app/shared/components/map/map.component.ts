@@ -19,12 +19,13 @@ export class MapComponent implements AfterViewInit {
 
     private map;
     private markersGroup;
+    private labelsRegionsGroup;
     private layers: any[] = [];
     private filters: Filters = new Filters();
     public europe = {
         label: "Europe",
         region: undefined,
-        bounds: L.latLngBounds(L.latLng(67.37369797436554, 39.46330029192563), L.latLng(33.063924198120645, -17.13826220807438))
+        bounds: L.latLngBounds(L.latLng(69.77369797436554, 39.46330029192563), L.latLng(34.863924198120645, -17.13826220807438))
     };
     public mapRegions = [];
     public isLoading = false;
@@ -32,35 +33,54 @@ export class MapComponent implements AfterViewInit {
     public outermostRegions = [{
         label: "Madeira",
         country: "Q18",
+        countryLabel: "Portugal",
         id: "Q203"
     },{
         label: "Azores",
         country: "Q18",
+        countryLabel: "Portugal",
         id: "Q204"
     },{
         label: "Canary Islands",
         country: "Q7",
+        countryLabel: "Spain",
         id: "Q205"
     },{
         label: "Réunion",
         country: "Q20",
+        countryLabel: "France",
         id: "Q206"
     },{
         label: "French Guiana",
         country: "Q20",
+        countryLabel: "France",
         id: "Q201"
     },{
         label: "Guadeloupe",
         country: "Q20",
+        countryLabel: "France",
         id: "Q2576740"
     },{
         label: "Martinique",
         country: "Q20",
+        countryLabel: "France",
         id: "Q198"
     },{
         label: "Mayotte",
         country: "Q20",
+        countryLabel: "France",
         id: "Q209"
+    }];
+    // Format L.latLngBounds = southWest, northEast
+    public overrideBounds = [{
+        id: 'Q20',
+        bounds: L.latLngBounds(L.latLng(41.3403079293, -4.8450636176), L.latLng(51.2587688404, 9.7020364496))
+    },{
+        id: 'Q7',
+        bounds: L.latLngBounds(L.latLng(36.037266989,-9.2600844574), L.latLng(43.8462272853,3.3209832112))
+    },{
+        id: 'Q18',
+        bounds: L.latLngBounds(L.latLng(36.8702042109,-9.5360565336), L.latLng(42.2278301749,-6.137649751))
     }];
 
     @Input()
@@ -71,6 +91,9 @@ export class MapComponent implements AfterViewInit {
 
     @Input()
     public hideProjectsNearBy = false;
+
+    @Input()
+    public hideOuterMostRegions = false;
 
     public collapsedBreadCrumb = false;
 
@@ -98,16 +121,23 @@ export class MapComponent implements AfterViewInit {
                 dragging: !L.Browser.mobile,
                 tap: !L.Browser.mobile
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
+        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2_background/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
         });
+        
+
         // Normal Open Street Map Tile Layer
         /*const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
         });*/
         tiles.addTo(this.map);
+
+        const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
+        tilesName.addTo(this.map);
+
+
         L.Icon.Default.prototype.options = {
             iconUrl: 'assets/images/map/marker-icon-2x.png',
             shadowUrl: 'assets/images/map/marker-shadow.png'
@@ -267,6 +297,10 @@ export class MapComponent implements AfterViewInit {
             this.map.removeLayer(this.markersGroup);
             this.markersGroup = null;
         }
+        if (this.map && this.labelsRegionsGroup) {
+            this.map.removeLayer(this.labelsRegionsGroup);
+            this.labelsRegionsGroup = null;
+        }
     }
 
     public fitBounds(bounds){
@@ -336,12 +370,16 @@ export class MapComponent implements AfterViewInit {
             }, 1000);
     }
 
-    loadOutermostRegion(filters: Filters, granularityRegion: string, label: string){
-        granularityRegion = environment.entityURL + granularityRegion;
+    loadOutermostRegion(filters: Filters, outermostRegion: any){
+        const granularityRegion = environment.entityURL + outermostRegion.id;
         this.loadMapVisualization(filters, granularityRegion);
-        this.mapRegions = this.mapRegions.slice(0,2);
+        this.mapRegions = this.mapRegions.slice(0,1);
         this.mapRegions.push({
-            label: label,
+            label: outermostRegion.countryLabel,
+            region: environment.entityURL + outermostRegion.country
+        });
+        this.mapRegions.push({
+            label: outermostRegion.label,
             region: granularityRegion
         });
     }
@@ -372,7 +410,15 @@ export class MapComponent implements AfterViewInit {
             }else if (data.subregions && data.subregions.length) {
                 //Draw polygons of the regions
                 if (data.region && data.geoJson){
-                    this.fitToGeoJson(data.geoJson);
+                    const regionId = granularityRegion.replace(environment.entityURL, '');
+                    const overrideBound:any = this.overrideBounds.find(region=>{
+                        return region.id == regionId;
+                    })
+                    if (overrideBound){
+                        this.fitBounds(overrideBound.bounds);
+                    }else{
+                        this.fitToGeoJson(data.geoJson);
+                    }
                 }
                 data.subregions.forEach(region => {
                     const countryProps = Object.assign({}, region);
@@ -416,6 +462,12 @@ export class MapComponent implements AfterViewInit {
     }
 
     showOutermostRegions(){
+        if (this.breakpointsValue.isMobile){
+            return false;
+        }
+        if (this.hideOuterMostRegions){
+            return false;
+        }
         if (this.mapRegions.length > 1){
             const countryId = this.mapRegions[1].region.replace(environment.entityURL, "");
             const region = this.outermostRegions.filter(region=>{
@@ -423,17 +475,42 @@ export class MapComponent implements AfterViewInit {
                     return true;
                 }
             });
-            if (region.length){
-                return true;
+            if (!region.length){
+                return false;
+            }
+            if (this.mapRegions.length > 2){
+                const regionId = this.mapRegions[2].region.replace(environment.entityURL, "");
+                const regionT = this.outermostRegions.find(region=>{
+                    if (region.id == regionId){
+                        return true;
+                    }
+                });
+                if (!regionT){
+                    return false;
+                }
             }
         }
-        return false;
-        
-        return this.mapRegions.length > 1;
+        return true;
     }
 
     addFeatureCollectionLayer(featureCollection){
         this.addLayer(featureCollection, (feature, layer) => {
+            if (this.mapRegions.length>1){
+                if (!this.labelsRegionsGroup){
+                    this.labelsRegionsGroup = new L.FeatureGroup();
+                    this.map.addLayer(this.labelsRegionsGroup);
+                }
+                if (feature.properties && feature.properties.regionLabel){
+                    const labelMarker = L.marker(layer.getBounds().getCenter(), {
+                        icon: L.divIcon({
+                            className: 'label-regions',
+                            
+                            html: feature.properties.regionLabel
+                        })
+                    });
+                    this.labelsRegionsGroup.addLayer(labelMarker);
+                }
+            }
             layer.on({
                 click: (e) => {
                     if (e.target.feature.properties) {
