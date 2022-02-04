@@ -1,16 +1,13 @@
-import { Injectable } from '@angular/core';
+import { Injectable, APP_INITIALIZER } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
     providedIn: 'root'
 })
-
 export class ConfigService {
 
-    constructor(private http: HttpClient) {
-        this.load().then(data => console.log(data));
-    }
+    constructor(private http: HttpClient) { }
 
     url = environment.configPath;
     private configValues: any = null;
@@ -31,5 +28,23 @@ export class ConfigService {
             });
         });
     }
-
 }
+
+export function ConfigFactory(config: ConfigService) {
+    return () => config.load();
+}
+
+export function init() {
+    return {
+        provide: APP_INITIALIZER,
+        useFactory: ConfigFactory,
+        deps: [ConfigService],
+        multi: true
+    }
+}
+
+const ConfigModule = {
+    init: init
+}
+
+export { ConfigModule };
