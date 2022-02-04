@@ -276,15 +276,21 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPolicyObjectivesChange() {
+        this.getThemes();
         this.myForm.patchValue({
             theme: null
         });
     }
 
     onThemeChange() {
-        this.myForm.patchValue({
-            policyObjective: null
-        });
+        const theme = this.myForm.value.theme
+        for (const policy in this.policyToThemes) {
+            if (this.policyToThemes[policy].includes(theme)) {
+                this.myForm.patchValue({
+                    policyObjective: policy
+                });
+            }
+        }
     }
 
     getRegions(): Promise<any> {
