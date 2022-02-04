@@ -12,14 +12,10 @@ import { DatePipe } from '@angular/common';
 import { registerLocaleData } from '@angular/common';
 import LocaleEnglish from '@angular/common/locales/en';
 import LocaleFrench from '@angular/common/locales/fr';
-import { ConfigService } from './services/config.service';
+import { ConfigModule, ConfigService } from './services/config.service';
 
 registerLocaleData(LocaleEnglish);
 registerLocaleData(LocaleFrench);
-
-export function init_app(appService: ConfigService) {
-    return () => { };
-}
 
 @NgModule({
     declarations: [
@@ -38,12 +34,8 @@ export function init_app(appService: ConfigService) {
     ],
     providers: [
         DatePipe,
-        {
-            provide: APP_INITIALIZER,
-            useFactory: init_app,
-            multi: true,
-            deps: [ConfigService]
-        }
+        ConfigService,
+        ConfigModule.init(),
     ]
 })
 export class AppModule {}

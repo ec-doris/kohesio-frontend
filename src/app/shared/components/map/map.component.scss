@@ -119,14 +119,7 @@
     background-color: aliceblue;
 }
 
-.leaflet-marker-pane{
-    z-index: 300;
-}
-
 :host ::ng-deep {
-    .leaflet-marker-pane{
-        z-index: 399 !important;
-    }
     .label-regions{
         margin-left: -40px !important;
         margin-top: -2px !important;

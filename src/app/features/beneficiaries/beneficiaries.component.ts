@@ -128,7 +128,7 @@ export class BeneficiariesComponent implements AfterViewInit {
     performSearch() {
         const filters = new Filters().deserialize(this.myForm.value);
         this.isLoading = true;
-        let offset = this.paginator ? this.paginator.pageIndex : this.page;
+        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList) => {
             this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
             this.count = result.numberResults;
