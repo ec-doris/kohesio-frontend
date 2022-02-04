@@ -71,43 +71,15 @@ export class ProjectsComponent implements AfterViewInit {
         private datePipe: DatePipe,
         private changeDetectorRef: ChangeDetectorRef) {
 
-            console.log('constructor: ' + this.selectedTab);
-            
-
         this._router.events.subscribe((event: NavigationStart) => {
 
             this.page = +this._route.snapshot.queryParamMap.get('page');
             this.selectedTab = this._route.snapshot.queryParamMap.get('tab');
 
             if (event.navigationTrigger === 'popstate') {
-                
-                let pageString = event.url.match('page=[0-9]')[0];
-                this.page = +pageString.charAt(pageString.length - 1);
-                
-                this.selectedTab = event.url.match('tab=[a-zA-Z]+')[0].split('=')[1];
 
-                if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
-                    this.paginatorTop.pageIndex = this.page;
-                    this.paginatorDown.pageIndex = this.page;
-                }
-
-                switch(this.selectedTab){
-                    case 'results':
-                        this.isResultsTab = true;
-                        this.isAudioVisualTab = false;
-                        this.isMapTab = false;
-                        break;
-                    case 'audiovisual':
-                        this.isResultsTab = false;
-                        this.isAudioVisualTab = true;
-                        this.isMapTab = false;
-                        break;
-                    case 'map':
-                        this.isResultsTab = false;
-                        this.isAudioVisualTab = false;
-                        this.isMapTab = true;
-                        break;
-                }
+                this.setBackPaginationFromPopstate(event);
+                this.setBackTabsFromPopstate(event);
                 this.getProjectList();
             }
         });
@@ -165,7 +137,10 @@ export class ProjectsComponent implements AfterViewInit {
         }
         this.onThemeChange();
         this.getThemes();
-        console.log('ngOnInit: ' + this.selectedTab);
+
+        if (!this.selectedTab) {
+            this.selectedTab = 'results';
+        }
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -184,9 +159,8 @@ export class ProjectsComponent implements AfterViewInit {
         this.isMapTab = this.selectedTab === 'map';
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
-        console.log('ngAfterViewInit: ' + this.selectedTab);
     }
-    
+
     getThemes() {
         const policy = this.myForm.value.policyObjective
         if (policy == null) {
@@ -206,7 +180,7 @@ export class ProjectsComponent implements AfterViewInit {
         }
 
         this.isLoading = true;
-        let offset = this.paginatorTop ? this.paginatorTop.pageIndex : this.page;
+        let offset = this.paginatorTop ? (this.paginatorTop.pageIndex * this.paginatorTop.pageSize) : 0;
         this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
@@ -223,7 +197,7 @@ export class ProjectsComponent implements AfterViewInit {
                 this.mapIsLoaded = false;
             }
         });
-        let offsetAssets = this.paginatorAssets ? this.paginatorAssets.pageIndex : this.page;
+        let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
         this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
             this.assets = result.list;
             this.assetsCount = result.numberResults;
@@ -251,11 +225,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPaginate(event) {
-        
+
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
         this.page = event.pageIndex;
-        
+
         this.getProjectList();
 
         this._router.navigate([], {
@@ -270,6 +244,15 @@ export class ProjectsComponent implements AfterViewInit {
 
     onPaginateAssets(event) {
         this.getProjectList();
+    }
+
+    setBackPaginationFromPopstate(event) {
+        let pageString = (this.page === 0) ? '0' : event.url.match('page=[0-9]')[0];
+        this.page = +pageString.charAt(pageString.length - 1);
+        if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
+            this.paginatorTop.pageIndex = this.page;
+            this.paginatorDown.pageIndex = this.page;
+        }
     }
 
     goFirstPage() {
@@ -338,7 +321,6 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onTabSelected(event) {
-        console.log('enter tab selected: ' + this.selectedTab);
         this.isAudioVisualTab = false;
         this.isMapTab = false;
         this.isResultsTab = false;
@@ -366,13 +348,35 @@ export class ProjectsComponent implements AfterViewInit {
                 break;
         }
 
-        console.log('before navigate in tab selected: ' + this.selectedTab);
         this._router.navigate([], {
             relativeTo: this._route,
-            queryParams: {'tab': this.selectedTab},
+            queryParams: { 'tab': this.selectedTab },
             queryParamsHandling: 'merge'
         });
-        
+
+    }
+
+    setBackTabsFromPopstate(event) {
+
+        this.selectedTab = (this.selectedTab) ? 'results' : event.url.match('tab=[a-zA-Z]+')[0].split('=')[1];
+
+        switch (this.selectedTab) {
+            case 'results':
+                this.isResultsTab = true;
+                this.isAudioVisualTab = false;
+                this.isMapTab = false;
+                break;
+            case 'audiovisual':
+                this.isResultsTab = false;
+                this.isAudioVisualTab = true;
+                this.isMapTab = false;
+                break;
+            case 'map':
+                this.isResultsTab = false;
+                this.isAudioVisualTab = false;
+                this.isMapTab = true;
+                break;
+        }
     }
 
     getFilters() {
