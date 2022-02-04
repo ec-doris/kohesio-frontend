@@ -122,7 +122,8 @@
             <eui-page-column class="column-without-title column-without-padding-top">
                 <eui-page-column-body>
                     <ux-tabs (tabSelected)="onTabSelected($event)">
-                        <ux-tab label="Results">
+                    <!-- <ux-tabs> -->
+                        <ux-tab label="Results" [isActive]="isResultsTab">
                             <div class="tools">
                                 <div class="left-table-tools">
                                     <app-download-button *ngIf="count && count <= 5000" [form]="myForm" type="projects"></app-download-button>
@@ -226,7 +227,7 @@
                                            [hidden]="(projects && projects.length === 0) || isMapTab">
                             </mat-paginator>
                         </ux-tab>
-                        <ux-tab label="Audiovisual">
+                        <ux-tab label="Audiovisual" [isActive]="isAudioVisualTab">
                             <mat-paginator #paginatorAssets
                                            [length]="assetsCount"
                                            [pageSize]="15"
@@ -248,7 +249,7 @@
                                 </div>
                             </ux-block-content>
                         </ux-tab>
-                        <ux-tab label="Map">
+                        <ux-tab label="Map" [isActive]="isMapTab">
                             <app-map hideProjectsNearBy="true" hideOuterMostRegions="true"></app-map>
                         </ux-tab>
                     </ux-tabs>

@@ -36,6 +36,7 @@ export class ProjectsComponent implements AfterViewInit {
     @ViewChild("paginatorAssets") paginatorAssets: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex: number = 1;
+    public selectedTab: string = 'results';
     public modalImageUrl = "";
     public modalImageTitle = "";
     public modalTitleLabel = "";
@@ -69,18 +70,16 @@ export class ProjectsComponent implements AfterViewInit {
         @Inject(DOCUMENT) private _document: Document,
         private datePipe: DatePipe,
         private changeDetectorRef: ChangeDetectorRef) {
+
         this._router.events.subscribe((event: NavigationStart) => {
 
             this.page = +this._route.snapshot.queryParamMap.get('page');
+            this.selectedTab = this._route.snapshot.queryParamMap.get('tab');
 
             if (event.navigationTrigger === 'popstate') {
 
-                this.page = +event.url.charAt(event.url.length - 1);
-
-                if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
-                    this.paginatorTop.pageIndex = this.page;
-                    this.paginatorDown.pageIndex = this.page;
-                }
+                this.setBackPaginationFromPopstate(event);
+                this.setBackTabsFromPopstate(event);
                 this.getProjectList();
             }
         });
@@ -139,6 +138,9 @@ export class ProjectsComponent implements AfterViewInit {
         this.onThemeChange();
         this.getThemes();
 
+        if (!this.selectedTab) {
+            this.selectedTab = 'results';
+        }
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -152,10 +154,13 @@ export class ProjectsComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginatorTop.pageIndex = this.page;
         this.paginatorDown.pageIndex = this.page;
+        this.isResultsTab = this.selectedTab === 'results';
+        this.isAudioVisualTab = this.selectedTab === 'audiovisual';
+        this.isMapTab = this.selectedTab === 'map';
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
     }
-    
+
     getThemes() {
         const policy = this.myForm.value.policyObjective
         if (policy == null) {
@@ -175,7 +180,7 @@ export class ProjectsComponent implements AfterViewInit {
         }
 
         this.isLoading = true;
-        let offset = this.paginatorTop ? this.paginatorTop.pageIndex : this.page;
+        let offset = this.paginatorTop ? (this.paginatorTop.pageIndex * this.paginatorTop.pageSize) : 0;
         this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList) => {
             this.projects = result.list;
             this.count = result.numberResults;
@@ -192,7 +197,7 @@ export class ProjectsComponent implements AfterViewInit {
                 this.mapIsLoaded = false;
             }
         });
-        let offsetAssets = this.paginatorAssets ? this.paginatorAssets.pageIndex : this.page;
+        let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
         this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
             this.assets = result.list;
             this.assetsCount = result.numberResults;
@@ -220,11 +225,11 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onPaginate(event) {
-        
+
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
         this.page = event.pageIndex;
-        
+
         this.getProjectList();
 
         this._router.navigate([], {
@@ -239,6 +244,15 @@ export class ProjectsComponent implements AfterViewInit {
 
     onPaginateAssets(event) {
         this.getProjectList();
+    }
+
+    setBackPaginationFromPopstate(event) {
+        let pageString = (this.page === 0) ? '0' : event.url.match('page=[0-9]')[0];
+        this.page = +pageString.charAt(pageString.length - 1);
+        if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
+            this.paginatorTop.pageIndex = this.page;
+            this.paginatorDown.pageIndex = this.page;
+        }
     }
 
     goFirstPage() {
@@ -319,9 +333,11 @@ export class ProjectsComponent implements AfterViewInit {
         switch (event.index) {
             case 1: //Results
                 this.isResultsTab = true;
+                this.selectedTab = 'results';
                 break;
             case 2: //Audio-visual
                 this.isAudioVisualTab = true;
+                this.selectedTab = 'audiovisual';
                 break;
             case 3: //Map
                 if (!this.mapIsLoaded) {
@@ -333,6 +349,37 @@ export class ProjectsComponent implements AfterViewInit {
                         }, 500);
                 }
                 this.selectedTabIndex = event.index;
+                this.isMapTab = true;
+                this.selectedTab = 'map';
+                break;
+        }
+
+        this._router.navigate([], {
+            relativeTo: this._route,
+            queryParams: { 'tab': this.selectedTab },
+            queryParamsHandling: 'merge'
+        });
+
+    }
+
+    setBackTabsFromPopstate(event) {
+
+        this.selectedTab = (this.selectedTab) ? 'results' : event.url.match('tab=[a-zA-Z]+')[0].split('=')[1];
+
+        switch (this.selectedTab) {
+            case 'results':
+                this.isResultsTab = true;
+                this.isAudioVisualTab = false;
+                this.isMapTab = false;
+                break;
+            case 'audiovisual':
+                this.isResultsTab = false;
+                this.isAudioVisualTab = true;
+                this.isMapTab = false;
+                break;
+            case 'map':
+                this.isResultsTab = false;
+                this.isAudioVisualTab = false;
                 this.isMapTab = true;
                 break;
         }
