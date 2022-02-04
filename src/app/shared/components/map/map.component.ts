@@ -19,7 +19,7 @@ export class MapComponent implements AfterViewInit {
 
     private map;
     private markersGroup;
-    private labelsRegionsGroup;
+    //private labelsRegionsGroup;
     private layers: any[] = [];
     private filters: Filters = new Filters();
     public europe = {
@@ -121,7 +121,7 @@ export class MapComponent implements AfterViewInit {
                 dragging: !L.Browser.mobile,
                 tap: !L.Browser.mobile
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2_background/{z}/{x}/{y}', {
+        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
@@ -134,8 +134,9 @@ export class MapComponent implements AfterViewInit {
         });*/
         tiles.addTo(this.map);
 
-        const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
-        tilesName.addTo(this.map);
+        // Layer with countries name
+        /*const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
+        tilesName.addTo(this.map);*/
 
 
         L.Icon.Default.prototype.options = {
@@ -297,10 +298,10 @@ export class MapComponent implements AfterViewInit {
             this.map.removeLayer(this.markersGroup);
             this.markersGroup = null;
         }
-        if (this.map && this.labelsRegionsGroup) {
+        /*if (this.map && this.labelsRegionsGroup) {
             this.map.removeLayer(this.labelsRegionsGroup);
             this.labelsRegionsGroup = null;
-        }
+        }*/
     }
 
     public fitBounds(bounds){
@@ -495,7 +496,7 @@ export class MapComponent implements AfterViewInit {
 
     addFeatureCollectionLayer(featureCollection){
         this.addLayer(featureCollection, (feature, layer) => {
-            if (this.mapRegions.length>1){
+            /*if (this.mapRegions.length>1){
                 if (!this.labelsRegionsGroup){
                     this.labelsRegionsGroup = new L.FeatureGroup();
                     this.map.addLayer(this.labelsRegionsGroup);
@@ -510,7 +511,7 @@ export class MapComponent implements AfterViewInit {
                     });
                     this.labelsRegionsGroup.addLayer(labelMarker);
                 }
-            }
+            }*/
             layer.on({
                 click: (e) => {
                     if (e.target.feature.properties) {
