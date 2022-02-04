@@ -36,6 +36,7 @@ export class ProjectsComponent implements AfterViewInit {
     @ViewChild("paginatorAssets") paginatorAssets: MatPaginator;
     @ViewChild(MapComponent) map: MapComponent;
     public selectedTabIndex: number = 1;
+    public selectedTab: string = 'results';
     public modalImageUrl = "";
     public modalImageTitle = "";
     public modalTitleLabel = "";
@@ -69,17 +70,43 @@ export class ProjectsComponent implements AfterViewInit {
         @Inject(DOCUMENT) private _document: Document,
         private datePipe: DatePipe,
         private changeDetectorRef: ChangeDetectorRef) {
+
+            console.log('constructor: ' + this.selectedTab);
+            
+
         this._router.events.subscribe((event: NavigationStart) => {
 
             this.page = +this._route.snapshot.queryParamMap.get('page');
+            this.selectedTab = this._route.snapshot.queryParamMap.get('tab');
 
             if (event.navigationTrigger === 'popstate') {
-
-                this.page = +event.url.charAt(event.url.length - 1);
+                
+                let pageString = event.url.match('page=[0-9]')[0];
+                this.page = +pageString.charAt(pageString.length - 1);
+                
+                this.selectedTab = event.url.match('tab=[a-zA-Z]+')[0].split('=')[1];
 
                 if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
                     this.paginatorTop.pageIndex = this.page;
                     this.paginatorDown.pageIndex = this.page;
+                }
+
+                switch(this.selectedTab){
+                    case 'results':
+                        this.isResultsTab = true;
+                        this.isAudioVisualTab = false;
+                        this.isMapTab = false;
+                        break;
+                    case 'audiovisual':
+                        this.isResultsTab = false;
+                        this.isAudioVisualTab = true;
+                        this.isMapTab = false;
+                        break;
+                    case 'map':
+                        this.isResultsTab = false;
+                        this.isAudioVisualTab = false;
+                        this.isMapTab = true;
+                        break;
                 }
                 this.getProjectList();
             }
@@ -138,7 +165,7 @@ export class ProjectsComponent implements AfterViewInit {
         }
         this.onThemeChange();
         this.getThemes();
-
+        console.log('ngOnInit: ' + this.selectedTab);
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -152,8 +179,12 @@ export class ProjectsComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginatorTop.pageIndex = this.page;
         this.paginatorDown.pageIndex = this.page;
+        this.isResultsTab = this.selectedTab === 'results';
+        this.isAudioVisualTab = this.selectedTab === 'audiovisual';
+        this.isMapTab = this.selectedTab === 'map';
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
+        console.log('ngAfterViewInit: ' + this.selectedTab);
     }
     
     getThemes() {
@@ -307,15 +338,18 @@ export class ProjectsComponent implements AfterViewInit {
     }
 
     onTabSelected(event) {
+        console.log('enter tab selected: ' + this.selectedTab);
         this.isAudioVisualTab = false;
         this.isMapTab = false;
         this.isResultsTab = false;
         switch (event.index) {
             case 1: //Results
                 this.isResultsTab = true;
+                this.selectedTab = 'results';
                 break;
             case 2: //Audio-visual
                 this.isAudioVisualTab = true;
+                this.selectedTab = 'audiovisual';
                 break;
             case 3: //Map
                 if (!this.mapIsLoaded) {
@@ -328,8 +362,17 @@ export class ProjectsComponent implements AfterViewInit {
                 }
                 this.selectedTabIndex = event.index;
                 this.isMapTab = true;
+                this.selectedTab = 'map';
                 break;
         }
+
+        console.log('before navigate in tab selected: ' + this.selectedTab);
+        this._router.navigate([], {
+            relativeTo: this._route,
+            queryParams: {'tab': this.selectedTab},
+            queryParamsHandling: 'merge'
+        });
+        
     }
 
     getFilters() {
