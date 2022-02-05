@@ -1,7 +1,7 @@
 <ux-carousel-items *ngIf="!(uxAppShellService.breakpoints$ | async).isMobile">
     <!-- <ux-carousel-item [isActive]="index === 0"> -->
     <ux-carousel-item>
-        <a class="carousel-title eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
+        <a href="#my-region" class="carousel-title eui-u-anim eui-u-anim--fadeIn eui-u-anim--slow">
             <span>Curious to discover what Europe does in your region?</span>
             <div class="carousel-btn">
                 <ux-button typeClass="accent" styleClass="carousel-btn--primary" [routerLink]='' fragment='my-region'>
