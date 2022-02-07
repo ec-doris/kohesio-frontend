@@ -23,12 +23,15 @@ export class ProjectDetail implements Deserializable{
     fundLabel: string;
     countryCode: string;
     objectiveId: string;
+    objectiveIds: [string];
     projectWebsite: string;
     programWebsite: string;
     programmingPeriodLabel: string;
     region: string;
     regionText: string;
     geoJson: any;
+    infoRegioUrl: string;
+    programInfoRegioUrl: string;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -53,12 +56,15 @@ export class ProjectDetail implements Deserializable{
             fundLabel: input.fundLabel,
             countryCode: input.countryCode,
             objectiveId: input.objectiveId,
+            objectiveIds: input.objectiveIds,
             projectWebsite: input.projectWebsite,
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
             region: this.getRegion(input),
             regionText: input.regionText,
-            geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null
+            geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null,
+            infoRegioUrl: input.infoRegioUrl,
+            programInfoRegioUrl: input.programInfoRegioUrl
         });
     }
 

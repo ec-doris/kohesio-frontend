@@ -39,7 +39,7 @@
                             <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                         </div>
                         <div class="prjt-box--content">
-                            <span>Funded by EU: </span>
+                            <span>EU contribution: </span>
                             <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                             <span *ngIf="beneficiary?.totalEuBudget==0">n/a</span>
                         </div>
@@ -50,7 +50,9 @@
                         </div>
                         <div class="prjt-box--content">
                             <span>Country: </span>
-                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
+                            <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                            </ux-popover>
+                            <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)"></span>
                         </div>
                     </div>
                     <div class="prjt-box prjt-box--grey" *ngIf="beneficiary?.budgetsPerFund && beneficiary?.budgetsPerFund.length">
@@ -84,7 +86,7 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{beneficiary?.beneficiaryLabel}}
+                                    {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{beneficiary?.description}}</p>
@@ -114,7 +116,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a [href]="'mailto:mail@example.com?subject=European commission - Kohesio Open Projects&body='+ currentUrl" target="_blank">
+                                            <a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank">
                                                 <span>Mail</span>
                                             </a>
                                         </li>
@@ -132,7 +134,14 @@
                         <div class="prjt-box prjt-box--grey">
                             <h2 class="prjt-box--title">projects</h2>
                             <div class="prjt-box--content">
-                                <mat-table [dataSource]="beneficiary.projects">
+                                <div class="right-table-tools">
+                                    <mat-paginator [pageSize]="15"
+                                                   [length]="beneficiary.numberProjects"
+                                                   [hidePageSize]="true"
+                                                   (page)="onPaginate($event)">
+                                    </mat-paginator>
+                                </div>
+                                <mat-table [dataSource]="beneficiaryProjects">
                                     <ng-container matColumnDef="label">
                                         <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
                                         <mat-cell *matCellDef="let row">

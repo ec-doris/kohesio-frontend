@@ -47,14 +47,16 @@
          background: rgba(0, 61, 132, 1);
 
           .carousel-item--img {
-              width: 50%;
-              height: 20vh;
+            display: block;
+            max-width:50%;
+            max-height:50%;
+            width: auto;
+            height: auto;              
           }
 
          .carousel-title {
              font-size: 24px;
              line-height: 30px;
-             text-transform: uppercase;
              text-align: left;
              margin-right: 1%;
              margin-left: 2%;

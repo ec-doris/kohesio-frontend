@@ -7,11 +7,13 @@ export class Beneficiary implements Deserializable{
     cofinancingRate: number;
     country: string;
     countryCode: string;
+    countryName: string;
     euBudget: number;
     id: number;
     label: string;
     link: string;
     numberProjects: number;
+    transliteration: string;
 
 
     deserialize(input: any): this {
@@ -20,11 +22,13 @@ export class Beneficiary implements Deserializable{
             cofinancingRate: input.cofinancingRate,
             country: input.country,
             countryCode: input.countryCode,
+            countryName: input.countryName,
             euBudget: input.euBudget,
             id: input.id.replace(environment.entityURL,""),
             label: input.label,
             link: input.link,
-            numberProjects: input.numberProjects
+            numberProjects: input.numberProjects,
+            transliteration: input.transliteration
         });
     }
 }

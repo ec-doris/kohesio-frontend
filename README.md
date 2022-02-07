@@ -2,7 +2,7 @@
 
 ## Development server
 
-````npm start```` to start the angular project with json-server proxy mock server
+````npm run -- ng serve --live-reload=false```` to start the angular project with json-server proxy mock server
 
 ````npm run start-proxy```` to start the angular project with real backend proxy server deployed
 

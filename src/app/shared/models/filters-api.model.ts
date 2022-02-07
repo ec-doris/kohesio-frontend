@@ -53,7 +53,11 @@ export class FiltersApi implements Deserializable{
             value: '1 000 000 000 - 10 000 000 000'
         }];
         FiltersApi.prototype.amountEUSupport = FiltersApi.prototype.totalProjectBudget;
-        FiltersApi.prototype.sort = [{
+        FiltersApi.prototype.sort = [
+        {
+            id: 'relevance',
+            value: 'Relevance'
+        },{
             id: 'orderStartDate-true',
             value: 'Start Date (ascending)'
         },{
@@ -67,10 +71,10 @@ export class FiltersApi implements Deserializable{
             value: 'End Date (descending)'
         },{
             id: 'orderTotalBudget-true',
-            value: 'Total Project Budget (ascending)'
+            value: 'Total Budget (ascending)'
         },{
             id: 'orderTotalBudget-false',
-            value: 'Total Project Budget (descending)'
+            value: 'Total Budget (descending)'
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
             id: 'orderNumProjects-true',

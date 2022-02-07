@@ -6,6 +6,7 @@ export class BeneficiaryDetail implements Deserializable{
     beneficiaryLabel: string;
     country: string;
     countryCode: string;
+    countryName: string;
     images: string[];
     item: string;
     maxEndTime: Date;
@@ -21,6 +22,7 @@ export class BeneficiaryDetail implements Deserializable{
         fundLabel: string;
         totalEuBudget: number;
     }]
+    transliteration: string
 
 
     deserialize(input: any): this {
@@ -28,6 +30,7 @@ export class BeneficiaryDetail implements Deserializable{
             beneficiaryLabel: input.beneficiaryLabel,
             country: input.country,
             countryCode: input.countryCode,
+            countryName: input.countryName,
             images: input.images,
             item: input.item,
             maxEndTime: new Date(input.maxEndTime),
@@ -39,7 +42,8 @@ export class BeneficiaryDetail implements Deserializable{
             website: input.website,
             description: input.description,
             coordinates: input.coordinates,
-            budgetsPerFund: input.budgetsPerFund
+            budgetsPerFund: input.budgetsPerFund,
+            transliteration: input.transliteration
         });
     }
 

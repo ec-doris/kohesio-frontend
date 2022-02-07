@@ -1,4 +1,7 @@
 <div class='kohesio-map-popup-wrapper'>
     <!--<a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>-->
-    <a *ngFor="let project of projects" (click)="onSelectedProject(project)">{{project.label}}</a>
+    <div *ngFor="let project of projects" style="display: flex;flex-direction: row;">
+        <span style="color: #203F79;">{{project.isHighlighted ? '★' : ''}}</span>
+        <a (click)="onSelectedProject(project)">{{project.label}}</a>
+    </div>
 </div>

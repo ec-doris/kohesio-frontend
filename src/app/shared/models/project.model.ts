@@ -17,6 +17,7 @@ export class Project implements Deserializable{
     public images: string[];
     public labels: string[];
     public copyrightImages: string[];
+    public isHighlighted: boolean;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -34,7 +35,8 @@ export class Project implements Deserializable{
             coordinates: input.coordinates,
             images: input.images,
             labels: input.labels,
-            copyrightImages: input.copyrightImages
+            copyrightImages: input.copyrightImages,
+            isHighlighted: input.isHighlighted
         });
     }
 

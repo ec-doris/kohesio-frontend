@@ -41,9 +41,8 @@
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Managing authority name: </span>
-                            {{project?.managingAuthorityLabel}}
-                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
+                            <span>Managing authority: </span>
+                            {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
                         </div>
 
                         <div class="prjt-box--content" *ngIf="project?.projectWebsite">
@@ -56,6 +55,10 @@
                             <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                             <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                         </div>
+                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
+                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Discover in InfoRegio</a>
+                            <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
+                        </div>
                     </div>
 
                     <!-- Box 2 -->
@@ -66,16 +69,14 @@
                             <span>{{project?.fundLabel}}</span>
                             <span *ngIf="!project?.fundLabel">n/a</span>
                         </div>
-
+                        
                         <div class="prjt-box--content">
                             <span>Programming period: </span>
                             <span>{{project?.programmingPeriodLabel}}</span>
                         </div>
-
                         <div class="prjt-box--content">
                             <span>Programme: </span>
-                            <span>{{project?.programLabel}}</span>
-                            <span *ngIf="!project?.programLabel">n/a</span>
+                            <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
                         </div>
 
                         <div class="prjt-box--content">
@@ -85,7 +86,7 @@
                         </div>
 
                         <div class="prjt-box--content">
-                            <span>Funded by EU: </span>
+                            <span>EU contribution: </span>
                             <span *ngIf="!project?.euBudget">n/a</span>
                             <span *ngIf="project?.euBudget">
                                 {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} 
@@ -158,13 +159,13 @@
                                 <div class="article--post__image">
                                     <figure role="presentation" class="prj-image">
                                         <div class="prj-image--wrapper">
-                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
+                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
                                                 <div class="prj-image--image">
-                                                    <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
+                                                   <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
                                                 </div>
                                             </a>
-                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length">
-                                                <img *ngIf="project?.objectiveId" class="topic" src="{{'assets/images/topics/' + project?.objectiveId + '.png'}}">
+                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
+                                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
                                             </div>
                                         </div>
                                         <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>
@@ -173,7 +174,10 @@
                             </header>
                             <div class="article--post__inner">
                                 <h1 class="article--post__title">
-                                    {{project?.label}}
+                                    <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                        <b>Highlighted project</b>
+                                    </ux-popover>
+                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{project?.description}}</p>
@@ -203,7 +207,7 @@
                                             </a>
                                         </li>
                                         <li>
-                                            <a [href]="'mailto:mail@example.com?subject=European commission - Kohesio Open Projects&body='+ currentUrl" target="_blank">
+                                            <a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank">
                                                 <span>Mail</span>
                                             </a>
                                         </li>
@@ -226,15 +230,16 @@
                     </div>
 
                     <!-- Box large 1 -->
-                    <!--<div class="prjt-box__large">
-                        <div class="prjt-box prjt-box&#45;&#45;grey">
-                            <h2 class="prjt-box&#45;&#45;title">related materials</h2>
-                            <div class="prjt-box&#45;&#45;content">
-                                <span>Images & Videos</span>
-                                <span>Communication campaign</span>
-                            </div>
+                    <!-- <div class="prjt-box__large">
+                        <h3 class="prjt-box&#45;&#45;title">Audiovisual material</h3>
+                        <div class="audio-visual-container">
+                            <ng-container *ngFor="let image_url of project?.images">
+                                <div class="container">
+                                    <img [src]="image_url.image">
+                                </div>
+                            </ng-container>
                         </div>
-                    </div>-->
+                    </div> -->
                 </eui-page-column-body>
             </eui-page-column>
         </eui-page-columns>

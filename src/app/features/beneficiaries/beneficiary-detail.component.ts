@@ -4,6 +4,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {MapComponent} from "../../shared/components/map/map.component";
 import { UxAppShellService } from '@eui/core';
 import {BeneficiaryDetail} from "../../shared/models/beneficiary-detail.model";
+import { MatPaginator } from '@angular/material/paginator';
+import { BeneficiaryService } from 'src/app/services/beneficiary.service';
+import { startWith, tap, delay } from 'rxjs/operators';
+import { BeneficiaryProjectList } from 'src/app/shared/models/beneficiary-project-list.model';
 declare let L;
 
 @Component({
@@ -17,6 +21,9 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
     public beneficiary: BeneficiaryDetail;
 
     @Input()
+    public beneficiaryProjects: [];
+
+    @Input()
     public isModal: boolean = false;
 
     public wikidataLink: string;
@@ -26,15 +33,23 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
 
     @ViewChild(MapComponent)
     public map: MapComponent;
+
+    @ViewChild(MatPaginator) paginator: MatPaginator;
  
     constructor(private projectService: ProjectService,
+        private beneficiaryService: BeneficiaryService,
                 private route: ActivatedRoute,
                 public uxService:UxAppShellService,
                 private router: Router){}
 
     ngOnInit(){
+        
         if (!this.beneficiary) {
             this.beneficiary = this.route.snapshot.data.beneficiary;
+        }
+
+        if(!this.beneficiaryProjects){
+            this.beneficiaryProjects = this.route.snapshot.data.beneficiaryProjects.projects;
         }
     }
 
@@ -47,6 +62,14 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
             this.map.addMarker(coords[1],coords[0], true, 5);
             this.map.refreshView();
         }
+
+        this.paginator.page
+        .pipe(
+            startWith(null),
+            delay(0),
+            tap(() => this.beneficiaryProjects)
+        ).subscribe();
+
     }
 
     openWiki(event){
@@ -60,6 +83,18 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
             + entity
             + "%3E%7D%20%3Fitem%20%3FpDirect%20%3FlinkTo%20.%0A%20%20%3Fitem%20rdfs%3Alabel%20%3FitemLabel%20.%0A%20%20FILTER(lang(%3FitemLabel)%3D%22en%22)%0A%7D",
         "_blank");
+    }
+
+    getProjectsPerPage(page: number = 0) {
+        
+        this.beneficiaryService.getBeneficiaryProjects(this.beneficiary.item, page).subscribe((result:BeneficiaryProjectList) =>{
+            this.beneficiaryProjects = result.projects
+        });
+    }
+
+    onPaginate(event) {
+        this.paginator.pageIndex = event.pageIndex;
+        this.getProjectsPerPage(event.pageIndex);
     }
 
 }

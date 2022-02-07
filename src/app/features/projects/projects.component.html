@@ -38,30 +38,31 @@
                                 </div>
                             </div>
                         </div>
-                        <ux-form-group label="COUNTRIES" [isVertical]="true">
+                        <ux-form-group label="COUNTRY" [isVertical]="true">
                             <ux-form-control formControlName="country"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.countries"
                                              (modelChange)="onCountryChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="REGIONS" [isVertical]="true">
+                        <ux-form-group [label]="this.myForm.value.country ? 'REGION' : 'REGION (select a country)'" [isVertical]="true">
                             <ux-form-control formControlName="region"
                                              [isSelect]="true"
+                                             [isDisabled]="!this.myForm.value.country"
                                              [selectOptions]="this.filters.regions">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="POLICY OBJECTIVES" [isVertical]="true">
+                        <ux-form-group label="POLICY" [isVertical]="true">
                             <ux-form-control formControlName="policyObjective"
                                              [isSelect]="true"
                                              [selectOptions]="this.filters.policy_objective"
                                              (modelChange)="onPolicyObjectivesChange()">
                             </ux-form-control>
                         </ux-form-group>
-                        <ux-form-group label="THEMES" [isVertical]="true">
+                        <ux-form-group label="THEME" [isVertical]="true">
                             <ux-form-control formControlName="theme"
                                              [isSelect]="true"
-                                             [selectOptions]="this.filters.thematic_objectives"
+                                             [selectOptions]="this.themeSelection"
                                              (modelChange)="onThemeChange()">
                             </ux-form-control>
                         </ux-form-group>
@@ -72,14 +73,15 @@
                                                  [selectOptions]="this.filters.programmingPeriods">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="FUNDS" [isVertical]="true">
+                            <ux-form-group label="FUND" [isVertical]="true">
                                 <ux-form-control formControlName="fund"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.funds">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="PROGRAMME NAME" [isVertical]="true">
+                            <ux-form-group [label]="this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'" [isVertical]="true">
                                 <ux-form-control formControlName="program"
+                                                 [isDisabled]="!this.myForm.value.country"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.programs">
                                 </ux-form-control>
@@ -90,7 +92,7 @@
                                                  [selectOptions]="this.filters.categoriesOfIntervention">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="TOTAL PROJECT BUDGET" [isVertical]="true">
+                            <ux-form-group label="TOTAL BUDGET" [isVertical]="true">
                                 <ux-form-control formControlName="totalProjectBudget"
                                                  [isSelect]="true"
                                                  [selectOptions]="this.filters.totalProjectBudget">
@@ -102,7 +104,7 @@
                                                  [selectOptions]="this.filters.amountEUSupport">
                                 </ux-form-control>
                             </ux-form-group>
-                            <ux-form-group label="START - END" [isVertical]="true" >
+                            <ux-form-group label="DATE" [isVertical]="true" >
                                 <div class="kohesio-data-range">
                                     <ux-datepicker placeholder="Start" #startDate formControlName="projectStart" [maxDate]="endDate.input.value ? endDate.input.value : null"></ux-datepicker>
                                     <ux-datepicker placeholder="End" #endDate formControlName="projectEnd" [minDate]="startDate.input.value ? startDate.input.value : null"></ux-datepicker>
@@ -120,10 +122,11 @@
             <eui-page-column class="column-without-title column-without-padding-top">
                 <eui-page-column-body>
                     <ux-tabs (tabSelected)="onTabSelected($event)">
-                        <ux-tab label="Results">
+                    <!-- <ux-tabs> -->
+                        <ux-tab label="Results" [isActive]="isResultsTab">
                             <div class="tools">
                                 <div class="left-table-tools">
-                                    <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button>
+                                    <app-download-button *ngIf="count && count <= 5000" [form]="myForm" type="projects"></app-download-button>
                                 </div>
                                 <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
                                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
@@ -157,8 +160,8 @@
                                                                 </div>
                                                             </a>
                                                         </ng-container>
-                                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length">
-                                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
+                                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}">
                                                         </div>
                                                     </div>
                                                 </figure>
@@ -166,7 +169,11 @@
                                         </header>
                                         <div class="article--post__inner">
                                             <h1 class="article--post__title">
+                                                <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                                    <b>Highlighted project</b>
+                                                </ux-popover>
                                                 <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                                <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> 
                                             </h1>
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
@@ -183,7 +190,7 @@
                                                             <span class="amount">
                                                     {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                                 <span *ngIf="!project.totalBudget">n/a</span>
-                                                    <span class="support">Total project budget</span>
+                                                    <span class="support">Total budget</span>
                                                 </span>
                                                         </div>
                                                     </li>
@@ -220,7 +227,7 @@
                                            [hidden]="(projects && projects.length === 0) || isMapTab">
                             </mat-paginator>
                         </ux-tab>
-                        <ux-tab label="Audio-visual">
+                        <ux-tab label="Audiovisual" [isActive]="isAudioVisualTab">
                             <mat-paginator #paginatorAssets
                                            [length]="assetsCount"
                                            [pageSize]="15"
@@ -228,7 +235,7 @@
                                            (page)="onPaginateAssets($event)"
                                            [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                             </mat-paginator>
-                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audio visual assets found!</div>
+                            <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available</div>
                             <ux-block-content [isBlocked]="isLoading">
                                 <div class="audio-visual-container">
                                     <ng-container *ngFor="let asset of assets">
@@ -242,8 +249,8 @@
                                 </div>
                             </ux-block-content>
                         </ux-tab>
-                        <ux-tab label="Map">
-                            <app-map hideProjectsNearBy="true"></app-map>
+                        <ux-tab label="Map" [isActive]="isMapTab">
+                            <app-map hideProjectsNearBy="true" hideOuterMostRegions="true"></app-map>
                         </ux-tab>
                     </ux-tabs>
                 </eui-page-column-body>
