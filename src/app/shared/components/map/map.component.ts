@@ -56,7 +56,7 @@ export class MapComponent implements AfterViewInit {
         countryLabel: "France",
         id: "Q201"
     },{
-        label: "Guadeloupe",
+        label: "Guadeloupe Saint Martin",
         country: "Q20",
         countryLabel: "France",
         id: "Q2576740"
