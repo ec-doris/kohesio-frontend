@@ -283,8 +283,8 @@ export class ProjectsComponent implements AfterViewInit {
     onCountryChange() {
         if (this.myForm.value.country != null) {
             this.getRegions().then();
+            this.getPrograms().then();
         }
-        this.getPrograms().then();
         this.myForm.patchValue({
             region: null,
             program: null
