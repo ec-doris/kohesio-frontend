@@ -306,19 +306,20 @@
     }
 
     .prj-image--image {
-        img {
-            width: 87px;
-            height: 87px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
+        width: 87px;
+        height: 87px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
 
-            display: none;
+        background-size: cover;
+        background-repeat: no-repeat;
 
-            @include media($eui-bkp-mobile-up) {
-                display: block;
-            }
+        display: none;
+
+        @include media($eui-bkp-mobile-up) {
+            display: block;
         }
     }
 
@@ -646,13 +647,13 @@
             flex: 1;
         }
     }
-    
+
     .terms {
         display: flex;
         flex-wrap: wrap;
         font-size: 0.7rem;
         margin: 5px 0;
-        
+
         .term{
             padding: 5px;
             background-color: #b3c7df;

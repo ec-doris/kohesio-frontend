@@ -155,9 +155,7 @@
                                                     <div class="prj-image--wrapper">
                                                         <ng-container *ngIf="project.images && project.images.length">
                                                             <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)" class="prj-image--link">
-                                                                <div class="prj-image--image">
-                                                                    <img [src]="project.images[0]">
-                                                                </div>
+                                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')"></div>
                                                             </a>
                                                         </ng-container>
                                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
@@ -173,7 +171,7 @@
                                                     <b>Highlighted project</b>
                                                 </ux-popover>
                                                 <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
-                                                <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> 
+                                                <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span>
                                             </h1>
                                             <footer class="article--post__footer">
                                                 <ul class="nowrap">
