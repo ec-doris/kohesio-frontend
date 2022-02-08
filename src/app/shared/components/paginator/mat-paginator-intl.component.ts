@@ -11,7 +11,7 @@ export class MatPaginatorKohesio extends MatPaginatorIntl {
 
     getRangeLabel = function (page, pageSize, length) {
         if (length === 0 || pageSize === 0) {
-            return '0 od ' + length;
+            return '0 of ' + length;
         }
         length = Math.max(length, 0);
         const startIndex = page * pageSize;
