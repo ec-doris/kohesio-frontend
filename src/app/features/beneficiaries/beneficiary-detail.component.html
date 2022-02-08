@@ -75,9 +75,7 @@
                                     <figure role="presentation" class="prj-image">
                                         <div class="prj-image--wrapper">
                                             <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link">
-                                                <div class="prj-image--image">
-                                                    <img [src]="beneficiary?.images[0]" alt="" *ngIf="beneficiary?.images && beneficiary?.images.length">
-                                                </div>
+                                                <div class="prj-image--image" *ngIf="beneficiary?.images && beneficiary?.images.length" style="background-image: url('{{ beneficiary?.images[0] }}');"></div>
                                             </a>
                                         </div>
                                         <!--<footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>-->

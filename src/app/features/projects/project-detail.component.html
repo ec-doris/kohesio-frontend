@@ -69,7 +69,7 @@
                             <span>{{project?.fundLabel}}</span>
                             <span *ngIf="!project?.fundLabel">n/a</span>
                         </div>
-                        
+
                         <div class="prjt-box--content">
                             <span>Programming period: </span>
                             <span>{{project?.programmingPeriodLabel}}</span>
@@ -89,7 +89,7 @@
                             <span>EU contribution: </span>
                             <span *ngIf="!project?.euBudget">n/a</span>
                             <span *ngIf="project?.euBudget">
-                                {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} 
+                                {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                 <ng-container *ngIf="project?.cofinancingRate">
                                     ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)
                                 </ng-container>
@@ -160,9 +160,7 @@
                                     <figure role="presentation" class="prj-image">
                                         <div class="prj-image--wrapper">
                                             <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
-                                                <div class="prj-image--image">
-                                                   <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
-                                                </div>
+                                                <div class="prj-image--image"  *ngIf="project?.images && project?.images.length" style="background-image: url('{{ project?.images[0].image }}');"></div>
                                             </a>
                                             <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
                                                 <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
@@ -177,7 +175,7 @@
                                     <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                         <b>Highlighted project</b>
                                     </ux-popover>
-                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> 
+                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span>
                                 </h1>
                                 <div class="article--post__content">
                                     <p class="article--post__teaser">{{project?.description}}</p>

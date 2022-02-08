@@ -209,14 +209,15 @@
             }
 
             .prj-image--image {
-                img {
-                    width: 100px;
-                    height: 100px;
+                width: 100px;
+                height: 100px;
 
-                    @include media($eui-bkp-mobile-up) {
-                        width: 154px;
-                        height: 154px;
-                    }
+                background-size: cover;
+                background-repeat: none;
+
+                @include media($eui-bkp-mobile-up) {
+                    width: 154px;
+                    height: 154px;
                 }
             }
 
@@ -396,14 +397,12 @@
         }
 
         .prj-image--image {
-            img {
-                width: 87px;
-                height: 87px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                border-radius: 12px;
-            }
+            width: 87px;
+            height: 87px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
         }
     }
 
