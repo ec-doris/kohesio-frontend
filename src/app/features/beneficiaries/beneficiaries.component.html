@@ -61,7 +61,7 @@
                 <eui-page-column-body>
                     <div class="tools">
                         <div class="left-table-tools">
-                            <app-download-button *ngIf="count && count <= 5000" [form]="myForm" type="beneficiaries"></app-download-button>
+                            <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
                         </div>
                         <div class="right-table-tools">
                             <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
