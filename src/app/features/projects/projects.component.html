@@ -126,7 +126,7 @@
                         <ux-tab label="Results" [isActive]="isResultsTab">
                             <div class="tools">
                                 <div class="left-table-tools">
-                                    <app-download-button *ngIf="count && count <= 5000" [form]="myForm" type="projects"></app-download-button>
+                                    <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button>
                                 </div>
                                 <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
                                     <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
