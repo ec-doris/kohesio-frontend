@@ -1,0 +1,4 @@
+{
+    "env":"prod",
+    "api_url": "https://kohesio.linkedopendata.eu/api/facet/eu"
+}

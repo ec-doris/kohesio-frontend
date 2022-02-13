@@ -1,0 +1,169 @@
+@import 'src/assets/styles/_include-media.scss';
+
+$breakpoints: (phone: 320px, tablet: 768px, desktop: 1024px);
+
+// mat-table {
+//     overflow: auto;
+// }
+
+    // xs: 0,
+    // sm: 576px,
+    // md: 768px,
+    // lg: 992px,
+    // xl: 1200px,
+    // xxl: 1400px
+
+
+@include media("<phone") {
+    mat-row {
+        padding: 5px;
+        // min-width: 1000px;
+        // display: flex;
+        flex-direction: column;
+    }
+
+    // mat-header-cell:nth-child(1),
+    // mat-header-cell:nth-child(2),
+    // mat-header-cell:nth-child(3),
+    // mat-header-cell:nth-child(4)
+    mat-header-row {
+        // padding-left: 10px;
+        // min-width: 1000px;
+        display: none;
+    }
+
+    mat-row,
+    mat-header-row,
+    mat-footer-row {
+        align-items: flex-start;
+        min-height: 1.5rem;
+    }
+
+    mat-cell:first-of-type,
+    mat-header-cell:first-of-type,
+    mat-footer-cell:first-of-type {
+        padding-left: 3px;
+    }
+
+    .mobile-header {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 11px;
+        font-weight: 500;
+        align-items: center;
+    }
+
+    mat-row::after,
+    mat-header-row::after,
+    mat-footer-row::after {
+        display: none;
+    }
+
+    .mat-column-numberProjects {
+        padding: 0 0 0 3px;
+    }
+
+    // Re-writes search btns
+    :host ::ng-deep .ng-star-inserted {
+        font-size: 12px !important;
+    }
+
+    :host ::ng-deep .eui-button .eui-button__container {
+        font-size: 12px !important;
+    }
+}
+
+@include media(">phone") {
+    mat-header-row {
+        display: flex;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+}
+
+mat-cell,
+mat-header-cell {
+    justify-content: center;
+}
+
+mat-header-cell.mat-column-name,
+mat-header-cell.mat-column-label,
+mat-cell.mat-column-name,
+mat-cell.mat-column-label{
+    flex: 3;
+    justify-content: flex-start;
+
+    img {
+        width: 42px;
+        height: 42px;
+        margin-right: 10px;
+    }
+    span {
+        flex: 1;
+    }
+}
+
+mat-cell.mat-column-budget {
+    padding: 0 3px;
+}
+
+mat-cell.mat-column-euBudget {
+    padding: 0 0 0 3px;
+
+    @include media(">phone") {
+        padding: 0 0 0 15px;
+    }
+}
+
+mat-cell:last-of-type,
+mat-footer-cell:last-of-type,
+mat-header-cell:last-of-type {
+    padding-right: 5px;
+}
+
+:host ::ng-deep {
+    .ux-tab-content {
+        padding: 0;
+    }
+}
+
+.search-buttons {
+    display: flex;
+
+    ux-button {
+        flex: 1;
+    }
+
+    ux-button:first-child {
+        margin-right: 10px;
+    }
+}
+
+:host ::ng-deep {
+    .ux-button {
+        width: 100%
+    }
+}
+
+.tools {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.right-table-tools {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+
+    @include media(">phone") {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        margin-bottom: 15px;
+    }
+}
+
+.muted-text {
+    color: gray;
+}

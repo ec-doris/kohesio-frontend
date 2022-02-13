@@ -1,0 +1,63 @@
+
+// Theme pages
+.prjt-themes {
+    margin-bottom: 50px;
+    &--inner {
+        width: 80%;
+        margin: 0 auto 25px auto;
+
+        .header-title {
+            &--h2 {
+                font-size: 3.2rem;
+                color: #002F67;
+                margin-bottom: 15px;
+                text-align: center;
+                font-variant: small-caps;
+            }
+        }
+
+        .description {
+            font-size: 1.4rem;
+        }
+    }
+
+    .prjt-box {
+        border-radius: 6px;
+        padding: 30px;
+        margin-bottom: 30px;
+        min-height: 164px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: bold;
+        text-align: center;
+
+        &--blue {
+            background: #1c679d;
+        }
+
+        &--green {
+            background: #34B392;
+        }
+
+        &--yellow{
+            background: #ABC91E;
+        }
+
+        &--grey{
+            background: rgb(154, 150, 160);
+        }
+
+        .icon {
+            position: absolute;
+            top: 13px;
+            left: 22px;
+        }
+
+        .title {
+            color: #fff;
+        }
+    }
+}

@@ -1,0 +1,72 @@
+<header class="ecl-site-header-harmonised ecl-site-header-harmonised--group1" data-ecl-auto-init="SiteHeaderHarmonised" data-ecl-has-menu>
+    <div class="ecl-site-header-harmonised__container ecl-container">
+        <div class="ecl-site-header-harmonised__top">
+            <a href="" class="ecl-link ecl-link--standalone ecl-site-header-harmonised__logo-link" aria-label="European&#x20;Commission">
+                <img alt="European Commission logo" title="European Commission" class="ecl-site-header-harmonised__logo-image ecl-site-header-harmonised__logo-image-desktop" src="/assets/images/ecl/logo-ec--en.5055ef4f.svg" />
+            </a>
+            <div class="ecl-site-header-harmonised__action">
+            <div class="ecl-site-header-harmonised__search-container">
+                <a class="ecl-button ecl-button--ghost ecl-site-header-harmonised__search-toggle" href="/component-library/example" data-ecl-search-toggle="true" aria-controls="search-form-id" aria-expanded="false">
+                    <svg class="ecl-icon ecl-icon--s" focusable="false" aria-hidden="true">
+                        <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#search"></use>
+                    </svg>
+                    Search
+                </a>
+                <form class="ecl-search-form ecl-site-header-harmonised__search" role="search" data-ecl-search-form id="search-form-id">
+                    <div class="ecl-form-group">
+                        <label for="search-input-id" class="ecl-form-label ecl-search-form__label">Search</label>
+                        <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input" name="Search" type="search" />
+                    </div>
+                    <button class="ecl-button ecl-button--search ecl-search-form__button" type="submit" aria-label="Search">
+                        <span class="ecl-button__container"><span class="ecl-button__label" data-ecl-label="true">Search</span>
+                            <svg class="ecl-icon ecl-icon--xs ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
+                                <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#search"></use>
+                            </svg>
+                        </span>
+                    </button>
+                </form>
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="ecl-site-header-harmonised__banner">
+        <div class="ecl-container">
+            <div class="ecl-site-header-harmonised__site-name">Kohesio</div>
+        </div>
+    </div>
+    <nav class="ecl-menu ecl-menu--group1" data-ecl-menu="" data-ecl-auto-init="Menu" aria-expanded="false">
+        <div class="ecl-menu__overlay" data-ecl-menu-overlay=""></div>
+        <div class="ecl-container ecl-menu__container"><a class="ecl-link ecl-link--standalone ecl-menu__open"
+            href="/component-library/example" data-ecl-menu-open=""><svg class="ecl-icon ecl-icon--s" focusable="false"
+              aria-hidden="true">
+              <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#hamburger"></use>
+            </svg>Menu</a>
+          <section class="ecl-menu__inner" data-ecl-menu-inner="">
+            <header class="ecl-menu__inner-header"><button class="ecl-menu__close ecl-button ecl-button--text" type="submit"
+                data-ecl-menu-close=""><span class="ecl-menu__close-container ecl-button__container"><svg
+                    class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--before" focusable="false"
+                    aria-hidden="true" data-ecl-icon="">
+                    <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                  </svg><span class="ecl-button__label" data-ecl-label="true">Close</span></span></button>
+              <div class="ecl-menu__title">Menu</div><button data-ecl-menu-back="" type="submit"
+                class="ecl-menu__back ecl-button ecl-button--text"><span class="ecl-button__container"><svg
+                    class="ecl-icon ecl-icon--s ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--before"
+                    focusable="false" aria-hidden="true" data-ecl-icon="">
+                    <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                  </svg><span class="ecl-button__label" data-ecl-label="">Back</span></span></button>
+            </header>
+            <ul class="ecl-menu__list">
+              <li class="ecl-menu__item ecl-menu__item--current" data-ecl-menu-item="">
+                <a [routerLink]="['/']" class="ecl-menu__link ecl-menu__link--current" data-ecl-menu-link="">Home</a>
+              </li>
+              <li class="ecl-menu__item" data-ecl-menu-item="">
+                <a [routerLink]="['/projects']" class="ecl-menu__link" data-ecl-menu-link="">Projects</a>
+              </li>
+              <li class="ecl-menu__item" data-ecl-menu-item="">
+                <a [routerLink]="['/beneficiaries']" class="ecl-menu__link" data-ecl-menu-link="">Beneficiaries</a>
+              </li>
+            </ul>
+          </section>
+        </div>
+      </nav>
+</header>

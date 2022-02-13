@@ -1,0 +1,41 @@
+<h1 class="ecl-page-header-harmonised__title">Home</h1>
+
+<app-ecl-carousel></app-ecl-carousel>
+<br/>
+<h2 class="ecl-page-header-harmonised__title">IN MY REGION</h2>
+<app-map></app-map>
+
+<section id="themes">
+  <h2>THEMES</h2>
+  <div class="theme-division">
+      <div class="theme-container">
+          <div class="themes-main-category">
+              <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe', sort: 'Total-Budget-(descending)'}" class="themes-title">
+                  Greener and carbon free Europe
+              </a>
+              <div class="number">{{stats.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
+          </div>
+
+          <div class="theme-categories">
+              <div class="theme-category-card">
+                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-Carbon-Economy', sort: 'Total-Budget-(descending)'}">Low Carbon Economy</a></div>
+                  <div class="number">{{stats.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects</div>
+                  <hr class="vertical-line">
+              </div>
+              <div class="theme-category-card">
+                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention', sort: 'Total-Budget-(descending)'}">Climate Change Adaptation & Risk Prevention</a></div>
+                  <div class="number">{{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects</div>
+                  <hr class="vertical-line">
+              </div>
+              <div class="theme-category-card">
+                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency', sort: 'Total-Budget-(descending)'}">Environment Protection & Resource Efficiency</a></div>
+                  <div class="number">{{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects</div>
+                  <hr class="vertical-line">
+              </div>
+          </div>
+      </div>
+      <div class="explore-more">
+          <a [routerLink]="['/themes']">Explore more ...</a>
+      </div>
+  </div>
+</section>

@@ -1,0 +1,83 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import {map} from 'rxjs/operators';
+import {Observable, throwError} from 'rxjs';
+import {Filters} from "../models/filters.model";
+import {environment} from "../../environments/environment";
+import {ProjectDetail} from "../models/project-detail.model";
+import {ProjectList} from "../models/project-list.model";
+import { ConfigService } from './config.service';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class ProjectService {
+
+    constructor(private http: HttpClient, private configService: ConfigService) {
+    }
+
+    getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
+        const url = this.configService.apiBaseUrl + '/search/project';
+        const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    return null;
+                }else {
+                    return new ProjectList().deserialize(data);
+                }
+            })
+        );
+    }
+
+    getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{
+        const url = this.configService.apiBaseUrl + '/search/project/image';
+        const params = this.generateParameters(filters.getAssetsFilters(), offset, limit);
+        return this.http.get<any>(url,{ params: <any>params });
+    }
+
+    generateParameters(filters:any, offset: number = 0, limit: number = 15){
+        let params = {};
+        if (limit !== -1){
+            params = {
+                offset: offset,
+                limit: limit
+            };
+        }
+        params = Object.assign(
+            params,
+            filters);
+        return params;
+    }
+
+    getProjectDetail(id: string | null): Observable<ProjectDetail> {
+        const url = this.configService.apiBaseUrl + '/project';
+        let params = {
+            id: environment.entityURL + id
+        };
+        return this.http.get<any>(url, { params: <any>params }).pipe(
+            map((data:any) => {
+                return new ProjectDetail().deserialize(data);
+            }));
+        /*return this.http.get<any>(url, { params: <any>params }).pipe(
+            map(data => {
+                if (!data){
+                    throwError('Data is inconsistent');
+                }else {
+                    const result: ProjectDetail = new ProjectDetail().deserialize(data);
+                    return result;
+                }
+            })
+        );*/
+    }
+
+    getFile(filters: Filters, type: string):Observable<any>{
+        const url = this.configService.apiBaseUrl + "/search/project/" + type;
+        const params = filters.getProjectsFilters();
+        return this.http.get(url,{
+            responseType: 'arraybuffer',
+            params:<any>params
+        });
+    }
+
+}

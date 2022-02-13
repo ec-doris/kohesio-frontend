@@ -1,0 +1,120 @@
+@import 'src/assets/styles/_include-media.scss';
+
+#themes {
+    margin-top: 45px;
+    margin-bottom: 2rem;
+    min-height: 400px;
+
+    @include media(">small") {
+        margin-bottom: 0;
+
+        .theme-division {
+            display: flex;
+        }
+    }
+
+    .explore-more {
+        border: 1px solid #002F67;
+        padding: 20px;
+        color: #002F67;
+        font-size: 14px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        border-radius: 6px;
+        align-items: center;
+
+        @include media(">small") {
+            margin-left: 15px;
+            margin-top: 93px;
+            max-width: 110px;
+        }
+
+        &:hover {
+            cursor:pointer;
+            color: #404040;
+        }
+    }
+
+    .theme-container {
+        flex: 1;
+
+        .themes-main-category {
+            background-color: #2CBD7B;
+            color: white;
+            font-size: 28px;
+            text-shadow: 0px 3px 6px #00000029;
+            padding: 20px 0 50px 0;
+            display: flex;
+            justify-content: center;
+            border-radius: 6px;
+            flex-direction: column;
+            align-items: center;
+
+            .number {
+                font-size: 18px;
+            }
+        }
+
+        .themes-title {
+            color: #fff;
+            text-align: center;
+        }
+
+        .theme-categories .theme-category-card:last-child {
+            margin-right: 0;
+        }
+
+        .theme-categories {
+            margin-top: -30px;
+            justify-content: space-between;
+
+            @include media(">small") {
+                display: flex;
+            }
+
+            .theme-category-card {
+                box-shadow: 0px 3px 6px #00000029;
+                padding: 35px 25px;
+                flex-direction: column;
+                background-color: white;
+                border-radius: 6px;
+                margin-bottom: 10px;
+                flex-direction: row;
+                width: 100%;
+
+                @include media(">small") {
+                    flex-direction: column;
+                    width: 33%;
+                    margin-right: 10px;
+                    margin-bottom: 0;
+                }
+
+                .title {
+                    color: #404040;
+                    font-size: 18px;
+                    font-weight: bold;
+                    margin-bottom: 25px;
+                    min-height: 44px;
+                }
+
+                .number {
+                    position: relative;
+                    color: #002F67;
+                    font-size: 10px;
+
+                    width: 25%;
+                    float: left;
+                    margin-right: .5rem;
+                }
+
+                .vertical-line {
+                    width: calc(75% - .5rem);
+                    float: right;
+                    margin: 5px 0 0 0;
+                }
+            }
+        }
+
+    }
+}

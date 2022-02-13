@@ -1,1 +1,704 @@
 /* You can add global styles to this file, and also import other style files */
+@import 'src/assets/styles/_include-media.scss';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* You can add global styles to this file, and also import other style files */
+/* ECL breakpoints
+$breakpoints: (
+  extrasmall: 0,
+  small: 480px,
+  medium: 768px,
+  large: 996px,
+  extralarge: 1140px,
+) !default;
+*/
+
+/*Static Page Common Styles*/
+
+/*Page List Common Styles*/
+
+/*Page Detail Common Styles*/
+.kohesio-page-wrapper{
+    display:flex;
+    flex-direction: row;
+}
+@include media("<=small") {
+    .kohesio-page-wrapper{
+        flex-direction: column;
+    }
+}
+
+
+
+
+/*OLD CSS*/
+/* You can add global styles to this file, and also import other style files */
+#main-content {
+    padding-bottom: 200px !important;
+}
+
+// Re-writes
+.ux-layout-page-column {
+    border: 0 !important;
+}
+
+.projects-grid a {
+    color:initial;
+    text-decoration: none;
+}
+.projects-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    @media only screen and (max-width: 600px) {
+    }
+    @media only screen and (min-width: 600px) {
+    }
+    @media only screen and (min-width: 768px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media only screen and (min-width: 992px) {
+        grid-template-columns: 1fr 1fr;
+    }
+    @media only screen and (min-width: 1200px) {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+    @media only screen and (min-width: 1800px) {
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    }
+    grid-gap:15px
+}
+
+.projects-grid .card {
+    border: 2px solid #aaa;
+    border-radius: 20px;
+    min-height: 470px;
+}
+
+.projects-grid .card .header {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    background-color: #aaa;
+    border-radius: 16px 16px 0 0;
+    height: 100px;
+}
+
+.projects-grid .card .header h1 {
+    font-size: 18px;
+    font-weight: bold;
+    word-break: break-word;
+}
+
+.projects-grid .card.TO01 .header,
+.projects-grid .card.TO02 .header,
+.projects-grid .card.TO03 .header,
+.projects-grid .card.TO04 .header {
+    background-color: #ff9900;
+}
+
+.projects-grid .card.TO05 .header,
+.projects-grid .card.TO06 .header,
+.projects-grid .card.TO07 .header {
+    background-color: #76b043;
+}
+
+.projects-grid .card.TO08 .header,
+.projects-grid .card.TO09 .header,
+.projects-grid .card.TO10 .header,
+.projects-grid .card.TO11 .header {
+    background-color: #009fe3;
+}
+
+.projects-grid .card.TO01,
+.projects-grid .card.TO02,
+.projects-grid .card.TO03,
+.projects-grid .card.TO04 {
+    border: 2px solid #ff9900;
+}
+.projects-grid .card.TO05,
+.projects-grid .card.TO06,
+.projects-grid .card.TO07 {
+    border: 2px solid #76b043;
+}
+
+.projects-grid .card.TO08,
+.projects-grid .card.TO09,
+.projects-grid .card.TO10,
+.projects-grid .card.TO11 {
+    border: 2px solid #009fe3;
+}
+
+.projects-grid .card .header .images {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    align-items: center;
+}
+
+.projects-grid .card .header .images .flag {
+    width: 24px;
+    margin-top: -14px;
+}
+
+.projects-grid .card .info-bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #0065a2;
+    color: white;
+    min-height: 38px;
+}
+
+.projects-grid .card .info-bar img {
+    width:24px;
+}
+
+.projects-grid .card p {
+    margin: 0;
+    padding: 10px;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.project-link:hover > .card {
+    box-shadow: 5px 5px 15px 0px rgba(156,156,156,0.78);
+}
+
+// Helpers
+.nowrap {
+    -webkit-flex-wrap: nowrap;
+    flex-wrap: nowrap;
+}
+
+.margin-btm {
+    margin-bottom: 50px;
+}
+
+.leaflet-cluster-anim .leaflet-marker-icon, .leaflet-cluster-anim .leaflet-marker-shadow {
+    -webkit-transition: -webkit-transform 0.3s ease-out, opacity 0.3s ease-in;
+    -moz-transition: -moz-transform 0.3s ease-out, opacity 0.3s ease-in;
+    -o-transition: -o-transform 0.3s ease-out, opacity 0.3s ease-in;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-in;
+}
+
+.leaflet-cluster-spider-leg {
+    /* stroke-dashoffset (duration and function) should match with leaflet-marker-icon transform in order to track it exactly */
+    -webkit-transition: -webkit-stroke-dashoffset 0.3s ease-out, -webkit-stroke-opacity 0.3s ease-in;
+    -moz-transition: -moz-stroke-dashoffset 0.3s ease-out, -moz-stroke-opacity 0.3s ease-in;
+    -o-transition: -o-stroke-dashoffset 0.3s ease-out, -o-stroke-opacity 0.3s ease-in;
+    transition: stroke-dashoffset 0.3s ease-out, stroke-opacity 0.3s ease-in;
+}
+
+.marker-cluster-small {
+    background-color: rgba(181, 226, 140, 0.6);
+}
+
+.marker-cluster-small div {
+    background-color: rgba(110, 204, 57, 0.6);
+}
+
+.marker-cluster-medium {
+    background-color: rgba(241, 211, 87, 0.6);
+}
+
+.marker-cluster-medium div {
+    background-color: rgba(240, 194, 12, 0.6);
+}
+
+.marker-cluster-large {
+    background-color: rgba(253, 156, 115, 0.6);
+}
+
+.marker-cluster-large div {
+    background-color: rgba(241, 128, 23, 0.6);
+}
+
+// IE 6-8 fallback colors
+.leaflet-oldie .marker-cluster-small {
+    background-color: rgb(181, 226, 140);
+}
+
+.leaflet-oldie .marker-cluster-small div {
+    background-color: rgb(110, 204, 57);
+}
+
+.leaflet-oldie .marker-cluster-medium {
+    background-color: rgb(241, 211, 87);
+}
+
+.leaflet-oldie .marker-cluster-medium div {
+    background-color: rgb(240, 194, 12);
+}
+
+.leaflet-oldie .marker-cluster-large {
+    background-color: rgb(253, 156, 115);
+}
+.leaflet-oldie .marker-cluster-large div {
+    background-color: rgb(241, 128, 23);
+}
+
+.marker-cluster {
+    background-clip: padding-box;
+    border-radius: 20px;
+}
+
+.marker-cluster div {
+    width: 30px;
+    height: 30px;
+    margin-left: 5px;
+    margin-top: 5px;
+
+    text-align: center;
+    border-radius: 15px;
+    font: 12px "Helvetica Neue", Arial, Helvetica, sans-serif;
+}
+
+.marker-cluster span {
+    line-height: 30px;
+}
+
+.mycluster {
+    border-radius: 50%;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    opacity: 0.9 !important;
+}
+
+.mycluster div {
+    color:#000;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.mycluster.size1 {
+    background-color: #2196F3;
+    box-shadow: 0px 0px 0px 4px rgba(33,150,243,0.3);
+    padding: 10px;
+}
+
+.mycluster.size2 {
+    background-color: #FBC02D;
+    box-shadow: 0px 0px 0px 4px rgba(251,192,45,0.3);
+    padding: 15px;
+}
+
+.mycluster.size3 {
+    background-color: #F44336;
+    box-shadow: 0px 0px 0px 4px rgba(244,67,54,0.3);
+    padding: 20px;
+}
+
+.mycluster.size4 {
+    background-color: #E91E63;
+    box-shadow: 0px 0px 0px 4px rgba(233,30,99,0.3);
+    padding: 30px;
+}
+
+.mycluster.size5 {
+    background-color: #9C27B0;
+    box-shadow: 0px 0px 0px 4px rgba(156,39,176,0.3);
+    padding: 40px;
+}
+
+.map-frame, .map-container {
+    width:100%;
+    height: 100%;
+}
+
+.without-obcjetive-id {
+    width: 80px;
+    height: 80px;
+}
+
+// Social icons
+@mixin font-smoothing() {
+    // Font antialising on Mac OS X
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.social-icons__wrapper {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 1rem !important;
+
+    .title {
+        font-variant: small-caps;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+}
+
+.social-icons {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+        display: inline-block;
+        margin: 0 0.25rem;
+    }
+
+    span {
+        display: block;
+        width: 0; height: 0;
+        overflow: hidden;
+    }
+
+    a {
+        display: inline-block;
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        text-decoration: none;
+        color: white !important;
+        text-align: center;
+        margin-left: .3rem !important;
+
+        &:before {
+            font: 1.2rem/1.75 "FontAwesome";
+            @include font-smoothing();
+        }
+
+        &:hover {
+            text-decoration: none !important;
+        }
+
+        $icons: (
+            facebook: (char: "\f09a", color: #3b5998),
+            linkedin: (char: "\f0e1", color: #0977b5),
+            instagram: (char: "\f16d", color: #d6249f),
+            twitter:  (char: "\f099", color: #55acee),
+            mail:     (char: "\f0e0", color: #ff6600),
+            // youtube: (char: "\f16a", color: #3b5998),
+            // flickr: (char: "\f16e", color: #3b5998),
+            // google:   (char: "\f0d5", color: #dd4b39),
+            // github:   (char: "\f09b", color: #231f20),
+            // dribbble: (char: "\f17d", color: #ea4c89),
+            // rss:      (char: "\f09e", color: #ff6600),
+        );
+
+        @each $social, $icon in $icons {
+            &[href*="#{$social}"] {
+                background-color: map-get($icon, color);
+
+                &:before {
+                    content: map-get($icon, char);
+                }
+            }
+        }
+    }
+}
+
+
+
+/**
+ * Vertical line
+ **/
+ hr.vertical-line {
+    border: 0;
+    height: 0;
+    border-top: 1px solid rgba(0, 47, 103, 1);
+    border-bottom: 1px solid rgba(255, 255, 255, 1);
+}
+
+/**
+ * Tooltip Styles
+ **/
+
+// Base styles for the element that has a tooltip
+[data-tooltip],
+.tooltip {
+  position: relative;
+  cursor: pointer;
+}
+
+// Base styles for the entire tooltip
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after {
+  position: absolute;
+  visibility: hidden;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+  opacity: 0;
+  -webkit-transition:
+	  opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		-webkit-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+	-moz-transition:
+		opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		-moz-transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+	transition:
+		opacity 0.2s ease-in-out,
+		visibility 0.2s ease-in-out,
+		transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  -webkit-transform: translate3d(0, 0, 0);
+  -moz-transform:    translate3d(0, 0, 0);
+  transform:         translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+// Show the entire tooltip on hover and focus
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after {
+  visibility: visible;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=100)";
+  filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+  opacity: 1;
+}
+
+// Base styles for the tooltip's directional arrow
+.tooltip:before,
+[data-tooltip]:before {
+  z-index: 1001;
+  border: 6px solid transparent;
+  background: transparent;
+  content: "";
+}
+
+// Base styles for the tooltip's content area
+.tooltip:after,
+[data-tooltip]:after {
+  z-index: 1000;
+  padding: 15px;
+  width: 420px;
+  background-color: #fff;
+  background-color: hsla(0, 100%, 100%, 0.9);
+  color: #404040;
+  content: attr(data-tooltip);
+  font-size: 14px;
+  line-height: 1.4;
+  text-align: center;
+  border-radius: 6px;
+}
+
+// Directions
+
+// Top (default)
+[data-tooltip]:before,
+[data-tooltip]:after,
+.tooltip:before,
+.tooltip:after,
+.tooltip-top:before,
+.tooltip-top:after {
+  bottom: 100%;
+  left: 50%;
+}
+
+[data-tooltip]:before,
+.tooltip:before,
+.tooltip-top:before {
+  margin-left: -6px;
+  margin-bottom: -12px;
+  border-top-color: #fff;
+  border-top-color: hsla(0, 100%, 100%, 0.9);
+}
+
+// Horizontally align top/bottom tooltips
+[data-tooltip]:after,
+.tooltip:after,
+.tooltip-top:after {
+  margin-left: -210px;
+}
+
+[data-tooltip]:hover:before,
+[data-tooltip]:hover:after,
+[data-tooltip]:focus:before,
+[data-tooltip]:focus:after,
+.tooltip:hover:before,
+.tooltip:hover:after,
+.tooltip:focus:before,
+.tooltip:focus:after,
+.tooltip-top:hover:before,
+.tooltip-top:hover:after,
+.tooltip-top:focus:before,
+.tooltip-top:focus:after {
+  -webkit-transform: translateY(-12px);
+  -moz-transform:    translateY(-12px);
+  transform:         translateY(-12px);
+}
+
+
+// Left
+.tooltip-left:before,
+.tooltip-left:after {
+  right: 100%;
+  bottom: 50%;
+  left: auto;
+}
+
+.tooltip-left:before {
+  margin-left: 0;
+  margin-right: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-left-color: #fff;
+  border-left-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-left:hover:before,
+.tooltip-left:hover:after,
+.tooltip-left:focus:before,
+.tooltip-left:focus:after {
+  -webkit-transform: translateX(-12px);
+  -moz-transform:    translateX(-12px);
+  transform:         translateX(-12px);
+}
+
+// Bottom
+.tooltip-bottom:before,
+.tooltip-bottom:after {
+  top: 100%;
+  bottom: auto;
+  left: 50%;
+}
+
+.tooltip-bottom:before {
+  margin-top: -12px;
+  margin-bottom: 0;
+  border-top-color: transparent;
+  border-bottom-color: #fff;
+  border-bottom-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-bottom:hover:before,
+.tooltip-bottom:hover:after,
+.tooltip-bottom:focus:before,
+.tooltip-bottom:focus:after {
+  -webkit-transform: translateY(12px);
+  -moz-transform:    translateY(12px);
+  transform:         translateY(12px);
+}
+
+// Right
+.tooltip-right:before,
+.tooltip-right:after {
+  bottom: 50%;
+  left: 100%;
+}
+
+.tooltip-right:before {
+  margin-bottom: 0;
+  margin-left: -12px;
+  border-top-color: transparent;
+  border-right-color: #fff;
+  border-right-color: hsla(0, 100%, 100%, 0.9);
+}
+
+.tooltip-right:hover:before,
+.tooltip-right:hover:after,
+.tooltip-right:focus:before,
+.tooltip-right:focus:after {
+  -webkit-transform: translateX(12px);
+  -moz-transform:    translateX(12px);
+  transform:         translateX(12px);
+}
+
+// Move directional arrows down a bit for left/right tooltips
+.tooltip-left:before,
+.tooltip-right:before {
+  top: 3px;
+}
+
+// Vertically center tooltip content for left/right tooltips
+.tooltip-left:after,
+.tooltip-right:after {
+  margin-left: 0;
+  margin-bottom: -16px;
+}
+
+.info {
+    padding: 6px 8px;
+    font: 14px/16px Arial, Helvetica, sans-serif;
+    background: white;
+    background: rgba(255,255,255,0.8);
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    border-radius: 5px;
+}
+.info h4 {
+    margin: 0 0 5px;
+    color: #777;
+}
+
+.download-section {
+    padding: 15px 35px;
+    margin-bottom: 30px;
+    background-color: #ebebeb;
+    border-radius: 6px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+/*Fixing the position for the eui-page-columns*/
+.eui-page--with-columns {
+    position: relative !important;
+}
+
+.eui-page-column {
+    position: inherit !important;
+}
+
+.eui-page-column__body {
+    padding:5px;
+}
+
+.column-without-title .eui-page-column__header {
+    padding: 0;
+    margin: 0;
+    height: 0;
+}
+
+.column-without-padding-top .eui-page-column__body {
+    padding-top: 0;
+}
+
+.mat-paginator {
+    background-color: transparent !important;
+}
+
+.eui-page-column {
+    border: 0 !important;
+}
+
+.tab-right-content-results-wrapper {
+    display: flex;
+    align-items: center;
+    .mat-paginator{
+        min-width: 280px;
+    }
+}
+
+@include media("<=small") {
+    .ux-form-group__input-content .kohesio-data-range {
+            display: block !important;
+    }
+}
+
+.ux-form-group__label-wrapper.form-control-label {
+    display: flex;
+    align-items: center;
+}
+
+.eui-page-column--collapsed .eui-page-column__header-left-content-label{
+    padding-right: 40px !important;
+    top: 10px !important;
+    justify-content: flex-end !important;
+}
