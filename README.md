@@ -1,6 +1,6 @@
 # Kohesio Frontend
 
-This project is the frontend of the Kohesio website (https://kohesio.ec.europa.eu)
+This project is the frontend of the Kohesio website (<https://kohesio.ec.europa.eu>)
 
 ## Local development
 
