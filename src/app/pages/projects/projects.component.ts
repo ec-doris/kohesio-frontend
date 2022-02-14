@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ProjectService } from "../../services/project.service";
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
@@ -11,13 +11,15 @@ import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
+import { MediaMatcher} from '@angular/cdk/layout';
 declare let L:any;
+declare let ECL:any;
 
 @Component({
     templateUrl: './projects.component.html',
     styleUrls: ['./projects.component.scss']
 })
-export class ProjectsComponent implements AfterViewInit {
+export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     public projects!: Project[];
     public assets: any[] = [];
@@ -57,6 +59,9 @@ export class ProjectsComponent implements AfterViewInit {
 
     public semanticTerms: String[] = [];
 
+    public mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
+
     constructor(private projectService: ProjectService,
         public filterService: FilterService,
         private formBuilder: FormBuilder,
@@ -65,9 +70,13 @@ export class ProjectsComponent implements AfterViewInit {
         private _renderer2: Renderer2,
         @Inject(DOCUMENT) private _document: Document,
         private datePipe: DatePipe,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher) {
 
         this.filters = this._route.snapshot.data['filters'];
+        this.mobileQuery = media.matchMedia('(max-width: 768px)');
+        this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+        this.mobileQuery.addListener(this._mobileQueryListener);
         //TODO ECL side effect
         /*this._router.events.subscribe((event: NavigationStart) => {
 
@@ -158,6 +167,8 @@ export class ProjectsComponent implements AfterViewInit {
         this.isMapTab = this.selectedTab === 'map';
         this.changeDetectorRef.detectChanges();
         this.getProjectList();
+
+        ECL.autoInit();
     }
 
     getThemes() {
@@ -438,6 +449,10 @@ export class ProjectsComponent implements AfterViewInit {
             this.semanticTerms = [];
             this.onSubmit();
         }
+    }
+
+    ngOnDestroy(): void {
+        this.mobileQuery.removeListener(this._mobileQueryListener);
     }
 
 }
