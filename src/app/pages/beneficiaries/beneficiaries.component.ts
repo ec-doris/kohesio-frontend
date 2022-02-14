@@ -113,7 +113,6 @@ export class BeneficiariesComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginator.pageIndex = this.page;
         this.changeDetectorRef.detectChanges();
-        this.performSearch();
     }
 
     onSubmit() {

@@ -13,7 +13,6 @@ import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { MediaMatcher} from '@angular/cdk/layout';
 declare let L:any;
-declare let ECL:any;
 
 @Component({
     templateUrl: './projects.component.html',
@@ -166,9 +165,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.isAudioVisualTab = this.selectedTab === 'audiovisual';
         this.isMapTab = this.selectedTab === 'map';
         this.changeDetectorRef.detectChanges();
-        this.getProjectList();
-
-        ECL.autoInit();
     }
 
     getThemes() {
@@ -204,7 +200,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
 
-            if (this.selectedTabIndex == 3) {
+            if (this.selectedTabIndex == 2) {
                 this.map.loadMapRegion(this.lastFiltersSearch);
             } else {
                 this.mapIsLoaded = false;
@@ -342,29 +338,29 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    onTabSelected(event:any) {
+    onTabSelected(index:any) {
         this.isAudioVisualTab = false;
         this.isMapTab = false;
         this.isResultsTab = false;
-        switch (event.index) {
-            case 1: //Results
+        switch (index) {
+            case 0: //Results
                 this.isResultsTab = true;
                 this.selectedTab = 'results';
                 break;
-            case 2: //Audio-visual
+            case 1: //Audio-visual
                 this.isAudioVisualTab = true;
                 this.selectedTab = 'audiovisual';
                 break;
-            case 3: //Map
+            case 2: //Map
                 if (!this.mapIsLoaded) {
                     this.mapIsLoaded = true;
-                    this.map.refreshView();
                     setTimeout(
                         () => {
+                            this.map.refreshView();
                             this.map.loadMapRegion(this.lastFiltersSearch);
                         }, 500);
                 }
-                this.selectedTabIndex = event.index;
+                this.selectedTabIndex = index;
                 this.isMapTab = true;
                 this.selectedTab = 'map';
                 break;
