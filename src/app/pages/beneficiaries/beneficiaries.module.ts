@@ -10,6 +10,9 @@ import {BeneficiaryDetailComponent} from "./beneficiary-detail.component";
 import { MatPaginatorKohesio } from 'src/app/components/kohesio/paginator/mat-paginator-intl.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { ReactiveFormsModule } from '@angular/forms';
+import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
+import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
+import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 
 @NgModule({
     imports: [
@@ -20,7 +23,10 @@ import { ReactiveFormsModule } from '@angular/forms';
         CommonModule,
         MapComponentModule,
         MatSidenavModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        KohesioEclFormModule,
+        KohesioEclButtonModule,
+        KohesioEclAccordionModule
     ],
     declarations: [
         BeneficiariesComponent,

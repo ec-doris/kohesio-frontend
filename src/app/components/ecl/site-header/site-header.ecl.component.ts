@@ -1,4 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
+import { Router,NavigationEnd  } from '@angular/router';
 
 @Component({
     selector: 'app-ecl-site-header',
@@ -8,8 +9,16 @@ import {AfterViewInit, Component} from '@angular/core';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-
-    constructor(){}
+    public url: string | undefined;
+    
+    constructor(private router: Router){
+        this.router.events.subscribe(event => {
+            if(event instanceof NavigationEnd) {
+                console.log(event.url);
+                this.url = event.url;
+            }
+        });
+    }
 
     ngOnInit(){
     }

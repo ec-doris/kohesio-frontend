@@ -56,13 +56,13 @@
                   </svg><span class="ecl-button__label" data-ecl-label="">Back</span></span></button>
             </header>
             <ul class="ecl-menu__list">
-              <li class="ecl-menu__item ecl-menu__item--current" data-ecl-menu-item="">
-                <a [routerLink]="['/']" class="ecl-menu__link ecl-menu__link--current" data-ecl-menu-link="">Home</a>
+              <li [routerLink]="['/']" class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
+                <a [routerLink]="['/']" class="ecl-menu__link" data-ecl-menu-link="">Home</a>
               </li>
-              <li class="ecl-menu__item" data-ecl-menu-item="">
+              <li [routerLink]="['/projects']" class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
                 <a [routerLink]="['/projects']" class="ecl-menu__link" data-ecl-menu-link="">Projects</a>
               </li>
-              <li class="ecl-menu__item" data-ecl-menu-item="">
+              <li [routerLink]="['/beneficiaries']"class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
                 <a [routerLink]="['/beneficiaries']" class="ecl-menu__link" data-ecl-menu-link="">Beneficiaries</a>
               </li>
             </ul>
