@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  configPath: "assets/config/config.json",
+  configPath: "assets/config/config.dev.json",
   entityURL: 'https://linkedopendata.eu/entity/'
 };
 

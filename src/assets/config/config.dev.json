@@ -1,4 +1,4 @@
 {
     "env":"dev",
-    "api_url": "https://dev.kohesio.linkedopendata.eu/api/facet/eu"
+    "api_url": "https://kohesio.development.ec.europa.eu/api/facet/eu"
 }
