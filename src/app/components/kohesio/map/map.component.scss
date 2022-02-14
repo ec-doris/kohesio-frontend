@@ -1,3 +1,4 @@
+@import 'src/assets/styles/_include-media.scss';
 
 #map, #map-details, #map-beneficiary-details {
     height: 725px;
@@ -56,6 +57,8 @@
     width: 250px;
 }
 
+
+
 .map-outermost-regions-wrapper.withoutColumns{
     display: flex;
     flex-direction: column;
@@ -68,6 +71,12 @@
     column-count: 2;
     .outermostRegion-wrapper{
         max-height: 120px;
+    }
+}
+
+@include media("<=small"){
+    .map-outermost-regions-wrapper{
+        display:none;
     }
 }
 
