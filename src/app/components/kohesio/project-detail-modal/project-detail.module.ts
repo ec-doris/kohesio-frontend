@@ -26,7 +26,8 @@ import { MatDialogModule } from '@angular/material/dialog';
         ArraySortPipe
     ],
     exports: [
-        ProjectDetailComponent
+        ProjectDetailComponent,
+        ArraySortPipe
     ],
     entryComponents:[
        
