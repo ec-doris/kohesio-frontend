@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, ElementRef, ComponentFactoryResolver, Injector, ViewChild, TemplateRef } from '@angular/core';
+import { AfterViewInit, Component, Input, ChangeDetectorRef, ComponentFactoryResolver, Injector } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
@@ -6,6 +6,7 @@ import {Filters} from "../../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapPopupComponent } from './map-popup.component';
+import { MediaMatcher} from '@angular/cdk/layout';
 declare let L:any;
 
 @Component({
@@ -21,10 +22,12 @@ export class MapComponent implements AfterViewInit {
     //private labelsRegionsGroup;
     private layers: any[] = [];
     public filters: Filters = new Filters();
+    public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
+    public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
     public europe = {
         label: "Europe",
         region: undefined,
-        bounds: L.latLngBounds(L.latLng(69.77369797436554, 39.46330029192563), L.latLng(34.863924198120645, -17.13826220807438))
+        bounds: this.europeBounds
     };
     public mapRegions:any = [];
     public isLoading = false;
@@ -96,21 +99,33 @@ export class MapComponent implements AfterViewInit {
 
     public collapsedBreadCrumb = false;
 
-    public breakpointsValue: any = {
-        isMobile: false,
-        isTablet: false,
-        isLtDesktop: false,
-        isDesktop: false,
-        isXL: false,
-        isXXL: false
-    };
+    public mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
                 private resolver: ComponentFactoryResolver,
                 private injector: Injector,
-                private sanitizer: DomSanitizer) { }
+                private sanitizer: DomSanitizer,
+                private changeDetectorRef: ChangeDetectorRef,
+                private media: MediaMatcher) {
+
+        this.mobileQuery = media.matchMedia('(max-width: 480px)');
+        this._mobileQueryListener = () => {
+            changeDetectorRef.detectChanges();
+            if(this.mobileQuery.matches){
+                this.europe.bounds = this.europeBoundsMobile;
+            }else{
+                this.europe.bounds = this.europeBounds;
+            }    
+        }
+        this.mobileQuery.addListener(this._mobileQueryListener);
+
+        if(this.mobileQuery.matches){
+            this.europe.bounds = this.europeBoundsMobile;
+        }
+    }
 
     ngAfterViewInit(): void {
         this.map = L.map(this.mapId,
@@ -141,9 +156,6 @@ export class MapComponent implements AfterViewInit {
             iconUrl: 'assets/images/map/marker-icon-2x.png',
             shadowUrl: 'assets/images/map/marker-shadow.png'
         }
-        /*this.uxAppShellService.breakpoints$.subscribe(bkps => {
-            this.breakpointsValue = bkps
-        });*/
     }
 
     public addMarker(latitude:any, longitude:any, centralize=true, zoomWhenCentralize = 15, popupContent:string = ""){
@@ -463,9 +475,6 @@ export class MapComponent implements AfterViewInit {
     }
 
     showOutermostRegions(){
-        if (this.breakpointsValue.isMobile){
-            return false;
-        }
         if (this.hideOuterMostRegions){
             return false;
         }
@@ -572,7 +581,11 @@ export class MapComponent implements AfterViewInit {
 
     ngOnDestroy(){
         // TODO ECL side effect
-        //document.getElementById(this.mapId).outerHTML = "";
+        const obj:any = document.getElementById(this.mapId);
+        if (obj){
+            obj.outerHTML = "";
+        }
+        this.mobileQuery.removeListener(this._mobileQueryListener);
     }
 
     sanitizeUrl(url:string){

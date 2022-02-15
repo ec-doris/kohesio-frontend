@@ -21,6 +21,8 @@ import { CookieComponent } from './pages/static/cookie/cookie.component';
 import { CarouselEclModule } from './components/ecl/carousel/carousel.ecl.module';
 import { SiteHeaderEclModule } from './components/ecl/site-header/site-header.ecl.module';
 import { FooterEclModule } from './components/ecl/footer/footer.ecl.module';
+import { ProjectDetailModalModule } from './components/kohesio/project-detail-modal/project-detail.module';
+
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
 
@@ -42,7 +44,8 @@ registerLocaleData(LocaleEnglish);
     MapComponentModule,
     CarouselEclModule,
     SiteHeaderEclModule,
-    FooterEclModule
+    FooterEclModule,
+    ProjectDetailModalModule
   ],
   providers: [
     DecimalPipe,

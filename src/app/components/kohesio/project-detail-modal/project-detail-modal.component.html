@@ -1,3 +1,10 @@
+<ng-container *ngIf="!projectDetail">
+    <mat-spinner></mat-spinner>
+</ng-container>
 <ng-container *ngIf="projectDetail">
+    <button mat-icon-button class="close-button" [mat-dialog-close]="true">
+        <mat-icon class="close-icon" color="warn">close</mat-icon>
+    </button>
+    <h2 mat-dialog-title>{{projectDetail.label}}</h2>
     <app-project-detail [project]="projectDetail" [isModal]="true"></app-project-detail>
 </ng-container>
