@@ -22,7 +22,7 @@ export class MapComponent implements AfterViewInit {
     //private labelsRegionsGroup;
     private layers: any[] = [];
     public filters: Filters = new Filters();
-    public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 44.46330029192563), L.latLng(34.863924198120645, -12.13826220807438));
+    public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
     public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
     public europe = {
         label: "Europe",
@@ -581,7 +581,10 @@ export class MapComponent implements AfterViewInit {
 
     ngOnDestroy(){
         // TODO ECL side effect
-        //document.getElementById(this.mapId).outerHTML = "";
+        const obj:any = document.getElementById(this.mapId);
+        if (obj){
+            obj.outerHTML = "";
+        }
         this.mobileQuery.removeListener(this._mobileQueryListener);
     }
 
