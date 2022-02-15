@@ -1,19 +1,33 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container">
         <ng-container *ngIf="!hideNavigation">
-            <!-- 
-                TODO ECL side effect
-                <ux-panel [isContainerOnly]="true" [isCollapsible]="true" [isCollapsed] = "collapsedBreadCrumb && breakpointsValue.isMobile" class="left">
-                <div class="map-regions-wrapper">
-                    <ux-button *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)"
-                               [iconClass]="!(uxAppShellService.breakpoints$ | async).isMobile ? 'fa fa-globe' : ''" typeClass="warning" [isSmall]="true">{{region.label}}</ux-button>
-                </div>
-            </ux-panel> -->
             <div class="map-regions-wrapper">
-                <button type="button" *ngFor="let region of mapRegions" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{region.label}}</button>
+                <ng-container *ngIf="!collapsedBreadCrumb">
+                    <ng-container *ngFor="let region of mapRegions">
+                        <button type="button"  (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{region.label}}</button>
+                        &nbsp;
+                    </ng-container>
+                </ng-container>
+                <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb">
+                    <span class="ecl-button__container">
+                        <svg *ngIf="collapsedBreadCrumb" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                        </svg>
+                        <svg *ngIf="!collapsedBreadCrumb" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                        </svg>
+                    </span>
+                </button>
             </div>
             <div class="right" *ngIf="!hideProjectsNearBy">
-                <button type="button" (click)="onProjectsNearByClick()" class="ecl-button ecl-button--primary" type="button">PROJECTS NEAR ME</button>
+                <button type="button" (click)="onProjectsNearByClick()" class="ecl-button ecl-button--primary" type="button">
+                    <span class="ecl-button__container">
+                        <svg class="ecl-icon ecl-icon--m" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#location"></use>
+                        </svg>
+                        <span class="ecl-button__label" data-ecl-label="true">PROJECTS NEAR ME</span>
+                    </span>
+                </button>
                 <!-- 
                     TODO ECL side effect
                     <button euiButton euiPrimary (click)="onProjectsNearByClick()">
@@ -39,18 +53,21 @@
                     </div>
                 </div>
             </ux-panel> -->
-            <div class="map-outermost-regions-wrapper" [ngClass]="mapRegions.length > 1 ? 'withoutColumns' : 'withColumns' ">
-                <div (click)="loadOutermostRegion(filters, outermostRegion)"
-                class="outermostRegion-wrapper" *ngFor="let outermostRegion of outermostRegions | outermostRegions: (mapRegions)">
-                    <svg *ngIf="outermostRegion.id=='Q205'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M451 3L448 10L444 13L438 4L448 2L450 -1L456 -2L454 0zM499 9L497 12L493 11L500 6L504 -2L504 -6L507 -7L508 3L506 6L500 8zM472 8L473 14L472 17L468 20L464 17L463 13L466 11L466 9L472 9zM517 -16L516 -13L510 -11L509 -9L508 -13L513 -17L514 -16L516 -19L518 -18zM417 1L413 -7L414 -9L418 -9L420 -6L419 -2zM432 12L428 10L430 7L434 10L432 12zM416 18L414 21L410 20L415 17zM516 -20L515 -19L516 -21z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q2576740'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M455 -10L460 -12L460 -8L457 -5L460 10L455 16L447 20L441 11L440 -1L437 -11L441 -18L446 -17L454 -11zM470 -4L468 -3L464 -5L460 -12L464 -21L461 -26L468 -33L473 -29L476 -17L487 -13L486 -8L473 -5zM487 28L480 25L480 21L484 15L489 17L493 22L489 27z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q198'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M464 -14L469 -9L476 -11L474 -7L470 -9L470 -1L477 6L482 17L478 24L474 22L477 18L474 20L468 17L463 17L460 19L457 18L455 14L458 11L466 10L463 4L456 5L450 0L448 -9L444 -15L448 -20L456 -19L463 -15z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q201'"  pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M463 -36L476 -33L489 -21L490 -22L495 -17L500 -15L505 -4L505 -1L502 0L490 18L482 37L474 42L472 40L468 41L469 39L466 37L463 40L456 37L449 43L441 41L438 38L440 38L440 36L443 34L446 28L447 18L451 13L452 9L443 -1L444 -3L441 -9L441 -20L442 -25L451 -35L452 -40L462 -36z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q206'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M476 -22L479 -20L484 -8L493 1L493 4L490 13L490 20L473 24L448 13L444 8L443 2L437 -7L437 -10L442 -14L444 -21L447 -21L453 -26L460 -26z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q209'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M473 12L463 31L449 13L454 12L460 19L464 17L455 2L454 -8L444 -17L452 -31L459 -20L474 -19L479 -15L470 1L475 7z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q204'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M496 14L507 13L505 17L495 17L491 13L494 13zM438 -3L433 -3L430 -5L430 -7L433 -7L441 -3L438 -3zM463 -11L458 -10L456 -14L461 -14L463 -13L463 -11zM447 -7L437 -10L435 -13L447 -7zM428 -6L425 -6L423 -9L426 -10L428 -7zM510 39L506 39L508 37L509 38zM443 -21L440 -22L442 -22z" stroke-dasharray="0"></path></g></svg>
-                    <svg *ngIf="outermostRegion.id=='Q203'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M444 -17L447 -15L483 -19L498 -4L512 -1L511 4L496 24L475 25L426 3L417 -14L430 -26L440 -20z" stroke-dasharray="0"></path></g></svg>
-                    <label>{{outermostRegion.label}}</label>
+            <div class="map-outermost-regions-container">
+                <div class="title">Outermost Regions</div>
+                <div class="map-outermost-regions-wrapper" [ngClass]="mapRegions.length > 1 ? 'withoutColumns' : 'withColumns' ">
+                    <div (click)="loadOutermostRegion(filters, outermostRegion)"
+                    class="outermostRegion-wrapper" *ngFor="let outermostRegion of outermostRegions | outermostRegions: (mapRegions)">
+                        <svg *ngIf="outermostRegion.id=='Q205'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M451 3L448 10L444 13L438 4L448 2L450 -1L456 -2L454 0zM499 9L497 12L493 11L500 6L504 -2L504 -6L507 -7L508 3L506 6L500 8zM472 8L473 14L472 17L468 20L464 17L463 13L466 11L466 9L472 9zM517 -16L516 -13L510 -11L509 -9L508 -13L513 -17L514 -16L516 -19L518 -18zM417 1L413 -7L414 -9L418 -9L420 -6L419 -2zM432 12L428 10L430 7L434 10L432 12zM416 18L414 21L410 20L415 17zM516 -20L515 -19L516 -21z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q2576740'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M455 -10L460 -12L460 -8L457 -5L460 10L455 16L447 20L441 11L440 -1L437 -11L441 -18L446 -17L454 -11zM470 -4L468 -3L464 -5L460 -12L464 -21L461 -26L468 -33L473 -29L476 -17L487 -13L486 -8L473 -5zM487 28L480 25L480 21L484 15L489 17L493 22L489 27z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q198'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M464 -14L469 -9L476 -11L474 -7L470 -9L470 -1L477 6L482 17L478 24L474 22L477 18L474 20L468 17L463 17L460 19L457 18L455 14L458 11L466 10L463 4L456 5L450 0L448 -9L444 -15L448 -20L456 -19L463 -15z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q201'"  pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M463 -36L476 -33L489 -21L490 -22L495 -17L500 -15L505 -4L505 -1L502 0L490 18L482 37L474 42L472 40L468 41L469 39L466 37L463 40L456 37L449 43L441 41L438 38L440 38L440 36L443 34L446 28L447 18L451 13L452 9L443 -1L444 -3L441 -9L441 -20L442 -25L451 -35L452 -40L462 -36z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q206'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M476 -22L479 -20L484 -8L493 1L493 4L490 13L490 20L473 24L448 13L444 8L443 2L437 -7L437 -10L442 -14L444 -21L447 -21L453 -26L460 -26z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q209'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M473 12L463 31L449 13L454 12L460 19L464 17L455 2L454 -8L444 -17L452 -31L459 -20L474 -19L479 -15L470 1L475 7z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q204'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M496 14L507 13L505 17L495 17L491 13L494 13zM438 -3L433 -3L430 -5L430 -7L433 -7L441 -3L438 -3zM463 -11L458 -10L456 -14L461 -14L463 -13L463 -11zM447 -7L437 -10L435 -13L447 -7zM428 -6L425 -6L423 -9L426 -10L428 -7zM510 39L506 39L508 37L509 38zM443 -21L440 -22L442 -22z" stroke-dasharray="0"></path></g></svg>
+                        <svg *ngIf="outermostRegion.id=='Q203'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M444 -17L447 -15L483 -19L498 -4L512 -1L511 4L496 24L475 25L426 3L417 -14L430 -26L440 -20z" stroke-dasharray="0"></path></g></svg>
+                        <label>{{outermostRegion.label}}</label>
+                    </div>
                 </div>
             </div>
         </ng-container>
