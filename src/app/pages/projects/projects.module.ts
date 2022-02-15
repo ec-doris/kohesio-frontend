@@ -45,20 +45,13 @@ import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-det
         KohesioEclButtonModule,
         KohesioEclAccordionModule,
         KohesioEclSpinnerModule,
-        ProjectDetailModalModule
+        ProjectDetailModalModule,
+        DownloadButtonModule
     ],
     declarations: [
-        ProjectsComponent,
-        DownloadButtonModule,
-        KohesioEclSpinnerModule
-    ],
-    declarations: [
-        ProjectsComponent,
-        ProjectDetailComponent,
-        ArraySortPipe,
+        ProjectsComponent
     ],
     exports: [
-        ProjectDetailComponent
     ],
     providers: [
         { provide: MatPaginatorIntl, useClass: MatPaginatorKohesio},
