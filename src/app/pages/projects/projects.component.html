@@ -255,7 +255,7 @@
         </eui-page-columns>
     </eui-page-content>
 </eui-page> -->
-<h1 class="ecl-page-header-harmonised__title">Projects</h1>
+<!-- <h1 class="ecl-page-header-harmonised__title">Projects</h1> -->
 
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
@@ -339,7 +339,7 @@
         </form>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-tab-group (selectedIndexChange)="onTabSelected($event)">
+        <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results">
                 <div class="tools">
                     <div class="left-table-tools">
@@ -353,7 +353,7 @@
                         </form>
                         <mat-paginator #paginatorTop
                                        [length]="count"
-                                       [pageSize]="15"
+                                       [pageSize]="pageSize"
                                        [hidePageSize]="true"
                                        (page)="onPaginate($event)">
                         </mat-paginator>
@@ -433,7 +433,7 @@
             <mat-tab label="Audiovisual">
                 <mat-paginator #paginatorAssets
                                 [length]="assetsCount"
-                                [pageSize]="15"
+                                [pageSize]="pageSize"
                                 [hidePageSize]="true"
                                 (page)="onPaginateAssets($event)"
                                 [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
@@ -451,7 +451,7 @@
                 </div>
                 <mat-paginator #paginatorDown
                                 [length]="count"
-                                [pageSize]="15"
+                                [pageSize]="pageSize"
                                 [hidePageSize]="true"
                                 (page)="onPaginate($event)"
                                 [hidden]="(projects && projects.length === 0) || isMapTab">
