@@ -121,7 +121,7 @@
     </eui-page-content>
 </eui-page> -->
 
-<h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1>
+<!-- <h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1> -->
 
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
@@ -148,7 +148,7 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>{{this.myForm.value.country ? 'REGION' : 'REGION (select a country)'}}</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions" [disabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
             <kohesio-ecl-accordion title="ADVANCED FILTERS">
@@ -158,7 +158,7 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [disabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>TYPE</kohesio-ecl-form-label>
@@ -173,11 +173,24 @@
         </form>
     </mat-sidenav>
     <mat-sidenav-content>
-        <mat-paginator [pageSize]="15"
+        <div class="tools">
+            <div class="left-table-tools">
+                <!-- <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button> -->
+            </div>
+            <div class="right-table-tools">
+                <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                    <kohesio-ecl-form-group>
+                        <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sortBeneficiaries" (change)="onSortChange()"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-group>
+                </form>
+                <mat-paginator [pageSize]="pageSize"
                         [length]="count"
                         [hidePageSize]="true"
                         (page)="onPaginate($event)">
-        </mat-paginator>
+                </mat-paginator>
+            </div>
+        </div>
+        <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
         <mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
@@ -210,5 +223,6 @@
             <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
+        <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
     </mat-sidenav-content>
 </mat-sidenav-container>

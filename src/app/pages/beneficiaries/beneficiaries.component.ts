@@ -24,12 +24,12 @@ export class BeneficiariesComponent implements AfterViewInit {
     public dataSource!: MatTableDataSource<Beneficiary>;
     public isLoading = false;
     public count = 0;
-    public page = 0;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
     public mobileQuery: MediaQueryList;
     private _mobileQueryListener: () => void;
+    public pageSize = 15;
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
@@ -42,22 +42,6 @@ export class BeneficiariesComponent implements AfterViewInit {
             this.mobileQuery = media.matchMedia('(max-width: 768px)');
             this._mobileQueryListener = () => changeDetectorRef.detectChanges();
             this.mobileQuery.addListener(this._mobileQueryListener);
-
-            //TODO ECL side effect
-            // this._router.events.subscribe((event: NavigationStart) => {
-                
-            //     this.page = +this._route.snapshot.queryParamMap.get('page');
-                
-            //     if (event.navigationTrigger === 'popstate') {
-
-            //         this.page = +event.url.charAt(event.url.length - 1);
-                
-            //         if(this.paginator){
-            //             this.paginator.pageIndex = this.page;
-            //         } 
-            //         this.performSearch();
-            //     }
-            // });
          }
 
     ngOnInit() {
@@ -111,9 +95,12 @@ export class BeneficiariesComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        this.paginator.pageIndex = this.page;
-        this.changeDetectorRef.detectChanges();
-        this.performSearch();
+        if (this._route.snapshot.queryParamMap.has('page')){
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+            if (pageParam){
+                this.paginator.pageIndex = parseInt(pageParam) - 1;
+            }
+        }
     }
 
     onSubmit() {
@@ -134,8 +121,18 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     performSearch() {
         const filters = new Filters().deserialize(this.myForm.value);
+
+        let initialPageIndex = this.paginator ? this.paginator.pageIndex : 0;
+        if (this._route.snapshot.queryParamMap.has('page') && !this.paginator){
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+            if (pageParam){
+                const pageIndex = parseInt(pageParam) - 1;
+                initialPageIndex = pageIndex;
+            }
+        }
         this.isLoading = true;
-        let offset = this.paginator ? (this.paginator.pageIndex * this.paginator.pageSize) : 0;
+        let offset = initialPageIndex * this.pageSize;
+
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList | null) => {
             if (result){
                 this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
@@ -195,13 +192,12 @@ export class BeneficiariesComponent implements AfterViewInit {
     onPaginate(event:any) {
         
         this.paginator.pageIndex = event.pageIndex;
-        this.page = event.pageIndex;
         this.performSearch();
 
         this._router.navigate([], {
             relativeTo: this._route,
             queryParams: {
-                page: event.pageIndex === 0 ? 0 : this.page,
+                page: event.pageIndex != 0 ? event.pageIndex + 1 : null,
             },
             queryParamsHandling: 'merge',
         });
