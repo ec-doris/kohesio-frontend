@@ -257,43 +257,108 @@
 </eui-page> -->
 <h1 class="ecl-page-header-harmonised__title">Projects</h1>
 
-<mat-drawer-container class="filters-wrapper-container">
-    <mat-drawer mode="side" opened>
-        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-            <div class="ecl-form-group">
-                <label for="example-input-id-1" class="ecl-form-label">KEYWORDS</label>
-                <input type="text" formControlName="keywords" class="ecl-text-input ecl-text-input--m"/>
-            </div>
-            <div class="ecl-form-group">
-                <label for="select-default" class="ecl-form-label">Select a country</label>
-                <div class="ecl-select__container ecl-select__container--m">
-                    <select formControlName="country" class="ecl-select" id="select-default" required="" (modelChange)="onCountryChange()">
-                        <option *ngFor="let country of this.filters.countries" [value]="country.id">{{country.value}}</option>
-                    </select>
-                    <div class="ecl-select__icon">
-                        <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-180 ecl-select__icon-shape" focusable="false" aria-hidden="true">
-                            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+<button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
+    <span class="ecl-button__container">
+        <span class="ecl-button__label" data-ecl-label="true">Filters</span>
+        <svg *ngIf="!sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+        <svg *ngIf="sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+    </span>
+</button>
 
-            
+<mat-sidenav-container class="filters-wrapper-container">
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" opened>
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
+                <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>COUNTRY</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>{{this.myForm.value.country ? 'REGION' : 'REGION (select a country)'}}</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>POLICY</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objective" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>THEME</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-group>
+            <br/>
+            <kohesio-ecl-accordion title="ADVANCED FILTERS">
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="interventionField" [items]="this.filters.categoriesOfIntervention"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>TOTAL BUDGET</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="totalProjectBudget" [items]="this.filters.totalProjectBudget"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>EU CONTRIBUTION</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>DATE</kohesio-ecl-form-label>
+                    <mat-form-field appearance="fill" style="margin-top:0px;width:100%;">
+                        <mat-label>Enter a date range</mat-label>
+                        <mat-date-range-input [rangePicker]="picker">
+                            <input formControlName="projectStart" matStartDate placeholder="Start">
+                            <input formControlName="projectEnd" matEndDate placeholder="End">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </kohesio-ecl-form-group>
+            </kohesio-ecl-accordion>
+            <br/>
             <div class="search-buttons">
                 <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button">Reset Filters</button>
-                <button type="submit" class="ecl-button ecl-button--primary" type="submit">Show Results</button>
+                <kohesio-ecl-button type="submit">Show Results</kohesio-ecl-button>
             </div>
         </form>
-    </mat-drawer>
-    <mat-drawer-content>
-        <mat-tab-group>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-tab-group (selectedIndexChange)="onTabSelected($event)">
             <mat-tab label="Results">
-                <mat-paginator #paginatorTop
-                                [length]="count"
-                                [pageSize]="15"
-                                [hidePageSize]="true"
-                                (page)="onPaginate($event)">
-                </mat-paginator>
+                <div class="tools">
+                    <div class="left-table-tools">
+                        <!-- <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button> -->
+                    </div>
+                    <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
+                        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                            <kohesio-ecl-form-group>
+                                <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sort" (change)="onSortChange()"></kohesio-ecl-form-select>
+                            </kohesio-ecl-form-group>
+                        </form>
+                        <mat-paginator #paginatorTop
+                                       [length]="count"
+                                       [pageSize]="15"
+                                       [hidePageSize]="true"
+                                       (page)="onPaginate($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
                 <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0">
                     <article class="article--post" *ngFor="let project of projects">
                         <header>
@@ -393,10 +458,10 @@
                 </mat-paginator>
             </mat-tab>
             <mat-tab label="Map">
-                <app-map [hideProjectsNearBy]="true" [hideOuterMostRegions]="true"></app-map>
+                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [hideOuterMostRegions]="true"></app-map>
             </mat-tab>
         </mat-tab-group>
         
-    </mat-drawer-content>
-</mat-drawer-container>
+    </mat-sidenav-content>
+</mat-sidenav-container>
 

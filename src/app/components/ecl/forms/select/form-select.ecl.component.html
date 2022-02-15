@@ -1,0 +1,11 @@
+<div class="ecl-select__container ecl-select__container--m" style="width:100%;">
+    <select class="ecl-select" (change)="onChange($any($event.target).value)" [disabled]="isDisabled">
+        <option *ngIf="hasEmptyValue" value="" [selected]="!value"></option>
+        <option *ngFor="let item of this.items" [value]="item.id" [selected]="item.id===value">{{item.value}}</option>
+    </select>
+    <div class="ecl-select__icon">
+        <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-180 ecl-select__icon-shape" focusable="false" aria-hidden="true">
+            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+    </div>
+</div>

@@ -11,6 +11,7 @@ import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { BeneficiaryList } from "../../models/beneficiary-list.model";
 import { startWith, map, delay } from 'rxjs/operators';
+import { MediaMatcher} from '@angular/cdk/layout';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -27,13 +28,20 @@ export class BeneficiariesComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
+    public mobileQuery: MediaQueryList;
+    private _mobileQueryListener: () => void;
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
         private formBuilder: FormBuilder,
         private _route: ActivatedRoute,
         private _router: Router,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private media: MediaMatcher) {
+
+            this.mobileQuery = media.matchMedia('(max-width: 768px)');
+            this._mobileQueryListener = () => changeDetectorRef.detectChanges();
+            this.mobileQuery.addListener(this._mobileQueryListener);
 
             //TODO ECL side effect
             // this._router.events.subscribe((event: NavigationStart) => {
@@ -105,7 +113,6 @@ export class BeneficiariesComponent implements AfterViewInit {
     ngAfterViewInit(): void {
         this.paginator.pageIndex = this.page;
         this.changeDetectorRef.detectChanges();
-        this.performSearch();
     }
 
     onSubmit() {

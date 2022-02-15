@@ -1,10 +1,35 @@
-<div class="prjt-themes">
+<div class="ecl-container">
+    <div class="ecl-row">
+        <div class="ecl-col-xl-12 header-title">
+            explore the projects by theme
+        </div>
+    </div>
+    <div class="ecl-row">
+        <ng-container *ngFor="let theme of themes">
+            <div class="ecl-col-l-4 ecl-col-m-6  ecl-u-pa-xs">
+                <div [class]="'ecl-card theme-card '+themeColors[theme.id]">
+                    <span class="icon">
+                        <img [src]="'assets/images/topics/'+theme.id+'.png'" width="25px">
+                    </span>
+                    <a [routerLink]="['/projects']" 
+                    [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}"
+                    class="ecl-card__title theme-title"
+                    title="Research & Innovation">
+                    {{ theme.instanceLabel }}
+                    </a>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>
+
+
+<!-- <div class="prjt-themes">
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
                 <div class="prjt-themes--inner">
                     <h2 class="header-title header-title--h2">exploring the projects by themes</h2>
-                    <!-- <p class="description">Through the filters above you can explore the distribution of finances and expected achievements (targets) under the eleven "thematic objectives" set for the European Structural and Investment Funds for 2014-2020.</p> -->
                 </div>
             </div>
             <ng-container *ngFor="let theme of themes">
@@ -22,4 +47,4 @@
             </ng-container>
         </div>
     </div>
-</div>
+</div> -->

@@ -8,8 +8,8 @@ import {AfterViewInit, Component} from '@angular/core';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-
-    constructor(){}
+    constructor(){
+    }
 
     ngOnInit(){
     }

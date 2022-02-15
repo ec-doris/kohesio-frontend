@@ -3,27 +3,27 @@
     <div class="ecl-footer-harmonised__row">
       <div class="ecl-footer-harmonised__column">
         <div class="ecl-footer-harmonised__section">
-          <h2 class="ecl-footer-harmonised__title"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__title-link">Kohesio</a></h2>
-          <div class="ecl-footer-harmonised__description">This site is managed by the Directorate-General for "DG identification"</div>
+          <h2 class="ecl-footer-harmonised__title"><a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__title-link">Kohesio</a></h2>
+          <div class="ecl-footer-harmonised__description">This site is managed by the Directorate-General for Regional and Urban Policy</div>
         </div>
       </div>
       <div class="ecl-footer-harmonised__column">
         <div class="ecl-footer-harmonised__section">
           <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator"> Contact us </h2>
           <ul class="ecl-footer-harmonised__list">
-            <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Contact&#x20;information&#x20;of&#x20;the&#x20;DG">Contact information of the DG</a></li>
+            <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/regional_policy/en/contact/" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Contact&#x20;information&#x20;of&#x20;the&#x20;DG">Contact DG REGIO</a></li>
           </ul>
         </div>
         <div class="ecl-footer-harmonised__section">
           <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator"> Follow us on </h2>
           <ul class="ecl-footer-harmonised__list ecl-footer-harmonised__list--inline">
-            <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Facebook"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+            <li class="ecl-footer-harmonised__list-item"><a href="https://www.facebook.com/EUinmyregion" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Facebook"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                   <use xlink:href="/assets/images/ecl/icons-social-media.2708809b.svg#facebook-negative"></use>
                 </svg><span class="ecl-link__label">Facebook</span></a></li>
-            <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Twitter"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+            <li class="ecl-footer-harmonised__list-item"><a href="https://twitter.com/EUinmyRegion" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Twitter"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                   <use xlink:href="/assets/images/ecl/icons-social-media.2708809b.svg#twitter-negative"></use>
                 </svg><span class="ecl-link__label">Twitter</span></a></li>
-            <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Linkedin"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+            <li class="ecl-footer-harmonised__list-item"><a href="https://www.linkedin.com/feed/hashtag/euinmyregion/" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Linkedin"><svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                   <use xlink:href="/assets/images/ecl/icons-social-media.2708809b.svg#linkedin-negative"></use>
                 </svg><span class="ecl-link__label">Linkedin</span></a></li>
           </ul>
@@ -33,10 +33,12 @@
         <div class="ecl-footer-harmonised__section">
           <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator"> About us </h2>
           <ul class="ecl-footer-harmonised__list">
-            <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Information&#x20;about&#x20;the&#x20;DG">Information about the DG</a></li>
+            <li class="ecl-footer-harmonised__list-item"><a [routerLink]="['/about']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Information&#x20;about&#x20;Kohesio">About Kohesio</a></li>
+            <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/regional_policy/en/" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Information&#x20;about&#x20;the&#x20;DG">About EU Regional Policy</a></li>
+            <li class="ecl-footer-harmonised__list-item"><a [routerLink]="['/privacy']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Privacy&#x20;statement">Privacy statement</a></li>
           </ul>
         </div>
-        <div class="ecl-footer-harmonised__section">
+        <!--<div class="ecl-footer-harmonised__section">
           <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator"> Related sites </h2>
           <ul class="ecl-footer-harmonised__list">
             <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;1">Related link 1</a></li>
@@ -45,10 +47,10 @@
             <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;4">Related link 4</a></li>
             <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;5">Related link 5</a></li>
           </ul>
-        </div>
+        </div>-->
       </div>
     </div>
-    <div class="ecl-footer-harmonised__row">
+    <!--<div class="ecl-footer-harmonised__row">
       <div class="ecl-footer-harmonised__column">
         <div class="ecl-footer-harmonised__section ecl-footer-harmonised__section--condensed">
           <div class="ecl-footer-harmonised__content">More information on:</div>
@@ -58,7 +60,7 @@
           </ul>
         </div>
       </div>
-    </div>
+    </div>-->
     <div class="ecl-footer-harmonised__row">
       <div class="ecl-footer-harmonised__column">
         <div class="ecl-footer-harmonised__section"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__logo-link" aria-label="European&#x20;Commission"><img alt="European Commission logo" title="European Commission" class="ecl-footer-harmonised__logo-image-desktop" src="/assets/images/ecl/logo-ec--en.10f5072b.svg" /></a>
