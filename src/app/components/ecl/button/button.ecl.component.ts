@@ -10,4 +10,6 @@ export class KohesioEclButtonComponent {
     @Input()
     type:string = "button";
 
+    @Input() variant: 'primary' | 'secondary' | 'call' | 'ghost' = 'primary';
+
 }

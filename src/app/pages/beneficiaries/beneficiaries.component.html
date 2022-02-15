@@ -136,7 +136,7 @@
 </button>
 
 <mat-sidenav-container class="filters-wrapper-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" opened>
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
@@ -198,24 +198,24 @@
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
-                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="budget">
                 <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <!-- <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}} -->
+                    <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="euBudget">
                 <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <!-- <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}} -->
+                    <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="numberProjects">
-                <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef style="text-align: center;">NUMBER OF PROJECTS</mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
                 </mat-cell>
