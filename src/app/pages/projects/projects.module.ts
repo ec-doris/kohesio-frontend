@@ -21,6 +21,7 @@ import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
+import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/acco
         MatMomentDateModule,
         KohesioEclFormModule,
         KohesioEclButtonModule,
-        KohesioEclAccordionModule
+        KohesioEclAccordionModule,
+        KohesioEclSpinnerModule
     ],
     declarations: [
         ProjectsComponent,

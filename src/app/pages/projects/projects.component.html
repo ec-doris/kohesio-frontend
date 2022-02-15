@@ -359,6 +359,8 @@
                         </mat-paginator>
                     </div>
                 </div>
+                <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
+                <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
                 <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0">
                     <article class="article--post" *ngFor="let project of projects">
                         <header>
@@ -439,6 +441,7 @@
                                 [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
                 </mat-paginator>
                 <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available</div>
+                <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
                 <div class="audio-visual-container">
                     <ng-container *ngFor="let asset of assets">
                         <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
