@@ -13,6 +13,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
+import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 
 @NgModule({
     imports: [
@@ -26,7 +27,8 @@ import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/acco
         ReactiveFormsModule,
         KohesioEclFormModule,
         KohesioEclButtonModule,
-        KohesioEclAccordionModule
+        KohesioEclAccordionModule,
+        DownloadButtonModule
     ],
     declarations: [
         BeneficiariesComponent,
