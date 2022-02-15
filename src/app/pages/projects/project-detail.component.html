@@ -373,6 +373,7 @@
                         <p class="article--post__teaser">{{project?.description}}</p>
                     </div>
                     <div class="social-icons__wrapper">
+                        <span class="title">share </span>
                         <ul class="ecl-social-media-follow__list">
                           <li class="ecl-social-media-follow__item">
                             <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
@@ -396,39 +397,13 @@
                               </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
                                 <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#linkedin_hover"></use>
                               </svg></a></li>
+                          <li class="ecl-social-media-follow__item"><a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email_hover"></use>
+                              </svg></a></li>
                         </ul>
                     </div>
-                      
-                    <!-- <div class="social-icons__wrapper">
-                        <span class="title">share </span>
-                        <ul class="social-icons">
-                            <li>
-                                <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank">
-                                    <span>Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank">
-                                    <span>LinkedIn</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://instagram.com/" target="_blank">
-                                    <span>Instagram</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank">
-                                    <span>Twitter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank">
-                                    <span>Mail</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div> -->
                 </div>
             </article>
         </div>
