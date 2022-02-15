@@ -190,6 +190,8 @@
                 </mat-paginator>
             </div>
         </div>
+        <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
+        <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
         <mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
