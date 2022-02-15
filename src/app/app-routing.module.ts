@@ -28,7 +28,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule) 
       },{ 
         path: 'beneficiaries', 
-        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule) 
+        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule)
+      },{ 
+        path: 'search', 
+        loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule) 
       },{
         path: '404',
         component: NotFoundComponent
