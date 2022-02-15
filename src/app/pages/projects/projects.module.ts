@@ -22,6 +22,7 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
+import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { DownloadButtonModule } from 'src/app/components/kohesio/download-button
         KohesioEclFormModule,
         KohesioEclButtonModule,
         KohesioEclAccordionModule,
-        DownloadButtonModule
+        DownloadButtonModule,
+        KohesioEclSpinnerModule
     ],
     declarations: [
         ProjectsComponent,

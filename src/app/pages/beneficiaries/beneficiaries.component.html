@@ -121,7 +121,7 @@
     </eui-page-content>
 </eui-page> -->
 
-<h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1>
+<!-- <h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1> -->
 
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
@@ -183,13 +183,14 @@
                         <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sortBeneficiaries" (change)="onSortChange()"></kohesio-ecl-form-select>
                     </kohesio-ecl-form-group>
                 </form>
-                <mat-paginator [pageSize]="15"
+                <mat-paginator [pageSize]="pageSize"
                         [length]="count"
                         [hidePageSize]="true"
                         (page)="onPaginate($event)">
                 </mat-paginator>
             </div>
         </div>
+        <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
         <mat-table [dataSource]="dataSource">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
@@ -222,5 +223,6 @@
             <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
+        <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
     </mat-sidenav-content>
 </mat-sidenav-container>

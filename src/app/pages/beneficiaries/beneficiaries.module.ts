@@ -14,6 +14,7 @@ import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
+import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import { DownloadButtonModule } from 'src/app/components/kohesio/download-button
         KohesioEclFormModule,
         KohesioEclButtonModule,
         KohesioEclAccordionModule,
-        DownloadButtonModule
+        DownloadButtonModule,
+        KohesioEclSpinnerModule
     ],
     declarations: [
         BeneficiariesComponent,
