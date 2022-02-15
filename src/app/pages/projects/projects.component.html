@@ -284,8 +284,8 @@
     </span>
 </button>
 
-<mat-sidenav-container class="filters-wrapper-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" opened>
+<mat-sidenav-container class="filters-wrapper-container" autosize>
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="advancedFilterExpanded">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
@@ -479,7 +479,7 @@
                 <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [hideOuterMostRegions]="true"></app-map>
             </mat-tab>
         </mat-tab-group>
-        
+
     </mat-sidenav-content>
 </mat-sidenav-container>
 

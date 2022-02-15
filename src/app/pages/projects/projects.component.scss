@@ -15,6 +15,16 @@
     }
 }
 
+mat-sidenav {
+  width: 100%;
+  padding: 15px;
+  padding-left: 0;
+
+  @include media(">small") {
+    width: 350px;
+  }
+}
+
 /**
  * Image gallery
  **/

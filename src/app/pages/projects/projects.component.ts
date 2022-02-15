@@ -99,10 +99,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             sort: [this.getFilterKey("sort", "sort")]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
-            this._route.snapshot.queryParamMap.get('program') ||
-            this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
-            this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
+        // this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
+        //     this._route.snapshot.queryParamMap.get('program') ||
+        //     this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
+        //     this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
 
         if (this._route.snapshot.queryParamMap.get('country')) {
             Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
@@ -130,7 +130,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.onThemeChange();
         this.getThemes();
 
-        
+
     }
 
     private getFilterKey(type: string, queryParam: string) {
