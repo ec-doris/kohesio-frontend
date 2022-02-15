@@ -1,7 +1,16 @@
-<!-- //TODO ECL side effect -->
-<!-- <ux-dropdown-button [label]="(uxAppShellService.breakpoints$ | async).isMobile ? '' : 'Download'" iconClass="eui-icon eui-icon-ecl-download">
-    <ux-dropdown-button-item label="CSV" iconClass="eui-icon eui-icon-file-o" (click)="getFile('csv')">
-    </ux-dropdown-button-item>
-    <ux-dropdown-button-item label="XLSX" iconClass="eui-icon eui-icon-file-o" (click)="getFile('excel')">
-    </ux-dropdown-button-item>
-</ux-dropdown-button> -->
+<button [matMenuTriggerFor]="menu" class="ecl-button ecl-button"><span class="ecl-button__container"><span>Download</span><svg
+      class="ecl-icon ecl-icon--xs ecl-icon--rotate-180 ecl-button__icon ecl-button__icon--after" focusable="false"
+      aria-hidden="true" data-ecl-icon="">
+      <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+    </svg></span></button>
+<mat-menu #menu="matMenu">
+    <button (click)="getFile('csv')" mat-menu-item>
+        <mat-icon>insert_drive_file</mat-icon>
+        <span>CSV</span>
+      </button>
+      <button (click)="getFile('excel')" mat-menu-item>
+        <mat-icon>insert_drive_file</mat-icon>
+        <span>XLSX</span>
+      </button>
+</mat-menu>
+
