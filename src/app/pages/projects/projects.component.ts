@@ -13,6 +13,7 @@ import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { MediaMatcher} from '@angular/cdk/layout';
 declare let L:any;
+declare let ECL:any;
 
 @Component({
     templateUrl: './projects.component.html',
