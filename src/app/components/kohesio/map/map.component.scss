@@ -48,16 +48,21 @@
     }
 }
 
-.map-outermost-regions-wrapper{
+.map-outermost-regions-container{
     position: absolute;
     bottom: 30px;
     z-index: 1;
     right: 10px;
     background-color: white;
     width: 250px;
+    border: 1px solid #D2D2D2;
+    .title{
+        text-align: center;
+        background-color: #EEE;
+        padding: 8px;
+        border-bottom: 1px solid #D2D2D2;
+    }
 }
-
-
 
 .map-outermost-regions-wrapper.withoutColumns{
     display: flex;
@@ -71,12 +76,6 @@
     column-count: 2;
     .outermostRegion-wrapper{
         max-height: 120px;
-    }
-}
-
-@include media("<=small"){
-    .map-outermost-regions-wrapper{
-        display:none;
     }
 }
 
@@ -140,4 +139,35 @@
         font-weight: bold;
         text-align: center;
     }
+}
+
+/*Mobile Styles*/
+@include media("<=small"){
+    .right button .ecl-button__label{
+        display:none;
+    }
+    .map-outermost-regions-wrapper.withoutColumns{
+        flex-direction: row;
+    }
+    .map-outermost-regions-wrapper.withColumns{
+        display:flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        .outermostRegion-wrapper{
+            max-height: 85px;
+            max-width: 98px;
+        }
+    }
+    .map-outermost-regions-container{
+        bottom: 15px;
+        right: 0;
+        width: 100%;
+    }
+    .outermostRegion-wrapper{
+        max-width: 80px;
+        label{
+            font-size:14px;
+        }
+    }
+    
 }

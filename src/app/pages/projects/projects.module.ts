@@ -15,22 +15,22 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
-import { ArraySortPipe } from 'src/app/pipes/array-sort.pipe';
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
 import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MAT_DATE_LOCALE } from '@angular/material/core'
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
+import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
 
 
 @NgModule({
     imports: [
+        CommonModule,
         RouterModule,
         ProjectsRoutingModule,
         MatPaginatorModule,
         MatTableModule,
-        CommonModule,
         MapComponentModule,
         MatSidenavModule,
         MatTabsModule,
@@ -43,12 +43,11 @@ import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.
         KohesioEclFormModule,
         KohesioEclButtonModule,
         KohesioEclAccordionModule,
-        KohesioEclSpinnerModule
+        KohesioEclSpinnerModule,
+        ProjectDetailModalModule
     ],
     declarations: [
-        ProjectsComponent,
-        ProjectDetailComponent,
-        ArraySortPipe
+        ProjectsComponent
     ],
     exports: [
         ProjectDetailComponent
