@@ -10,6 +10,7 @@ export class KohesioEclAccordionComponent {
     @Input()
     public title:string = "";
     
+    @Input()
     public collapsed:boolean = true;
 
     toggle(){
