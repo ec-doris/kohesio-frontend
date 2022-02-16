@@ -285,7 +285,7 @@
 </button>
 
 <mat-sidenav-container class="filters-wrapper-container" autosize>
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="advancedFilterExpanded">
+    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="mobileQuery.matches ? false : true">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
@@ -384,7 +384,7 @@
                                     <div class="prj-image--wrapper">
                                         <ng-container *ngIf="project.images && project.images.length">
                                             <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)" class="prj-image--link">
-                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')"></div>
+                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')" *ngIf="!mobileQuery.matches"></div>
                                             </a>
                                         </ng-container>
                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
@@ -416,26 +416,28 @@
                                         <div class="article--post__amount--inner">
                                             <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
-                                    <!-- {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}} -->
+                                                {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                 <span *ngIf="!project.totalBudget">n/a</span>
-                                    <span class="support">Total budget</span>
-                                </span>
+                                                <span class="support">Total budget</span>
+                                            </span>
                                         </div>
                                     </li>
                                     <li class="article--post__years">
-                            <span class="icons">
-                                <!-- <ux-a-icon iconClass="fa fa-clock-o" [isRounded]="false"></ux-a-icon> -->
-                            </span>
-                            <span class="time-start-end">
-                                <ng-container *ngIf="project.startTime || project.endTime">
-                                    <!-- <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag> -->
-                                    <span *ngIf="!project.startTime">n/a</span>
-                                    -
-                                    <!-- <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag> -->
-                                    <span *ngIf="!project.endTime">n/a</span>
-                                </ng-container>
-                                <span *ngIf="!project.startTime && !project.endTime">n/a</span>
-                            </span>
+                                        <span class="icons">
+                                            <!-- Clock icon here -->
+                                        </span>
+                                        <span class="time-start-end">
+                                            <ng-container *ngIf="project.startTime || project.endTime">
+                                                {{ project.startTime | date: 'MMM YYYY' }}
+                                                <!-- <ux-a-date-tag *ngIf="project.startTime" [date]="project.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag> -->
+                                                <span *ngIf="!project.startTime">n/a</span>
+                                                -
+                                                {{ project.endTime | date: 'MMM YYYY' }}
+                                                <!-- <ux-a-date-tag *ngIf="project.endTime" [date]="project.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='MMM YYYY'></ux-a-date-tag> -->
+                                                <span *ngIf="!project.endTime">n/a</span>
+                                            </ng-container>
+                                            <span *ngIf="!project.startTime && !project.endTime">n/a</span>
+                                        </span>
                                     </li>
                                 </ul>
                             </footer>

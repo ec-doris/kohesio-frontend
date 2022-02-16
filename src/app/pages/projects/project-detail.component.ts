@@ -9,7 +9,7 @@ declare let L:any;
 @Component({
     selector: 'app-project-detail',
     templateUrl: './project-detail.component.html',
-    styleUrls: ['./projects.component.scss']
+    styleUrls: ['./project-detail.component.scss']
 })
 export class ProjectDetailComponent implements AfterViewInit {
 
