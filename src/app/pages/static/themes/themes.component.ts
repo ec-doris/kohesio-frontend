@@ -36,7 +36,7 @@ export class ThemesComponent implements AfterViewInit {
                 this.themes = themes;
             }
         })
-
+        window.scrollTo(0, 0)
     }
 
     ngAfterViewInit(): void {
