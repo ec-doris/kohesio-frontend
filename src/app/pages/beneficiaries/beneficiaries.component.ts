@@ -28,7 +28,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
-    public mobileQuery: boolean;
+    public mobileQuery: boolean = false;
     //private _mobileQueryListener: () => void;
     private destroyed = new Subject<void>();
     public pageSize = 15;
