@@ -4,6 +4,7 @@ import { NotFoundComponent } from './components/kohesio/notfound/notfound.compon
 import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
 import { CookieComponent } from './pages/static/cookie/cookie.component';
+import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
 
 const routes: Routes = [
@@ -14,6 +15,10 @@ const routes: Routes = [
       },{
         path: 'about', 
         component: AboutComponent,
+        pathMatch: 'full'
+      },{
+        path: 'privacy', 
+        component: PrivacyPageComponent,
         pathMatch: 'full'
       },{
         path: 'themes', 

@@ -136,7 +136,7 @@
 </button>
 
 <mat-sidenav-container class="filters-wrapper-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="!mobileQuery.matches">
+    <mat-sidenav #sidenav [mode]="mobileQuery ? 'over' : 'side'" opened>
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
