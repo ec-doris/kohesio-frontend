@@ -24,6 +24,10 @@
     justify-content: space-between;
 }
 
+.theme-col {
+    margin-bottom: 10px;
+}
+
 .theme-body {
     display: flex;
     flex-direction: column;
@@ -40,7 +44,7 @@
 
 
 .theme-card {
-
+    background-color: white;
     padding: 15px 10px;
 }
 
