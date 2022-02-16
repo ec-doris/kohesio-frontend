@@ -141,21 +141,17 @@
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
         <span class="ecl-button__label" data-ecl-label="true">Filters</span>
-        <svg *ngIf="!sidenav.opened"
-            class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false"
-            aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="!sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
-        <svg *ngIf="sidenav.opened"
-            class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after"
-            focusable="false" aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
     </span>
 </button>
 
-<mat-sidenav-container class="filters-wrapper-container">
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" opened>
+<mat-drawer-container>
+    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
@@ -172,8 +168,8 @@
                 <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
                     [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
-            <br />
-            <kohesio-ecl-accordion title="ADVANCED FILTERS">
+            <br/>
+            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterExpanded">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds">
@@ -198,8 +194,8 @@
                 <kohesio-ecl-button type="submit">Show Results</kohesio-ecl-button>
             </div>
         </form>
-    </mat-sidenav>
-    <mat-sidenav-content>
+    </mat-drawer>
+    <mat-drawer-content>
         <div class="tools">
             <div class="left-table-tools">
                 <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries">
@@ -225,25 +221,24 @@
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
-                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span
-                            *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="budget">
                 <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <!-- <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}} -->
+                    <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="euBudget">
                 <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
                 <mat-cell *matCellDef="let row">
-                    <!-- <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}} -->
+                    <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="numberProjects">
-                <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef style="text-align: center;">NUMBER OF PROJECTS</mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
                 </mat-cell>
@@ -253,5 +248,5 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-drawer-content>
+</mat-drawer-container>

@@ -18,10 +18,10 @@ export class BeneficiaryDetail implements Deserializable{
     website: string = "";
     description: string = "";
     coordinates: string = "";
-    budgetsPerFund: [{
+    budgetsPerFund!: [{
         fundLabel: string;
         totalEuBudget: number;
-    }] | undefined;
+    }];
     transliteration: string = "";
 
 

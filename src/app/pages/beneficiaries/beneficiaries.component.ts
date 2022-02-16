@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
@@ -10,14 +10,15 @@ import { FilterService } from "../../services/filter.service";
 import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { BeneficiaryList } from "../../models/beneficiary-list.model";
-import { startWith, map, delay } from 'rxjs/operators';
-import { MediaMatcher} from '@angular/cdk/layout';
+import { startWith, map, delay, takeUntil } from 'rxjs/operators';
+import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
+import { Subject } from 'rxjs';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
     styleUrls: ['./beneficiaries.component.scss']
 })
-export class BeneficiariesComponent implements AfterViewInit {
+export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     public myForm!: FormGroup;
     public filters!: FiltersApi;
@@ -27,8 +28,9 @@ export class BeneficiariesComponent implements AfterViewInit {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
-    public mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    public mobileQuery: boolean;
+    public sidenavOpened: boolean;
+    private destroyed = new Subject<void>();
     public pageSize = 15;
 
     constructor(private beneficaryService: BeneficiaryService,
@@ -36,12 +38,25 @@ export class BeneficiariesComponent implements AfterViewInit {
         private formBuilder: FormBuilder,
         private _route: ActivatedRoute,
         private _router: Router,
-        private changeDetectorRef: ChangeDetectorRef,
-        private media: MediaMatcher) {
+        breakpointObserver: BreakpointObserver) {
 
-            this.mobileQuery = media.matchMedia('(max-width: 768px)');
-            this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-            this.mobileQuery.addListener(this._mobileQueryListener);
+            this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+            this.sidenavOpened = this.mobileQuery;
+
+            breakpointObserver
+            .observe([
+                "(max-width: 768px)"
+            ])
+            .pipe(takeUntil(this.destroyed))
+            .subscribe(result => {
+                for (const query of Object.keys(result.breakpoints)) {
+                    if (result.breakpoints[query]) {
+                        this.mobileQuery = true;
+                    }else{
+                        this.mobileQuery = false;
+                    }
+                }
+            });
          }
 
     ngOnInit() {
@@ -205,6 +220,11 @@ export class BeneficiariesComponent implements AfterViewInit {
 
     onSortChange() {
         this.onSubmit();
+    }
+
+    ngOnDestroy() {
+        this.destroyed.next();
+        this.destroyed.complete();
     }
 
 }
