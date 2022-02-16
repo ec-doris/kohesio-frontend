@@ -2,6 +2,6 @@
     <!--<a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>-->
     <div *ngFor="let project of projects" style="display: flex;flex-direction: row;">
         <span style="color: #203F79;">{{project.isHighlighted ? '★' : ''}}</span>
-        <a (click)="onSelectedProject(project)">{{project.label}}</a>
+        <a class="ecl-link ecl-link--standalone ecl-link--no-visited" style="cursor:pointer;" (click)="onSelectedProject(project)">{{project.label}}</a>
     </div>
 </div>

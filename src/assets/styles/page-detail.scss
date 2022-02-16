@@ -63,6 +63,7 @@
         .kohesio-main-content{
             display: flex;
             flex-direction: column;
+            width:100%;
             .kohesio-article-wrapper{
                 margin-bottom:1rem;
                 article{
@@ -73,6 +74,7 @@
                         border-radius: 10px;
                     }
                     .kohesio-article-post-inner{
+                        width:100%;
                         margin-left: 0.8rem;
                         h1{
                             margin-top:0;
@@ -81,7 +83,7 @@
                     .kohesio-article-post-inner-header{
                         display: flex;
                     }
-                    .project-theme-image{
+                    .project-theme-image, .project-theme-image-mobile{
                         footer{
                             color: #9c9c9c;
                             font-size: 0.8rem;
@@ -89,6 +91,23 @@
                             line-height: 1;
                             margin-top: 3px;
                             text-align: center;
+                        }
+                    }
+                    .default-theme-image{
+                        width: 154px;
+                        height: 154px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        background: #EFEFEF;
+                        border-radius: 12px;
+                        img{
+                            height:84px;
+                            width:auto;
+                            background-repeat: no-repeat;
+                            background-size: 100%;
+                            vertical-align: middle;
+                            border-style: none;
                         }
                     }
                 }
@@ -111,7 +130,7 @@
             margin-left:1rem;
         }
         .kohesio-article-post-inner-header{
-            img{
+            img, .project-theme-image-mobile{
                 display:none;
             }
         }
@@ -145,10 +164,11 @@
             .kohesio-article-wrapper{
                 article{
                     flex-direction: column;
+                    
                     .kohesio-article-post-inner{
                         margin-left: 0;
                     }
-                    img{
+                    img, .project-theme-image{
                         display:none;
                     }
                     .kohesio-article-post-inner-header{

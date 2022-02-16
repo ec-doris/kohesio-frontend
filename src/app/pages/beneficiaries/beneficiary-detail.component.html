@@ -5,8 +5,6 @@
         </div>
     </uxModalBody>
 </ux-modal> -->
-<!-- <div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
-</div> -->
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
@@ -94,9 +92,9 @@
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
                             <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
-                            <div class="ecl-u-type-heading-4">
+                            <h1 class="ecl-u-type-heading-4">
                                 {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
-                            </div>
+                            </h1>
                         </div>
                         <div class="kohesio-article-post-content">
                             <p class="ecl-u-type-paragraph">{{beneficiary?.description}}</p>
