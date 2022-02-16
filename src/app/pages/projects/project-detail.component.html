@@ -8,220 +8,7 @@
 </ux-modal>
 <ux-message-box titleLabel="INFORMATION" acceptLabel="PROCEED" dismissLabel="CANCEL" typeClass="info" (clicked)="openWikidataLink($event)">
     <p>Please note that you are now leaving the Kohesio website from the European Commission. The EC cannot be held responsible for any information published on Wikidata</p>
-</ux-message-box>
-
-<div [ngClass]="isModal ? 'project-detail-right-content is-modal' : 'project-detail-right-content'">
-    <ux-button *ngIf="isModal" [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openNewTab($event)">Open new tab</ux-button>
-    &nbsp;
-    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-external-link" (click)="openGraph($event)">Graph</ux-button>
-    <ux-button [isFlat]="true" [isSmall]="true" iconClass="fa fa-ellipsis-h" (click)="openWiki($event)">More</ux-button>
-</div>
-<eui-page class="project-detail margin-btm">
-    <eui-page-content class="prjt-detalis">
-        <eui-page-columns>
-            <eui-page-column size="xxxl" class="column-without-title left-column">
-                <eui-page-column-body>
-                    
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">project info</span>
-                        <div class="prjt-box--content">
-                            <span>Start date: </span>
-                            <span>
-                        <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
-                        <ng-container *ngIf="!project?.startTime">n/a</ng-container>
-                    </span>
-                        </div>
-
-                        <div class="prjt-box--content">
-                            <span>End date: </span>
-                            <span>
-                        <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
-                        <ng-container *ngIf="!project?.endTime">n/a</ng-container>
-                    </span>
-                        </div>
-
-                        <div class="prjt-box--content">
-                            <span>Managing authority: </span>
-                            {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
-                        </div>
-
-                        <div class="prjt-box--content" *ngIf="project?.projectWebsite">
-                            <span>Project website: </span>
-                            <a [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
-                            <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
-                        </div>
-                        <div class="prjt-box--content" *ngIf="project?.programWebsite">
-                            <span>Programme website: </span>
-                            <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
-                            <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
-                        </div>
-                        <div class="prjt-box--content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                            <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Read further about the project</a>
-                            <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
-                        </div>
-                    </div>
-
-                    
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title">funding</span>
-                        <div class="prjt-box--content">
-                            <span>Fund: </span>
-                            <span>{{project?.fundLabel}}</span>
-                            <span *ngIf="!project?.fundLabel">n/a</span>
-                        </div>
-
-                        <div class="prjt-box--content">
-                            <span>Programming period: </span>
-                            <span>{{project?.programmingPeriodLabel}}</span>
-                        </div>
-                        <div class="prjt-box--content">
-                            <span>Programme: </span>
-                            <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
-                        </div>
-
-                        <div class="prjt-box--content">
-                            <span>Total budget: </span>
-                            <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                            <span *ngIf="!project?.budget">n/a</span>
-                        </div>
-
-                        <div class="prjt-box--content">
-                            <span>EU contribution: </span>
-                            <span *ngIf="!project?.euBudget">n/a</span>
-                            <span *ngIf="project?.euBudget">
-                                {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
-                                <ng-container *ngIf="project?.cofinancingRate">
-                                    ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)
-                                </ng-container>
-                            </span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length <= 1">theme</span>
-                        <span class="prjt-box--title" *ngIf="project?.objectiveLabels.length > 1">themes</span>
-                        <div class="prjt-box--content  padding" *ngFor="let item of project?.objectiveLabels">
-                            <span class="no-bold">{{item}}</span>
-                        </div>
-                        <div class="prjt-box--content" *ngIf="project?.objectiveLabels.length == 0">
-                            <span class="no-bold" >n/a</span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="prjt-box prjt-box--grey">
-                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length <= 1">intervention field</span>
-                        <span class="prjt-box--title" *ngIf="project?.categoryLabels.length > 1">intervention fields</span>
-                        <div class="prjt-box--content padding" *ngFor="let item of project?.categoryLabels">
-                            <span class="no-bold">{{item}}</span>
-                        </div>
-                        <div class="prjt-box--content" *ngIf="project?.categoryLabels.length == 0">
-                            <span class="no-bold" >n/a</span>
-                        </div>
-                    </div>
-
-                    
-                    <div class="prjt-box prjt-box--grey" >
-                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length <= 1">beneficiary</span>
-                        <span class="prjt-box--title" *ngIf="project?.beneficiaries.length > 1">beneficiaries</span>
-                        <div class="prjt-box--content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
-                            <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
-                            <a *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
-                                {{beneficiary.beneficiaryLabel}}
-                            </a>
-                        </div>
-                        <div class="prjt-box--content" *ngIf="project?.beneficiaries.length == 0">
-                            <span class="no-bold" >n/a</span>
-                        </div>
-                    </div>
-
-                </eui-page-column-body>
-            </eui-page-column>
-
-            <eui-page-column class="column-without-title main-content">
-                <eui-page-column-header-right-content>
-                </eui-page-column-header-right-content>
-                <eui-page-column-body>
-                    <div class="article--post__wrapper">
-                        <article class="article--post">
-                            <header>
-                                <div class="article--post__image">
-                                    <figure role="presentation" class="prj-image">
-                                        <div class="prj-image--wrapper">
-                                            <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
-                                                <div class="prj-image--image"  *ngIf="project?.images && project?.images.length" style="background-image: url('{{ project?.images[0].image }}');"></div>
-                                            </a>
-                                            <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
-                                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
-                                            </div>
-                                        </div>
-                                        <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>
-                                    </figure>
-                                </div>
-                            </header>
-                            <div class="article--post__inner">
-                                <h1 class="article--post__title">
-                                    <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
-                                        <b>Highlighted project</b>
-                                    </ux-popover>
-                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span>
-                                </h1>
-                                <div class="article--post__content">
-                                    <p class="article--post__teaser">{{project?.description}}</p>
-                                </div>
-
-                                <div class="social-icons__wrapper">
-                                    <span class="title">share </span>
-                                    <ul class="social-icons">
-                                        <li>
-                                            <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank">
-                                                <span>Facebook</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank">
-                                                <span>LinkedIn</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="https://instagram.com/" target="_blank">
-                                                <span>Instagram</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank">
-                                                <span>Twitter</span>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank">
-                                                <span>Mail</span>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </article>
-                    </div>
-
-                    <div class="map__wrapper">
-                        <h2 class="title">
-                            <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
-                            In
-                            <ng-container *ngIf="project?.regionText">
-                                {{project?.regionText}}
-                            </ng-container>
-                            <ng-container *ngIf="!project?.regionText">[THE REGION]</ng-container>
-                        </h2>
-                        <app-map mapId="map-details" hideNavigation="true"></app-map>
-                    </div>
-
-                </eui-page-column-body>
-            </eui-page-column>
-        </eui-page-columns>
-    </eui-page-content>
-</eui-page> -->
+</ux-message-box> -->
 
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
@@ -242,14 +29,214 @@
         </li>
     </ol>
 </nav>
-<div class="kohesio-page-wrapper kohesio-page-detail">
+
+<div class="kohesio-page-detail">
+    <div class="kohesio-page-detail-tools">
+        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openGraph($event)">Open new tab</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)">More</kohesio-ecl-button>
+    </div>
+    <div class="kohesio-page-detail-container">
+        <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block">
+                <span class="title">project info</span>
+                <div class="content">
+                    <span>Start date: </span>
+                    <span>
+                        <ng-container *ngIf="project?.startTime">
+                            {{project.startTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!project?.startTime">n/a</ng-container>
+                    </span>
+                </div>
+                <div class="content">
+                    <span>End date: </span>
+                    <span>
+                        <ng-container *ngIf="project?.endTime">
+                            {{project.endTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!project?.endTime">n/a</ng-container>
+                    </span>
+                </div>
+
+                <div class="content">
+                    <span>Managing authority: </span>
+                    {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
+                </div>
+
+                <div class="content" *ngIf="project?.projectWebsite">
+                    <span>Project website: </span>
+                    <a [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
+                    <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
+                </div>
+                <div class="content" *ngIf="project?.programWebsite">
+                    <span>Programme website: </span>
+                    <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
+                    <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
+                </div>
+                <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
+                    <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Read further about the project</a>
+                    <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
+                </div>
+            </div>
+
+            
+            <div class="kohesio-side-content-block">
+                <span class="title">funding</span>
+                <div class="content">
+                    <span>Fund: </span>
+                    <span>{{project?.fundLabel}}</span>
+                    <span *ngIf="!project?.fundLabel">n/a</span>
+                </div>
+
+                <div class="content">
+                    <span>Programming period: </span>
+                    <span>{{project?.programmingPeriodLabel}}</span>
+                </div>
+                <div class="content">
+                    <span>Programme: </span>
+                    <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
+                </div>
+
+                <div class="content">
+                    <span>Total budget: </span>
+                    <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span *ngIf="!project?.budget">n/a</span>
+                </div>
+
+                <div class="content">
+                    <span>EU contribution: </span>
+                    <span *ngIf="!project?.euBudget">n/a</span>
+                    <span *ngIf="project?.euBudget">
+                        {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
+                        <ng-container *ngIf="project?.cofinancingRate">
+                            ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)
+                        </ng-container>
+                    </span>
+                </div>
+            </div>
+
+            
+            <div class="kohesio-side-content-block">
+                <span class="title" *ngIf="project.objectiveLabels.length <= 1">theme</span>
+                <span class="title" *ngIf="project.objectiveLabels.length > 1">themes</span>
+                <div class="content  padding" *ngFor="let item of project?.objectiveLabels">
+                    <span class="no-bold">{{item}}</span>
+                </div>
+                <div class="content" *ngIf="project.objectiveLabels.length == 0">
+                    <span class="no-bold" >n/a</span>
+                </div>
+            </div>
+
+            
+            <div class="kohesio-side-content-block">
+                <span class="title" *ngIf="project.categoryLabels.length <= 1">intervention field</span>
+                <span class="title" *ngIf="project.categoryLabels.length > 1">intervention fields</span>
+                <div class="content padding" *ngFor="let item of project?.categoryLabels">
+                    <span class="no-bold">{{item}}</span>
+                </div>
+                <div class="content" *ngIf="project.categoryLabels.length == 0">
+                    <span class="no-bold" >n/a</span>
+                </div>
+            </div>
+
+            
+            <div class="kohesio-side-content-block" >
+                <span class="title" *ngIf="project.beneficiaries.length <= 1">beneficiary</span>
+                <span class="title" *ngIf="project.beneficiaries.length > 1">beneficiaries</span>
+                <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
+                    <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
+                    <a *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
+                        {{beneficiary.beneficiaryLabel}}
+                    </a>
+                </div>
+                <div class="content" *ngIf="project.beneficiaries.length == 0">
+                    <span class="no-bold" >n/a</span>
+                </div>
+            </div>
+        </div>
+        <div class="kohesio-main-content">
+            <div class="kohesio-article-wrapper">
+                <article class="kohesio-article-post">
+                    <ng-container *ngIf="project?.images && project.images.length">
+                        <!-- <img [src]="project.images[0].image" > -->
+                        <!-- <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer> -->
+                    </ng-container>
+                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length" style="background-color: white;">
+                        <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
+                    </div>
+                    <div class="kohesio-article-post-inner">
+                        <div class="kohesio-article-post-inner-header">
+                            <h1 class="article--post__title">
+                                <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                    <b>Highlighted project</b>
+                                </ux-popover> -->
+                                <div class="ecl-u-type-heading-4">
+                                    {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
+                                </div>
+                            </h1>
+                        </div>
+                        <div class="kohesio-article-post-content">
+                                <p class="ecl-u-type-paragraph">{{project?.description}}</p>
+                        </div>
+                        <div class="kohesio-social-icons-wrapper">
+                            <span class="title">share </span>
+                            <ul class="ecl-social-media-follow__list">
+                                <li class="ecl-social-media-follow__item">
+                                <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
+                                    </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#twitter_hover"></use>
+                                    </svg></a></li>
+                                <li class="ecl-social-media-follow__item"><a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
+                                    </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#facebook_hover"></use>
+                                    </svg></a></li>
+                                <li class="ecl-social-media-follow__item"><a href="https://instagram.com/" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#instagram"></use>
+                                    </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#instagram_hover"></use>
+                                    </svg></a></li>
+                                <li class="ecl-social-media-follow__item"><a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
+                                    </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#linkedin_hover"></use>
+                                    </svg></a></li>
+                                <li class="ecl-social-media-follow__item"><a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email"></use>
+                                    </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                    <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email_hover"></use>
+                                    </svg></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
+                <h2 class="title">
+                    <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+                    In
+                    <ng-container *ngIf="project?.regionText">
+                        {{project?.regionText}}
+                    </ng-container>
+                    <ng-container *ngIf="!project?.regionText">[THE REGION]</ng-container>
+                </h2>
+                <app-map mapId="map-details" [hideNavigation]="true"></app-map>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="kohesio-page-wrapper kohesio-page-detail">
     <div class="kohesio-info-container">
         <div class="prjt-box prjt-box--grey">
             <span class="prjt-box--title">project info</span>
             <div class="prjt-box--content">
                 <span>Start date: </span>
                 <span>
-            <!-- <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag> -->
+            <ux-a-date-tag *ngIf="project?.startTime" [date]="project?.startTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
             <ng-container *ngIf="!project?.startTime">n/a</ng-container>
         </span>
             </div>
@@ -257,7 +244,7 @@
             <div class="prjt-box--content">
                 <span>End date: </span>
                 <span>
-            <!-- <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag> -->
+            <ux-a-date-tag *ngIf="project?.endTime" [date]="project?.endTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag>
             <ng-container *ngIf="!project?.endTime">n/a</ng-container>
         </span>
             </div>
@@ -365,26 +352,26 @@
                     <div class="article--post__image">
                         <figure role="presentation" class="prj-image">
                             <div class="prj-image--wrapper">
-                                <!-- <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
+                                <a (click)="uxService.openModal('imageOverlay')" class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
                                     <div class="prj-image--image"  *ngIf="project?.images && project?.images.length" style="background-image: url('{{ project?.images[0].image }}');"></div>
-                                </a> -->
-                                <!-- <a class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
+                                </a>
+                                <a class="prj-image&#45;&#45;link" *ngIf="project?.images && project?.images.length">
                                     <div class="prj-image--image"  *ngIf="project?.images && project?.images.length" style="background-image: url('{{ project?.images[0].image }}');"></div>
-                                </a> -->
-                                <!-- <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
+                                </a>
+                                <div class="default-theme-image" *ngIf="!project?.images || !project?.images.length" style="background-color: white;">
                                     <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project?.objectiveIds[0] || 'question_mark') + '.png'">
-                                </div> -->
+                                </div>
                             </div>
-                            <!-- <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer> -->
+                            <footer *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</footer>
                         </figure>
                     </div>
                 </header>
                 <div class="article--post__inner">
                     <h1 class="article--post__title">
-                        <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                        <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                             <b>Highlighted project</b>
-                        </ux-popover> -->
-                        <!-- {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span> -->
+                        </ux-popover>
+                        {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)">★</span>
                         {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
                     </h1>
                     <div class="article--post__content">
@@ -428,7 +415,7 @@
         
         <div class="map__wrapper">
             <h2 class="title">
-                <!-- <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}"> -->
+                <img class="flag" src="{{'assets/images/flags/' + project?.countryCode.toLowerCase() + '.png'}}">
                 In
                 <ng-container *ngIf="project?.regionText">
                     {{project?.regionText}}
@@ -438,5 +425,5 @@
             <app-map mapId="map-details" [hideNavigation]="true"></app-map>
         </div>
     </div>
-</div>
+</div> -->
 

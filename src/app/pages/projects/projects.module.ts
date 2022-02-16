@@ -5,7 +5,6 @@ import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator'
 import {MatTableModule} from '@angular/material/table';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { ProjectDetailComponent } from './project-detail.component';
 import { MapComponentModule } from 'src/app/components/kohesio/map/map.module';
 import { MatPaginatorKohesio } from 'src/app/components/kohesio/paginator/mat-paginator-intl.component';
 import {MatSidenavModule} from '@angular/material/sidenav';

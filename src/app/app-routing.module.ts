@@ -5,6 +5,7 @@ import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
 import { CookieComponent } from './pages/static/cookie/cookie.component';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
+import { ServicesPageComponent } from './pages/static/services/services.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
 
 const routes: Routes = [
@@ -19,6 +20,10 @@ const routes: Routes = [
       },{
         path: 'privacy', 
         component: PrivacyPageComponent,
+        pathMatch: 'full'
+      },{
+        path: 'services', 
+        component: ServicesPageComponent,
         pathMatch: 'full'
       },{
         path: 'themes', 
