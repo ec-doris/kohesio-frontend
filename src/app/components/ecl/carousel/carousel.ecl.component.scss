@@ -1,3 +1,7 @@
 .ecl-carousel__toggle {
     border-radius: 0%;
 }
+
+.ecl-link--icon:not(.ecl-link--standalone) .ecl-link__label {
+    text-decoration: none;
+}
