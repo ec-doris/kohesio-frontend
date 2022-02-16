@@ -123,13 +123,32 @@
 
 <!-- <h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1> -->
 
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Beneficiaries</span>
+        </li>
+    </ol>
+</nav>
+
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
         <span class="ecl-button__label" data-ecl-label="true">Filters</span>
-        <svg *ngIf="!sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="!sidenav.opened"
+            class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false"
+            aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
-        <svg *ngIf="sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="sidenav.opened"
+            class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after"
+            focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
     </span>
@@ -144,30 +163,38 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>COUNTRY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries"
+                    (change)="onCountryChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>{{this.myForm.value.country ? 'REGION' : 'REGION (select a country)'}}</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>{{this.myForm.value.country ? 'REGION' : 'REGION (select a country)'}}
+                </kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
+                    [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
-            <br/>
+            <br />
             <kohesio-ecl-accordion title="ADVANCED FILTERS">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds">
+                    </kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}
+                    </kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs"
+                        [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>TYPE</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType">
+                    </kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
             </kohesio-ecl-accordion>
-            <br/>
+            <br />
             <div class="search-buttons">
-                <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button">Reset Filters</button>
+                <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button">Reset
+                    Filters</button>
                 <kohesio-ecl-button type="submit">Show Results</kohesio-ecl-button>
             </div>
         </form>
@@ -175,18 +202,18 @@
     <mat-sidenav-content>
         <div class="tools">
             <div class="left-table-tools">
-                <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
+                <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries">
+                </app-download-button>
             </div>
             <div class="right-table-tools">
                 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                     <kohesio-ecl-form-group>
-                        <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sortBeneficiaries" (change)="onSortChange()"></kohesio-ecl-form-select>
+                        <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort"
+                            [items]="this.filters.sortBeneficiaries" (change)="onSortChange()">
+                        </kohesio-ecl-form-select>
                     </kohesio-ecl-form-group>
                 </form>
-                <mat-paginator [pageSize]="pageSize"
-                        [length]="count"
-                        [hidePageSize]="true"
-                        (page)="onPaginate($event)">
+                <mat-paginator [pageSize]="pageSize" [length]="count" [hidePageSize]="true" (page)="onPaginate($event)">
                 </mat-paginator>
             </div>
         </div>
@@ -198,7 +225,8 @@
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
-                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span
+                            *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>
                 </mat-cell>
             </ng-container>
@@ -220,7 +248,8 @@
                     <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
                 </mat-cell>
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0">
+            </mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>

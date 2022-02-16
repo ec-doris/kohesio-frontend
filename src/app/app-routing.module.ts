@@ -10,28 +10,35 @@ const routes: Routes = [
       { 
         path: '', 
         component: HomePageComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        data: {breadcrumb: 'Home'}
       },{
         path: 'about', 
         component: AboutComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        data: {breadcrumb: 'About'}
       },{
         path: 'themes', 
         component: ThemesComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        data: {breadcrumb: 'Themes'}
       },{
         path: 'cookie', 
         component: CookieComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
+        data: {breadcrumb: 'Cookies'}
       },{ 
         path: 'projects', 
-        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule) 
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule),
+        data: {breadcrumb: 'Projects'} 
       },{ 
         path: 'beneficiaries', 
-        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule) 
+        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule), 
+        data: {breadcrumb: 'Beneficiaries'}
       },{
         path: '404',
-        component: NotFoundComponent
+        component: NotFoundComponent,
+        data: {breadcrumb: '404'}
       },
       {
         path: '**',
