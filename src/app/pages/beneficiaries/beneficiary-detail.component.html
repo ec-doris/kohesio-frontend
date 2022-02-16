@@ -38,14 +38,18 @@
                 <div class="content">
                     <span>Start date: </span>
                     <span>
-                        <!-- <ux-a-date-tag *ngIf="beneficiary?.minStartTime" [date]="beneficiary?.minStartTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag> -->
+                        <ng-container *ngIf="beneficiary?.minStartTime">
+                            {{beneficiary.minStartTime | date:'d MMMM yyyy'}}
+                        </ng-container>
                         <ng-container *ngIf="!beneficiary?.minStartTime">n/a</ng-container>
                     </span>
                 </div>
                 <div class="content">
                     <span>End date: </span>
                     <span>
-                        <!-- <ux-a-date-tag *ngIf="beneficiary?.maxEndTime" [date]="beneficiary?.maxEndTime" [isVerticalLayout]="false" [isAgnostic]="true"  dateFormat='D MMMM YYYY'></ux-a-date-tag> -->
+                        <ng-container *ngIf="beneficiary?.maxEndTime">
+                            {{beneficiary.maxEndTime | date:'d MMMM yyyy'}}
+                        </ng-container>
                         <ng-container *ngIf="!beneficiary?.maxEndTime">n/a</ng-container>
                     </span>
                 </div>
@@ -90,9 +94,9 @@
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
                             <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
-                            <h1 class="ecl-u-type-heading-2">
+                            <div class="ecl-u-type-heading-4">
                                 {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
-                            </h1>
+                            </div>
                         </div>
                         <div class="kohesio-article-post-content">
                             <p class="ecl-u-type-paragraph">{{beneficiary?.description}}</p>
