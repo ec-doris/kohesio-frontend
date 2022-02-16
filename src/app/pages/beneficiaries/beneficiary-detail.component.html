@@ -71,7 +71,7 @@
                     <span>Country: </span>
                     <!-- <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
                     </ux-popover> -->
-                    <span><img style="width: 24px;" class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
+                    <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
                 </div>
             </div>
             <div class="kohesio-side-content-block" *ngIf="beneficiary.budgetsPerFund && beneficiary.budgetsPerFund.length">
@@ -88,13 +88,16 @@
                 <article class="kohesio-article-post">
                     <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
                     <div class="kohesio-article-post-inner">
-                        <h1 class="ecl-u-type-heading-2">
-                            {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
-                        </h1>
-                        <div class="kohesio-article-post-content">
-                            <p class="ecl-u-type-paragraph-md">{{beneficiary?.description}}</p>
+                        <div class="kohesio-article-post-inner-header">
+                            <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
+                            <h1 class="ecl-u-type-heading-2">
+                                {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
+                            </h1>
                         </div>
-                        <div class="social-icons__wrapper">
+                        <div class="kohesio-article-post-content">
+                            <p class="ecl-u-type-paragraph">{{beneficiary?.description}}</p>
+                        </div>
+                        <div class="kohesio-social-icons-wrapper">
                             <span class="title">share </span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
@@ -133,7 +136,7 @@
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
                 <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
-            <kohesio-ecl-accordion title="PROJECTS" [collapsed]="false">
+            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" title="PROJECTS" [collapsed]="false">
                 <div class="right-table-tools">
                     <mat-paginator [pageSize]="15"
                                     [length]="beneficiary.numberProjects"

@@ -1,8 +1,12 @@
 @import 'src/assets/styles/_include-media.scss';
 
-#map, #map-details, #map-beneficiary-details {
+#map, #map-details {
     height: 725px;
     z-index: 0;
+}
+
+#map-beneficiary-details{
+    height: 400px;
 }
 
 #map-inside {

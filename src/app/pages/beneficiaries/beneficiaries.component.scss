@@ -4,18 +4,10 @@
 @include media("<=small") {
     mat-row {
         padding: 5px;
-        // min-width: 1000px;
-        // display: flex;
         flex-direction: column;
     }
 
-    // mat-header-cell:nth-child(1),
-    // mat-header-cell:nth-child(2),
-    // mat-header-cell:nth-child(3),
-    // mat-header-cell:nth-child(4)
     mat-header-row {
-        // padding-left: 10px;
-        // min-width: 1000px;
         display: none;
     }
 
@@ -49,7 +41,6 @@
         padding: 0 0 0 3px;
     }
 
-    // Re-writes search btns
     :host ::ng-deep .ng-star-inserted {
         font-size: 12px !important;
     }
@@ -109,12 +100,6 @@ mat-header-cell:last-of-type {
     padding-right: 5px;
 }
 
-:host ::ng-deep {
-    .ux-tab-content {
-        padding: 0;
-    }
-}
-
 .search-buttons {
     display: flex;
     justify-content: space-between;
@@ -147,65 +132,4 @@ mat-header-cell:last-of-type {
 
 .muted-text {
     color: gray;
-}
-
-
-/* NEW STYLES FOR KOHESIO DETAIL PAGES*/
-
-.kohesio-page-detail{
-    .kohesio-page-detail-tools{
-        display: flex;
-        justify-content: flex-end;
-    }
-    .kohesio-page-detail-container{
-        display: flex;
-        margin-top: 1rem;
-        .kohesio-side-content{
-            display: flex;
-            min-width:350px;
-            max-width:350px;
-            flex-direction: column;
-            .kohesio-side-content-block{
-                background: #ebebeb;
-                border-radius: 6px;
-                padding: 15px;
-                margin-bottom: 30px;
-                .title{
-                    color: #404040;
-                    font-size: .8rem;
-                    font-weight: 700;
-                    font-variant: small-caps;
-                    margin-bottom: 15px;
-                }
-                .content{
-                    color: #000;
-                    font-size: 1rem;
-                    margin-left: 25px;
-                    line-height: 1.4;
-                }
-            }
-        }
-        .kohesio-main-content{
-            display: flex;
-            flex-direction: column;
-            margin-left: 1rem;
-            .kohesio-article-wrapper{
-                margin-bottom:1rem;
-                article{
-                    display:flex;
-                    img{
-                        width:150px;
-                        height:150px;
-                        border-radius: 10px;
-                    }
-                    .kohesio-article-post-inner{
-                        margin-left: 0.8rem;
-                        h1{
-                            margin-top:0;
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
