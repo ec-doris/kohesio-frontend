@@ -12,12 +12,10 @@ const routes: Routes = [
         path: '', 
         component: HomePageComponent,
         pathMatch: 'full',
-        data: {breadcrumb: 'Home'}
       },{
         path: 'about', 
         component: AboutComponent,
         pathMatch: 'full',
-        data: {breadcrumb: 'About'}
       },{
         path: 'privacy', 
         component: PrivacyPageComponent,
@@ -26,16 +24,13 @@ const routes: Routes = [
         path: 'themes', 
         component: ThemesComponent,
         pathMatch: 'full',
-        data: {breadcrumb: 'Themes'}
       },{
         path: 'cookie', 
         component: CookieComponent,
         pathMatch: 'full',
-        data: {breadcrumb: 'Cookies'}
       },{ 
         path: 'projects', 
-        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule),
-        data: {breadcrumb: 'Projects'} 
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule), 
       },{ 
         path: 'beneficiaries', 
         loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule)
@@ -45,7 +40,6 @@ const routes: Routes = [
       },{
         path: '404',
         component: NotFoundComponent,
-        data: {breadcrumb: '404'}
       },
       {
         path: '**',

@@ -9,7 +9,6 @@ declare let ECL:any;
 })
 export class AppComponent {
   title = 'kohesio-frontend';
-  public breadcrumbs: any; 
 
   ngOnInit(){
     ECL.autoInit();
