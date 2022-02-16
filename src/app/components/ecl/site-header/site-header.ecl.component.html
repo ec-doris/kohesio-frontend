@@ -12,10 +12,10 @@
                     </svg>
                     Search
                 </a>
-                <form class="ecl-search-form ecl-site-header-harmonised__search" role="search" data-ecl-search-form id="search-form-id">
+                <form class="ecl-search-form ecl-site-header-harmonised__search" role="search" data-ecl-search-form id="search-form-id" action="/search">
                     <div class="ecl-form-group">
                         <label for="search-input-id" class="ecl-form-label ecl-search-form__label">Search</label>
-                        <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input" name="Search" type="search" />
+                        <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input" name="keywords" type="search" />
                     </div>
                     <button class="ecl-button ecl-button--search ecl-search-form__button" type="submit" aria-label="Search">
                         <span class="ecl-button__container"><span class="ecl-button__label" data-ecl-label="true">Search</span>
@@ -59,10 +59,10 @@
               <li [routerLink]="['/']" class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
                 <a [routerLink]="['/']" class="ecl-menu__link" data-ecl-menu-link="">Home</a>
               </li>
-              <li [routerLink]="['/projects']" class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
+              <li [routerLink]="['/projects']" class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
                 <a [routerLink]="['/projects']" class="ecl-menu__link" data-ecl-menu-link="">Projects</a>
               </li>
-              <li [routerLink]="['/beneficiaries']"class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current" [routerLinkActiveOptions]="{exact:true}">
+              <li [routerLink]="['/beneficiaries']"class="ecl-menu__item" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
                 <a [routerLink]="['/beneficiaries']" class="ecl-menu__link" data-ecl-menu-link="">Beneficiaries</a>
               </li>
             </ul>

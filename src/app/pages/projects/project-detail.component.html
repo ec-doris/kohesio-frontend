@@ -223,7 +223,25 @@
     </eui-page-content>
 </eui-page> -->
 
-
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/projects']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Projects</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Project Details</span>
+        </li>
+    </ol>
+</nav>
 <div class="kohesio-page-wrapper kohesio-page-detail">
     <div class="kohesio-info-container">
         <div class="prjt-box prjt-box--grey">
@@ -372,35 +390,36 @@
                     <div class="article--post__content">
                         <p class="article--post__teaser">{{project?.description}}</p>
                     </div>
-        
                     <div class="social-icons__wrapper">
                         <span class="title">share </span>
-                        <ul class="social-icons">
-                            <li>
-                                <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank">
-                                    <span>Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank">
-                                    <span>LinkedIn</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://instagram.com/" target="_blank">
-                                    <span>Instagram</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank">
-                                    <span>Twitter</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank">
-                                    <span>Mail</span>
-                                </a>
-                            </li>
+                        <ul class="ecl-social-media-follow__list">
+                          <li class="ecl-social-media-follow__item">
+                            <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                            <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#twitter_hover"></use>
+                              </svg></a></li>
+                          <li class="ecl-social-media-follow__item"><a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#facebook_hover"></use>
+                              </svg></a></li>
+                          <li class="ecl-social-media-follow__item"><a href="https://instagram.com/" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#instagram"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#instagram_hover"></use>
+                              </svg></a></li>
+                          <li class="ecl-social-media-follow__item"><a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#linkedin_hover"></use>
+                              </svg></a></li>
+                          <li class="ecl-social-media-follow__item"><a [href]="'mailto:REGIO-EXTERNAL-COMMUNICATION@ec.europa.eu?subject=Kohesio feedback&body=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link"><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email"></use>
+                              </svg><svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#email_hover"></use>
+                              </svg></a></li>
                         </ul>
                     </div>
                 </div>

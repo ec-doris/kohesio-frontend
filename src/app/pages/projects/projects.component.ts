@@ -4,7 +4,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { DatePipe, DOCUMENT } from "@angular/common";
 import { FilterService } from "../../services/filter.service";
 import { ProjectList } from "../../models/project-list.model";
@@ -35,7 +35,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     @ViewChild("paginatorDown") paginatorDown!: MatPaginator;
     @ViewChild("paginatorAssets") paginatorAssets!: MatPaginator;
     @ViewChild(MapComponent) map!: MapComponent;
-    public selectedTabIndex: number = 1;
+    public selectedTabIndex: number = 0;
     public selectedTab: string = 'results';
     public modalImageUrl = "";
     public modalImageTitle:string = "";
@@ -44,7 +44,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     public mapIsLoaded = false;
     public lastFiltersSearch: any;
     public entityURL = environment.entityURL;
-    public page: number = 0;
+    public pageSize = 15;
 
     public policyToThemes = {
         Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
@@ -77,22 +77,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.mobileQuery = media.matchMedia('(max-width: 768px)');
         this._mobileQueryListener = () => changeDetectorRef.detectChanges();
         this.mobileQuery.addListener(this._mobileQueryListener);
-        //TODO ECL side effect
-        /*this._router.events.subscribe((event: NavigationStart) => {
-
-            if (this._route.snapshot.queryParamMap && this._route.snapshot.queryParamMap.has('page')){
-                this.page = +this._route.snapshot.queryParamMap.get('page');
-                this.selectedTab = this._route.snapshot.queryParamMap.get('tab');
-            }
-
-            if (event.navigationTrigger === 'popstate') {
-
-                this.setBackPaginationFromPopstate(event);
-                this.setBackTabsFromPopstate(event);
-                this.getProjectList();
-            }
-        });*/
-        
     }
 
 
@@ -146,9 +130,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.onThemeChange();
         this.getThemes();
 
-        if (!this.selectedTab) {
-            this.selectedTab = 'results';
-        }
+        
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -160,15 +142,21 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        this.paginatorTop.pageIndex = this.page;
-        this.paginatorDown.pageIndex = this.page;
-        this.isResultsTab = this.selectedTab === 'results';
-        this.isAudioVisualTab = this.selectedTab === 'audiovisual';
-        this.isMapTab = this.selectedTab === 'map';
-        this.changeDetectorRef.detectChanges();
-        this.getProjectList();
-
-        ECL.autoInit();
+        if (this._route.snapshot.queryParamMap.has('tab')) {
+            const tabParam = this._route.snapshot.queryParamMap.get('tab');
+             if (tabParam=="audiovisual"){
+                this.selectedTabIndex = 1;
+             }else if (tabParam=="map"){
+                this.selectedTabIndex = 2;
+             }
+        }
+        if (this._route.snapshot.queryParamMap.has('page')){
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+            if (pageParam){
+                this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
+                this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
+            }
+        }
     }
 
     getThemes() {
@@ -190,8 +178,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             return;
         }
 
+        let initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
+        if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+            if (pageParam){
+                const pageIndex = parseInt(pageParam) - 1;
+                initialPageIndex = pageIndex;
+            }
+        }
         this.isLoading = true;
-        let offset = this.paginatorTop ? (this.paginatorTop.pageIndex * this.paginatorTop.pageSize) : 0;
+        let offset = initialPageIndex * this.pageSize;
         this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
             if (result != null){
                 this.projects = result.list;
@@ -204,7 +200,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             document.body.scrollTop = 0;
             document.documentElement.scrollTop = 0;
 
-            if (this.selectedTabIndex == 3) {
+            if (this.selectedTabIndex == 2) {
                 this.map.loadMapRegion(this.lastFiltersSearch);
             } else {
                 this.mapIsLoaded = false;
@@ -241,31 +237,21 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         this.paginatorTop.pageIndex = event.pageIndex;
         this.paginatorDown.pageIndex = event.pageIndex;
-        this.page = event.pageIndex;
-
-        this.getProjectList();
 
         this._router.navigate([], {
             relativeTo: this._route,
             queryParams: {
-                page: event.pageIndex === 0 ? 0 : this.page,
+                page: event.pageIndex != 0 ? event.pageIndex + 1 : null,
             },
             queryParamsHandling: 'merge',
         });
+
+        this.getProjectList();
     }
 
 
     onPaginateAssets(event: any) {
         this.getProjectList();
-    }
-
-    setBackPaginationFromPopstate(event:any) {
-        let pageString = (this.page === 0) ? '0' : event.url.match('page=[0-9]')[0];
-        this.page = +pageString.charAt(pageString.length - 1);
-        if (this.paginatorTop && this.paginatorDown && this.paginatorAssets) {
-            this.paginatorTop.pageIndex = this.page;
-            this.paginatorDown.pageIndex = this.page;
-        }
     }
 
     goFirstPage() {
@@ -342,63 +328,39 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         });
     }
 
-    onTabSelected(event:any) {
+    onTabSelected(index:any) {
         this.isAudioVisualTab = false;
         this.isMapTab = false;
         this.isResultsTab = false;
-        switch (event.index) {
-            case 1: //Results
+        this.selectedTabIndex = index;
+        switch (index) {
+            case 0: //Results
                 this.isResultsTab = true;
                 this.selectedTab = 'results';
                 break;
-            case 2: //Audio-visual
+            case 1: //Audio-visual
                 this.isAudioVisualTab = true;
                 this.selectedTab = 'audiovisual';
                 break;
-            case 3: //Map
+            case 2: //Map
                 if (!this.mapIsLoaded) {
                     this.mapIsLoaded = true;
-                    this.map.refreshView();
                     setTimeout(
                         () => {
+                            this.map.refreshView();
                             this.map.loadMapRegion(this.lastFiltersSearch);
                         }, 500);
                 }
-                this.selectedTabIndex = event.index;
                 this.isMapTab = true;
                 this.selectedTab = 'map';
                 break;
         }
-
         this._router.navigate([], {
             relativeTo: this._route,
-            queryParams: { 'tab': this.selectedTab },
+            queryParams: { 'tab': this.isResultsTab ? null : this.selectedTab },
             queryParamsHandling: 'merge'
         });
 
-    }
-
-    setBackTabsFromPopstate(event:any) {
-
-        this.selectedTab = (this.selectedTab) ? 'results' : event.url.match('tab=[a-zA-Z]+')[0].split('=')[1];
-
-        switch (this.selectedTab) {
-            case 'results':
-                this.isResultsTab = true;
-                this.isAudioVisualTab = false;
-                this.isMapTab = false;
-                break;
-            case 'audiovisual':
-                this.isResultsTab = false;
-                this.isAudioVisualTab = true;
-                this.isMapTab = false;
-                break;
-            case 'map':
-                this.isResultsTab = false;
-                this.isAudioVisualTab = false;
-                this.isMapTab = true;
-                break;
-        }
     }
 
     getFilters() {

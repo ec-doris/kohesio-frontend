@@ -9,15 +9,7 @@ import { Router,NavigationEnd  } from '@angular/router';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-    public url: string | undefined;
-    
-    constructor(private router: Router){
-        this.router.events.subscribe(event => {
-            if(event instanceof NavigationEnd) {
-                console.log(event.url);
-                this.url = event.url;
-            }
-        });
+    constructor(){
     }
 
     ngOnInit(){

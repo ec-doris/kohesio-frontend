@@ -4,11 +4,14 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OutermostRegionsPipe } from 'src/app/pipes/outermost-regions.pipe';
 import { MapPopupComponent } from './map-popup.component';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 @NgModule({
     imports: [
         RouterModule,
-        CommonModule
+        CommonModule,
+        MatDialogModule
     ],
     declarations: [
         MapComponent,

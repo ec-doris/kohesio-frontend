@@ -1,0 +1,150 @@
+/*Page Detail Common Styles*/
+.kohesio-social-icons-wrapper {
+    display: inline-flex;
+    align-items: center;
+    overflow: hidden;
+    width: 100%;
+    justify-content: flex-end;
+    margin-top: 1rem !important;
+
+    .title {
+        font-variant: small-caps;
+        font-weight: bold;
+        font-size: 1rem;
+        margin-right: 5px;
+    }
+}
+.kohesio-page-detail{
+    .kohesio-page-detail-tools{
+        display: flex;
+        justify-content: flex-end;
+    }
+    .kohesio-page-detail-container{
+        display: flex;
+        margin-top: 1rem;
+        .kohesio-side-content{
+            display: flex;
+            min-width:350px;
+            max-width:350px;
+            flex-direction: column;
+            .kohesio-side-content-block{
+                background: #ebebeb;
+                border-radius: 6px;
+                padding: 15px;
+                margin-bottom: 30px;
+                span:first-child {
+                    font-weight: bold;
+                }
+                span:first-child.no-bold {
+                    font-weight: normal;
+                }
+                .title{
+                    color: #404040;
+                    font-size: .8rem;
+                    font-weight: 700;
+                    font-variant: small-caps;
+                    margin-bottom: 15px;
+                }
+                .content{
+                    color: #000;
+                    font-size: 1rem;
+                    margin-left: 25px;
+                    line-height: 1.4;
+                    .flag{
+                        width:24px;
+                        vertical-align: middle;
+                    }
+                }
+            }
+        }
+        .kohesio-main-content{
+            display: flex;
+            flex-direction: column;
+            .kohesio-article-wrapper{
+                margin-bottom:1rem;
+                article{
+                    display:flex;
+                    img{
+                        width:150px;
+                        height:150px;
+                        border-radius: 10px;
+                    }
+                    .kohesio-article-post-inner{
+                        margin-left: 0.8rem;
+                        h1{
+                            margin-top:0;
+                        }
+                    }
+                    .kohesio-article-post-inner-header{
+                        display: flex;
+                    }
+                }
+            }
+            .kohesio-map-wrapper{
+                margin-bottom:1rem;
+            }
+        }
+    }
+
+}
+
+@include media(">medium") {
+    .kohesio-page-detail{
+        .kohesio-main-content{
+            margin-left:1rem;
+        }
+        .kohesio-article-post-inner-header{
+            img{
+                display:none;
+            }
+        }
+    }
+}
+
+@include media("<=medium") {
+    .kohesio-beneficiary-projects-block{
+        display:none;
+    }
+    .kohesio-social-icons-wrapper {
+        display: flex;
+        flex-direction: row;
+        ul{
+            flex-direction: row;
+            li{
+                margin-top: 0 !important;
+            }
+        }
+    }
+    .kohesio-page-detail{
+        .kohesio-page-detail-container{
+            flex-direction: column-reverse;
+            .kohesio-side-content{
+                max-width:none;
+            }
+        }
+        .kohesio-main-content{
+            margin-left:0;
+            margin-bottom:1rem;
+            .kohesio-article-wrapper{
+                article{
+                    flex-direction: column;
+                    .kohesio-article-post-inner{
+                        margin-left: 0;
+                    }
+                    img{
+                        display:none;
+                    }
+                    .kohesio-article-post-inner-header{
+                        h1{
+                            margin-left: 1rem;
+                        }
+                        img{
+                            display:initial;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+/*End Page Detail Common Styles*/

@@ -1,7 +1,7 @@
-import { Component, Input, ViewChild, Output, EventEmitter, Inject } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
 import { ProjectDetail } from 'src/app/models/project-detail.model';
 import {ProjectService} from "../../../services/project.service";
+import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
     selector: 'project-detail-modal',
@@ -10,16 +10,15 @@ import {ProjectService} from "../../../services/project.service";
 })
 export class ProjectDetailModalComponent {
 
-
     public projectId:any;
     public projectDetail!: ProjectDetail;
 
-    constructor(private projectService: ProjectService){
-        // TODO ECL side effect
-        // this.projectId = config.id;
-        // this.projectService.getProjectDetail(this.projectId).subscribe(projectDetail=>{
-        //     this.projectDetail = projectDetail;
-        // })
+    constructor(private projectService: ProjectService,
+        @Inject(MAT_DIALOG_DATA) public data: any){
+        this.projectId = data.id;
+        this.projectService.getProjectDetail(this.projectId).subscribe(projectDetail=>{
+            this.projectDetail = projectDetail;
+        });
     }
 
     closeModal(){

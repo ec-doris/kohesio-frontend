@@ -4,34 +4,42 @@ import { NotFoundComponent } from './components/kohesio/notfound/notfound.compon
 import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
 import { CookieComponent } from './pages/static/cookie/cookie.component';
+import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
 
 const routes: Routes = [
       { 
         path: '', 
         component: HomePageComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },{
         path: 'about', 
         component: AboutComponent,
+        pathMatch: 'full',
+      },{
+        path: 'privacy', 
+        component: PrivacyPageComponent,
         pathMatch: 'full'
       },{
         path: 'themes', 
         component: ThemesComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },{
         path: 'cookie', 
         component: CookieComponent,
-        pathMatch: 'full'
+        pathMatch: 'full',
       },{ 
         path: 'projects', 
-        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule) 
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule), 
       },{ 
         path: 'beneficiaries', 
-        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule) 
+        loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule)
+      },{ 
+        path: 'search', 
+        loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule) 
       },{
         path: '404',
-        component: NotFoundComponent
+        component: NotFoundComponent,
       },
       {
         path: '**',
