@@ -217,7 +217,6 @@ export class MapComponent implements AfterViewInit {
             }else if(popupContent && popupContent.type == 'async'){
                 marker.on('click', ()=>{
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
-                        // TODO ECL side effect
                         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
                         component.instance.projects = projects;
                         marker.bindPopup(component.location.nativeElement,{
@@ -580,7 +579,6 @@ export class MapComponent implements AfterViewInit {
     }
 
     ngOnDestroy(){
-        // TODO ECL side effect
         const obj:any = document.getElementById(this.mapId);
         if (obj){
             obj.outerHTML = "";

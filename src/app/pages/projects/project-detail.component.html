@@ -10,7 +10,7 @@
     <p>Please note that you are now leaving the Kohesio website from the European Commission. The EC cannot be held responsible for any information published on Wikidata</p>
 </ux-message-box> -->
 
-<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+<nav *ngIf="!isModal" class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
@@ -66,16 +66,16 @@
 
                 <div class="content" *ngIf="project?.projectWebsite">
                     <span>Project website: </span>
-                    <a [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
                     <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.programWebsite">
                     <span>Programme website: </span>
-                    <a [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                     <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                    <a [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Read further about the project</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
                 </div>
             </div>
@@ -95,7 +95,7 @@
                 </div>
                 <div class="content">
                     <span>Programme: </span>
-                    <span><a [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
+                    <span><a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
                 </div>
 
                 <div class="content">
@@ -146,7 +146,7 @@
                 <span class="title" *ngIf="project.beneficiaries.length > 1">beneficiaries</span>
                 <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
                     <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
-                    <a *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
+                    <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
                         {{beneficiary.beneficiaryLabel}}
                     </a>
                 </div>
@@ -158,10 +158,10 @@
         <div class="kohesio-main-content">
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
-                    <ng-container *ngIf="project?.images && project.images.length">
-                        <!-- <img [src]="project.images[0].image" > -->
-                        <!-- <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer> -->
-                    </ng-container>
+                    <div class="project-theme-image" *ngIf="project?.images && project.images.length">
+                        <img [src]="project.images[0].image" >
+                        <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
+                    </div>
                     <div class="default-theme-image" *ngIf="!project?.images || !project.images.length" style="background-color: white;">
                         <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
                     </div>
@@ -215,7 +215,7 @@
                 </article>
             </div>
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
-                <h2 class="title">
+                <h2 class="title ecl-u-type-heading-5">
                     <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
                     In
                     <ng-container *ngIf="project?.regionText">

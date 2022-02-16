@@ -1,3 +1,6 @@
+.ecl-social-media-follow__item {
+    margin-right: 0px !important;
+}
 /*Page Detail Common Styles*/
 .kohesio-social-icons-wrapper {
     display: inline-flex;
@@ -78,10 +81,24 @@
                     .kohesio-article-post-inner-header{
                         display: flex;
                     }
+                    .project-theme-image{
+                        footer{
+                            color: #9c9c9c;
+                            font-size: 0.8rem;
+                            font-style: italic;
+                            line-height: 1;
+                            margin-top: 3px;
+                            text-align: center;
+                        }
+                    }
                 }
             }
             .kohesio-map-wrapper{
                 margin-bottom:1rem;
+                img{
+                    width:24px;
+                    height:24px;
+                }
             }
         }
     }
