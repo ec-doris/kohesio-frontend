@@ -67,7 +67,7 @@
                 <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS">
+            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterExpanded">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
