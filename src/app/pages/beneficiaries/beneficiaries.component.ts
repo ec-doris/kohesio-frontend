@@ -28,8 +28,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterExpanded = false;
-    public mobileQuery: boolean = false;
-    //private _mobileQueryListener: () => void;
+    public mobileQuery: boolean;
+    public sidenavOpened: boolean;
     private destroyed = new Subject<void>();
     public pageSize = 15;
 
@@ -40,14 +40,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         private _router: Router,
         breakpointObserver: BreakpointObserver) {
 
-            // this.mobileQuery = media.matchMedia('(max-width: 768px)');
-            // this._mobileQueryListener = () => {
-            //     changeDetectorRef.detectChanges();
-            //     if (this.mobileQuery.matches){
-            //         console.log("isMobile");
-            //     }
-            // }
-            // this.mobileQuery.addListener(this._mobileQueryListener);
+            this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+            this.sidenavOpened = this.mobileQuery;
 
             breakpointObserver
             .observe([
