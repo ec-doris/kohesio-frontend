@@ -8,36 +8,86 @@
 </div>
 
 <section id="themes">
-  <h2 class="ecl-page-header-harmonised__title">THEMES</h2>
-  <div class="theme-division">
-      <div class="theme-container">
-          <div class="themes-main-category">
-              <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe', sort: 'Total-Budget-(descending)'}" class="themes-title">
-                  Greener and carbon free Europe
-              </a>
-              <div class="number">{{stats.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
-          </div>
+  <h2 class="ecl-page-header-harmonised__title ecl-u-mt-l">THEMES</h2>
+  <div class="ecl-container">
+    <div class="ecl-row">
+        <div class="ecl-col-l-12">
+            <div class="row">
+                <div class="ecl-col-12 themes-main ecl-u-pa-none">
+                    <article class="ecl-card main-theme">
+                        <h1 class="ecl-card__title" style="color: white;">
+                            <a [routerLink]="['/projects']" [queryParams]="{policyObjective: 'Green-and-carbon-free-europe', sort: 'Total-Budget-(descending)'}" class="themes-title">
+                                Greener and carbon free Europe
+                            </a>
+                        </h1>
+                        <div>{{stats.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
+                    </article>
+                </div>
+            </div> 
+            <div class="ecl-row themes-row">
+                <div class="ecl-col-l-10">
+                    <div class="ecl-row">
+                        <div class="ecl-col-l-4 theme-col">
+                            <article class="ecl-card theme-card">
+                                <div class="ecl-card__body theme-body">
+                                    <h1 class="ecl-card__title">
+                                        <a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-Carbon-Economy', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                            Low Carbon Economy
+                                        </a>
+                                    </h1>                     
+                                    <div class="ecl-card__info-container number">
+                                        {{stats.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects
+                                        <hr>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="ecl-col-l-4 theme-col">
+                            <article class="ecl-card theme-card">
+                                <div class="ecl-card__body theme-body">
+                                    <h1 class="ecl-card__title">
+                                        <a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                            Climate Change Adaptation & Risk Prevention
+                                        </a>
+                                    </h1>                                
+                                    <div class="ecl-card__info-container number">
+                                        {{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects
+                                        <hr>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="ecl-col-l-4 theme-col">
+                            <article class="ecl-card theme-card">
+                                <div class="ecl-card__body theme-body">
+                                    <h1 class="ecl-card__title">
+                                        <a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                            Environment Protection & Resource Efficiency
+                                        </a>
+                                    </h1>              
+                                    <div class="ecl-card__info-container number">
+                                        {{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects
+                                        <hr>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </div>
+                <div class="ecl-col-l-2 theme-col">
+                    <article class="ecl-card theme-card">
+                        <div class="ecl-card__body theme-body other-body">
+                            <h1 class="ecl-card__title">
+                                <a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                    Explore more...
+                                </a>
+                            </h1>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+    </div>
 
-          <div class="theme-categories">
-              <div class="theme-category-card">
-                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Low-Carbon-Economy', sort: 'Total-Budget-(descending)'}">Low Carbon Economy</a></div>
-                  <div class="number">{{stats.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects</div>
-                  <hr class="vertical-line">
-              </div>
-              <div class="theme-category-card">
-                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention', sort: 'Total-Budget-(descending)'}">Climate Change Adaptation & Risk Prevention</a></div>
-                  <div class="number">{{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects</div>
-                  <hr class="vertical-line">
-              </div>
-              <div class="theme-category-card">
-                  <div class="title"><a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency', sort: 'Total-Budget-(descending)'}">Environment Protection & Resource Efficiency</a></div>
-                  <div class="number">{{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects</div>
-                  <hr class="vertical-line">
-              </div>
-          </div>
-      </div>
-      <div class="explore-more">
-          <a [routerLink]="['/themes']">Explore more ...</a>
-      </div>
   </div>
 </section>
