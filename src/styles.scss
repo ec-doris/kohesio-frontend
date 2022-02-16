@@ -24,4 +24,9 @@ mat-drawer, mat-sidenav {
 .mat-paginator{
     background: transparent;
 }
-
+.mat-drawer-side{
+  border-right: 0;
+}
+mat-tab-body{
+  background-color: white;
+}

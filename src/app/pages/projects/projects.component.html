@@ -395,11 +395,11 @@
                             </div>
                         </header>
                         <div class="article--post__inner">
-                            <h1 class="article--post__title">
+                            <h1 class="ecl-u-type-heading-5">
                                 <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                     <b>Highlighted project</b>
                                 </ux-popover> -->
-                                <a [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
                                 <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
                                 <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
                             </h1>
