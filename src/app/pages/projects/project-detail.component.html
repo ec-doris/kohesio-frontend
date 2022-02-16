@@ -223,7 +223,25 @@
     </eui-page-content>
 </eui-page> -->
 
-
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/projects']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Projects</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Project Details</span>
+        </li>
+    </ol>
+</nav>
 <div class="kohesio-page-wrapper kohesio-page-detail">
     <div class="kohesio-info-container">
         <div class="prjt-box prjt-box--grey">
