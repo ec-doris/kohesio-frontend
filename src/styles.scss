@@ -6,7 +6,7 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* You can add global styles to this file, and also import other style files */
-/* ECL breakpoints
+/* ECL breakpoints */
 $breakpoints: (
   extrasmall: 0,
   small: 480px,
@@ -14,12 +14,12 @@ $breakpoints: (
   large: 996px,
   extralarge: 1140px,
 ) !default;
-*/
 
 /*Angular Material Styles*/
 mat-drawer, mat-sidenav {
     width: 350px;
     padding: 15px;
+    padding-left: 0;
 }
 .mat-paginator{
     background: transparent;
