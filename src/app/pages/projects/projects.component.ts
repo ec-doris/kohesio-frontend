@@ -11,7 +11,8 @@ import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
-import { MediaMatcher} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
 declare let L:any;
 declare let ECL:any;
 
@@ -59,8 +60,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
   public semanticTerms: String[] = [];
 
-  public mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  public mobileQuery: boolean;
+  public sidenavOpened: boolean;
+  private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -70,13 +72,26 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
-    private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher) {
+    breakpointObserver: BreakpointObserver) {
 
       this.filters = this._route.snapshot.data['filters'];
-      this.mobileQuery = media.matchMedia('(max-width: 768px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addListener(this._mobileQueryListener);
+      this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+      this.sidenavOpened = this.mobileQuery;
+
+      breakpointObserver
+      .observe([
+          "(max-width: 768px)"
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+          for (const query of Object.keys(result.breakpoints)) {
+              if (result.breakpoints[query]) {
+                  this.mobileQuery = true;
+              }else{
+                  this.mobileQuery = false;
+              }
+          }
+      });
     }
 
 
@@ -412,7 +427,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         }
 
         ngOnDestroy(): void {
-          this.mobileQuery.removeListener(this._mobileQueryListener);
+          this.destroyed.next();
+          this.destroyed.complete();
         }
 
       }

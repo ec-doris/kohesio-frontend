@@ -34,17 +34,17 @@
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
         <span class="ecl-button__label" data-ecl-label="true">Filters</span>
-        <svg *ngIf="!sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="!sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
-        <svg *ngIf="sidenav.opened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+        <svg *ngIf="sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
     </span>
 </button>
 
-<mat-sidenav-container class="filters-wrapper-container" autosize>
-    <mat-sidenav #sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [opened]="mobileQuery.matches ? false : true">
+<mat-drawer-container class="filters-wrapper-container" autosize>
+    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
@@ -111,8 +111,8 @@
                 <kohesio-ecl-button type="submit">Show Results</kohesio-ecl-button>
             </div>
         </form>
-    </mat-sidenav>
-    <mat-sidenav-content>
+    </mat-drawer>
+    <mat-drawer-content>
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results">
                 <div class="tools">
@@ -143,7 +143,7 @@
                                     <div class="prj-image--wrapper">
                                         <ng-container *ngIf="project.images && project.images.length">
                                             <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)" class="prj-image--link">
-                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')" *ngIf="!mobileQuery.matches"></div>
+                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')" *ngIf="!mobileQuery"></div>
                                             </a>
                                         </ng-container>
                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
@@ -239,6 +239,6 @@
             </mat-tab>
         </mat-tab-group>
 
-    </mat-sidenav-content>
-</mat-sidenav-container>
+    </mat-drawer-content>
+</mat-drawer-container>
 
