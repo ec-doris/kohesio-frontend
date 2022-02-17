@@ -176,11 +176,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     getThemes() {
       const policy = this.myForm.value.policyObjective;
-      if (policy == null) {
+      if (policy == null || policy === "") {
         this.themeSelection = this.filters.thematic_objectives
       } else {
         // TODO ECL side effect
-        //this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy].includes(theme["id"]))
+        this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme["id"]))
       }
     }
 
@@ -316,11 +316,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       const theme = this.myForm.value.theme
       for (const policy in this.policyToThemes) {
         // TODO ECL side effect
-        /*if (this.policyToThemes[policy].includes(theme)) {
+        if (this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme)) {
           this.myForm.patchValue({
             policyObjective: policy
           });
-        }*/
+        }
       }
     }
 
