@@ -24,6 +24,7 @@ import { FooterEclModule } from './components/ecl/footer/footer.ecl.module';
 import { ProjectDetailModalModule } from './components/kohesio/project-detail-modal/project-detail.module';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
+import { FaqPageComponent } from './pages/static/faq/faq.component';
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -37,7 +38,8 @@ registerLocaleData(LocaleEnglish);
     ThemesComponent,
     NotFoundComponent,
     CookieComponent,
-    ServicesPageComponent
+    ServicesPageComponent,
+    FaqPageComponent
   ],
   imports: [
     AppRoutingModule,

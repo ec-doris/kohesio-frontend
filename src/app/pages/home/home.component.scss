@@ -1,7 +1,7 @@
 @import 'src/assets/styles/_include-media.scss';
 
 .main-theme {
-    background-color: #2CBD7B;
+    background-color: #004494;
     color: white; 
     text-align: center; 
     padding-bottom: 50px;
@@ -17,6 +17,21 @@
     a:hover {
         text-decoration: underline;
     }
+
+    button {
+        position: absolute;
+        right: 15px;
+    }
+}
+
+@include media("<=small") {
+    .main-theme {
+        min-height: 215px;
+    }
+    button{
+        right: auto;
+        bottom: 40px;
+    }
 }
 
 .themes-row {
@@ -26,6 +41,16 @@
 
 .theme-col {
     margin-bottom: 10px;
+    padding: 0 1rem 0 0;
+}
+.theme-col:first-child{
+    padding-left: 1rem;
+}
+
+@include media("<=small") {
+    .theme-col{
+        padding: 0 1rem;
+    }
 }
 
 .theme-body {

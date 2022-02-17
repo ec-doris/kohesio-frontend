@@ -4,6 +4,7 @@ import { NotFoundComponent } from './components/kohesio/notfound/notfound.compon
 import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
 import { CookieComponent } from './pages/static/cookie/cookie.component';
+import { FaqPageComponent } from './pages/static/faq/faq.component';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
@@ -32,6 +33,10 @@ const routes: Routes = [
       },{
         path: 'cookie', 
         component: CookieComponent,
+        pathMatch: 'full',
+      },{
+        path: 'faq', 
+        component: FaqPageComponent,
         pathMatch: 'full',
       },{ 
         path: 'projects', 
