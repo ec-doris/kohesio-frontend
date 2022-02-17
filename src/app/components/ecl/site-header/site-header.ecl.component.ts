@@ -1,5 +1,5 @@
-import {AfterViewInit, Component} from '@angular/core';
-import { Router,NavigationEnd  } from '@angular/router';
+import { AfterViewInit, Component, HostListener } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-ecl-site-header',
@@ -9,13 +9,19 @@ import { Router,NavigationEnd  } from '@angular/router';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-    constructor(){
+    constructor() {
     }
 
-    ngOnInit(){
+    ngOnInit() {
     }
 
     ngAfterViewInit(): void {
+    }
+    
+    
+    onClick(event: Event) {
+        let element = document.getElementById('closeMenu');
+        if(element) element.click();
     }
 
 }
