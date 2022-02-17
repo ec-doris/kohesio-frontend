@@ -50,6 +50,17 @@
                 <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
             </kohesio-ecl-form-group>
+            <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
+                <div class="top">
+                    <div class="title">Also matching:</div>
+                    <button mat-stroked-button (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>
+                </div>
+                <div class="terms">
+                    <div class="term" *ngFor="let semanticTerm of semanticTerms">
+                        {{semanticTerm}}
+                    </div>
+                </div>
+            </div>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>COUNTRY</kohesio-ecl-form-label>
                 <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>

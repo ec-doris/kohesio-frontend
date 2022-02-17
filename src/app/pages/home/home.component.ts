@@ -39,7 +39,7 @@ export class HomePageComponent implements AfterViewInit {
         });
         this.themeService.getPolicyObjectives().subscribe((policyObjectives)=>{
             const policy = policyObjectives.find((policyObjective:PolicyObjective)=>{
-                return policyObjective.wikibaseId == "Q2547987";
+                return policyObjective.id == "PO02";
             });
             if (policy){
                 this.policyObjective = policy;
