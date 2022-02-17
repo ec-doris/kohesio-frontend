@@ -9,7 +9,6 @@ export class PrivacyPageComponent implements AfterViewInit {
     constructor(){}
 
     ngOnInit(){
-        window.scrollTo(0, 0)
     }
 
     ngAfterViewInit(): void {
