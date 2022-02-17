@@ -204,7 +204,7 @@
                                                 {{ project.endTime | date: 'MMM YYYY' }}
                                                 <span *ngIf="!project.endTime">n/a</span>
                                             </ng-container>
-                                            <span *ngIf="!project.startTime && !project.endTime">n/a</span>
+                                            <ng-container *ngIf="!project.startTime && !project.endTime">n/a</ng-container>
                                         </span>
                                     </li>
                                 </ul>
