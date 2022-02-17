@@ -3,3 +3,7 @@
     top:-24px;
     right:-24px;
   }
+mat-dialog-content{
+  max-height: 85vh !important;
+  flex: 1 0 0;
+}
