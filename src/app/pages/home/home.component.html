@@ -1,16 +1,13 @@
 <!--<h1 class="ecl-page-header-harmonised__title">Home</h1>-->
-
 <app-ecl-carousel></app-ecl-carousel>
-<br/>
 <div id="my-region">
     <h2 class="ecl-page-header-harmonised__title">IN MY REGION</h2>
     <app-map></app-map>
 </div>
-
 <section id="themes">
-  <h2 class="ecl-page-header-harmonised__title ecl-u-mt-l">THEMES</h2>
+  <h2 class="ecl-page-header-harmonised__title ecl-u-mt-l" style="margin-top:0;margin-bottom:1rem;">THEMES</h2>
   <div class="ecl-container">
-    <div class="ecl-row">
+    <div class="ecl-row" style="padding-top:0;">
         <div class="ecl-col-l-12" *ngIf="policyObjective" style="padding:0;">
             <div class="row">
                 <div class="ecl-col-12 themes-main ecl-u-pa-none">
@@ -58,52 +55,10 @@
                                 </div>
                             </article>
                         </div>
-                        <!-- <div class="ecl-col-l-4 theme-col">
-                            <article class="ecl-card theme-card">
-                                <div class="ecl-card__body theme-body">
-                                    <h1 class="ecl-card__title">
-                                        <a [routerLink]="['/projects']" [queryParams]="{theme: 'Climate-Change-Adaptation-&-Risk-Prevention', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
-                                            Climate Change Adaptation & Risk Prevention
-                                        </a>
-                                    </h1>                                
-                                    <div class="ecl-card__info-container number">
-                                        {{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects
-                                        <hr>
-                                    </div>
-                                </div>
-                            </article>
-                        </div>
-                        <div class="ecl-col-l-4 theme-col">
-                            <article class="ecl-card theme-card">
-                                <div class="ecl-card__body theme-body">
-                                    <h1 class="ecl-card__title">
-                                        <a [routerLink]="['/projects']" [queryParams]="{theme: 'Environment-Protection-&-Resource-Efficiency', sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
-                                            Environment Protection & Resource Efficiency
-                                        </a>
-                                    </h1>              
-                                    <div class="ecl-card__info-container number">
-                                        {{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects
-                                        <hr>
-                                    </div>
-                                </div>
-                            </article>
-                        </div> -->
                     </div>
                 </div>
-                <!-- <div class="ecl-col-l-2 theme-col">
-                    <article class="ecl-card theme-card">
-                        <div class="ecl-card__body theme-body other-body">
-                            <h1 class="ecl-card__title">
-                                <a [routerLink]="['/themes']" class="ecl-link ecl-link--standalone">
-                                    Explore more...
-                                </a>
-                            </h1>
-                        </div>
-                    </article>
-                </div> -->
             </div>
         </div>
     </div>
-
   </div>
 </section>

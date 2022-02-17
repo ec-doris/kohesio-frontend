@@ -1,5 +1,18 @@
 @import 'src/assets/styles/_include-media.scss';
 
+#my-region{
+    margin-bottom:1rem;
+    h2{
+        margin-bottom: 1rem;
+    }
+}
+#themes{
+    h2{
+        margin-top:0 !important;
+        margin-bottom: 1rem;
+    }
+}
+
 .main-theme {
     background-color: #004494;
     color: white; 
