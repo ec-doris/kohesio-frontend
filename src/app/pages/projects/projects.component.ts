@@ -13,6 +13,7 @@ import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
+import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
 declare let L:any;
 declare let ECL:any;
 
@@ -35,6 +36,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("paginatorTop") paginatorTop!: MatPaginator;
   @ViewChild("paginatorDown") paginatorDown!: MatPaginator;
   @ViewChild("paginatorAssets") paginatorAssets!: MatPaginator;
+  @ViewChild("sidenav") sidenav!: MatDrawer;
   @ViewChild(MapComponent) map!: MapComponent;
   public selectedTabIndex: number = 0;
   public selectedTab: string = 'results';
@@ -208,6 +210,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.isLoading = true;
       let offset = this.initialPageIndex * this.pageSize;
+
+      if (this.mobileQuery && this.sidenav){
+        this.sidenavOpened = false;
+        this.sidenav.close();
+      }
       
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){

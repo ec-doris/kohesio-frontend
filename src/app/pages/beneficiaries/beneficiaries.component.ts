@@ -13,6 +13,7 @@ import { BeneficiaryList } from "../../models/beneficiary-list.model";
 import { startWith, map, delay, takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -26,6 +27,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public isLoading = false;
     public count = 0;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild("sidenav") sidenav!: MatDrawer;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterIsExpanded: boolean = false;
     public mobileQuery: boolean;
@@ -136,6 +138,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     performSearch() {
         const filters = new Filters().deserialize(this.myForm.value);
+
+        if (this.mobileQuery && this.sidenav){
+            this.sidenavOpened = false;
+            this.sidenav.close();
+        }
 
         let initialPageIndex = this.paginator ? this.paginator.pageIndex : 0;
         if (this._route.snapshot.queryParamMap.has('page') && !this.paginator){
