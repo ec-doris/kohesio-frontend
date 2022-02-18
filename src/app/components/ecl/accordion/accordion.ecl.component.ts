@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -13,7 +13,10 @@ export class KohesioEclAccordionComponent {
     @Input()
     public collapsed:boolean = true;
 
+    @Output() change = new EventEmitter<any>();
+
     toggle(){
         this.collapsed = !this.collapsed
+        this.change.emit(this.collapsed);
     }
 }

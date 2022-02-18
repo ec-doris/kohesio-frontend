@@ -41,7 +41,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public modalImageUrl = "";
   public modalImageTitle:string = "";
   public modalTitleLabel = "";
-  public advancedFilterExpanded = false;
+  public advancedFilterIsExpanded:boolean = false;
   public mapIsLoaded = false;
   public lastFiltersSearch: any;
   public entityURL = environment.entityURL;
@@ -89,10 +89,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
               this.sidenavOpened = !this.mobileQuery;
           }
       });
-    }
 
-
-    ngOnInit() {
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
@@ -111,10 +108,18 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         sort: [this.getFilterKey("sort", "sort")]
       });
 
-      this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
+      if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get('program') ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
-          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
+          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd){
+            this.advancedFilterIsExpanded = true;
+          };
+      
+    }
+
+
+    ngOnInit() {
+      
 
       if (this._route.snapshot.queryParamMap.get('country')) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
@@ -428,4 +433,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.destroyed.complete();
         }
 
-      }
+        onToggleAdvancedFilters(collapse:boolean){
+          this.advancedFilterIsExpanded = !collapse;
+        }
+
+
+}

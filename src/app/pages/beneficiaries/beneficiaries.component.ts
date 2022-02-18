@@ -27,7 +27,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public count = 0;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public advancedFilterExpanded = false;
+    public advancedFilterIsExpanded;
     public mobileQuery: boolean;
     public sidenavOpened: boolean;
     private destroyed = new Subject<void>();
@@ -54,11 +54,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
                     this.sidenavOpened = !this.mobileQuery;
                 }
             });
-         }
 
-    ngOnInit() {
-
-        this.filters = this._route.snapshot.data['filters'];
+            this.filters = this._route.snapshot.data['filters'];
 
         this.myForm = this.formBuilder.group({
             name: [this._route.snapshot.queryParamMap.get('name')],
@@ -70,8 +67,12 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             sort: [this.getFilterKey("sortBeneficiaries", "sort")]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program') ||
-            this.myForm.value.beneficiaryType;
+        this.advancedFilterIsExpanded = this.myForm.value.fund || 
+                                        this._route.snapshot.queryParamMap.get('program') ||
+                                        this.myForm.value.beneficiaryType;
+    }
+
+    ngOnInit() {
 
         if (this._route.snapshot.queryParamMap.get('country')) {
             Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
@@ -217,6 +218,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     onSortChange() {
         this.onSubmit();
+    }
+
+    onToggleAdvancedFilters(collapse:boolean){
+        this.advancedFilterIsExpanded = !collapse;
     }
 
     ngOnDestroy() {

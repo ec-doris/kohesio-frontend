@@ -6,14 +6,6 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /* You can add global styles to this file, and also import other style files */
-/* ECL breakpoints */
-$breakpoints: (
-  extrasmall: 0,
-  small: 480px,
-  medium: 768px,
-  large: 996px,
-  extralarge: 1140px,
-) !default;
 
 /*Angular Material Styles*/
 mat-drawer, mat-sidenav {
@@ -30,12 +22,12 @@ mat-drawer, mat-sidenav {
 mat-tab-body{
   background-color: white;
 }
-
+.mat-drawer-container{
+  background-color: white;
+}
 .ecl-page-header-harmonised__breadcrumb{
   margin-bottom:0 !important;
 }
-
-
 .muted-text {
   color: gray;
 }

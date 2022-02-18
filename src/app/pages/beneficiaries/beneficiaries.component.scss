@@ -133,3 +133,10 @@ mat-header-cell:last-of-type {
 .muted-text {
     color: gray;
 }
+
+.kohesio-mat-drawer-container{
+    min-height: 370px;
+}
+.kohesio-mat-drawer-container-expanded{
+    min-height: 600px;
+}

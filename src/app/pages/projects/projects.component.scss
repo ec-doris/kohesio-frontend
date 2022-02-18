@@ -123,16 +123,6 @@ mat-sidenav {
 
 .article--post__wrapper {
   position: relative;
-
-  &::before {
-    content: "";
-    height: 92%;
-    background: #707070;
-    width: 1px;
-    position: absolute;
-    top: 80px;
-    left: 1.9px;
-  }
 }
 
 .article--post {
@@ -489,4 +479,11 @@ mat-sidenav {
 
 .filters-wrapper-container {
   width: 100%;
+}
+
+.kohesio-mat-drawer-container{
+  min-height: 510px;
+}
+.kohesio-mat-drawer-container-expanded{
+  min-height: 1040px;
 }
