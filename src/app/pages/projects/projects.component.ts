@@ -46,6 +46,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public lastFiltersSearch: any;
   public entityURL = environment.entityURL;
   public pageSize = 15;
+  public initialPageIndex:number = 0;
 
   public policyToThemes = {
     Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
@@ -113,7 +114,23 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd){
             this.advancedFilterIsExpanded = true;
-          };
+      };
+
+      if (this._route.snapshot.queryParamMap.has('tab')) {
+        const tabParam = this._route.snapshot.queryParamMap.get('tab');
+        if (tabParam=="audiovisual"){
+          this.selectedTabIndex = 1;
+        }else if (tabParam=="map"){
+          this.selectedTabIndex = 2;
+        }
+      }
+      if (this._route.snapshot.queryParamMap.has('page')){
+        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+        if (pageParam){
+          //this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
+          //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
+        }
+      }
       
     }
 
@@ -159,21 +176,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-      if (this._route.snapshot.queryParamMap.has('tab')) {
-        const tabParam = this._route.snapshot.queryParamMap.get('tab');
-        if (tabParam=="audiovisual"){
-          this.selectedTabIndex = 1;
-        }else if (tabParam=="map"){
-          this.selectedTabIndex = 2;
-        }
-      }
-      if (this._route.snapshot.queryParamMap.has('page')){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
-        if (pageParam){
-          this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
-          this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
-        }
-      }
+      
     }
 
     getThemes() {
@@ -195,16 +198,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         return;
       }
 
-      let initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
+      this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
       if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
         const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
         if (pageParam){
           const pageIndex = parseInt(pageParam) - 1;
-          initialPageIndex = pageIndex;
+          this.initialPageIndex = pageIndex;
         }
       }
       this.isLoading = true;
-      let offset = initialPageIndex * this.pageSize;
+      let offset = this.initialPageIndex * this.pageSize;
+      
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
           this.projects = result.list;
@@ -218,7 +222,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         document.documentElement.scrollTop = 0;
 
         if (this.selectedTabIndex == 2) {
-          this.map.loadMapRegion(this.lastFiltersSearch);
+          this.mapIsLoaded = true;
+          setTimeout(
+            () => {
+                this.map.loadMapRegion(this.lastFiltersSearch);
+            }, 500);
         } else {
           this.mapIsLoaded = false;
         }

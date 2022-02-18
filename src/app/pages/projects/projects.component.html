@@ -138,6 +138,7 @@
                         </form>
                         <mat-paginator #paginatorTop
                                        [length]="count"
+                                       [pageIndex]="initialPageIndex"
                                        [pageSize]="pageSize"
                                        [hidePageSize]="true"
                                        (page)="onPaginate($event)">
@@ -216,6 +217,14 @@
                         </div>
                     </article>
                 </div>
+                <mat-paginator #paginatorDown
+                    [length]="count"
+                    [pageSize]="pageSize"
+                    [pageIndex]="initialPageIndex"
+                    [hidePageSize]="true"
+                    (page)="onPaginate($event)"
+                    [hidden]="(projects && projects.length === 0) || isMapTab">
+                </mat-paginator>
             </mat-tab>
             <mat-tab label="Audiovisual">
                 <mat-paginator #paginatorAssets
@@ -237,13 +246,6 @@
                         </a>
                     </ng-container>
                 </div>
-                <mat-paginator #paginatorDown
-                                [length]="count"
-                                [pageSize]="pageSize"
-                                [hidePageSize]="true"
-                                (page)="onPaginate($event)"
-                                [hidden]="(projects && projects.length === 0) || isMapTab">
-                </mat-paginator>
             </mat-tab>
             <mat-tab label="Map">
                 <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true"></app-map>
