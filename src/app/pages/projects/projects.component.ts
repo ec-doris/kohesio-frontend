@@ -76,7 +76,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
-      this.sidenavOpened = this.mobileQuery;
+      this.sidenavOpened = !this.mobileQuery;
 
       breakpointObserver
       .observe([
@@ -85,11 +85,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       .pipe(takeUntil(this.destroyed))
       .subscribe(result => {
           for (const query of Object.keys(result.breakpoints)) {
-              if (result.breakpoints[query]) {
-                  this.mobileQuery = true;
-              }else{
-                  this.mobileQuery = false;
-              }
+              this.mobileQuery = result.breakpoints[query];
+              this.sidenavOpened = !this.mobileQuery;
           }
       });
     }
