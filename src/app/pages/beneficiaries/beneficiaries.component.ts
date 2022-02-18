@@ -13,6 +13,7 @@ import { BeneficiaryList } from "../../models/beneficiary-list.model";
 import { startWith, map, delay, takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
+import { MatDrawer } from '@angular/material/sidenav';
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -26,8 +27,9 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public isLoading = false;
     public count = 0;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChild("sidenav") sidenav!: MatDrawer;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public advancedFilterExpanded = false;
+    public advancedFilterIsExpanded: boolean = false;
     public mobileQuery: boolean;
     public sidenavOpened: boolean;
     private destroyed = new Subject<void>();
@@ -41,7 +43,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         breakpointObserver: BreakpointObserver) {
 
             this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
-            this.sidenavOpened = this.mobileQuery;
+            this.sidenavOpened = !this.mobileQuery;
 
             breakpointObserver
             .observe([
@@ -50,18 +52,12 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             .pipe(takeUntil(this.destroyed))
             .subscribe(result => {
                 for (const query of Object.keys(result.breakpoints)) {
-                    if (result.breakpoints[query]) {
-                        this.mobileQuery = true;
-                    }else{
-                        this.mobileQuery = false;
-                    }
+                    this.mobileQuery = result.breakpoints[query];
+                    this.sidenavOpened = !this.mobileQuery;
                 }
             });
-         }
 
-    ngOnInit() {
-
-        this.filters = this._route.snapshot.data['filters'];
+            this.filters = this._route.snapshot.data['filters'];
 
         this.myForm = this.formBuilder.group({
             name: [this._route.snapshot.queryParamMap.get('name')],
@@ -73,8 +69,14 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             sort: [this.getFilterKey("sortBeneficiaries", "sort")]
         });
 
-        this.advancedFilterExpanded = this.myForm.value.fund || this._route.snapshot.queryParamMap.get('program') ||
-            this.myForm.value.beneficiaryType;
+        if (this.myForm.value.fund || 
+                this._route.snapshot.queryParamMap.get('program') ||
+                this.myForm.value.beneficiaryType){
+            this.advancedFilterIsExpanded = true;
+        }
+    }
+
+    ngOnInit() {
 
         if (this._route.snapshot.queryParamMap.get('country')) {
             Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
@@ -136,6 +138,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     performSearch() {
         const filters = new Filters().deserialize(this.myForm.value);
+
+        if (this.mobileQuery && this.sidenav){
+            this.sidenavOpened = false;
+            this.sidenav.close();
+        }
 
         let initialPageIndex = this.paginator ? this.paginator.pageIndex : 0;
         if (this._route.snapshot.queryParamMap.has('page') && !this.paginator){
@@ -220,6 +227,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     onSortChange() {
         this.onSubmit();
+    }
+
+    onToggleAdvancedFilters(collapse:boolean){
+        this.advancedFilterIsExpanded = !collapse;
     }
 
     ngOnDestroy() {

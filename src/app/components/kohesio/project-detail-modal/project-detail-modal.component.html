@@ -6,7 +6,9 @@
 </ng-container>
 <mat-dialog-content class="mat-typography">
     <ng-container *ngIf="!projectDetail">
-        <mat-spinner></mat-spinner>
+        <div class="center-spinner">
+            <mat-spinner></mat-spinner>
+        </div>
     </ng-container>
     <ng-container *ngIf="projectDetail">
         <app-project-detail [project]="projectDetail" [isModal]="true"></app-project-detail>

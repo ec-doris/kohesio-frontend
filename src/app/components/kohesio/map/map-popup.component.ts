@@ -19,7 +19,8 @@ export class MapPopupComponent {
     onSelectedProject(project: any){
         this.selectedProject = project;
         this.dialog.open(ProjectDetailModalComponent,{
-            height: "auto",
+            width: "90%",
+            height: "85vh",
             maxWidth: "100%",
             maxHeight: "100%",
             data: {

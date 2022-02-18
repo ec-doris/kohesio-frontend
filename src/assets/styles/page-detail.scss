@@ -51,7 +51,6 @@
                 .content{
                     color: #000;
                     font-size: 1rem;
-                    margin-left: 25px;
                     line-height: 1.4;
                     .flag{
                         width:24px;
@@ -91,6 +90,7 @@
                             line-height: 1;
                             margin-top: 3px;
                             text-align: center;
+                            max-width: 150px;
                         }
                     }
                     .default-theme-image{
@@ -134,13 +134,17 @@
                 display:none;
             }
         }
+        .kohesio-page-detail-container{
+            .kohesio-side-content-block{
+                .content{
+                    margin-left:25px;
+                }
+            }
+        }
     }
 }
 
 @include media("<=medium") {
-    .kohesio-beneficiary-projects-block{
-        display:none;
-    }
     .kohesio-social-icons-wrapper {
         display: flex;
         flex-direction: row;
@@ -156,6 +160,12 @@
             flex-direction: column-reverse;
             .kohesio-side-content{
                 max-width:none;
+                min-width:unset;
+            }
+            .kohesio-side-content-block{
+                .content{
+                    margin-left:10px;
+                }
             }
         }
         .kohesio-main-content{

@@ -161,7 +161,7 @@
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
                 <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
-            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" title="PROJECTS" [collapsed]="false">
+            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" title="PROJECTS" [collapsed]="mobileQuery">
                 <div class="right-table-tools">
                     <mat-paginator [pageSize]="15"
                                     [length]="beneficiary.numberProjects"

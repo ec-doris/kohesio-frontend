@@ -169,7 +169,7 @@
                     [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterExpanded">
+            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds">
@@ -195,7 +195,7 @@
             </div>
         </form>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content [ngClass]="advancedFilterIsExpanded ? 'kohesio-mat-drawer-container-expanded' : 'kohesio-mat-drawer-container'">
         <div class="tools">
             <div class="left-table-tools">
                 <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries">
@@ -214,7 +214,7 @@
             </div>
         </div>
         <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
-        <mat-table [dataSource]="dataSource">
+        <mat-table [dataSource]="dataSource" *ngIf="dataSource && dataSource.data.length !== 0">
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
                 <mat-cell *matCellDef="let row">

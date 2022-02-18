@@ -93,6 +93,7 @@ export class MapComponent implements AfterViewInit {
 
     @Input()
     public hideProjectsNearBy = false;
+    public nearByView = false;
 
     @Input()
     public hideOuterMostRegions = false;
@@ -322,6 +323,7 @@ export class MapComponent implements AfterViewInit {
 
     public onProjectsNearByClick(){
         this.cleanMap();
+        this.nearByView = true;
         this.mapService.getPointsNearBy().subscribe(data=>{
             data.list.slice().reverse().forEach((point:any)=>{
                 const coordinates = point.coordinates.split(",");
@@ -342,6 +344,7 @@ export class MapComponent implements AfterViewInit {
                     color: "#FF7800"
                 }).addTo(this.map);
                 this.map.setView(coords, 8);
+                this.restartBreadCrumbNavigation();
             }
         })
     }
@@ -349,6 +352,7 @@ export class MapComponent implements AfterViewInit {
     loadMapRegion(filters: Filters, granularityRegion?: string){
         //this.isLoading = true;
         this.filters = filters;
+        this.nearByView = false;
         if (!granularityRegion){
             this.mapRegions = [];
             if ((filters.country || filters.region)){
@@ -370,6 +374,10 @@ export class MapComponent implements AfterViewInit {
         }
         this.mapRegions = this.mapRegions.slice(0,index+1);
         this.loadMapVisualization(filters, granularityRegion);
+    }
+
+    restartBreadCrumbNavigation(){
+        this.mapRegions = [this.europe];
     }
 
     activeLoadingAfter1Second(){
@@ -474,7 +482,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     showOutermostRegions(){
-        if (this.hideOuterMostRegions){
+        if (this.hideOuterMostRegions || this.nearByView){
             return false;
         }
         if (this.mapRegions.length > 1){

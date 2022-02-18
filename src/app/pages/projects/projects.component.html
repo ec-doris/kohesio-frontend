@@ -53,12 +53,12 @@
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                 <div class="top">
                     <div class="title">Also matching:</div>
-                    <button mat-stroked-button (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>
+                    <a mat-stroked-button (click)="onRestrictSearch($event)">Use my keywords only</a>
                 </div>
                 <div class="terms">
-                    <div class="term" *ngFor="let semanticTerm of semanticTerms">
-                        {{semanticTerm}}
-                    </div>
+                    <ng-container *ngFor="let semanticTerm of semanticTerms" >
+                        <a href="#" (click)="$event.preventDefault();onClickRelatedTerm(semanticTerm)" class="ecl-tag term">{{semanticTerm}}</a>
+                    </ng-container>
                 </div>
             </div>
             <kohesio-ecl-form-group>
@@ -78,7 +78,7 @@
                 <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterExpanded">
+            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
@@ -123,7 +123,7 @@
             </div>
         </form>
     </mat-drawer>
-    <mat-drawer-content>
+    <mat-drawer-content [ngClass]="advancedFilterIsExpanded ? 'kohesio-mat-drawer-container-expanded' : 'kohesio-mat-drawer-container'">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results">
                 <div class="tools">
@@ -138,6 +138,7 @@
                         </form>
                         <mat-paginator #paginatorTop
                                        [length]="count"
+                                       [pageIndex]="initialPageIndex"
                                        [pageSize]="pageSize"
                                        [hidePageSize]="true"
                                        (page)="onPaginate($event)">
@@ -204,7 +205,7 @@
                                                 {{ project.endTime | date: 'MMM YYYY' }}
                                                 <span *ngIf="!project.endTime">n/a</span>
                                             </ng-container>
-                                            <span *ngIf="!project.startTime && !project.endTime">n/a</span>
+                                            <ng-container *ngIf="!project.startTime && !project.endTime">n/a</ng-container>
                                         </span>
                                     </li>
                                 </ul>
@@ -216,6 +217,14 @@
                         </div>
                     </article>
                 </div>
+                <mat-paginator #paginatorDown
+                    [length]="count"
+                    [pageSize]="pageSize"
+                    [pageIndex]="initialPageIndex"
+                    [hidePageSize]="true"
+                    (page)="onPaginate($event)"
+                    [hidden]="(projects && projects.length === 0) || isMapTab">
+                </mat-paginator>
             </mat-tab>
             <mat-tab label="Audiovisual">
                 <mat-paginator #paginatorAssets
@@ -237,13 +246,6 @@
                         </a>
                     </ng-container>
                 </div>
-                <mat-paginator #paginatorDown
-                                [length]="count"
-                                [pageSize]="pageSize"
-                                [hidePageSize]="true"
-                                (page)="onPaginate($event)"
-                                [hidden]="(projects && projects.length === 0) || isMapTab">
-                </mat-paginator>
             </mat-tab>
             <mat-tab label="Map">
                 <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true"></app-map>
