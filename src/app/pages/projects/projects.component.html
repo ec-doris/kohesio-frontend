@@ -56,9 +56,9 @@
                     <button mat-stroked-button (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>
                 </div>
                 <div class="terms">
-                    <div class="term" *ngFor="let semanticTerm of semanticTerms">
-                        {{semanticTerm}}
-                    </div>
+                    <ng-container *ngFor="let semanticTerm of semanticTerms" >
+                        <a href="#" (click)="$event.preventDefault();onClickRelatedTerm(semanticTerm)" class="ecl-tag term">{{semanticTerm}}</a>
+                    </ng-container>
                 </div>
             </div>
             <kohesio-ecl-form-group>

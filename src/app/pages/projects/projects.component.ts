@@ -423,6 +423,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
         }
 
+        onClickRelatedTerm(term: any) {
+          this.myForm.patchValue({ "keywords": term });
+          this.onSubmit();
+        }
+
         ngOnDestroy(): void {
           this.destroyed.next();
           this.destroyed.complete();
