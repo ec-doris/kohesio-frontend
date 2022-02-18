@@ -13,10 +13,10 @@ export class KohesioEclAccordionComponent {
     @Input()
     public collapsed:boolean = true;
 
-    @Output() change = new EventEmitter<any>();
+    @Output() onChange = new EventEmitter<any>();
 
     toggle(){
         this.collapsed = !this.collapsed
-        this.change.emit(this.collapsed);
+        this.onChange.emit(this.collapsed);
     }
 }

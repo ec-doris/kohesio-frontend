@@ -31,3 +31,11 @@ mat-tab-body{
 .muted-text {
   color: gray;
 }
+.no-results {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 200px;
+  background-color: #DDD;
+  font-size: 22px;
+}

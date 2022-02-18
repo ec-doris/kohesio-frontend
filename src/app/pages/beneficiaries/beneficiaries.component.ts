@@ -27,7 +27,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public count = 0;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public advancedFilterIsExpanded;
+    public advancedFilterIsExpanded: boolean = false;
     public mobileQuery: boolean;
     public sidenavOpened: boolean;
     private destroyed = new Subject<void>();
@@ -67,9 +67,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             sort: [this.getFilterKey("sortBeneficiaries", "sort")]
         });
 
-        this.advancedFilterIsExpanded = this.myForm.value.fund || 
-                                        this._route.snapshot.queryParamMap.get('program') ||
-                                        this.myForm.value.beneficiaryType;
+        if (this.myForm.value.fund || 
+                this._route.snapshot.queryParamMap.get('program') ||
+                this.myForm.value.beneficiaryType){
+            this.advancedFilterIsExpanded = true;
+        }
     }
 
     ngOnInit() {

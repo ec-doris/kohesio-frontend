@@ -53,7 +53,7 @@
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                 <div class="top">
                     <div class="title">Also matching:</div>
-                    <button mat-stroked-button (click)="onRestrictSearch($event)" (keyup.enter)="onSubmit()">Use my keywords only</button>
+                    <a mat-stroked-button (click)="onRestrictSearch($event)">Use my keywords only</a>
                 </div>
                 <div class="terms">
                     <ng-container *ngFor="let semanticTerm of semanticTerms" >
@@ -78,7 +78,7 @@
                 <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (change)="onToggleAdvancedFilters($event)">
+            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
