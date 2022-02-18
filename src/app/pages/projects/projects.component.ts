@@ -197,7 +197,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.map.loadMapRegion(new Filters());
         return;
       }
-
+      this.semanticTerms = [];
       this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
       if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
         const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
