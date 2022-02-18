@@ -468,6 +468,12 @@ mat-sidenav {
       margin: 3px;
       font-weight: bold;
       border-radius: 10px;
+      text-decoration: none;
+      color: #000;
+
+      &:hover {
+        background-color: #5299f0;
+      }
     }
   }
 
