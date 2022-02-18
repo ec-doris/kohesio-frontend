@@ -146,6 +146,7 @@
                     <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
                         {{beneficiary.beneficiaryLabel}}
                     </a>
+                    <span *ngIf="beneficiary.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                 </div>
                 <div class="content" *ngIf="project.beneficiaries.length == 0">
                     <span class="no-bold" >n/a</span>
