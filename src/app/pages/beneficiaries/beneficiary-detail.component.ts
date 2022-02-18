@@ -1,13 +1,15 @@
-import {AfterViewInit, Component, Inject, Input, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import {MapComponent} from "../../components/kohesio/map/map.component";
 import {BeneficiaryDetail} from "../../models/beneficiary-detail.model";
 import { MatPaginator } from '@angular/material/paginator';
 import { BeneficiaryService } from 'src/app/services/beneficiary.service';
-import { startWith, tap, delay } from 'rxjs/operators';
+import { startWith, tap, delay, takeUntil } from 'rxjs/operators';
 import { BeneficiaryProjectList } from '../../models/beneficiary-project-list.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { BreakpointObserver } from '@angular/cdk/layout';
 declare let L:any;
 
 @Component({
@@ -15,7 +17,7 @@ declare let L:any;
     templateUrl: './beneficiary-detail.component.html',
     styleUrls: ['../projects/projects.component.scss', './beneficiaries.component.scss']
 })
-export class BeneficiaryDetailComponent implements AfterViewInit {
+export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
 
     @Input()
     public beneficiary!: BeneficiaryDetail;
@@ -28,18 +30,34 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
 
     public wikidataLink!: string;
     public currentUrl: string = location.href;
-
     public displayedColumns: string[] = ['label', 'budget', 'euBudget', 'fundLabel'];
 
-    @ViewChild(MapComponent)
-    public map!: MapComponent;
-
+    @ViewChild(MapComponent) public map!: MapComponent;
     @ViewChild(MatPaginator) paginator!: MatPaginator;
+
+    public mobileQuery: boolean;
+    private destroyed = new Subject<void>();
  
     constructor(private projectService: ProjectService,
         private beneficiaryService: BeneficiaryService,
                 private route: ActivatedRoute,
-                private router: Router){}
+                private router: Router,
+                breakpointObserver: BreakpointObserver){
+
+                    this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+        
+                    breakpointObserver
+                    .observe([
+                        "(max-width: 768px)"
+                    ])
+                    .pipe(takeUntil(this.destroyed))
+                    .subscribe(result => {
+                        for (const query of Object.keys(result.breakpoints)) {
+                            this.mobileQuery = result.breakpoints[query];
+                        }
+                    });
+
+    }
 
     ngOnInit(){
         
@@ -96,6 +114,11 @@ export class BeneficiaryDetailComponent implements AfterViewInit {
     onPaginate(event:any) {
         this.paginator.pageIndex = event.pageIndex;
         this.getProjectsPerPage(event.pageIndex);
+    }
+
+    ngOnDestroy() {
+        this.destroyed.next();
+        this.destroyed.complete();
     }
 
 }
