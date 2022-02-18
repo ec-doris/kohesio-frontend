@@ -344,6 +344,7 @@ export class MapComponent implements AfterViewInit {
                     color: "#FF7800"
                 }).addTo(this.map);
                 this.map.setView(coords, 8);
+                this.restartBreadCrumbNavigation();
             }
         })
     }
@@ -373,6 +374,10 @@ export class MapComponent implements AfterViewInit {
         }
         this.mapRegions = this.mapRegions.slice(0,index+1);
         this.loadMapVisualization(filters, granularityRegion);
+    }
+
+    restartBreadCrumbNavigation(){
+        this.mapRegions = [this.europe];
     }
 
     activeLoadingAfter1Second(){
