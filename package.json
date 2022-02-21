@@ -24,9 +24,11 @@
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
     "@ecl/preset-ec": "^3.2.2",
+    "@popperjs/core": "^2.11.2",
     "leaflet": "^1.6.0",
     "leaflet-gesture-handling": "^1.2.2",
     "leaflet.markercluster": "^1.4.1",
+    "ngx-popperjs": "^13.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"

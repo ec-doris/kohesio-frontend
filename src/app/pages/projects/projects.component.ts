@@ -93,6 +93,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
       });
 
+
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
@@ -134,6 +135,14 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         }
       }
       
+    }
+
+    popperPlacement(): any {
+      if (window.innerWidth < 750) {
+        return "bottom"
+      } else {
+        return "auto"
+      }
     }
 
 
