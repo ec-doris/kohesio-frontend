@@ -1,7 +1,91 @@
-<h1>Global Search Page Component</h1>
-<form [formGroup]="myForm">
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Search</span>
+        </li>
+    </ol>
+</nav>
+<div class="no-results" *ngIf="items && items.length === 0 && !isLoading">No results</div>
+<kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
+<!-- <div class="ecl-list-illustration ecl-list-illustration--zebra">
+    <div class="ecl-list-illustration__item" *ngFor="let item of items">
+      <div class="ecl-list-illustration__image ecl-list-illustration__image--square" aria-label="alt text for image"
+        role="img"
+        style="background-image:url(https://inno-ecl.s3.amazonaws.com/media/examples/example-image.jpg)">
+      </div>
+      <div class="ecl-list-illustration__detail">
+        <div class="ecl-list-illustration__title-container">
+          <div class="ecl-list-illustration__title">{{item.label}}</div>
+        </div>
+        <div class="ecl-list-illustration__description">{{item.label}}</div>
+      </div>
+    </div>
+</div> -->
+<div class="ecl-container">
+    <div class="ecl-content-item" *ngFor="let item of items" style="margin-bottom: 1rem;">
+        <div class="ecl-content-item__container">
+            <div class="ecl-content-item__image ecl-content-item__image--l"
+            style="background-image:url(https://inno-ecl.s3.amazonaws.com/media/examples/example-image.jpg)"></div>
+            <article class="ecl-card ecl-content-item__card">
+            <div class="ecl-card__body">
+                <!-- <ul class="ecl-card__label-container">
+                <li class="ecl-card__label-item"><span class="ecl-label ecl-label--highlight ecl-card__label">highlight</span>
+                </li>
+                <li class="ecl-card__label-item"><span class="ecl-label ecl-label--high ecl-card__label">high
+                    importance</span></li>
+                </ul> -->
+                <div class="ecl-card__meta">Project | Beneficiary</div>
+                <h1 class="ecl-card__title"><a href="/component-library/example" class="ecl-link ecl-link--standalone">{{item.label}}</a>
+                </h1>
+                <div class="ecl-card__description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus gravida
+                ipsum ut lorem cursus, quis tincidunt sem viverra. Nunc vestibulum, mauris quis porta venenatis, justo odio
+                commodo tellus</div>
+                <ul class="ecl-card__info-container">
+                <!-- <li class="ecl-card__info-item">
+                    <svg class="ecl-icon ecl-icon--xs" focusable="false" aria-hidden="true">
+                        <use xlink:href="/component-library/dist/media/icons.9bb3be5f.svg#calendar"></use>
+                    </svg>
+                    <span class="ecl-card__info-label">2018/10/22</span>
+                </li> -->
+                    <li class="ecl-card__info-item">
+                        <svg class="ecl-icon ecl-icon--xs" focusable="false" aria-hidden="true">
+                            <use xlink:href="/component-library/dist/media/icons.9bb3be5f.svg#location"></use>
+                        </svg>
+                        <span class="ecl-card__info-label">{{item.country}}</span>
+                    </li>
+                </ul>
+            </div>
+            </article>
+        </div>
+        <!-- <div class="ecl-content-item__taxonomy">
+            <dl class="ecl-description-list ecl-description-list--taxonomy">
+            <dt class="ecl-description-list__term">Science areas</dt>
+            <dd class="ecl-description-list__definition"><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Energy and transport</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Standards</span></dd>
+            <dt class="ecl-description-list__term">Keywords</dt>
+            <dd class="ecl-description-list__definition"><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Electricity</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Electromobility</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Energy</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Energy storage</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Security</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Transport</span><span
+                class="ecl-tag ecl-tag--display ecl-description-list__tag">Low carbon</span></dd>
+            </dl>
+        </div> -->
+    </div>
+</div>
+<!-- <form [formGroup]="myForm">
     <kohesio-ecl-form-group>
         <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
         <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
     </kohesio-ecl-form-group>
-</form>
+</form> -->

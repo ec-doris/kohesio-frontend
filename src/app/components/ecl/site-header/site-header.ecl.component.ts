@@ -1,5 +1,5 @@
-import { AfterViewInit, Component, HostListener } from '@angular/core';
-import { Router, NavigationEnd } from '@angular/router';
+import { AfterViewInit, Component } from '@angular/core';
+import { Router, ActivationEnd } from '@angular/router';
 
 @Component({
     selector: 'app-ecl-site-header',
@@ -9,7 +9,16 @@ import { Router, NavigationEnd } from '@angular/router';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-    constructor() {
+    public searchkeywords:string | null | undefined;
+
+    constructor(private router:Router) {
+
+        this.router.events.subscribe(event => {
+            if(event instanceof ActivationEnd) {
+                this.searchkeywords =  event.snapshot.queryParams['keywords'];
+            }
+        });
+        
     }
 
     ngOnInit() {

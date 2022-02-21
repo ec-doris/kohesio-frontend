@@ -294,7 +294,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     generateQueryParams() {
       return {
-        keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
+        keywords: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
         country: this.getFilterLabel("countries", this.myForm.value.country),
         region: this.getFilterLabel("regions", this.myForm.value.region),
         theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
