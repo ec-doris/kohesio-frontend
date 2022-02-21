@@ -78,6 +78,14 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this._mobileQueryListener = () => changeDetectorRef.detectChanges();
       this.mobileQuery.addListener(this._mobileQueryListener);
     }
+    
+    popperPlacement(): any {
+      if (window.innerWidth < 750) {
+        return "bottom"
+      } else {
+        return "auto"
+      }
+    }
 
 
     ngOnInit() {

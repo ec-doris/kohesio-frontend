@@ -23,6 +23,7 @@ import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/acco
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
+import {NgxPopperjsModule} from 'ngx-popperjs';
 
 
 @NgModule({
@@ -46,7 +47,8 @@ import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-det
         KohesioEclAccordionModule,
         KohesioEclSpinnerModule,
         ProjectDetailModalModule,
-        DownloadButtonModule
+        DownloadButtonModule,
+        NgxPopperjsModule
     ],
     declarations: [
         ProjectsComponent

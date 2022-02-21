@@ -15,6 +15,7 @@ import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.modu
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
+import {NgxPopperjsModule} from 'ngx-popperjs';
 
 @NgModule({
     imports: [
@@ -30,7 +31,8 @@ import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.
         KohesioEclButtonModule,
         KohesioEclAccordionModule,
         DownloadButtonModule,
-        KohesioEclSpinnerModule
+        KohesioEclSpinnerModule,
+        NgxPopperjsModule
     ],
     declarations: [
         BeneficiariesComponent,

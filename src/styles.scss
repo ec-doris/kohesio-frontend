@@ -2,6 +2,9 @@
 @import 'src/assets/styles/_include-media.scss';
 @import 'src/assets/styles/page-detail.scss';
 
+@import '~ngx-popperjs/css/theme-white.css';
+
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
@@ -23,5 +26,15 @@ mat-drawer, mat-sidenav {
 }
 .mat-paginator{
     background: transparent;
+}
+
+.infoButton {
+  display: inline-block;
+  transform: translateY(12%);
+}
+
+.info-tooltip {
+  background-color: blue;
+  max-width: 600px!important;
 }
 
