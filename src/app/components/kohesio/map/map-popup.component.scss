@@ -1,10 +1,20 @@
 @import 'src/assets/styles/_include-media.scss';
 
+.kohesio-map-popup-wrapper.leaflet-popup-content{
+    margin:0;
+    overflow: auto !important;
+}
+
 .kohesio-map-popup-wrapper {
     max-width: 600px;
     min-width: 200px;
     display: flex;
     flex-direction: column;
+
+    .leaflet-popup-content{
+        margin-top:0;
+        margin-left:0;
+    }
 
     @include media(">small") {
         min-width: 300px;
@@ -14,7 +24,6 @@
         font-size: 12px;
         padding: 3px;
         margin: 3px 0;
-        background: #f1f1f1;
         white-space: nowrap;
         text-overflow: ellipsis;
         overflow: hidden;
