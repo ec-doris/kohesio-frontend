@@ -6,7 +6,9 @@ import {Filters} from "../../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapPopupComponent } from './map-popup.component';
-import { MediaMatcher} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 declare let L:any;
 
 @Component({
@@ -100,8 +102,8 @@ export class MapComponent implements AfterViewInit {
 
     public collapsedBreadCrumb = false;
 
-    public mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    public mobileQuery: boolean;
+    private destroyed = new Subject<void>();
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -109,21 +111,23 @@ export class MapComponent implements AfterViewInit {
                 private resolver: ComponentFactoryResolver,
                 private injector: Injector,
                 private sanitizer: DomSanitizer,
-                private changeDetectorRef: ChangeDetectorRef,
-                private media: MediaMatcher) {
+                breakpointObserver: BreakpointObserver
+                ) {
 
-        this.mobileQuery = media.matchMedia('(max-width: 480px)');
-        this._mobileQueryListener = () => {
-            changeDetectorRef.detectChanges();
-            if(this.mobileQuery.matches){
-                this.europe.bounds = this.europeBoundsMobile;
-            }else{
-                this.europe.bounds = this.europeBounds;
-            }    
-        }
-        this.mobileQuery.addListener(this._mobileQueryListener);
+        this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
-        if(this.mobileQuery.matches){
+        breakpointObserver
+        .observe([
+            "(max-width: 768px)"
+        ])
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(result => {
+            for (const query of Object.keys(result.breakpoints)) {
+                this.mobileQuery = result.breakpoints[query];
+            }
+        });
+
+        if(this.mobileQuery){
             this.europe.bounds = this.europeBoundsMobile;
         }
     }
@@ -229,7 +233,9 @@ export class MapComponent implements AfterViewInit {
                             paddingTopLeft: [0,350],
                             maxZoom: this.map.getZoom()
                         });
-                        this.collapsedBreadCrumb = true;
+                        if (this.mobileQuery){
+                            this.collapsedBreadCrumb = true;
+                        }
                         component.changeDetectorRef.detectChanges();
                     });
                 });
@@ -591,7 +597,8 @@ export class MapComponent implements AfterViewInit {
         if (obj){
             obj.outerHTML = "";
         }
-        this.mobileQuery.removeListener(this._mobileQueryListener);
+        this.destroyed.next();
+        this.destroyed.complete();
     }
 
     sanitizeUrl(url:string){

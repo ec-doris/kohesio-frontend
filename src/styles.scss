@@ -39,3 +39,15 @@ mat-tab-body{
   background-color: #DDD;
   font-size: 22px;
 }
+.mat-dialog-container{
+  overflow: hidden !important;
+}
+.mat-dialog-content{
+  height: 100%;
+  max-height: 100% !important;
+}
+@include media("<=medium") {
+  .mat-dialog-title{
+    font-size:18px;
+  }
+}

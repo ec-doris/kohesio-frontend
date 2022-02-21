@@ -126,6 +126,9 @@
 }
 
 @include media(">medium") {
+    .kohesio-page-detail.modal{
+        margin-bottom: 2rem;
+    }
     .kohesio-page-detail{
         .kohesio-main-content{
             margin-left:1rem;
@@ -146,6 +149,9 @@
 }
 
 @include media("<=medium") {
+    .kohesio-page-detail.modal{
+        margin-bottom: 5rem;
+    }
     .kohesio-social-icons-wrapper {
         display: flex;
         flex-direction: row;
