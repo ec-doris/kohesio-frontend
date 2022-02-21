@@ -1,11 +1,13 @@
 <div class="ecl-select__container ecl-select__container--m" style="width:100%;">
-    <select class="ecl-select" (change)="onChange($any($event.target).value)" [disabled]="isDisabled">
-        <option *ngIf="hasEmptyValue" value="" [selected]="!value"></option>
+    <select class="ecl-select" [(ngModel)]="inputValue" (change)="onChange($any($event.target).value)" [disabled]="isDisabled">
+        <option *ngIf="hasEmptyValue" value="" [selected]="!inputValue">
+            <!-- {{placeholder && (!items || items.length == 0) ? placeholder : ''}} -->
+        </option>
         <ng-container *ngFor="let item of this.items">
-            <option *ngIf="!item.options" [value]="item.id" [selected]="item.id===value">{{item.value}}</option>
+            <option *ngIf="!item.options" [value]="item.id" [selected]="item.id===inputValue">{{item.value}}</option>
             <optgroup *ngIf="item.options" [label]="item.value"></optgroup>
             <ng-container *ngFor="let innerItem of item.options">
-                <option [value]="innerItem.id" [selected]="innerItem.id===value">{{innerItem.value}}</option>
+                <option [value]="innerItem.id" [selected]="innerItem.id===inputValue">{{innerItem.value}}</option>
             </ng-container>
         </ng-container>
     </select>

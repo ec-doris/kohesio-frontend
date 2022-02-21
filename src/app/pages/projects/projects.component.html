@@ -7,12 +7,12 @@
     </uxModalBody>
 </ux-modal>
 <ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
-    <p>By default, semantic search automatically expands your keywords to similar words (searching for <b>ml</b> will also include results containg <b>machine learning</b> as well as <b>ai algorithms</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ml"</b>).</p>
+    <p>By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ml"</b>).</p>
     <p>The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
     <p>To also include documents containing either word, use <b>green OR carbon</b>.</p>
     <p>To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
     <p>You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
-    <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc.</p>
+    <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
 </ux-popover> -->
 <!-- <h1 class="ecl-page-header-harmonised__title">Projects</h1> -->
 
@@ -43,11 +43,41 @@
     </span>
 </button>
 
+<popper-content #keywordsTooltip>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none">KEYWORDS</h5>
+        <svg (click)="keywordsTooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
+        </svg>
+    </div>
+    <hr>
+    <p class="ecl-u-type-paragraph">By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>).</p>
+    <p class="ecl-u-type-paragraph">The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
+    <p class="ecl-u-type-paragraph">To also include documents containing either word, use <b>green OR carbon</b>.</p>
+    <p class="ecl-u-type-paragraph">To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
+    <p class="ecl-u-type-paragraph">You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
+    <p class="ecl-u-type-paragraph">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
+</popper-content>
+
+
 <mat-drawer-container class="filters-wrapper-container" autosize>
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label>
+                    KEYWORDS
+                    <div [popper]="keywordsTooltip"
+                    popperApplyClass="info-tooltip"
+                    [popperHideOnClickOutside]="true" 
+                    [popperHideOnScroll]="true"
+                    [popperPositionFixed]="true"
+                    [popperPlacement]="popperPlacement()"
+                    class="infoButton" >
+                        <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#information"></use>
+                        </svg>      
+                    </div>
+                </kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
             </kohesio-ecl-form-group>
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
@@ -79,10 +109,10 @@
             </kohesio-ecl-form-group>
             <br/>
             <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
-                <kohesio-ecl-form-group>
+                <!-- <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
-                </kohesio-ecl-form-group>
+                </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>

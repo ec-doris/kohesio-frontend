@@ -38,7 +38,7 @@ export class Filters implements Deserializable{
         }
 
         return Object.assign(this, {
-            keywords: input.keywords ? input.keywords : undefined,
+            keywords: input.keywords ? input.keywords.trim() : undefined,
             country: input.country ? input.country : undefined,
             region: input.region ? input.region : undefined,
             theme: input.theme ? input.theme : undefined,

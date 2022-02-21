@@ -15,12 +15,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 })
 export class KohesioEclFormTextInputComponent implements ControlValueAccessor{
     
-    value:any;
+    inputValue:any;
     onChange = (_value:any) => {};
     onTouched = () => {};
 
     writeValue(obj: string): void {
-       this.value = obj;
+       this.inputValue = obj;
     }
     registerOnChange(onChange: any): void {
         this.onChange = onChange;

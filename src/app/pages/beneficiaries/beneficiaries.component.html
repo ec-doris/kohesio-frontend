@@ -1,5 +1,5 @@
 <!-- <ux-popover #popoverHelpBeneficiaryType title="TYPE">
-    <p>The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
+   
 </ux-popover>
 
 <eui-page class="projects-list">
@@ -123,6 +123,7 @@
 
 <!-- <h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1> -->
 
+
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
@@ -150,11 +151,24 @@
     </span>
 </button>
 
+<popper-content #tooltip>
+    <div style="display: flex; flex-direction: row; justify-content: space-between;">
+        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none">TYPE</h5>
+        <svg (click)="tooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
+        </svg>
+    </div>
+    <hr>
+    <p class="ecl-u-type-paragraph">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p> 
+</popper-content>
+
 <mat-drawer-container>
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>KEYWORDS</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label>
+                    KEYWORDS 
+                </kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input formControlName="name"></kohesio-ecl-form-text-input>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
@@ -182,7 +196,14 @@
                         [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>TYPE</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label>
+                        TYPE
+                        <div [popper]="tooltip" [popperShowOnStart]="false" [popperHideOnClickOutside]="true" [popperHideOnScroll]="true" class="infoButton" >
+                            <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#information"></use>
+                            </svg>      
+                        </div>
+                    </kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType">
                     </kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
