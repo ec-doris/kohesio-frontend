@@ -73,6 +73,8 @@ export class SearchItem implements Deserializable{
     get description(): string{
         if (this.summary && this.summary.length > 250){
             return this.summary.substring(0,250) + '...';
+        }else if (this.summary){
+            return this.summary;
         }else{
             return "";
         }
