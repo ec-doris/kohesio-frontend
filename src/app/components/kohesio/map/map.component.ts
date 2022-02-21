@@ -136,8 +136,9 @@ export class MapComponent implements AfterViewInit {
         this.map = L.map(this.mapId,
             {
                 preferCanvas: true,
-                dragging: !L.Browser.mobile,
-                tap: !L.Browser.mobile
+                //dragging: !L.Browser.mobile,
+                //tap: !L.Browser.mobile
+                gestureHandling: true
             }).setView([48, 4], 4);
         const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +

@@ -9,13 +9,15 @@ import { Router, ActivationEnd } from '@angular/router';
 
 export class SiteHeaderEclComponent implements AfterViewInit {
 
-    public searchkeywords:string | null | undefined;
+    public searchkeywords:string | null | undefined = "";
 
     constructor(private router:Router) {
 
         this.router.events.subscribe(event => {
             if(event instanceof ActivationEnd) {
-                this.searchkeywords =  event.snapshot.queryParams['keywords'];
+                if (event.snapshot.queryParams['keywords']){
+                    this.searchkeywords =  event.snapshot.queryParams['keywords'];
+                }
             }
         });
         
