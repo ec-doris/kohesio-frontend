@@ -16,17 +16,22 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 export class KohesioEclFormSelectComponent implements ControlValueAccessor, OnChanges{
     
     
-    value:string | undefined = undefined;
+    inputValue:string | undefined = undefined;
     onChange = (_value:any) => {};
     onTouched = () => {};
     @Input() items: any[] | undefined;
     @Input() hasEmptyValue: boolean = true;
     @Input() isDisabled: boolean = false;
+    @Input() placeholder: string | undefined;
     @Output() change = new EventEmitter<any>();
     private firstTimeChange:boolean = true;
+    
 
     writeValue(obj: string): void {
-       this.value = obj;
+        if (obj == null){
+            this.inputValue = undefined;     
+        }
+        this.inputValue = obj;
     }
     registerOnChange(onChange: any): void {
         this.onChange = onChange;

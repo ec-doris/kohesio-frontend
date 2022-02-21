@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
-import { DatePipe, DecimalPipe} from '@angular/common';
+import { DatePipe, DecimalPipe, ViewportScroller} from '@angular/common';
 import { ConfigModule, ConfigService } from './services/config.service';
 
 import { registerLocaleData } from '@angular/common';
@@ -23,6 +23,10 @@ import { SiteHeaderEclModule } from './components/ecl/site-header/site-header.ec
 import { FooterEclModule } from './components/ecl/footer/footer.ecl.module';
 import { ProjectDetailModalModule } from './components/kohesio/project-detail-modal/project-detail.module';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
+import { ServicesPageComponent } from './pages/static/services/services.component';
+import { FaqPageComponent } from './pages/static/faq/faq.component';
+import { Router, Scroll } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -35,7 +39,9 @@ registerLocaleData(LocaleEnglish);
     PrivacyPageComponent,
     ThemesComponent,
     NotFoundComponent,
-    CookieComponent
+    CookieComponent,
+    ServicesPageComponent,
+    FaqPageComponent
   ],
   imports: [
     AppRoutingModule,

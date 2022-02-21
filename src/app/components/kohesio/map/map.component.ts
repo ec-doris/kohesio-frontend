@@ -6,7 +6,9 @@ import {Filters} from "../../../models/filters.model";
 import { DecimalPipe } from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapPopupComponent } from './map-popup.component';
-import { MediaMatcher} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 declare let L:any;
 
 @Component({
@@ -93,14 +95,15 @@ export class MapComponent implements AfterViewInit {
 
     @Input()
     public hideProjectsNearBy = false;
+    public nearByView = false;
 
     @Input()
     public hideOuterMostRegions = false;
 
     public collapsedBreadCrumb = false;
 
-    public mobileQuery: MediaQueryList;
-    private _mobileQueryListener: () => void;
+    public mobileQuery: boolean;
+    private destroyed = new Subject<void>();
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -108,21 +111,23 @@ export class MapComponent implements AfterViewInit {
                 private resolver: ComponentFactoryResolver,
                 private injector: Injector,
                 private sanitizer: DomSanitizer,
-                private changeDetectorRef: ChangeDetectorRef,
-                private media: MediaMatcher) {
+                breakpointObserver: BreakpointObserver
+                ) {
 
-        this.mobileQuery = media.matchMedia('(max-width: 480px)');
-        this._mobileQueryListener = () => {
-            changeDetectorRef.detectChanges();
-            if(this.mobileQuery.matches){
-                this.europe.bounds = this.europeBoundsMobile;
-            }else{
-                this.europe.bounds = this.europeBounds;
-            }    
-        }
-        this.mobileQuery.addListener(this._mobileQueryListener);
+        this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
-        if(this.mobileQuery.matches){
+        breakpointObserver
+        .observe([
+            "(max-width: 768px)"
+        ])
+        .pipe(takeUntil(this.destroyed))
+        .subscribe(result => {
+            for (const query of Object.keys(result.breakpoints)) {
+                this.mobileQuery = result.breakpoints[query];
+            }
+        });
+
+        if(this.mobileQuery){
             this.europe.bounds = this.europeBoundsMobile;
         }
     }
@@ -131,8 +136,9 @@ export class MapComponent implements AfterViewInit {
         this.map = L.map(this.mapId,
             {
                 preferCanvas: true,
-                dragging: !L.Browser.mobile,
-                tap: !L.Browser.mobile
+                //dragging: !L.Browser.mobile,
+                //tap: !L.Browser.mobile
+                gestureHandling: true
             }).setView([48, 4], 4);
         const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
@@ -217,7 +223,6 @@ export class MapComponent implements AfterViewInit {
             }else if(popupContent && popupContent.type == 'async'){
                 marker.on('click', ()=>{
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
-                        // TODO ECL side effect
                         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
                         component.instance.projects = projects;
                         marker.bindPopup(component.location.nativeElement,{
@@ -229,7 +234,9 @@ export class MapComponent implements AfterViewInit {
                             paddingTopLeft: [0,350],
                             maxZoom: this.map.getZoom()
                         });
-                        this.collapsedBreadCrumb = true;
+                        if (this.mobileQuery){
+                            this.collapsedBreadCrumb = true;
+                        }
                         component.changeDetectorRef.detectChanges();
                     });
                 });
@@ -323,6 +330,7 @@ export class MapComponent implements AfterViewInit {
 
     public onProjectsNearByClick(){
         this.cleanMap();
+        this.nearByView = true;
         this.mapService.getPointsNearBy().subscribe(data=>{
             data.list.slice().reverse().forEach((point:any)=>{
                 const coordinates = point.coordinates.split(",");
@@ -343,6 +351,7 @@ export class MapComponent implements AfterViewInit {
                     color: "#FF7800"
                 }).addTo(this.map);
                 this.map.setView(coords, 8);
+                this.restartBreadCrumbNavigation();
             }
         })
     }
@@ -350,6 +359,7 @@ export class MapComponent implements AfterViewInit {
     loadMapRegion(filters: Filters, granularityRegion?: string){
         //this.isLoading = true;
         this.filters = filters;
+        this.nearByView = false;
         if (!granularityRegion){
             this.mapRegions = [];
             if ((filters.country || filters.region)){
@@ -371,6 +381,10 @@ export class MapComponent implements AfterViewInit {
         }
         this.mapRegions = this.mapRegions.slice(0,index+1);
         this.loadMapVisualization(filters, granularityRegion);
+    }
+
+    restartBreadCrumbNavigation(){
+        this.mapRegions = [this.europe];
     }
 
     activeLoadingAfter1Second(){
@@ -475,7 +489,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     showOutermostRegions(){
-        if (this.hideOuterMostRegions){
+        if (this.hideOuterMostRegions || this.nearByView){
             return false;
         }
         if (this.mapRegions.length > 1){
@@ -580,12 +594,12 @@ export class MapComponent implements AfterViewInit {
     }
 
     ngOnDestroy(){
-        // TODO ECL side effect
         const obj:any = document.getElementById(this.mapId);
         if (obj){
             obj.outerHTML = "";
         }
-        this.mobileQuery.removeListener(this._mobileQueryListener);
+        this.destroyed.next();
+        this.destroyed.complete();
     }
 
     sanitizeUrl(url:string){

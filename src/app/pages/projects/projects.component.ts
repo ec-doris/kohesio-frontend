@@ -11,7 +11,9 @@ import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
-import { MediaMatcher} from '@angular/cdk/layout';
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { Subject, takeUntil } from 'rxjs';
+import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
 declare let L:any;
 declare let ECL:any;
 
@@ -34,17 +36,19 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("paginatorTop") paginatorTop!: MatPaginator;
   @ViewChild("paginatorDown") paginatorDown!: MatPaginator;
   @ViewChild("paginatorAssets") paginatorAssets!: MatPaginator;
+  @ViewChild("sidenav") sidenav!: MatDrawer;
   @ViewChild(MapComponent) map!: MapComponent;
   public selectedTabIndex: number = 0;
   public selectedTab: string = 'results';
   public modalImageUrl = "";
   public modalImageTitle:string = "";
   public modalTitleLabel = "";
-  public advancedFilterExpanded = false;
+  public advancedFilterIsExpanded:boolean = false;
   public mapIsLoaded = false;
   public lastFiltersSearch: any;
   public entityURL = environment.entityURL;
   public pageSize = 15;
+  public initialPageIndex:number = 0;
 
   public policyToThemes = {
     Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
@@ -59,8 +63,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
   public semanticTerms: String[] = [];
 
-  public mobileQuery: MediaQueryList;
-  private _mobileQueryListener: () => void;
+  public mobileQuery: boolean;
+  public sidenavOpened: boolean;
+  private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -70,25 +75,25 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
-    private changeDetectorRef: ChangeDetectorRef,
-    private media: MediaMatcher) {
+    breakpointObserver: BreakpointObserver) {
 
       this.filters = this._route.snapshot.data['filters'];
-      this.mobileQuery = media.matchMedia('(max-width: 768px)');
-      this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-      this.mobileQuery.addListener(this._mobileQueryListener);
-    }
-    
-    popperPlacement(): any {
-      if (window.innerWidth < 750) {
-        return "bottom"
-      } else {
-        return "auto"
-      }
-    }
+      this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+      this.sidenavOpened = !this.mobileQuery;
+
+      breakpointObserver
+      .observe([
+          "(max-width: 768px)"
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+          for (const query of Object.keys(result.breakpoints)) {
+              this.mobileQuery = result.breakpoints[query];
+              this.sidenavOpened = !this.mobileQuery;
+          }
+      });
 
 
-    ngOnInit() {
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
@@ -107,10 +112,42 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         sort: [this.getFilterKey("sort", "sort")]
       });
 
-      this.advancedFilterExpanded = this.myForm.value.programPeriod || this.myForm.value.fund ||
+      if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get('program') ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
-          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd;
+          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd){
+            this.advancedFilterIsExpanded = true;
+      };
+
+      if (this._route.snapshot.queryParamMap.has('tab')) {
+        const tabParam = this._route.snapshot.queryParamMap.get('tab');
+        if (tabParam=="audiovisual"){
+          this.selectedTabIndex = 1;
+        }else if (tabParam=="map"){
+          this.selectedTabIndex = 2;
+        }
+      }
+      if (this._route.snapshot.queryParamMap.has('page')){
+        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+        if (pageParam){
+          //this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
+          //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
+        }
+      }
+      
+    }
+
+    popperPlacement(): any {
+      if (window.innerWidth < 750) {
+        return "bottom"
+      } else {
+        return "auto"
+      }
+    }
+
+
+    ngOnInit() {
+      
 
       if (this._route.snapshot.queryParamMap.get('country')) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
@@ -150,30 +187,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-      if (this._route.snapshot.queryParamMap.has('tab')) {
-        const tabParam = this._route.snapshot.queryParamMap.get('tab');
-        if (tabParam=="audiovisual"){
-          this.selectedTabIndex = 1;
-        }else if (tabParam=="map"){
-          this.selectedTabIndex = 2;
-        }
-      }
-      if (this._route.snapshot.queryParamMap.has('page')){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
-        if (pageParam){
-          this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
-          this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
-        }
-      }
+      
     }
 
     getThemes() {
       const policy = this.myForm.value.policyObjective;
-      if (policy == null) {
+      if (policy == null || policy === "") {
         this.themeSelection = this.filters.thematic_objectives
       } else {
         // TODO ECL side effect
-        //this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy].includes(theme["id"]))
+        this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme["id"]))
       }
     }
 
@@ -185,17 +208,23 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.map.loadMapRegion(new Filters());
         return;
       }
-
-      let initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
+      this.semanticTerms = [];
+      this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
       if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
         const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
         if (pageParam){
           const pageIndex = parseInt(pageParam) - 1;
-          initialPageIndex = pageIndex;
+          this.initialPageIndex = pageIndex;
         }
       }
       this.isLoading = true;
-      let offset = initialPageIndex * this.pageSize;
+      let offset = this.initialPageIndex * this.pageSize;
+
+      if (this.mobileQuery && this.sidenav){
+        this.sidenavOpened = false;
+        this.sidenav.close();
+      }
+      
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
           this.projects = result.list;
@@ -209,7 +238,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         document.documentElement.scrollTop = 0;
 
         if (this.selectedTabIndex == 2) {
-          this.map.loadMapRegion(this.lastFiltersSearch);
+          this.mapIsLoaded = true;
+          setTimeout(
+            () => {
+                this.map.loadMapRegion(this.lastFiltersSearch);
+            }, 500);
         } else {
           this.mapIsLoaded = false;
         }
@@ -270,7 +303,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     generateQueryParams() {
       return {
-        keywords: this.myForm.value.keywords ? this.myForm.value.keywords : null,
+        keywords: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
         country: this.getFilterLabel("countries", this.myForm.value.country),
         region: this.getFilterLabel("regions", this.myForm.value.region),
         theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
@@ -309,11 +342,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       const theme = this.myForm.value.theme
       for (const policy in this.policyToThemes) {
         // TODO ECL side effect
-        /*if (this.policyToThemes[policy].includes(theme)) {
+        if (this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme)) {
           this.myForm.patchValue({
             policyObjective: policy
           });
-        }*/
+        }
       }
     }
 
@@ -419,8 +452,19 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
         }
 
-        ngOnDestroy(): void {
-          this.mobileQuery.removeListener(this._mobileQueryListener);
+        onClickRelatedTerm(term: any) {
+          this.myForm.patchValue({ "keywords": term });
+          this.onSubmit();
         }
 
-      }
+        ngOnDestroy(): void {
+          this.destroyed.next();
+          this.destroyed.complete();
+        }
+
+        onToggleAdvancedFilters(collapse:boolean){
+          this.advancedFilterIsExpanded = !collapse;
+        }
+
+
+}

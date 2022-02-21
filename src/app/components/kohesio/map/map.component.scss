@@ -1,11 +1,11 @@
 @import 'src/assets/styles/_include-media.scss';
 
-#map, #map-details {
+#map{
     height: 725px;
     z-index: 0;
 }
 
-#map-beneficiary-details{
+#map-details, #map-beneficiary-details{
     height: 400px;
 }
 
@@ -102,7 +102,16 @@
     .leaflet-popup-content {
         overflow: auto;
         max-height: 300px;
-        max-width: 200px;
+    }
+    @include media("<=medium"){
+        .leaflet-popup-content {
+            max-width: 200px;
+        }
+    }
+    @include media(">medium"){
+        .leaflet-popup-content {
+            max-width: 400px;
+        }
     }
 }
 

@@ -54,7 +54,11 @@ export class Project implements Deserializable{
 
     getDateFromPropertyArray(array:any){
         const value = this.getValueFromPropertyArray(array);
-        return new Date(value);
+        if (value){
+            return new Date(value);
+        }else{
+            return undefined
+        }
     }
 
     getBudget(array:any){

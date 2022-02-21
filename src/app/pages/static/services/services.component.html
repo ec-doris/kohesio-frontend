@@ -1,0 +1,40 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Services</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="ecl-row ecl-u-pt-xs">
+        <div class="ecl-col-xl-12 ecl-u-pt-none">
+            <h1 class="ecl-u-type-heading-1">Services</h1>
+            <p class="ecl-u-type-paragraph">In addition to the Kohesio website, we offer the following services to access the data:</p>
+            <ul class="ecl-unordered-list">
+                <!--<li class="ecl-unordered-list__item">
+                    <strong>Query service</strong><br>
+                    Check the <a href="https://query.linkedopendata.eu/">SPARQL endpoint</a> to perform complex queries over Kohesio's linked open data.
+                </li>
+                <li class="ecl-unordered-list__item">
+                    <strong>Question answering</strong><br>
+                    Explore our experimental <a href="https://qa.linkedopendata.eu/">QA service</a> to ask questions directly in natural language.
+                </li>-->
+                <li class="ecl-unordered-list__item">
+                    <strong>EU Knowledge Graph</strong><br>
+                    Visit the <a href="https://linkedopendata.eu/" target="blank">Wikibase</a> behind Kohesio and discover more about its graph structure.
+                </li>
+                <li class="ecl-unordered-list__item">
+                    <strong>Data exports</strong><br>
+                    Download <a routerLink="/data">all the data</a> country by country in CSV or XLSX format.
+                </li>
+            </ul>
+        </div>
+    </div>
+ </div>

@@ -9,6 +9,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatDialogModule,
         MatIconModule,
         MatButtonModule,
-        MatProgressSpinnerModule
+        MatProgressSpinnerModule,
+        KohesioEclButtonModule
     ],
     declarations: [
         ProjectDetailModalComponent,

@@ -77,9 +77,6 @@ export class FiltersApi implements Deserializable{
             value: 'Total Budget (descending)'
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
-            id: null,
-            value: 'No sort'
-        },{
             id: 'orderNumProjects-true',
             value: 'Number of Projects (ascending)'
         },{
@@ -89,7 +86,7 @@ export class FiltersApi implements Deserializable{
             id: 'orderEuBudget-true',
             value: 'EU Contribution (ascending)'
         },{
-            id: 'orderEuBudget-false',
+            id: null,
             value: 'EU Contribution (descending)'
         },{
             id: 'orderTotalBudget-true',

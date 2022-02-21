@@ -4,6 +4,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
+import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { SearchPageRoutingModule } from './search-page-routing.module';
 import { SearchPageComponent } from './search-page.component';
 
@@ -15,6 +16,7 @@ import { SearchPageComponent } from './search-page.component';
         SearchPageRoutingModule,
         KohesioEclFormModule,
         KohesioEclButtonModule,
+        KohesioEclSpinnerModule
     ],
     declarations: [
         SearchPageComponent

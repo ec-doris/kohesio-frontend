@@ -3,7 +3,7 @@ import {Deserializable} from "./deserializable.model";
 export class ProjectDetail implements Deserializable{
 
     public item: string | undefined;
-    public images!: [];
+    public images: any;
     countryLabel!: string;
     link: string | undefined;
     categoryLabels: string[] = [];

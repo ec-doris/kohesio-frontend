@@ -36,7 +36,6 @@ export class ThemesComponent implements AfterViewInit {
                 this.themes = themes;
             }
         })
-
     }
 
     ngAfterViewInit(): void {
