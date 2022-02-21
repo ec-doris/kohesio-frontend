@@ -1,4 +1,4 @@
-<div class='kohesio-map-popup-wrapper'>
+<div class='kohesio-map-popup-wrapper leaflet-interactive'>
     <!--<a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>-->
     <div *ngFor="let project of projects" style="display: flex;flex-direction: row;">
         <span style="color: #203F79;">{{project.isHighlighted ? '★' : ''}}</span>
