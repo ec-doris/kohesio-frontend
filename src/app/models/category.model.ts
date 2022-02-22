@@ -3,7 +3,7 @@ export interface Category {
   options: any[];
 };
 
-export const filterCategory = (options: any[], value: string): string[] => options.filter(
+export const filterCategory = (options: any[], search: any): string[] => options.filter(
   item => item.value.toLowerCase()
-    .includes(value.toLowerCase())
+    .includes(search.value.toLowerCase())
 );

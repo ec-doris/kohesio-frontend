@@ -132,12 +132,15 @@
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
                     <!-- Autocomplete optgroup Intervention Field  -->
-                    <mat-form-field appearance="fill" style="width: 100%;">
+                    <mat-form-field class="intervention-autocomplete-wrapper" appearance="fill">
                         <mat-label>Please select</mat-label>
                         <input type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
-                        <mat-autocomplete #autoGroup="matAutocomplete" [panelWidth]="'auto'">
+                        <mat-autocomplete
+                            #autoGroup="matAutocomplete"
+                            [panelWidth]="'auto'"
+                            [displayWith]="displayInterventionField">
                             <mat-optgroup *ngFor="let group of interventionOptions | async" [label]="group.value">
-                                <mat-option *ngFor="let option of group.options" [value]="option.id">
+                                <mat-option *ngFor="let option of group.options" [value]="option">
                                     {{ option.value }}
                                 </mat-option>
                             </mat-optgroup>
