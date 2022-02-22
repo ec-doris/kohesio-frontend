@@ -67,11 +67,6 @@
                 margin-bottom:1rem;
                 article{
                     display:flex;
-                    img{
-                        width:150px;
-                        height:150px;
-                        border-radius: 10px;
-                    }
                     .kohesio-article-post-inner{
                         width:100%;
                         margin-left: 0.8rem;
@@ -134,7 +129,7 @@
             margin-left:1rem;
         }
         .kohesio-article-post-inner-header{
-            img, .project-theme-image-mobile{
+            .project-theme-image-mobile{
                 display:none;
             }
         }
@@ -181,19 +176,16 @@
             .kohesio-article-wrapper{
                 article{
                     flex-direction: column;
-                    
+
                     .kohesio-article-post-inner{
                         margin-left: 0;
                     }
-                    img, .project-theme-image{
+                    .project-theme-image{
                         display:none;
                     }
                     .kohesio-article-post-inner-header{
                         h1{
                             margin-left: 1rem;
-                        }
-                        img{
-                            display:initial;
                         }
                     }
                 }
