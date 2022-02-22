@@ -462,9 +462,13 @@ mat-sidenav {
   }
 }
 
-
 .filters-wrapper-container {
   width: 100%;
+
+  .intervention-autocomplete-wrapper {
+    margin: 0;
+    width: 100%;
+  }
 }
 
 .kohesio-mat-drawer-container{

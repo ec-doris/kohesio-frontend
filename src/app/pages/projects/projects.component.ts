@@ -70,6 +70,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   private destroyed = new Subject<void>();
 
   interventionOptions: Observable<Category[]> = new Observable();
+  selectedIntervention: string = '';
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -185,6 +186,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           startWith(''),
           map(value => this._filterIntervention(value))
         );
+    }
+
+    public displayInterventionField(option: any): string {
+      return option?.value;
     }
 
     private _filterIntervention(value: string) {
@@ -330,7 +335,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         fund: this.getFilterLabel("funds", this.myForm.value.fund),
         program: this.getFilterLabel("programs", this.myForm.value.program),
-        interventionField: this.getFilterLabel("categoriesOfIntervention", this.myForm.value.interventionField),
+        interventionField: this.getFilterLabel(
+          "categoriesOfIntervention",
+          this.myForm.value.interventionField ? this.myForm.value.interventionField.id : null
+        ),
         totalProjectBudget: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
         amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
         projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
@@ -425,6 +433,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       getFilters() {
         const formValues = Object.assign({}, this.myForm.value);
+        formValues.interventionField = formValues.interventionField ? formValues.interventionField.id : undefined;
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         this.lastFiltersSearch = new Filters().deserialize(formValues);
