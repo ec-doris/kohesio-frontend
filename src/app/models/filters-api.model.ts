@@ -1,12 +1,12 @@
+import { Category } from "./category.model";
 import {Deserializable} from "./deserializable.model";
-
 export class FiltersApi implements Deserializable{
 
     public thematic_objectives: [] = [];
     public policy_objective: [] | undefined;
     public funds: [] | undefined;
     public programs: [] | undefined;
-    public categoriesOfIntervention: [] | undefined;
+    public categoriesOfIntervention: Category[] = [];
     public regions: [] | undefined;
 
 
@@ -123,7 +123,7 @@ export class FiltersApi implements Deserializable{
         rawOptions.forEach((cat:any)=>{
             options.push({
                 id: this.cleanId(cat.instance),
-                value: cat.instanceLabel.length > 100 ? 
+                value: cat.instanceLabel.length > 100 ?
                             cat.instanceLabel.substring(0,100) + '...' : cat.instanceLabel,
                 fullValue: cat.instanceLabel,
                 shortValue: cat.instanceLabel.split("-")[0].trim()

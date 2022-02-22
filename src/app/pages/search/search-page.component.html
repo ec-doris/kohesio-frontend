@@ -29,6 +29,15 @@
     </div>
 </div> -->
 <div class="ecl-container">
+    <div [hidden]="isLoading">
+        <mat-paginator #paginatorTop
+                    [length]="count"
+                    [pageSize]="pageSize"
+                    [pageIndex]="initialPageIndex"
+                    [hidePageSize]="true"
+                    (page)="onPaginate($event)">
+        </mat-paginator>
+    </div>
     <div class="ecl-content-item" *ngFor="let item of items" style="margin-bottom: 1rem;">
         <div class="ecl-content-item__container">
             <div *ngIf="!item.image" class="ecl-content-item__image ecl-content-item__image--l"
@@ -44,7 +53,7 @@
                 <li class="ecl-card__label-item"><span class="ecl-label ecl-label--high ecl-card__label">high
                     importance</span></li>
                 </ul> -->
-                <div class="ecl-card__meta">{{item.typeLabel}}</div>
+                <div class="ecl-card__meta">{{item.typeLabelTransform}}</div>
                 <h1 class="ecl-card__title">
                     <a [routerLink]="item.routerLink" class="ecl-link ecl-link--standalone">{{item.label}}</a>
                 </h1>
@@ -85,14 +94,15 @@
             </dl>
         </div> -->
     </div>
-    <mat-paginator #paginator
+    <div [hidden]="isLoading">
+        <mat-paginator #paginatorBottom
                     [length]="count"
                     [pageSize]="pageSize"
                     [pageIndex]="initialPageIndex"
                     [hidePageSize]="true"
-                    (page)="onPaginate($event)"
-                    [hidden]="(items && items.length === 0)">
-                </mat-paginator>
+                    (page)="onPaginate($event)">
+        </mat-paginator>
+    </div>
 </div>
 <!-- <form [formGroup]="myForm">
     <kohesio-ecl-form-group>

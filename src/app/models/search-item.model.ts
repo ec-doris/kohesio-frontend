@@ -80,4 +80,14 @@ export class SearchItem implements Deserializable{
         }
     }
 
+    get typeLabelTransform(){
+        if (this.typeLabel.toLowerCase() == "beneficiary"){
+            return "Beneficary";
+        }else if(this.typeLabel.toLowerCase() == "kohesio project"){
+            return "Project";
+        }else{
+            return this.typeLabel;
+        }
+    }
+
 }

@@ -11,13 +11,14 @@ import { SearchService } from 'src/app/services/search.service';
 })
 export class SearchPageComponent {
 
-    public items:SearchItem[] | undefined; 
+    public items:SearchItem[] = [];
     public isLoading:boolean = true;
     public pageSize:number = 15;
     public initialPageIndex:number = 0;
     public count:number = 0;
     public keywords:string | null | undefined;
-    @ViewChild("paginator") paginator!: MatPaginator;
+    @ViewChild("paginatorTop") paginatorTop!: MatPaginator;
+    @ViewChild("paginatorBottom") paginatorBottom!: MatPaginator;
 
     constructor(private _route: ActivatedRoute,
                 private formBuilder: FormBuilder,
@@ -33,11 +34,11 @@ export class SearchPageComponent {
     getGlobalResults(){
         this.isLoading = true;
         if (this.keywords){
-            this.initialPageIndex = this.paginator ? this.paginator.pageIndex : 0;
+            this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
             let offset = this.initialPageIndex * this.pageSize;
             this.searchService.getItems(this.keywords, offset).subscribe((searchlist:SearchList | null)=>{
-                if (searchlist){
-                    this.items = searchlist?.items;
+                if (searchlist && searchlist.items){
+                    this.items = searchlist.items;
                     this.count = searchlist.numberResults;
                 }
                 this.isLoading = false;
@@ -47,6 +48,8 @@ export class SearchPageComponent {
 
     onPaginate(event: any) {
         this.items = [];
+        this.paginatorTop.pageIndex = event.pageIndex;
+        this.paginatorBottom.pageIndex = event.pageIndex;
         this.getGlobalResults();
     }
 

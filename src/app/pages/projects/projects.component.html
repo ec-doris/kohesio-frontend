@@ -67,14 +67,14 @@
                     KEYWORDS
                     <div [popper]="keywordsTooltip"
                     popperApplyClass="info-tooltip"
-                    [popperHideOnClickOutside]="true" 
+                    [popperHideOnClickOutside]="true"
                     [popperHideOnScroll]="true"
                     [popperPositionFixed]="true"
                     [popperPlacement]="popperPlacement()"
                     class="infoButton" >
                         <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                             <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#information"></use>
-                        </svg>      
+                        </svg>
                     </div>
                 </kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
@@ -121,16 +121,27 @@
                     <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="interventionField" [items]="this.filters.categoriesOfIntervention"></kohesio-ecl-form-select>
-                </kohesio-ecl-form-group>
-                <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>TOTAL BUDGET</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="totalProjectBudget" [items]="this.filters.totalProjectBudget"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>EU CONTRIBUTION</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
+                    <!-- Autocomplete optgroup Intervention Field  -->
+                    <mat-form-field appearance="fill" style="width: 100%;">
+                        <mat-label>Please select</mat-label>
+                        <input type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
+                        <mat-autocomplete #autoGroup="matAutocomplete" [panelWidth]="'auto'">
+                            <mat-optgroup *ngFor="let group of interventionOptions | async" [label]="group.value">
+                                <mat-option *ngFor="let option of group.options" [value]="option.id">
+                                    {{ option.value }}
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>DATE</kohesio-ecl-form-label>

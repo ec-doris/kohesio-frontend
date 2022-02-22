@@ -12,13 +12,13 @@ import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import { Category, filterCategory } from 'src/app/models/category.model';
 declare let L:any;
 declare let ECL:any;
-
 @Component({
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
@@ -68,6 +68,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public mobileQuery: boolean;
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
+
+  interventionOptions: Observable<Category[]> = new Observable();
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -137,7 +139,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
         }
       }
-      
+
     }
 
     popperPlacement(): any {
@@ -151,8 +153,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
 
     ngOnInit() {
-      
-
       if (this._route.snapshot.queryParamMap.get('country')) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
           if (this._route.snapshot.queryParamMap.get('region')) {
@@ -179,7 +179,22 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.onThemeChange();
       this.getThemes();
 
+      // Apply filter on input valueChanges
+      this.interventionOptions = this.myForm.get('interventionField')!
+        .valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterIntervention(value))
+        );
+    }
 
+    private _filterIntervention(value: string) {
+      if (value) {
+        return this.filters.categoriesOfIntervention
+          .map(group => ({value: group.value, options: filterCategory(group.options, value)}))
+          .filter(group => group.options.length > 0);
+      }
+
+      return this.filters.categoriesOfIntervention;
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -191,7 +206,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-      
+
     }
 
     getThemes() {
@@ -228,7 +243,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.sidenavOpened = false;
         this.sidenav.close();
       }
-      
+
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
           this.projects = result.list;
