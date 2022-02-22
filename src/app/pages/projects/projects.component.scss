@@ -122,6 +122,8 @@ mat-sidenav {
 
     display: none;
 
+    cursor: pointer;
+
     @include media(">=small") {
       display: block;
     }

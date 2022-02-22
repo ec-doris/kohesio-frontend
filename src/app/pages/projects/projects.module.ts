@@ -25,6 +25,7 @@ import { DownloadButtonModule } from 'src/app/components/kohesio/download-button
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
 import {NgxPopperjsModule} from 'ngx-popperjs';
+import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/image-overlay.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -58,7 +59,8 @@ import { MatSelectModule } from '@angular/material/select';
         KohesioEclSpinnerModule,
         ProjectDetailModalModule,
         DownloadButtonModule,
-        NgxPopperjsModule
+        NgxPopperjsModule,
+        ImageOverlayModule
     ],
     declarations: [
         ProjectsComponent
