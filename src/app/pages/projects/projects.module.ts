@@ -15,7 +15,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
 import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
@@ -25,11 +25,16 @@ import { DownloadButtonModule } from 'src/app/components/kohesio/download-button
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
 import {NgxPopperjsModule} from 'ngx-popperjs';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
         RouterModule,
         ProjectsRoutingModule,
         MatPaginatorModule,
@@ -42,6 +47,9 @@ import {NgxPopperjsModule} from 'ngx-popperjs';
         MatIconModule,
         MatButtonModule,
         MatFormFieldModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        MatSelectModule,
         MatDatepickerModule,
         MatMomentDateModule,
         KohesioEclFormModule,
