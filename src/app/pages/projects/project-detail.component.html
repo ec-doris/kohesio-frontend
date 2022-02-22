@@ -158,7 +158,9 @@
                 <article class="kohesio-article-post">
                     <div class="project-theme-image">
                         <ng-container *ngIf="project?.images && project.images.length">
-                            <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>
+                            <div class="project-image-container hand-pointer"
+                            style="background-image: url('{{ project.images[0].image }}');" 
+                            (click)="openImageOverlay(project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
                         </ng-container>
                         <ng-container>
                             <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">

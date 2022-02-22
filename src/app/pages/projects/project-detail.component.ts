@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
+import { MatDialog } from '@angular/material/dialog';
+import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 declare let L:any;
 
 @Component({
@@ -27,7 +29,8 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public entityURL = environment.entityURL;
 
-    constructor(private projectService: ProjectService,
+    constructor(public dialog: MatDialog,
+                private projectService: ProjectService,
                 private route: ActivatedRoute,
                 private router: Router){}
 
@@ -84,5 +87,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         //TODO ECL side effect
         //this.uxService.openMessageBox()
     }
+
+    openImageOverlay(imgUrl:string, projectTitle:any, imageCopyright: any) {
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
+      }
 
 }

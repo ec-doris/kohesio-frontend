@@ -417,7 +417,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
-        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, projectTitle, imageCopyright}})
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
 
       getDate(dateStringFormat: any) {
