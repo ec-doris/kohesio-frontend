@@ -44,7 +44,7 @@
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js",
               "src/assets/scripts/leaflet-gesture-handling.js",
-              "node_modules/@ecl/preset-ec/dist/scripts/ecl-ec.js"
+              "src/assets/scripts/kohesio-ecl.js"
             ]
           },
           "configurations": {

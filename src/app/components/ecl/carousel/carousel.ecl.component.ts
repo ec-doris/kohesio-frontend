@@ -1,5 +1,5 @@
-import {AfterViewInit, Component} from '@angular/core';
-declare let ECL:any;
+import { AfterViewInit, Component } from '@angular/core';
+declare let ECL: any;
 
 @Component({
     selector: 'app-ecl-carousel',
@@ -11,9 +11,9 @@ export class CarouselEclComponent implements AfterViewInit {
 
     public carousel: any;
 
-    constructor(){}
+    constructor() { }
 
-    ngOnInit(){
+    ngOnInit() {
     }
 
     ngAfterViewInit(): void {
