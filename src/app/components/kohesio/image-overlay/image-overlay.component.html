@@ -2,7 +2,7 @@
 <mat-dialog-content>
     <figure class="ecl-media-container">
         <img class="ecl-media-container__media image" [src]="data.imgUrl" />
-        <figcaption class="ecl-media-container__caption">
+        <figcaption *ngIf="data?.imageCopyright" class="ecl-media-container__caption">
             {{data.imageCopyright}}
         </figcaption>
     </figure>

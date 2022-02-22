@@ -89,7 +89,11 @@
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
                     <ng-container *ngIf="!mobileQuery">
-                        <div class="beneficiary-image-container" *ngIf="beneficiary?.images && beneficiary.images.length" style="background-image: url('{{ beneficiary.images[0] }}')">
+                        <div 
+                        class="beneficiary-image-container hand-pointer" 
+                        *ngIf="beneficiary?.images && beneficiary.images.length" 
+                        style="background-image: url('{{ beneficiary.images[0] }}')"
+                        (click)="openImageOverlay(beneficiary.images[0], beneficiary?.beneficiaryLabel, null)">
                         </div>
                     </ng-container>
                     <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->

@@ -10,6 +10,8 @@ import { BeneficiaryProjectList } from '../../models/beneficiary-project-list.mo
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { MatDialog } from '@angular/material/dialog';
+import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 declare let L:any;
 
 @Component({
@@ -38,8 +40,9 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
     public mobileQuery: boolean;
     private destroyed = new Subject<void>();
  
-    constructor(private projectService: ProjectService,
-        private beneficiaryService: BeneficiaryService,
+    constructor(public dialog: MatDialog,
+                private projectService: ProjectService,
+                private beneficiaryService: BeneficiaryService,
                 private route: ActivatedRoute,
                 private router: Router,
                 breakpointObserver: BreakpointObserver){
@@ -120,5 +123,10 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
         this.destroyed.next();
         this.destroyed.complete();
     }
+
+    openImageOverlay(imgUrl:string, projectTitle:any, imageCopyright: any) {
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
+      }
+
 
 }
