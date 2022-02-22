@@ -15,7 +15,7 @@ declare let L:any;
 @Component({
     selector: 'app-beneficiary-detail',
     templateUrl: './beneficiary-detail.component.html',
-    styleUrls: ['../projects/projects.component.scss', './beneficiaries.component.scss']
+    styleUrls: ['./beneficiaries.component.scss']
 })
 export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
 
