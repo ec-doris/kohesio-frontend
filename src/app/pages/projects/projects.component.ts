@@ -14,6 +14,8 @@ import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subject, takeUntil } from 'rxjs';
 import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
+import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 declare let L:any;
 declare let ECL:any;
 
@@ -69,6 +71,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
+    public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
@@ -144,6 +147,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         return "auto"
       }
     }
+
 
 
     ngOnInit() {
@@ -413,14 +417,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
-        this.modalImageUrl = imgUrl;
-        this.modalTitleLabel = projectTitle;
-        if (imageCopyright && imageCopyright.length) {
-          // TODO ECL side effect
-          //this.modalImageTitle = imageCopyright[0];
-        }
-        // TODO ECL side effect
-        //this.uxService.openModal("imageOverlay")
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, projectTitle, imageCopyright}})
       }
 
       getDate(dateStringFormat: any) {

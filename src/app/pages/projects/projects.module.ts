@@ -25,6 +25,7 @@ import { DownloadButtonModule } from 'src/app/components/kohesio/download-button
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
 import {NgxPopperjsModule} from 'ngx-popperjs';
+import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/image-overlay.module';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import {NgxPopperjsModule} from 'ngx-popperjs';
         KohesioEclSpinnerModule,
         ProjectDetailModalModule,
         DownloadButtonModule,
-        NgxPopperjsModule
+        NgxPopperjsModule,
+        ImageOverlayModule
     ],
     declarations: [
         ProjectsComponent
