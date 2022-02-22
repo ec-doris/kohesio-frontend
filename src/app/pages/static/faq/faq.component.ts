@@ -14,9 +14,9 @@ export class FaqPageComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-        var elt2 = document.querySelector('[data-ecl-inpage-navigation]');
-        var inpageNavigation2 = new ECL.InpageNavigation(elt2);
-        inpageNavigation2.init();
+        var elt = document.querySelector('[data-ecl-inpage-navigation]');
+        var inpageNavigation = new ECL.InpageNavigation(elt);
+        inpageNavigation.init();
     }
 
 }
