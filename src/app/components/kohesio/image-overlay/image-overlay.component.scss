@@ -1,8 +1,35 @@
-.image {
-    margin-left: auto;
-    margin-right: auto;
-    height: auto;
-    width: auto;
-    max-height: 400px;
-    object-fit: contain;
+// .image {
+//     margin-left: auto;
+//     margin-right: auto;
+//     height: auto;
+//     width: auto;
+//     max-height: 400px;
+//     object-fit: contain;
+// }
+
+.content {
+    max-width: 500px;
+    max-height: 80%;
+}
+
+.image-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.image-caption {
+    // position: absolute;
+    // bottom: 30px;
+    // left: 11px;
+    margin-top: 10px;
+    background-color: hsla(0,0%,100%,.8);
+    border-radius: 6px;
+    width: 95%;
+    padding: 5px;
+    font-size: 12px;
+    color: #000;
+    text-align: end;
 }
