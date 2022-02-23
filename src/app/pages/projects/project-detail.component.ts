@@ -40,6 +40,9 @@ export class ProjectDetailComponent implements AfterViewInit {
             this.project = this.route.snapshot.data['project'];
             this.currentUrl += '/projects/' + this.project.item;
         }
+        if (!this.currentUrl.includes("/projects/")) {
+            this.currentUrl += '/projects/' + this.project.item;
+        }
     }
 
     ngAfterViewInit(): void {
