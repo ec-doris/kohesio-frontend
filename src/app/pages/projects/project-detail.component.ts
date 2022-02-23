@@ -23,7 +23,7 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public wikidataLink!: string;
     public currentUrl: string = (location.protocol + '//' + location.hostname) +
-                                (location.port != "80" ? ':' + location.port : '');
+                                (location.port != "" ? ':' + location.port : '');
 
     @ViewChild(MapComponent)
     public map!: MapComponent;
@@ -38,8 +38,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     ngOnInit(){
         if (!this.project) {
             this.project = this.route.snapshot.data['project'];
-            this.currentUrl += '/projects/' + this.project.item;
         }
+        this.currentUrl += '/projects/' + this.project.item;
     }
 
     ngAfterViewInit(): void {
