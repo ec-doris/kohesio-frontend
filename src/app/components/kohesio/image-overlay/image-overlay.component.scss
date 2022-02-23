@@ -18,6 +18,13 @@
     white-space: nowrap;
     margin-top: 0;
     margin-bottom: 15px;
+    padding-right: 30px;
+}
+
+.title-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .image-caption {
@@ -32,4 +39,12 @@
     font-size: 12px;
     color: #000;
     text-align: end;
+}
+
+.close-button{
+    transform: translate(0px, -8px);
+}
+
+.close-button:hover{
+    fill: red;
 }
