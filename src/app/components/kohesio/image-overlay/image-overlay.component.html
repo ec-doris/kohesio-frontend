@@ -1,0 +1,15 @@
+<mat-dialog-content class="content">
+    <div class=title-container>
+        <h4 class="ecl-u-type-heading-4 image-title">{{data.title}}</h4>
+        <svg mat-dialog-close class="ecl-icon ecl-icon--l hand-pointer close-button" focusable="false" aria-hidden="true">
+            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
+        </svg>
+    </div>
+
+    <div class="image-container">
+        <img class="ecl-media-container__media image" [src]="data.imgUrl" />
+    </div>
+    <div *ngIf="data?.imageCopyright" class="image-caption">
+        {{data.imageCopyright}}
+    </div>
+</mat-dialog-content>

@@ -2,7 +2,8 @@ import {AfterViewInit, Component} from '@angular/core';
 declare let ECL:any;
 
 @Component({
-    templateUrl: './privacy.component.html'
+    templateUrl: './privacy.component.html',
+    styleUrls: ['./privacy.component.scss']
 })
 export class PrivacyPageComponent implements AfterViewInit {
 

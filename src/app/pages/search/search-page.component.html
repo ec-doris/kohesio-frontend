@@ -29,11 +29,18 @@
     </div>
 </div> -->
 <div class="ecl-container">
+    <div [hidden]="isLoading">
+        <mat-paginator #paginatorTop
+                    [length]="count"
+                    [pageSize]="pageSize"
+                    [pageIndex]="initialPageIndex"
+                    [hidePageSize]="true"
+                    (page)="onPaginate($event)">
+        </mat-paginator>
+    </div>
     <div class="ecl-content-item" *ngFor="let item of items" style="margin-bottom: 1rem;">
         <div class="ecl-content-item__container">
-            <div *ngIf="!item.image" class="ecl-content-item__image ecl-content-item__image--l"
-            style="background-image:url(https://inno-ecl.s3.amazonaws.com/media/examples/example-image.jpg)"></div>
-            <div style="background-image: url('{{ item.image }}')" *ngIf="item.image" class="ecl-content-item__image ecl-content-item__image--l">
+            <div style="background-image: url('{{ item.imageSrc }}')" class="ecl-content-item__image ecl-content-item__image--l">
                 <footer *ngIf="item?.image">{{item.imageCopyright}}</footer>
             </div>
             <article class="ecl-card ecl-content-item__card">
@@ -44,7 +51,7 @@
                 <li class="ecl-card__label-item"><span class="ecl-label ecl-label--high ecl-card__label">high
                     importance</span></li>
                 </ul> -->
-                <div class="ecl-card__meta">{{item.typeLabel}}</div>
+                <div class="ecl-card__meta">{{item.typeLabelTransform}}</div>
                 <h1 class="ecl-card__title">
                     <a [routerLink]="item.routerLink" class="ecl-link ecl-link--standalone">{{item.label}}</a>
                 </h1>
@@ -56,7 +63,7 @@
                     </svg>
                     <span class="ecl-card__info-label">2018/10/22</span>
                 </li> -->
-                    <li class="ecl-card__info-item">
+                    <li class="ecl-card__info-item" *ngIf="item.countryCode">
                         <!-- <svg class="ecl-icon ecl-icon--xs" focusable="false" aria-hidden="true">
                             <use xlink:href="/component-library/dist/media/icons.9bb3be5f.svg#location"></use>
                         </svg> -->
@@ -85,14 +92,15 @@
             </dl>
         </div> -->
     </div>
-    <mat-paginator #paginator
+    <div [hidden]="isLoading">
+        <mat-paginator #paginatorBottom
                     [length]="count"
                     [pageSize]="pageSize"
                     [pageIndex]="initialPageIndex"
                     [hidePageSize]="true"
-                    (page)="onPaginate($event)"
-                    [hidden]="(items && items.length === 0)">
-                </mat-paginator>
+                    (page)="onPaginate($event)">
+        </mat-paginator>
+    </div>
 </div>
 <!-- <form [formGroup]="myForm">
     <kohesio-ecl-form-group>

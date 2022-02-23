@@ -80,4 +80,22 @@ export class SearchItem implements Deserializable{
         }
     }
 
+    get typeLabelTransform(){
+        if (this.typeLabel.toLowerCase() == "beneficiary"){
+            return "Beneficiary";
+        }else if(this.typeLabel.toLowerCase() == "kohesio project"){
+            return "Project";
+        }else{
+            return this.typeLabel;
+        }
+    }
+
+    get imageSrc():string{
+        if (this.image){
+            return this.image;
+        }else {
+            return "assets/images/cards/" + this.typeLabelTransform.toLowerCase() + ".jpg";
+        }
+    }
+
 }

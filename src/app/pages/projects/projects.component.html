@@ -59,7 +59,6 @@
     <p class="ecl-u-type-paragraph">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
 </popper-content>
 
-
 <mat-drawer-container class="filters-wrapper-container" autosize>
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
@@ -68,14 +67,14 @@
                     KEYWORDS
                     <div [popper]="keywordsTooltip"
                     popperApplyClass="info-tooltip"
-                    [popperHideOnClickOutside]="true" 
+                    [popperHideOnClickOutside]="true"
                     [popperHideOnScroll]="true"
                     [popperPositionFixed]="true"
                     [popperPlacement]="popperPlacement()"
                     class="infoButton" >
                         <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                             <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#information"></use>
-                        </svg>      
+                        </svg>
                     </div>
                 </kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
@@ -115,15 +114,11 @@
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
-                </kohesio-ecl-form-group>
-                <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="interventionField" [items]="this.filters.categoriesOfIntervention"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>TOTAL BUDGET</kohesio-ecl-form-label>
@@ -132,6 +127,24 @@
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>EU CONTRIBUTION</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
+                    <!-- Autocomplete optgroup Intervention Field  -->
+                    <mat-form-field class="intervention-autocomplete-wrapper" appearance="fill">
+                        <mat-label>Please select</mat-label>
+                        <input type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
+                        <mat-autocomplete
+                            #autoGroup="matAutocomplete"
+                            [panelWidth]="'auto'"
+                            [displayWith]="displayInterventionField">
+                            <mat-optgroup *ngFor="let group of interventionOptions | async" [label]="group.value">
+                                <mat-option *ngFor="let option of group.options" [value]="option">
+                                    {{ option.value }}
+                                </mat-option>
+                            </mat-optgroup>
+                        </mat-autocomplete>
+                    </mat-form-field>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>DATE</kohesio-ecl-form-label>
@@ -184,7 +197,7 @@
                                 <figure role="presentation" class="prj-image">
                                     <div class="prj-image--wrapper">
                                         <ng-container *ngIf="project.images && project.images.length">
-                                            <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)" class="prj-image--link">
+                                            <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)">
                                                 <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')" *ngIf="!mobileQuery"></div>
                                             </a>
                                         </ng-container>

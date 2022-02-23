@@ -1,3 +1,14 @@
 a:visited {
     color: #004494;
 }
+
+.project-theme-image, .project-theme-image-mobile {
+  .project-image-container {
+    width: 150px;
+    height: 150px;
+    border-radius: 12px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+}

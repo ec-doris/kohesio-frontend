@@ -12,11 +12,13 @@ import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { Subject, takeUntil } from 'rxjs';
+import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
 import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { MatDialog } from '@angular/material/dialog';
+import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import { Category, filterCategory } from 'src/app/models/category.model';
 declare let L:any;
 declare let ECL:any;
-
 @Component({
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
@@ -67,8 +69,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
 
+  interventionOptions: Observable<Category[]> = new Observable();
+  selectedIntervention: string = '';
+
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
+    public dialog: MatDialog,
     private formBuilder: FormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
@@ -134,7 +140,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
         }
       }
-      
+
     }
 
     popperPlacement(): any {
@@ -146,9 +152,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
 
-    ngOnInit() {
-      
 
+    ngOnInit() {
       if (this._route.snapshot.queryParamMap.get('country')) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
           if (this._route.snapshot.queryParamMap.get('region')) {
@@ -175,7 +180,26 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.onThemeChange();
       this.getThemes();
 
+      // Apply filter on input valueChanges
+      this.interventionOptions = this.myForm.get('interventionField')!
+        .valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterIntervention(value))
+        );
+    }
 
+    public displayInterventionField(option: any): string {
+      return option?.value;
+    }
+
+    private _filterIntervention(value: string) {
+      if (value) {
+        return this.filters.categoriesOfIntervention
+          .map(group => ({value: group.value, options: filterCategory(group.options, value)}))
+          .filter(group => group.options.length > 0);
+      }
+
+      return this.filters.categoriesOfIntervention;
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -187,7 +211,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-      
+
     }
 
     getThemes() {
@@ -224,7 +248,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.sidenavOpened = false;
         this.sidenav.close();
       }
-      
+
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
           this.projects = result.list;
@@ -311,7 +335,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         fund: this.getFilterLabel("funds", this.myForm.value.fund),
         program: this.getFilterLabel("programs", this.myForm.value.program),
-        interventionField: this.getFilterLabel("categoriesOfIntervention", this.myForm.value.interventionField),
+        interventionField: this.getFilterLabel(
+          "categoriesOfIntervention",
+          this.myForm.value.interventionField ? this.myForm.value.interventionField.id : null
+        ),
         totalProjectBudget: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
         amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
         projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
@@ -338,6 +365,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
     }
 
+    onFundChange() {
+        this.getPrograms()
+    }
+
     onThemeChange() {
       const theme = this.myForm.value.theme
       for (const policy in this.policyToThemes) {
@@ -361,7 +392,13 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     getPrograms(): Promise<any> {
       return new Promise((resolve, reject) => {
         const country = environment.entityURL + this.myForm.value.country;
-        this.filterService.getFilter("programs", { country: country }).subscribe(result => {
+        let params: any = {
+          country: country,
+        }
+        if (this.myForm.value.fund) {
+          params["fund"] = environment.entityURL + this.myForm.value.fund
+        }
+        this.filterService.getFilter("programs", params).subscribe(result => {
           this.filterService.filters.programs = result.programs;
           this.filters.programs = result.programs;
           resolve(true);
@@ -406,6 +443,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       getFilters() {
         const formValues = Object.assign({}, this.myForm.value);
+        formValues.interventionField = formValues.interventionField ? formValues.interventionField.id : undefined;
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         this.lastFiltersSearch = new Filters().deserialize(formValues);
@@ -413,15 +451,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
-        this.modalImageUrl = imgUrl;
-        this.modalTitleLabel = projectTitle;
-        if (imageCopyright && imageCopyright.length) {
-          // TODO ECL side effect
-          //this.modalImageTitle = imageCopyright[0];
-        }
-        // TODO ECL side effect
-        //this.uxService.openModal("imageOverlay")
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
+
+
 
       getDate(dateStringFormat: any) {
         if (dateStringFormat) {

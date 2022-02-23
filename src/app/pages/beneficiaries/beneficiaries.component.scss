@@ -41,13 +41,6 @@
         padding: 0 0 0 3px;
     }
 
-    :host ::ng-deep .ng-star-inserted {
-        font-size: 12px !important;
-    }
-
-    :host ::ng-deep .eui-button .eui-button__container {
-        font-size: 12px !important;
-    }
 }
 
 @include media(">small") {
@@ -139,6 +132,16 @@ mat-header-cell:last-of-type {
 }
 .kohesio-mat-drawer-container-expanded{
     min-height: 600px;
+}
+
+.beneficiary-image-container {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
 }
 
 a:visited {

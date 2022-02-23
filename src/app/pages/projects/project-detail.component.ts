@@ -4,6 +4,8 @@ import { Router, ActivatedRoute } from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
+import { MatDialog } from '@angular/material/dialog';
+import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 declare let L:any;
 
 @Component({
@@ -20,14 +22,16 @@ export class ProjectDetailComponent implements AfterViewInit {
     public isModal: boolean = false;
 
     public wikidataLink!: string;
-    public currentUrl: string = location.href;
+    public currentUrl: string = (location.protocol + '//' + location.hostname) +
+                                (location.port != "" ? ':' + location.port : '');
 
     @ViewChild(MapComponent)
     public map!: MapComponent;
 
     public entityURL = environment.entityURL;
 
-    constructor(private projectService: ProjectService,
+    constructor(public dialog: MatDialog,
+                private projectService: ProjectService,
                 private route: ActivatedRoute,
                 private router: Router){}
 
@@ -35,6 +39,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         if (!this.project) {
             this.project = this.route.snapshot.data['project'];
         }
+        this.currentUrl += '/projects/' + this.project.item;
     }
 
     ngAfterViewInit(): void {
@@ -84,5 +89,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         //TODO ECL side effect
         //this.uxService.openMessageBox()
     }
+
+    openImageOverlay(imgUrl:string, projectTitle:any, imageCopyright: any) {
+        this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
+      }
 
 }

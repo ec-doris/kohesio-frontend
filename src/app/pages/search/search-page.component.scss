@@ -1,3 +1,4 @@
+@import 'src/assets/styles/_include-media.scss';
 .ecl-card__info-item{
     display:flex;
     align-items: center;
@@ -18,4 +19,14 @@
         text-align: center;
         max-width: 150px;
     }
+}
+
+@include media("<=medium") {
+    .ecl-content-item__image{
+        width:50%;
+    }
+}
+
+a:visited {
+    color: #004494;
 }

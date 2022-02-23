@@ -88,10 +88,22 @@
         <div class="kohesio-main-content">
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
-                    <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
+                    <ng-container *ngIf="!mobileQuery">
+                        <div 
+                        class="beneficiary-image-container hand-pointer" 
+                        *ngIf="beneficiary?.images && beneficiary.images.length" 
+                        style="background-image: url('{{ beneficiary.images[0] }}')"
+                        (click)="openImageOverlay(beneficiary.images[0], beneficiary?.beneficiaryLabel, null)">
+                        </div>
+                    </ng-container>
+                    <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
-                            <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" >
+                            <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->
+                            <ng-container *ngIf="mobileQuery">
+                                <div class="beneficiary-image-container" *ngIf="beneficiary?.images && beneficiary.images.length" style="background-image: url('{{ beneficiary.images[0] }}')">
+                                </div>
+                            </ng-container>
                             <h1 class="ecl-u-type-heading-4">
                                 {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                             </h1>
