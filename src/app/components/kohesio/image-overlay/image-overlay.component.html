@@ -1,6 +1,11 @@
-<!-- <h3 mat-dialog-title>{{data.title}}</h3> -->
 <mat-dialog-content class="content">
-    <h4 class="ecl-u-type-heading-4 image-title">{{data.title}}</h4>
+    <div class=title-container>
+        <h4 class="ecl-u-type-heading-4 image-title">{{data.title}}</h4>
+        <svg mat-dialog-close class="ecl-icon ecl-icon--l hand-pointer close-button" focusable="false" aria-hidden="true">
+            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
+        </svg>
+    </div>
+
     <div class="image-container">
         <img class="ecl-media-container__media image" [src]="data.imgUrl" />
     </div>
@@ -8,11 +13,3 @@
         {{data.imageCopyright}}
     </div>
 </mat-dialog-content>
-<!-- <mat-dialog-content>
-    <figure class="ecl-media-container">
-        <img class="ecl-media-container__media image" [src]="data.imgUrl" />
-        <figcaption *ngIf="data?.imageCopyright" class="ecl-media-container__caption">
-            {{data.imageCopyright}}
-        </figcaption>
-    </figure>
-</mat-dialog-content> -->
