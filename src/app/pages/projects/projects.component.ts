@@ -365,6 +365,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
     }
 
+    onFundChange() {
+        this.getPrograms()
+    }
+
     onThemeChange() {
       const theme = this.myForm.value.theme
       for (const policy in this.policyToThemes) {
@@ -388,7 +392,13 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     getPrograms(): Promise<any> {
       return new Promise((resolve, reject) => {
         const country = environment.entityURL + this.myForm.value.country;
-        this.filterService.getFilter("programs", { country: country }).subscribe(result => {
+        let params: any = {
+          country: country,
+        }
+        if (this.myForm.value.fund) {
+          params["fund"] = environment.entityURL + this.myForm.value.fund
+        }
+        this.filterService.getFilter("programs", params).subscribe(result => {
           this.filterService.filters.programs = result.programs;
           this.filters.programs = result.programs;
           resolve(true);
@@ -443,6 +453,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
         this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
+
+
 
       getDate(dateStringFormat: any) {
         if (dateStringFormat) {

@@ -114,7 +114,7 @@
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
