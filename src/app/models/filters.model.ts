@@ -85,6 +85,25 @@ export class Filters implements Deserializable{
         }
     }
 
+    public getMapProjectsFilters(){
+        return {
+            ...(this.keywords) && {keywords: this.keywords},
+            ...(this.country) && {country: environment.entityURL + this.country},
+            ...(this.region) && {region: environment.entityURL + this.region},
+            ...(this.theme) && {theme: environment.entityURL + this.theme},
+            ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
+            ...(this.fund) && {fund: environment.entityURL + this.fund},
+            ...(this.program) && {program: environment.entityURL + this.program},
+            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
+            ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
+            ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
+            ...(this.budgetEUBiggerThan) && {budgetEUBiggerThan: this.budgetEUBiggerThan},
+            ...(this.startDateAfter) && {startDateAfter: this.startDateAfter},
+            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore}
+        }
+    }
+
     public getAssetsFilters(){
         return {
             ...(this.keywords) && {keywords: this.keywords},

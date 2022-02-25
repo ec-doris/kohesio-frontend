@@ -499,5 +499,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.advancedFilterIsExpanded = !collapse;
         }
 
+        getClassMatDrawerContent():string{
+          let ngClass:string = "kohesio-mat-drawer-container";
+          if (this.advancedFilterIsExpanded){
+            ngClass+= " expanded";
+          }
+          if (this.semanticTerms && this.semanticTerms.length){
+            ngClass+= " with-semantic-terms";
+          }
+          return ngClass;
+        }
+
 
 }
