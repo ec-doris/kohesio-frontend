@@ -17,7 +17,7 @@ export class MapService {
         const url = this.configService.apiBaseUrl + '/search/project/map';
         let params:any = {}
         if (filters){
-            params = Object.assign(filters.getProjectsFilters());
+            params = Object.assign(filters.getMapProjectsFilters());
         }
         if (granularityRegion){
             params.granularityRegion = granularityRegion;

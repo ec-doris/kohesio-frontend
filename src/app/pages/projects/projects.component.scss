@@ -472,8 +472,14 @@ mat-sidenav {
 }
 
 .kohesio-mat-drawer-container{
-  min-height: 520px;
+  min-height: 540px;
 }
-.kohesio-mat-drawer-container-expanded{
-  min-height: 1040px;
+.kohesio-mat-drawer-container.expanded{
+  min-height: 1060px;
+}
+.kohesio-mat-drawer-container.with-semantic-terms{
+  min-height: 700px;
+}
+.kohesio-mat-drawer-container.with-semantic-terms.expanded{
+  min-height: 1220px;
 }
