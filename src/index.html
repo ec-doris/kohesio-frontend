@@ -11,26 +11,20 @@
   <link rel="preconnect" href="https://fonts.gstatic.com">
   <link href="assets/styles/angular-material/css2.css" rel="stylesheet">
   <link href="assets/styles/angular-material/icon.css" rel="stylesheet">
-  <!-- Matomo -->
-  <script>
-    var _paq = window._paq = window._paq || [];
-    /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-    _paq.push(['trackPageView']);
-    _paq.push(['enableLinkTracking']);
-    (function() {
-      var u="//www.cnect-stats.com/";
-      _paq.push(['setTrackerUrl', u+'matomo.php']);
-      _paq.push(['setSiteId', '16']);
-      var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
-      g.async=true; g.src=u+'matomo.js'; s.parentNode.insertBefore(g,s);
-    })();
-  </script>
-  <!-- End Matomo Code -->
   <script defer src="https://europa.eu/webtools/load.js?globan=1110" type="text/javascript"></script>
 </head>
 <body>
   <app-root></app-root>
   <script src="assets/scripts/moment.min.js"></script>
+  <script type="application/json">
+    {
+      "utility": "analytics",
+      "siteID": "9dddc7fe-7c83-4085-b5e8-1d7de3c91f8b",
+      "sitePath": ["kohesio.ec.europa.eu"],
+      "instance": "ec",
+      "isActive": true
+    }
+  </script>
   <script type="application/json">
     {
         "utility" : "cck",
