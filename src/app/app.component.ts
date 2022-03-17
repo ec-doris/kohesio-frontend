@@ -25,7 +25,6 @@ export class AppComponent {
       if (value instanceof NavigationEnd){
         if ($wt && $wt.analytics.isTrackable()){
           if (this.count>0 && this.lastPage != value.url){
-            console.log("tracked");
             $wt.trackPageView();
           }
           this.count++;
