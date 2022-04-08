@@ -13,6 +13,14 @@
           "strict": true
         }
       },
+      "i18n": {
+        "sourceLocale": "en-US",
+        "locales": {
+          "pt": {
+            "translation": "src/locale/messages.pt.xlf"
+          }
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -20,6 +28,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "localize": true,
             "outputPath": "dist",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -76,6 +85,15 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true
+            },
+            "local": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "localize": ["en-US"]
             }
           },
           "defaultConfiguration": "production"
@@ -88,9 +106,12 @@
             },
             "development": {
               "browserTarget": "kohesio-frontend:build:development"
+            },
+            "local": {
+              "browserTarget": "kohesio-frontend:build:local"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "local"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",

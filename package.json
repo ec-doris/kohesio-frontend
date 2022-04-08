@@ -8,7 +8,8 @@
     "build-dev": "ng build --configuration development --outputHashing=all --no-progress",
     "build-prod": "ng build --configuration production --outputHashing=all --no-progress",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "extract-i18n": "ng extract-i18n --output-path src/locale"
   },
   "private": true,
   "dependencies": {
@@ -39,6 +40,7 @@
     "@angular-devkit/build-angular": "~13.2.3",
     "@angular/cli": "~13.2.3",
     "@angular/compiler-cli": "~13.2.0",
+    "@angular/localize": "^13.2.2",
     "@types/jasmine": "~3.10.0",
     "@types/node": "^12.11.1",
     "jasmine-core": "~4.0.0",
