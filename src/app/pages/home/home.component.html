@@ -25,7 +25,7 @@
                                 {{policyObjective?.instanceLabel}}
                             </a>
                         </h1>
-                        <div>{{stats.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
+                        <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} projects</div>
                     </article>
                 </div>
             </div> 
@@ -42,13 +42,13 @@
                                     </h1>                     
                                     <div class="ecl-card__info-container number">
                                         <ng-container *ngIf="theme.id=='TO04'">
-                                            {{stats.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects    
+                                            {{stats?.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}} projects    
                                         </ng-container>
                                         <ng-container *ngIf="theme.id=='TO05'">
-                                            {{stats.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects    
+                                            {{stats?.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}} projects    
                                         </ng-container>
                                         <ng-container *ngIf="theme.id=='TO06'">
-                                            {{stats.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects    
+                                            {{stats?.themes?.enviromentProtection | number:'1.0-3':'fr'}} projects    
                                         </ng-container>
                                         <hr>
                                     </div>
