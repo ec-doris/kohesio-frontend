@@ -63,8 +63,8 @@
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@comp.formLabel.keywords">
-                    KEYWORDS
+                <kohesio-ecl-form-label>
+                    <ng-container i18n="@@comp.formLabel.keywords">KEYWORDS</ng-container>
                     <div [popper]="keywordsTooltip"
                     popperApplyClass="info-tooltip"
                     [popperHideOnClickOutside]="true"

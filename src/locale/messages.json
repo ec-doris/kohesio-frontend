@@ -16,7 +16,7 @@
     "comp.labelInfo.p4": "To exclude one term from the results, you can you the - (NOT) operator : {$START_BOLD_TEXT}green -carbon{$CLOSE_BOLD_TEXT} (projects containing \"green\" but not \"carbon\").",
     "comp.labelInfo.p5": "You can also search for an exact expression using double quotes: {$START_BOLD_TEXT}\"artificial intelligence\"{$CLOSE_BOLD_TEXT} only returns results with the words in that order.",
     "comp.labelInfo.p6": "Additionally, you can use the star operator as a wildcard: {$START_BOLD_TEXT}govern{$CLOSE_BOLD_TEXT}* will match government, governing, governors, etc. (minimum 3 characters before the *).",
-    "comp.formLabel.keywords": " KEYWORDS {$START_TAG_DIV}{$START_TAG__SVG_SVG}{$START_TAG__SVG_USE}{$CLOSE_TAG__SVG_USE}{$CLOSE_TAG__SVG_SVG}{$CLOSE_TAG_DIV}",
+    "comp.formLabel.keywords": "KEYWORDS",
     "comp.semanticTerm.title": "Also matching:",
     "comp.button.useMyKeywordsOnly": "Use my keywords only",
     "comp.formLabel.country": "COUNTRY",
