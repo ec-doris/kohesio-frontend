@@ -91,7 +91,7 @@
                 </div>
             </div>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>COUNTRY</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@country.label.component">COUNTRY</kohesio-ecl-form-label>
                 <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
@@ -112,7 +112,7 @@
                 <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
+            <kohesio-ecl-accordion i18n-title="ADVANCED FILTERS|@@common.advancedFilters" title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <!-- <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>

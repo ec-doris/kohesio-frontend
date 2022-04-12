@@ -1,0 +1,12 @@
+{
+  "locale": "fr",
+  "translations": {
+    "home.page.inMyRegion": "DANS MA RÉGION",
+    "home.page.themes": "THÈMES",
+    "home.page.exploreMore": "Explore plus",
+    "plural.project": " {$ICU} ",
+    "8062657964588488336": "{VAR_PLURAL, plural, =1 {projet} other {projets}}",
+    "country.label.component": "PAYS",
+    "common.advancedFilters": "FILTRES AVANCÉS"
+  }
+}

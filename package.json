@@ -9,7 +9,7 @@
     "build-prod": "ng build --configuration production --outputHashing=all --no-progress",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "extract-i18n": "ng extract-i18n --output-path src/locale"
+    "extract-i18n": "ng extract-i18n --output-path src/locale --format json"
   },
   "private": true,
   "dependencies": {

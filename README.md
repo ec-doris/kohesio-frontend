@@ -52,6 +52,10 @@ We are using ECL to all look and feel, version 3.2.2.
 
 For the map we are using pure leaflet version 1.6.0
 
+## Internationalization
+
+
+
 ## Important Links
 
 - ECL documentation: [https://ec.europa.eu/component-library/ec/harmonised-templates/page-header/group1/](https://ec.europa.eu/component-library/ec/harmonised-templates/page-header/group1/)

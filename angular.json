@@ -14,13 +14,13 @@
         }
       },
       "i18n": {
-        "sourceLocale": "en-US",
+        "sourceLocale": "en",
         "locales": {
           "pt": {
-            "translation": "src/locale/messages.pt.xlf"
+            "translation": "src/locale/messages.pt.json"
           },
-          "en": {
-            "translation": "src/locale/messages.xlf"
+          "fr": {
+            "translation": "src/locale/messages.fr.json"
           }
         }
       },
@@ -96,7 +96,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "localize": ["en-US"]
+              "localize": ["en"]
             }
           },
           "defaultConfiguration": "production"
