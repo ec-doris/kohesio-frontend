@@ -49,8 +49,10 @@ class Write {
             });
         }else if (splitLabel.length > 1){
             splitLabel.forEach(portion=>{
-                const rT = portion.startsWith("{$") ? this.redPortion(portion) : this.normalPortion(portion)
-                richText.push(rT);
+                if (portion!=""){
+                    const rT = portion.startsWith("{$") ? this.redPortion(portion) : this.normalPortion(portion)
+                    richText.push(rT);
+                }
             });
         }else{
             richText.push({
