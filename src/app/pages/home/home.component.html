@@ -47,7 +47,7 @@
                                     </h1>                     
                                     <div class="ecl-card__info-container number">
                                         <ng-container *ngIf="theme.id=='TO04'" >
-                                            {{stats?.themes?.lowCarbonEconomy | number:'1.0-3'}}
+                                            {{stats?.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}}
                                             <ng-container i18n="@@page.home.project">
                                                 {stats?.themes?.lowCarbonEconomy, plural, =1 {project} other {projects}}
                                             </ng-container> 

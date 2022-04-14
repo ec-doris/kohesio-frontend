@@ -96,7 +96,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "localize": ["en"]
+              "localize": ["pt"]
             }
           },
           "defaultConfiguration": "production"

@@ -12,98 +12,103 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/projects']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Projects</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.project-detail.breadcrumb.projects">Projects</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Project Details</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.project-detail.breadcrumb.projectDetails">Project Details</span>
         </li>
     </ol>
 </nav>
 
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
     <div class="kohesio-page-detail-tools">
-        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()">Open</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)">More</kohesio-ecl-button>
+        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.project-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
             <div class="kohesio-side-content-block">
-                <span class="title">project info</span>
+                <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
                 <div class="content">
-                    <span>Start date: </span>
+                    <span i18n="@@page.project-detail.label.startDate">Start date: </span>
                     <span>
                         <ng-container *ngIf="project?.startTime">
                             {{project.startTime | date:'d MMMM yyyy'}}
                         </ng-container>
-                        <ng-container *ngIf="!project?.startTime">n/a</ng-container>
+                        <ng-container *ngIf="!project?.startTime" i18n="@@page.project-detail.label.na">n/a</ng-container>
                     </span>
                 </div>
                 <div class="content">
-                    <span>End date: </span>
+                    <span i18n="@@page.project-detail.label.endDate">End date: </span>
                     <span>
                         <ng-container *ngIf="project?.endTime">
                             {{project.endTime | date:'d MMMM yyyy'}}
                         </ng-container>
-                        <ng-container *ngIf="!project?.endTime">n/a</ng-container>
+                        <ng-container *ngIf="!project?.endTime" i18n="@@page.project-detail.label.na">n/a</ng-container>
                     </span>
                 </div>
 
                 <div class="content">
-                    <span>Managing authority: </span>
+                    <span i18n="@@page.project-detail.label.managingAuthority">Managing authority: </span>
                     {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
                 </div>
 
                 <div class="content" *ngIf="project?.projectWebsite">
-                    <span>Project website: </span>
-                    <a class="ecl-link ecl-link--standalone" [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank">link</a>
-                    <ng-container *ngIf="!project?.projectWebsite">n/a</ng-container>
+                    <span i18n="@@page.project-detail.label.projectWebsite">Project website: </span>
+                    <a class="ecl-link ecl-link--standalone" [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank" i18n="@@page.project-detail.link.link">link</a>
+                    <ng-container *ngIf="!project?.projectWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.programWebsite">
-                    <span>Programme website: </span>
+                    <span i18n="@@page.project-detail.label.programmeWebsite">Programme website: </span>
                     <a class="ecl-link ecl-link--standalone" [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
-                    <ng-container *ngIf="!project?.programWebsite">n/a</ng-container>
+                    <ng-container *ngIf="!project?.programWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                    <a class="ecl-link ecl-link--standalone" [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank">Read further about the project</a>
-                    <ng-container *ngIf="!project?.infoRegioUrl">n/a</ng-container>
+                    <a class="ecl-link ecl-link--standalone" [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
+                    <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
             </div>
 
 
             <div class="kohesio-side-content-block">
-                <span class="title">funding</span>
+                <span class="title" i18n="@@page.project-detail.label.funding">funding</span>
                 <div class="content">
-                    <span>Fund: </span>
+                    <span i18n="@@page.project-detail.label.fund">Fund: </span>
                     <span>{{project?.fundLabel}}</span>
-                    <span *ngIf="!project?.fundLabel">n/a</span>
+                    <span *ngIf="!project?.fundLabel" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
 
                 <div class="content">
-                    <span>Programming period: </span>
+                    <span i18n="@@page.project-detail.label.programmingPeriod">Programming period: </span>
                     <span>{{project?.programmingPeriodLabel}}</span>
                 </div>
                 <div class="content">
-                    <span>Programme: </span>
-                    <span><a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">{{project?.programLabel ? project?.programLabel : 'n/a'}}</a></span>
+                    <span i18n="@@page.project-detail.label.programme">Programme: </span>
+                    <span>
+                        <a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">
+                            <ng-container *ngIf="project?.programLabel">{{project?.programLabel}}</ng-container>
+                            <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                        </a>
+                    </span>
                 </div>
 
                 <div class="content">
-                    <span>Total budget: </span>
+                    <span i18n="@@page.project-detail.label.totalBudget">Total budget: </span>
                     <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                    <span *ngIf="!project?.budget">n/a</span>
+                    <span *ngIf="!project?.budget" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
 
                 <div class="content">
-                    <span>EU contribution: </span>
-                    <span *ngIf="!project?.euBudget">n/a</span>
+                    <span i18n="@@page.project-detail.label.euContribution">EU contribution: </span>
+                    <span *ngIf="!project?.euBudget" i18n="@@page.project-detail.label.na">n/a</span>
                     <span *ngIf="project?.euBudget">
                         {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                         <ng-container *ngIf="project?.cofinancingRate">
@@ -115,32 +120,35 @@
 
 
             <div class="kohesio-side-content-block">
-                <span class="title" *ngIf="project.objectiveLabels.length <= 1">theme</span>
-                <span class="title" *ngIf="project.objectiveLabels.length > 1">themes</span>
+                <span class="title" i18n="@@page.project-detail.label.theme">
+                    {project.objectiveLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
+                </span>
                 <div class="content  padding" *ngFor="let item of project?.objectiveLabels">
                     <span class="no-bold">{{item}}</span>
                 </div>
                 <div class="content" *ngIf="project.objectiveLabels.length == 0">
-                    <span class="no-bold" >n/a</span>
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
 
 
             <div class="kohesio-side-content-block">
-                <span class="title" *ngIf="project.categoryLabels.length <= 1">intervention field</span>
-                <span class="title" *ngIf="project.categoryLabels.length > 1">intervention fields</span>
+                <span class="title" i18n="@@page.project-detail.label.interventionField">
+                    {project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}
+                </span>
                 <div class="content padding" *ngFor="let item of project?.categoryLabels">
                     <span class="no-bold">{{item}}</span>
                 </div>
                 <div class="content" *ngIf="project.categoryLabels.length == 0">
-                    <span class="no-bold" >n/a</span>
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
 
 
             <div class="kohesio-side-content-block" >
-                <span class="title" *ngIf="project.beneficiaries.length <= 1">beneficiary</span>
-                <span class="title" *ngIf="project.beneficiaries.length > 1">beneficiaries</span>
+                <span class="title" i18n="@@page.project-detail.label.beneficiary">
+                    {project.categoryLabels.length, plural, =0 {beneficiary} =1 {beneficiary} other {beneficiaries}}
+                </span>
                 <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
                     <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
                     <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
@@ -149,7 +157,7 @@
                     <span *ngIf="beneficiary.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                 </div>
                 <div class="content" *ngIf="project.beneficiaries.length == 0">
-                    <span class="no-bold" >n/a</span>
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
         </div>
@@ -193,7 +201,7 @@
                                 <p class="ecl-u-type-paragraph">{{project?.description}}</p>
                         </div>
                         <div class="kohesio-social-icons-wrapper">
-                            <span class="title">share on </span>
+                            <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
                                     <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
@@ -253,11 +261,11 @@
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
                 <h2 class="title ecl-u-type-heading-5">
                     <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
-                    In
+                    <ng-container i18n="@@page.project-detail.label.in">In</ng-container>
                     <ng-container *ngIf="project?.regionText">
                         {{project?.regionText}}
                     </ng-container>
-                    <ng-container *ngIf="!project?.regionText">[THE REGION]</ng-container>
+                    <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
                 </h2>
                 <app-map mapId="map-details" [hideNavigation]="true"></app-map>
             </div>
