@@ -17,7 +17,7 @@ export class ConfigService {
     }
 
     get apiBaseUrl(){
-        return this.configValues.api_url;
+        return this.configValues ? this.configValues.api_url : '';
     }
 
     public load(): Promise<any> {
