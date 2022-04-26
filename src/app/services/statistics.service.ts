@@ -1,22 +1,31 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
-import {environment} from "../../environments/environment";
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ConfigService } from './config.service';
+import { Statistics } from '../models/statistics.model';
+import { plainToClass } from 'class-transformer';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StatisticsService {
 
-    constructor(private http: HttpClient, private configService: ConfigService) { }
+    private url:string = '/statistics';
 
-    getKeyFigures(): Observable<any>  {
-        const url = this.configService.apiBaseUrl + '/statistics';
-        return this.http.get<any>(url).pipe(
-            map(data => {
-                return data;
+    constructor(private http: HttpClient,
+                private configService: ConfigService) { 
+        
+        if (configService && configService.apiBaseUrl){
+            this.url = configService.apiBaseUrl + this.url;
+        }
+
+    }
+
+    getKeyFigures(): Observable<Statistics>  {
+        return this.http.get<Statistics>(this.url).pipe(
+            map((data:any) => {
+                return plainToClass(Statistics, data);
             })
         );
     }

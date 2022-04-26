@@ -95,8 +95,13 @@
                 <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>{{this.myForm.value.country ? 'REGION' : 'REGION (select a country)'}}</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>REGION</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select 
+                formControlName="region" 
+                [items]="this.filters.regions" 
+                [isDisabled]="!this.myForm.value.country" 
+                placeholder="Select a country" >
+                </kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>POLICY</kohesio-ecl-form-label>
@@ -117,8 +122,8 @@
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>{{this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'}}</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>PROGRAMME</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country" placeholder="Select a country" ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>TOTAL BUDGET</kohesio-ecl-form-label>

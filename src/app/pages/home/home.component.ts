@@ -8,6 +8,7 @@ import { Filters } from 'src/app/models/filters.model';
 import { ThemeService } from 'src/app/services/theme.service';
 import { Theme } from 'src/app/models/theme.model';
 import { PolicyObjective } from 'src/app/models/policy-objective.model';
+import { Statistics } from 'src/app/models/statistics.model';
 
 @Component({
     templateUrl: './home.component.html',
@@ -18,7 +19,7 @@ export class HomePageComponent implements AfterViewInit {
     @ViewChild(MapComponent) map!: MapComponent;
 
     // public index = 0;
-    public stats:any = {};
+    public stats?:Statistics;
     filterValue: string = "";
     public homePageThemes!: Theme[];
     public policyObjective!: PolicyObjective;
@@ -29,7 +30,7 @@ export class HomePageComponent implements AfterViewInit {
                 private statisticsService: StatisticsService,
                 private themeService: ThemeService){
 
-        this.statisticsService.getKeyFigures().subscribe((data)=>{
+        this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
             this.stats = data;
         });
         this.themeService.getThemes().subscribe((themes)=>{
