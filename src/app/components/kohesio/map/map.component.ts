@@ -140,7 +140,7 @@ export class MapComponent implements AfterViewInit {
                 //tap: !L.Browser.mobile
                 gestureHandling: true
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://europa.eu/webtools/maps/tiles/osmec2/{z}/{x}/{y}', {
+        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4CompositeEN/EPSG3857/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
