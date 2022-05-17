@@ -1,0 +1,21 @@
+{
+  "name": "i18n-parse-poetry",
+  "version": "1.0.0",
+  "description": "Responsible to parse i18n english file into excel to send it to poetry and another way around",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "parse-write": "ts-node src/write.ts"
+  },
+  "author": "Raphael Domingues",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
+  }
+}

@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
+import { LOCALE_ID, Inject } from '@angular/core';
 declare let ECL:any;
 declare let $wt:any;
 
@@ -14,12 +15,14 @@ export class AppComponent {
   count:number = 0;
   lastPage:string = "";
 
-  constructor(public router:Router){
-
+  constructor(public router:Router,@Inject(LOCALE_ID) public locale: string){
+    console.log("LOCALE=",locale);
   }
 
   ngOnInit(){
     ECL.autoInit();
+
+    
 
     this.router.events.subscribe(value => {
       if (value instanceof NavigationEnd){

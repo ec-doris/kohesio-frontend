@@ -10,78 +10,78 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/beneficiaries']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Beneficiaries</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.beneficiary-detail.breadcrumb.beneficiaries">Beneficiaries</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Beneficiary Details</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.beneficiary-detail.breadcrumb.beneficiaryDetails">Beneficiary Details</span>
         </li>
     </ol>
 </nav>
 <div class="kohesio-page-detail">
     <div class="kohesio-page-detail-tools">
-        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)">More</kohesio-ecl-button>
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.beneficiary-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.beneficiary-detail.button.more">More</kohesio-ecl-button>
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
             <div class="kohesio-side-content-block">
-                <span class="title">more info</span>
+                <span class="title" i18n="@@page.beneficiary-detail.label.moreInfo">more info</span>
                 <div class="content">
-                    <span>Start date: </span>
+                    <span i18n="@@page.beneficiary-detail.label.startDate">Start date: </span>
                     <span>
                         <ng-container *ngIf="beneficiary?.minStartTime">
                             {{beneficiary.minStartTime | date:'d MMMM yyyy'}}
                         </ng-container>
-                        <ng-container *ngIf="!beneficiary?.minStartTime">n/a</ng-container>
+                        <ng-container *ngIf="!beneficiary?.minStartTime" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
                     </span>
                 </div>
                 <div class="content">
-                    <span>End date: </span>
+                    <span i18n="@@page.beneficiary-detail.label.endDate">End date: </span>
                     <span>
                         <ng-container *ngIf="beneficiary?.maxEndTime">
                             {{beneficiary.maxEndTime | date:'d MMMM yyyy'}}
                         </ng-container>
-                        <ng-container *ngIf="!beneficiary?.maxEndTime">n/a</ng-container>
+                        <ng-container *ngIf="!beneficiary?.maxEndTime" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
                     </span>
                 </div>
                 <div class="content">
-                    <span>Number of projects: </span>
+                    <span i18n="@@page.beneficiary-detail.label.numberProjects">Number of projects: </span>
                     {{beneficiary?.numberProjects}}
                 </div>
                 <div class="content">
-                    <span>Total budget: </span>
+                    <span i18n="@@page.beneficiary-detail.label.totalBudget">Total budget: </span>
                     <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                 </div>
                 <div class="content">
-                    <span>EU contribution: </span>
+                    <span i18n="@@page.beneficiary-detail.label.euContribution">EU contribution: </span>
                     <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                    <span *ngIf="beneficiary?.totalEuBudget==0">n/a</span>
+                    <span *ngIf="beneficiary?.totalEuBudget==0" i18n="@@page.beneficiary-detail.label.na">n/a</span>
                 </div>
                 <div class="content">
-                    <span>Website: </span>
+                    <span i18n="@@page.beneficiary-detail.label.website">Website: </span>
                     <a class="ecl-link ecl-link--standalone" [href]="beneficiary?.website" *ngIf="beneficiary?.website" target="_blank">link</a>
-                    <ng-container *ngIf="!beneficiary?.website">n/a</ng-container>
+                    <ng-container *ngIf="!beneficiary?.website" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content">
-                    <span>Country: </span>
+                    <span i18n="@@page.beneficiary-detail.label.country">Country: </span>
                     <!-- <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
                     </ux-popover> -->
                     <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
                 </div>
             </div>
             <div class="kohesio-side-content-block" *ngIf="beneficiary.budgetsPerFund && beneficiary.budgetsPerFund.length">
-                <span class="title">funds</span>
+                <span class="title" i18n="@@page.beneficiary-detail.label.funds">funds</span>
                 <div class="content" *ngFor="let fund of beneficiary.budgetsPerFund">
                     <span>{{fund.fundLabel}}: </span>
                     <span *ngIf="fund?.totalEuBudget!=0">{{fund.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
-                    <span *ngIf="fund?.totalEuBudget==0">n/a</span>
+                    <span *ngIf="fund?.totalEuBudget==0" i18n="@@page.beneficiary-detail.label.na">n/a</span>
                 </div>
             </div>
         </div>
@@ -112,7 +112,7 @@
                             <p class="ecl-u-type-paragraph">{{beneficiary?.description}}</p>
                         </div>
                         <div class="kohesio-social-icons-wrapper">
-                            <span class="title">share on </span>
+                            <span class="title" i18n="@@page.beneficiary-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
                                     <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
@@ -173,7 +173,10 @@
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
                 <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
-            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" title="PROJECTS" [collapsed]="mobileQuery">
+            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" 
+                i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects" 
+                title="PROJECTS" [collapsed]="mobileQuery">
+
                 <div class="right-table-tools">
                     <mat-paginator [pageSize]="15"
                                     [length]="beneficiary.numberProjects"
@@ -183,7 +186,7 @@
                 </div>
                 <mat-table [dataSource]="beneficiaryProjects">
                     <ng-container matColumnDef="label">
-                        <mat-header-cell *matHeaderCellDef>PROJECT</mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.project">PROJECT</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                             <span>
                                 <a class="ecl-link ecl-link--standalone" [routerLink]="['/projects/' + row.id]">{{row.label}}</a>
@@ -191,19 +194,19 @@
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="budget">
-                        <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.totalBudget">TOTAL BUDGET</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                             {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="euBudget">
-                        <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.euContribution">EU CONTRIBUTION</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                             {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="fundLabel">
-                        <mat-header-cell *matHeaderCellDef>FUND</mat-header-cell>
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.fund">FUND</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                             {{row.fundLabel ? row.fundLabel : 'n/a'}}
                         </mat-cell>
