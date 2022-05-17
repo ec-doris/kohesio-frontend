@@ -20,22 +20,22 @@ export class FilterService {
 
     getProjectsFilters(): Observable<FiltersApi>{
         return this.getFilters(
-            forkJoin(
+            forkJoin([
                 this.getFilter('thematic_objectives'),
                 this.getFilter('policy_objective'),
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
                 this.getFilter('countries')
-            )
+            ])
         );
     }
 
     getBeneficiariesFilters(): Observable<FiltersApi>{
         return this.getFilters(
-            forkJoin(
+            forkJoin([
                 this.getFilter('funds'),
                 this.getFilter('countries')
-            )
+            ])
         );
     }
 
