@@ -3,20 +3,18 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Themes</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.themes.breadcrumb.themes">Themes</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="ecl-row">
-        <div class="ecl-col-xl-12 header-title">
-            explore the projects by theme
-        </div>
+        <div class="ecl-col-xl-12 header-title" i18n="@@page.themes.exploreProjectsByTheme">explore the projects by theme</div>
     </div>
     <div class="ecl-row">
         <ng-container *ngFor="let theme of themes">

@@ -25,12 +25,12 @@
                         <svg class="ecl-icon ecl-icon--m" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#location"></use>
                         </svg>
-                        <span class="ecl-button__label" data-ecl-label="true">PROJECTS NEAR ME</span>
+                        <span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.map.button.projectsNearMe">PROJECTS NEAR ME</span>
                     </span>
                 </button>
             </div>
             <div class="map-outermost-regions-container" *ngIf="showOutermostRegions()">
-                <div class="title">Outermost Regions</div>
+                <div class="title" i18n="@@comp.map.label.outermostRegions">Outermost Regions</div>
                 <div class="map-outermost-regions-wrapper" [ngClass]="mapRegions.length > 1 ? 'withoutColumns' : 'withColumns' ">
                     <div (click)="loadOutermostRegion(filters, outermostRegion)"
                     class="outermostRegion-wrapper" *ngFor="let outermostRegion of outermostRegions | outermostRegions: (mapRegions)">
