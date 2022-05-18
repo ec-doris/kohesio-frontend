@@ -279,5 +279,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
+        <mat-paginator [pageSize]="pageSize" [length]="count" [hidePageSize]="true" (page)="onPaginate($event)">
+        </mat-paginator>
     </mat-drawer-content>
 </mat-drawer-container>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
 import { FormBuilder, FormGroup } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
@@ -26,7 +26,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public dataSource!: MatTableDataSource<Beneficiary>;
     public isLoading = false;
     public count = 0;
-    @ViewChild(MatPaginator) paginator!: MatPaginator;
+    @ViewChildren(MatPaginator) paginators!:QueryList<MatPaginator>;
     @ViewChild("sidenav") sidenav!: MatDrawer;
     displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
     public advancedFilterIsExpanded: boolean = false;
@@ -115,7 +115,9 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         if (this._route.snapshot.queryParamMap.has('page')){
             const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
             if (pageParam){
-                this.paginator.pageIndex = parseInt(pageParam) - 1;
+                this.paginators.forEach(paginator=>{
+                    paginator.pageIndex = parseInt(pageParam) - 1;
+                });
             }
         }
     }
@@ -123,10 +125,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     onSubmit() {
         this.dataSource = new MatTableDataSource<Beneficiary>([]);;
 
-        if (this.paginator.pageIndex == 0) {
+        if (this.paginators.toArray()[0].pageIndex == 0) {
             this.performSearch();
         } else {
-            this.paginator.firstPage();
+            this.paginators.toArray()[0].firstPage();
         }
 
         this._router.navigate([], {
@@ -144,8 +146,9 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             this.sidenav.close();
         }
 
-        let initialPageIndex = this.paginator ? this.paginator.pageIndex : 0;
-        if (this._route.snapshot.queryParamMap.has('page') && !this.paginator){
+        let initialPageIndex = this.paginators && this.paginators.toArray().length ? this.paginators.toArray()[0].pageIndex : 0;
+        if (this._route.snapshot.queryParamMap.has('page') 
+                && this.paginators && !this.paginators.toArray()[0]){
             const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
             if (pageParam){
                 const pageIndex = parseInt(pageParam) - 1;
@@ -157,11 +160,25 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList | null) => {
             if (result){
-                this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
-                this.count = result.numberResults;
+                if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+                    this._router.navigate([], {
+                        queryParams: {
+                          'page': null,
+                        },
+                        queryParamsHandling: 'merge'
+                      });
+                      if (this.paginators.toArray()[0]){
+                        this.paginators.forEach(paginator=>{
+                            paginator.pageIndex = 0;
+                        });
+                      }
+                      this.performSearch();
+                }else{
+                    this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
+                    this.count = result.numberResults;
+                    this.isLoading = false;
+                }
             }
-            //this.dataSource.paginator = this.paginator;
-            this.isLoading = false;
         });
     }
 
@@ -213,7 +230,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     onPaginate(event:any) {
         
-        this.paginator.pageIndex = event.pageIndex;
+        this.paginators.forEach(paginator=>{
+            paginator.pageIndex = event.pageIndex;
+        })
+        
         this.performSearch();
 
         this._router.navigate([], {
