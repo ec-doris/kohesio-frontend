@@ -157,11 +157,23 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList | null) => {
             if (result){
-                this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
-                this.count = result.numberResults;
+                if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+                    this._router.navigate([], {
+                        queryParams: {
+                          'page': null,
+                        },
+                        queryParamsHandling: 'merge'
+                      });
+                      if (this.paginator){
+                        this.paginator.pageIndex = 0;
+                      }
+                      this.performSearch();
+                }else{
+                    this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
+                    this.count = result.numberResults;
+                    this.isLoading = false;
+                }
             }
-            //this.dataSource.paginator = this.paginator;
-            this.isLoading = false;
         });
     }
 

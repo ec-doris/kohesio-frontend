@@ -251,25 +251,40 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
-          this.projects = result.list;
-          this.count = result.numberResults;
-          this.semanticTerms = result.similarWords;
+          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+              this._router.navigate([], {
+                queryParams: {
+                  'page': null,
+                },
+                queryParamsHandling: 'merge'
+              });
+              if (this.paginatorTop){
+                this.paginatorTop.pageIndex = 0;
+              }
+              if (this.paginatorDown){
+                this.paginatorDown.pageIndex = 0;
+              }
+              this.getProjectList();
+          }else{
+            this.projects = result.list;
+            this.count = result.numberResults;
+            this.semanticTerms = result.similarWords;
+            this.isLoading = false;
+            //go to the top
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            if (this.selectedTabIndex == 2) {
+              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                    this.map.loadMapRegion(this.lastFiltersSearch);
+                }, 500);
+            } else {
+              this.mapIsLoaded = false;
+            }
+          }
         }
-        this.isLoading = false;
-
-        //go to the top
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-
-        if (this.selectedTabIndex == 2) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-                this.map.loadMapRegion(this.lastFiltersSearch);
-            }, 500);
-        } else {
-          this.mapIsLoaded = false;
-        }
+        
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
