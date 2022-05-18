@@ -147,8 +147,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         }
 
         let initialPageIndex = this.paginators && this.paginators.toArray().length ? this.paginators.toArray()[0].pageIndex : 0;
-        if (this._route.snapshot.queryParamMap.has('page') 
-                && this.paginators && !this.paginators.toArray()[0]){
+        if (this._route.snapshot.queryParamMap.has('page') && !this.paginators){
             const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
             if (pageParam){
                 const pageIndex = parseInt(pageParam) - 1;
