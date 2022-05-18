@@ -128,6 +128,7 @@ mat-header-cell:last-of-type {
     }
 
     mat-paginator {
+        min-width: 220px;
         width: 100%;
     
         @include media('>small') {
