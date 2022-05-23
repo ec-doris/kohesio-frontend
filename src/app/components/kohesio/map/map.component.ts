@@ -564,6 +564,13 @@ export class MapComponent implements AfterViewInit {
                             fillOpacity: 0.5
                         });
                     }
+                    setTimeout(() => {
+                        this.map.dragging.enable();
+                        this.map.scrollWheelZoom.enable();
+                        if (this.map.tap) {
+                            this.map.tap.enable();
+                        }
+                    })
                 },
             });
         }, this.polygonsStyle);
