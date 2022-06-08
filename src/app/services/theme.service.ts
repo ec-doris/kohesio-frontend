@@ -3,19 +3,19 @@ import { HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {Theme} from "../models/theme.model";
-import { ConfigService } from './config.service';
 import { PolicyObjective } from '../models/policy-objective.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ThemeService {
 
-    constructor(private http: HttpClient, private configService: ConfigService) {
+    constructor(private http: HttpClient) {
     }
 
     getThemes(): Observable<Theme[]> {
-        const url = this.configService.apiBaseUrl + '/thematic_objectives';
+        const url = environment.apiBaseUrl + '/thematic_objectives';
         return this.http.get<any>(url).pipe(
           map((data:any[]) => {
             return data.map((theme:any) => {
@@ -25,7 +25,7 @@ export class ThemeService {
     }
 
     getPolicyObjectives(): Observable<PolicyObjective[]> {
-      const url = this.configService.apiBaseUrl + '/policy_objective';
+      const url = environment.apiBaseUrl + '/policy_objective';
       return this.http.get<any>(url).pipe(
         map((data:any[]) => {
           return data.map((policyObjective:any) => {

@@ -101,14 +101,32 @@
 :host ::ng-deep {
     .leaflet-popup-content {
         overflow: auto;
+        overflow-x: hidden;
         max-height: 300px;
+        margin: 20px 10px 5px 10px;
+    }
+    .leaflet-popup-content::-webkit-scrollbar {
+        -webkit-appearance: none;
+        width: 7px;
+    }
+    
+    .leaflet-popup-content::-webkit-scrollbar-thumb {
+        border-radius: 4px;
+        background-color: rgba(0, 0, 0, .5);
+        box-shadow: 0 0 1px rgba(255, 255, 255, .5);
     }
     @include media("<=medium"){
+        .leaflet-popup{
+            width:220px;
+        }
         .leaflet-popup-content {
             max-width: 200px;
         }
     }
     @include media(">medium"){
+        .leaflet-popup{
+            width:315px;
+        }
         .leaflet-popup-content {
             max-width: 400px;
         }
@@ -184,3 +202,4 @@
     }
     
 }
+

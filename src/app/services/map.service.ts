@@ -4,17 +4,16 @@ import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import {Filters} from "../models/filters.model";
 import {environment} from "../../environments/environment";
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
 
-    constructor(private http: HttpClient, private configService: ConfigService) { }
+    constructor(private http: HttpClient) { }
 
     public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any>{
-        const url = this.configService.apiBaseUrl + '/search/project/map';
+        const url = environment.apiBaseUrl + '/search/project/map';
         let params:any = {}
         if (filters){
             params = Object.assign(filters.getMapProjectsFilters());
@@ -30,7 +29,7 @@ export class MapService {
     }
 
     public getPointsNearBy(): Observable<any>{
-        const url = this.configService.apiBaseUrl + '/map/nearby';
+        const url = environment.apiBaseUrl + '/map/nearby';
         return this.http.get<any>(url).pipe(
             map(data => {
                 return data;
@@ -39,7 +38,7 @@ export class MapService {
     }
 
     public getProjectsPerCoordinate(coordinates: string, filters?: Filters): Observable<any>{
-        const url = this.configService.apiBaseUrl + '/search/project/map/point';
+        const url = environment.apiBaseUrl + '/search/project/map/point';
         let params:any = {}
         if (filters){
             params = Object.assign(filters.getProjectsFilters());

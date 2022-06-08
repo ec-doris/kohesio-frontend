@@ -6,6 +6,7 @@
 }
 
 .kohesio-map-popup-wrapper {
+
     max-width: 600px;
     min-width: 200px;
     display: flex;
@@ -20,13 +21,18 @@
         min-width: 300px;
     }
 
+    .kohesio-popup-title-project{
+        margin-right:15px;
+        border-bottom: 1px solid lightgray;
+    }
+    .kohesio-popup-title-project:last-child{
+        border-bottom:0px;
+    }
+
     a {
         font-size: 12px;
         padding: 3px;
         margin: 3px 0;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
 
         @include media(">small") {
             font-size: 14px;

@@ -4,11 +4,8 @@ import {Filters} from "../models/filters.model";
 import {Observable, throwError} from "rxjs";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
-import {Beneficiary} from "../models/beneficiary.model";
 import {BeneficiaryList} from "../models/beneficiary-list.model";
-import {ProjectDetail} from "../models/project-detail.model";
 import {BeneficiaryDetail} from "../models/beneficiary-detail.model";
-import { ConfigService } from './config.service';
 import { BeneficiaryProjectList } from '../models/beneficiary-project-list.model';
 
 @Injectable({
@@ -16,10 +13,10 @@ import { BeneficiaryProjectList } from '../models/beneficiary-project-list.model
 })
 export class BeneficiaryService {
 
-    constructor(private http: HttpClient, private configService: ConfigService) { }
+    constructor(private http: HttpClient) { }
 
     getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList | null>  {
-        const url = this.configService.apiBaseUrl + "/search/beneficiaries";
+        const url = environment.apiBaseUrl + "/search/beneficiaries";
         const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -47,7 +44,7 @@ export class BeneficiaryService {
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
-        const url = this.configService.apiBaseUrl + "/search/beneficiaries/" + type;
+        const url = environment.apiBaseUrl + "/search/beneficiaries/" + type;
         const params = filters.getBeneficiariesFilters();
         return this.http.get(url,{
             responseType: 'arraybuffer',
@@ -56,7 +53,7 @@ export class BeneficiaryService {
     }
 
     getBeneficiaryDetail(id: string | null): Observable<BeneficiaryDetail> {
-        const url = this.configService.apiBaseUrl + '/beneficiary';
+        const url = environment.apiBaseUrl + '/beneficiary';
         let params = {
             id: environment.entityURL + id
         };
@@ -77,7 +74,7 @@ export class BeneficiaryService {
     }
 
     getBeneficiaryProjects(id: string | null, pageIndex:number = 0): Observable<BeneficiaryProjectList> {
-        const url = this.configService.apiBaseUrl + '/beneficiary/project';
+        const url = environment.apiBaseUrl + '/beneficiary/project';
         let params = {
             id: environment.entityURL + id,
             page: pageIndex,
