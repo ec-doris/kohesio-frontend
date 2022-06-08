@@ -32,7 +32,7 @@ export class MapComponent implements AfterViewInit {
         bounds: this.europeBounds
     };
     public mapRegions:any = [];
-    public isLoading = false;
+    public isLoading = true;
     public dataRetrieved = false;
     public outermostRegions = [{
         label: "Madeira",
@@ -400,10 +400,13 @@ export class MapComponent implements AfterViewInit {
         const granularityRegion = environment.entityURL + outermostRegion.id;
         this.loadMapVisualization(filters, granularityRegion);
         this.mapRegions = this.mapRegions.slice(0,1);
-        this.mapRegions.push({
-            label: outermostRegion.countryLabel,
-            region: environment.entityURL + outermostRegion.country
-        });
+        
+        if (this.mapRegions.length && !this.mapRegions[0].region){
+            this.mapRegions.push({
+                label: outermostRegion.countryLabel,
+                region: environment.entityURL + outermostRegion.country
+            }); 
+        }
         this.mapRegions.push({
             label: outermostRegion.label,
             region: granularityRegion
@@ -492,16 +495,17 @@ export class MapComponent implements AfterViewInit {
         if (this.hideOuterMostRegions || this.nearByView){
             return false;
         }
-        if (this.mapRegions.length > 1){
-            const countryId = this.mapRegions[1].region.replace(environment.entityURL, "");
+        if (this.mapRegions.length > 1 || (this.mapRegions.length == 1 && this.mapRegions[0].region)){
+            const index = (this.mapRegions.length>1 && !this.mapRegions[0].region) ? 1 : 0;
+            const countryId = this.mapRegions[index].region.replace(environment.entityURL, "");
             const region = this.outermostRegions.filter((region:any)=>{
                 return region.country == countryId;
             });
             if (!region.length){
                 return false;
             }
-            if (this.mapRegions.length > 2){
-                const regionId = this.mapRegions[2].region.replace(environment.entityURL, "");
+            if (this.mapRegions.length > 2 || (this.mapRegions.length == 2 && this.mapRegions[0].region)){
+                const regionId = this.mapRegions[this.mapRegions.length-1].region.replace(environment.entityURL, "");
                 const regionT = this.outermostRegions.find((region:any)=>{
                         return region.id == regionId;
                 });

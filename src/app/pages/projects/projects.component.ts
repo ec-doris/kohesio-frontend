@@ -131,6 +131,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.selectedTabIndex = 1;
         }else if (tabParam=="map"){
           this.selectedTabIndex = 2;
+          this.isMapTab=true;
+          this.selectedTab="map";
         }
       }
       if (this._route.snapshot.queryParamMap.has('page')){
@@ -311,6 +313,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         queryParams: this.generateQueryParams(),
         queryParamsHandling: 'merge'
       });
+      if (this.isMapTab){
+        this.map.refreshView();
+        this.map.isLoading = true;
+      }
     }
 
     onPaginate(event: any) {
