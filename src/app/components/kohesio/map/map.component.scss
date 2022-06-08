@@ -30,12 +30,20 @@
     .loading{
         position:absolute;
         width: 100%;
-        z-index:2;
+        z-index:2000;
         height: 100%;
         background-color: rgba(255,255,255,0.7);
         display: flex;
         justify-content: center;
         align-items: center;
+    }
+    .eu-disclaimer{
+        position: absolute;
+        z-index: 1000;
+        font-size: 10px;
+        background-color: rgba(255,255,255,0.7);
+        padding: 2px;
+        max-width: 350px;
     }
     .right-outermost-regions{
         position: absolute;
@@ -182,6 +190,12 @@
     }
 }
 
+@include media(">small"){
+    .eu-disclaimer{
+        bottom: 0;
+    }
+}
+
 /*Mobile Styles*/
 @include media("<=small"){
     .right button .ecl-button__label{
@@ -200,7 +214,7 @@
         }
     }
     .map-outermost-regions-container{
-        bottom: 15px;
+        bottom: 45px;
         right: 0;
         width: 100%;
     }
@@ -209,6 +223,9 @@
         label{
             font-size:14px;
         }
+    }
+    .eu-disclaimer{
+        bottom: 15px;
     }
     
 }
