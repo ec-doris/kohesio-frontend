@@ -94,4 +94,10 @@ export class ProjectDetailComponent implements AfterViewInit {
         this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
 
+    reportDataBug(){
+        const to:string = "REGIO-KOHESIO@ec.europa.eu";
+        const subject:string = "Reporting error or duplicate";
+        const body:string = "Please describe the error or the duplicate with the URLs: " + window.location;
+        location.href=`mailto:${to}?subject=${subject}&body=${body}`
+    }
 }

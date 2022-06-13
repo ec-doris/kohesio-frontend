@@ -31,7 +31,8 @@
     <div class="kohesio-page-detail-tools">
         <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
         <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.project-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="reportDataBug()" i18n="@@page.project-detail.button.reportIssue">Report an issue</kohesio-ecl-button>
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
@@ -200,6 +201,7 @@
                         <div class="kohesio-article-post-content">
                                 <p class="ecl-u-type-paragraph">{{project?.description}}</p>
                         </div>
+                        
                         <div class="kohesio-social-icons-wrapper">
                             <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
