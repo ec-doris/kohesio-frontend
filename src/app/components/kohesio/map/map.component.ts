@@ -435,6 +435,7 @@ export class MapComponent implements AfterViewInit {
                         isHighlighted: point.isHighlighted,
                     }
                     this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                    this.hideOuterMostRegions = true;
                 })
             }else if (data.subregions && data.subregions.length) {
                 //Draw polygons of the regions
@@ -454,6 +455,7 @@ export class MapComponent implements AfterViewInit {
                     delete countryProps.geoJson;
                     this.drawPolygonsForRegion(region.geoJson, countryProps);
                 });
+                this.hideOuterMostRegions = false;
             }
 
             this.isLoading = false;
