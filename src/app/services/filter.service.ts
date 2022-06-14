@@ -21,7 +21,7 @@ export class FilterService {
         return this.getFilters(
             forkJoin([
                 this.getFilter('thematic_objectives'),
-                this.getFilter('policy_objective'),
+                this.getFilter('policy_objectives'),
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
                 this.getFilter('countries')

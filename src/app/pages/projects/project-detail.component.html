@@ -122,12 +122,12 @@
 
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.theme">
-                    {project.objectiveLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
+                    {project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
                 </span>
-                <div class="content  padding" *ngFor="let item of project?.objectiveLabels">
+                <div class="content  padding" *ngFor="let item of project?.themeLabels">
                     <span class="no-bold">{{item}}</span>
                 </div>
-                <div class="content" *ngIf="project.objectiveLabels.length == 0">
+                <div class="content" *ngIf="project.themeLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
@@ -173,7 +173,7 @@
                         </ng-container>
                         <ng-container>
                             <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
+                                <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
                             </div>
                         </ng-container>
                         <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
@@ -186,7 +186,7 @@
                                 </ng-container>
                                 <ng-container>
                                     <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                        <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
+                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
                                     </div>
                                 </ng-container>
                                 <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>

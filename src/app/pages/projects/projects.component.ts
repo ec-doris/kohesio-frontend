@@ -104,7 +104,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
         region: [],
-        policyObjective: [this.getFilterKey("policy_objective", "policyObjective")],
+        policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
         theme: [this.getFilterKey("thematic_objectives", "theme")],
         //Advanced filters
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
@@ -352,7 +352,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         country: this.getFilterLabel("countries", this.myForm.value.country),
         region: this.getFilterLabel("regions", this.myForm.value.region),
         theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
-        policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+        policyObjective: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         fund: this.getFilterLabel("funds", this.myForm.value.fund),
         program: this.getFilterLabel("programs", this.myForm.value.program),
