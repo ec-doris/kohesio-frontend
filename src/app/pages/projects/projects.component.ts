@@ -104,7 +104,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
         region: [],
-        policyObjective: [this.getFilterKey("policy_objective", "policyObjective")],
+        policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
         theme: [this.getFilterKey("thematic_objectives", "theme")],
         //Advanced filters
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
@@ -131,6 +131,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.selectedTabIndex = 1;
         }else if (tabParam=="map"){
           this.selectedTabIndex = 2;
+          this.isMapTab=true;
+          this.selectedTab="map";
         }
       }
       if (this._route.snapshot.queryParamMap.has('page')){
@@ -251,25 +253,40 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
-          this.projects = result.list;
-          this.count = result.numberResults;
-          this.semanticTerms = result.similarWords;
+          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+              this._router.navigate([], {
+                queryParams: {
+                  'page': null,
+                },
+                queryParamsHandling: 'merge'
+              });
+              if (this.paginatorTop){
+                this.paginatorTop.pageIndex = 0;
+              }
+              if (this.paginatorDown){
+                this.paginatorDown.pageIndex = 0;
+              }
+              this.getProjectList();
+          }else{
+            this.projects = result.list;
+            this.count = result.numberResults;
+            this.semanticTerms = result.similarWords;
+            this.isLoading = false;
+            //go to the top
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            if (this.selectedTabIndex == 2) {
+              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                    this.map.loadMapRegion(this.lastFiltersSearch);
+                }, 500);
+            } else {
+              this.mapIsLoaded = false;
+            }
+          }
         }
-        this.isLoading = false;
-
-        //go to the top
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-
-        if (this.selectedTabIndex == 2) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-                this.map.loadMapRegion(this.lastFiltersSearch);
-            }, 500);
-        } else {
-          this.mapIsLoaded = false;
-        }
+        
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
@@ -296,6 +313,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         queryParams: this.generateQueryParams(),
         queryParamsHandling: 'merge'
       });
+      if (this.isMapTab){
+        this.map.refreshView();
+        this.map.isLoading = true;
+      }
     }
 
     onPaginate(event: any) {
@@ -331,7 +352,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         country: this.getFilterLabel("countries", this.myForm.value.country),
         region: this.getFilterLabel("regions", this.myForm.value.region),
         theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
-        policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+        policyObjective: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         fund: this.getFilterLabel("funds", this.myForm.value.fund),
         program: this.getFilterLabel("programs", this.myForm.value.program),

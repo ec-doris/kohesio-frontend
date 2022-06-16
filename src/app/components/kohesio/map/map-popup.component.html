@@ -1,6 +1,6 @@
 <div class='kohesio-ignore-map-layer kohesio-map-popup-wrapper'>
     <!--<a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>-->
-    <div *ngFor="let project of projects" style="display: flex;flex-direction: row;" class="kohesio-ignore-map-layer">
+    <div *ngFor="let project of projects" style="display: flex;flex-direction: row;" class="kohesio-ignore-map-layer kohesio-popup-title-project">
         <span style="color: #203F79;" class="kohesio-ignore-map-layer">{{project.isHighlighted ? '★' : ''}}</span>
         <a class="kohesio-ignore-map-layer ecl-link ecl-link--standalone ecl-link--no-visited" style="cursor:pointer;" (click)="onSelectedProject(project)">{{project.label}}</a>
     </div>

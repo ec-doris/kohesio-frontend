@@ -3,16 +3,16 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Search</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.search.breadcrumb.search">Search</span>
         </li>
     </ol>
 </nav>
-<div class="no-results" *ngIf="items && items.length === 0 && !isLoading">No results</div>
+<div class="no-results" *ngIf="items && items.length === 0 && !isLoading" i18n="@@page.search.breadcrumb.noResults">No results</div>
 <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
 <!-- <div class="ecl-list-illustration ecl-list-illustration--zebra">
     <div class="ecl-list-illustration__item" *ngFor="let item of items">

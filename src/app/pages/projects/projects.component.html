@@ -21,19 +21,19 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Projects</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.projects.breadcrumb.projects">Projects</span>
         </li>
     </ol>
 </nav>
 
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
-        <span class="ecl-button__label" data-ecl-label="true">Filters</span>
+        <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.projects.button.filters">Filters</span>
         <svg *ngIf="!sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
@@ -45,18 +45,18 @@
 
 <popper-content #keywordsTooltip>
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none">KEYWORDS</h5>
+        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.projects.label.keywords">KEYWORDS</h5>
         <svg (click)="keywordsTooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
             <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
         </svg>
     </div>
     <hr>
-    <p class="ecl-u-type-paragraph">By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>).</p>
-    <p class="ecl-u-type-paragraph">The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
-    <p class="ecl-u-type-paragraph">To also include documents containing either word, use <b>green OR carbon</b>.</p>
-    <p class="ecl-u-type-paragraph">To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
-    <p class="ecl-u-type-paragraph">You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
-    <p class="ecl-u-type-paragraph">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p1">By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>).</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p2">The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p3">To also include documents containing either word, use <b>green OR carbon</b>.</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p4">To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p5">You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
+    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p6">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
 </popper-content>
 
 <mat-drawer-container class="filters-wrapper-container" autosize>
@@ -64,7 +64,7 @@
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>
-                    KEYWORDS
+                    <ng-container i18n="@@page.projects.label.keywords">KEYWORDS</ng-container>
                     <div [popper]="keywordsTooltip"
                     popperApplyClass="info-tooltip"
                     [popperHideOnClickOutside]="true"
@@ -81,8 +81,8 @@
             </kohesio-ecl-form-group>
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                 <div class="top">
-                    <div class="title">Also matching:</div>
-                    <a mat-stroked-button (click)="onRestrictSearch($event)">Use my keywords only</a>
+                    <div class="title" i18n="@@page.projects.label.alsoMatching">Also matching:</div>
+                    <a mat-stroked-button (click)="onRestrictSearch($event)" i18n="@@page.projects.label.useMyKeywordsOnly">Use my keywords only</a>
                 </div>
                 <div class="terms">
                     <ng-container *ngFor="let semanticTerm of semanticTerms" >
@@ -91,50 +91,51 @@
                 </div>
             </div>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>COUNTRY</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.projects.label.country">COUNTRY</kohesio-ecl-form-label>
                 <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>REGION</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.projects.label.region">REGION</kohesio-ecl-form-label>
                 <kohesio-ecl-form-select 
                 formControlName="region" 
                 [items]="this.filters.regions" 
-                [isDisabled]="!this.myForm.value.country" 
+                [isDisabled]="!this.myForm.value.country"
+                i18n-placeholder="Select a country|@@page.projects.placeholder.region"
                 placeholder="Select a country" >
                 </kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>POLICY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objective" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label i18n="@@page.projects.label.policy">POLICY</kohesio-ecl-form-label>
+                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objectives" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>THEME</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.projects.label.theme">THEME</kohesio-ecl-form-label>
                 <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
-            <kohesio-ecl-accordion title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
+            <kohesio-ecl-accordion i18n-title="ADVANCED FILTERS|@@page.projects.label.advancedFilters" title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <!-- <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>PROGRAMMING PERIOD</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>FUND</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.fund">FUND</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>PROGRAMME</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.programme">PROGRAMME</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country" placeholder="Select a country" ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>TOTAL BUDGET</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.totalBudget">TOTAL BUDGET</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="totalProjectBudget" [items]="this.filters.totalProjectBudget"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>EU CONTRIBUTION</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.EuContribution">EU CONTRIBUTION</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>INTERVENTION FIELD</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.interventionField">INTERVENTION FIELD</kohesio-ecl-form-label>
                     <!-- Autocomplete optgroup Intervention Field  -->
                     <mat-form-field class="intervention-autocomplete-wrapper" appearance="fill">
                         <mat-label>Please select</mat-label>
@@ -152,9 +153,9 @@
                     </mat-form-field>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label>DATE</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.date">DATE</kohesio-ecl-form-label>
                     <mat-form-field appearance="fill" style="margin-top:0px;width:100%;">
-                        <mat-label>Enter a date range</mat-label>
+                        <mat-label i18n="@@page.projects.label.enterDateRange">Enter a date range</mat-label>
                         <mat-date-range-input [rangePicker]="picker">
                             <input formControlName="projectStart" matStartDate placeholder="Start">
                             <input formControlName="projectEnd" matEndDate placeholder="End">
@@ -166,14 +167,14 @@
             </kohesio-ecl-accordion>
             <br/>
             <div class="search-buttons">
-                <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button">Reset Filters</button>
-                <kohesio-ecl-button type="submit">Show Results</kohesio-ecl-button>
+                <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">Reset Filters</button>
+                <kohesio-ecl-button type="submit" i18n="@@page.projects.button.showResults">Show Results</kohesio-ecl-button>
             </div>
         </form>
     </mat-drawer>
     <mat-drawer-content [ngClass]="getClassMatDrawerContent()">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
-            <mat-tab label="Results">
+            <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">
                     <div class="left-table-tools">
                         <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button>
@@ -274,7 +275,7 @@
                     [hidden]="(projects && projects.length === 0) || isMapTab">
                 </mat-paginator>
             </mat-tab>
-            <mat-tab label="Audiovisual">
+            <mat-tab label="Audiovisual" i18n-label="Audiovisual|@@page.projects.tab.audiovisual">
                 <mat-paginator #paginatorAssets
                                 [length]="assetsCount"
                                 [pageSize]="pageSize"
@@ -295,8 +296,8 @@
                     </ng-container>
                 </div>
             </mat-tab>
-            <mat-tab label="Map">
-                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [hideOuterMostRegions]="true"></app-map>
+            <mat-tab label="Map" i18n-label="Map|@@page.projects.tab.map">
+                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true"></app-map>
             </mat-tab>
         </mat-tab-group>
 

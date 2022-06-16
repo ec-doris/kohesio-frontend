@@ -12,7 +12,7 @@ export class ProjectDetail implements Deserializable{
     label: string | undefined;
     cofinancingRate: number | undefined;
     source: string | undefined;
-    objectiveLabels: string[] = [];
+    themeLabels: string[] = [];
     beneficiaries: [] = [];
     startTime: Date | undefined;
     euBudget: string | undefined;
@@ -23,7 +23,7 @@ export class ProjectDetail implements Deserializable{
     fundLabel: string | undefined;
     countryCode!: string;
     objectiveId: string | undefined;
-    objectiveIds!: [string];
+    themeIds!: [string];
     projectWebsite: string | undefined;
     programWebsite: string | undefined;
     programmingPeriodLabel: string | undefined;
@@ -45,7 +45,7 @@ export class ProjectDetail implements Deserializable{
             label: input.label,
             cofinancingRate: input.cofinancingRate ? parseFloat(input.cofinancingRate) : 0,
             source: input.source,
-            objectiveLabels: input.objectiveLabels,
+            themeLabels: input.themeLabels,
             beneficiaries: input.beneficiaries,
             startTime: input.startTime ? new Date(input.startTime) : undefined,
             euBudget: input.euBudget,
@@ -56,7 +56,7 @@ export class ProjectDetail implements Deserializable{
             fundLabel: input.fundLabel,
             countryCode: input.countryCode,
             objectiveId: input.objectiveId,
-            objectiveIds: input.objectiveIds,
+            themeIds: input.themeIds,
             projectWebsite: input.projectWebsite,
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
