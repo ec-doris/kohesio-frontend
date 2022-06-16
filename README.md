@@ -24,7 +24,7 @@ To start the application use:
 
 To develop the components, first we need to analyse if the component is simple enough to use pure ECL styles and new Angular Kohesio component, it means, a new component made by us inside this project.
 
-In other hand if you analyse that the component is too complex to handle all the features you can use Angular Material Components, trying also to align the look and feel with ECL Rules (Typography, Grid, Coulors, Spacing) see link bellow for documentation.
+However, if you realise that the component is too complex to handle all the features you can use Angular Material Components, trying also to align the look and feel with ECL Rules (Typography, Grid, Coulors, Spacing) see link bellow for documentation.
 
 ## Styling
 
