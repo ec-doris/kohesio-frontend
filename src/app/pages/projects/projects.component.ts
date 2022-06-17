@@ -57,8 +57,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
     Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
     Q2577335: ["Q236695"],                          //Connected Europe
-    Q2577336: ["Q236699"],                          //Europe closer to citizens
-    Q2577337: ["Q2577338"],                         //Technical Assistance
+    Q2577336: ["Q236699"]                           //Europe closer to citizens
   }
 
   public themeSelection = []
