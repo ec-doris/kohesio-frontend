@@ -2,7 +2,7 @@
     margin-right: 0px !important;
 }
 /*Page Detail Common Styles*/
-.kohesio-social-icons-wrapper {
+.kohesio-social-icons-wrapper, .kohesio-report-icons-wrapper {
     display: inline-flex;
     align-items: center;
     overflow: hidden;
@@ -147,7 +147,7 @@
     .kohesio-page-detail.modal{
         margin-bottom: 5rem;
     }
-    .kohesio-social-icons-wrapper {
+    .kohesio-social-icons-wrapper, .kohesio-report-icons-wrapper {
         display: flex;
         flex-direction: row;
         ul{
