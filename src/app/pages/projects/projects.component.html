@@ -106,7 +106,7 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label i18n="@@page.projects.label.policy">POLICY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objective" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objectives" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label i18n="@@page.projects.label.theme">THEME</kohesio-ecl-form-label>
@@ -297,7 +297,7 @@
                 </div>
             </mat-tab>
             <mat-tab label="Map" i18n-label="Map|@@page.projects.tab.map">
-                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [hideOuterMostRegions]="true"></app-map>
+                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true"></app-map>
             </mat-tab>
         </mat-tab-group>
 

@@ -31,7 +31,7 @@
     <div class="kohesio-page-detail-tools">
         <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
         <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.project-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>&nbsp;
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
@@ -121,12 +121,12 @@
 
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.theme">
-                    {project.objectiveLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
+                    {project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
                 </span>
-                <div class="content  padding" *ngFor="let item of project?.objectiveLabels">
+                <div class="content  padding" *ngFor="let item of project?.themeLabels">
                     <span class="no-bold">{{item}}</span>
                 </div>
-                <div class="content" *ngIf="project.objectiveLabels.length == 0">
+                <div class="content" *ngIf="project.themeLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
@@ -172,7 +172,7 @@
                         </ng-container>
                         <ng-container>
                             <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
+                                <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
                             </div>
                         </ng-container>
                         <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
@@ -185,7 +185,7 @@
                                 </ng-container>
                                 <ng-container>
                                     <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                        <img *ngIf="project?.objectiveIds" class="topic" [src]="'assets/images/topics/' + (project.objectiveIds[0] || 'question_mark') + '.png'">
+                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
                                     </div>
                                 </ng-container>
                                 <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
@@ -200,6 +200,7 @@
                         <div class="kohesio-article-post-content">
                                 <p class="ecl-u-type-paragraph">{{project?.description}}</p>
                         </div>
+                        
                         <div class="kohesio-social-icons-wrapper">
                             <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
@@ -255,13 +256,28 @@
                                 </li>
                             </ul>
                         </div>
+                        <div class="kohesio-report-icons-wrapper">
+                            <span class="title" i18n="@@page.project-detail.label.shareon">report an issue</span>
+                            <ul class="ecl-social-media-follow__list">
+                                <li class="ecl-social-media-follow__item">
+                                    <a (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
+                                            <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#bug"></use>
+                                        </svg>
+                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
+                                            <use xlink:href="/assets/images/ecl/icons-social.d5f51eae.svg#bug_hover"></use>
+                                        </svg>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </article>
             </div>
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
                 <h2 class="title ecl-u-type-heading-5">
                     <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
-                    <ng-container i18n="@@page.project-detail.label.in">In</ng-container>
+                    <ng-container i18n="@@page.project-detail.label.in">&nbsp;</ng-container>
                     <ng-container *ngIf="project?.regionText">
                         {{project?.regionText}}
                     </ng-container>

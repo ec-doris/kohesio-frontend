@@ -25,7 +25,7 @@ export class ThemeService {
     }
 
     getPolicyObjectives(): Observable<PolicyObjective[]> {
-      const url = environment.apiBaseUrl + '/policy_objective';
+      const url = environment.apiBaseUrl + '/policy_objectives';
       return this.http.get<any>(url).pipe(
         map((data:any[]) => {
           return data.map((policyObjective:any) => {

@@ -3,7 +3,7 @@ import {Deserializable} from "./deserializable.model";
 export class FiltersApi implements Deserializable{
 
     public thematic_objectives: [] = [];
-    public policy_objective: [] | undefined;
+    public policy_objectives: [] | undefined;
     public funds: [] | undefined;
     public programs: [] | undefined;
     public categoriesOfIntervention: Category[] = [];
@@ -107,7 +107,7 @@ export class FiltersApi implements Deserializable{
     deserialize(input: any): this {
         return Object.assign(this, {
             thematic_objectives : this.themes(input.thematic_objectives),
-            policy_objective: input.policy_objective,
+            policy_objectives: input.policy_objectives,
             funds: input.funds,
             programs: input.programs,
             categoriesOfIntervention: this.createGroupsOfInterventionField(input.categoriesOfIntervention),
