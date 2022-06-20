@@ -52,14 +52,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public pageSize = 15;
   public initialPageIndex:number = 0;
 
-  public policyToThemes = {
-    Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
-    Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
-    Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
-    Q2577335: ["Q236695"],                          //Connected Europe
-    Q2577336: ["Q236699"]                           //Europe closer to citizens
-  }
-
   public themeSelection = []
 
   public semanticTerms: String[] = [];
@@ -217,11 +209,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     getThemes() {
       const policy = this.myForm.value.policyObjective;
-      if (policy == null || policy === "") {
-        this.themeSelection = this.filters.thematic_objectives
-      } else {
-        // TODO ECL side effect
-        this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme["id"]))
+      if (policy) {
+        const params ={
+          policy: environment.entityURL + policy
+        }
+        this.filterService.getFilter("thematic_objectives",params).subscribe(themes=>{
+          this.themeSelection = themes.thematic_objectives;
+        });
+      }else{
+        this.themeSelection = this.filters.thematic_objectives;
       }
     }
 
@@ -390,14 +386,22 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onThemeChange() {
-      const theme = this.myForm.value.theme
-      for (const policy in this.policyToThemes) {
-        // TODO ECL side effect
-        if (this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme)) {
-          this.myForm.patchValue({
-            policyObjective: policy
-          });
+      const theme = this.myForm.value.theme;
+      if (theme){
+        const params ={
+          theme: environment.entityURL + theme
         }
+        this.filterService.getFilter("policy_objectives",params).subscribe(policies=>{
+          if (policies && policies.policy_objectives && policies.policy_objectives.length){
+            this.myForm.patchValue({
+              policyObjective: policies.policy_objectives[0].id
+            });
+          }else{
+            this.myForm.patchValue({
+              policyObjective: null
+            });
+          }
+        });
       }
     }
 
