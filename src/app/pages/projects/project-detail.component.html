@@ -93,10 +93,16 @@
                 <div class="content">
                     <span i18n="@@page.project-detail.label.programme">Programme: </span>
                     <span>
-                        <a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">
+                        <ng-container *ngIf="project?.programInfoRegioUrl">
+                            <a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">
+                                <ng-container *ngIf="project?.programLabel">{{project?.programLabel}}</ng-container>
+                                <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="!project?.programInfoRegioUrl">
                             <ng-container *ngIf="project?.programLabel">{{project?.programLabel}}</ng-container>
                             <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
-                        </a>
+                        </ng-container>
                     </span>
                 </div>
 
