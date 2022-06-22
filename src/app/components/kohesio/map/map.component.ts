@@ -353,6 +353,7 @@ export class MapComponent implements AfterViewInit {
                 this.map.setView(coords, 8);
                 this.restartBreadCrumbNavigation();
             }
+            this.markersGroup.bringToFront();
         })
     }
 
