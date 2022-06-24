@@ -54,7 +54,7 @@ export class ProjectDetail implements Deserializable{
             programLabel: input.programLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
             fundLabel: input.fundLabel,
-            countryCode: input.countryCode,
+            countryCode: this.getCountryCode(input.countryCode),
             objectiveId: input.objectiveId,
             themeIds: input.themeIds,
             projectWebsite: input.projectWebsite,
@@ -106,6 +106,14 @@ export class ProjectDetail implements Deserializable{
             region += ", " + input.regionUpper3.trim()
         }
         return region;
+    }
+
+    getCountryCode(array: any){
+        if (Array.isArray(array) && array.length && array.length > 1) {
+            return "EU";
+        }else{
+            return array[0];
+        }
     }
 
 }
