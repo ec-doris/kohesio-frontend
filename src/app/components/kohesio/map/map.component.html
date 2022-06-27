@@ -1,6 +1,10 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container">
+        <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.</div>
         <ng-container *ngIf="!hideNavigation">
+            <div class="loading" *ngIf="isLoading">
+                <kohesio-ecl-spinner></kohesio-ecl-spinner>
+            </div>
             <div class="map-regions-wrapper">
                 <ng-container *ngIf="!collapsedBreadCrumb">
                     <ng-container *ngFor="let region of mapRegions">
@@ -25,13 +29,14 @@
                         <svg class="ecl-icon ecl-icon--m" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#location"></use>
                         </svg>
-                        <span class="ecl-button__label" data-ecl-label="true">PROJECTS NEAR ME</span>
+                        <span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.map.button.projectsNearMe">PROJECTS NEAR ME</span>
                     </span>
                 </button>
             </div>
             <div class="map-outermost-regions-container" *ngIf="showOutermostRegions()">
-                <div class="title">Outermost Regions</div>
-                <div class="map-outermost-regions-wrapper" [ngClass]="mapRegions.length > 1 ? 'withoutColumns' : 'withColumns' ">
+                <div class="title" i18n="@@comp.map.label.outermostRegions">Outermost Regions</div>
+                <div class="map-outermost-regions-wrapper" 
+                    [ngClass]="mapRegions.length > 1 || (mapRegions.length == 1 && mapRegions[0].region) ? 'withoutColumns' : 'withColumns' ">
                     <div (click)="loadOutermostRegion(filters, outermostRegion)"
                     class="outermostRegion-wrapper" *ngFor="let outermostRegion of outermostRegions | outermostRegions: (mapRegions)">
                         <svg *ngIf="outermostRegion.id=='Q205'" pointer-events="none" width="168" height="120" viewBox="381 -60 168 120"><g><path class="leaflet-interactive" stroke="#444" stroke-opacity="0.5" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="#B8D2EA" fill-opacity="1" fill-rule="evenodd" d="M451 3L448 10L444 13L438 4L448 2L450 -1L456 -2L454 0zM499 9L497 12L493 11L500 6L504 -2L504 -6L507 -7L508 3L506 6L500 8zM472 8L473 14L472 17L468 20L464 17L463 13L466 11L466 9L472 9zM517 -16L516 -13L510 -11L509 -9L508 -13L513 -17L514 -16L516 -19L518 -18zM417 1L413 -7L414 -9L418 -9L420 -6L419 -2zM432 12L428 10L430 7L434 10L432 12zM416 18L414 21L410 20L415 17zM516 -20L515 -19L516 -21z" stroke-dasharray="0"></path></g></svg>

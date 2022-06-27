@@ -5,7 +5,6 @@ import {Observable, of} from 'rxjs';
 import {forkJoin} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {FiltersApi} from "../models/filters-api.model";
-import { ConfigService } from './config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,27 +14,27 @@ export class FilterService {
     public filters:any;
     private countryGeoJson: any;
 
-    constructor(private http: HttpClient, private configService: ConfigService) { }
+    constructor(private http: HttpClient) { }
 
 
     getProjectsFilters(): Observable<FiltersApi>{
         return this.getFilters(
-            forkJoin(
+            forkJoin([
                 this.getFilter('thematic_objectives'),
-                this.getFilter('policy_objective'),
+                this.getFilter('policy_objectives'),
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
                 this.getFilter('countries')
-            )
+            ])
         );
     }
 
     getBeneficiariesFilters(): Observable<FiltersApi>{
         return this.getFilters(
-            forkJoin(
+            forkJoin([
                 this.getFilter('funds'),
                 this.getFilter('countries')
-            )
+            ])
         );
     }
 
@@ -56,7 +55,7 @@ export class FilterService {
     }
 
     getFilter(type: any, params = {}):Observable<any>{
-        const url = this.configService.apiBaseUrl + '/' + type;
+        const url = environment.apiBaseUrl + '/' + type;
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data:any = {};
@@ -154,7 +153,7 @@ export class FilterService {
     }
 
     getRegions(country: string): Observable<any[]>{
-        const urlRegions = this.configService.apiBaseUrl + '/regions';
+        const urlRegions = environment.apiBaseUrl + '/regions';
         let params = {
             country: 'https://linkedopendata.eu/entity/' + country
         };

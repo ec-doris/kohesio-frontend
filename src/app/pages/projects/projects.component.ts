@@ -52,15 +52,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public pageSize = 15;
   public initialPageIndex:number = 0;
 
-  public policyToThemes = {
-    Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
-    Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
-    Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
-    Q2577335: ["Q236695"],                          //Connected Europe
-    Q2577336: ["Q236699"],                          //Europe closer to citizens
-    Q2577337: ["Q2577338"],                         //Technical Assistance
-  }
-
   public themeSelection = []
 
   public semanticTerms: String[] = [];
@@ -104,7 +95,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
         country: [this.getFilterKey("countries", "country")],
         region: [],
-        policyObjective: [this.getFilterKey("policy_objective", "policyObjective")],
+        policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
         theme: [this.getFilterKey("thematic_objectives", "theme")],
         //Advanced filters
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
@@ -131,6 +122,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.selectedTabIndex = 1;
         }else if (tabParam=="map"){
           this.selectedTabIndex = 2;
+          this.isMapTab=true;
+          this.selectedTab="map";
         }
       }
       if (this._route.snapshot.queryParamMap.has('page')){
@@ -216,11 +209,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     getThemes() {
       const policy = this.myForm.value.policyObjective;
-      if (policy == null || policy === "") {
-        this.themeSelection = this.filters.thematic_objectives
-      } else {
-        // TODO ECL side effect
-        this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme["id"]))
+      if (policy) {
+        const params ={
+          policy: environment.entityURL + policy
+        }
+        this.filterService.getFilter("thematic_objectives",params).subscribe(themes=>{
+          this.themeSelection = themes.thematic_objectives;
+        });
+      }else{
+        this.themeSelection = this.filters.thematic_objectives;
       }
     }
 
@@ -251,25 +248,40 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
-          this.projects = result.list;
-          this.count = result.numberResults;
-          this.semanticTerms = result.similarWords;
+          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+              this._router.navigate([], {
+                queryParams: {
+                  'page': null,
+                },
+                queryParamsHandling: 'merge'
+              });
+              if (this.paginatorTop){
+                this.paginatorTop.pageIndex = 0;
+              }
+              if (this.paginatorDown){
+                this.paginatorDown.pageIndex = 0;
+              }
+              this.getProjectList();
+          }else{
+            this.projects = result.list;
+            this.count = result.numberResults;
+            this.semanticTerms = result.similarWords;
+            this.isLoading = false;
+            //go to the top
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+            if (this.selectedTabIndex == 2) {
+              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                    this.map.loadMapRegion(this.lastFiltersSearch);
+                }, 500);
+            } else {
+              this.mapIsLoaded = false;
+            }
+          }
         }
-        this.isLoading = false;
-
-        //go to the top
-        document.body.scrollTop = 0;
-        document.documentElement.scrollTop = 0;
-
-        if (this.selectedTabIndex == 2) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-                this.map.loadMapRegion(this.lastFiltersSearch);
-            }, 500);
-        } else {
-          this.mapIsLoaded = false;
-        }
+        
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
@@ -296,6 +308,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         queryParams: this.generateQueryParams(),
         queryParamsHandling: 'merge'
       });
+      if (this.isMapTab){
+        this.map.refreshView();
+        this.map.isLoading = true;
+      }
     }
 
     onPaginate(event: any) {
@@ -331,7 +347,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         country: this.getFilterLabel("countries", this.myForm.value.country),
         region: this.getFilterLabel("regions", this.myForm.value.region),
         theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
-        policyObjective: this.getFilterLabel("policy_objective", this.myForm.value.policyObjective),
+        policyObjective: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         fund: this.getFilterLabel("funds", this.myForm.value.fund),
         program: this.getFilterLabel("programs", this.myForm.value.program),
@@ -370,14 +386,22 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onThemeChange() {
-      const theme = this.myForm.value.theme
-      for (const policy in this.policyToThemes) {
-        // TODO ECL side effect
-        if (this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme)) {
-          this.myForm.patchValue({
-            policyObjective: policy
-          });
+      const theme = this.myForm.value.theme;
+      if (theme){
+        const params ={
+          theme: environment.entityURL + theme
         }
+        this.filterService.getFilter("policy_objectives",params).subscribe(policies=>{
+          if (policies && policies.policy_objectives && policies.policy_objectives.length){
+            this.myForm.patchValue({
+              policyObjective: policies.policy_objectives[0].id
+            });
+          }else{
+            this.myForm.patchValue({
+              policyObjective: null
+            });
+          }
+        });
       }
     }
 

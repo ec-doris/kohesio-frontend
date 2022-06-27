@@ -3,29 +3,32 @@
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">About</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.about.breadcrumb.about">About</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="ecl-row ecl-u-pt-xs">
         <div class="ecl-col-xl-12 ecl-u-pt-none">
-            <h1 class="ecl-u-type-heading-1">About Kohesio</h1>
-            <p class="ecl-u-type-paragraph"><a href="https://ec.europa.eu/regional_policy/en/2021_2027/" target="blank">EU Cohesion Policy</a> supports hundreds of thousands of projects across regions and cities in the European Union. It contributes to strengthening economic, social and territorial cohesion in the European Union. It aims at correcting imbalances between countries and regions. It also delivers on the Union's political priorities, especially the green and digital transitions.</p>
-            <p class="ecl-u-type-paragraph">Kohesio is a comprehensive knowledge database offering easy and transparent access to up-to-date information on projects and beneficiaries co-funded by EU Cohesion policy, during the 2014-2020 programming period.</p>
-            <p class="ecl-u-type-paragraph">Including the European Regional Development Fund (ERDF), the Cohesion Fund (CF), and the European Social Fund (ESF), the database contains currently more than 1.5 million projects and approximately 500 000 beneficiaries.</p>
-            <p class="ecl-u-type-paragraph">We will progressively enrich Kohesio with new projects and beneficiaries for the 2021-2027 programming period in close cooperation with EU Members States and programme authorities.</p>
-            <p class="ecl-u-type-paragraph">Kohesio relies on semantic web <a href="https://www.w3.org/standards/semanticweb/" target="blank">W3C</a> open standards and open-source tools provided by <a href="https://wikimedia.de/" target="blank">Wikimedia Deutschland</a>. All the datasets are available both in CSV/XLSX and in RDF format (see <a routerLink="/services">Services page</a>).</p>
-
-            <h2 class="ecl-u-type-heading-2">Data source and limited warranty</h2>
-            <p class="ecl-u-type-paragraph">EU Member States and programme authorities publish lists of operations and related beneficiaries under their information and communication obligations (<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:32013R1303#d1160e32-438-1" target="blank">Regulation (EU) 1303/2013, Annex XII</a> and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32021R1060&qid=1625497028274#d1e5598-159-1" target="blank">Regulation (EU) 2021/1060, article 49</a>).</p>
-            <p class="ecl-u-type-paragraph">Kohesio aggregates and standardises data from these lists of operations. All data published in the lists fall under the responsibility of the respective Managing Authorities. The European Commission cannot accept any liability for the accuracy of content in Kohesio.</p>
-            <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a routerLink="/privacy">Privacy Statement</a>.</p>
+            <h1 class="ecl-u-type-heading-1" i18n="@@page.about.title">About Kohesio</h1>
+            <ng-container i18n="@@page.about.descrition">
+              <p class="ecl-u-type-paragraph"><a href="https://ec.europa.eu/regional_policy/en/2021_2027/" target="blank">EU Cohesion Policy</a> supports hundreds of thousands of projects across regions and cities in the European Union. It contributes to strengthening economic, social and territorial cohesion in the European Union. It aims at correcting imbalances between countries and regions. It also delivers on the Union's political priorities, especially the green and digital transitions.</p>
+              <p class="ecl-u-type-paragraph">Kohesio is a comprehensive knowledge database offering easy and transparent access to up-to-date information on projects and beneficiaries co-funded by EU Cohesion policy, during the 2014-2020 programming period.</p>
+              <p class="ecl-u-type-paragraph">Including the <a href="https://ec.europa.eu/regional_policy/en/funding/erdf/" target="blank">European Regional Development Fund</a> (ERDF), the <a href="https://ec.europa.eu/regional_policy/en/funding/cohesion-fund/" target="blank">Cohesion Fund</a> (CF), and the <a href="https://ec.europa.eu/esf/" target="blank">European Social Fund</a> (ESF), the database contains currently more than 1.5 million projects and approximately 500 000 beneficiaries.</p>
+              <p class="ecl-u-type-paragraph">We will progressively enrich Kohesio with new projects and beneficiaries for the 2021-2027 programming period in close cooperation with EU Members States and programme authorities.</p>
+              <p class="ecl-u-type-paragraph">Kohesio relies on semantic web <a href="https://www.w3.org/standards/semanticweb/" target="blank">W3C</a> open standards and open-source tools provided by <a href="https://wikimedia.de/" target="blank">Wikimedia Deutschland</a>. All the datasets are available both in CSV/XLSX and in RDF format (see <a routerLink="/services">Services page</a>).</p>
+            </ng-container>
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.about.dataSourceTitle">Data source and limited warranty</h2>
+            <ng-container i18n="@@page.about.dataSourceDescrition">
+              <p class="ecl-u-type-paragraph">EU Member States and programme authorities publish lists of operations and related beneficiaries under their information and communication obligations (<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:32013R1303#d1160e32-438-1" target="blank">Regulation (EU) 1303/2013, Annex XII</a> and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32021R1060&qid=1625497028274#d1e5598-159-1" target="blank">Regulation (EU) 2021/1060, article 49</a>).</p>
+              <p class="ecl-u-type-paragraph">Kohesio aggregates and standardises data from these lists of operations. All data published in the lists fall under the responsibility of the respective <a href="https://ec.europa.eu/regional_policy/en/atlas/managing-authorities/" target="blank">Managing Authorities</a>. The European Commission cannot accept any liability for the accuracy of content in Kohesio.</p>
+              <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a routerLink="/privacy">Privacy Statement</a>.</p>
+            </ng-container>
 
             <!--<h2 class="ecl-u-type-heading-2">Data protection</h2>
             <p class="ecl-u-type-paragraph">Kohesio does not collect any personal information or store cookies.</p>
@@ -36,11 +39,15 @@
             <p class="ecl-u-type-paragraph">Geographic coordinates (latitude and longitude) are computed from the address or postal code thanks to <a href="https://nominatim.org/" target="_blank">Nominatim</a> (geocoding).</p>
             <p class="ecl-u-type-paragraph">Beneficiaries are linked to their Wikidata equivalents (whenever they exist) based on a machine learning algorithm. Accuracy is above 90% but linking errors remain possible, feel free to report them as well.</p>-->
 
-            <h2 class="ecl-u-type-heading-2">Disclaimer</h2>
-            <p class="ecl-u-type-paragraph">The information on this website does not necessarily reflect the opinion of either the European Commission, or EU Member States national or programme authority or any body of the European Union.</p>
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.about.disclaimerTitle">Disclaimer</h2>
+            <ng-container i18n="@@page.about.disclaimerDescrition">
+                <p class="ecl-u-type-paragraph">The information on this website does not necessarily reflect the opinion of either the European Commission, or EU Member States national or programme authority or any body of the European Union.</p>
+            </ng-container>
 
-            <h2 class="ecl-u-type-heading-2">Contact</h2>
-            <p class="ecl-u-type-paragraph">For any question or feedback about Kohesio, please contact the <a href="mailto:REGIO-KOHESIO@ec.europa.eu" target="blank">Kohesio Team</a>.</p>
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.about.contactTitle">Contact</h2>
+            <ng-container i18n="@@page.about.contactDescription">
+                <p class="ecl-u-type-paragraph">For any question or feedback about Kohesio, please contact the <a href="mailto:REGIO-KOHESIO@ec.europa.eu" target="blank">Kohesio Team</a>.</p>
+            </ng-container>
         </div>
     </div>
 </div>

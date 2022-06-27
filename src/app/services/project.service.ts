@@ -6,18 +6,18 @@ import {Filters} from "../models/filters.model";
 import {environment} from "../../environments/environment";
 import {ProjectDetail} from "../models/project-detail.model";
 import {ProjectList} from "../models/project-list.model";
-import { ConfigService } from './config.service';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProjectService {
 
-    constructor(private http: HttpClient, private configService: ConfigService) {
+    constructor(private http: HttpClient) {
     }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
-        const url = this.configService.apiBaseUrl + '/search/project';
+        const url = environment.apiBaseUrl + '/search/project';
         const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -31,7 +31,7 @@ export class ProjectService {
     }
 
     getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{
-        const url = this.configService.apiBaseUrl + '/search/project/image';
+        const url = environment.apiBaseUrl + '/search/project/image';
         const params = this.generateParameters(filters.getAssetsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params });
     }
@@ -51,7 +51,7 @@ export class ProjectService {
     }
 
     getProjectDetail(id: string | null): Observable<ProjectDetail> {
-        const url = this.configService.apiBaseUrl + '/project';
+        const url = environment.apiBaseUrl + '/project';
         let params = {
             id: environment.entityURL + id
         };
@@ -72,7 +72,7 @@ export class ProjectService {
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
-        const url = this.configService.apiBaseUrl + "/search/project/" + type;
+        const url = environment.apiBaseUrl + "/search/project/" + type;
         const params = filters.getProjectsFilters();
         return this.http.get(url,{
             responseType: 'arraybuffer',

@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DatePipe, DecimalPipe, ViewportScroller} from '@angular/common';
-import { ConfigModule, ConfigService } from './services/config.service';
 
 import { registerLocaleData } from '@angular/common';
 import LocaleFr from '@angular/common/locales/fr';
@@ -25,8 +24,6 @@ import { ProjectDetailModalModule } from './components/kohesio/project-detail-mo
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import { FaqPageComponent } from './pages/static/faq/faq.component';
-import { Router, Scroll } from '@angular/router';
-import { filter } from 'rxjs/operators';
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -57,9 +54,7 @@ registerLocaleData(LocaleEnglish);
   ],
   providers: [
     DecimalPipe,
-    DatePipe,
-    ConfigService,
-    ConfigModule.init()
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })
