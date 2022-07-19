@@ -240,6 +240,15 @@ export class MapComponent implements AfterViewInit {
                         component.changeDetectorRef.detectChanges();
                     });
                 });
+                marker.on('mouseout',()=>{
+                    setTimeout(() => {
+                        this.map.dragging.enable();
+                        this.map.scrollWheelZoom.enable();
+                        if (this.map.tap) {
+                            this.map.tap.enable();
+                        }
+                    });
+                })
             }
 
 
