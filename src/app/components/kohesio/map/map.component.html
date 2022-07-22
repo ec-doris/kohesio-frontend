@@ -1,5 +1,5 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
-    <div class="map-container">
+    <div class="map-container" style="max-width: 1108px;">
         <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.</div>
         <ng-container *ngIf="!hideNavigation">
             <div class="loading" *ngIf="isLoading">
@@ -35,7 +35,7 @@
             </div>
             <div class="map-outermost-regions-container" *ngIf="showOutermostRegions()">
                 <div class="title" i18n="@@comp.map.label.outermostRegions">Outermost Regions</div>
-                <div class="map-outermost-regions-wrapper" 
+                <div class="map-outermost-regions-wrapper"
                     [ngClass]="mapRegions.length > 1 || (mapRegions.length == 1 && mapRegions[0].region) ? 'withoutColumns' : 'withColumns' ">
                     <div (click)="loadOutermostRegion(filters, outermostRegion)"
                     class="outermostRegion-wrapper" *ngFor="let outermostRegion of outermostRegions | outermostRegions: (mapRegions)">
