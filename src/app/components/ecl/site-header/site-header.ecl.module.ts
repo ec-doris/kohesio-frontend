@@ -14,11 +14,6 @@ import { SiteHeaderEclComponent } from './site-header.ecl.component';
     exports: [
         SiteHeaderEclComponent
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class SiteHeaderEclModule {}

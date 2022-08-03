@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, UntypedFormBuilder } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { SearchItem, SearchList } from 'src/app/models/search-item.model';
@@ -21,7 +21,7 @@ export class SearchPageComponent {
     @ViewChild("paginatorBottom") paginatorBottom!: MatPaginator;
 
     constructor(private _route: ActivatedRoute,
-                private formBuilder: FormBuilder,
+                private formBuilder: UntypedFormBuilder,
                 private searchService: SearchService){
         
     }

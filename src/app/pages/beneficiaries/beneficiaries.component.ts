@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
@@ -21,7 +21,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
-    public myForm!: FormGroup;
+    public myForm!: UntypedFormGroup;
     public filters!: FiltersApi;
     public dataSource!: MatTableDataSource<Beneficiary>;
     public isLoading = false;
@@ -37,7 +37,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private _route: ActivatedRoute,
         private _router: Router,
         breakpointObserver: BreakpointObserver) {

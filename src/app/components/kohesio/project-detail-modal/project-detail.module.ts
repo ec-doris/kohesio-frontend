@@ -31,11 +31,6 @@ import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
         ProjectDetailComponent,
         ArraySortPipe
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class ProjectDetailModalModule {}

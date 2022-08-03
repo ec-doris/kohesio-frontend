@@ -14,11 +14,6 @@ import { CarouselEclComponent } from './carousel.ecl.component';
     exports: [
         CarouselEclComponent
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class CarouselEclModule {}

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ProjectService } from "../../services/project.service";
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
@@ -30,7 +30,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public assetsCount = 0;
   public filters: FiltersApi;
   public count = 0;
-  public myForm!: FormGroup;
+  public myForm!: UntypedFormGroup;
   public isLoading = false;
   public isResultsTab = true;
   public isMapTab = false;
@@ -66,7 +66,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
     private _renderer2: Renderer2,
