@@ -5,8 +5,8 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "build-dev": "ng build --configuration development --outputHashing=all --no-progress",
-    "build-prod": "ng build --configuration production --outputHashing=all --no-progress",
+    "build-dev": "ng build --configuration development --output-hashing=all --no-progress",
+    "build-prod": "ng build --configuration production --output-hashing=all --no-progress",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "extract-i18n": "ng extract-i18n --output-path src/locale --format json"
