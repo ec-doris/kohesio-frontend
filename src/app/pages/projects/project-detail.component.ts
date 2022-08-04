@@ -97,7 +97,11 @@ export class ProjectDetailComponent implements AfterViewInit {
     reportDataBug(){
         const to:string = "REGIO-KOHESIO@ec.europa.eu";
         const subject:string = "Reporting error or duplicate";
-        const body:string = "Please describe the error or the duplicate with the URLs: " + window.location;
-        location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        let location:string = window.location.toString();
+        if (this.project.item && !location.endsWith(this.project.item)){
+            location += "projects/"+this.project.item;
+        }
+        const body:string = "Please describe the error or the duplicate with the URLs: " + location;
+        window.location.href=`mailto:${to}?subject=${subject}&body=${body}`
     }
 }
