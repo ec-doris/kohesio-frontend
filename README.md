@@ -2,7 +2,7 @@
 
 This project is the frontend of the Kohesio website (<https://kohesio.ec.europa.eu>)
 
-## Local development
+## Local development (vscode)
 
 You can setup the project on you local using vscode and the .devcontainer folder inside the container instead of install node and all the tools on your host.
 
@@ -19,6 +19,42 @@ To start the application use:
 ```sh
     npm run start
 ```
+
+## Local development (devspace)
+
+You can setup devspace in your local, the recipe is on devspace.yaml
+
+Pre-requirement:
+
+Docker Desktop: https://www.docker.com/products/docker-desktop/
+
+devspace: https://devspace.sh/docs/getting-started/installation
+
+k3d: https://k3d.io/v5.4.4/#installation
+
+Create a new cluster, if you don’t have one already:
+
+```sh
+    k3d cluster create devspace
+```
+
+Clone project in your local:
+
+```sh
+    git clone https://github.com/ec-doris/kohesio-frontend.git
+```
+
+Create new namespace for your application:
+```sh
+    devspace use namespace drivein
+```
+
+Start the devspace:
+```sh
+    devspace dev
+```
+
+
 
 ## Angular Components
 
@@ -62,3 +98,4 @@ For the map we are using pure leaflet version 1.6.0
 - ECL playground: [https://ec.europa.eu/component-library/playground/ec/](https://ec.europa.eu/component-library/playground/ec/)
 - Angular Material: [https://material.angular.io/](https://material.angular.io/)
 - Include media: [https://eduardoboucas.github.io/include-media/](https://eduardoboucas.github.io/include-media/)
+
