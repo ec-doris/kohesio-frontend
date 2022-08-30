@@ -150,5 +150,7 @@
       }
     }
   },
-  "defaultProject": "kohesio-frontend"
+  "cli": {
+    "analytics": false
+  }
 }

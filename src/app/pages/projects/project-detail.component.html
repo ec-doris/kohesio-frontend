@@ -58,21 +58,21 @@
 
                 <div class="content">
                     <span i18n="@@page.project-detail.label.managingAuthority">Managing authority: </span>
-                    {{project?.managingAuthorityLabel ? project?.managingAuthorityLabel : "n/a"}}
+                    {{project.managingAuthorityLabel ? project.managingAuthorityLabel : "n/a"}}
                 </div>
 
                 <div class="content" *ngIf="project?.projectWebsite">
                     <span i18n="@@page.project-detail.label.projectWebsite">Project website: </span>
-                    <a class="ecl-link ecl-link--standalone" [href]="project?.projectWebsite" *ngIf="project?.projectWebsite" target="_blank" i18n="@@page.project-detail.link.link">link</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.projectWebsite" *ngIf="project?.projectWebsite" target="_blank" i18n="@@page.project-detail.link.link">link</a>
                     <ng-container *ngIf="!project?.projectWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.programWebsite">
                     <span i18n="@@page.project-detail.label.programmeWebsite">Programme website: </span>
-                    <a class="ecl-link ecl-link--standalone" [href]="project?.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
                     <ng-container *ngIf="!project?.programWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                    <a class="ecl-link ecl-link--standalone" [href]="project?.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
             </div>
@@ -82,25 +82,25 @@
                 <span class="title" i18n="@@page.project-detail.label.funding">funding</span>
                 <div class="content">
                     <span i18n="@@page.project-detail.label.fund">Fund: </span>
-                    <span>{{project?.fundLabel}}</span>
+                    <span>{{project.fundLabel}}</span>
                     <span *ngIf="!project?.fundLabel" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
 
                 <div class="content">
                     <span i18n="@@page.project-detail.label.programmingPeriod">Programming period: </span>
-                    <span>{{project?.programmingPeriodLabel}}</span>
+                    <span>{{project.programmingPeriodLabel}}</span>
                 </div>
                 <div class="content">
                     <span i18n="@@page.project-detail.label.programme">Programme: </span>
                     <span>
                         <ng-container *ngIf="project?.programInfoRegioUrl">
-                            <a class="ecl-link ecl-link--standalone" [href]="project?.programInfoRegioUrl" target="_blank">
-                                <ng-container *ngIf="project?.programLabel">{{project?.programLabel}}</ng-container>
+                            <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
+                                <ng-container *ngIf="project?.programLabel">{{project.programLabel}}</ng-container>
                                 <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                             </a>
                         </ng-container>
                         <ng-container *ngIf="!project?.programInfoRegioUrl">
-                            <ng-container *ngIf="project?.programLabel">{{project?.programLabel}}</ng-container>
+                            <ng-container *ngIf="project?.programLabel">{{project.programLabel}}</ng-container>
                             <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                         </ng-container>
                     </span>
@@ -108,7 +108,7 @@
 
                 <div class="content">
                     <span i18n="@@page.project-detail.label.totalBudget">Total budget: </span>
-                    <span>{{project?.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span>{{project.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                     <span *ngIf="!project?.budget" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
 
@@ -116,9 +116,9 @@
                     <span i18n="@@page.project-detail.label.euContribution">EU contribution: </span>
                     <span *ngIf="!project?.euBudget" i18n="@@page.project-detail.label.na">n/a</span>
                     <span *ngIf="project?.euBudget">
-                        {{project?.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
+                        {{project.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                         <ng-container *ngIf="project?.cofinancingRate">
-                            ({{project?.cofinancingRate | number:'1.0-3':'fr'}}%)
+                            ({{project.cofinancingRate | number:'1.0-3':'fr'}}%)
                         </ng-container>
                     </span>
                 </div>
@@ -200,11 +200,11 @@
                                 <b>Highlighted project</b>
                             </ux-popover> -->
                             <h1 class="ecl-u-type-heading-4">
-                                {{project?.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
+                                {{project.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
                             </h1>
                         </div>
                         <div class="kohesio-article-post-content">
-                                <p class="ecl-u-type-paragraph">{{project?.description}}</p>
+                                <p class="ecl-u-type-paragraph">{{project.description}}</p>
                         </div>
                         
                         <div class="kohesio-social-icons-wrapper">
@@ -285,7 +285,7 @@
                     <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
                     <ng-container i18n="@@page.project-detail.label.in">&nbsp;</ng-container>
                     <ng-container *ngIf="project?.regionText">
-                        {{project?.regionText}}
+                        {{project.regionText}}
                     </ng-container>
                     <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
                 </h2>

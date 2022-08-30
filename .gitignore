@@ -44,3 +44,6 @@ Thumbs.db
 # Utils
 /utils/i18n-parse-poetry/node_modules
 /utils/i18n-parse-poetry/output/
+
+# Ignore DevSpace cache and log folder
+.devspace/

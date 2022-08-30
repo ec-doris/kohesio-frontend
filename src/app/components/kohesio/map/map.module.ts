@@ -24,11 +24,6 @@ import { KohesioEclSpinnerModule } from '../../ecl/spinner/spinner.ecl.module';
         MapComponent,
         OutermostRegionsPipe
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class MapComponentModule {}

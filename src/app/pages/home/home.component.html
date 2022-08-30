@@ -23,7 +23,7 @@
                         </button>
                         <h1 class="ecl-card__title" style="color: white;">
                             <a [routerLink]="['/projects']" [queryParams]="{policyObjective: policyObjective.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="themes-title">
-                                {{policyObjective?.instanceLabel}}
+                                {{policyObjective.instanceLabel}}
                             </a>
                         </h1>
                         <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} 

@@ -53,20 +53,20 @@
                 </div>
                 <div class="content">
                     <span i18n="@@page.beneficiary-detail.label.numberProjects">Number of projects: </span>
-                    {{beneficiary?.numberProjects}}
+                    {{beneficiary.numberProjects}}
                 </div>
                 <div class="content">
                     <span i18n="@@page.beneficiary-detail.label.totalBudget">Total budget: </span>
-                    <span>{{beneficiary?.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span>{{beneficiary.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                 </div>
                 <div class="content">
                     <span i18n="@@page.beneficiary-detail.label.euContribution">EU contribution: </span>
-                    <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary?.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
                     <span *ngIf="beneficiary?.totalEuBudget==0" i18n="@@page.beneficiary-detail.label.na">n/a</span>
                 </div>
                 <div class="content">
                     <span i18n="@@page.beneficiary-detail.label.website">Website: </span>
-                    <a class="ecl-link ecl-link--standalone" [href]="beneficiary?.website" *ngIf="beneficiary?.website" target="_blank">link</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="beneficiary.website" *ngIf="beneficiary?.website" target="_blank">link</a>
                     <ng-container *ngIf="!beneficiary?.website" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content">
@@ -93,7 +93,7 @@
                         class="beneficiary-image-container hand-pointer" 
                         *ngIf="beneficiary?.images && beneficiary.images.length" 
                         style="background-image: url('{{ beneficiary.images[0] }}')"
-                        (click)="openImageOverlay(beneficiary.images[0], beneficiary?.beneficiaryLabel, null)">
+                        (click)="openImageOverlay(beneficiary.images[0], beneficiary.beneficiaryLabel, null)">
                         </div>
                     </ng-container>
                     <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->
@@ -105,11 +105,11 @@
                                 </div>
                             </ng-container>
                             <h1 class="ecl-u-type-heading-4">
-                                {{beneficiary?.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
+                                {{beneficiary.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
                             </h1>
                         </div>
                         <div class="kohesio-article-post-content">
-                            <p class="ecl-u-type-paragraph">{{beneficiary?.description}}</p>
+                            <p class="ecl-u-type-paragraph">{{beneficiary.description}}</p>
                         </div>
                         <div class="kohesio-social-icons-wrapper">
                             <span class="title" i18n="@@page.beneficiary-detail.label.shareon">share on </span>
