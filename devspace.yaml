@@ -12,6 +12,12 @@ deployments:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            command:
+              - "/bin/sh"
+            args:
+              - "-c"
+              - |
+                sleep 99999999;
         service:
           ports:
             - port: 4200
@@ -28,7 +34,6 @@ dev:
   sync:
     - imageSelector: ${APP_IMAGE}
       containerPath: /app
-      disableDownload: true
       excludePaths:
         - .git/
         - .git/

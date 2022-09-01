@@ -116,6 +116,35 @@
     }
 }
 
+.map-project-count-container {
+  position: absolute;
+  bottom: 120px;
+  z-index: 1;
+  left: 5px;
+  background-color: rgba(255,255,255,0.7);
+  border-radius: 7px;
+  padding: 10px;
+
+  .title{
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  .wrapper-scale-legend{
+    display: flex;
+    align-items: center;
+    .color-scale{
+      width: 15px;
+      height: 15px;
+    }
+    .text-scale{
+      margin-left: 5px;
+      font-size: 12px;
+    }
+  }
+
+}
+
 :host ::ng-deep {
     .leaflet-popup-content {
         overflow: auto;
@@ -127,7 +156,7 @@
         -webkit-appearance: none;
         width: 7px;
     }
-    
+
     .leaflet-popup-content::-webkit-scrollbar-thumb {
         border-radius: 4px;
         background-color: rgba(0, 0, 0, .5);
@@ -227,6 +256,6 @@
     .eu-disclaimer{
         bottom: 15px;
     }
-    
+
 }
 

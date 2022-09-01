@@ -86,13 +86,13 @@ export class FiltersApi implements Deserializable{
             id: 'orderEuBudget-true',
             value: 'EU Contribution (ascending)'
         },{
-            id: null,
+          id: 'orderEuBudget-false',
             value: 'EU Contribution (descending)'
         },{
             id: 'orderTotalBudget-true',
             value: 'Total Budget (ascending)'
         },{
-            id: 'orderTotalBudget-false',
+            id: null,
             value: 'Total Budget (descending)'
         }];
         FiltersApi.prototype.beneficiaryType = [{

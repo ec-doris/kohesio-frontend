@@ -102,6 +102,7 @@ export class ProjectDetailComponent implements AfterViewInit {
             location += "projects/"+this.project.item;
         }
         const body:string = "Please describe the error or the duplicate with the URLs: " + location;
-        window.location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        //window.location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        window.open(`mailto:${to}?subject=${subject}&body=${body}`, 'mail');
     }
 }

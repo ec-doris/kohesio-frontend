@@ -143,7 +143,7 @@
                     {project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}
                 </span>
                 <div class="content padding" *ngFor="let item of project?.categoryLabels">
-                    <span class="no-bold">{{item}}</span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{interventionField: item}">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.categoryLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -173,7 +173,7 @@
                     <div class="project-theme-image">
                         <ng-container *ngIf="project?.images && project.images.length">
                             <div class="project-image-container hand-pointer"
-                            style="background-image: url('{{ project.images[0].image }}');" 
+                            style="background-image: url('{{ project.images[0].image }}');"
                             (click)="openImageOverlay(project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
                         </ng-container>
                         <ng-container>
@@ -206,7 +206,7 @@
                         <div class="kohesio-article-post-content">
                                 <p class="ecl-u-type-paragraph">{{project.description}}</p>
                         </div>
-                        
+
                         <div class="kohesio-social-icons-wrapper">
                             <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
