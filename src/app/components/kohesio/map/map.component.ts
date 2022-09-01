@@ -34,6 +34,39 @@ export class MapComponent implements AfterViewInit {
     public mapRegions:any = [];
     public isLoading = true;
     public dataRetrieved = false;
+
+    public colorScaleNumberProjects = [
+      {
+        color: "#fbe19e",
+        label: "0-10000",
+        value: 10000
+      },{
+        color: "#fbc680",
+        label: "10000-20000",
+        value: 10000
+      },{
+        color: "#faac75",
+        label: "20000-50000",
+        value: 10000
+      },{
+        color: "#fe8067",
+        label: "50000-100000",
+        value: 10000
+      },{
+        color: "#ec5c5d",
+        label: "100000-250000",
+        value: 10000
+      },{
+        color: "#d14a64",
+        label: "250000-500000",
+        value: 10000
+      },{
+        color: "#a04a9d",
+        label: "+500000",
+        value: 10000
+      }
+    ]
+
     public outermostRegions = [{
         label: "Madeira",
         country: "Q18",
@@ -145,7 +178,7 @@ export class MapComponent implements AfterViewInit {
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
         });
-        
+
 
         // Normal Open Street Map Tile Layer
         /*const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -410,12 +443,12 @@ export class MapComponent implements AfterViewInit {
         const granularityRegion = environment.entityURL + outermostRegion.id;
         this.loadMapVisualization(filters, granularityRegion);
         this.mapRegions = this.mapRegions.slice(0,1);
-        
+
         if (this.mapRegions.length && !this.mapRegions[0].region){
             this.mapRegions.push({
                 label: outermostRegion.countryLabel,
                 region: environment.entityURL + outermostRegion.country
-            }); 
+            });
         }
         this.mapRegions.push({
             label: outermostRegion.label,
@@ -424,7 +457,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     loadMapVisualization(filters: Filters, granularityRegion?: string){
-        
+
         this.cleanMap();
         this.dataRetrieved = false;
         this.activeLoadingAfter1Second()
@@ -540,7 +573,7 @@ export class MapComponent implements AfterViewInit {
                     const labelMarker = L.marker(layer.getBounds().getCenter(), {
                         icon: L.divIcon({
                             className: 'label-regions',
-                            
+
                             html: feature.properties.regionLabel
                         })
                     });
@@ -569,7 +602,9 @@ export class MapComponent implements AfterViewInit {
                     const layer = e.target;
                     if (layer.feature.properties) {
                         layer.setStyle({
-                            fillOpacity: 1
+                            fillOpacity: 1,
+                            dashArray: '',
+                            color: "#DDD"
                         });
                     }
                 },
@@ -577,7 +612,9 @@ export class MapComponent implements AfterViewInit {
                     const layer = e.target;
                     if (layer.feature.properties) {
                         layer.setStyle({
-                            fillOpacity: 0.5
+                            fillOpacity: 0.8,
+                            dashArray: '3',
+                            color: "white"
                         });
                     }
                     setTimeout(() => {
@@ -593,17 +630,40 @@ export class MapComponent implements AfterViewInit {
     }
 
     private polygonsStyle(feature:any){
+        let backgroundColor = "#ff7800";
+        if (feature.properties){
+          if (feature.properties.count >= 500000) {
+            backgroundColor = "#a04a9d";
+          }else if (feature.properties.count >= 250000){
+            backgroundColor = "#d14a64";
+          }else if (feature.properties.count >= 100000){
+            backgroundColor = "#ec5c5d";
+          }else if (feature.properties.count >= 50000){
+            backgroundColor = "#fe8067";
+          }else if (feature.properties.count >= 20000){
+            backgroundColor = "#faac75";
+          }else if (feature.properties.count >= 10000){
+            backgroundColor = "#fbc680";
+          }else{
+            backgroundColor = "#fbe19e";
+          }
+        }
         let style = {
-            color: "#ff7800",
+            color: 'white',
+            dashArray: '3',
             opacity: 1,
             weight: 2,
-            fillOpacity: 0.5,
-            fillColor: "#ff7800",
+            fillOpacity: 0.8,
+            fillColor: backgroundColor
         };
         if (feature.properties && !feature.properties.count) {
             style.fillColor = "#AAAAAA";
         }
         return style;
+    }
+
+    private getBackgroundColor(properties:any){
+
     }
 
     private defaultStyle(){

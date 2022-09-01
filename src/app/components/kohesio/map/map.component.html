@@ -33,6 +33,13 @@
                     </span>
                 </button>
             </div>
+            <div class="map-project-count-container">
+                <div class="title">Number of projects</div>
+                <div class="wrapper-scale-legend" *ngFor="let scale of colorScaleNumberProjects">
+                    <div class="color-scale" [style]="'background-color:'+scale.color+';'"></div>
+                    <div class="text-scale">{{scale.label}}</div>
+                </div>
+            </div>
             <div class="map-outermost-regions-container" *ngIf="showOutermostRegions()">
                 <div class="title" i18n="@@comp.map.label.outermostRegions">Outermost Regions</div>
                 <div class="map-outermost-regions-wrapper"
