@@ -38,6 +38,14 @@ export class FilterService {
         );
     }
 
+    getMapFilters(): Observable<FiltersApi>{
+      return this.getFilters(
+        forkJoin([
+          this.getFilter('countries')
+        ])
+      );
+    }
+
     getFilters(filtersList: any): Observable<FiltersApi>{
         return filtersList.pipe(
             map((data:any[]) => {
