@@ -7,6 +7,7 @@ import { MapPopupComponent } from './map-popup.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { KohesioEclSpinnerModule } from '../../ecl/spinner/spinner.ecl.module';
 import {MapPageComponent} from "../../../pages/map/map-page.component";
+import {MapMessageBoxComponent} from "./map-message-box";
 
 
 @NgModule({
@@ -20,7 +21,8 @@ import {MapPageComponent} from "../../../pages/map/map-page.component";
         MapComponent,
         MapPopupComponent,
         OutermostRegionsPipe,
-        MapPageComponent
+        MapPageComponent,
+        MapMessageBoxComponent
     ],
     exports: [
         MapComponent,

@@ -1,6 +1,7 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container" style="max-width: 1108px;">
         <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.</div>
+        <app-map-message-box></app-map-message-box>
         <ng-container *ngIf="!hideNavigation">
             <div class="loading" *ngIf="isLoading">
                 <kohesio-ecl-spinner></kohesio-ecl-spinner>

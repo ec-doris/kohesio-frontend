@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, Input, ChangeDetectorRef, ComponentFactoryResolver, Injector } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  ChangeDetectorRef,
+  ComponentFactoryResolver,
+  Injector,
+  ViewChild
+} from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
@@ -9,6 +17,7 @@ import { MapPopupComponent } from './map-popup.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import {MapMessageBoxComponent} from "./map-message-box";
 declare let L:any;
 
 @Component({
@@ -137,6 +146,8 @@ export class MapComponent implements AfterViewInit {
 
     public mobileQuery: boolean;
     private destroyed = new Subject<void>();
+
+    @ViewChild(MapMessageBoxComponent) public uiMessageBoxHelper!: MapMessageBoxComponent;
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -465,6 +476,7 @@ export class MapComponent implements AfterViewInit {
             this.dataRetrieved = true;
             if (data.list && data.list.length){
                 //Draw markers to each coordinate
+              this.uiMessageBoxHelper.close();
                 if (data.geoJson) {
                     this.drawPolygonsForRegion(data.geoJson, null);
                     this.fitToGeoJson(data.geoJson);
@@ -483,6 +495,7 @@ export class MapComponent implements AfterViewInit {
             }else if (data.subregions && data.subregions.length) {
                 //Draw polygons of the regions
                 if (data.region && data.geoJson && granularityRegion){
+                    this.uiMessageBoxHelper.open();
                     const regionId = granularityRegion.replace(environment.entityURL, '');
                     const overrideBound:any = this.overrideBounds.find(region=>{
                         return region.id == regionId;
