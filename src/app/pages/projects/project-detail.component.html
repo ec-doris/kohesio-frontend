@@ -291,6 +291,13 @@
                 </h2>
                 <app-map mapId="map-details" [hideNavigation]="true"></app-map>
             </div>
+            <div class="kohesio-audio-visual-wrapper">
+                <div class="kohesio-project-detail-video-wrapper">
+                    <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
+                        <youtube-player [videoId]="getVideoId(video)"> </youtube-player>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
