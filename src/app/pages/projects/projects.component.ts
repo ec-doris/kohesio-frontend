@@ -174,11 +174,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.getThemes();
 
       // Apply filter on input valueChanges
-      this.interventionOptions = this.myForm.get('interventionField')!
-        .valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterIntervention(value))
-        );
+      this.interventionFieldOptionsReset();
     }
 
     public displayInterventionField(option: any): string {
@@ -193,6 +189,19 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
       return this.filters.categoriesOfIntervention;
+    }
+
+    private interventionFieldOptionsReset(){
+      this.interventionOptions = new Observable();
+      this.interventionOptions = this.myForm.get('interventionField')!
+        .valueChanges.pipe(
+          startWith(''),
+          map(value => this._filterIntervention(value))
+        );
+    }
+
+    public interventionFieldOpened(){
+      this.interventionFieldOptionsReset();
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -281,7 +290,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             }
           }
         }
-        
+
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {

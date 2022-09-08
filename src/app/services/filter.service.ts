@@ -128,7 +128,7 @@ export class FilterService {
                     filter.options.forEach((sub:any) => {
                         let l = sub.shortValue ? this.harmonizeShortLabel(sub.shortValue) : this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
                         if(l == label){
-                            result = sub.id;
+                            result = sub;
                             return;
                         }
                     });

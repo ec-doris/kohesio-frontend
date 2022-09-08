@@ -139,11 +139,12 @@
                     <!-- Autocomplete optgroup Intervention Field  -->
                     <mat-form-field class="intervention-autocomplete-wrapper" appearance="fill">
                         <mat-label>Please select</mat-label>
-                        <input type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
+                        <input onClick="this.setSelectionRange(0, this.value.length)" type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
                         <mat-autocomplete
                             #autoGroup="matAutocomplete"
                             [panelWidth]="'auto'"
-                            [displayWith]="displayInterventionField">
+                            [displayWith]="displayInterventionField"
+                            (opened)="interventionFieldOpened()">
                             <mat-optgroup *ngFor="let group of interventionOptions | async" [label]="group.value">
                                 <mat-option *ngFor="let option of group.options" [value]="option">
                                     {{ option.value }}
