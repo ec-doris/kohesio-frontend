@@ -12,9 +12,11 @@ export class MapPageComponent implements AfterViewInit {
     @ViewChild(MapComponent) map!: MapComponent;
     public hideProjectsNearBy:boolean = false;
     public country:string | null;
+    public heatScale:boolean = false;
 
     constructor(public actRoute: ActivatedRoute){
       this.hideProjectsNearBy = (this.actRoute.snapshot.queryParamMap.get('hideProjectsNearBy') == "true");
+      this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == "true");
       this.country = this.actRoute.snapshot.queryParamMap.get('country');
     }
 

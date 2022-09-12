@@ -159,7 +159,7 @@ export class MapComponent implements AfterViewInit {
             values.push(subregion.count);
       });
 
-      const scaleNumber = 7;
+      const scaleNumber = values.length >= 7 ? 7 : values.length;
       const min = Math.min.apply(Math, values);
       const max = Math.max.apply(Math, values);
       const calMax = max - (max / 100 * 20)
