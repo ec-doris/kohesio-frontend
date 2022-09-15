@@ -164,7 +164,7 @@ export class MapComponent implements AfterViewInit {
       const max = Math.max.apply(Math, values);
       const calMax = max - (max / 100 * 20)
 
-      const logmin = Math.log(min);
+      const logmin = Math.log(min ? min : 1);
       const logmax = Math.log(calMax);
 
       const logrange = logmax - logmin;
