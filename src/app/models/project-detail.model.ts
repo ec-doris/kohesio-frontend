@@ -31,6 +31,7 @@ export class ProjectDetail implements Deserializable{
     regionText: string | undefined;
     geoJson: any | undefined;
     infoRegioUrl: string | undefined;
+    keepUrl: string | undefined;
     programInfoRegioUrl: string | undefined;
     videos: string[] = [];
 
@@ -65,6 +66,7 @@ export class ProjectDetail implements Deserializable{
             regionText: input.regionText,
             geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null,
             infoRegioUrl: input.infoRegioUrl,
+            keepUrl: input.keepUrl,
             programInfoRegioUrl: input.programInfoRegioUrl,
             videos: input.videos
         });

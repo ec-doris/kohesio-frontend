@@ -75,6 +75,10 @@
                     <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
+                <div class="content" *ngIf="project?.keepUrl" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.keepUrl" *ngIf="project?.keepUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
+                    <ng-container *ngIf="!project?.keepUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
             </div>
 
 
