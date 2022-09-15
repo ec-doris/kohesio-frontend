@@ -69,6 +69,7 @@ export class KohesioAutoCompleteComponent implements ControlValueAccessor, OnCha
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent){
     this.onChange(event.option.value);
+    this.change.emit();
   }
 
   public onInputType(value:string){

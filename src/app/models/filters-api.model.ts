@@ -107,10 +107,10 @@ export class FiltersApi implements Deserializable{
         }];
         FiltersApi.prototype.interreg = [{
           id: 'true',
-          value: 'Yes',
+          value: 'Interreg',
         },{
           id: 'false',
-          value: 'No',
+          value: 'Investment in Growth and Jobs',
         }];
     })();
 

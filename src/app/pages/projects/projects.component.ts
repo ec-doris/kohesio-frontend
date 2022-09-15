@@ -83,9 +83,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
 
 
+
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
-        country: [this.getFilterKey("countries", "country")],
+        country: [!this._route.snapshot.queryParamMap.has('nuts3') ? this.getFilterKey("countries", "country") : undefined],
         region: [],
         policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
         theme: [this.getFilterKey("thematic_objectives", "theme")],
@@ -102,6 +103,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         interreg: [this.getFilterKey("interreg", "interreg")],
         nuts3: [this.getFilterKey("nuts3", "nuts3")]
       });
+
+      if (this._route.snapshot.queryParamMap.has('nuts3') &&
+        (this._route.snapshot.queryParamMap.has('country') ||
+          this._route.snapshot.queryParamMap.has('region'))){
+        this._router.navigate([], {
+          relativeTo: this._route,
+          queryParams: this.generateQueryParams(),
+          queryParamsHandling: 'merge'
+        });
+      }
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get('program') ||
@@ -341,7 +352,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.myForm.patchValue({
         region: null,
-        program: null
+        program: null,
+        nuts3: null
       });
     }
 
@@ -503,6 +515,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
           return ngClass;
         }
+
+  onNuts3Change(){
+    if (this.myForm.value.nuts3) {
+      this.myForm.patchValue({
+        country: undefined,
+        region: undefined
+      });
+    }
+  }
 
 
 }
