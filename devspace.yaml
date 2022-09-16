@@ -38,6 +38,7 @@ dev:
         - .git/
         - .git/
         - .devspace/
+        - .angular/
         - README.md
       uploadExcludePaths:
         - Dockerfile
