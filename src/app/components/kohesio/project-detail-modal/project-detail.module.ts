@@ -11,6 +11,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
 import {YouTubePlayerModule} from "@angular/youtube-player";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     imports: [
@@ -22,7 +23,8 @@ import {YouTubePlayerModule} from "@angular/youtube-player";
         MatButtonModule,
         MatProgressSpinnerModule,
         KohesioEclButtonModule,
-        YouTubePlayerModule
+        YouTubePlayerModule,
+        MatTooltipModule
     ],
     declarations: [
         ProjectDetailModalComponent,
