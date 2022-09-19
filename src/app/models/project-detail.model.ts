@@ -7,6 +7,7 @@ export class ProjectDetail implements Deserializable{
     countryLabel!: string;
     link: string | undefined;
     categoryLabels: string[] = [];
+    categoryIDs: string[] = [];
     coordinates: [string] | undefined;
     description: string | undefined;
     label: string | undefined;
@@ -42,6 +43,7 @@ export class ProjectDetail implements Deserializable{
             countryLabel: input.countryLabel,
             link: input.link,
             categoryLabels: input.categoryLabels,
+            categoryIDs: input.categoryIDs,
             coordinates: input.coordinates,
             description: input.description,
             label: input.label,
