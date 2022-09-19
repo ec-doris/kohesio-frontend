@@ -12,3 +12,19 @@ a:visited {
     background-position: center center;
   }
 }
+
+.kohesio-project-detail-video{
+  iframe{
+    border:none;
+    width:100%;
+    height: 300px;
+  }
+}
+
+:host ::ng-deep {
+  iframe{
+    border:none;
+    width:100%;
+    height: 400px;
+  }
+}

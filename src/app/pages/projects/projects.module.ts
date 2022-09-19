@@ -29,39 +29,41 @@ import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/ima
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import {KohesioAutoCompleteModule} from "../../components/kohesio/auto-complete/auto-complete.module";
 
 
 @NgModule({
-    imports: [
-        CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
-        RouterModule,
-        ProjectsRoutingModule,
-        MatPaginatorModule,
-        MatTableModule,
-        MapComponentModule,
-        MatSidenavModule,
-        MatTabsModule,
-        MatToolbarModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatSelectModule,
-        MatDatepickerModule,
-        MatMomentDateModule,
-        KohesioEclFormModule,
-        KohesioEclButtonModule,
-        KohesioEclAccordionModule,
-        KohesioEclSpinnerModule,
-        ProjectDetailModalModule,
-        DownloadButtonModule,
-        NgxPopperjsModule,
-        ImageOverlayModule
-    ],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    RouterModule,
+    ProjectsRoutingModule,
+    MatPaginatorModule,
+    MatTableModule,
+    MapComponentModule,
+    MatSidenavModule,
+    MatTabsModule,
+    MatToolbarModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatMomentDateModule,
+    KohesioEclFormModule,
+    KohesioEclButtonModule,
+    KohesioEclAccordionModule,
+    KohesioEclSpinnerModule,
+    ProjectDetailModalModule,
+    DownloadButtonModule,
+    NgxPopperjsModule,
+    ImageOverlayModule,
+    KohesioAutoCompleteModule
+  ],
     declarations: [
         ProjectsComponent
     ],

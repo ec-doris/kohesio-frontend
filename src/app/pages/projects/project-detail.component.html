@@ -75,6 +75,10 @@
                     <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
+                <div class="content" *ngIf="project?.keepUrl" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.keepUrl" *ngIf="project?.keepUrl" target="_blank" i18n="@@page.project-detail.link.readFurtherKeepEU">Read more on keep.eu</a>
+                    <ng-container *ngIf="!project?.keepUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
             </div>
 
 
@@ -130,7 +134,7 @@
                     {project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
                 </span>
                 <div class="content  padding" *ngFor="let item of project?.themeLabels">
-                    <span class="no-bold">{{item}}</span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{theme: item.split(' ').join('-')}">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.themeLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -142,8 +146,8 @@
                 <span class="title" i18n="@@page.project-detail.label.interventionField">
                     {project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}
                 </span>
-                <div class="content padding" *ngFor="let item of project?.categoryLabels">
-                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{interventionField: item}">{{item}}</a></span>
+                <div class="content padding" *ngFor="let item of project?.categoryLabels; let i = index">
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{interventionField: project.categoryIDs[i]}">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.categoryLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -211,7 +215,7 @@
                             <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                    <a matTooltip="Share on Facebook" [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
                                         <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
                                         </svg>
@@ -221,7 +225,7 @@
                                     </a>
                                 </li>
                                 <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                    <a matTooltip="Share on Twitter" [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
                                         <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
                                         </svg>
@@ -241,7 +245,7 @@
                                     </a>
                                 </li>-->
                                 <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                    <a matTooltip="Share on Linkedin" [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
                                         <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
                                         </svg>
@@ -251,7 +255,7 @@
                                     </a>
                                 </li>
                                 <li class="ecl-social-media-follow__item">
-                                    <a [href]="'mailto:?subject=Kohesio&body=Check this project on Kohesio: ' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                    <a matTooltip="Share by Email" [href]="'mailto:?subject=Kohesio&body=Check this project on Kohesio: ' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
                                         <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email" style="fill:#FFF;"></use>
                                         </svg>
@@ -266,7 +270,7 @@
                             <span class="title" i18n="@@page.project-detail.label.shareon">report an issue</span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
-                                    <a (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
+                                    <a matTooltip="Report an issue by email" (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
                                         <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#bug"></use>
                                         </svg>
@@ -290,6 +294,13 @@
                     <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
                 </h2>
                 <app-map mapId="map-details" [hideNavigation]="true"></app-map>
+            </div>
+            <div class="kohesio-audio-visual-wrapper">
+                <div class="kohesio-project-detail-video-wrapper">
+                    <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
+                        <youtube-player [videoId]="getVideoId(video)"> </youtube-player>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

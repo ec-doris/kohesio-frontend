@@ -24,6 +24,8 @@ export class Filters implements Deserializable{
     public orderTotalBudget: boolean | undefined;
     public orderNumProjects: boolean | undefined;
     public beneficiaryType: string | undefined;
+    public interreg: string | undefined;
+    public nuts3: string | undefined;
 
     deserialize(input: any): this {
 
@@ -58,7 +60,9 @@ export class Filters implements Deserializable{
             orderEuBudget:  this.buildSort("orderEuBudget",input.sort),
             orderTotalBudget:  this.buildSort("orderTotalBudget",input.sort),
             orderNumProjects:  this.buildSort("orderNumProjects",input.sort),
-            beneficiaryType: input.beneficiaryType ? input.beneficiaryType : undefined
+            beneficiaryType: input.beneficiaryType ? input.beneficiaryType : undefined,
+            interreg: input.interreg ? input.interreg : undefined,
+            nuts3: input.nuts3 ? input.nuts3 : undefined
         });
     }
 
@@ -82,6 +86,8 @@ export class Filters implements Deserializable{
             ...(this.orderEndDate != undefined) && {orderEndDate: this.orderEndDate},
             ...(this.orderEuBudget != undefined) && {orderEuBudget: this.orderEuBudget},
             ...(this.orderTotalBudget != undefined) && {orderTotalBudget: this.orderTotalBudget},
+            ...(this.interreg != undefined) && {interreg: this.interreg},
+            ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3}
         }
     }
 
@@ -100,7 +106,9 @@ export class Filters implements Deserializable{
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
             ...(this.budgetEUBiggerThan) && {budgetEUBiggerThan: this.budgetEUBiggerThan},
             ...(this.startDateAfter) && {startDateAfter: this.startDateAfter},
-            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore}
+            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
+            ...(this.interreg != undefined) && {interreg: this.interreg},
+            ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
         }
     }
 
@@ -119,7 +127,9 @@ export class Filters implements Deserializable{
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
             ...(this.budgetEUBiggerThan) && {budgetEUBiggerThan: this.budgetEUBiggerThan},
             ...(this.startDateAfter) && {startDateAfter: this.startDateAfter},
-            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore}
+            ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
+            ...(this.interreg != undefined) && {interreg: this.interreg},
+            ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
         }
     }
 

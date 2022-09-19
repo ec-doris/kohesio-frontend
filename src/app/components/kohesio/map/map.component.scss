@@ -118,9 +118,9 @@
 
 .map-project-count-container {
   position: absolute;
-  bottom: 120px;
+  top: 90px;
   z-index: 1;
-  left: 5px;
+  left: 10px;
   background-color: rgba(255,255,255,0.7);
   border-radius: 7px;
   padding: 10px;
@@ -180,6 +180,20 @@
     }
 }
 
+.outermostRegion-wrapper.heatMap{
+  svg g path{
+    fill: #BBBBBB;
+    stroke: #BBBBBB;
+  }
+}
+
+.outermostRegion-wrapper.noHeatMap{
+  svg g path{
+    fill: #ff7800;
+    stroke: #ff7800;
+  }
+}
+
 .outermostRegion-wrapper{
     display: flex;
     flex-direction: column;
@@ -192,8 +206,6 @@
         fill-opacity: 0.5;
         stroke-width: 2;
         stroke-opacity: 1;
-        fill: #ff7800;
-        stroke: #ff7800;
     }
 
     label{

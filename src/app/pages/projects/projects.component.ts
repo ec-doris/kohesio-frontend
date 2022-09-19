@@ -12,13 +12,11 @@ import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
-import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { Subject, takeUntil} from 'rxjs';
+import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
-import { Category, filterCategory } from 'src/app/models/category.model';
-declare let L:any;
-declare let ECL:any;
+
 @Component({
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
@@ -51,17 +49,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public entityURL = environment.entityURL;
   public pageSize = 15;
   public initialPageIndex:number = 0;
-
   public themeSelection = []
-
   public semanticTerms: String[] = [];
-
   public mobileQuery: boolean;
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
-
-  interventionOptions: Observable<Category[]> = new Observable();
-  selectedIntervention: string = '';
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -91,9 +83,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
 
 
+
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get('keywords'),
-        country: [this.getFilterKey("countries", "country")],
+        country: [!this._route.snapshot.queryParamMap.has('nuts3') ? this.getFilterKey("countries", "country") : undefined],
         region: [],
         policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
         theme: [this.getFilterKey("thematic_objectives", "theme")],
@@ -106,13 +99,26 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         amountEUSupport: [this.getFilterKey("amountEUSupport", "amountEUSupport")],
         projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
         projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
-        sort: [this.getFilterKey("sort", "sort")]
+        sort: [this.getFilterKey("sort", "sort")],
+        interreg: [this.getFilterKey("interreg", "interreg")],
+        nuts3: [this.getFilterKey("nuts3", "nuts3")]
       });
+
+      if (this._route.snapshot.queryParamMap.has('nuts3') &&
+        (this._route.snapshot.queryParamMap.has('country') ||
+          this._route.snapshot.queryParamMap.has('region'))){
+        this._router.navigate([], {
+          relativeTo: this._route,
+          queryParams: this.generateQueryParams(),
+          queryParamsHandling: 'merge'
+        });
+      }
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get('program') ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
-          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd){
+          this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
+          this.myForm.value.projectEnd || this.myForm.value.interreg || this.myForm.value.nuts3){
             this.advancedFilterIsExpanded = true;
       };
 
@@ -126,15 +132,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.selectedTab="map";
         }
       }
-      if (this._route.snapshot.queryParamMap.has('page')){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
-        if (pageParam){
-          //this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
-          //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
-        }
-      }
 
-    }
+  }
 
     popperPlacement(): any {
       if (window.innerWidth < 750) {
@@ -143,8 +142,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         return "auto"
       }
     }
-
-
 
     ngOnInit() {
       if (this._route.snapshot.queryParamMap.get('country')) {
@@ -173,26 +170,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.onThemeChange();
       this.getThemes();
 
-      // Apply filter on input valueChanges
-      this.interventionOptions = this.myForm.get('interventionField')!
-        .valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterIntervention(value))
-        );
-    }
-
-    public displayInterventionField(option: any): string {
-      return option?.value;
-    }
-
-    private _filterIntervention(value: string) {
-      if (value) {
-        return this.filters.categoriesOfIntervention
-          .map(group => ({value: group.value, options: filterCategory(group.options, value)}))
-          .filter(group => group.options.length > 0);
-      }
-
-      return this.filters.categoriesOfIntervention;
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -281,7 +258,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             }
           }
         }
-        
+
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
@@ -359,6 +336,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
         projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
         projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
+        interreg: this.getFilterLabel("interreg", this.myForm.value.interreg),
+        nuts3: this.getFilterLabel(
+          "nuts3",
+          this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
+        ),
         sort: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
       }
     }
@@ -370,7 +352,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.myForm.patchValue({
         region: null,
-        program: null
+        program: null,
+        nuts3: null
       });
     }
 
@@ -468,6 +451,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       getFilters() {
         const formValues = Object.assign({}, this.myForm.value);
         formValues.interventionField = formValues.interventionField ? formValues.interventionField.id : undefined;
+        formValues.nuts3 = formValues.nuts3 ? formValues.nuts3.id : undefined;
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         this.lastFiltersSearch = new Filters().deserialize(formValues);
@@ -477,8 +461,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
         this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
-
-
 
       getDate(dateStringFormat: any) {
         if (dateStringFormat) {
@@ -533,6 +515,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
           return ngClass;
         }
+
+  onNuts3Change(){
+    if (this.myForm.value.nuts3) {
+      this.myForm.patchValue({
+        country: undefined,
+        region: undefined
+      });
+    }
+  }
 
 
 }
