@@ -20,6 +20,7 @@ export class ProjectDetail implements Deserializable{
     endTime: Date | undefined;
     budget: string | undefined;
     programLabel: string | undefined;
+    programFullLabel: string | undefined;
     managingAuthorityLabel: string | undefined;
     fundLabel: string | undefined;
     countryCode!: string;
@@ -56,6 +57,7 @@ export class ProjectDetail implements Deserializable{
             endTime: input.endTime ? new Date(input.endTime) : undefined,
             budget: input.budget,
             programLabel: input.programLabel,
+            programFullLabel: input.programFullLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
             fundLabel: input.fundLabel,
             countryCode: this.getCountryCode(input.countryCode),

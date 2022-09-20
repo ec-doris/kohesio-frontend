@@ -101,7 +101,7 @@
                             <span class="no-bold">
                                 <a class="ecl-link ecl-link--standalone" target="_blank"
                                    [routerLink]="['/projects/']"
-                                   [queryParams]="{country: project.countryLabel, program: project.programLabel ? project.programLabel.split(' ').join('-'): ''}">
+                                   [queryParams]="{country: project.countryLabel, program: project.programFullLabel ? project.programFullLabel.split(' ').join('-'): ''}">
                                     {{project?.programLabel}}
                                 </a>
                             </span>
