@@ -97,17 +97,23 @@
                 <div class="content">
                     <span i18n="@@page.project-detail.label.programme">Programme: </span>
                     <span>
-                        <ng-container *ngIf="project?.programInfoRegioUrl">
-                            <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
-                                <ng-container *ngIf="project?.programLabel">{{project.programLabel}}</ng-container>
-                                <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
-                            </a>
+                        <ng-container *ngIf="project?.programLabel">
+                            <span class="no-bold">
+                                <a class="ecl-link ecl-link--standalone" target="_blank"
+                                   [routerLink]="['/projects/']"
+                                   [queryParams]="{country: project.countryLabel, program: project.programLabel ? project.programLabel.split(' ').join('-'): ''}">
+                                    {{project?.programLabel}}
+                                </a>
+                            </span>
                         </ng-container>
-                        <ng-container *ngIf="!project?.programInfoRegioUrl">
-                            <ng-container *ngIf="project?.programLabel">{{project.programLabel}}</ng-container>
-                            <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
-                        </ng-container>
+                        <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                     </span>
+                </div>
+                <div class="content" *ngIf="project?.programInfoRegioUrl">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
+                        <ng-container *ngIf="project?.programLabel">read further about the investment program</ng-container>
+                    </a>
+
                 </div>
 
                 <div class="content">
