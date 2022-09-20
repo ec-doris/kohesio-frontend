@@ -109,12 +109,6 @@
                         <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                     </span>
                 </div>
-                <div class="content" *ngIf="project?.programInfoRegioUrl">
-                    <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
-                        <ng-container *ngIf="project?.programLabel">read further about the investment program</ng-container>
-                    </a>
-
-                </div>
 
                 <div class="content">
                     <span i18n="@@page.project-detail.label.totalBudget">Total budget: </span>
@@ -131,6 +125,11 @@
                             ({{project.cofinancingRate | number:'1.0-3':'fr'}}%)
                         </ng-container>
                     </span>
+                </div>
+                <div class="content" *ngIf="project?.programInfoRegioUrl" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
+                        <ng-container *ngIf="project?.programLabel">Read further about the programme</ng-container>
+                    </a>
                 </div>
             </div>
 
