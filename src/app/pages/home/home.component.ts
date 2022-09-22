@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { DOCUMENT } from '@angular/common';
-import { Router } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { Renderer2, Inject } from '@angular/core';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { Filters } from 'src/app/models/filters.model';
@@ -9,6 +9,11 @@ import { ThemeService } from 'src/app/services/theme.service';
 import { Theme } from 'src/app/models/theme.model';
 import { PolicyObjective } from 'src/app/models/policy-objective.model';
 import { Statistics } from 'src/app/models/statistics.model';
+import {
+  ProjectDetailModalComponent
+} from "../../components/kohesio/project-detail-modal/project-detail-modal.component";
+import {environment} from "../../../environments/environment";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
     templateUrl: './home.component.html',
@@ -26,9 +31,11 @@ export class HomePageComponent implements AfterViewInit {
 
     constructor(private _renderer2: Renderer2,
                 @Inject(DOCUMENT) private _document: Document,
+                private _route: ActivatedRoute,
                 private _router: Router,
                 private statisticsService: StatisticsService,
-                private themeService: ThemeService){
+                private themeService: ThemeService,
+                private dialog: MatDialog){
 
         this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
             this.stats = data;
@@ -47,6 +54,22 @@ export class HomePageComponent implements AfterViewInit {
             }
         });
 
+        if (this._route.snapshot.queryParamMap.has('project')){
+          this.dialog.open(ProjectDetailModalComponent,{
+            width: "90%",
+            height: "85vh",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            data: {
+              id: this._route.snapshot.queryParamMap.get('project')
+            }
+          }).afterClosed().subscribe(()=>{
+            history.replaceState && history.replaceState(
+              null, '', location.pathname + location.search.replace(/[\?&]project=[^&]+/, '').replace(/^&/, '?') + location.hash
+            );
+          });
+        }
+
     }
 
     ngAfterViewInit(): void {
@@ -55,7 +78,7 @@ export class HomePageComponent implements AfterViewInit {
                 this.map.loadMapRegion(new Filters());
             }, 500);
 
-        
+
     }
 
     public ngOnInit() {

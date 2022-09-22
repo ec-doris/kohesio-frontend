@@ -10,6 +10,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
+import {YouTubePlayerModule} from "@angular/youtube-player";
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
     imports: [
@@ -20,7 +22,9 @@ import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
         MatIconModule,
         MatButtonModule,
         MatProgressSpinnerModule,
-        KohesioEclButtonModule
+        KohesioEclButtonModule,
+        YouTubePlayerModule,
+        MatTooltipModule
     ],
     declarations: [
         ProjectDetailModalComponent,
@@ -31,11 +35,6 @@ import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
         ProjectDetailComponent,
         ArraySortPipe
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class ProjectDetailModalModule {}

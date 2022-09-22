@@ -1,5 +1,12 @@
 import {Deserializable} from "./deserializable.model";
 
+export class Program {
+  programInfoRegioUrl!: string;
+  programmingPeriodLabel!: string;
+  programFullLabel!: string;
+  programLabel!: string;
+}
+
 export class ProjectDetail implements Deserializable{
 
     public item: string | undefined;
@@ -7,6 +14,7 @@ export class ProjectDetail implements Deserializable{
     countryLabel!: string;
     link: string | undefined;
     categoryLabels: string[] = [];
+    categoryIDs: string[] = [];
     coordinates: [string] | undefined;
     description: string | undefined;
     label: string | undefined;
@@ -19,6 +27,7 @@ export class ProjectDetail implements Deserializable{
     endTime: Date | undefined;
     budget: string | undefined;
     programLabel: string | undefined;
+    programFullLabel: string | undefined;
     managingAuthorityLabel: string | undefined;
     fundLabel: string | undefined;
     countryCode!: string;
@@ -31,7 +40,10 @@ export class ProjectDetail implements Deserializable{
     regionText: string | undefined;
     geoJson: any | undefined;
     infoRegioUrl: string | undefined;
+    keepUrl: string | undefined;
     programInfoRegioUrl: string | undefined;
+    videos: string[] = [];
+    program: Program[] = [];
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -40,6 +52,7 @@ export class ProjectDetail implements Deserializable{
             countryLabel: input.countryLabel,
             link: input.link,
             categoryLabels: input.categoryLabels,
+            categoryIDs: input.categoryIDs,
             coordinates: input.coordinates,
             description: input.description,
             label: input.label,
@@ -52,6 +65,7 @@ export class ProjectDetail implements Deserializable{
             endTime: input.endTime ? new Date(input.endTime) : undefined,
             budget: input.budget,
             programLabel: input.programLabel,
+            programFullLabel: input.programFullLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
             fundLabel: input.fundLabel,
             countryCode: this.getCountryCode(input.countryCode),
@@ -64,7 +78,10 @@ export class ProjectDetail implements Deserializable{
             regionText: input.regionText,
             geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null,
             infoRegioUrl: input.infoRegioUrl,
-            programInfoRegioUrl: input.programInfoRegioUrl
+            keepUrl: input.keepUrl,
+            programInfoRegioUrl: input.programInfoRegioUrl,
+            videos: input.videos,
+            program: input.program
         });
     }
 
@@ -72,7 +89,7 @@ export class ProjectDetail implements Deserializable{
         if (Array.isArray(json)){
             const resultArray:any = [];
             json.forEach(geoJson=>{
-                const validJSON = geoJson.replace(/'/g, '"');    
+                const validJSON = geoJson.replace(/'/g, '"');
                 resultArray.push(JSON.parse(validJSON))
             });
             return resultArray;
@@ -114,6 +131,12 @@ export class ProjectDetail implements Deserializable{
         }else{
             return array[0];
         }
+    }
+
+    youtube_parser(url:string): string | undefined{
+      const regExp = /^.*((youtu.be\/)|(v\/)|(\/u\/\w\/)|(embed\/)|(watch\?))\??v?=?([^#&?]*).*/;
+      const match = url.match(regExp);
+      return (match&&match[7].length==11)? match[7] : undefined;
     }
 
 }

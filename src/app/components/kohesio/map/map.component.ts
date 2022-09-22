@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, Input, ChangeDetectorRef, ComponentFactoryResolver, Injector } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  ChangeDetectorRef,
+  ComponentFactoryResolver,
+  Injector,
+  ViewChild
+} from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
@@ -9,6 +17,7 @@ import { MapPopupComponent } from './map-popup.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
+import {MapMessageBoxComponent} from "./map-message-box";
 declare let L:any;
 
 @Component({
@@ -100,10 +109,18 @@ export class MapComponent implements AfterViewInit {
     @Input()
     public hideOuterMostRegions = false;
 
+    @Input()
+    public heatScale = false;
+    public hideScale = false;
+    public heatMapScale:any;
+    public colorsHeatMap = ["#fbe19e","#fbc680","#faac75","#fe8067","#ec5c5d","#d14a64","#a04a9d"];
+
     public collapsedBreadCrumb = false;
 
     public mobileQuery: boolean;
     private destroyed = new Subject<void>();
+
+    @ViewChild(MapMessageBoxComponent) public uiMessageBoxHelper!: MapMessageBoxComponent;
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -130,6 +147,49 @@ export class MapComponent implements AfterViewInit {
         if(this.mobileQuery){
             this.europe.bounds = this.europeBoundsMobile;
         }
+
+        //this.createLogScale();
+    }
+
+    //Starting the algorithm to create the log scale, dynamically
+    createLogScale(data:any){
+
+      const values:number[] = [];
+      data.subregions.forEach((subregion:any)=>{
+            values.push(subregion.count);
+      });
+
+      const scaleNumber = values.length >= 7 ? 7 : values.length;
+      const min = Math.min.apply(Math, values);
+      const max = Math.max.apply(Math, values);
+      const calMax = max - (max / 100 * 20)
+
+      const logmin = Math.log(min ? min : 1);
+      const logmax = Math.log(calMax);
+
+      const logrange = logmax - logmin;
+      const logstep = logrange / (scaleNumber - 1);
+
+      const scales:any = [];
+      for (let i=1;i<scaleNumber;++i){
+        const scale:number = Math.ceil(Math.exp(logmin + i * logstep));
+        scales.push({
+          from: scales.length ? scales[i-2].to : 1,
+          to: this.roundToNearest(scale),
+          color: this.colorsHeatMap[i-1]
+        });
+      }
+      scales.push({
+        from:  scales[scales.length-1].to,
+        color: this.colorsHeatMap[scales.length]
+      });
+
+      this.heatMapScale = scales;
+    }
+
+    roundToNearest(numToRound:number) {
+      const numToRoundTo:number = parseInt("1" + new Array(numToRound.toString().length).join('0'));
+      return Math.round(numToRound / numToRoundTo) * numToRoundTo;
     }
 
     ngAfterViewInit(): void {
@@ -145,7 +205,7 @@ export class MapComponent implements AfterViewInit {
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
         });
-        
+
 
         // Normal Open Street Map Tile Layer
         /*const tiles = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -410,12 +470,12 @@ export class MapComponent implements AfterViewInit {
         const granularityRegion = environment.entityURL + outermostRegion.id;
         this.loadMapVisualization(filters, granularityRegion);
         this.mapRegions = this.mapRegions.slice(0,1);
-        
+
         if (this.mapRegions.length && !this.mapRegions[0].region){
             this.mapRegions.push({
                 label: outermostRegion.countryLabel,
                 region: environment.entityURL + outermostRegion.country
-            }); 
+            });
         }
         this.mapRegions.push({
             label: outermostRegion.label,
@@ -424,7 +484,7 @@ export class MapComponent implements AfterViewInit {
     }
 
     loadMapVisualization(filters: Filters, granularityRegion?: string){
-        
+
         this.cleanMap();
         this.dataRetrieved = false;
         this.activeLoadingAfter1Second()
@@ -432,6 +492,8 @@ export class MapComponent implements AfterViewInit {
             this.dataRetrieved = true;
             if (data.list && data.list.length){
                 //Draw markers to each coordinate
+                this.uiMessageBoxHelper.close();
+                this.hideScale = true;
                 if (data.geoJson) {
                     this.drawPolygonsForRegion(data.geoJson, null);
                     this.fitToGeoJson(data.geoJson);
@@ -448,8 +510,11 @@ export class MapComponent implements AfterViewInit {
                     this.hideOuterMostRegions = true;
                 })
             }else if (data.subregions && data.subregions.length) {
+                this.hideScale = false;
+                this.createLogScale(data);
                 //Draw polygons of the regions
                 if (data.region && data.geoJson && granularityRegion){
+                    this.uiMessageBoxHelper.open();
                     const regionId = granularityRegion.replace(environment.entityURL, '');
                     const overrideBound:any = this.overrideBounds.find(region=>{
                         return region.id == regionId;
@@ -540,7 +605,7 @@ export class MapComponent implements AfterViewInit {
                     const labelMarker = L.marker(layer.getBounds().getCenter(), {
                         icon: L.divIcon({
                             className: 'label-regions',
-                            
+
                             html: feature.properties.regionLabel
                         })
                     });
@@ -577,7 +642,7 @@ export class MapComponent implements AfterViewInit {
                     const layer = e.target;
                     if (layer.feature.properties) {
                         layer.setStyle({
-                            fillOpacity: 0.5
+                            fillOpacity: this.heatScale ? 0.8 : 0.5
                         });
                     }
                     setTimeout(() => {
@@ -589,21 +654,43 @@ export class MapComponent implements AfterViewInit {
                     })
                 },
             });
-        }, this.polygonsStyle);
+        }, (feature:any)=>{
+          return this.polygonsStyle(feature)
+        });
     }
 
     private polygonsStyle(feature:any){
+        let backgroundColor = "#ff7800";
+        if (feature.properties && this.heatScale){
+          backgroundColor = this.heatMapScale[this.heatMapScale.length-1].color;
+          this.heatMapScale.forEach((scale:any)=>{
+            const count = feature.properties.count;
+            if (count >= scale.from && count < scale.to){
+              backgroundColor = scale.color;
+              return;
+            }
+          })
+        }
         let style = {
-            color: "#ff7800",
-            opacity: 1,
-            weight: 2,
-            fillOpacity: 0.5,
-            fillColor: "#ff7800",
+          color: "#ff7800",
+          opacity: 1,
+          weight: 2,
+          fillOpacity: 0.5,
+          fillColor: backgroundColor
         };
+        if(this.heatScale){
+          style.color = "#DDD";
+          style.fillOpacity = 0.8;
+        }
+
         if (feature.properties && !feature.properties.count) {
             style.fillColor = "#AAAAAA";
         }
         return style;
+    }
+
+    private getBackgroundColor(properties:any){
+
     }
 
     private defaultStyle(){

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BeneficiaryService } from "../../../services/beneficiary.service";
-import { FormGroup } from "@angular/forms";
+import { UntypedFormGroup } from "@angular/forms";
 import {ProjectService} from "../../../services/project.service";
 import { Filters } from 'src/app/models/filters.model';
 
@@ -12,7 +12,7 @@ import { Filters } from 'src/app/models/filters.model';
 export class DownloadButtonComponent {
 
     @Input("form")
-    public form!: FormGroup;
+    public form!: UntypedFormGroup;
 
     @Input("type")
     public type!: string;
