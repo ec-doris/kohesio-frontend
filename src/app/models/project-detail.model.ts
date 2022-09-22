@@ -1,5 +1,12 @@
 import {Deserializable} from "./deserializable.model";
 
+export class Program {
+  programInfoRegioUrl!: string;
+  programmingPeriodLabel!: string;
+  programFullLabel!: string;
+  programLabel!: string;
+}
+
 export class ProjectDetail implements Deserializable{
 
     public item: string | undefined;
@@ -20,6 +27,7 @@ export class ProjectDetail implements Deserializable{
     endTime: Date | undefined;
     budget: string | undefined;
     programLabel: string | undefined;
+    programFullLabel: string | undefined;
     managingAuthorityLabel: string | undefined;
     fundLabel: string | undefined;
     countryCode!: string;
@@ -35,6 +43,7 @@ export class ProjectDetail implements Deserializable{
     keepUrl: string | undefined;
     programInfoRegioUrl: string | undefined;
     videos: string[] = [];
+    program: Program[] = [];
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -56,6 +65,7 @@ export class ProjectDetail implements Deserializable{
             endTime: input.endTime ? new Date(input.endTime) : undefined,
             budget: input.budget,
             programLabel: input.programLabel,
+            programFullLabel: input.programFullLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
             fundLabel: input.fundLabel,
             countryCode: this.getCountryCode(input.countryCode),
@@ -70,7 +80,8 @@ export class ProjectDetail implements Deserializable{
             infoRegioUrl: input.infoRegioUrl,
             keepUrl: input.keepUrl,
             programInfoRegioUrl: input.programInfoRegioUrl,
-            videos: input.videos
+            videos: input.videos,
+            program: input.program
         });
     }
 
