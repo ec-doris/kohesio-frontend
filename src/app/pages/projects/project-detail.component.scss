@@ -28,3 +28,14 @@ a:visited {
     height: 400px;
   }
 }
+
+.programme-wrapper{
+  margin-bottom: 10px;
+  border-bottom: 1px dashed gray;
+  padding-bottom: 5px;
+}
+
+.programme-wrapper:last-child{
+  border-bottom: none;
+  margin-bottom: 0;
+}

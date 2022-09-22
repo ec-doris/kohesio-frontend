@@ -90,25 +90,7 @@
                     <span *ngIf="!project?.fundLabel" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
 
-                <div class="content">
-                    <span i18n="@@page.project-detail.label.programmingPeriod">Programming period: </span>
-                    <span>{{project.programmingPeriodLabel}}</span>
-                </div>
-                <div class="content">
-                    <span i18n="@@page.project-detail.label.programme">Programme: </span>
-                    <span>
-                        <ng-container *ngIf="project?.programLabel">
-                            <span class="no-bold">
-                                <a class="ecl-link ecl-link--standalone" target="_blank"
-                                   [routerLink]="['/projects/']"
-                                   [queryParams]="{country: project.countryLabel, program: project.programFullLabel ? project.programFullLabel.split(' ').join('-'): ''}">
-                                    {{project?.programLabel}}
-                                </a>
-                            </span>
-                        </ng-container>
-                        <ng-container *ngIf="!project?.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
-                    </span>
-                </div>
+
 
                 <div class="content">
                     <span i18n="@@page.project-detail.label.totalBudget">Total budget: </span>
@@ -126,10 +108,36 @@
                         </ng-container>
                     </span>
                 </div>
-                <div class="content" *ngIf="project?.programInfoRegioUrl" style="margin-top: 10px;">
-                    <a class="ecl-link ecl-link--standalone" [href]="project.programInfoRegioUrl" target="_blank">
-                        <ng-container *ngIf="project?.programLabel">Read further about the programme</ng-container>
-                    </a>
+
+            </div>
+
+            <div class="kohesio-side-content-block" *ngIf="project.program && project.program.length">
+                <span class="title" i18n="@@page.project-detail.label.programmes">{project.program.length, plural, =0 {programme} =1 {programme} other {programmes}}</span>
+                <div class="programme-wrapper" *ngFor="let programme of project.program">
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.programmingPeriod">Programming period: </span>
+                        <span>{{programme.programmingPeriodLabel}}</span>
+                    </div>
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.programme">Programme: </span>
+                        <span>
+                            <ng-container *ngIf="programme.programLabel">
+                                <span class="no-bold">
+                                    <a class="ecl-link ecl-link--standalone" target="_blank"
+                                       [routerLink]="['/projects/']"
+                                       [queryParams]="{country: project.countryLabel, program: programme.programFullLabel ? programme.programFullLabel.split(' ').join('-'): ''}">
+                                        {{programme.programLabel}}
+                                    </a>
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="!programme.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                        </span>
+                    </div>
+                    <div class="content" *ngIf="programme.programInfoRegioUrl" >
+                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank">
+                            <ng-container>Read further about the programme</ng-container>
+                        </a>
+                    </div>
                 </div>
             </div>
 
