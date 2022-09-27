@@ -26,10 +26,6 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    ECL.autoInit();
-
-
-
     this.router.events.subscribe(value => {
       if (value instanceof NavigationEnd){
         if ($wt && $wt.analytics.isTrackable()){
@@ -42,6 +38,10 @@ export class AppComponent {
         }
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    ECL.autoInit();
   }
 
 }
