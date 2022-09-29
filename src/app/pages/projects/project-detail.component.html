@@ -147,7 +147,7 @@
                     {project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
                 </span>
                 <div class="content  padding" *ngFor="let item of project?.themeLabels">
-                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{theme: item.split(' ').join('-')}">{{item}}</a></span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="getThemeURL(item)">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.themeLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -160,7 +160,7 @@
                     {project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}
                 </span>
                 <div class="content padding" *ngFor="let item of project?.categoryLabels; let i = index">
-                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="{interventionField: project.categoryIDs[i]}">{{item}}</a></span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="getInterventionFieldURL(project.categoryIDs[i])">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.categoryLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>

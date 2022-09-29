@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, Inject, Input, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
@@ -116,5 +116,19 @@ export class ProjectDetailComponent implements AfterViewInit {
       if (video) {
         return this.project.youtube_parser(video);
       }
+    }
+
+    getThemeURL(item: string): Params{
+      return {
+        theme:item.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
+    }
+
+    getInterventionFieldURL(item:string):Params{
+      return {
+        interventionField:item.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
     }
 }
