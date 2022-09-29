@@ -125,7 +125,7 @@
                                 <span class="no-bold">
                                     <a class="ecl-link ecl-link--standalone" target="_blank"
                                        [routerLink]="['/projects/']"
-                                       [queryParams]="{country: project.countryLabel, program: programme.programFullLabel ? programme.programFullLabel.split(' ').join('-'): ''}">
+                                       [queryParams]="getProgramURL(project.countryLabel,programme.programFullLabel)">
                                         {{programme.programLabel}}
                                     </a>
                                 </span>
