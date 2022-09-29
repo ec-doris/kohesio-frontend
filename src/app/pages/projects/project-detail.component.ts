@@ -131,4 +131,12 @@ export class ProjectDetailComponent implements AfterViewInit {
         sort: "Total-Budget-(descending)"
       };
     }
+
+    getProgramURL(countryLabel:string, programmeLabel:string):Params{
+      return {
+        country: countryLabel,
+        program: programmeLabel.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
+    }
 }
