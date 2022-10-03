@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Filters} from "../models/filters.model";
 import {Observable, throwError} from "rxjs";
@@ -13,7 +13,7 @@ import { BeneficiaryProjectList } from '../models/beneficiary-project-list.model
 })
 export class BeneficiaryService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
     getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList | null>  {
         const url = environment.apiBaseUrl + "/search/beneficiaries";
@@ -39,13 +39,15 @@ export class BeneficiaryService {
         }
         params = Object.assign(
             params,
-            filters);
+            filters,
+          {language: this.locale});
         return params;
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.apiBaseUrl + "/search/beneficiaries/" + type;
-        const params = filters.getBeneficiariesFilters();
+        let params:any = filters.getBeneficiariesFilters();
+        params.language = this.locale;
         return this.http.get(url,{
             responseType: 'arraybuffer',
             params:<any>params
@@ -55,6 +57,7 @@ export class BeneficiaryService {
     getBeneficiaryDetail(id: string | null): Observable<BeneficiaryDetail> {
         const url = environment.apiBaseUrl + '/beneficiary';
         let params = {
+          language:this.locale,
             id: environment.entityURL + id
         };
         return this.http.get<any>(url, { params: <any>params }).pipe(
@@ -78,7 +81,8 @@ export class BeneficiaryService {
         let params = {
             id: environment.entityURL + id,
             page: pageIndex,
-            pageSize: 15
+            pageSize: 15,
+            language: this.locale
         };
         return this.http.get<any>(url, { params: <any>params }).pipe(
             map((data:any) => {

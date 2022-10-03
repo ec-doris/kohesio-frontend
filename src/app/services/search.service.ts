@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
@@ -10,11 +10,12 @@ import { environment } from 'src/environments/environment';
 })
 export class SearchService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
     getItems(keywords:string | null, offset: number = 0, limit: number = 15): Observable<SearchList | null>  {
         const url = environment.apiBaseUrl + "/search/general";
         const params = {
+            language: this.locale,
             keywords: keywords,
             offset: offset,
             limit: limit

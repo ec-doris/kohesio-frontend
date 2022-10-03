@@ -3,6 +3,7 @@ import {Deserializable} from "./deserializable.model";
 
 export class Filters implements Deserializable{
 
+    public language: string = "en";
     public keywords: string | undefined;
     public name: string | undefined;
     public country: string = "";
