@@ -1,5 +1,5 @@
 <!-- <ux-popover #popoverHelpBeneficiaryType title="TYPE">
-   
+
 </ux-popover>
 
 <eui-page class="projects-list">
@@ -159,7 +159,7 @@
         </svg>
     </div>
     <hr>
-    <p class="ecl-u-type-paragraph" i18n="@@page.beneficiaries.labelInfo.type">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p> 
+    <p class="ecl-u-type-paragraph" i18n="@@page.beneficiaries.labelInfo.type">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
 </popper-content>
 
 <mat-drawer-container>
@@ -178,8 +178,8 @@
                 <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.region">REGION
                 </kohesio-ecl-form-label>
                 <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
-                    [isDisabled]="!this.myForm.value.country" 
-                    i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region" 
+                    [isDisabled]="!this.myForm.value.country"
+                    i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
                     placeholder="Select a country" ></kohesio-ecl-form-select>
             </kohesio-ecl-form-group>
             <br/>
@@ -203,7 +203,7 @@
                         <div [popper]="tooltip" [popperShowOnStart]="false" [popperHideOnClickOutside]="true" [popperHideOnScroll]="true" class="infoButton" >
                             <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
-                            </svg>      
+                            </svg>
                         </div>
                     </kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType">
@@ -212,9 +212,9 @@
             </kohesio-ecl-accordion>
             <br />
             <div class="search-buttons">
-                <button type="button" (click)="resetForm()" 
-                    class="ecl-button ecl-button--secondary" 
-                    type="button" 
+                <button type="button" (click)="resetForm()"
+                    class="ecl-button ecl-button--secondary"
+                    type="button"
                     i18n="@@page.beneficiaries.button.resetFilters">Reset Filters</button>
                 <kohesio-ecl-button type="submit" i18n="@@page.beneficiaries.button.showResults">Show Results</kohesio-ecl-button>
             </div>
@@ -223,7 +223,7 @@
     <mat-drawer-content [ngClass]="advancedFilterIsExpanded ? 'kohesio-mat-drawer-container-expanded' : 'kohesio-mat-drawer-container'">
         <div class="tools">
             <div class="left-table-tools">
-                <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries">
+                <app-download-button *ngIf="count && count <= 1000" [filters]="getFilters()" type="beneficiaries">
                 </app-download-button>
             </div>
             <div class="right-table-tools">

@@ -69,7 +69,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             sort: [this.getFilterKey("sortBeneficiaries", "sort")]
         });
 
-        if (this.myForm.value.fund || 
+        if (this.myForm.value.fund ||
                 this._route.snapshot.queryParamMap.get('program') ||
                 this.myForm.value.beneficiaryType){
             this.advancedFilterIsExpanded = true;
@@ -181,6 +181,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    getFilters(): Filters{
+      const filters:Filters = new Filters().deserialize(this.myForm.value)
+      return filters;
+    }
+
     getFormValues() {
         return {
             name: this.myForm.value.name ? this.myForm.value.name : null,
@@ -228,11 +233,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     }
 
     onPaginate(event:any) {
-        
+
         this.paginators.forEach(paginator=>{
             paginator.pageIndex = event.pageIndex;
         })
-        
+
         this.performSearch();
 
         this._router.navigate([], {
