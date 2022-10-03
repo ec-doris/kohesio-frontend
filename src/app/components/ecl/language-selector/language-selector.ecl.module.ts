@@ -1,10 +1,11 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule, SlicePipe} from '@angular/common';
 import { NgModule } from '@angular/core';
 import {KohesioEclLanguageSelectorComponent} from "./language-selector.ecl.component";
 
 @NgModule({
     imports: [
-        CommonModule
+        CommonModule,
+        SlicePipe
     ],
     exports: [KohesioEclLanguageSelectorComponent],
     declarations: [KohesioEclLanguageSelectorComponent]
