@@ -84,9 +84,6 @@
           },
           "sv": {
             "translation": "src/locale/messages.sv.json"
-          },
-          "en": {
-            "translation": "src/locale/messages.json"
           }
         }
       },
