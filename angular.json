@@ -16,11 +16,77 @@
       "i18n": {
         "sourceLocale": "en",
         "locales": {
-          "pt": {
-            "translation": "src/locale/messages.pt.json"
+          "bg": {
+            "translation": "src/locale/messages.bg.json"
+          },
+          "hr": {
+            "translation": "src/locale/messages.hr.json"
+          },
+          "cs": {
+            "translation": "src/locale/messages.cs.json"
+          },
+          "da": {
+            "translation": "src/locale/messages.da.json"
+          },
+          "nl": {
+            "translation": "src/locale/messages.nl.json"
+          },
+          "et": {
+            "translation": "src/locale/messages.et.json"
+          },
+          "fi": {
+            "translation": "src/locale/messages.fi.json"
           },
           "fr": {
             "translation": "src/locale/messages.fr.json"
+          },
+          "de": {
+            "translation": "src/locale/messages.de.json"
+          },
+          "el": {
+            "translation": "src/locale/messages.el.json"
+          },
+          "hu": {
+            "translation": "src/locale/messages.hu.json"
+          },
+          "ga": {
+            "translation": "src/locale/messages.ga.json"
+          },
+          "it": {
+            "translation": "src/locale/messages.it.json"
+          },
+          "lv": {
+            "translation": "src/locale/messages.lv.json"
+          },
+          "lt": {
+            "translation": "src/locale/messages.lt.json"
+          },
+          "mt": {
+            "translation": "src/locale/messages.mt.json"
+          },
+          "pl": {
+            "translation": "src/locale/messages.pl.json"
+          },
+          "pt": {
+            "translation": "src/locale/messages.pt.json"
+          },
+          "ro": {
+            "translation": "src/locale/messages.ro.json"
+          },
+          "sk": {
+            "translation": "src/locale/messages.sk.json"
+          },
+          "sl": {
+            "translation": "src/locale/messages.sl.json"
+          },
+          "es": {
+            "translation": "src/locale/messages.es.json"
+          },
+          "sv": {
+            "translation": "src/locale/messages.sv.json"
+          },
+          "en": {
+            "translation": "src/locale/messages.json"
           }
         }
       },
