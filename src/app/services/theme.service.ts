@@ -11,7 +11,9 @@ import { environment } from 'src/environments/environment';
 })
 export class ThemeService {
 
-    constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {}
+    constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
+
+    }
 
     getThemes(): Observable<Theme[]> {
         const url = environment.apiBaseUrl + '/thematic_objectives';
