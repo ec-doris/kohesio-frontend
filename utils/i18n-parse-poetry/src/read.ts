@@ -43,7 +43,9 @@ class Read {
               value += rText.text;
             })
           }
-          json.translations[key] = value;
+          if (value) {
+            json.translations[key] = this.cleanValue(value);
+          }
         }
       });
     }catch(message){
@@ -52,6 +54,21 @@ class Read {
 
     fs.writeFileSync('../../src/locale/'+outputFileName, JSON.stringify(json, null, "\t"), 'utf8');
     console.log("write file for " + outputFileName);
+  }
+
+  private cleanValue(value:string){
+    const re1 = new RegExp("{\\$([A-Z])\\w+\\s}", "g");
+    const re2 = new RegExp("{\\s\\$([A-Z])\\w+}", "g");
+    const re3 = new RegExp("{\\$\\s([A-Z])\\w+}", "g");
+    return value.replace(re1,this.removeSpaces)
+                .replace(re2,this.removeSpaces)
+                .replace(re3,this.removeSpaces);
+  }
+
+  private removeSpaces(value:string){
+    const reSpace = new RegExp("\\s", "g");
+    console.log("REPLACING "+ value + " to " + value.replace(reSpace,""));
+    return value.replace(reSpace,"");
   }
 
 }
