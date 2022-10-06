@@ -214,7 +214,7 @@
                                 <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                     <b>Highlighted project</b>
                                 </ux-popover> -->
-                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/'+translateService.routes.projects+'/'+ project.item]">{{project.title}}</a>
                                 <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
                                 <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
                             </h1>
@@ -282,7 +282,7 @@
                 <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
                 <div class="audio-visual-container">
                     <ng-container *ngFor="let asset of assets">
-                        <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
+                        <a [routerLink]="['/'+translateService.routes.projects+'/' + asset.item.replace(entityURL, '')]">
                             <div class="container">
                                 <img [src]="asset.image">
                                 <div class="title">{{asset.title}}</div>

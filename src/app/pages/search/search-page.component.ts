@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ActivatedRoute } from '@angular/router';
 import { SearchItem, SearchList } from 'src/app/models/search-item.model';
 import { SearchService } from 'src/app/services/search.service';
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
     templateUrl: './search-page.component.html',
@@ -22,8 +23,9 @@ export class SearchPageComponent {
 
     constructor(private _route: ActivatedRoute,
                 private formBuilder: UntypedFormBuilder,
-                private searchService: SearchService){
-        
+                private searchService: SearchService,
+                public translateService: TranslateService){
+
     }
 
     ngOnInit() {

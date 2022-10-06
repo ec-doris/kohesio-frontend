@@ -22,7 +22,7 @@ export class FiltersApi implements Deserializable{
     public beneficiaryType: any[] | undefined;
     public interreg:any[] | undefined;
 
-    protected static SInit = (() => {
+  protected static SInit = (() => {
         FiltersApi.prototype.programmingPeriods = [{
             id: '2014-2020',
             value: '2014 - 2020',

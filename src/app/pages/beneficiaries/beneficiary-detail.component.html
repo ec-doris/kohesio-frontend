@@ -14,7 +14,7 @@
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
-            <a [routerLink]="['/beneficiaries']"
+            <a [routerLink]="['/'+translateService.routes.beneficiaries]"
                 class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.beneficiary-detail.breadcrumb.beneficiaries">Beneficiaries</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
@@ -89,9 +89,9 @@
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
                     <ng-container *ngIf="!mobileQuery">
-                        <div 
-                        class="beneficiary-image-container hand-pointer" 
-                        *ngIf="beneficiary?.images && beneficiary.images.length" 
+                        <div
+                        class="beneficiary-image-container hand-pointer"
+                        *ngIf="beneficiary?.images && beneficiary.images.length"
                         style="background-image: url('{{ beneficiary.images[0] }}')"
                         (click)="openImageOverlay(beneficiary.images[0], beneficiary.beneficiaryLabel, null)">
                         </div>
@@ -167,7 +167,7 @@
                             </ul>
                         </div>
                         <div class="kohesio-report-icons-wrapper">
-                            <span class="title" i18n="@@page.project-detail.label.shareon">report an issue</span>
+                            <span class="title" i18n="@@page.beneficiary-detail.label.reportIssue">report an issue</span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
                                     <a (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
@@ -188,8 +188,8 @@
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
                 <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
-            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block" 
-                i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects" 
+            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block"
+                i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects"
                 title="PROJECTS" [collapsed]="mobileQuery">
 
                 <div class="right-table-tools">
@@ -204,7 +204,7 @@
                         <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.project">PROJECT</mat-header-cell>
                         <mat-cell *matCellDef="let row">
                             <span>
-                                <a class="ecl-link ecl-link--standalone" [routerLink]="['/projects/' + row.id]">{{row.label}}</a>
+                                <a class="ecl-link ecl-link--standalone" [routerLink]="['/'+translateService.routes.projects + '/' + row.id]">{{row.label}}</a>
                             </span>
                         </mat-cell>
                     </ng-container>

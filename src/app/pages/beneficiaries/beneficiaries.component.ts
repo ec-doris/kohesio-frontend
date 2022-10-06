@@ -14,6 +14,7 @@ import { startWith, map, delay, takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -40,7 +41,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         private formBuilder: UntypedFormBuilder,
         private _route: ActivatedRoute,
         private _router: Router,
-        breakpointObserver: BreakpointObserver) {
+        breakpointObserver: BreakpointObserver,
+        public translateService: TranslateService) {
 
             this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
             this.sidenavOpened = !this.mobileQuery;

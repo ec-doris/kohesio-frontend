@@ -31,7 +31,7 @@
                                 <div class="ecl-page-banner__title" i18n="@@page.home.carousel.banner2.title">Are you looking for inspiration or projects to share?</div>
                                 <p class="ecl-page-banner__description" i18n="@@page.home.carousel.banner2.description">Check Kohesio's advanced search functionalities</p>
                                 <div class="ecl-page-banner__cta">
-                                    <a routerLink="/projects" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
+                                    <a [routerLink]="['/'+translateService.routes.projects]" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
                                         <span class="ecl-link__label" i18n="@@page.home.carousel.banner2.button">Browse the projects</span>
                                         <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-link__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
@@ -52,7 +52,7 @@
                                 <div class="ecl-page-banner__title" i18n="@@page.home.carousel.banner3.title">Do you want to reuse our linked and open data?</div>
                                 <p class="ecl-page-banner__description" i18n="@@page.home.carousel.banner3.description">Navigate the EU knowledge graph or get the datasets</p>
                                 <div class="ecl-page-banner__cta">
-                                    <a routerLink="/services" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
+                                    <a [routerLink]="['/'+translateService.routes.services]" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
                                         <span class="ecl-link__label" i18n="@@page.home.carousel.banner3.button">Download the data</span>
                                         <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-link__icon" focusable="false" aria-hidden="true">
                                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>

@@ -246,7 +246,7 @@
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
-                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/'+translateService.routes.beneficiaries+'/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>
                 </mat-cell>
             </ng-container>

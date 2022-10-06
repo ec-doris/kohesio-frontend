@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   ComponentFactoryResolver,
   Injector,
-  ViewChild
+  ViewChild, Inject, LOCALE_ID
 } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
@@ -128,8 +128,8 @@ export class MapComponent implements AfterViewInit {
                 private resolver: ComponentFactoryResolver,
                 private injector: Injector,
                 private sanitizer: DomSanitizer,
-                breakpointObserver: BreakpointObserver
-                ) {
+                breakpointObserver: BreakpointObserver,
+                @Inject(LOCALE_ID) public locale: string) {
 
         this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
@@ -200,7 +200,7 @@ export class MapComponent implements AfterViewInit {
                 //tap: !L.Browser.mobile
                 gestureHandling: true
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4CompositeEN/EPSG3857/{z}/{x}/{y}.png', {
+        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4Composite'+this.locale.toUpperCase()+'/EPSG3857/{z}/{x}/{y}.png', {
             attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
                 '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
                 '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'

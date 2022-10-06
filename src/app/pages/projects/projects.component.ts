@@ -16,6 +16,7 @@ import { Subject, takeUntil} from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
   templateUrl: './projects.component.html',
@@ -64,7 +65,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
-    breakpointObserver: BreakpointObserver) {
+    breakpointObserver: BreakpointObserver,
+    public translateService: TranslateService) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');

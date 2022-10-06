@@ -1,4 +1,5 @@
 import { AfterViewInit, Component } from '@angular/core';
+import {TranslateService} from "../../../services/translate.service";
 declare let ECL: any;
 
 @Component({
@@ -11,7 +12,7 @@ export class CarouselEclComponent implements AfterViewInit {
 
     public carousel: any;
 
-    constructor() { }
+    constructor(public translateService: TranslateService) { }
 
     ngOnInit() {
     }

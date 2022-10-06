@@ -1,4 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
+import {TranslateService} from "../../../services/translate.service";
 declare let ECL:any;
 
 @Component({
@@ -8,7 +9,7 @@ declare let ECL:any;
 export class FaqPageComponent implements AfterViewInit {
 
 
-    constructor(){}
+    constructor(public translateService: TranslateService){}
 
     ngOnInit(){
     }

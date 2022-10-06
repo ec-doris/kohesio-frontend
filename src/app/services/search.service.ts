@@ -4,13 +4,14 @@ import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
 import { SearchList } from '../models/search-item.model';
 import { environment } from 'src/environments/environment';
+import {TranslateService} from "./translate.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string, public translateService: TranslateService) { }
 
     getItems(keywords:string | null, offset: number = 0, limit: number = 15): Observable<SearchList | null>  {
         const url = environment.apiBaseUrl + "/search/general";
@@ -25,7 +26,7 @@ export class SearchService {
                 if (!data){
                     return null;
                 }else {
-                    return new SearchList().deserialize(data);
+                    return new SearchList(this.translateService).deserialize(data);
                 }
             })
         );

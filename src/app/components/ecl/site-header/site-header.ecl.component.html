@@ -20,7 +20,7 @@
             <ng-container i18n="@@comp.header.label.search">Search</ng-container>
           </a>
           <form class="ecl-search-form ecl-site-header-harmonised__search" role="search" data-ecl-search-form
-            id="search-form-id" action="/search">
+            id="search-form-id" [action]="'/'+translateService.routes.search">
             <div class="ecl-form-group">
               <label for="search-input-id" class="ecl-form-label ecl-search-form__label" i18n="@@comp.header.label.search">Search</label>
               <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input"
@@ -74,15 +74,15 @@
             <a [routerLink]="['/']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.home">Home</a>
           </li>
           <li class="ecl-menu__item" data-ecl-menu-close="" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/projects']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.projects">Projects</a>
+            <a [routerLink]="['/'+translateService.routes.projects]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.projects">Projects</a>
           </li>
           <li class="ecl-menu__close-container ecl-menu__item" data-ecl-menu-close
             data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/beneficiaries']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.beneficiaries">Beneficiaries</a>
+            <a [routerLink]="['/'+translateService.routes.beneficiaries]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.beneficiaries">Beneficiaries</a>
           </li>
           <li class="ecl-menu__close-container ecl-menu__item" data-ecl-menu-close
             data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/services']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.services">Services</a>
+            <a [routerLink]="['/'+translateService.routes.services]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.services">Services</a>
           </li>
         </ul>
       </section>

@@ -1,6 +1,7 @@
 import {AfterViewInit, Component} from '@angular/core';
 import { Theme } from 'src/app/models/theme.model';
 import { ThemeService } from 'src/app/services/theme.service';
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './themes.component.html',
@@ -25,7 +26,8 @@ export class ThemesComponent implements AfterViewInit {
         TO12 : "grey"
     }
 
-    constructor(private themeService: ThemeService){}
+    constructor(private themeService: ThemeService,
+                public translateService: TranslateService){}
 
     ngOnInit(){
         this.themeService.getThemes().subscribe((response) => {
