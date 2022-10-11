@@ -1,0 +1,20 @@
+:host {
+  display: block;
+  margin-top: 1rem;
+}
+
+.open-close-container {
+  position: absolute;
+  top: 50px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  z-index: 1;
+  padding: 10px;
+  border-radius: 10px;
+  left: 0;
+  margin-left: auto;
+  margin-right: auto;
+  right: 0;
+  width: 30%;
+  text-align: center;
+}

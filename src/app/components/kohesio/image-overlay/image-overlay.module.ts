@@ -18,11 +18,6 @@ import { ImageOverlayComponent } from './image-overlay.component';
     exports: [
         ImageOverlayComponent
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class ImageOverlayModule {}

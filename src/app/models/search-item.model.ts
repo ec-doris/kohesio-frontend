@@ -1,14 +1,18 @@
 import {Deserializable} from "./deserializable.model";
+import {TranslateService} from "../services/translate.service";
 
 export class SearchList implements Deserializable{
 
     public items: SearchItem[] | undefined;
     public numberResults!: number;
 
+    constructor(public translateService: TranslateService) {
+    }
+
     deserialize(input: any): this {
 
         const items: SearchItem[] = input.list.map((prj:SearchItem) => {
-            return new SearchItem().deserialize(prj);
+            return new SearchItem(this.translateService).deserialize(prj);
         });
 
         return Object.assign(this, {
@@ -35,6 +39,9 @@ export class SearchItem implements Deserializable{
     public summary: string | null | undefined;
     public typeLabel!:string;
 
+    constructor(public translateService: TranslateService) {
+    }
+
     deserialize(input: any): this {
         return Object.assign(this, {
             item: input.item,
@@ -55,9 +62,9 @@ export class SearchItem implements Deserializable{
 
     get routerLink(): string[]{
         if (this.typeid == "Q9934"){
-            return ['/projects/' + this.id];
+            return ['/' + this.translateService.routes.projects + '/' + this.id];
         }else if(this.typeid == "Q196899"){
-            return ['/beneficiaries/' + this.id];
+            return ['/' + this.translateService.routes.beneficiaries + '/' + this.id];
         }
         return [];
     }

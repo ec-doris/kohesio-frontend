@@ -1,4 +1,4 @@
-<app-ecl-site-header></app-ecl-site-header>
+<app-ecl-site-header *ngIf="!url.startsWith('/map')"></app-ecl-site-header>
 
 <div class="ecl-page-header-harmonised">
   <div class="ecl-container" style="overflow-x: hidden;">
@@ -6,4 +6,4 @@
   </div>
 </div>
 
-<app-ecl-footer></app-ecl-footer>
+<app-ecl-footer *ngIf="!url.startsWith('/map')"></app-ecl-footer>

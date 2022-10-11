@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { ProjectService } from "../../services/project.service";
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
@@ -12,13 +12,12 @@ import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { map, Observable, startWith, Subject, takeUntil } from 'rxjs';
-import { MatDrawer, MatSidenav } from '@angular/material/sidenav';
+import { Subject, takeUntil} from 'rxjs';
+import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
-import { Category, filterCategory } from 'src/app/models/category.model';
-declare let L:any;
-declare let ECL:any;
+import {TranslateService} from "../../services/translate.service";
+
 @Component({
   templateUrl: './projects.component.html',
   styleUrls: ['./projects.component.scss']
@@ -30,7 +29,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public assetsCount = 0;
   public filters: FiltersApi;
   public count = 0;
-  public myForm!: FormGroup;
+  public myForm!: UntypedFormGroup;
   public isLoading = false;
   public isResultsTab = true;
   public isMapTab = false;
@@ -41,7 +40,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("sidenav") sidenav!: MatDrawer;
   @ViewChild(MapComponent) map!: MapComponent;
   public selectedTabIndex: number = 0;
-  public selectedTab: string = 'results';
+  public selectedTab: string = this.translateService.projectPage.tabs.results;
   public modalImageUrl = "";
   public modalImageTitle:string = "";
   public modalTitleLabel = "";
@@ -51,37 +50,23 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public entityURL = environment.entityURL;
   public pageSize = 15;
   public initialPageIndex:number = 0;
-
-  public policyToThemes = {
-    Q2547985: ["Q236689", "Q236690", "Q236691"],    //Smart-Europe
-    Q2547987: ["Q236692", "Q236693", "Q236694"],    //Green and Carbon free Europe
-    Q2547988: ["Q236696", "Q236697", "Q236698"],    //Social Europe
-    Q2577335: ["Q236695"],                          //Connected Europe
-    Q2577336: ["Q236699"],                          //Europe closer to citizens
-    Q2577337: ["Q2577338"],                         //Technical Assistance
-  }
-
   public themeSelection = []
-
   public semanticTerms: String[] = [];
-
   public mobileQuery: boolean;
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
 
-  interventionOptions: Observable<Category[]> = new Observable();
-  selectedIntervention: string = '';
-
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
     public dialog: MatDialog,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private _route: ActivatedRoute,
     private _router: Router,
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
-    breakpointObserver: BreakpointObserver) {
+    breakpointObserver: BreakpointObserver,
+    public translateService: TranslateService) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -100,50 +85,57 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
 
 
+
       this.myForm = this.formBuilder.group({
-        keywords: this._route.snapshot.queryParamMap.get('keywords'),
-        country: [this.getFilterKey("countries", "country")],
+        keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
+        country: [!this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) ? this.getFilterKey("countries", this.translateService.queryParams.country) : undefined],
         region: [],
-        policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
-        theme: [this.getFilterKey("thematic_objectives", "theme")],
+        policyObjective: [this.getFilterKey("policy_objectives", this.translateService.queryParams.policyObjective)],
+        theme: [this.getFilterKey("thematic_objectives", this.translateService.queryParams.theme)],
         //Advanced filters
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
-        fund: [this.getFilterKey("funds", "fund")],
+        fund: [this.getFilterKey("funds", this.translateService.queryParams.fund)],
         program: [],
-        interventionField: [this.getFilterKey("categoriesOfIntervention", "interventionField")],
-        totalProjectBudget: [this.getFilterKey("totalProjectBudget", "totalProjectBudget")],
-        amountEUSupport: [this.getFilterKey("amountEUSupport", "amountEUSupport")],
-        projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
-        projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
-        sort: [this.getFilterKey("sort", "sort")]
+        interventionField: [this.getFilterKey("categoriesOfIntervention", this.translateService.queryParams.interventionField)],
+        totalProjectBudget: [this.getFilterKey("totalProjectBudget", this.translateService.queryParams.totalProjectBudget)],
+        amountEUSupport: [this.getFilterKey("amountEUSupport", this.translateService.queryParams.amountEUSupport)],
+        projectStart: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectStart))],
+        projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectEnd))],
+        sort: [this.getFilterKey("sort", this.translateService.queryParams.sort)],
+        interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
+        nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)]
       });
 
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) &&
+        (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.country) ||
+          this._route.snapshot.queryParamMap.has(this.translateService.queryParams.region))){
+        this._router.navigate([], {
+          relativeTo: this._route,
+          queryParams: this.generateQueryParams(),
+          queryParamsHandling: 'merge'
+        });
+      }
+
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
-          this._route.snapshot.queryParamMap.get('program') ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
-          this.myForm.value.amountEUSupport || this.myForm.value.projectStart || this.myForm.value.projectEnd){
+          this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
+          this.myForm.value.projectEnd || this.myForm.value.interreg || this.myForm.value.nuts3){
             this.advancedFilterIsExpanded = true;
       };
 
-      if (this._route.snapshot.queryParamMap.has('tab')) {
-        const tabParam = this._route.snapshot.queryParamMap.get('tab');
-        if (tabParam=="audiovisual"){
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.tab)) {
+        const tabParam = this._route.snapshot.queryParamMap.get(this.translateService.queryParams.tab);
+        if (tabParam==this.translateService.projectPage.tabs.audiovisual){
           this.selectedTabIndex = 1;
-        }else if (tabParam=="map"){
+        }else if (tabParam==this.translateService.projectPage.tabs.map){
           this.selectedTabIndex = 2;
           this.isMapTab=true;
-          this.selectedTab="map";
-        }
-      }
-      if (this._route.snapshot.queryParamMap.has('page')){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
-        if (pageParam){
-          //this.paginatorTop.pageIndex = parseInt(pageParam) - 1;
-          //this.paginatorDown.pageIndex = parseInt(pageParam) - 1;
+          this.selectedTab=this.translateService.projectPage.tabs.map;
         }
       }
 
-    }
+  }
 
     popperPlacement(): any {
       if (window.innerWidth < 750) {
@@ -153,55 +145,33 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
     }
 
-
-
     ngOnInit() {
-      if (this._route.snapshot.queryParamMap.get('country')) {
+      if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
-          if (this._route.snapshot.queryParamMap.get('region')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
             this.myForm.patchValue({
-              region: this.getFilterKey("regions", "region")
+              region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
           }
-          if (this._route.snapshot.queryParamMap.get('program')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.myForm.patchValue({
-              program: this.getFilterKey("programs", "program")
+              program: this.getFilterKey("programs", this.translateService.queryParams.programme)
             });
           }
-          if (this._route.snapshot.queryParamMap.get('region') ||
-          this._route.snapshot.queryParamMap.get('program')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.getProjectList();
           }
         });
       }
 
-      if (!this._route.snapshot.queryParamMap.get('region') &&
-      !this._route.snapshot.queryParamMap.get('program')) {
+      if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
+      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
         this.getProjectList();
       }
       this.onThemeChange();
       this.getThemes();
 
-      // Apply filter on input valueChanges
-      this.interventionOptions = this.myForm.get('interventionField')!
-        .valueChanges.pipe(
-          startWith(''),
-          map(value => this._filterIntervention(value))
-        );
-    }
-
-    public displayInterventionField(option: any): string {
-      return option?.value;
-    }
-
-    private _filterIntervention(value: string) {
-      if (value) {
-        return this.filters.categoriesOfIntervention
-          .map(group => ({value: group.value, options: filterCategory(group.options, value)}))
-          .filter(group => group.options.length > 0);
-      }
-
-      return this.filters.categoriesOfIntervention;
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -218,11 +188,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     getThemes() {
       const policy = this.myForm.value.policyObjective;
-      if (policy == null || policy === "") {
-        this.themeSelection = this.filters.thematic_objectives
-      } else {
-        // TODO ECL side effect
-        this.themeSelection = this.filters.thematic_objectives.filter((theme) => this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme["id"]))
+      if (policy) {
+        const params ={
+          policy: environment.entityURL + policy
+        }
+        this.filterService.getFilter("thematic_objectives",params).subscribe(themes=>{
+          this.themeSelection = themes.thematic_objectives;
+        });
+      }else{
+        this.themeSelection = this.filters.thematic_objectives;
       }
     }
 
@@ -236,8 +210,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.semanticTerms = [];
       this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
-      if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page) && !this.paginatorTop){
+        const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
         if (pageParam){
           const pageIndex = parseInt(pageParam) - 1;
           this.initialPageIndex = pageIndex;
@@ -253,10 +227,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
-          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page)){
               this._router.navigate([], {
                 queryParams: {
-                  'page': null,
+                  [this.translateService.queryParams.page]: null,
                 },
                 queryParamsHandling: 'merge'
               });
@@ -286,7 +260,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             }
           }
         }
-        
+
       });
       let offsetAssets = this.paginatorAssets ? (this.paginatorAssets.pageIndex * this.paginatorAssets.pageSize) : 0;
       this.projectService.getAssets(this.getFilters(), offsetAssets).subscribe(result => {
@@ -327,7 +301,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this._router.navigate([], {
         relativeTo: this._route,
         queryParams: {
-          page: event.pageIndex != 0 ? event.pageIndex + 1 : null,
+          [this.translateService.queryParams.page]: event.pageIndex != 0 ? event.pageIndex + 1 : null,
         },
         queryParamsHandling: 'merge',
       });
@@ -348,23 +322,28 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     generateQueryParams() {
       return {
-        keywords: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
-        country: this.getFilterLabel("countries", this.myForm.value.country),
-        region: this.getFilterLabel("regions", this.myForm.value.region),
-        theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
-        policyObjective: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
+        [this.translateService.queryParams.keywords]: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
+        [this.translateService.queryParams.country]: this.getFilterLabel("countries", this.myForm.value.country),
+        [this.translateService.queryParams.region]: this.getFilterLabel("regions", this.myForm.value.region),
+        [this.translateService.queryParams.theme]: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
+        [this.translateService.queryParams.policyObjective]: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
-        fund: this.getFilterLabel("funds", this.myForm.value.fund),
-        program: this.getFilterLabel("programs", this.myForm.value.program),
-        interventionField: this.getFilterLabel(
+        [this.translateService.queryParams.fund]: this.getFilterLabel("funds", this.myForm.value.fund),
+        [this.translateService.queryParams.programme]: this.getFilterLabel("programs", this.myForm.value.program),
+        [this.translateService.queryParams.interventionField]: this.getFilterLabel(
           "categoriesOfIntervention",
           this.myForm.value.interventionField ? this.myForm.value.interventionField.id : null
         ),
-        totalProjectBudget: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
-        amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
-        projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
-        projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
-        sort: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
+        [this.translateService.queryParams.totalProjectBudget]: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
+        [this.translateService.queryParams.amountEUSupport]: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
+        [this.translateService.queryParams.projectStart]: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
+        [this.translateService.queryParams.projectEnd]: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
+        [this.translateService.queryParams.interreg]: this.getFilterLabel("interreg", this.myForm.value.interreg),
+        [this.translateService.queryParams.nuts3]: this.getFilterLabel(
+          "nuts3",
+          this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
+        ),
+        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
       }
     }
 
@@ -375,7 +354,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.myForm.patchValue({
         region: null,
-        program: null
+        program: null,
+        nuts3: null
       });
     }
 
@@ -391,14 +371,22 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onThemeChange() {
-      const theme = this.myForm.value.theme
-      for (const policy in this.policyToThemes) {
-        // TODO ECL side effect
-        if (this.policyToThemes[policy as keyof typeof this.policyToThemes].includes(theme)) {
-          this.myForm.patchValue({
-            policyObjective: policy
-          });
+      const theme = this.myForm.value.theme;
+      if (theme){
+        const params ={
+          theme: environment.entityURL + theme
         }
+        this.filterService.getFilter("policy_objectives",params).subscribe(policies=>{
+          if (policies && policies.policy_objectives && policies.policy_objectives.length){
+            this.myForm.patchValue({
+              policyObjective: policies.policy_objectives[0].id
+            });
+          }else{
+            this.myForm.patchValue({
+              policyObjective: null
+            });
+          }
+        });
       }
     }
 
@@ -434,29 +422,30 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.selectedTabIndex = index;
       switch (index) {
         case 0: //Results
-        this.isResultsTab = true;
-        this.selectedTab = 'results';
-        break;
+          this.isResultsTab = true;
+          this.selectedTab = this.translateService.projectPage.tabs.results;
+          break;
         case 1: //Audio-visual
-        this.isAudioVisualTab = true;
-        this.selectedTab = 'audiovisual';
-        break;
+          this.isAudioVisualTab = true;
+          this.selectedTab = this.translateService.projectPage.tabs.audiovisual;
+          break;
         case 2: //Map
-        if (!this.mapIsLoaded) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-              this.map.refreshView();
-              this.map.loadMapRegion(this.lastFiltersSearch);
-            }, 500);
+          if (!this.mapIsLoaded) {
+            this.mapIsLoaded = true;
+            setTimeout(
+              () => {
+                this.map.refreshView();
+                this.map.loadMapRegion(this.lastFiltersSearch);
+              }, 500);
           }
           this.isMapTab = true;
-          this.selectedTab = 'map';
+          this.selectedTab = this.translateService.projectPage.tabs.map;
           break;
         }
+
         this._router.navigate([], {
           relativeTo: this._route,
-          queryParams: { 'tab': this.isResultsTab ? null : this.selectedTab },
+          queryParams: { [this.translateService.queryParams.tab]: this.isResultsTab ? null : this.selectedTab },
           queryParamsHandling: 'merge'
         });
 
@@ -465,6 +454,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       getFilters() {
         const formValues = Object.assign({}, this.myForm.value);
         formValues.interventionField = formValues.interventionField ? formValues.interventionField.id : undefined;
+        formValues.nuts3 = formValues.nuts3 ? formValues.nuts3.id : undefined;
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
         this.lastFiltersSearch = new Filters().deserialize(formValues);
@@ -474,8 +464,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       openImageOverlay(imgUrl:string, projectTitle:string, imageCopyright: string[] | undefined) {
         this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
       }
-
-
 
       getDate(dateStringFormat: any) {
         if (dateStringFormat) {
@@ -530,6 +518,15 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           }
           return ngClass;
         }
+
+  onNuts3Change(){
+    if (this.myForm.value.nuts3) {
+      this.myForm.patchValue({
+        country: undefined,
+        region: undefined
+      });
+    }
+  }
 
 
 }

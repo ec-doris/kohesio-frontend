@@ -1,6 +1,5 @@
 import { Component, Input } from '@angular/core';
 import { BeneficiaryService } from "../../../services/beneficiary.service";
-import { FormGroup } from "@angular/forms";
 import {ProjectService} from "../../../services/project.service";
 import { Filters } from 'src/app/models/filters.model';
 
@@ -11,8 +10,8 @@ import { Filters } from 'src/app/models/filters.model';
 })
 export class DownloadButtonComponent {
 
-    @Input("form")
-    public form!: FormGroup;
+    @Input("filters")
+    public filters!: Filters;
 
     @Input("type")
     public type!: string;
@@ -32,13 +31,12 @@ export class DownloadButtonComponent {
                 private projectService: ProjectService){}
 
     getFile(filetype:string){
-        const filters = new Filters().deserialize(this.form.value);
 
         let method:any = null;
         if (this.type == "beneficiaries"){
-            method = this.beneficaryService.getFile(filters, filetype);
+            method = this.beneficaryService.getFile(this.filters, filetype);
         }else if (this.type="projects"){
-            method = this.projectService.getFile(filters, filetype);
+            method = this.projectService.getFile(this.filters, filetype);
         }
 
         if (method){

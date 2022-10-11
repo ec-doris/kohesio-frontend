@@ -1,0 +1,24 @@
+<mat-form-field class="autocomplete-wrapper" appearance="fill">
+    <mat-label>Please select</mat-label>
+    <input onClick="this.setSelectionRange(0, this.value.length)" (input)="onInputType($any($event.target).value)" type="text" [(ngModel)]="inputValue" matInput [matAutocomplete]="autoGroup">
+    <mat-autocomplete
+        #autoGroup="matAutocomplete"
+        [panelWidth]="'auto'"
+        [displayWith]="displayWith"
+        (optionSelected)="onOptionSelected($event)"
+        (opened)="onOpen()"
+        (closed)="onClosed()">
+        <ng-container *ngIf="hasSubItems">
+            <mat-optgroup *ngFor="let item of internalItems | async" [label]="item.label">
+                <mat-option *ngFor="let subItem of item.subItems" [value]="subItem">
+                    {{ subItem.label }}
+                </mat-option>
+            </mat-optgroup>
+        </ng-container>
+        <ng-container *ngIf="!hasSubItems">
+            <mat-option *ngFor="let item of internalItems | async" [value]="item">
+                {{ item.label }}
+            </mat-option>
+        </ng-container>
+    </mat-autocomplete>
+</mat-form-field>

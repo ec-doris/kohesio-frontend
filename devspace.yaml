@@ -1,0 +1,55 @@
+version: v1beta11
+
+vars:
+  - name: APP_IMAGE
+    value: loftsh/javascript:latest
+
+deployments:
+  - name: app
+    helm:
+      componentChart: true
+      values:
+        containers:
+          - name: node
+            image: ${APP_IMAGE}
+            command:
+              - "/bin/sh"
+            args:
+              - "-c"
+              - |
+                sleep 99999999;
+        service:
+          ports:
+            - port: 4200
+
+dev:
+  ports:
+    - imageSelector: ${APP_IMAGE}
+      forward:
+        - port: 4200
+
+  open:
+    - url: http://localhost:4200
+
+  sync:
+    - imageSelector: ${APP_IMAGE}
+      containerPath: /app
+      excludePaths:
+        - .git/
+        - .git/
+        - .devspace/
+        - .angular/
+        - README.md
+      uploadExcludePaths:
+        - Dockerfile
+        - devspace.yaml
+        - deploy/
+        - node_modules/
+
+hooks:
+  - command: |
+      npm install
+      npm run start
+    container:
+      imageSelector: ${APP_IMAGE}
+    events: ["after:initialSync:*"]

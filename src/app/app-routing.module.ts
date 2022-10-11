@@ -8,45 +8,54 @@ import { FaqPageComponent } from './pages/static/faq/faq.component';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
+import {MapPageComponent} from "./pages/map/map-page.component";
+import {MapPageResolve} from "./pages/map/map-page.resolve";
 
 const routes: Routes = [
-      { 
-        path: '', 
+      {
+        path: '',
         component: HomePageComponent,
         pathMatch: 'full',
       },{
-        path: 'about', 
+        path: $localize`:@@translate.routes.about:about`,
         component: AboutComponent,
         pathMatch: 'full',
       },{
-        path: 'privacy', 
+        path: $localize`:@@translate.routes.privacy:privacy`,
         component: PrivacyPageComponent,
         pathMatch: 'full'
       },{
-        path: 'services', 
+        path: $localize`:@@translate.routes.services:services`,
         component: ServicesPageComponent,
         pathMatch: 'full'
       },{
-        path: 'themes', 
+        path: $localize`:@@translate.routes.themes:themes`,
         component: ThemesComponent,
         pathMatch: 'full',
       },{
-        path: 'cookie', 
+        path: 'cookie',
         component: CookieComponent,
         pathMatch: 'full',
       },{
-        path: 'faq', 
+        path: $localize`:@@translate.routes.faq:faq`,
         component: FaqPageComponent,
         pathMatch: 'full',
-      },{ 
-        path: 'projects', 
-        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule), 
-      },{ 
-        path: 'beneficiaries', 
+      },{
+        path: $localize`:@@translate.routes.map:map`,
+        component: MapPageComponent,
+        pathMatch: 'full',
+        resolve: {
+          filters: MapPageResolve
+        }
+      },{
+        path: $localize`:@@translate.routes.projects:projects`,
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule)
+      },{
+        path: $localize`:@@translate.routes.beneficiaries:beneficiaries`,
         loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule)
-      },{ 
-        path: 'search', 
-        loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule) 
+      },{
+        path: $localize`:@@translate.routes.search:search`,
+        loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule)
       },{
         path: '404',
         component: NotFoundComponent,
@@ -58,7 +67,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { 
+  imports: [RouterModule.forRoot(routes, {
       scrollPositionRestoration: 'enabled',
       anchorScrolling: 'enabled',
       onSameUrlNavigation: 'reload'

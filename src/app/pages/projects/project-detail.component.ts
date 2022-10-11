@@ -1,11 +1,13 @@
 import {AfterViewInit, Component, Inject, Input, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
-import { Router, ActivatedRoute } from '@angular/router';
+import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import {DomSanitizer} from "@angular/platform-browser";
+import {TranslateService} from "../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -33,7 +35,9 @@ export class ProjectDetailComponent implements AfterViewInit {
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
                 private route: ActivatedRoute,
-                private router: Router){}
+                private router: Router,
+                private sanitizer: DomSanitizer,
+                public translateService: TranslateService){}
 
     ngOnInit(){
         if (!this.project) {
@@ -97,7 +101,44 @@ export class ProjectDetailComponent implements AfterViewInit {
     reportDataBug(){
         const to:string = "REGIO-KOHESIO@ec.europa.eu";
         const subject:string = "Reporting error or duplicate";
-        const body:string = "Please describe the error or the duplicate with the URLs: " + window.location;
-        location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        let location:string = window.location.toString();
+        if (this.project.item && !location.endsWith(this.project.item)){
+            location += "projects/"+this.project.item;
+        }
+        const body:string = "Please describe the error or the duplicate with the URLs: " + location;
+        //window.location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        window.open(`mailto:${to}?subject=${subject}&body=${body}`, 'mail');
+    }
+
+    getYoutubeEmbedUrl(video:string){
+      return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.project.youtube_parser(video));
+    }
+
+    getVideoId(video:string): any{
+      if (video) {
+        return this.project.youtube_parser(video);
+      }
+    }
+
+    getThemeURL(item: string): Params{
+      return {
+        theme:item.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
+    }
+
+    getInterventionFieldURL(item:string):Params{
+      return {
+        interventionField:item.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
+    }
+
+    getProgramURL(countryLabel:string, programmeLabel:string):Params{
+      return {
+        country: countryLabel,
+        program: programmeLabel.split(' ').join('-'),
+        sort: "Total-Budget-(descending)"
+      };
     }
 }

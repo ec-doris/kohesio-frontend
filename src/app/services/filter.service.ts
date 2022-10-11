@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
@@ -14,7 +14,7 @@ export class FilterService {
     public filters:any;
     private countryGeoJson: any;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
 
     getProjectsFilters(): Observable<FiltersApi>{
@@ -24,7 +24,8 @@ export class FilterService {
                 this.getFilter('policy_objectives'),
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
-                this.getFilter('countries')
+                this.getFilter('countries'),
+                this.getFilter('nuts3')
             ])
         );
     }
@@ -36,6 +37,14 @@ export class FilterService {
                 this.getFilter('countries')
             ])
         );
+    }
+
+    getMapFilters(): Observable<FiltersApi>{
+      return this.getFilters(
+        forkJoin([
+          this.getFilter('countries')
+        ])
+      );
     }
 
     getFilters(filtersList: any): Observable<FiltersApi>{
@@ -54,8 +63,9 @@ export class FilterService {
         );
     }
 
-    getFilter(type: any, params = {}):Observable<any>{
+    getFilter(type: any, params:any = {}):Observable<any>{
         const url = environment.apiBaseUrl + '/' + type;
+        params.language = this.locale;
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data:any = {};
@@ -64,7 +74,7 @@ export class FilterService {
                     if (item.instance){
                         data[type].push({
                             id: this.cleanId(item.instance),
-                            value: item.instanceLabel
+                            value: item.instanceLabel ? item.instanceLabel : item.name
                         });
                     }else{
                         data[type].push(item);
@@ -92,14 +102,14 @@ export class FilterService {
             let record = this.filters[type].find((filter:any) => {
                 if (filter.id){
                     return filter.id == key;
-                }else if (filter.options){
-                    return filter.options.find((filterLevel:any)=>{
+                }else if (filter.subItems){
+                    return filter.subItems.find((filterLevel:any)=>{
                         return filterLevel.id == key;
                     });
                 }
             });
-            if (record && record.options){
-                record = record.options.find((filter:any)=>{
+            if (record && record.subItems){
+                record = record.subItems.find((filter:any)=>{
                     return filter.id == key;
                 });
             }
@@ -116,11 +126,11 @@ export class FilterService {
             label = label.split('-').join('');
             let result:any;
             this.filters[type].forEach((filter:any) => {
-                if (filter.options){
-                    filter.options.forEach((sub:any) => {
+                if (filter.subItems){
+                    filter.subItems.forEach((sub:any) => {
                         let l = sub.shortValue ? this.harmonizeShortLabel(sub.shortValue) : this.harmonizeLabel(sub.fullValue ? sub.fullValue : sub.value);
                         if(l == label){
-                            result = sub.id;
+                            result = sub;
                             return;
                         }
                     });
@@ -128,9 +138,13 @@ export class FilterService {
                         return;
                     }
                 }else{
-                    let l = this.harmonizeLabel(filter.value);
+                    let l = filter.value ? this.harmonizeLabel(filter.value) : this.harmonizeLabel(filter.label);
                     if(l == label){
-                        result = filter.id;
+                        if (type == 'nuts3'){
+                          result = filter
+                        }else{
+                          result = filter.id;
+                        }
                         return;
                     }
                 }
@@ -155,8 +169,10 @@ export class FilterService {
     getRegions(country: string): Observable<any[]>{
         const urlRegions = environment.apiBaseUrl + '/regions';
         let params = {
+            language: this.locale,
             country: 'https://linkedopendata.eu/entity/' + country
         };
+
         return this.http.get<any>(urlRegions,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){

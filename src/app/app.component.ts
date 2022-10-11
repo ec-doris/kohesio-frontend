@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { LOCALE_ID, Inject } from '@angular/core';
+import { Location } from '@angular/common';
 declare let ECL:any;
 declare let $wt:any;
 
@@ -14,16 +15,20 @@ export class AppComponent {
 
   count:number = 0;
   lastPage:string = "";
+  url: string;
 
-  constructor(public router:Router,@Inject(LOCALE_ID) public locale: string){
+  //country = $localize`:@@page.projects.label.country:COUNTRY`;
+
+  constructor(public router:Router,
+              @Inject(LOCALE_ID) public locale: string,
+              public actRoute: ActivatedRoute,
+              public location: Location){
     console.log("LOCALE=",locale);
+    //console.log("LOCALE COUNTRY=",this.country);
+    this.url = location.path();
   }
 
   ngOnInit(){
-    ECL.autoInit();
-
-    
-
     this.router.events.subscribe(value => {
       if (value instanceof NavigationEnd){
         if ($wt && $wt.analytics.isTrackable()){
@@ -32,10 +37,14 @@ export class AppComponent {
           }
           this.count++;
           this.lastPage = value.url;
-          
+
         }
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    ECL.autoInit();
   }
 
 }

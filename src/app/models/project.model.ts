@@ -24,7 +24,7 @@ export class Project implements Deserializable{
             item: input.item,
             link: input.link,
             objectiveId: this.getValueFromPropertyArray(input.objectiveIds),
-            countryCode: this.getValueFromPropertyArray(input.countrycode),
+            countryCode: this.getCountryCode(input.countrycode),
             title: this.getValueFromPropertyArray(input.labels, 500),
             startTime: this.getDateFromPropertyArray(input.startTimes),
             endTime: this.getDateFromPropertyArray(input.endTimes),
@@ -38,6 +38,14 @@ export class Project implements Deserializable{
             copyrightImages: input.copyrightImages,
             isHighlighted: input.isHighlighted
         });
+    }
+
+    getCountryCode(array: any){
+        if (Array.isArray(array) && array.length && array.length > 1) {
+            return "EU";
+        }else{
+            return this.getValueFromPropertyArray(array);
+        }
     }
 
     getValueFromPropertyArray(array:any, size=0){

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
@@ -10,7 +10,7 @@ import {environment} from "../../environments/environment";
 })
 export class MapService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
     public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any>{
         const url = environment.apiBaseUrl + '/search/project/map';
@@ -21,6 +21,7 @@ export class MapService {
         if (granularityRegion){
             params.granularityRegion = granularityRegion;
         }
+        params.language = this.locale;
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
                 return data;
@@ -44,6 +45,7 @@ export class MapService {
             params = Object.assign(filters.getProjectsFilters());
         }
         params.coordinate = coordinates;
+        params.language = this.locale;
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
                 return data;

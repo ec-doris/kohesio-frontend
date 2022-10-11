@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
-import { FormBuilder, FormGroup } from "@angular/forms";
+import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
@@ -14,6 +14,7 @@ import { startWith, map, delay, takeUntil } from 'rxjs/operators';
 import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
 import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -21,7 +22,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
-    public myForm!: FormGroup;
+    public myForm!: UntypedFormGroup;
     public filters!: FiltersApi;
     public dataSource!: MatTableDataSource<Beneficiary>;
     public isLoading = false;
@@ -37,10 +38,11 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
-        private formBuilder: FormBuilder,
+        private formBuilder: UntypedFormBuilder,
         private _route: ActivatedRoute,
         private _router: Router,
-        breakpointObserver: BreakpointObserver) {
+        breakpointObserver: BreakpointObserver,
+        public translateService: TranslateService) {
 
             this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
             this.sidenavOpened = !this.mobileQuery;
@@ -60,17 +62,17 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
             this.filters = this._route.snapshot.data['filters'];
 
         this.myForm = this.formBuilder.group({
-            name: [this._route.snapshot.queryParamMap.get('name')],
-            country: [this.getFilterKey("countries", "country")],
+            name: [this._route.snapshot.queryParamMap.get(this.translateService.queryParams.name)],
+            country: [this.getFilterKey("countries", this.translateService.queryParams.country)],
             region: [],
-            fund: [this.getFilterKey("funds", "fund")],
+            fund: [this.getFilterKey("funds", this.translateService.queryParams.fund)],
             program: [],
-            beneficiaryType: [this.getFilterKey("beneficiaryType", "beneficiaryType")],
-            sort: [this.getFilterKey("sortBeneficiaries", "sort")]
+            beneficiaryType: [this.getFilterKey("beneficiaryType", this.translateService.queryParams.beneficiaryType)],
+            sort: [this.getFilterKey("sortBeneficiaries", this.translateService.queryParams.sort)]
         });
 
-        if (this.myForm.value.fund || 
-                this._route.snapshot.queryParamMap.get('program') ||
+        if (this.myForm.value.fund ||
+                this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
                 this.myForm.value.beneficiaryType){
             this.advancedFilterIsExpanded = true;
         }
@@ -78,27 +80,27 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     ngOnInit() {
 
-        if (this._route.snapshot.queryParamMap.get('country')) {
+        if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
             Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
-                if (this._route.snapshot.queryParamMap.get('region')) {
+                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
                     this.myForm.patchValue({
-                        region: this.getFilterKey("regions", "region")
+                        region: this.getFilterKey("regions", this.translateService.queryParams.region)
                     });
                 }
-                if (this._route.snapshot.queryParamMap.get('program')) {
+                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
                     this.myForm.patchValue({
-                        program: this.getFilterKey("programs", "program")
+                        program: this.getFilterKey("programs", this.translateService.queryParams.programme)
                     });
                 }
-                if (this._route.snapshot.queryParamMap.get('region') ||
-                    this._route.snapshot.queryParamMap.get('program')) {
+                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
+                    this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
                     this.performSearch();
                 }
             });
         }
 
-        if (!this._route.snapshot.queryParamMap.get('region') &&
-            !this._route.snapshot.queryParamMap.get('program')) {
+        if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
+            !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.performSearch();
         }
     }
@@ -113,7 +115,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
     ngAfterViewInit(): void {
         if (this._route.snapshot.queryParamMap.has('page')){
-            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
             if (pageParam){
                 this.paginators.forEach(paginator=>{
                     paginator.pageIndex = parseInt(pageParam) - 1;
@@ -147,8 +149,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         }
 
         let initialPageIndex = this.paginators && this.paginators.toArray().length ? this.paginators.toArray()[0].pageIndex : 0;
-        if (this._route.snapshot.queryParamMap.has('page') && !this.paginators){
-            const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+        if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page) && !this.paginators){
+            const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
             if (pageParam){
                 const pageIndex = parseInt(pageParam) - 1;
                 initialPageIndex = pageIndex;
@@ -159,10 +161,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
         this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList | null) => {
             if (result){
-                if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+                if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page)){
                     this._router.navigate([], {
                         queryParams: {
-                          'page': null,
+                          [this.translateService.queryParams.page]: null,
                         },
                         queryParamsHandling: 'merge'
                       });
@@ -181,15 +183,20 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         });
     }
 
+    getFilters(): Filters{
+      const filters:Filters = new Filters().deserialize(this.myForm.value)
+      return filters;
+    }
+
     getFormValues() {
         return {
-            name: this.myForm.value.name ? this.myForm.value.name : null,
-            country: this.getFilterLabel("countries", this.myForm.value.country),
-            region: this.getFilterLabel("regions", this.myForm.value.region),
-            fund: this.getFilterLabel("funds", this.myForm.value.fund),
-            program: this.getFilterLabel("programs", this.myForm.value.program),
-            sort: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort),
-            beneficiaryType: this.getFilterLabel("beneficiaryType", this.myForm.value.beneficiaryType),
+            [this.translateService.queryParams.name]: this.myForm.value.name ? this.myForm.value.name : null,
+            [this.translateService.queryParams.country]: this.getFilterLabel("countries", this.myForm.value.country),
+            [this.translateService.queryParams.region]: this.getFilterLabel("regions", this.myForm.value.region),
+            [this.translateService.queryParams.fund]: this.getFilterLabel("funds", this.myForm.value.fund),
+            [this.translateService.queryParams.programme]: this.getFilterLabel("programs", this.myForm.value.program),
+            [this.translateService.queryParams.sort]: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort),
+            [this.translateService.queryParams.beneficiaryType]: this.getFilterLabel("beneficiaryType", this.myForm.value.beneficiaryType),
         }
     }
 
@@ -228,17 +235,17 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     }
 
     onPaginate(event:any) {
-        
+
         this.paginators.forEach(paginator=>{
             paginator.pageIndex = event.pageIndex;
         })
-        
+
         this.performSearch();
 
         this._router.navigate([], {
             relativeTo: this._route,
             queryParams: {
-                page: event.pageIndex != 0 ? event.pageIndex + 1 : null,
+                [this.translateService.queryParams.page]: event.pageIndex != 0 ? event.pageIndex + 1 : null,
             },
             queryParamsHandling: 'merge',
         });

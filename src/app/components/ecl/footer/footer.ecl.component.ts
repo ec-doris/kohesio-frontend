@@ -1,4 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     selector: 'app-ecl-footer',
@@ -9,7 +10,7 @@ import {AfterViewInit, Component} from '@angular/core';
 export class FooterEclComponent implements AfterViewInit {
 
 
-    constructor(){}
+    constructor(public translateService: TranslateService){}
 
     ngOnInit(){
     }

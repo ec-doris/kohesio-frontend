@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "parse-write": "ts-node src/write.ts"
+    "parse-write": "ts-node src/write.ts",
+    "parse-read": "ts-node src/read.ts"
   },
   "author": "Raphael Domingues",
   "license": "ISC",

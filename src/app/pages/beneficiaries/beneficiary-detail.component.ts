@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import {TranslateService} from "../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -39,16 +40,17 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
 
     public mobileQuery: boolean;
     private destroyed = new Subject<void>();
- 
+
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
                 private beneficiaryService: BeneficiaryService,
                 private route: ActivatedRoute,
                 private router: Router,
-                breakpointObserver: BreakpointObserver){
+                breakpointObserver: BreakpointObserver,
+                public translateService: TranslateService){
 
                     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
-        
+
                     breakpointObserver
                     .observe([
                         "(max-width: 768px)"
@@ -63,7 +65,7 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnInit(){
-        
+
         if (!this.beneficiary) {
             this.beneficiary = this.route.snapshot.data['beneficiary'];
         }
@@ -106,7 +108,7 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
     }
 
     getProjectsPerPage(page: number = 0) {
-        
+
         this.beneficiaryService.getBeneficiaryProjects(this.beneficiary.item, page).subscribe((result:BeneficiaryProjectList) =>{
             if (result && result.projects){
                 this.beneficiaryProjects = new MatTableDataSource<[]>(result.projects);
@@ -126,7 +128,15 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
 
     openImageOverlay(imgUrl:string, projectTitle:any, imageCopyright: any) {
         this.dialog.open(ImageOverlayComponent, {data: {imgUrl, title: projectTitle, imageCopyright}})
-      }
+    }
+
+    reportDataBug(){
+        const to:string = "REGIO-KOHESIO@ec.europa.eu";
+        const subject:string = "Reporting error or duplicate";
+        const body:string = "Please describe the error or the duplicate with the URLs: " + window.location;
+        //location.href=`mailto:${to}?subject=${subject}&body=${body}`
+        window.open(`mailto:${to}?subject=${subject}&body=${body}`, 'mail');
+    }
 
 
 }

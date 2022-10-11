@@ -14,11 +14,6 @@ import { FooterEclComponent } from './footer.ecl.component';
     exports: [
         FooterEclComponent
     ],
-    entryComponents:[
-       
-    ],
-    providers: [
-       
-    ]
+    providers: []
 })
 export class FooterEclModule {}

@@ -1,5 +1,6 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     selector: 'app-ecl-site-header',
@@ -11,7 +12,7 @@ export class SiteHeaderEclComponent implements AfterViewInit {
 
     public searchkeywords:string | null | undefined = "";
 
-    constructor(private router:Router) {
+    constructor(private router:Router, public translateService: TranslateService) {
 
         this.router.events.subscribe(event => {
             if(event instanceof ActivationEnd) {
@@ -20,7 +21,7 @@ export class SiteHeaderEclComponent implements AfterViewInit {
                 }
             }
         });
-        
+
     }
 
     ngOnInit() {
@@ -28,8 +29,8 @@ export class SiteHeaderEclComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
     }
-    
-    
+
+
     onClick(event: Event) {
         let element = document.getElementById('closeMenu');
         if(element) element.click();

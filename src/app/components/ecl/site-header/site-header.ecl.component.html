@@ -6,20 +6,21 @@
         aria-label="European&#x20;Commission">
         <img alt="European Commission logo" title="European Commission"
           class="ecl-site-header-harmonised__logo-image ecl-site-header-harmonised__logo-image-desktop"
-          src="/assets/images/ecl/logo-ec--en.5055ef4f.svg" />
+          [src]="'assets/images/ecl/logo-ec--'+translateService.locale+'.svg'" />
       </a>
       <div class="ecl-site-header-harmonised__action">
+        <kohesio-ecl-language-selector></kohesio-ecl-language-selector>
         <div class="ecl-site-header-harmonised__search-container">
           <a class="ecl-button ecl-button--ghost ecl-site-header-harmonised__search-toggle"
             href="/component-library/example" data-ecl-search-toggle="true" aria-controls="search-form-id"
             aria-expanded="false">
             <svg class="ecl-icon ecl-icon--s" focusable="false" aria-hidden="true">
-              <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#search"></use>
+              <use xlink:href="assets/images/ecl/icons.a892a63d.svg#search"></use>
             </svg>
             <ng-container i18n="@@comp.header.label.search">Search</ng-container>
           </a>
           <form class="ecl-search-form ecl-site-header-harmonised__search" role="search" data-ecl-search-form
-            id="search-form-id" action="/search">
+            id="search-form-id" [action]="'/'+translateService.routes.search">
             <div class="ecl-form-group">
               <label for="search-input-id" class="ecl-form-label ecl-search-form__label" i18n="@@comp.header.label.search">Search</label>
               <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input"
@@ -29,7 +30,7 @@
               <span class="ecl-button__container"><span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.header.label.search">Search</span>
                 <svg class="ecl-icon ecl-icon--xs ecl-button__icon ecl-button__icon--after" focusable="false"
                   aria-hidden="true" data-ecl-icon>
-                  <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#search"></use>
+                  <use xlink:href="assets/images/ecl/icons.a892a63d.svg#search"></use>
                 </svg>
               </span>
             </button>
@@ -48,7 +49,7 @@
     <div class="ecl-container ecl-menu__container"><a class="ecl-link ecl-link--standalone ecl-menu__open"
         href="/component-library/example" data-ecl-menu-open=""><svg class="ecl-icon ecl-icon--s" focusable="false"
           aria-hidden="true">
-          <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#hamburger"></use>
+          <use xlink:href="assets/images/ecl/icons.a892a63d.svg#hamburger"></use>
         </svg><ng-container i18n="@@comp.header.label.menu">Menu</ng-container></a>
       <section class="ecl-menu__inner" data-ecl-menu-inner="">
         <header class="ecl-menu__inner-header">
@@ -56,7 +57,7 @@
             <span class="ecl-menu__close-container ecl-button__container">
               <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--before" focusable="false"
                 aria-hidden="true" data-ecl-icon="">
-                <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
               </svg>
               <span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.header.label.close">Close</span>
             </span>
@@ -65,7 +66,7 @@
             class="ecl-menu__back ecl-button ecl-button--text"><span class="ecl-button__container"><svg
                 class="ecl-icon ecl-icon--s ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--before"
                 focusable="false" aria-hidden="true" data-ecl-icon="">
-                <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
               </svg><span class="ecl-button__label" data-ecl-label="" i18n="@@comp.header.label.back">Back</span></span></button>
         </header>
         <ul class="ecl-menu__list">
@@ -73,15 +74,15 @@
             <a [routerLink]="['/']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.home">Home</a>
           </li>
           <li class="ecl-menu__item" data-ecl-menu-close="" data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/projects']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.projects">Projects</a>
+            <a [routerLink]="['/'+translateService.routes.projects]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.projects">Projects</a>
           </li>
           <li class="ecl-menu__close-container ecl-menu__item" data-ecl-menu-close
             data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/beneficiaries']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.beneficiaries">Beneficiaries</a>
+            <a [routerLink]="['/'+translateService.routes.beneficiaries]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.beneficiaries">Beneficiaries</a>
           </li>
           <li class="ecl-menu__close-container ecl-menu__item" data-ecl-menu-close
             data-ecl-menu-item="" routerLinkActive="ecl-menu__item--current">
-            <a [routerLink]="['/services']" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.services">Services</a>
+            <a [routerLink]="['/'+translateService.routes.services]" class="ecl-menu__link" data-ecl-menu-link="" (click)="onClick($event)" i18n="@@comp.header.menu.services">Services</a>
           </li>
         </ul>
       </section>

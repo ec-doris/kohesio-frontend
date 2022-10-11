@@ -47,7 +47,7 @@
     <div style="display: flex; flex-direction: row; justify-content: space-between;">
         <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.projects.label.keywords">KEYWORDS</h5>
         <svg (click)="keywordsTooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#close"></use>
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
         </svg>
     </div>
     <hr>
@@ -73,7 +73,7 @@
                     [popperPlacement]="popperPlacement()"
                     class="infoButton" >
                         <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                            <use xlink:href="/assets/images/ecl/icons.a892a63d.svg#information"></use>
+                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                         </svg>
                     </div>
                 </kohesio-ecl-form-label>
@@ -96,9 +96,9 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label i18n="@@page.projects.label.region">REGION</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select 
-                formControlName="region" 
-                [items]="this.filters.regions" 
+                <kohesio-ecl-form-select
+                formControlName="region"
+                [items]="this.filters.regions"
                 [isDisabled]="!this.myForm.value.country"
                 i18n-placeholder="Select a country|@@page.projects.placeholder.region"
                 placeholder="Select a country" >
@@ -123,6 +123,10 @@
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.programmeType">PROGRAMME TYPE</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.programme">PROGRAMME</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs" [isDisabled]="!this.myForm.value.country" placeholder="Select a country" ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
@@ -136,21 +140,11 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.interventionField">INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <!-- Autocomplete optgroup Intervention Field  -->
-                    <mat-form-field class="intervention-autocomplete-wrapper" appearance="fill">
-                        <mat-label>Please select</mat-label>
-                        <input type="text" matInput formControlName="interventionField" [matAutocomplete]="autoGroup">
-                        <mat-autocomplete
-                            #autoGroup="matAutocomplete"
-                            [panelWidth]="'auto'"
-                            [displayWith]="displayInterventionField">
-                            <mat-optgroup *ngFor="let group of interventionOptions | async" [label]="group.value">
-                                <mat-option *ngFor="let option of group.options" [value]="option">
-                                    {{ option.value }}
-                                </mat-option>
-                            </mat-optgroup>
-                        </mat-autocomplete>
-                    </mat-form-field>
+                    <kohesio-auto-complete [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-auto-complete>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.nuts3">NUTS3</kohesio-ecl-form-label>
+                    <kohesio-auto-complete [items]="filters.nuts3" (change)="onNuts3Change()" formControlName="nuts3"></kohesio-auto-complete>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.date">DATE</kohesio-ecl-form-label>
@@ -164,6 +158,7 @@
                         <mat-date-range-picker #picker></mat-date-range-picker>
                     </mat-form-field>
                 </kohesio-ecl-form-group>
+
             </kohesio-ecl-accordion>
             <br/>
             <div class="search-buttons">
@@ -177,7 +172,7 @@
             <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">
                     <div class="left-table-tools">
-                        <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="projects"></app-download-button>
+                        <app-download-button *ngIf="count && count <= 1000" type="projects" [filters]="getFilters()"></app-download-button>
                     </div>
                     <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
                         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
@@ -219,7 +214,7 @@
                                 <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                     <b>Highlighted project</b>
                                 </ux-popover> -->
-                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/projects/' + project.item]">{{project.title}}</a>
+                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/'+translateService.routes.projects+'/'+ project.item]">{{project.title}}</a>
                                 <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
                                 <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
                             </h1>
@@ -230,7 +225,7 @@
                                             <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </span>
                                         {{filterService.getThemeLabel(project.objectiveId)}}
-                                        <ng-container *ngIf="!project.objectiveId">Intervention field not declared by the Managing Authority</ng-container>
+                                        <ng-container *ngIf="!project.objectiveId">Intervention field not available</ng-container>
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
@@ -287,7 +282,7 @@
                 <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
                 <div class="audio-visual-container">
                     <ng-container *ngFor="let asset of assets">
-                        <a [routerLink]="['/projects/' + asset.item.replace(entityURL, '')]">
+                        <a [routerLink]="['/'+translateService.routes.projects+'/' + asset.item.replace(entityURL, '')]">
                             <div class="container">
                                 <img [src]="asset.image">
                                 <div class="title">{{asset.title}}</div>
@@ -297,7 +292,7 @@
                 </div>
             </mat-tab>
             <mat-tab label="Map" i18n-label="Map|@@page.projects.tab.map">
-                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true"></app-map>
+                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [heatScale]="true"></app-map>
             </mat-tab>
         </mat-tab-group>
 

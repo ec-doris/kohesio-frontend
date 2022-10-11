@@ -1,13 +1,15 @@
 import { Category } from "./category.model";
 import {Deserializable} from "./deserializable.model";
+import {AutoCompleteItem} from "../components/kohesio/auto-complete/item.model";
 export class FiltersApi implements Deserializable{
 
     public thematic_objectives: [] = [];
     public policy_objectives: [] | undefined;
     public funds: [] | undefined;
     public programs: [] | undefined;
-    public categoriesOfIntervention: Category[] = [];
+    public categoriesOfIntervention: AutoCompleteItem[] = [];
     public regions: [] | undefined;
+    public nuts3: AutoCompleteItem[] = [];
 
 
     //Static
@@ -18,8 +20,9 @@ export class FiltersApi implements Deserializable{
     public sort: any[] | undefined;
     public sortBeneficiaries: any[] | undefined;
     public beneficiaryType: any[] | undefined;
+    public interreg:any[] | undefined;
 
-    protected static SInit = (() => {
+  protected static SInit = (() => {
         FiltersApi.prototype.programmingPeriods = [{
             id: '2014-2020',
             value: '2014 - 2020',
@@ -56,51 +59,58 @@ export class FiltersApi implements Deserializable{
         FiltersApi.prototype.sort = [
         {
             id: null,
-            value: 'Relevance'
+            value: $localize`:@@translate.filter.sortProjects.relevance:Relevance`
         },{
             id: 'orderStartDate-true',
-            value: 'Start Date (ascending)'
+            value: $localize`:@@translate.filter.sortProjects.orderStartDateAsc:Start Date (ascending)`
         },{
             id: 'orderStartDate-false',
-            value: 'Start Date (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderStartDateDesc:Start Date (descending)`
         },{
            id: 'orderEndDate-true',
-           value: 'End Date (ascending)'
+           value: $localize`:@@translate.filter.sortProjects.orderEndDateAsc:End Date (ascending)`
         },{
             id: 'orderEndDate-false',
-            value: 'End Date (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderEndDateDesc:End Date (descending)`
         },{
             id: 'orderTotalBudget-true',
-            value: 'Total Budget (ascending)'
+            value: $localize`:@@translate.filter.sortProjects.orderTotalBudgetAsc:Total Budget (ascending)`
         },{
             id: 'orderTotalBudget-false',
-            value: 'Total Budget (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderTotalBudgetDesc:Total Budget (descending)`
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
             id: 'orderNumProjects-true',
-            value: 'Number of Projects (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.numProjectsAsc:Number of Projects (ascending)`
         },{
             id: 'orderNumProjects-false',
-            value: 'Number of Projects (descending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.numProjectsDesc:Number of Projects (descending)`
         },{
             id: 'orderEuBudget-true',
-            value: 'EU Contribution (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.euContributionAsc:EU Contribution (ascending)`
         },{
-            id: null,
-            value: 'EU Contribution (descending)'
+          id: 'orderEuBudget-false',
+            value: $localize`:@@translate.filter.sortBeneficiaries.euContributionDesc:EU Contribution (descending)`
         },{
             id: 'orderTotalBudget-true',
-            value: 'Total Budget (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.totalBudgetAsc:Total Budget (ascending)`
         },{
-            id: 'orderTotalBudget-false',
-            value: 'Total Budget (descending)'
+            id: null,
+            value: $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`
         }];
         FiltersApi.prototype.beneficiaryType = [{
             id: 'public',
-            value: 'Public',
+            value: $localize`:@@translate.filter.beneficiaryType.public:Public`,
         },{
             id: 'private',
-            value: 'Private',
+            value: $localize`:@@translate.filter.beneficiaryType.private:Private`,
+        }];
+        FiltersApi.prototype.interreg = [{
+          id: 'true',
+          value: $localize`:@@translate.filter.interreg.interreg:Interreg`
+        },{
+          id: 'false',
+          value: $localize`:@@translate.filter.interreg.investGrowthJobs:Investment in Growth and Jobs`
         }];
     })();
 
@@ -112,9 +122,11 @@ export class FiltersApi implements Deserializable{
             programs: input.programs,
             categoriesOfIntervention: this.createGroupsOfInterventionField(input.categoriesOfIntervention),
             countries: input.countries,
+            nuts3: this.normalizeNuts3(input.nuts3),
             programmingPeriods: this.programmingPeriods,
             totalProjectBudget: this.totalProjectBudget,
-            amountEUSupport: this.amountEUSupport
+            amountEUSupport: this.amountEUSupport,
+            interreg: this.interreg
         });
     }
 
@@ -132,17 +144,41 @@ export class FiltersApi implements Deserializable{
         return options;
     }
 
-    private createGroupsOfInterventionField(categoriesOfIntervention:any){
-        if (categoriesOfIntervention){
-            const categories:any = [];
-            categoriesOfIntervention.forEach((cat:any)=>{
-                categories.push({
-                    value: cat.areaOfInterventionLabel,
-                    options: this.shortString(cat.options)
-                });
+    private createGroupsOfInterventionField(categoriesOfIntervention:any): AutoCompleteItem[]{
+      const list:AutoCompleteItem[] = [];
+      if (categoriesOfIntervention){
+          categoriesOfIntervention.forEach((cat:any)=>{
+            const subItems:AutoCompleteItem[] = [];
+            cat.options.forEach((option:any)=>{
+              subItems.push({
+                id:this.cleanId(option.instance),
+                label: option.instanceLabel.length > 100 ?
+                  option.instanceLabel.substring(0,100) + '...' : option.instanceLabel,
+                shortValue: option.instanceLabel.split("-")[0].trim()
+              })
+            })
+            list.push({
+                label: cat.areaOfInterventionLabel,
+                subItems: subItems
             });
-            return categories;
-        }
+          });
+      }
+      return list;
+    }
+
+    private normalizeNuts3(nuts3:any): AutoCompleteItem[]{
+      const list:AutoCompleteItem[] = [];
+      if (nuts3){
+        nuts3.forEach((n3:any)=>{
+          list.push({
+            id:n3.id,
+            label: n3.value.length > 100 ?
+              n3.value.substring(0,100) + '...' : n3.value,
+            shortValue: n3.value
+          })
+        })
+      }
+      return list;
     }
 
     private themes(themes:any){
@@ -156,7 +192,7 @@ export class FiltersApi implements Deserializable{
         return themes;
     }
 
-    private cleanId(id:string){
+    private cleanId(id:string): string | undefined{
         if (id){
         return id.replace("https://linkedopendata.eu/entity/", "")
             .replace("fund=", "")
@@ -164,7 +200,7 @@ export class FiltersApi implements Deserializable{
             .replace("program=", "")
             .replace("instance=", "");
         }else{
-            return null
+            return undefined
         }
     }
 
