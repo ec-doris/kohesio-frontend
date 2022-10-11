@@ -122,6 +122,8 @@ export class MapComponent implements AfterViewInit {
 
     @ViewChild(MapMessageBoxComponent) public uiMessageBoxHelper!: MapMessageBoxComponent;
 
+    public toggleDisclaimer:boolean = false;
+
     constructor(private mapService: MapService,
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
@@ -200,11 +202,7 @@ export class MapComponent implements AfterViewInit {
                 //tap: !L.Browser.mobile
                 gestureHandling: true
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4Composite'+this.locale.toUpperCase()+'/EPSG3857/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-                '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
-                '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
-        });
+        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4Composite'+this.locale.toUpperCase()+'/EPSG3857/{z}/{x}/{y}.png');
 
 
         // Normal Open Street Map Tile Layer

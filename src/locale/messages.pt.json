@@ -209,7 +209,7 @@
 		"page.themes.breadcrumb.themes": "Temas",
 		"page.themes.exploreProjectsByTheme": "explorar os projetos por tema",
     "comp.header.menu.services": "Serviços",
-    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
+    "comp.map.euDisclaimer": "As designações utilizadas e os elementos apresentados no presente mapa não correspondem à expressão de qualquer opinião da União Europeia sobre o estatuto jurídico de países, territórios, regiões ou localidades, nem sobre as suas autoridades ou a delimitação das respetivas fronteiras ou limites. Kosovo*: Esta designação está em conformidade com a Resolução 1244/1999 do CSNU e o parecer do TIJ sobre a declaração de independência do Kosovo, não implicando nenhuma posição em relação ao estatuto. Palestina*: Esta designação não deve ser interpretada como um reconhecimento do Estado da Palestina e não prejudica as posições de cada Estado-Membro quanto a esta questão.",
     "page.beneficiary-detail.label.reportIssue": "report an issue",
     "page.project-detail.link.readFurtherKeepEU": "Read more on keep.eu",
     "page.project-detail.label.programmes": "{VAR_PLURAL, plural, =0 {programme} =1 {programme} other {programmes}}",
@@ -264,6 +264,7 @@
     "translate.filter.beneficiaryType.public": "Público",
     "translate.filter.beneficiaryType.private": "Privado",
     "translate.filter.interreg.interreg": "Interreg",
-    "translate.filter.interreg.investGrowthJobs": "Investimento em Crescimento e Emprego"
+    "translate.filter.interreg.investGrowthJobs": "Investimento em Crescimento e Emprego",
+    "comp.map.disclaimer": "Disclaimer"
   }
 }

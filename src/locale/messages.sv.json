@@ -209,7 +209,7 @@
 		"page.themes.breadcrumb.themes": "Teman",
 		"page.themes.exploreProjectsByTheme": "utforska projekten efter tema",
     "comp.header.menu.services": "Services",
-    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
+    "comp.map.euDisclaimer": "De benämningar som används och utformningen av kartans innehåll ger inte uttryck för någon åsikt från EU:s sida om gränsdragning eller den rättsliga statusen för länder, territorier, städer, områden eller deras myndigheter. Kosovo*: Denna beteckning påverkar inte ståndpunkter om Kosovos status och är i överensstämmelse med FN:s säkerhetsråds resolution 1244/1999 och med Internationella domstolens utlåtande om Kosovos självständighetsförklaring. Palestina*: Denna beteckning ska inte uppfattas som ett erkännande av en palestinsk stat och påverkar inte medlemsstaternas individuella ståndpunkter i frågan.",
     "page.beneficiary-detail.label.reportIssue": "report an issue",
     "page.project-detail.link.readFurtherKeepEU": "Read more on keep.eu",
     "page.project-detail.label.programmes": "{VAR_PLURAL, plural, =0 {programme} =1 {programme} other {programmes}}",

@@ -1,6 +1,24 @@
 <div class="ux-block-content" [class.ux-is-active]="isLoading">
     <div class="map-container" style="max-width: 1108px;">
-        <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.</div>
+        <div class="eu-disclaimer-wrapper" *ngIf="toggleDisclaimer">
+            <div class="eu-disclaimer-box">
+                <div class="header">
+                    <span i18n="@@comp.map.disclaimer">Disclaimer</span>
+                    <svg class="ecl-icon ecl-icon--l hand-pointer close-button" focusable="false" aria-hidden="true" (click)="toggleDisclaimer = !toggleDisclaimer">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+                    </svg>
+                </div>
+                <div class="content">
+                    <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.</div>
+                </div>
+            </div>
+        </div>
+        <div class="map-attribution">
+            <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a> |
+            <a href="https://ec.europa.eu/eurostat/web/gisco" target="_blank">&copy; GISCO</a> |
+            <a href="https://www.maxmind.com/en/home" target="_blank">&copy; MaxMind</a> |
+            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer">Disclaimer</a>
+        </div>
         <app-map-message-box></app-map-message-box>
         <ng-container *ngIf="!hideNavigation">
             <div class="loading" *ngIf="isLoading">

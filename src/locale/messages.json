@@ -48,6 +48,7 @@
     "comp.header.menu.services": "Services",
     "comp.spinner.label.loading": "Loading...",
     "comp.download-button.label.download": "Download",
+    "comp.map.disclaimer": "Disclaimer",
     "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
     "comp.map.button.projectsNearMe": "PROJECTS NEAR ME",
     "comp.map.label.outermostRegions": "Outermost Regions",

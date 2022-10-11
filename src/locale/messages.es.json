@@ -209,7 +209,7 @@
 		"page.themes.breadcrumb.themes": "Temas",
 		"page.themes.exploreProjectsByTheme": "explorar los proyectos por tema",
     "comp.header.menu.services": "Services",
-    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
+    "comp.map.euDisclaimer": "Las denominaciones empleadas en este mapa y la forma en que aparecen presentados los datos que contiene no implican juicio alguno, por parte de la Unión Europea, sobre la condición jurídica de países, territorios, ciudades o zonas, o de sus autoridades, ni respecto del trazado de sus fronteras o límites. Kosovo *: Esta denominación se entiende sin perjuicio de las posiciones sobre su estatuto y está en consonancia con la RCSNU 1244/1999 y con el dictamen del Tribunal Internacional de Justicia sobre la declaración de independencia de Kosovo. Palestina*: Esta denominación no debe interpretarse como el reconocimiento de un Estado de Palestina y se utiliza sin perjuicio de las posiciones individuales de los Estados miembros sobre esta cuestión.",
     "page.beneficiary-detail.label.reportIssue": "report an issue",
     "page.project-detail.link.readFurtherKeepEU": "Read more on keep.eu",
     "page.project-detail.label.programmes": "{VAR_PLURAL, plural, =0 {programme} =1 {programme} other {programmes}}",

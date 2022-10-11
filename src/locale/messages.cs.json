@@ -209,7 +209,7 @@
 		"page.themes.breadcrumb.themes": "Témata",
 		"page.themes.exploreProjectsByTheme": "Projekty podle témat",
     "comp.header.menu.services": "Services",
-    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
+    "comp.map.euDisclaimer": "Použitá označení a prezentace obsahu této mapy v žádném případě nevyjadřují stanovisko Evropské unie ohledně právního statusu kterékoli země, území, oblasti nebo města nebo jejich orgánů nebo ohledně vymezení jejich hranic. Kosovo*: Tímto označením nejsou dotčeny postoje k otázce statusu, označení je v souladu s rezolucí Rady bezpečnosti OSN 1244/1999 a se stanoviskem Mezinárodního soudního dvora k vyhlášení nezávislosti Kosova. Palestina*: Toto označení se nesmí vykládat jako uznání Státu Palestina a nejsou jím dotčeny individuální postoje členských států k této otázce.",
     "page.beneficiary-detail.label.reportIssue": "report an issue",
     "page.project-detail.link.readFurtherKeepEU": "Read more on keep.eu",
     "page.project-detail.label.programmes": "{VAR_PLURAL, plural, =0 {programme} =1 {programme} other {programmes}}",
