@@ -1,4 +1,5 @@
 import {Component, Inject, LOCALE_ID} from '@angular/core';
+import {TranslateService} from "../../../services/translate.service";
 
 
 @Component({
@@ -83,12 +84,15 @@ export class KohesioEclLanguageSelectorComponent {
 
   public localeLabel: string;
 
-  constructor(@Inject(LOCALE_ID) public locale: string){
+  constructor(@Inject(LOCALE_ID) public locale: string,
+              public translateService: TranslateService){
     this.localeLabel = this.getLanguageLabel(locale);
   }
 
   changeLanguage(selectedLangCode:string){
-    window.location.href = `/${selectedLangCode}`
+     this.translateService.translateUrl(selectedLangCode).subscribe((url:string)=>{
+       window.location.href = url;
+    });
   }
 
   getLanguageLabel(locale: string): string{

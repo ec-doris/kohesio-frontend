@@ -48,3 +48,5 @@ Thumbs.db
 
 # Ignore DevSpace cache and log folder
 .devspace/
+
+/src/assets/locale/

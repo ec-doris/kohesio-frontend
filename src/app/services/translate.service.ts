@@ -1,5 +1,8 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient} from '@angular/common/http';
+import {FilterService} from "./filter.service";
+import {ActivatedRoute, ParamMap, Router, UrlSegment} from "@angular/router";
+import {Observable, Observer} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -48,6 +51,72 @@ export class TranslateService {
     }
   }
 
-  constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {}
+  public translations: any = {};
+
+  constructor(private http: HttpClient,
+              @Inject(LOCALE_ID) public locale: string,
+              private filterService: FilterService,
+              private activatedRoute: ActivatedRoute,
+              private router: Router) {}
+
+  public translateUrl(localeTo: string): Observable<string>{
+    return new Observable((observer: Observer<string>) => {
+      const queryParams: ParamMap = this.activatedRoute.snapshot.queryParamMap;
+      let segments:UrlSegment[] = [];
+      if (this.router.parseUrl(this.router.url).root.hasChildren()){
+        segments = this.router.parseUrl(this.router.url).root.children['primary'].segments;
+        this.getLocaleFile(localeTo).subscribe(data => {
+          this.translations = data.translations;
+          const resultSegments = this.buildSegments(segments);
+          observer.next(`/${localeTo}`+resultSegments);
+        });
+      }else{
+        observer.next(`/${localeTo}`);
+      }
+    });
+  }
+
+  private buildSegments(segments:UrlSegment[]){
+    let result:string = "";
+    segments.forEach((segment:UrlSegment)=>{
+      const keySegment = this.getRouteKeyFromLabel(segment.path.replace("/",""));
+      if (keySegment){
+        result += "/" + this.getTranslatedLabel("translate.routes.",keySegment);
+      }else{
+        result += "/" + segment.path
+      }
+    });
+    return result;
+  }
+
+  private getRouteKeyFromLabel(label:string): string | undefined{
+    for (let key of Object.keys(this.routes)) {
+      const value:string = this.routes[key as keyof typeof this.routes];
+      if (value == label){
+        return key;
+      }
+    }
+    return undefined;
+  }
+
+  private getTranslatedLabel(preKey:string, keySegment:string):string | undefined{
+    const msgKey = preKey+keySegment;
+    for (let key of Object.keys(this.translations)) {
+      if (key == msgKey){
+        return this.translations[key];
+      }
+    }
+    return undefined;
+  }
+
+  public getLocaleFile(localeTo: string): Observable<any> {
+    if (localeTo != 'en') {
+      return this.http.get("assets/locale/messages." + localeTo + ".json");
+    }else{
+      return this.http.get("assets/locale/messages.json");
+    }
+  }
+
+
 
 }
