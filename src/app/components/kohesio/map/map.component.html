@@ -17,7 +17,7 @@
             <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a> |
             <a href="https://ec.europa.eu/eurostat/web/gisco" target="_blank">&copy; GISCO</a> |
             <a href="https://www.maxmind.com/en/home" target="_blank">&copy; MaxMind</a> |
-            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer">Disclaimer</a>
+            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer">Disclaimer</a>
         </div>
         <app-map-message-box></app-map-message-box>
         <ng-container *ngIf="!hideNavigation">
@@ -53,7 +53,7 @@
                 </button>
             </div>
             <div class="map-project-count-container" *ngIf="heatScale && !hideScale && !isLoading">
-                <div class="title">Number of projects</div>
+                <div class="title" i18n="@@comp.map.button.numberOfProjects">Number of projects</div>
                 <div class="wrapper-scale-legend" *ngFor="let scale of heatMapScale">
                     <div class="color-scale" [style]="'background-color:'+scale.color+';'"></div>
                     <div class="text-scale">{{scale.from + (scale.to ? '-' + scale.to : '+')}}</div>

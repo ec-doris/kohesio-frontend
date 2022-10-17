@@ -36,7 +36,7 @@ export class MapComponent implements AfterViewInit {
     public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
     public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
     public europe = {
-        label: "Europe",
+        label: $localize`:@@comp.map.europe:Europe`,
         region: undefined,
         bounds: this.europeBounds
     };
@@ -351,12 +351,14 @@ export class MapComponent implements AfterViewInit {
             style: style
         }).addTo(this.map);
         if (layerGeoJson.features[0].properties && layerGeoJson.features[0].properties.count) {
-            const html = "<div class='regionWrapper'>" +
-                "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
-                "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
-                (layerGeoJson.features[0].properties.count > 0 ? "projects" : "project") + "</div>" +
-                "</div>";
-            l.bindTooltip(html, {permanent: false, direction: "center", sticky: true})
+          const projectLabel = $localize`:@@comp.map.project:project`;
+          const projectsLabel = $localize`:@@comp.map.projects:projects`;
+          const html = "<div class='regionWrapper'>" +
+              "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
+              "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
+              (layerGeoJson.features[0].properties.count > 0 ? projectsLabel : projectLabel) + "</div>" +
+              "</div>";
+          l.bindTooltip(html, {permanent: false, direction: "center", sticky: true})
         }
         this.layers.push(l);
     }

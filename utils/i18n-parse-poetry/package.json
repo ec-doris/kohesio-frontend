@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "parse-write": "ts-node src/write.ts",
-    "parse-read": "ts-node src/read.ts"
+    "parse-read": "ts-node src/read.ts",
+    "generate-delta": "ts-node src/delta.ts"
   },
   "author": "Raphael Domingues",
   "license": "ISC",

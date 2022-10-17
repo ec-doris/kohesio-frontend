@@ -72,7 +72,7 @@
                     <ng-container *ngIf="!project?.programWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.project.readFurther">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.keepUrl" style="margin-top: 10px;">
@@ -109,6 +109,10 @@
                     </span>
                 </div>
 
+                <div class="content" *ngIf="project?.fundWebsite" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.fundWebsite" *ngIf="project?.fundWebsite" target="_blank" i18n="@@page.project-detail.fundWebsite.readFurther">Read further about the fund</a>
+                </div>
+
             </div>
 
             <div class="kohesio-side-content-block" *ngIf="project.program && project.program.length">
@@ -133,10 +137,8 @@
                             <ng-container *ngIf="!programme.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                         </span>
                     </div>
-                    <div class="content" *ngIf="programme.programInfoRegioUrl" >
-                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank">
-                            <ng-container>Read further about the programme</ng-container>
-                        </a>
+                    <div class="content" *ngIf="programme.programInfoRegioUrl" style="margin-top: 10px;">
+                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank" i18n="@@page.project-detail.programme.readFurther">Read further about the programme</a>
                     </div>
                 </div>
             </div>
