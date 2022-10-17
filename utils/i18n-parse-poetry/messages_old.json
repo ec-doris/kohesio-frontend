@@ -210,6 +210,9 @@
     "page.services.dataExports": "{$START_TAG_STRONG}Data exports{$CLOSE_TAG_STRONG}{$LINE_BREAK} Download {$START_LINK}all the data{$CLOSE_LINK} country by country in CSV or XLSX format. ",
     "page.themes.breadcrumb.themes": "Themes",
     "page.themes.exploreProjectsByTheme": "explore the projects by theme",
-    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union."
+    "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
+    "comp.header.menu.services": "Services",
+    "comp.paginator.of": "of",
+    "page.home.carousel.of": "of"
   }
 }

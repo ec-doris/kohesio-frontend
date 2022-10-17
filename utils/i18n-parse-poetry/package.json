@@ -7,6 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "parse-write": "ts-node src/write.ts",
     "parse-read": "ts-node src/read.ts",
+    "update": "ts-node src/update.ts",
     "generate-delta": "ts-node src/delta.ts"
   },
   "author": "Raphael Domingues",
