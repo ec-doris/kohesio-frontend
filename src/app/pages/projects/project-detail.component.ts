@@ -63,6 +63,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         }else{
             this.map.addCountryLayer(this.project.countryLabel);
         }
+        (<any>window).twttr.widgets.load();
     }
 
     openWiki(event: any){
@@ -118,6 +119,10 @@ export class ProjectDetailComponent implements AfterViewInit {
       if (video) {
         return this.project.youtube_parser(video);
       }
+    }
+
+    getTweetHTML(tweet: string) {
+      return `<blockquote data-lang="${this.translateService.locale}" class="twitter-tweet"><a href="${tweet}"></a></blockquote>`;
     }
 
     getThemeURL(item: string): Params{

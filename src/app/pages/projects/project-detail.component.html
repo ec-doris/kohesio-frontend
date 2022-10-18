@@ -310,6 +310,11 @@
                         <youtube-player [videoId]="getVideoId(video)"> </youtube-player>
                     </div>
                 </div>
+                <div class="kohesio-project-detail-twitter-wrapper">
+                    <ng-container *ngFor="let tweet of project?.tweets">
+                        <div class="tweet" [innerHTML]="getTweetHTML(tweet)"></div>
+                    </ng-container>
+                </div>
             </div>
         </div>
     </div>

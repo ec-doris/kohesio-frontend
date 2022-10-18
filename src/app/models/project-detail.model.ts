@@ -43,6 +43,7 @@ export class ProjectDetail implements Deserializable{
     keepUrl: string | undefined;
     programInfoRegioUrl: string | undefined;
     videos: string[] = [];
+    tweets: string[] = [];
     program: Program[] = [];
     fundWebsite: string | undefined;
 
@@ -82,6 +83,7 @@ export class ProjectDetail implements Deserializable{
             keepUrl: input.keepUrl,
             programInfoRegioUrl: input.programInfoRegioUrl,
             videos: input.videos,
+            tweets: input.tweets,
             program: input.program,
             fundWebsite: input.fundWebsite
         });

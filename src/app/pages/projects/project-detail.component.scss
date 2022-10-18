@@ -39,3 +39,14 @@ a:visited {
   border-bottom: none;
   margin-bottom: 0;
 }
+
+.kohesio-project-detail-twitter-wrapper{
+  display: flex;
+  justify-content: center;
+  .tweet{
+    max-width: 550px;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}
