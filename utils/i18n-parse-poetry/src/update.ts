@@ -25,4 +25,4 @@ export class Update {
 
 }
 
-new Update().copyOneTranslation("page.home.carousel.of","comp.paginator.of");
+new Update().copyOneTranslation("page.projects.button.filters","page.beneficiaries.button.filters");

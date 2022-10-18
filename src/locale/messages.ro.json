@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "din"
+		"comp.paginator.of": "din",
+		"page.projects.placeholder.programme": "Selectați o țară",
+		"page.beneficiaries.button.filters": "Filtre"
 	}
 }

@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "no"
+		"comp.paginator.of": "no",
+		"page.projects.placeholder.programme": "Atlasiet valsti",
+		"page.beneficiaries.button.filters": "Filtri"
 	}
 }

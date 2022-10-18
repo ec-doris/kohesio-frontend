@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "van"
+		"comp.paginator.of": "van",
+		"page.projects.placeholder.programme": "Kies een land",
+		"page.beneficiaries.button.filters": "Filters"
 	}
 }

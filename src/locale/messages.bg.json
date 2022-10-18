@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "от"
+		"comp.paginator.of": "от",
+		"page.projects.placeholder.programme": "Изберете държава",
+		"page.beneficiaries.button.filters": "Филтри"
 	}
 }

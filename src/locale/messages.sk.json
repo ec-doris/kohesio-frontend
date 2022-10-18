@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "zo"
+		"comp.paginator.of": "zo",
+		"page.projects.placeholder.programme": "Vybrať krajinu",
+		"page.beneficiaries.button.filters": "Filtre"
 	}
 }

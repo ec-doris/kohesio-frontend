@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "of"
+		"comp.paginator.of": "of",
+		"page.projects.placeholder.programme": "Vali riik",
+		"page.beneficiaries.button.filters": "Filtrid"
 	}
 }

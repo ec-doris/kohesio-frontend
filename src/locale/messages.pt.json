@@ -268,6 +268,8 @@
 		"comp.map.disclaimer": "Disclaimer",
 		"comp.language-selector.close": "Fechar",
 		"comp.language-selector.selectYourLanguage": "Escolha uma língua",
-		"comp.paginator.of": "de"
+		"comp.paginator.of": "de",
+		"page.projects.placeholder.programme": "Selecionar um país",
+		"page.beneficiaries.button.filters": "Filtros"
 	}
 }

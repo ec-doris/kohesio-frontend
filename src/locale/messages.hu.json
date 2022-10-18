@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "/"
+		"comp.paginator.of": "/",
+		"page.projects.placeholder.programme": "Ország kiválasztása",
+		"page.beneficiaries.button.filters": "Szűrők"
 	}
 }

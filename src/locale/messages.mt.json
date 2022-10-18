@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "minn"
+		"comp.paginator.of": "minn",
+		"page.projects.placeholder.programme": "Agħżel pajjiż",
+		"page.beneficiaries.button.filters": "Filtri"
 	}
 }

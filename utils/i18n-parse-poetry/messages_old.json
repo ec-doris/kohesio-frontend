@@ -213,6 +213,8 @@
     "comp.map.euDisclaimer": "The boundaries and names shown and the designations used on this map do not imply official endorsement or acceptance by the European Union.",
     "comp.header.menu.services": "Services",
     "comp.paginator.of": "of",
-    "page.home.carousel.of": "of"
+    "page.home.carousel.of": "of",
+    "page.projects.placeholder.programme": "Select a country",
+    "page.beneficiaries.button.filters": "Filters"
   }
 }

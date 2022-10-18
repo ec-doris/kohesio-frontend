@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "de"
+		"comp.paginator.of": "de",
+		"page.projects.placeholder.programme": "Roghnaigh tír",
+		"page.beneficiaries.button.filters": "Scagairí"
 	}
 }

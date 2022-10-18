@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "από"
+		"comp.paginator.of": "από",
+		"page.projects.placeholder.programme": "Επιλέξτε χώρα",
+		"page.beneficiaries.button.filters": "Φίλτρα"
 	}
 }

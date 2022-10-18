@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "z"
+		"comp.paginator.of": "z",
+		"page.projects.placeholder.programme": "Wybierz kraj",
+		"page.beneficiaries.button.filters": "Filtry"
 	}
 }

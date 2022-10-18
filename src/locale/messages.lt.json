@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "iš"
+		"comp.paginator.of": "iš",
+		"page.projects.placeholder.programme": "Pasirinkti šalį",
+		"page.beneficiaries.button.filters": "Filtrai"
 	}
 }

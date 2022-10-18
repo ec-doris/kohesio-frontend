@@ -226,6 +226,8 @@
 		"translate.routes.themes": "themes",
 		"translate.routes.faq": "faq",
 		"translate.routes.map": "map",
-		"comp.paginator.of": "af"
+		"comp.paginator.of": "af",
+		"page.projects.placeholder.programme": "Angiv et land",
+		"page.beneficiaries.button.filters": "Filtre"
 	}
 }
