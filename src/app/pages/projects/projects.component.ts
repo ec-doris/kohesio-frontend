@@ -476,6 +476,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         resetForm() {
           this.myForm.reset();
+          this.semanticTerms = [];
         }
 
         onSortChange() {
