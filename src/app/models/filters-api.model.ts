@@ -172,8 +172,8 @@ export class FiltersApi implements Deserializable{
         nuts3.forEach((n3:any)=>{
           list.push({
             id:n3.id,
-            label: n3.value.length > 100 ?
-              n3.value.substring(0,100) + '...' : n3.value,
+            label: n3.nuts_code + (n3.value.length > 100 ?
+              n3.value.substring(0,100) + '...' : n3.value),
             shortValue: n3.value
           })
         })

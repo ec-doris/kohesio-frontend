@@ -43,47 +43,7 @@ export class MapComponent implements AfterViewInit {
     public mapRegions:any = [];
     public isLoading = true;
     public dataRetrieved = false;
-    public outermostRegions = [{
-        label: "Madeira",
-        country: "Q18",
-        countryLabel: "Portugal",
-        id: "Q203"
-    },{
-        label: "Azores",
-        country: "Q18",
-        countryLabel: "Portugal",
-        id: "Q204"
-    },{
-        label: "Canary Islands",
-        country: "Q7",
-        countryLabel: "Spain",
-        id: "Q205"
-    },{
-        label: "Réunion",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q206"
-    },{
-        label: "French Guiana",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q201"
-    },{
-        label: "Guadeloupe Saint Martin",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q2576740"
-    },{
-        label: "Martinique",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q198"
-    },{
-        label: "Mayotte",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q209"
-    }];
+    public outermostRegions = [];
     // Format L.latLngBounds = southWest, northEast
     public overrideBounds = [{
         id: 'Q20',
@@ -149,6 +109,10 @@ export class MapComponent implements AfterViewInit {
         if(this.mobileQuery){
             this.europe.bounds = this.europeBoundsMobile;
         }
+
+        this.mapService.getOutermostRegions().subscribe(data=>{
+          this.outermostRegions = data;
+        })
 
         //this.createLogScale();
     }

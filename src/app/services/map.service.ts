@@ -53,4 +53,22 @@ export class MapService {
         );
     }
 
+    public getOutermostRegions(): Observable<any>{
+      const url = environment.apiBaseUrl + '/outermost_regions';
+      return this.http.get<any>(url).pipe(
+        map((regions:any) => {
+          let results:any[] = [];
+          regions.forEach((region:any)=>{
+            results.push({
+              label: region.instanceLabel,
+              country: region.country.replace(environment.entityURL,""),
+              countryLabel: region.countryLabel,
+              id: region.instance.replace(environment.entityURL,"")
+            })
+          });
+          return results;
+        })
+      );
+    }
+
 }
