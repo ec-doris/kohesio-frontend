@@ -270,6 +270,9 @@
 		"comp.language-selector.selectYourLanguage": "Escolha uma língua",
 		"comp.paginator.of": "de",
 		"page.projects.placeholder.programme": "Selecionar um país",
-		"page.beneficiaries.button.filters": "Filtros"
-	}
+		"page.beneficiaries.button.filters": "Filtros",
+    "translate.sections.myregion": "minha-região",
+    "translate.sections.themes": "temas",
+    "translate.sections.section": "secção"
+  }
 }

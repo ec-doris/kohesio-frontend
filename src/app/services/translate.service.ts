@@ -21,6 +21,12 @@ export class TranslateService {
     map: $localize`:@@translate.routes.map:map`
   }
 
+  public sections = {
+    myregion: $localize`:@@translate.sections.myregion:my-region`,
+    themes: $localize`:@@translate.sections.themes:themes`,
+    section: $localize`:@@translate.sections.section:section`
+  }
+
   public queryParams = {
     "keywords": $localize`:@@translate.queryParams.keywords:keywords`,
     "country": $localize`:@@translate.queryParams.country:country`,
