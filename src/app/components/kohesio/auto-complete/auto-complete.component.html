@@ -1,5 +1,5 @@
 <mat-form-field class="autocomplete-wrapper" appearance="fill">
-    <mat-label>Please select</mat-label>
+    <mat-label i18n="@@comp.auto-complete.placeholder">Please select</mat-label>
     <input onClick="this.setSelectionRange(0, this.value.length)" (input)="onInputType($any($event.target).value)" type="text" [(ngModel)]="inputValue" matInput [matAutocomplete]="autoGroup">
     <mat-autocomplete
         #autoGroup="matAutocomplete"

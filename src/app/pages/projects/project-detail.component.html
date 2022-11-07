@@ -16,7 +16,7 @@
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
-            <a [routerLink]="['/projects']"
+            <a [routerLink]="['/'+translateService.routes.projects]"
                 class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.project-detail.breadcrumb.projects">Projects</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
@@ -72,7 +72,7 @@
                     <ng-container *ngIf="!project?.programWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
-                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.link.readFurther">Read further about the project</a>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.project.readFurther">Read further about the project</a>
                     <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
                 <div class="content" *ngIf="project?.keepUrl" style="margin-top: 10px;">
@@ -109,6 +109,10 @@
                     </span>
                 </div>
 
+                <div class="content" *ngIf="project?.fundWebsite" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.fundWebsite" *ngIf="project?.fundWebsite" target="_blank" i18n="@@page.project-detail.fundWebsite.readFurther">Read further about the fund</a>
+                </div>
+
             </div>
 
             <div class="kohesio-side-content-block" *ngIf="project.program && project.program.length">
@@ -124,7 +128,7 @@
                             <ng-container *ngIf="programme.programLabel">
                                 <span class="no-bold">
                                     <a class="ecl-link ecl-link--standalone" target="_blank"
-                                       [routerLink]="['/projects/']"
+                                       [routerLink]="['/'+translateService.routes.projects+'/']"
                                        [queryParams]="getProgramURL(project.countryLabel,programme.programFullLabel)">
                                         {{programme.programLabel}}
                                     </a>
@@ -133,21 +137,17 @@
                             <ng-container *ngIf="!programme.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                         </span>
                     </div>
-                    <div class="content" *ngIf="programme.programInfoRegioUrl" >
-                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank">
-                            <ng-container>Read further about the programme</ng-container>
-                        </a>
+                    <div class="content" *ngIf="programme.programInfoRegioUrl" style="margin-top: 10px;">
+                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank" i18n="@@page.project-detail.programme.readFurther">Read further about the programme</a>
                     </div>
                 </div>
             </div>
 
 
             <div class="kohesio-side-content-block">
-                <span class="title" i18n="@@page.project-detail.label.theme">
-                    {project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}
-                </span>
+                <span class="title" i18n="@@page.project-detail.label.theme">{project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}</span>
                 <div class="content  padding" *ngFor="let item of project?.themeLabels">
-                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="getThemeURL(item)">{{item}}</a></span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/'+translateService.routes.projects+'/']" [queryParams]="getThemeURL(item)">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.themeLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -156,11 +156,9 @@
 
 
             <div class="kohesio-side-content-block">
-                <span class="title" i18n="@@page.project-detail.label.interventionField">
-                    {project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}
-                </span>
+                <span class="title" i18n="@@page.project-detail.label.interventionField">{project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}</span>
                 <div class="content padding" *ngFor="let item of project?.categoryLabels; let i = index">
-                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/projects/']" [queryParams]="getInterventionFieldURL(project.categoryIDs[i])">{{item}}</a></span>
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/'+translateService.routes.projects+'/']" [queryParams]="getInterventionFieldURL(project.categoryIDs[i])">{{item}}</a></span>
                 </div>
                 <div class="content" *ngIf="project.categoryLabels.length == 0">
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
@@ -169,12 +167,10 @@
 
 
             <div class="kohesio-side-content-block" >
-                <span class="title" i18n="@@page.project-detail.label.beneficiary">
-                    {project.categoryLabels.length, plural, =0 {beneficiary} =1 {beneficiary} other {beneficiaries}}
-                </span>
+                <span class="title" i18n="@@page.project-detail.label.beneficiary">{project.beneficiaries.length, plural, =0 {beneficiary} =1 {beneficiary} other {beneficiaries}}</span>
                 <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
                     <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
-                    <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/beneficiaries/' + beneficiary.link.replace(entityURL, '')]">
+                    <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/'+translateService.routes.beneficiaries + '/' + beneficiary.link.replace(entityURL, '')]">
                         {{beneficiary.beneficiaryLabel}}
                     </a>
                     <span *ngIf="beneficiary.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
@@ -280,7 +276,7 @@
                             </ul>
                         </div>
                         <div class="kohesio-report-icons-wrapper">
-                            <span class="title" i18n="@@page.project-detail.label.shareon">report an issue</span>
+                            <span class="title" i18n="@@page.project-detail.label.reportIssue">report an issue</span>
                             <ul class="ecl-social-media-follow__list">
                                 <li class="ecl-social-media-follow__item">
                                     <a matTooltip="Report an issue by email" (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
@@ -300,7 +296,7 @@
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
                 <h2 class="title ecl-u-type-heading-5">
                     <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
-                    <ng-container i18n="@@page.project-detail.label.in">&nbsp;</ng-container>
+                    <ng-container>&nbsp;</ng-container>
                     <ng-container *ngIf="project?.regionText">
                         {{project.regionText}}
                     </ng-container>
@@ -313,6 +309,11 @@
                     <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
                         <youtube-player [videoId]="getVideoId(video)"> </youtube-player>
                     </div>
+                </div>
+                <div class="kohesio-project-detail-twitter-wrapper">
+                    <ng-container *ngFor="let tweet of project?.tweets">
+                        <div class="tweet" [innerHTML]="getTweetHTML(tweet)"></div>
+                    </ng-container>
                 </div>
             </div>
         </div>

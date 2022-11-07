@@ -7,6 +7,7 @@ import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
+import {TranslateService} from "../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -35,7 +36,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private projectService: ProjectService,
                 private route: ActivatedRoute,
                 private router: Router,
-                private sanitizer: DomSanitizer){}
+                private sanitizer: DomSanitizer,
+                public translateService: TranslateService){}
 
     ngOnInit(){
         if (!this.project) {
@@ -61,6 +63,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         }else{
             this.map.addCountryLayer(this.project.countryLabel);
         }
+        (<any>window).twttr.widgets.load();
     }
 
     openWiki(event: any){
@@ -116,6 +119,10 @@ export class ProjectDetailComponent implements AfterViewInit {
       if (video) {
         return this.project.youtube_parser(video);
       }
+    }
+
+    getTweetHTML(tweet: string) {
+      return `<blockquote data-lang="${this.translateService.locale}" class="twitter-tweet"><a href="${tweet}"></a></blockquote>`;
     }
 
     getThemeURL(item: string): Params{

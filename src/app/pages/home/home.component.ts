@@ -14,6 +14,7 @@ import {
 } from "../../components/kohesio/project-detail-modal/project-detail-modal.component";
 import {environment} from "../../../environments/environment";
 import {MatDialog} from "@angular/material/dialog";
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
     templateUrl: './home.component.html',
@@ -35,7 +36,8 @@ export class HomePageComponent implements AfterViewInit {
                 private _router: Router,
                 private statisticsService: StatisticsService,
                 private themeService: ThemeService,
-                private dialog: MatDialog){
+                private dialog: MatDialog,
+                public translateService: TranslateService){
 
         this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
             this.stats = data;

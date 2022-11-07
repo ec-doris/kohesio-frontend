@@ -16,6 +16,7 @@ import { Subject, takeUntil} from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import {TranslateService} from "../../services/translate.service";
 
 @Component({
   templateUrl: './projects.component.html',
@@ -39,7 +40,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("sidenav") sidenav!: MatDrawer;
   @ViewChild(MapComponent) map!: MapComponent;
   public selectedTabIndex: number = 0;
-  public selectedTab: string = 'results';
+  public selectedTab: string = this.translateService.projectPage.tabs.results;
   public modalImageUrl = "";
   public modalImageTitle:string = "";
   public modalTitleLabel = "";
@@ -64,7 +65,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
-    breakpointObserver: BreakpointObserver) {
+    breakpointObserver: BreakpointObserver,
+    public translateService: TranslateService) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -85,28 +87,28 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
 
       this.myForm = this.formBuilder.group({
-        keywords: this._route.snapshot.queryParamMap.get('keywords'),
-        country: [!this._route.snapshot.queryParamMap.has('nuts3') ? this.getFilterKey("countries", "country") : undefined],
+        keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
+        country: [!this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) ? this.getFilterKey("countries", this.translateService.queryParams.country) : undefined],
         region: [],
-        policyObjective: [this.getFilterKey("policy_objectives", "policyObjective")],
-        theme: [this.getFilterKey("thematic_objectives", "theme")],
+        policyObjective: [this.getFilterKey("policy_objectives", this.translateService.queryParams.policyObjective)],
+        theme: [this.getFilterKey("thematic_objectives", this.translateService.queryParams.theme)],
         //Advanced filters
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
-        fund: [this.getFilterKey("funds", "fund")],
+        fund: [this.getFilterKey("funds", this.translateService.queryParams.fund)],
         program: [],
-        interventionField: [this.getFilterKey("categoriesOfIntervention", "interventionField")],
-        totalProjectBudget: [this.getFilterKey("totalProjectBudget", "totalProjectBudget")],
-        amountEUSupport: [this.getFilterKey("amountEUSupport", "amountEUSupport")],
-        projectStart: [this.getDate(this._route.snapshot.queryParamMap.get('projectStart'))],
-        projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get('projectEnd'))],
-        sort: [this.getFilterKey("sort", "sort")],
-        interreg: [this.getFilterKey("interreg", "interreg")],
-        nuts3: [this.getFilterKey("nuts3", "nuts3")]
+        interventionField: [this.getFilterKey("categoriesOfIntervention", this.translateService.queryParams.interventionField)],
+        totalProjectBudget: [this.getFilterKey("totalProjectBudget", this.translateService.queryParams.totalProjectBudget)],
+        amountEUSupport: [this.getFilterKey("amountEUSupport", this.translateService.queryParams.amountEUSupport)],
+        projectStart: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectStart))],
+        projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectEnd))],
+        sort: [this.getFilterKey("sort", this.translateService.queryParams.sort)],
+        interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
+        nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)]
       });
 
-      if (this._route.snapshot.queryParamMap.has('nuts3') &&
-        (this._route.snapshot.queryParamMap.has('country') ||
-          this._route.snapshot.queryParamMap.has('region'))){
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) &&
+        (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.country) ||
+          this._route.snapshot.queryParamMap.has(this.translateService.queryParams.region))){
         this._router.navigate([], {
           relativeTo: this._route,
           queryParams: this.generateQueryParams(),
@@ -115,21 +117,21 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
-          this._route.snapshot.queryParamMap.get('program') ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
           this.myForm.value.projectEnd || this.myForm.value.interreg || this.myForm.value.nuts3){
             this.advancedFilterIsExpanded = true;
       };
 
-      if (this._route.snapshot.queryParamMap.has('tab')) {
-        const tabParam = this._route.snapshot.queryParamMap.get('tab');
-        if (tabParam=="audiovisual"){
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.tab)) {
+        const tabParam = this._route.snapshot.queryParamMap.get(this.translateService.queryParams.tab);
+        if (tabParam==this.translateService.projectPage.tabs.audiovisual){
           this.selectedTabIndex = 1;
-        }else if (tabParam=="map"){
+        }else if (tabParam==this.translateService.projectPage.tabs.map){
           this.selectedTabIndex = 2;
           this.isMapTab=true;
-          this.selectedTab="map";
+          this.selectedTab=this.translateService.projectPage.tabs.map;
         }
       }
 
@@ -144,27 +146,27 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     ngOnInit() {
-      if (this._route.snapshot.queryParamMap.get('country')) {
+      if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
         Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
-          if (this._route.snapshot.queryParamMap.get('region')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
             this.myForm.patchValue({
-              region: this.getFilterKey("regions", "region")
+              region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
           }
-          if (this._route.snapshot.queryParamMap.get('program')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.myForm.patchValue({
-              program: this.getFilterKey("programs", "program")
+              program: this.getFilterKey("programs", this.translateService.queryParams.programme)
             });
           }
-          if (this._route.snapshot.queryParamMap.get('region') ||
-          this._route.snapshot.queryParamMap.get('program')) {
+          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.getProjectList();
           }
         });
       }
 
-      if (!this._route.snapshot.queryParamMap.get('region') &&
-      !this._route.snapshot.queryParamMap.get('program')) {
+      if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
+      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
         this.getProjectList();
       }
       this.onThemeChange();
@@ -208,8 +210,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.semanticTerms = [];
       this.initialPageIndex = this.paginatorTop ? this.paginatorTop.pageIndex : 0;
-      if (this._route.snapshot.queryParamMap.has('page') && !this.paginatorTop){
-        const pageParam:string | null= this._route.snapshot.queryParamMap.get('page');
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page) && !this.paginatorTop){
+        const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
         if (pageParam){
           const pageIndex = parseInt(pageParam) - 1;
           this.initialPageIndex = pageIndex;
@@ -225,10 +227,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.projectService.getProjects(this.getFilters(), offset).subscribe((result: ProjectList | null) => {
         if (result != null){
-          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has('page')){
+          if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page)){
               this._router.navigate([], {
                 queryParams: {
-                  'page': null,
+                  [this.translateService.queryParams.page]: null,
                 },
                 queryParamsHandling: 'merge'
               });
@@ -299,7 +301,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this._router.navigate([], {
         relativeTo: this._route,
         queryParams: {
-          page: event.pageIndex != 0 ? event.pageIndex + 1 : null,
+          [this.translateService.queryParams.page]: event.pageIndex != 0 ? event.pageIndex + 1 : null,
         },
         queryParamsHandling: 'merge',
       });
@@ -320,28 +322,28 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     generateQueryParams() {
       return {
-        keywords: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
-        country: this.getFilterLabel("countries", this.myForm.value.country),
-        region: this.getFilterLabel("regions", this.myForm.value.region),
-        theme: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
-        policyObjective: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
+        [this.translateService.queryParams.keywords]: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
+        [this.translateService.queryParams.country]: this.getFilterLabel("countries", this.myForm.value.country),
+        [this.translateService.queryParams.region]: this.getFilterLabel("regions", this.myForm.value.region),
+        [this.translateService.queryParams.theme]: this.getFilterLabel("thematic_objectives", this.myForm.value.theme),
+        [this.translateService.queryParams.policyObjective]: this.getFilterLabel("policy_objectives", this.myForm.value.policyObjective),
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
-        fund: this.getFilterLabel("funds", this.myForm.value.fund),
-        program: this.getFilterLabel("programs", this.myForm.value.program),
-        interventionField: this.getFilterLabel(
+        [this.translateService.queryParams.fund]: this.getFilterLabel("funds", this.myForm.value.fund),
+        [this.translateService.queryParams.programme]: this.getFilterLabel("programs", this.myForm.value.program),
+        [this.translateService.queryParams.interventionField]: this.getFilterLabel(
           "categoriesOfIntervention",
           this.myForm.value.interventionField ? this.myForm.value.interventionField.id : null
         ),
-        totalProjectBudget: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
-        amountEUSupport: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
-        projectStart: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
-        projectEnd: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
-        interreg: this.getFilterLabel("interreg", this.myForm.value.interreg),
-        nuts3: this.getFilterLabel(
+        [this.translateService.queryParams.totalProjectBudget]: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
+        [this.translateService.queryParams.amountEUSupport]: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
+        [this.translateService.queryParams.projectStart]: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
+        [this.translateService.queryParams.projectEnd]: this.myForm.value.projectEnd ? this.datePipe.transform(this.myForm.value.projectEnd, 'dd-MM-yyyy') : null,
+        [this.translateService.queryParams.interreg]: this.getFilterLabel("interreg", this.myForm.value.interreg),
+        [this.translateService.queryParams.nuts3]: this.getFilterLabel(
           "nuts3",
           this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
         ),
-        sort: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
+        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
       }
     }
 
@@ -420,29 +422,30 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.selectedTabIndex = index;
       switch (index) {
         case 0: //Results
-        this.isResultsTab = true;
-        this.selectedTab = 'results';
-        break;
+          this.isResultsTab = true;
+          this.selectedTab = this.translateService.projectPage.tabs.results;
+          break;
         case 1: //Audio-visual
-        this.isAudioVisualTab = true;
-        this.selectedTab = 'audiovisual';
-        break;
+          this.isAudioVisualTab = true;
+          this.selectedTab = this.translateService.projectPage.tabs.audiovisual;
+          break;
         case 2: //Map
-        if (!this.mapIsLoaded) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-              this.map.refreshView();
-              this.map.loadMapRegion(this.lastFiltersSearch);
-            }, 500);
+          if (!this.mapIsLoaded) {
+            this.mapIsLoaded = true;
+            setTimeout(
+              () => {
+                this.map.refreshView();
+                this.map.loadMapRegion(this.lastFiltersSearch);
+              }, 500);
           }
           this.isMapTab = true;
-          this.selectedTab = 'map';
+          this.selectedTab = this.translateService.projectPage.tabs.map;
           break;
         }
+
         this._router.navigate([], {
           relativeTo: this._route,
-          queryParams: { 'tab': this.isResultsTab ? null : this.selectedTab },
+          queryParams: { [this.translateService.queryParams.tab]: this.isResultsTab ? null : this.selectedTab },
           queryParamsHandling: 'merge'
         });
 
@@ -473,6 +476,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         resetForm() {
           this.myForm.reset();
+          this.semanticTerms = [];
         }
 
         onSortChange() {

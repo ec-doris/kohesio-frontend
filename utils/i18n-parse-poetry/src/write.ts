@@ -1,14 +1,16 @@
+import {Delta} from "./delta";
+
 const ExcelJS = require('exceljs');
-import messages from '../../../src/locale/messages.json'; 
+//import messages from '../../../src/locale/messages.json';
 
 class Write {
 
-    public async run(){
-        
+    public async run(translations: any){
+
         /*DATA*/
         let data:any = [];
         let index = 1;
-        for (const [key, value] of Object.entries(messages.translations)) {
+        for (const [key, value] of Object.entries(translations)) {
             data.push({
                 index: index,
                 code: key,
@@ -34,6 +36,7 @@ class Write {
     }
 
     private parseLabel(label:any):any[]{
+      console.log("LABEL="+label);
         let richText = [];
         const splitLabel:string[] = label.split(/({\$[^}]+})/g);
         if (label.trim().startsWith("{VAR_PLURAL")){
@@ -102,4 +105,5 @@ class Write {
 
 }
 
-new Write().run();
+const deltaTranslations = new Delta().run();
+new Write().run(deltaTranslations.translations);

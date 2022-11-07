@@ -43,7 +43,9 @@ export class ProjectDetail implements Deserializable{
     keepUrl: string | undefined;
     programInfoRegioUrl: string | undefined;
     videos: string[] = [];
+    tweets: string[] = [];
     program: Program[] = [];
+    fundWebsite: string | undefined;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -81,7 +83,9 @@ export class ProjectDetail implements Deserializable{
             keepUrl: input.keepUrl,
             programInfoRegioUrl: input.programInfoRegioUrl,
             videos: input.videos,
-            program: input.program
+            tweets: input.tweets,
+            program: input.program,
+            fundWebsite: input.fundWebsite
         });
     }
 
