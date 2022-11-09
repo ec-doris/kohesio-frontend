@@ -55,7 +55,10 @@ export class MapService {
 
     public getOutermostRegions(): Observable<any>{
       const url = environment.apiBaseUrl + '/outermost_regions';
-      return this.http.get<any>(url).pipe(
+      let params:any = {
+        language: this.locale
+      }
+      return this.http.get<any>(url,{ params: <any>params }).pipe(
         map((regions:any) => {
           let results:any[] = [];
           regions.forEach((region:any)=>{
