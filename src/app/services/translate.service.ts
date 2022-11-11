@@ -123,7 +123,10 @@ export class TranslateService {
             queryParams.keys.forEach((queryParam:string)=>{
               const queryParamKey = this.getQueryParamKeyFromLabel(queryParam);
               if (queryParamKey) {
-                const transParamKey = this.getTranslatedLabel("translate.queryParams.",queryParamKey);
+                let transParamKey = this.getTranslatedLabel("translate.queryParams.",queryParamKey);
+                if (!transParamKey){
+                  transParamKey = queryParamKey;
+                }
                 let transParamValue = queryParams.get(queryParam);
                 if (this.queryParamToFilter[queryParamKey]) {
                   const qID = this.filterService.getFilterKey(this.queryParamToFilter[queryParamKey], queryParams.get(queryParam));
