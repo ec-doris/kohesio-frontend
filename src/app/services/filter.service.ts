@@ -65,7 +65,9 @@ export class FilterService {
 
     getFilter(type: any, params:any = {}):Observable<any>{
         const url = environment.apiBaseUrl + '/' + type;
-        params.language = this.locale;
+        if (!params || !params.language) {
+          params.language = this.locale;
+        }
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data:any = {};
