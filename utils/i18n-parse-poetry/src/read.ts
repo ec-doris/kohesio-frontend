@@ -1,3 +1,5 @@
+import {readFile} from "fs/promises";
+
 const ExcelJS = require('exceljs');
 const fs = require('fs');
 
@@ -24,7 +26,8 @@ class Read {
       }
     };
     const outputFileName:string = "messages."+ json.locale + ".json";
-
+    const outputJSON =  await this.readJsonFile("../../src/locale/"+outputFileName);
+    json.translations = outputJSON.translations;
     /*if (json.locale != "cs"){
       return;
     }*/
@@ -54,6 +57,11 @@ class Read {
 
     fs.writeFileSync('../../src/locale/'+outputFileName, JSON.stringify(json, null, "\t"), 'utf8');
     console.log("write file for " + outputFileName);
+  }
+
+  public async readJsonFile(path) {
+    const file = await readFile(path, "utf8");
+    return JSON.parse(file);
   }
 
   private cleanValue(value:string){

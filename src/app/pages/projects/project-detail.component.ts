@@ -126,24 +126,27 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     getThemeURL(item: string): Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        theme:item.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.theme]:item.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 
     getInterventionFieldURL(item:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        interventionField:item.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.interventionField]:item.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 
     getProgramURL(countryLabel:string, programmeLabel:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        country: countryLabel,
-        program: programmeLabel.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.country]: countryLabel,
+        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 }
