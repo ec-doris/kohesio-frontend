@@ -82,13 +82,13 @@
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                 <div class="top">
                     <div class="title" i18n="@@page.projects.label.alsoMatching">Also matching:</div>
-                    <a mat-stroked-button (click)="onRestrictSearch($event)" i18n="@@page.projects.label.useMyKeywordsOnly">Use my keywords only</a>
                 </div>
                 <div class="terms">
                     <ng-container *ngFor="let semanticTerm of semanticTerms" >
                         <a href="#" (click)="$event.preventDefault();onClickRelatedTerm(semanticTerm)" class="ecl-tag term">{{semanticTerm}}</a>
                     </ng-container>
                 </div>
+                <a mat-stroked-button (click)="onRestrictSearch($event)" i18n="@@page.projects.label.useMyKeywordsOnly">Use my keywords only</a>
             </div>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label i18n="@@page.projects.label.country">COUNTRY</kohesio-ecl-form-label>

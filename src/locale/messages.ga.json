@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "táb",
 		"translate.projectPage.tabs.results": "torthaí",
 		"translate.projectPage.tabs.audiovisual": "closamhairc",
-		"translate.projectPage.tabs.map": "léarscáil"
-	}
+		"translate.projectPage.tabs.map": "léarscáil",
+    "comp.message.warning.title": "Teachtaireacht rabhaidh",
+    "comp.message.noTranslationAvailable": "Níl aon aistriúchán ar fáil"
+  }
 }

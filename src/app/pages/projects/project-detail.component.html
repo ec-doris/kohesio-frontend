@@ -218,6 +218,18 @@
                         </div>
                         <div class="kohesio-article-post-content">
                                 <p class="ecl-u-type-paragraph">{{project.description}}</p>
+
+                                <ng-container *ngIf="!project.description">
+                                    <div class="ecl-message ecl-message--warning" data-ecl-message="" role="alert" data-ecl-auto-init="Message">
+                                        <svg class="ecl-icon ecl-icon--l ecl-message__icon" focusable="false" aria-hidden="true">
+                                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#warning"></use>
+                                        </svg>
+                                        <div class="ecl-message__content">
+                                            <div class="ecl-message__title" i18n="@@comp.message.warning.title">Warning message</div>
+                                            <div class="ecl-message__description" i18n="@@comp.message.noTranslationAvailable">There is no translation available</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
                         </div>
 
                         <div class="kohesio-social-icons-wrapper">
