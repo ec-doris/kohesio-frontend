@@ -91,4 +91,4 @@ class ETranslation {
 
 }
 
-new ETranslation().run(["comp.message.warning.title","comp.message.noTranslationAvailable"]);
+new ETranslation().run(["page.project-detail.label.multipleLocations"]);

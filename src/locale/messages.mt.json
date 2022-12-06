@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "awdjoviżiv",
 		"translate.projectPage.tabs.map": "mappa",
 		"comp.message.warning.title": "Messaġġ ta’ twissija",
-		"comp.message.noTranslationAvailable": "M’hemm l-ebda traduzzjoni disponibbli"
+		"comp.message.noTranslationAvailable": "M’hemm l-ebda traduzzjoni disponibbli",
+		"page.project-detail.label.multipleLocations": "Postijiet multipli"
 	}
 }

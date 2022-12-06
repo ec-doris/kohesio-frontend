@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisuell",
 		"translate.projectPage.tabs.map": "karta",
 		"comp.message.warning.title": "Varningsmeddelande",
-		"comp.message.noTranslationAvailable": "Det finns ingen översättning tillgänglig"
+		"comp.message.noTranslationAvailable": "Det finns ingen översättning tillgänglig",
+		"page.project-detail.label.multipleLocations": "Flera platser"
 	}
 }

@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisuaalinenAineisto",
 		"translate.projectPage.tabs.map": "kartta",
 		"comp.message.warning.title": "Varoitusviesti",
-		"comp.message.noTranslationAvailable": "Käännöstä ei ole saatavilla"
+		"comp.message.noTranslationAvailable": "Käännöstä ei ole saatavilla",
+		"page.project-detail.label.multipleLocations": "Useita sijainteja"
 	}
 }

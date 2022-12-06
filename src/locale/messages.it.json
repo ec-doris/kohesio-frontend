@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisivo",
 		"translate.projectPage.tabs.map": "mappa",
 		"comp.message.warning.title": "Messaggio di avvertimento",
-		"comp.message.noTranslationAvailable": "Non c'è traduzione disponibile"
+		"comp.message.noTranslationAvailable": "Non c'è traduzione disponibile",
+		"page.project-detail.label.multipleLocations": "Più sedi"
 	}
 }

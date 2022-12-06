@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovizuální",
 		"translate.projectPage.tabs.map": "mapa",
 		"comp.message.warning.title": "Výstražná zpráva",
-		"comp.message.noTranslationAvailable": "Není k dispozici žádný překlad"
+		"comp.message.noTranslationAvailable": "Není k dispozici žádný překlad",
+		"page.project-detail.label.multipleLocations": "Více míst"
 	}
 }

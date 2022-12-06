@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisueel",
 		"translate.projectPage.tabs.map": "kaart",
 		"comp.message.warning.title": "Waarschuwingsbericht",
-		"comp.message.noTranslationAvailable": "Er is geen vertaling beschikbaar"
+		"comp.message.noTranslationAvailable": "Er is geen vertaling beschikbaar",
+		"page.project-detail.label.multipleLocations": "Meerdere locaties"
 	}
 }

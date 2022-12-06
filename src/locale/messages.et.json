@@ -286,6 +286,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisuaalne",
 		"translate.projectPage.tabs.map": "kaart",
 		"comp.message.warning.title": "Hoiatusteade",
-		"comp.message.noTranslationAvailable": "Tõlget ei ole saadaval"
+		"comp.message.noTranslationAvailable": "Tõlget ei ole saadaval",
+		"page.project-detail.label.multipleLocations": "Mitu asukohta"
 	}
 }

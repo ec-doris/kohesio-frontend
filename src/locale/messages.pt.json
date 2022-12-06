@@ -288,6 +288,7 @@
 		"page.services.datasetVisualisations": "Os conjuntos de dados e as visualizações sobre as realizações dos projetos da política de coesão da UE agregados a nível de programa, nacional e de fundos são também partilhados através da plataforma de dados abertos {$START_LINK} {$CLOSE_LINK}.",
 		"translate.sections.Temas": "temas",
 		"comp.message.warning.title": "Mensagem de aviso",
-		"comp.message.noTranslationAvailable": "Não há tradução disponível"
+		"comp.message.noTranslationAvailable": "Não há tradução disponível",
+		"page.project-detail.label.multipleLocations": "Vários locais"
 	}
 }

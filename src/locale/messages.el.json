@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "οπτικοακουστικό υλικό",
 		"translate.projectPage.tabs.map": "χάρτης",
 		"comp.message.warning.title": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ μηνυμα",
-		"comp.message.noTranslationAvailable": ""
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Πολλαπλές τοποθεσίες"
 	}
 }

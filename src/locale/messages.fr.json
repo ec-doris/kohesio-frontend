@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovisuel",
 		"translate.projectPage.tabs.map": "carte",
 		"comp.message.warning.title": "Message d’avertissement",
-		"comp.message.noTranslationAvailable": ""
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Emplacements multiples"
 	}
 }

@@ -230,6 +230,7 @@
 		"page.projects.placeholder.programme": "Ország kiválasztása",
 		"page.beneficiaries.button.filters": "Szűrők",
 		"comp.message.warning.title": "Figyelmeztető üzenet",
-		"comp.message.noTranslationAvailable": "Fordítás nem áll rendelkezésre"
+		"comp.message.noTranslationAvailable": "Fordítás nem áll rendelkezésre",
+		"page.project-detail.label.multipleLocations": "Több helyszín"
 	}
 }

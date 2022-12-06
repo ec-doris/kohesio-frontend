@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "audiovizualinis",
 		"translate.projectPage.tabs.map": "žemėlapis",
 		"comp.message.warning.title": "Įspėjamasis pranešimas",
-		"comp.message.noTranslationAvailable": "Vertimo nėra"
+		"comp.message.noTranslationAvailable": "Vertimo nėra",
+		"page.project-detail.label.multipleLocations": "Kelios vietos"
 	}
 }

@@ -285,6 +285,7 @@
 		"translate.projectPage.tabs.audiovisual": "av",
 		"translate.projectPage.tabs.map": "kort",
 		"comp.message.warning.title": "Advarselsmeddelelse",
-		"comp.message.noTranslationAvailable": ""
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Flere lokationer"
 	}
 }
