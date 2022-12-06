@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "onglet",
 		"translate.projectPage.tabs.results": "résultats",
 		"translate.projectPage.tabs.audiovisual": "audiovisuel",
-		"translate.projectPage.tabs.map": "carte"
+		"translate.projectPage.tabs.map": "carte",
+		"comp.message.warning.title": "Message d’avertissement",
+		"comp.message.noTranslationAvailable": ""
 	}
 }

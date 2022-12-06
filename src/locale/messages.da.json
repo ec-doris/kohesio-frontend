@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "faneblad",
 		"translate.projectPage.tabs.results": "resultater",
 		"translate.projectPage.tabs.audiovisual": "av",
-		"translate.projectPage.tabs.map": "kort"
+		"translate.projectPage.tabs.map": "kort",
+		"comp.message.warning.title": "Advarselsmeddelelse",
+		"comp.message.noTranslationAvailable": ""
 	}
 }

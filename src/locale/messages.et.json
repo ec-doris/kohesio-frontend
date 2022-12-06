@@ -284,6 +284,8 @@
 		"translate.queryParams.tab": "vahekaart",
 		"translate.projectPage.tabs.results": "tulemused",
 		"translate.projectPage.tabs.audiovisual": "audiovisuaalne",
-		"translate.projectPage.tabs.map": "kaart"
+		"translate.projectPage.tabs.map": "kaart",
+		"comp.message.warning.title": "Hoiatusteade",
+		"comp.message.noTranslationAvailable": "Tõlget ei ole saadaval"
 	}
 }

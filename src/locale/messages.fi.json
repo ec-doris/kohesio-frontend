@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "valilehti",
 		"translate.projectPage.tabs.results": "tulokset",
 		"translate.projectPage.tabs.audiovisual": "audiovisuaalinenAineisto",
-		"translate.projectPage.tabs.map": "kartta"
+		"translate.projectPage.tabs.map": "kartta",
+		"comp.message.warning.title": "Varoitusviesti",
+		"comp.message.noTranslationAvailable": "Käännöstä ei ole saatavilla"
 	}
 }

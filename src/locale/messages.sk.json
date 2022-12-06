@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "zalozka",
 		"translate.projectPage.tabs.results": "vysledky",
 		"translate.projectPage.tabs.audiovisual": "audiovizualnySektor",
-		"translate.projectPage.tabs.map": "mapa"
+		"translate.projectPage.tabs.map": "mapa",
+		"comp.message.warning.title": "Varovná správa",
+		"comp.message.noTranslationAvailable": ""
 	}
 }

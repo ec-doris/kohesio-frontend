@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "tab",
 		"translate.projectPage.tabs.results": "riżultati",
 		"translate.projectPage.tabs.audiovisual": "awdjoviżiv",
-		"translate.projectPage.tabs.map": "mappa"
+		"translate.projectPage.tabs.map": "mappa",
+		"comp.message.warning.title": "Messaġġ ta’ twissija",
+		"comp.message.noTranslationAvailable": "M’hemm l-ebda traduzzjoni disponibbli"
 	}
 }

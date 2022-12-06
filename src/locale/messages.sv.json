@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "flik",
 		"translate.projectPage.tabs.results": "träffar",
 		"translate.projectPage.tabs.audiovisual": "audiovisuell",
-		"translate.projectPage.tabs.map": "karta"
+		"translate.projectPage.tabs.map": "karta",
+		"comp.message.warning.title": "Varningsmeddelande",
+		"comp.message.noTranslationAvailable": "Det finns ingen översättning tillgänglig"
 	}
 }

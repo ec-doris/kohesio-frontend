@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "zakładka",
 		"translate.projectPage.tabs.results": "wyniki",
 		"translate.projectPage.tabs.audiovisual": "audiowizualne",
-		"translate.projectPage.tabs.map": "mapa"
+		"translate.projectPage.tabs.map": "mapa",
+		"comp.message.warning.title": "Komunikat ostrzegawczy",
+		"comp.message.noTranslationAvailable": "Nie ma dostępnych tłumaczeń"
 	}
 }

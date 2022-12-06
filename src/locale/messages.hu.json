@@ -228,6 +228,8 @@
 		"translate.routes.map": "map",
 		"comp.paginator.of": "/",
 		"page.projects.placeholder.programme": "Ország kiválasztása",
-		"page.beneficiaries.button.filters": "Szűrők"
+		"page.beneficiaries.button.filters": "Szűrők",
+		"comp.message.warning.title": "Figyelmeztető üzenet",
+		"comp.message.noTranslationAvailable": "Fordítás nem áll rendelkezésre"
 	}
 }

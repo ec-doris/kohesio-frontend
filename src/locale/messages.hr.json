@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "kartica",
 		"translate.projectPage.tabs.results": "rezultati",
 		"translate.projectPage.tabs.audiovisual": "audiovizualno",
-		"translate.projectPage.tabs.map": "karta"
+		"translate.projectPage.tabs.map": "karta",
+		"comp.message.warning.title": "Poruka upozorenja",
+		"comp.message.noTranslationAvailable": ""
 	}
 }

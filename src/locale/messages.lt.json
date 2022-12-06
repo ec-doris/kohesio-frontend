@@ -283,6 +283,8 @@
 		"translate.queryParams.tab": "kortelė",
 		"translate.projectPage.tabs.results": "rezultatai",
 		"translate.projectPage.tabs.audiovisual": "audiovizualinis",
-		"translate.projectPage.tabs.map": "žemėlapis"
+		"translate.projectPage.tabs.map": "žemėlapis",
+		"comp.message.warning.title": "Įspėjamasis pranešimas",
+		"comp.message.noTranslationAvailable": "Vertimo nėra"
 	}
 }
