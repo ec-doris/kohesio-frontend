@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "pestaña",
 		"translate.projectPage.tabs.results": "resultados",
 		"translate.projectPage.tabs.audiovisual": "audiovisual",
-		"translate.projectPage.tabs.map": "mapa"
+		"translate.projectPage.tabs.map": "mapa",
+		"comp.message.warning.title": "Mensaje de advertencia",
+		"comp.message.noTranslationAvailable": "No hay traducción disponible",
+		"page.project-detail.label.multipleLocations": "Múltiples ubicaciones"
 	}
 }

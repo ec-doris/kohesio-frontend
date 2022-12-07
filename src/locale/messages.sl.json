@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "zavihek",
 		"translate.projectPage.tabs.results": "rezultati",
 		"translate.projectPage.tabs.audiovisual": "avdiovizualno",
-		"translate.projectPage.tabs.map": "zemljevid"
+		"translate.projectPage.tabs.map": "zemljevid",
+		"comp.message.warning.title": "Opozorilno sporočilo",
+		"comp.message.noTranslationAvailable": "Prevod ni na voljo",
+		"page.project-detail.label.multipleLocations": "Več lokacij"
 	}
 }

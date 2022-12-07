@@ -77,7 +77,7 @@ export class ProjectDetail implements Deserializable{
             programWebsite: input.programWebsite,
             programmingPeriodLabel: input.programmingPeriodLabel,
             region: this.getRegion(input),
-            regionText: input.regionText,
+            regionText: this.getRegionText(input),
             geoJson: input.geoJson ? this.parseJSON(input.geoJson) : null,
             infoRegioUrl: input.infoRegioUrl,
             keepUrl: input.keepUrl,
@@ -87,6 +87,15 @@ export class ProjectDetail implements Deserializable{
             program: input.program,
             fundWebsite: input.fundWebsite
         });
+    }
+
+    getRegionText(input:any){
+      if (input.countryCode.length > 1){
+        const multipleLocation = $localize`:@@page.project-detail.label.multipleLocations:Multiple locations`
+        return multipleLocation + ", " + input.countryLabel.join(", ");
+      }else{
+        return input.regionText;
+      }
     }
 
     parseJSON(json: any){

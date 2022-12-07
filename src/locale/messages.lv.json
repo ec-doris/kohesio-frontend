@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "cilne",
 		"translate.projectPage.tabs.results": "rezultāti",
 		"translate.projectPage.tabs.audiovisual": "audiovizuāls",
-		"translate.projectPage.tabs.map": "karte"
+		"translate.projectPage.tabs.map": "karte",
+		"comp.message.warning.title": "Brīdinājuma ziņojums",
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Vairākas atrašanās vietas"
 	}
 }

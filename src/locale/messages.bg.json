@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "раздел",
 		"translate.projectPage.tabs.results": "резултати",
 		"translate.projectPage.tabs.audiovisual": "аудио-визуални",
-		"translate.projectPage.tabs.map": "карта"
+		"translate.projectPage.tabs.map": "карта",
+		"comp.message.warning.title": "Предупредително съобщение",
+		"comp.message.noTranslationAvailable": "Преводът не е наличен",
+		"page.project-detail.label.multipleLocations": "Множество местоположения"
 	}
 }

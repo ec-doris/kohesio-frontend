@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "καρτέλα",
 		"translate.projectPage.tabs.results": "αποτελέσματα",
 		"translate.projectPage.tabs.audiovisual": "οπτικοακουστικό υλικό",
-		"translate.projectPage.tabs.map": "χάρτης"
+		"translate.projectPage.tabs.map": "χάρτης",
+		"comp.message.warning.title": "ΠΡΟΕΙΔΟΠΟΙΗΣΗ μηνυμα",
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Πολλαπλές τοποθεσίες"
 	}
 }

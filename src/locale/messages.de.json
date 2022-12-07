@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "registerkarte",
 		"translate.projectPage.tabs.results": "ergebnisse",
 		"translate.projectPage.tabs.audiovisual": "audiovisuell",
-		"translate.projectPage.tabs.map": "karte"
+		"translate.projectPage.tabs.map": "karte",
+		"comp.message.warning.title": "Warnmeldung",
+		"comp.message.noTranslationAvailable": "Es gibt keine Übersetzung",
+		"page.project-detail.label.multipleLocations": "Mehrere Standorte"
 	}
 }

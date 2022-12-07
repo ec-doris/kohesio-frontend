@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "tab",
 		"translate.projectPage.tabs.results": "rezultate",
 		"translate.projectPage.tabs.audiovisual": "audiovizual",
-		"translate.projectPage.tabs.map": "hartă"
+		"translate.projectPage.tabs.map": "hartă",
+		"comp.message.warning.title": "Mesaj de avertizare",
+		"comp.message.noTranslationAvailable": "Nu există traducere disponibilă",
+		"page.project-detail.label.multipleLocations": "Locații multiple"
 	}
 }

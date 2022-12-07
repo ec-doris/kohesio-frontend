@@ -283,6 +283,9 @@
 		"translate.queryParams.tab": "táb",
 		"translate.projectPage.tabs.results": "torthaí",
 		"translate.projectPage.tabs.audiovisual": "closamhairc",
-		"translate.projectPage.tabs.map": "léarscáil"
+		"translate.projectPage.tabs.map": "léarscáil",
+		"comp.message.warning.title": "Teachtaireacht rabhaidh",
+		"comp.message.noTranslationAvailable": "",
+		"page.project-detail.label.multipleLocations": "Níos mó ná suíomh amháin"
 	}
 }
