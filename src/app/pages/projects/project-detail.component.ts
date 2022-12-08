@@ -7,6 +7,7 @@ import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
+import {TranslateService} from "../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -35,7 +36,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private projectService: ProjectService,
                 private route: ActivatedRoute,
                 private router: Router,
-                private sanitizer: DomSanitizer){}
+                private sanitizer: DomSanitizer,
+                public translateService: TranslateService){}
 
     ngOnInit(){
         if (!this.project) {
@@ -61,6 +63,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         }else{
             this.map.addCountryLayer(this.project.countryLabel);
         }
+        (<any>window).twttr.widgets.load();
     }
 
     openWiki(event: any){
@@ -118,25 +121,32 @@ export class ProjectDetailComponent implements AfterViewInit {
       }
     }
 
+    getTweetHTML(tweet: string) {
+      return `<blockquote data-lang="${this.translateService.locale}" class="twitter-tweet"><a href="${tweet}"></a></blockquote>`;
+    }
+
     getThemeURL(item: string): Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        theme:item.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.theme]:item.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 
     getInterventionFieldURL(item:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        interventionField:item.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.interventionField]:item.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 
     getProgramURL(countryLabel:string, programmeLabel:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        country: countryLabel,
-        program: programmeLabel.split(' ').join('-'),
-        sort: "Total-Budget-(descending)"
+        [this.translateService.queryParams.country]: countryLabel,
+        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
       };
     }
 }

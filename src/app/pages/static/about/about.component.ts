@@ -1,4 +1,5 @@
 import {AfterViewInit, Component} from '@angular/core';
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './about.component.html',
@@ -7,7 +8,7 @@ import {AfterViewInit, Component} from '@angular/core';
 export class AboutComponent implements AfterViewInit {
 
 
-    constructor(){}
+    constructor(public translateService: TranslateService){}
 
     ngOnInit(){
     }

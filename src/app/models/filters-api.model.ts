@@ -22,7 +22,7 @@ export class FiltersApi implements Deserializable{
     public beneficiaryType: any[] | undefined;
     public interreg:any[] | undefined;
 
-    protected static SInit = (() => {
+  protected static SInit = (() => {
         FiltersApi.prototype.programmingPeriods = [{
             id: '2014-2020',
             value: '2014 - 2020',
@@ -59,58 +59,58 @@ export class FiltersApi implements Deserializable{
         FiltersApi.prototype.sort = [
         {
             id: null,
-            value: 'Relevance'
+            value: $localize`:@@translate.filter.sortProjects.relevance:Relevance`
         },{
             id: 'orderStartDate-true',
-            value: 'Start Date (ascending)'
+            value: $localize`:@@translate.filter.sortProjects.orderStartDateAsc:Start Date (ascending)`
         },{
             id: 'orderStartDate-false',
-            value: 'Start Date (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderStartDateDesc:Start Date (descending)`
         },{
            id: 'orderEndDate-true',
-           value: 'End Date (ascending)'
+           value: $localize`:@@translate.filter.sortProjects.orderEndDateAsc:End Date (ascending)`
         },{
             id: 'orderEndDate-false',
-            value: 'End Date (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderEndDateDesc:End Date (descending)`
         },{
             id: 'orderTotalBudget-true',
-            value: 'Total Budget (ascending)'
+            value: $localize`:@@translate.filter.sortProjects.orderTotalBudgetAsc:Total Budget (ascending)`
         },{
             id: 'orderTotalBudget-false',
-            value: 'Total Budget (descending)'
+            value: $localize`:@@translate.filter.sortProjects.orderTotalBudgetDesc:Total Budget (descending)`
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
             id: 'orderNumProjects-true',
-            value: 'Number of Projects (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.numProjectsAsc:Number of Projects (ascending)`
         },{
             id: 'orderNumProjects-false',
-            value: 'Number of Projects (descending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.numProjectsDesc:Number of Projects (descending)`
         },{
             id: 'orderEuBudget-true',
-            value: 'EU Contribution (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.euContributionAsc:EU Contribution (ascending)`
         },{
           id: 'orderEuBudget-false',
-            value: 'EU Contribution (descending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.euContributionDesc:EU Contribution (descending)`
         },{
             id: 'orderTotalBudget-true',
-            value: 'Total Budget (ascending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.totalBudgetAsc:Total Budget (ascending)`
         },{
             id: null,
-            value: 'Total Budget (descending)'
+            value: $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`
         }];
         FiltersApi.prototype.beneficiaryType = [{
             id: 'public',
-            value: 'Public',
+            value: $localize`:@@translate.filter.beneficiaryType.public:Public`,
         },{
             id: 'private',
-            value: 'Private',
+            value: $localize`:@@translate.filter.beneficiaryType.private:Private`,
         }];
         FiltersApi.prototype.interreg = [{
           id: 'true',
-          value: 'Interreg',
+          value: $localize`:@@translate.filter.interreg.interreg:Interreg`
         },{
           id: 'false',
-          value: 'Investment in Growth and Jobs',
+          value: $localize`:@@translate.filter.interreg.investGrowthJobs:Investment in Growth and Jobs`
         }];
     })();
 
@@ -172,8 +172,8 @@ export class FiltersApi implements Deserializable{
         nuts3.forEach((n3:any)=>{
           list.push({
             id:n3.id,
-            label: n3.value.length > 100 ?
-              n3.value.substring(0,100) + '...' : n3.value,
+            label:(n3.value.length > 100 ?
+              n3.value.substring(0,100) + '...' : n3.value),
             shortValue: n3.value
           })
         })

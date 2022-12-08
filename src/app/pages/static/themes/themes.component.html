@@ -23,10 +23,9 @@
                     <span class="icon">
                         <img [src]="'assets/images/topics/'+theme.id+'.png'" width="25px">
                     </span>
-                    <a [routerLink]="['/projects']" 
-                    [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}"
-                    class="ecl-card__title theme-title"
-                    title="Research & Innovation">
+                    <a [routerLink]="['/'+translateService.routes.projects]"
+                    [queryParams]="getQueryParams(theme)"
+                    class="ecl-card__title theme-title">
                     {{ theme.instanceLabel }}
                     </a>
                 </div>
@@ -50,9 +49,9 @@
                         <span class="icon">
                             <img [src]="'assets/images/topics/'+theme.id+'.png'" width="25px">
                         </span>
-                        <a [routerLink]="['/projects']" 
-                        [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" 
-                        class="title" 
+                        <a [routerLink]="['/projects']"
+                        [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}"
+                        class="title"
                         title="Research & Innovation">{{ theme.instanceLabel }}</a>
                     </div>
                 </div>

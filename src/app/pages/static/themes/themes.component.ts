@@ -1,6 +1,7 @@
 import {AfterViewInit, Component} from '@angular/core';
 import { Theme } from 'src/app/models/theme.model';
 import { ThemeService } from 'src/app/services/theme.service';
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './themes.component.html',
@@ -22,10 +23,12 @@ export class ThemesComponent implements AfterViewInit {
         TO09 : "yellow",
         TO10 : "yellow",
         TO11 : "yellow",
-        TO12 : "grey"
+        TO12 : "grey",
+        TO13 : "grey"
     }
 
-    constructor(private themeService: ThemeService){}
+    constructor(private themeService: ThemeService,
+                public translateService: TranslateService){}
 
     ngOnInit(){
         this.themeService.getThemes().subscribe((response) => {
@@ -36,6 +39,14 @@ export class ThemesComponent implements AfterViewInit {
                 this.themes = themes;
             }
         })
+    }
+
+    getQueryParams(theme: Theme):any{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
+      return {
+        [this.translateService.queryParams.theme]: theme.instanceLabel.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
+      }
     }
 
     ngAfterViewInit(): void {

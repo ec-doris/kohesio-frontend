@@ -17,11 +17,14 @@ export class AppComponent {
   lastPage:string = "";
   url: string;
 
+  //country = $localize`:@@page.projects.label.country:COUNTRY`;
+
   constructor(public router:Router,
               @Inject(LOCALE_ID) public locale: string,
               public actRoute: ActivatedRoute,
               public location: Location){
     console.log("LOCALE=",locale);
+    //console.log("LOCALE COUNTRY=",this.country);
     this.url = location.path();
   }
 

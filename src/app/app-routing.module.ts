@@ -17,19 +17,19 @@ const routes: Routes = [
         component: HomePageComponent,
         pathMatch: 'full',
       },{
-        path: 'about',
+        path: $localize`:@@translate.routes.about:about`,
         component: AboutComponent,
         pathMatch: 'full',
       },{
-        path: 'privacy',
+        path: $localize`:@@translate.routes.privacy:privacy`,
         component: PrivacyPageComponent,
         pathMatch: 'full'
       },{
-        path: 'services',
+        path: $localize`:@@translate.routes.services:services`,
         component: ServicesPageComponent,
         pathMatch: 'full'
       },{
-        path: 'themes',
+        path: $localize`:@@translate.routes.themes:themes`,
         component: ThemesComponent,
         pathMatch: 'full',
       },{
@@ -37,24 +37,24 @@ const routes: Routes = [
         component: CookieComponent,
         pathMatch: 'full',
       },{
-        path: 'faq',
+        path: $localize`:@@translate.routes.faq:faq`,
         component: FaqPageComponent,
         pathMatch: 'full',
       },{
-        path: 'map',
+        path: $localize`:@@translate.routes.map:map`,
         component: MapPageComponent,
         pathMatch: 'full',
         resolve: {
           filters: MapPageResolve
         }
       },{
-        path: 'projects',
-        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule),
+        path: $localize`:@@translate.routes.projects:projects`,
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule)
       },{
-        path: 'beneficiaries',
+        path: $localize`:@@translate.routes.beneficiaries:beneficiaries`,
         loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule)
       },{
-        path: 'search',
+        path: $localize`:@@translate.routes.search:search`,
         loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule)
       },{
         path: '404',

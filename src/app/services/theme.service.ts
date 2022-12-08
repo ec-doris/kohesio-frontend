@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
@@ -11,12 +11,14 @@ import { environment } from 'src/environments/environment';
 })
 export class ThemeService {
 
-    constructor(private http: HttpClient) {
-    }
+    constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {}
 
     getThemes(): Observable<Theme[]> {
         const url = environment.apiBaseUrl + '/thematic_objectives';
-        return this.http.get<any>(url).pipe(
+        let params = {
+          language: this.locale
+        };
+        return this.http.get<any>(url,{ params: <any>params }).pipe(
           map((data:any[]) => {
             return data.map((theme:any) => {
               return new Theme().deserialize(theme);
@@ -26,7 +28,10 @@ export class ThemeService {
 
     getPolicyObjectives(): Observable<PolicyObjective[]> {
       const url = environment.apiBaseUrl + '/policy_objectives';
-      return this.http.get<any>(url).pipe(
+      let params = {
+        language: this.locale
+      };
+      return this.http.get<any>(url,{ params: <any>params }).pipe(
         map((data:any[]) => {
           return data.map((policyObjective:any) => {
             return new PolicyObjective().deserialize(policyObjective);

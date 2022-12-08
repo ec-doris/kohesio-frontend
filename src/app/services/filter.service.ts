@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, of} from 'rxjs';
@@ -14,7 +14,7 @@ export class FilterService {
     public filters:any;
     private countryGeoJson: any;
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
 
     getProjectsFilters(): Observable<FiltersApi>{
@@ -63,8 +63,11 @@ export class FilterService {
         );
     }
 
-    getFilter(type: any, params = {}):Observable<any>{
+    getFilter(type: any, params:any = {}):Observable<any>{
         const url = environment.apiBaseUrl + '/' + type;
+        if (!params || !params.language) {
+          params.language = this.locale;
+        }
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(results => {
                 const data:any = {};
@@ -168,8 +171,10 @@ export class FilterService {
     getRegions(country: string): Observable<any[]>{
         const urlRegions = environment.apiBaseUrl + '/regions';
         let params = {
+            language: this.locale,
             country: 'https://linkedopendata.eu/entity/' + country
         };
+
         return this.http.get<any>(urlRegions,{ params: <any>params }).pipe(
             map(data => {
                 if (!data){

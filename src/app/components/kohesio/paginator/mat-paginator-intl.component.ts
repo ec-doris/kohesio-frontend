@@ -5,13 +5,15 @@ import { DecimalPipe } from '@angular/common';
 @Injectable()
 export class MatPaginatorKohesio extends MatPaginatorIntl {
 
+    private ofLabel: string = $localize`:@@comp.paginator.of:of`;
+
     constructor(public number: DecimalPipe){
         super();
     }
 
     override getRangeLabel =  (page:any, pageSize:any, length:any) => {
         if (length === 0 || pageSize === 0) {
-            return '0 of ' + length;
+            return '0 '+this.ofLabel + ' ' + length;
         }
         length = Math.max(length, 0);
         const startIndex = page * pageSize;
@@ -22,7 +24,7 @@ export class MatPaginatorKohesio extends MatPaginatorIntl {
 
         length = this.number.transform(length, '1.0-3','fr');
 
-        return startIndex + 1 + ' - ' + endIndex + ' of ' + length;
+        return startIndex + 1 + ' - ' + endIndex + ' '+this.ofLabel+' ' + length;
     };
 
 }

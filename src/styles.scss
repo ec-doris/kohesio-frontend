@@ -45,6 +45,9 @@ mat-tab-body{
 .ecl-page-header-harmonised__breadcrumb{
   margin-bottom:0 !important;
 }
+.ecl-language-list--overlay{
+  z-index: 2000 !important;
+}
 .muted-text {
   color: gray;
 }

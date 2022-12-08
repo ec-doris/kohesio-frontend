@@ -12,6 +12,7 @@ import { Subject } from 'rxjs';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
+import {TranslateService} from "../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -45,7 +46,8 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
                 private beneficiaryService: BeneficiaryService,
                 private route: ActivatedRoute,
                 private router: Router,
-                breakpointObserver: BreakpointObserver){
+                breakpointObserver: BreakpointObserver,
+                public translateService: TranslateService){
 
                     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 

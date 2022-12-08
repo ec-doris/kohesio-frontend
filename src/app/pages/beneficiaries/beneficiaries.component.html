@@ -141,7 +141,7 @@
 
 <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
-        <span class="ecl-button__label" data-ecl-label="true">Filters</span>
+        <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.beneficiaries.button.filters">Filters</span>
         <svg *ngIf="!sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
@@ -246,7 +246,7 @@
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
                     <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
-                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
+                        <a class="ecl-link ecl-link--standalone" [routerLink]="['/'+translateService.routes.beneficiaries+'/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>
                 </mat-cell>
             </ng-container>

@@ -5,7 +5,7 @@ import {
   ChangeDetectorRef,
   ComponentFactoryResolver,
   Injector,
-  ViewChild
+  ViewChild, Inject, LOCALE_ID
 } from '@angular/core';
 import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
@@ -36,54 +36,14 @@ export class MapComponent implements AfterViewInit {
     public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
     public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
     public europe = {
-        label: "Europe",
+        label: $localize`:@@comp.map.europe:Europe`,
         region: undefined,
         bounds: this.europeBounds
     };
     public mapRegions:any = [];
     public isLoading = true;
     public dataRetrieved = false;
-    public outermostRegions = [{
-        label: "Madeira",
-        country: "Q18",
-        countryLabel: "Portugal",
-        id: "Q203"
-    },{
-        label: "Azores",
-        country: "Q18",
-        countryLabel: "Portugal",
-        id: "Q204"
-    },{
-        label: "Canary Islands",
-        country: "Q7",
-        countryLabel: "Spain",
-        id: "Q205"
-    },{
-        label: "Réunion",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q206"
-    },{
-        label: "French Guiana",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q201"
-    },{
-        label: "Guadeloupe Saint Martin",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q2576740"
-    },{
-        label: "Martinique",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q198"
-    },{
-        label: "Mayotte",
-        country: "Q20",
-        countryLabel: "France",
-        id: "Q209"
-    }];
+    public outermostRegions = [];
     // Format L.latLngBounds = southWest, northEast
     public overrideBounds = [{
         id: 'Q20',
@@ -122,14 +82,16 @@ export class MapComponent implements AfterViewInit {
 
     @ViewChild(MapMessageBoxComponent) public uiMessageBoxHelper!: MapMessageBoxComponent;
 
+    public toggleDisclaimer:boolean = false;
+
     constructor(private mapService: MapService,
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
                 private resolver: ComponentFactoryResolver,
                 private injector: Injector,
                 private sanitizer: DomSanitizer,
-                breakpointObserver: BreakpointObserver
-                ) {
+                breakpointObserver: BreakpointObserver,
+                @Inject(LOCALE_ID) public locale: string) {
 
         this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
@@ -147,6 +109,10 @@ export class MapComponent implements AfterViewInit {
         if(this.mobileQuery){
             this.europe.bounds = this.europeBoundsMobile;
         }
+
+        this.mapService.getOutermostRegions().subscribe(data=>{
+          this.outermostRegions = data;
+        })
 
         //this.createLogScale();
     }
@@ -200,11 +166,7 @@ export class MapComponent implements AfterViewInit {
                 //tap: !L.Browser.mobile
                 gestureHandling: true
             }).setView([48, 4], 4);
-        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4CompositeEN/EPSG3857/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors ' +
-                '| &copy; <a href="https://ec.europa.eu/eurostat/web/gisco">GISCO</a>' +
-                '| &copy; <a href="https://www.maxmind.com/en/home">MaxMind</a>'
-        });
+        const tiles = L.tileLayer('https://gisco-services.ec.europa.eu/maps/tiles/OSMCartoV4Composite'+this.locale.toUpperCase()+'/EPSG3857/{z}/{x}/{y}.png');
 
 
         // Normal Open Street Map Tile Layer
@@ -353,12 +315,14 @@ export class MapComponent implements AfterViewInit {
             style: style
         }).addTo(this.map);
         if (layerGeoJson.features[0].properties && layerGeoJson.features[0].properties.count) {
-            const html = "<div class='regionWrapper'>" +
-                "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
-                "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
-                (layerGeoJson.features[0].properties.count > 0 ? "projects" : "project") + "</div>" +
-                "</div>";
-            l.bindTooltip(html, {permanent: false, direction: "center", sticky: true})
+          const projectLabel = $localize`:@@comp.map.project:project`;
+          const projectsLabel = $localize`:@@comp.map.projects:projects`;
+          const html = "<div class='regionWrapper'>" +
+              "<div class='regionName'>" + layerGeoJson.features[0].properties.regionLabel + "</div>" +
+              "<div class='regionCount'>" + this._decimalPipe.transform(layerGeoJson.features[0].properties.count, "1.0-3", "fr") + " " +
+              (layerGeoJson.features[0].properties.count > 0 ? projectsLabel : projectLabel) + "</div>" +
+              "</div>";
+          l.bindTooltip(html, {permanent: false, direction: "center", sticky: true})
         }
         this.layers.push(l);
     }

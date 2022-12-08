@@ -1,11 +1,11 @@
 <!--<h1 class="ecl-page-header-harmonised__title">Home</h1>-->
 <app-ecl-carousel></app-ecl-carousel>
-<div id="my-region">
-    
+<div [id]="translateService.sections.myregion">
+
     <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
     <app-map></app-map>
 </div>
-<section id="themes">
+<section [id]="translateService.sections.themes">
   <h2 class="ecl-u-type-heading-2" style="margin-top:0;margin-bottom:1rem;" i18n="@@page.home.themes">THEMES</h2>
   <div class="ecl-container">
     <div class="ecl-row" style="padding-top:0;">
@@ -13,7 +13,7 @@
             <div class="row">
                 <div class="ecl-col-12 themes-main ecl-u-pa-none">
                     <article class="ecl-card main-theme">
-                        <button [routerLink]="['/themes']" class="ecl-button ecl-button--call" type="button">
+                        <button [routerLink]="['/'+translateService.routes.themes]" class="ecl-button ecl-button--call" type="button">
                             <span class="ecl-button__container">
                                 <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.home.exploreMore">Explore more</span>
                                 <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
@@ -22,18 +22,16 @@
                             </span>
                         </button>
                         <h1 class="ecl-card__title" style="color: white;">
-                            <a [routerLink]="['/projects']" [queryParams]="{policyObjective: policyObjective.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="themes-title">
+                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="{policyObjective: policyObjective.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="themes-title">
                                 {{policyObjective.instanceLabel}}
                             </a>
                         </h1>
-                        <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}} 
-                            <ng-container i18n="@@page.home.project">
-                                {stats?.themes?.greenerAndCarbonFreeEurope, plural, =1 {project} other {projects}}
-                            </ng-container> 
+                        <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}}
+                            <ng-container i18n="@@page.home.project">{stats?.themes?.greenerAndCarbonFreeEurope, plural, =1 {project} other {projects}}</ng-container>
                         </div>
                     </article>
                 </div>
-            </div> 
+            </div>
             <div class="ecl-row themes-row">
                 <div class="ecl-col-l-12">
                     <div class="ecl-row">
@@ -41,28 +39,22 @@
                             <article class="ecl-card theme-card">
                                 <div class="ecl-card__body theme-body">
                                     <h1 class="ecl-card__title">
-                                        <a [routerLink]="['/projects']" [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                        <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
                                             {{theme.instanceLabel}}
                                         </a>
-                                    </h1>                     
+                                    </h1>
                                     <div class="ecl-card__info-container number">
                                         <ng-container *ngIf="theme.id=='TO04'" >
                                             {{stats?.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}}
-                                            <ng-container i18n="@@page.home.project">
-                                                {stats?.themes?.lowCarbonEconomy, plural, =1 {project} other {projects}}
-                                            </ng-container> 
+                                            <ng-container i18n="@@page.home.project">{stats?.themes?.lowCarbonEconomy, plural, =1 {project} other {projects}}</ng-container>
                                         </ng-container>
                                         <ng-container *ngIf="theme.id=='TO05'">
                                             {{stats?.themes?.climateChangeAdaptation | number:'1.0-3':'fr'}}
-                                            <ng-container i18n="@@page.home.project">
-                                                {stats?.themes?.climateChangeAdaptation, plural, =1 {project} other {projects}}
-                                            </ng-container>
+                                            <ng-container i18n="@@page.home.project">{stats?.themes?.climateChangeAdaptation, plural, =1 {project} other {projects}}</ng-container>
                                         </ng-container>
                                         <ng-container *ngIf="theme.id=='TO06'">
                                             {{stats?.themes?.enviromentProtection | number:'1.0-3':'fr'}}
-                                            <ng-container i18n="@@page.home.project">
-                                                {stats?.themes?.enviromentProtection, plural, =1 {project} other {projects}}
-                                            </ng-container> 
+                                            <ng-container i18n="@@page.home.project">{stats?.themes?.enviromentProtection, plural, =1 {project} other {projects}}</ng-container>
                                         </ng-container>
                                         <hr>
                                     </div>

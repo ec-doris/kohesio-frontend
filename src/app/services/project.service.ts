@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, throwError} from 'rxjs';
@@ -13,7 +13,7 @@ import {ProjectList} from "../models/project-list.model";
 })
 export class ProjectService {
 
-    constructor(private http: HttpClient) {
+    constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
     }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
@@ -46,14 +46,16 @@ export class ProjectService {
         }
         params = Object.assign(
             params,
-            filters);
+            filters,
+          {language: this.locale});
         return params;
     }
 
     getProjectDetail(id: string | null): Observable<ProjectDetail> {
         const url = environment.apiBaseUrl + '/project';
         let params = {
-            id: environment.entityURL + id
+            id: environment.entityURL + id,
+            language: this.locale
         };
         return this.http.get<any>(url, { params: <any>params }).pipe(
             map((data:any) => {
@@ -73,7 +75,8 @@ export class ProjectService {
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.apiBaseUrl + "/search/project/" + type;
-        const params = filters.getProjectsFilters();
+        const params:any = filters.getProjectsFilters();
+        params.language = this.locale;
         return this.http.get(url,{
             responseType: 'arraybuffer',
             params:<any>params
