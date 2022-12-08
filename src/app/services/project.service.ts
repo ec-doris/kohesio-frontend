@@ -75,7 +75,8 @@ export class ProjectService {
 
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.apiBaseUrl + "/search/project/" + type;
-        const params = filters.getProjectsFilters();
+        const params:any = filters.getProjectsFilters();
+        params.language = this.locale;
         return this.http.get(url,{
             responseType: 'arraybuffer',
             params:<any>params

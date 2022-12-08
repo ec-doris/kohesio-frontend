@@ -191,7 +191,12 @@
                         </ng-container>
                         <ng-container>
                             <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
+                                <ng-container *ngIf="project.themeIds.length == 1">
+                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
+                                </ng-container>
+                                <ng-container *ngIf="project.themeIds.length > 1">
+                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'">
+                                </ng-container>
                             </div>
                         </ng-container>
                         <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
