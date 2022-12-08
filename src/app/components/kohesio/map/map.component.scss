@@ -130,9 +130,11 @@
 }
 
 .map-outermost-regions-wrapper.withColumns{
-    column-count: 2;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
     .outermostRegion-wrapper{
         max-height: 120px;
+        max-width: 108px;
     }
 }
 
