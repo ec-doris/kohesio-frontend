@@ -90,11 +90,4 @@ export class HomePageComponent implements AfterViewInit {
     }
 
 
-    onFilter(){
-        if (this.filterValue && this.filterValue.trim() != "") {
-            this._router.navigate(['/projects'], { queryParams: { keywords: this.filterValue } });
-            this.filterValue = "";
-        }
-    }
-
 }
