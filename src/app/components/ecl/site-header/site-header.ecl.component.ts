@@ -16,8 +16,8 @@ export class SiteHeaderEclComponent implements AfterViewInit {
 
         this.router.events.subscribe(event => {
             if(event instanceof ActivationEnd) {
-                if (event.snapshot.queryParams['keywords'] && event.snapshot.data['pageId'] == "search"){
-                    this.searchkeywords =  event.snapshot.queryParams['keywords'];
+                if (event.snapshot.queryParams[translateService.queryParams.keywords] && event.snapshot.data['pageId'] == "search"){
+                    this.searchkeywords =  event.snapshot.queryParams[translateService.queryParams.keywords];
                 }
             }
         });
