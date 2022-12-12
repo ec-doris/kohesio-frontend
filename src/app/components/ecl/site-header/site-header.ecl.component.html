@@ -24,7 +24,7 @@
             <div class="ecl-form-group">
               <label for="search-input-id" class="ecl-form-label ecl-search-form__label" i18n="@@comp.header.label.search">Search</label>
               <input id="search-input-id" class="ecl-text-input ecl-text-input--m ecl-search-form__text-input"
-                name="keywords" type="search" [value]="searchkeywords"/>
+                [name]="translateService.queryParams.keywords" type="search" [value]="searchkeywords"/>
             </div>
             <button class="ecl-button ecl-button--search ecl-search-form__button" type="submit" aria-label="Search">
               <span class="ecl-button__container"><span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.header.label.search">Search</span>

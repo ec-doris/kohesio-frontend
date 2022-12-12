@@ -29,7 +29,7 @@ export class SearchPageComponent {
     }
 
     ngOnInit() {
-        this.keywords = this._route.snapshot.queryParamMap.get('keywords');
+        this.keywords = this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords);
         this.getGlobalResults();
     }
 
