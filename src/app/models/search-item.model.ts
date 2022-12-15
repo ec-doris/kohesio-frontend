@@ -98,11 +98,17 @@ export class SearchItem implements Deserializable{
     }
 
     get imageSrc():string{
-        if (this.image){
-            return this.image;
-        }else {
-            return "assets/images/cards/" + this.typeLabelTransform.toLowerCase() + ".jpg";
+      if (this.image){
+        return this.image;
+      }else {
+        let image="";
+        if (this.typeid == "Q9934"){
+          image = "project.jpg";
+        }else if(this.typeid == "Q196899"){
+          image = "beneficiary.jpg"
         }
+        return `assets/images/cards/${image}`
+      }
     }
 
 }
