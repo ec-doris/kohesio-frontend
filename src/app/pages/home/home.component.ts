@@ -97,5 +97,13 @@ export class HomePageComponent implements AfterViewInit {
       };
     }
 
+    getPolicyURL(policy:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
+      return {
+        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
+      };
+    }
+
 
 }

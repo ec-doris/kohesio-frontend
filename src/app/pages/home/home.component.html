@@ -22,7 +22,7 @@
                             </span>
                         </button>
                         <h1 class="ecl-card__title" style="color: white;">
-                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="{policyObjective: policyObjective.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="themes-title">
+                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getPolicyURL(policyObjective.instanceLabel)" class="themes-title">
                                 {{policyObjective.instanceLabel}}
                             </a>
                         </h1>
