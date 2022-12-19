@@ -22,7 +22,7 @@
                             </span>
                         </button>
                         <h1 class="ecl-card__title" style="color: white;">
-                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="{policyObjective: policyObjective.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="themes-title">
+                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getPolicyURL(policyObjective.instanceLabel)" class="themes-title">
                                 {{policyObjective.instanceLabel}}
                             </a>
                         </h1>
@@ -39,7 +39,7 @@
                             <article class="ecl-card theme-card">
                                 <div class="ecl-card__body theme-body">
                                     <h1 class="ecl-card__title">
-                                        <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="{theme: theme.instanceLabel.split(' ').join('-'), sort: 'Total-Budget-(descending)'}" class="ecl-link ecl-link--standalone">
+                                        <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getThemeURL(theme.instanceLabel)" class="ecl-link ecl-link--standalone">
                                             {{theme.instanceLabel}}
                                         </a>
                                     </h1>

@@ -1,7 +1,7 @@
 import {AfterViewInit, Component, ViewChild} from '@angular/core';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { DOCUMENT } from '@angular/common';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
 import { Renderer2, Inject } from '@angular/core';
 import { StatisticsService } from 'src/app/services/statistics.service';
 import { Filters } from 'src/app/models/filters.model';
@@ -87,6 +87,22 @@ export class HomePageComponent implements AfterViewInit {
         // setInterval((() => {
         //     this.index = (this.index === 2) ? 0 : this.index + 1;
         // }), 5000);
+    }
+
+    getThemeURL(theme:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
+      return {
+        [this.translateService.queryParams.theme]: theme.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
+      };
+    }
+
+    getPolicyURL(policy:string):Params{
+      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
+      return {
+        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
+        [this.translateService.queryParams.sort]: sort
+      };
     }
 
 
