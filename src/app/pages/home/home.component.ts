@@ -60,7 +60,7 @@ export class HomePageComponent implements AfterViewInit {
           this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
             height: "85vh",
-            maxWidth: "100%",
+            maxWidth: "1300px",
             maxHeight: "100%",
             data: {
               id: this._route.snapshot.queryParamMap.get('project')

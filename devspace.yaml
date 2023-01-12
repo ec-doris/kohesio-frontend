@@ -2,7 +2,7 @@ version: v1beta11
 
 vars:
   - name: APP_IMAGE
-    value: loftsh/javascript:latest
+    value: node:lts
 
 deployments:
   - name: kohesio-config
@@ -16,6 +16,7 @@ deployments:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            workingDir: /app
             command:
               - "/bin/sh"
             args:
@@ -46,7 +47,16 @@ dev:
 hooks:
   - command: |
       npm install
-      npm run devspace-start
     container:
       imageSelector: ${APP_IMAGE}
     events: ["after:initialSync:*"]
+
+commands:
+  - name: kohesio
+    description: Run the application on local
+    command: devspace enter -c node -- npm run devspace-start
+    appendArgs: true
+  - name: build-prod
+    description: Build prod to check if everything is good
+    command: devspace enter -c node -- npm run build-prod
+    appendArgs: true

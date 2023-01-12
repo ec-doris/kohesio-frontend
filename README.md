@@ -26,33 +26,45 @@ You can setup devspace in your local, the recipe is on devspace.yaml
 
 Pre-requirement:
 
-Docker Desktop: https://www.docker.com/products/docker-desktop/
+- [Rancher Desktop](https://rancherdesktop.io/)(recommended) or [Docker desktop](https://www.docker.com/products/docker-desktop/) + [K3d Cluster](https://k3d.io/)
+- [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+- [DevSpace CLI](https://www.devspace.sh/)
 
-devspace: https://devspace.sh/docs/getting-started/installation
-
-k3d: https://k3d.io/v5.4.4/#installation
-
-Create a new cluster, if you don’t have one already:
+Create a new cluster, if you don’t have one already (only for docker desktop version):
 
 ```sh
     k3d cluster create devspace
 ```
 
-Clone project in your local:
+1. Clone project in your local:
 
 ```sh
     git clone https://github.com/ec-doris/kohesio-frontend.git
 ```
 
-Create new namespace for your application:
-```sh
-    devspace use namespace drivein
+2. Create kohesio namespace
+```bash
+kubectl create ns kohesio
+```
+3. Create the certificate secret on kubernetes
+```bash
+kubectl create secret generic certificates-secret --from-file=tls.crt=./localhost.crt --from-file=tls.key=./localhost.key
 ```
 
-Start the devspace:
-```sh
-    devspace dev
+4. Add line into the /etc/hosts file (host machine)
+```bash
+127.0.0.1     kohesio.local.europa.eu
 ```
+
+5. After this you can go to the kohesio-frontend root directory and type:
+```bash
+devspace use namespace kohesio
+devspace dev
+```
+
+- Wait for devspace starts and setup everything for you
+
+6. Go to https://kohesio.local.europa.eu
 
 
 

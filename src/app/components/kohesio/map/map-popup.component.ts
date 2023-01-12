@@ -22,7 +22,7 @@ export class MapPopupComponent {
         this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
             height: "85vh",
-            maxWidth: "100%",
+            maxWidth: "1300px",
             maxHeight: "100%",
             data: {
                 id: project.item.replace(environment.entityURL, "")
