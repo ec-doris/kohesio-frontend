@@ -5,7 +5,11 @@ vars:
     value: loftsh/javascript:latest
 
 deployments:
-  - name: app
+  - name: kohesio-config
+    kubectl:
+      manifests:
+        - devspace/kohesio.yaml
+  - name: kohesio-app
     helm:
       componentChart: true
       values:
@@ -23,14 +27,6 @@ deployments:
             - port: 4200
 
 dev:
-  ports:
-    - imageSelector: ${APP_IMAGE}
-      forward:
-        - port: 4200
-
-  open:
-    - url: http://localhost:4200
-
   sync:
     - imageSelector: ${APP_IMAGE}
       containerPath: /app
@@ -38,6 +34,7 @@ dev:
         - .git/
         - .git/
         - .devspace/
+        - devspace/
         - .angular/
         - README.md
       uploadExcludePaths:
@@ -49,7 +46,7 @@ dev:
 hooks:
   - command: |
       npm install
-      npm run start
+      npm run devspace-start
     container:
       imageSelector: ${APP_IMAGE}
     events: ["after:initialSync:*"]

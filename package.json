@@ -4,6 +4,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "devspace-start": "ng serve --host 0.0.0.0 --port 4200 --public-host kohesio.local.europa.eu",
     "build": "ng build",
     "build-dev": "ng build --configuration development --output-hashing=all --no-progress",
     "build-prod": "ng build --configuration production --output-hashing=all --no-progress",
