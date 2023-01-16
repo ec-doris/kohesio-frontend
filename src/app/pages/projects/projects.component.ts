@@ -88,7 +88,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
-        country: [!this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) ? this.getFilterKey("countries", this.translateService.queryParams.country) : undefined],
+        country: [this.getFilterKey("countries", this.translateService.queryParams.country)],
         region: [],
         policyObjective: [this.getFilterKey("policy_objectives", this.translateService.queryParams.policyObjective)],
         theme: [this.getFilterKey("thematic_objectives", this.translateService.queryParams.theme)],
@@ -105,16 +105,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
         nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)]
       });
-
-      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) &&
-        (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.country) ||
-          this._route.snapshot.queryParamMap.has(this.translateService.queryParams.region))){
-        this._router.navigate([], {
-          relativeTo: this._route,
-          queryParams: this.generateQueryParams(),
-          queryParamsHandling: 'merge'
-        });
-      }
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
@@ -147,11 +137,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     ngOnInit() {
       if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-        Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
+        Promise.all([this.getRegions(), this.getPrograms(), this.getNuts3()]).then(results => {
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
             this.myForm.patchValue({
               region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
+            this.getNuts3().then();
           }
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.myForm.patchValue({
@@ -159,14 +150,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             });
           }
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
-          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
             this.getProjectList();
           }
         });
       }
 
       if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
-      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) &&
+        !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
         this.getProjectList();
       }
       this.onThemeChange();
@@ -351,10 +344,18 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       if (this.myForm.value.country != null) {
         this.getRegions().then();
         this.getPrograms().then();
+        this.getNuts3().then();
       }
       this.myForm.patchValue({
         region: null,
         program: null,
+        nuts3: null
+      });
+    }
+
+    onRegionChange(){
+      this.getNuts3().then();
+      this.myForm.patchValue({
         nuts3: null
       });
     }
@@ -410,6 +411,28 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.filterService.getFilter("programs", params).subscribe(result => {
           this.filterService.filters.programs = result.programs;
           this.filters.programs = result.programs;
+          resolve(true);
+        });
+      });
+    }
+
+    getNuts3(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        let params: any = {}
+        if(this.myForm.value.country){
+          params["country"] = environment.entityURL + this.myForm.value.country;
+        }
+        if (this.myForm.value.region) {
+          params["region"] = environment.entityURL + this.myForm.value.region
+        }
+        if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) && this.filters.regions) {
+          params["region"] = environment.entityURL + this.getFilterKey("regions", this.translateService.queryParams.region)
+        }
+        this.filterService.getFilter("nuts3", params).subscribe(result => {
+          const filtersResults = new FiltersApi().deserialize({
+            nuts3: result.nuts3
+          });
+          this.filters.nuts3 = filtersResults.nuts3;
           resolve(true);
         });
       });
@@ -521,12 +544,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         }
 
   onNuts3Change(){
-    if (this.myForm.value.nuts3) {
+    /*if (this.myForm.value.nuts3) {
       this.myForm.patchValue({
         country: undefined,
         region: undefined
       });
-    }
+    }*/
   }
 
 
