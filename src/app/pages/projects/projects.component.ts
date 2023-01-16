@@ -424,8 +424,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         }
         if (this.myForm.value.region) {
           params["region"] = environment.entityURL + this.myForm.value.region
-        }
-        if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) && this.filters.regions) {
+        }else if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) && this.filters.regions) {
           params["region"] = environment.entityURL + this.getFilterKey("regions", this.translateService.queryParams.region)
         }
         this.filterService.getFilter("nuts3", params).subscribe(result => {
