@@ -4,14 +4,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build-dev:ssr
-COPY proxy-server.js /usr/src/app/dist/kohesio-frontend/server/proxy-server.js
+RUN npm run build-dev
 
-#Nginx with node server
-FROM node:18.13.0-alpine AS ssr-server
-COPY --from=builder /usr/src/app/dist/ /app/dist/
-COPY --from=builder /usr/src/app/node_modules/ /app/node_modules/
-COPY ./package.json /app/package.json
-WORKDIR /app
-EXPOSE 80
-CMD npm run serve:ssr
+#Final image
+FROM nginx:1.15.8-alpine
+COPY --from=builder /usr/src/app/dist/kohesio-frontend/browser /usr/share/nginx/html
+COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
+ENTRYPOINT ["nginx", "-g", "daemon off;"]
