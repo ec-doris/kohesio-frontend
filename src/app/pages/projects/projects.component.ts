@@ -353,16 +353,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onCountryChange() {
-      if (this.myForm.value.country != null) {
-        this.getRegions().then();
-        this.getPrograms().then();
-        this.getNuts3().then();
-      }
       this.myForm.patchValue({
         region: null,
         program: null,
         nuts3: null
       });
+      if (this.myForm.value.country != null) {
+        this.getRegions().then();
+        this.getPrograms().then();
+        this.getNuts3().then();
+      }
     }
 
     onRegionChange(){
