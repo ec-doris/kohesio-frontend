@@ -1,5 +1,6 @@
-import { AfterViewInit, Component } from '@angular/core';
+import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
 import {TranslateService} from "../../../services/translate.service";
+import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 declare let ECL: any;
 
 @Component({
@@ -12,15 +13,23 @@ export class CarouselEclComponent implements AfterViewInit {
 
     public carousel: any;
 
-    constructor(public translateService: TranslateService) { }
+    constructor(public translateService: TranslateService,
+                @Inject(PLATFORM_ID) private platformId: Object,
+                @Inject(DOCUMENT) private _doc: Document) { }
 
     ngOnInit() {
     }
 
     ngAfterViewInit(): void {
-        let elt = document.querySelector('[data-ecl-carousel]');
-        this.carousel = new ECL.Carousel(elt);
-        this.carousel.init();
+        if (this.isPlatformBrowser()) {
+          let elt = this._doc.querySelector('[data-ecl-carousel]');
+          this.carousel = new ECL.Carousel(elt);
+          this.carousel.init();
+        }
+    }
+
+    isPlatformBrowser(){
+      return isPlatformBrowser(this.platformId);
     }
 
 }

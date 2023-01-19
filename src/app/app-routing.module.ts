@@ -16,10 +16,18 @@ const routes: Routes = [
         path: '',
         component: HomePageComponent,
         pathMatch: 'full',
+        data: {
+          title: $localize`:@@comp.header.label.siteHeader:Kohesio: discover EU projects in your region`,
+          description: $localize `:@@comp.header.label.siteHeader:Kohesio: discover EU projects in your region`
+        }
       },{
         path: $localize`:@@translate.routes.about:about`,
         component: AboutComponent,
         pathMatch: 'full',
+        data: {
+          title: $localize`:@@page.about.title: About Kohesio`,
+          description: $localize `:@@page.about.title: About Kohesio`
+        }
       },{
         path: $localize`:@@translate.routes.privacy:privacy`,
         component: PrivacyPageComponent,
@@ -68,10 +76,11 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes, {
-      scrollPositionRestoration: 'enabled',
-      anchorScrolling: 'enabled',
-      onSameUrlNavigation: 'reload'
-    })],
+    scrollPositionRestoration: 'enabled',
+    anchorScrolling: 'enabled',
+    onSameUrlNavigation: 'reload',
+    initialNavigation: 'enabledBlocking'
+})],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

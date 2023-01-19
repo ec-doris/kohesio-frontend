@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Input, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, PLATFORM_ID, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslateService} from "../../services/translate.service";
+import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 declare let L:any;
 
 @Component({
@@ -24,8 +25,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     public isModal: boolean = false;
 
     public wikidataLink!: string;
-    public currentUrl: string = (location.protocol + '//' + location.hostname) +
-                                (location.port != "" ? ':' + location.port : '');
+    public currentUrl: string = (this._document.location.protocol + '//' + this._document.location.hostname) +
+                                (this._document.location.port != "" ? ':' + this._document.location.port : '');
 
     @ViewChild(MapComponent)
     public map!: MapComponent;
@@ -37,7 +38,9 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private route: ActivatedRoute,
                 private router: Router,
                 private sanitizer: DomSanitizer,
-                public translateService: TranslateService){}
+                public translateService: TranslateService,
+                @Inject(DOCUMENT) private _document: Document,
+                @Inject(PLATFORM_ID) private platformId: Object){}
 
     ngOnInit(){
         if (!this.project) {
@@ -48,22 +51,24 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
         let markers = [];
-        if (this.project.coordinates && this.project.coordinates.length) {
-            this.project.coordinates.forEach(coords=>{
-                //this.project["coordinates"][0]; ??
-                const coord = coords.replace("Point(", "").replace(")", "").split(" ");
-                const marker = this.map.addMarker(coord[1],coord[0], false);
-                markers.push(marker);
+        if (this.isPlatformBrowser()) {
+          if (this.project.coordinates && this.project.coordinates.length) {
+            this.project.coordinates.forEach(coords => {
+              //this.project["coordinates"][0]; ??
+              const coord = coords.replace("Point(", "").replace(")", "").split(" ");
+              const marker = this.map.addMarker(coord[1], coord[0], false);
+              markers.push(marker);
             });
             this.map.refreshView();
-        }
-        if(this.project.geoJson){
+          }
+          if (this.project.geoJson) {
             const poly = this.map.drawPolygons(this.project.geoJson);
             this.map.fitBounds(poly.getBounds());
-        }else{
+          } else {
             this.map.addCountryLayer(this.project.countryLabel);
+          }
+          (<any>window).twttr.widgets.load();
         }
-        (<any>window).twttr.widgets.load();
     }
 
     openWiki(event: any){
@@ -148,5 +153,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-'),
         [this.translateService.queryParams.sort]: sort
       };
+    }
+
+    isPlatformBrowser(){
+      return isPlatformBrowser(this.platformId);
     }
 }

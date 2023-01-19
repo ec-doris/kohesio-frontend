@@ -319,7 +319,7 @@
                     </ng-container>
                     <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
                 </h2>
-                <app-map mapId="map-details" [hideNavigation]="true"></app-map>
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-details" [hideNavigation]="true"></app-map>
             </div>
             <div class="kohesio-audio-visual-wrapper">
                 <div class="kohesio-project-detail-video-wrapper">

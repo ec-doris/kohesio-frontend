@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, PLATFORM_ID, ViewChild} from '@angular/core';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { DOCUMENT } from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -15,6 +15,7 @@ import {
 import {environment} from "../../../environments/environment";
 import {MatDialog} from "@angular/material/dialog";
 import {TranslateService} from "../../services/translate.service";
+import { isPlatformBrowser } from '@angular/common';
 
 @Component({
     templateUrl: './home.component.html',
@@ -37,7 +38,8 @@ export class HomePageComponent implements AfterViewInit {
                 private statisticsService: StatisticsService,
                 private themeService: ThemeService,
                 private dialog: MatDialog,
-                public translateService: TranslateService){
+                public translateService: TranslateService,
+                @Inject(PLATFORM_ID) private platformId: object){
 
         this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
             this.stats = data;
@@ -75,12 +77,12 @@ export class HomePageComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+      if (this.isPlatformBrowser()){
         setTimeout(
-            () => {
-                this.map.loadMapRegion(new Filters());
-            }, 500);
-
-
+          () => {
+            this.map.loadMapRegion(new Filters());
+          }, 500);
+      }
     }
 
     public ngOnInit() {
@@ -103,6 +105,10 @@ export class HomePageComponent implements AfterViewInit {
         [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
         [this.translateService.queryParams.sort]: sort
       };
+    }
+
+    isPlatformBrowser(){
+      return isPlatformBrowser(this.platformId);
     }
 
 

@@ -1,11 +1,20 @@
-import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  Renderer2,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy,
+  PLATFORM_ID
+} from '@angular/core';
 import { ProjectService } from "../../services/project.service";
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DatePipe, DOCUMENT } from "@angular/common";
+import { DatePipe, DOCUMENT, isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { FilterService } from "../../services/filter.service";
 import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
@@ -66,7 +75,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
     breakpointObserver: BreakpointObserver,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    @Inject(PLATFORM_ID) private platformId: Object) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -128,10 +138,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   }
 
     popperPlacement(): any {
-      if (window.innerWidth < 750) {
-        return "bottom"
-      } else {
-        return "auto"
+      if (isPlatformBrowser(this.platformId)) {
+        if (window.innerWidth < 750) {
+          return "bottom"
+        } else {
+          return "auto"
+        }
       }
     }
 
@@ -240,8 +252,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             this.semanticTerms = result.similarWords;
             this.isLoading = false;
             //go to the top
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            this._document.body.scrollTop = 0;
+            this._document.documentElement.scrollTop = 0;
             if (this.selectedTabIndex == 2) {
               this.mapIsLoaded = true;
               setTimeout(
@@ -549,6 +561,14 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         region: undefined
       });
     }*/
+  }
+
+  isPlatformBrowser(){
+    return isPlatformBrowser(this.platformId);
+  }
+
+  isPlatformServer(){
+    return isPlatformServer(this.platformId);
   }
 
 

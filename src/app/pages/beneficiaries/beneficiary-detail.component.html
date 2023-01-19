@@ -186,7 +186,7 @@
             </div>
 
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
-                <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
             <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block"
                 i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects"

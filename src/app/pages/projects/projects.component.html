@@ -172,7 +172,7 @@
             </div>
         </form>
     </mat-drawer>
-    <mat-drawer-content [ngClass]="getClassMatDrawerContent()">
+    <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">

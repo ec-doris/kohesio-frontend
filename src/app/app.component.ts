@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import {Component, PLATFORM_ID} from '@angular/core';
 import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import { LOCALE_ID, Inject } from '@angular/core';
 import { Location } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
+import {MetaService} from "./services/meta.service";
 declare let ECL:any;
 declare let $wt:any;
 
@@ -21,30 +23,36 @@ export class AppComponent {
 
   constructor(public router:Router,
               @Inject(LOCALE_ID) public locale: string,
-              public actRoute: ActivatedRoute,
-              public location: Location){
-    console.log("LOCALE=",locale);
+              public location: Location,
+              @Inject(PLATFORM_ID) private platformId: Object,
+              private metaService:MetaService){
+    //console.log("LOCALE=",locale);
     //console.log("LOCALE COUNTRY=",this.country);
     this.url = location.path();
   }
 
   ngOnInit(){
-    this.router.events.subscribe(value => {
-      if (value instanceof NavigationEnd){
-        if ($wt && $wt.analytics.isTrackable()){
-          if (this.count>0 && this.lastPage != value.url){
-            $wt.trackPageView();
-          }
-          this.count++;
-          this.lastPage = value.url;
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events.subscribe(value => {
+        if (value instanceof NavigationEnd) {
+          if ($wt && $wt.analytics.isTrackable()) {
+            if (this.count > 0 && this.lastPage != value.url) {
+              $wt.trackPageView();
+            }
+            this.count++;
+            this.lastPage = value.url;
 
+          }
         }
-      }
-    });
+      });
+    }
+    this.metaService.run();
   }
 
   ngAfterViewInit(): void {
-    ECL.autoInit();
+    if (isPlatformBrowser(this.platformId)) {
+      ECL.autoInit();
+    }
   }
 
 }
