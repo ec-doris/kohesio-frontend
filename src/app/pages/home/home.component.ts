@@ -68,9 +68,7 @@ export class HomePageComponent implements AfterViewInit {
               id: this._route.snapshot.queryParamMap.get('project')
             }
           }).afterClosed().subscribe(()=>{
-            history.replaceState && history.replaceState(
-              null, '', location.pathname + location.search.replace(/[\?&]project=[^&]+/, '').replace(/^&/, '?') + location.hash
-            );
+            this.updateCoordsQueryParam();
           });
         }
 
@@ -109,6 +107,21 @@ export class HomePageComponent implements AfterViewInit {
 
     isPlatformBrowser(){
       return isPlatformBrowser(this.platformId);
+    }
+
+    updateCoordsQueryParam(){
+      let fragment:string | undefined = this._route.snapshot.fragment + "";
+      if (!this._route.snapshot.fragment){
+        fragment = undefined;
+      }
+      this._router.navigate([], {
+        relativeTo: this._route,
+        fragment: fragment,
+        queryParams: {
+          project: undefined
+        },
+        queryParamsHandling: 'merge'
+      });
     }
 
 

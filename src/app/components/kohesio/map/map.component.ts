@@ -62,6 +62,9 @@ export class MapComponent implements AfterViewInit {
     public mapId = "map";
 
     @Input()
+    public openProjectInner:boolean = true;
+
+    @Input()
     public isEmbeddedMap:boolean = false;
 
     @Input()
@@ -263,9 +266,14 @@ export class MapComponent implements AfterViewInit {
                     this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects=>{
                         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
                         component.instance.projects = projects;
+                        component.instance.openProjectInner = this.openProjectInner;
                         marker.bindPopup(component.location.nativeElement,{
                             maxWidth: 600
                         }).openPopup();
+                        marker.getPopup().on('remove', ()=> {
+                          this.updateCoordsQueryParam(undefined);
+                        });
+                        this.updateCoordsQueryParam(popupContent.coordinates);
                         const latLngs = [ marker.getLatLng() ];
                         const markerBounds = L.latLngBounds(latLngs);
                         this.map.fitBounds(markerBounds,{
@@ -289,17 +297,22 @@ export class MapComponent implements AfterViewInit {
                 })
             }
 
+            /*this.map.on( 'popupclose', () => {
+              this.updateCoordsQueryParam(undefined);
+            });*/
 
             this.markersGroup.addLayer(marker);
 
             if (centralize) {
                 this.map.setView(coords, zoomWhenCentralize);
             }
+
+            return marker;
         }
     }
 
     public addCircleMarkerPopup(latitude: any, longitude: any, popupContent: any){
-        this.addCircleMarker(latitude, longitude, false, 15, popupContent)
+        return this.addCircleMarker(latitude, longitude, false, 15, popupContent)
     }
 
 
@@ -515,8 +528,14 @@ export class MapComponent implements AfterViewInit {
                         coordinates: point.coordinates,
                         isHighlighted: point.isHighlighted,
                     }
-                    this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+                    const marker = this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
                     this.hideOuterMostRegions = true;
+                    if (this._route.snapshot.queryParamMap.has("coords")){
+                      const queryParamsCoords = this._route.snapshot.queryParamMap.get("coords");
+                      if (point.coordinates == queryParamsCoords){
+                        marker.fire('click');
+                      }
+                    }
                 })
             }else if (data.subregions && data.subregions.length) {
                 this.hideScale = false;
@@ -755,6 +774,21 @@ export class MapComponent implements AfterViewInit {
         fragment: fragment,
         queryParams: {
           [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined
+        },
+        queryParamsHandling: 'merge'
+      });
+    }
+
+    updateCoordsQueryParam(coordinates:any){
+      let fragment:string | undefined = this._route.snapshot.fragment + "";
+      if (!this._route.snapshot.fragment){
+        fragment = undefined;
+      }
+      this._router.navigate([], {
+        relativeTo: this._route,
+        fragment: fragment,
+        queryParams: {
+          coords: coordinates
         },
         queryParamsHandling: 'merge'
       });
