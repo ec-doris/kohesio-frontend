@@ -49,7 +49,7 @@ const routes: Routes = [
         component: FaqPageComponent,
         pathMatch: 'full',
       },{
-        path: $localize`:@@translate.routes.map:map`,
+        path: 'map',
         component: MapPageComponent,
         pathMatch: 'full',
         resolve: {

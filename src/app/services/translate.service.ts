@@ -48,7 +48,8 @@ export class TranslateService {
     "name": $localize`:@@translate.queryParams.name:name`,
     "beneficiaryType": $localize`:@@translate.queryParams.beneficiaryType:beneficiaryType`,
     "page": $localize`:@@translate.queryParams.page:page`,
-    "tab": $localize`:@@translate.queryParams.tab:tab`
+    "tab": $localize`:@@translate.queryParams.tab:tab`,
+    "mapRegion": $localize`:@@translate.queryParams.mapRegion:mapRegion`
   }
 
   public projectPage = {

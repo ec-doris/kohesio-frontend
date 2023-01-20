@@ -11,13 +11,15 @@ import {FilterService} from "../../../services/filter.service";
 import {MapService} from "../../../services/map.service";
 import {environment} from "../../../../environments/environment";
 import {Filters} from "../../../models/filters.model";
-import { DecimalPipe } from '@angular/common';
+import {DecimalPipe, Location} from '@angular/common';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MapPopupComponent } from './map-popup.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import {MapMessageBoxComponent} from "./map-message-box";
+import {ActivatedRoute, Router} from "@angular/router";
+import {TranslateService} from "../../../services/translate.service";
 declare let L:any;
 
 @Component({
@@ -60,6 +62,9 @@ export class MapComponent implements AfterViewInit {
     public mapId = "map";
 
     @Input()
+    public isEmbeddedMap:boolean = false;
+
+    @Input()
     public hideNavigation = false;
 
     @Input()
@@ -84,6 +89,10 @@ export class MapComponent implements AfterViewInit {
 
     public toggleDisclaimer:boolean = false;
 
+    public hasQueryParams:boolean = false;
+    public onlyOnceParamsApply:boolean = true;
+    public queryParamMapRegionName = 'mapRegion'
+
     constructor(private mapService: MapService,
                 private filterService:FilterService,
                 private _decimalPipe: DecimalPipe,
@@ -91,7 +100,10 @@ export class MapComponent implements AfterViewInit {
                 private injector: Injector,
                 private sanitizer: DomSanitizer,
                 breakpointObserver: BreakpointObserver,
-                @Inject(LOCALE_ID) public locale: string) {
+                @Inject(LOCALE_ID) public locale: string,
+                private _route: ActivatedRoute,
+                private _router: Router,
+                private translateService: TranslateService) {
 
         this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
@@ -113,6 +125,10 @@ export class MapComponent implements AfterViewInit {
         this.mapService.getOutermostRegions().subscribe(data=>{
           this.outermostRegions = data;
         })
+
+        if(!this.isEmbeddedMap){
+          this.queryParamMapRegionName = this.translateService.queryParams.mapRegion;
+        }
 
         //this.createLogScale();
     }
@@ -394,6 +410,15 @@ export class MapComponent implements AfterViewInit {
         //this.isLoading = true;
         this.filters = filters;
         this.nearByView = false;
+        if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply){
+          this.onlyOnceParamsApply = false;
+          let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + "";
+          let regionsQueryParamArray = regionsQueryParam.split(",");
+          granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length-1];
+          this.hasQueryParams = true;
+        }else{
+          this.onlyOnceParamsApply = false;
+        }
         if (!granularityRegion){
             this.mapRegions = [];
             if ((filters.country || filters.region)){
@@ -410,7 +435,7 @@ export class MapComponent implements AfterViewInit {
             }
         }
         const index = this.mapRegions.findIndex((x:any) => x.region ===granularityRegion);
-        if (this.mapRegions[index].bounds) {
+        if (this.mapRegions.length && this.mapRegions[index].bounds) {
             this.fitBounds(this.mapRegions[index].bounds);
         }
         this.mapRegions = this.mapRegions.slice(0,index+1);
@@ -451,9 +476,29 @@ export class MapComponent implements AfterViewInit {
 
         this.cleanMap();
         this.dataRetrieved = false;
-        this.activeLoadingAfter1Second()
+        this.activeLoadingAfter1Second();
+
         this.mapService.getMapInfo(filters, granularityRegion).subscribe(data=>{
             this.dataRetrieved = true;
+            if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams){
+              this.mapRegions = [this.europe];
+              data.upperRegions.reverse().forEach((upperRegion:any)=>{
+                if (upperRegion.region != environment.entityURL+"Q1") {
+                  this.mapRegions.push({
+                    label: upperRegion.regionLabel,
+                    region: upperRegion.region
+                  });
+                }
+              })
+              this.mapRegions.push({
+                label: data.regionLabel,
+                region: data.region
+              })
+              this.hasQueryParams = false;
+              this.updateQueryParam(true);
+            }else{
+              this.updateQueryParam(this.onlyOnceParamsApply);
+            }
             if (data.list && data.list.length){
                 //Draw markers to each coordinate
                 this.uiMessageBoxHelper.close();
@@ -584,11 +629,12 @@ export class MapComponent implements AfterViewInit {
                         const count = e.target.feature.properties.count;
                         const label = e.target.feature.properties.regionLabel;
                         if (count) {
-                            this.loadMapVisualization(this.filters, region);
                             this.mapRegions.push({
-                                label: label,
-                                region: region
+                              label: label,
+                              region: region
                             })
+                            this.loadMapVisualization(this.filters, region);
+
                             //Slice to force trigger the pipe of outermost regions
                             this.mapRegions = this.mapRegions.slice(0,this.mapRegions.length);
                         }
@@ -678,6 +724,40 @@ export class MapComponent implements AfterViewInit {
 
     sanitizeUrl(url:string){
         return this.sanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+
+    updateQueryParam(firstTime: boolean){
+      const regions = [];
+      if (this.isEmbeddedMap){
+        if (this.mapRegions.length>1) {
+          const qid = this.mapRegions[this.mapRegions.length - 1].region.replace(environment.entityURL, "");
+          regions.push(qid);
+        }
+      }else {
+        for (let mapRegion of this.mapRegions.slice(1, this.mapRegions.length)) {
+          regions.push(mapRegion.label.split(' ').join('-'));
+        }
+        if (regions.length) {
+          const qid = this.mapRegions[this.mapRegions.length - 1].region.replace(environment.entityURL, "");
+          regions.push(qid);
+        }
+      }
+      const myRegionFragment = this.translateService.sections.myregion;
+      let fragment = regions.length ||
+        this._route.snapshot.fragment == myRegionFragment ||
+        this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) ? myRegionFragment : undefined;
+      if (this.isEmbeddedMap){
+        fragment = undefined;
+      }
+
+      this._router.navigate([], {
+        relativeTo: this._route,
+        fragment: fragment,
+        queryParams: {
+          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined
+        },
+        queryParamsHandling: 'merge'
+      });
     }
 
 }
