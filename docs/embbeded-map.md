@@ -33,7 +33,7 @@ You can customize the map visualization using the following parameters:
 
 ## Example:
 
-### Drill-down region with coordinates selection
+### Drill-down region
 ```html
 <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
 ```
