@@ -12,7 +12,7 @@ for index in "${!languages[@]}"; do
   LANG=${languages[$index]}
   CMD+="'ng run kohesio-frontend:prerender:$ENV-$LANG' ";
   #CMD+="'ng version' ";
-  if [[ "$i" == 1 || ${#languages[@]} == $(($index+1)) ]]; then
+  if [[ "$i" == 2 || ${#languages[@]} == $(($index+1)) ]]; then
     echo "RUNNING COMMAND: $CMD"
     eval $CMD;
     i=0

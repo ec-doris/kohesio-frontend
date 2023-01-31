@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: "http://kohesio-backend-service/api/facet/eu",
+  apiBaseUrl: "http://kohesio-backend-service.development.svc.cluster.local/api/facet/eu",
   entityURL: 'https://linkedopendata.eu/entity/'
 };
 
