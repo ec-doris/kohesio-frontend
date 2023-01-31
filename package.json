@@ -16,11 +16,10 @@
     "build:ssr": "ng build --configuration local && ng run kohesio-frontend:server:local && cp proxy-server.js dist/kohesio-frontend/server",
     "build-ssr:dev": "ng build --configuration development --output-hashing=all && ng run kohesio-frontend:server:development",
     "build-ssr:prod": "ng build --configuration production --output-hashing=all && ng run kohesio-frontend:server:production",
-    "prerender:dev": "bash ./build/prerender.sh",
-    "prerender:prod:old": "bash ./build/prerender.sh production",
     "prerender-run": "ng run kohesio-frontend:prerender && cp proxy-server.js dist/kohesio-frontend/server && npm run serve:ssr",
-    "echo": "echo",
-    "prerender:prod": "cp build/universal.prerender.js node_modules/@nguniversal/builders/src/prerender/index.js && ng run kohesio-frontend:prerender:production"
+    "patch-ng-universal": "cp build/universal.prerender.js node_modules/@nguniversal/builders/src/prerender/index.js",
+    "prerender:dev": "npm run patch-ng-universal && ng run kohesio-frontend:prerender:development",
+    "prerender:prod": "npm run patch-ng-universal && ng run kohesio-frontend:prerender:production"
   },
   "private": true,
   "dependencies": {
