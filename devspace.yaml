@@ -16,6 +16,13 @@ deployments:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            resources:
+              limits:
+                cpu: 3000m
+                memory: 6Gi
+              requests:
+                cpu: 2000m
+                memory: 4Gi
             workingDir: /app
             command:
               - "/bin/sh"
@@ -43,6 +50,7 @@ dev:
         - devspace.yaml
         - deploy/
         - node_modules/
+        - dist/
 
 hooks:
   - command: |

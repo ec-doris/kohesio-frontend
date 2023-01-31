@@ -225,7 +225,6 @@
 		"translate.routes.services": "serviços",
 		"translate.routes.themes": "temas",
 		"translate.routes.faq": "perguntas-frequentes",
-		"translate.routes.map": "mapa",
 		"translate.queryParams.keywords": "palavrasChave",
 		"translate.queryParams.country": "país",
 		"translate.queryParams.region": "região",

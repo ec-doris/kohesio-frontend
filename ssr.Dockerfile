@@ -4,7 +4,10 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build-dev:ssr
+RUN npm install -g npm-run-all
+RUN apk update && apk add bash
+RUN chmod +x build/prerender.sh
+RUN npm run prerender:prod
 COPY proxy-server.js /usr/src/app/dist/kohesio-frontend/server/proxy-server.js
 
 #Nginx with nginx client

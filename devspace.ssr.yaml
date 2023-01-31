@@ -39,6 +39,12 @@ deployments:
             image: ${APP_IMAGE_CLIENT}
             imagePullPolicy: Never
             workingDir: /usr/share/nginx/html
+            command:
+              - "/bin/sh"
+            args:
+              - "-c"
+              - |
+                sleep 99999999;
           - name: server
             image: ${APP_IMAGE_SERVER}
             imagePullPolicy: Never

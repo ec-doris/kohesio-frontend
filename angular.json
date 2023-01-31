@@ -94,7 +94,6 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": true,
             "outputPath": "dist/kohesio-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -128,6 +127,81 @@
             ]
           },
           "configurations": {
+            "deleteOutputPath": {
+              "deleteOutputPath": false
+            },
+            "en": {
+              "localize": ["en"]
+            },
+            "bg": {
+              "localize": ["bg"]
+            },
+            "hr": {
+              "localize": ["hr"]
+            },
+            "cs": {
+              "localize": ["cs"]
+            },
+            "da": {
+              "localize": ["da"]
+            },
+            "nl": {
+              "localize": ["nl"]
+            },
+            "et": {
+              "localize": ["et"]
+            },
+            "fi": {
+              "localize": ["fi"]
+            },
+            "fr": {
+              "localize": ["fr"]
+            },
+            "de": {
+              "localize": ["de"]
+            },
+            "el": {
+              "localize": ["el"]
+            },
+            "hu": {
+              "localize": ["hu"]
+            },
+            "ga": {
+              "localize": ["ga"]
+            },
+            "it": {
+              "localize": ["it"]
+            },
+            "lv": {
+              "localize": ["lv"]
+            },
+            "lt": {
+              "localize": ["lt"]
+            },
+            "mt": {
+              "localize": ["mt"]
+            },
+            "pl": {
+              "localize": ["pl"]
+            },
+            "pt": {
+              "localize": ["pt"]
+            },
+            "ro": {
+              "localize": ["ro"]
+            },
+            "sk": {
+              "localize": ["sk"]
+            },
+            "sl": {
+              "localize": ["sl"]
+            },
+            "es": {
+              "localize": ["es"]
+            },
+            "sv": {
+              "localize": ["sv"]
+            },
             "production": {
               "budgets": [
                 {
@@ -221,20 +295,95 @@
             "outputPath": "dist/kohesio-frontend/server",
             "main": "server.ts",
             "tsConfig": "tsconfig.server.json",
-            "inlineStyleLanguage": "scss",
-            "localize": true
+            "inlineStyleLanguage": "scss"
           },
           "configurations": {
+            "deleteOutputPath": {
+              "deleteOutputPath": false
+            },
+            "en": {
+              "localize": ["en"]
+            },
+            "bg": {
+              "localize": ["bg"]
+            },
+            "hr": {
+              "localize": ["hr"]
+            },
+            "cs": {
+              "localize": ["cs"]
+            },
+            "da": {
+              "localize": ["da"]
+            },
+            "nl": {
+              "localize": ["nl"]
+            },
+            "et": {
+              "localize": ["et"]
+            },
+            "fi": {
+              "localize": ["fi"]
+            },
+            "fr": {
+              "localize": ["fr"]
+            },
+            "de": {
+              "localize": ["de"]
+            },
+            "el": {
+              "localize": ["el"]
+            },
+            "hu": {
+              "localize": ["hu"]
+            },
+            "ga": {
+              "localize": ["ga"]
+            },
+            "it": {
+              "localize": ["it"]
+            },
+            "lv": {
+              "localize": ["lv"]
+            },
+            "lt": {
+              "localize": ["lt"]
+            },
+            "mt": {
+              "localize": ["mt"]
+            },
+            "pl": {
+              "localize": ["pl"]
+            },
+            "pt": {
+              "localize": ["pt"]
+            },
+            "ro": {
+              "localize": ["ro"]
+            },
+            "sk": {
+              "localize": ["sk"]
+            },
+            "sl": {
+              "localize": ["sl"]
+            },
+            "es": {
+              "localize": ["es"]
+            },
+            "sv": {
+              "localize": ["sv"]
+            },
             "production": {
               "outputHashing": "media",
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
+                  "with": "src/environments/environment.prod.cluster.ts"
                 }
               ]
             },
             "development": {
+              "localize": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -276,16 +425,294 @@
         },
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
-          "options": {
-            "browserTarget": "kohesio-frontend:build:production",
-            "serverTarget": "kohesio-frontend:server:production",
-            "routes": [
-              "/"
-            ],
-            "guessRoutes": false
-          },
           "configurations": {
-            "production": {
+            "production-en": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,en",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,en",
+              "routesFile": "build/routes/routes_en",
+              "guessRoutes": false
+            },
+            "production-bg": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,bg",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,bg",
+              "routesFile": "build/routes/routes_bg",
+              "guessRoutes": false
+            },
+            "production-hr": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,hr",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,hr",
+              "routesFile": "build/routes/routes_hr",
+              "guessRoutes": false
+            },
+            "production-cs": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,cs",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,cs",
+              "routesFile": "build/routes/routes_cs",
+              "guessRoutes": false
+            },
+            "production-da": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,da",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,da",
+              "routesFile": "build/routes/routes_da",
+              "guessRoutes": false
+            },
+            "production-nl": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,nl",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,nl",
+              "routesFile": "build/routes/routes_nl",
+              "guessRoutes": false
+            },
+            "production-et": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,et",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,et",
+              "routesFile": "build/routes/routes_et",
+              "guessRoutes": false
+            },
+            "production-fi": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,fi",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,fi",
+              "routesFile": "build/routes/routes_fi",
+              "guessRoutes": false
+            },
+            "production-fr": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,fr",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,fr",
+              "routesFile": "build/routes/routes_fr",
+              "guessRoutes": false
+            },
+            "production-de": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,de",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,de",
+              "routesFile": "build/routes/routes_de",
+              "guessRoutes": false
+            },
+            "production-el": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,el",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,el",
+              "routesFile": "build/routes/routes_el",
+              "guessRoutes": false
+            },
+            "production-hu": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,hu",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,hu",
+              "routesFile": "build/routes/routes_hu",
+              "guessRoutes": false
+            },
+            "production-ga": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,ga",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,ga",
+              "routesFile": "build/routes/routes_ga",
+              "guessRoutes": false
+            },
+            "production-it": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,it",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,it",
+              "routesFile": "build/routes/routes_it",
+              "guessRoutes": false
+            },
+            "production-lv": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,lv",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,lv",
+              "routesFile": "build/routes/routes_lv",
+              "guessRoutes": false
+            },
+            "production-lt": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,lt",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,lt",
+              "routesFile": "build/routes/routes_lt",
+              "guessRoutes": false
+            },
+            "production-mt": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,mt",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,mt",
+              "routesFile": "build/routes/routes_mt",
+              "guessRoutes": false
+            },
+            "production-pl": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,pl",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,pl",
+              "routesFile": "build/routes/routes_pl",
+              "guessRoutes": false
+            },
+            "production-pt": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,pt",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,pt",
+              "routesFile": "build/routes/routes_pt",
+              "guessRoutes": false
+            },
+            "production-ro": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,ro",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,ro",
+              "routesFile": "build/routes/routes_ro",
+              "guessRoutes": false
+            },
+            "production-sk": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,sk",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,sk",
+              "routesFile": "build/routes/routes_sk",
+              "guessRoutes": false
+            },
+            "production-sl": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,sl",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,sl",
+              "routesFile": "build/routes/routes_sl",
+              "guessRoutes": false
+            },
+            "production-es": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,es",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,es",
+              "routesFile": "build/routes/routes_es",
+              "guessRoutes": false
+            },
+            "production-sv": {
+              "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,sv",
+              "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,sv",
+              "routesFile": "build/routes/routes_sv",
+              "guessRoutes": false
+            },
+            "development-en": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,en",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,en",
+              "routesFile": "build/routes/routes_en",
+              "guessRoutes": false
+            },
+            "development-bg": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,bg",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,bg",
+              "routesFile": "build/routes/routes_bg",
+              "guessRoutes": false
+            },
+            "development-hr": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,hr",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,hr",
+              "routesFile": "build/routes/routes_hr",
+              "guessRoutes": false
+            },
+            "development-cs": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,cs",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,cs",
+              "routesFile": "build/routes/routes_cs",
+              "guessRoutes": false
+            },
+            "development-da": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,da",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,da",
+              "routesFile": "build/routes/routes_da",
+              "guessRoutes": false
+            },
+            "development-nl": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,nl",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,nl",
+              "routesFile": "build/routes/routes_nl",
+              "guessRoutes": false
+            },
+            "development-et": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,et",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,et",
+              "routesFile": "build/routes/routes_et",
+              "guessRoutes": false
+            },
+            "development-fi": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,fi",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,fi",
+              "routesFile": "build/routes/routes_fi",
+              "guessRoutes": false
+            },
+            "development-fr": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,fr",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,fr",
+              "routesFile": "build/routes/routes_fr",
+              "guessRoutes": false
+            },
+            "development-de": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,de",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,de",
+              "routesFile": "build/routes/routes_de",
+              "guessRoutes": false
+            },
+            "development-el": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,el",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,el",
+              "routesFile": "build/routes/routes_el",
+              "guessRoutes": false
+            },
+            "development-hu": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,hu",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,hu",
+              "routesFile": "build/routes/routes_hu",
+              "guessRoutes": false
+            },
+            "development-ga": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,ga",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,ga",
+              "routesFile": "build/routes/routes_ga",
+              "guessRoutes": false
+            },
+            "development-it": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,it",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,it",
+              "routesFile": "build/routes/routes_it",
+              "guessRoutes": false
+            },
+            "development-lv": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,lv",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,lv",
+              "routesFile": "build/routes/routes_lv",
+              "guessRoutes": false
+            },
+            "development-lt": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,lt",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,lt",
+              "routesFile": "build/routes/routes_lt",
+              "guessRoutes": false
+            },
+            "development-mt": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,mt",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,mt",
+              "routesFile": "build/routes/routes_mt",
+              "guessRoutes": false
+            },
+            "development-pl": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,pl",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,pl",
+              "routesFile": "build/routes/routes_pl",
+              "guessRoutes": false
+            },
+            "development-pt": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,pt",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,pt",
+              "routesFile": "build/routes/routes_pt",
+              "guessRoutes": false
+            },
+            "development-ro": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,ro",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,ro",
+              "routesFile": "build/routes/routes_ro",
+              "guessRoutes": false
+            },
+            "development-sk": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,sk",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,sk",
+              "routesFile": "build/routes/routes_sk",
+              "guessRoutes": false
+            },
+            "development-sl": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,sl",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,sl",
+              "routesFile": "build/routes/routes_sl",
+              "guessRoutes": false
+            },
+            "development-es": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,es",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,es",
+              "routesFile": "build/routes/routes_es",
+              "guessRoutes": false
+            },
+            "development-sv": {
+              "browserTarget": "kohesio-frontend:build:development,deleteOutputPath,sv",
+              "serverTarget": "kohesio-frontend:server:development,deleteOutputPath,sv",
+              "routesFile": "build/routes/routes_sv",
+              "guessRoutes": false
             }
           }
         }
