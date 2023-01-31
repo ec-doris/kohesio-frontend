@@ -104,7 +104,7 @@ async function _renderUniversal(routes, context, browserResult, serverResult, br
       }
       const routesLocale = [];
       for(const route of routes){
-        if (route.indexOf('/'+localeDirectory)>-1){
+        if (route.indexOf('/'+localeDirectory)==0){
           routesLocale.push(route.replace("/"+localeDirectory,""));
         }
       }
