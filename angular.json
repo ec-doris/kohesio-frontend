@@ -203,6 +203,7 @@
               "localize": ["sv"]
             },
             "production": {
+              "aot":true,
               "budgets": [
                 {
                   "type": "initial",
