@@ -131,7 +131,7 @@
               "deleteOutputPath": false
             },
             "en": {
-              "localize": ["en"]
+              "localize": ["en","pt"]
             },
             "bg": {
               "localize": ["bg"]
@@ -204,16 +204,17 @@
             },
             "production": {
               "aot":true,
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
+                  "maximumWarning": "2mb",
                   "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "5kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "20kb"
                 }
               ],
               "fileReplacements": [
@@ -303,7 +304,7 @@
               "deleteOutputPath": false
             },
             "en": {
-              "localize": ["en"]
+              "localize": ["en","pt"]
             },
             "bg": {
               "localize": ["bg"]
@@ -376,6 +377,7 @@
             },
             "production": {
               "outputHashing": "media",
+              "localize": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -427,6 +429,12 @@
         "prerender": {
           "builder": "@nguniversal/builders:prerender",
           "configurations": {
+            "production": {
+              "browserTarget": "kohesio-frontend:build:production",
+              "serverTarget": "kohesio-frontend:server:production",
+              "routesFile": "build/prerender-routes",
+              "guessRoutes": false
+            },
             "production-en": {
               "browserTarget": "kohesio-frontend:build:production,deleteOutputPath,en",
               "serverTarget": "kohesio-frontend:server:production,deleteOutputPath,en",
