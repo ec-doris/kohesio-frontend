@@ -367,8 +367,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     onRegionChange(){
       this.getNuts3().then();
+      this.getPrograms().then();
       this.myForm.patchValue({
-        nuts3: null
+        nuts3: null,
+        program: null
       });
     }
 
@@ -380,7 +382,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onFundChange() {
-        this.getPrograms()
+        this.getPrograms();
+        this.myForm.patchValue({
+          program: null
+        });
+    }
+
+    onProgrammeTypeChange(){
+      this.getPrograms();
+      this.myForm.patchValue({
+        program: null
+      });
     }
 
     onThemeChange() {
@@ -415,10 +427,16 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       return new Promise((resolve, reject) => {
         const country = environment.entityURL + this.myForm.value.country;
         let params: any = {
-          country: country,
+          country: country
         }
         if (this.myForm.value.fund) {
           params["fund"] = environment.entityURL + this.myForm.value.fund
+        }
+        if(this.myForm.value.region) {
+          params["region"] = environment.entityURL + this.myForm.value.region
+        }
+        if(this.myForm.value.interreg) {
+          params["interreg"] = this.myForm.value.interreg
         }
         this.filterService.getFilter("programs", params).subscribe(result => {
           this.filterService.filters.programs = result.programs;

@@ -125,7 +125,7 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.programmeType">PROGRAMME TYPE</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg" (change)="onProgrammeTypeChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.programme">PROGRAMME</kohesio-ecl-form-label>
