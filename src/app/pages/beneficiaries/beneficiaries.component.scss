@@ -130,24 +130,24 @@ mat-header-cell:last-of-type {
     mat-paginator {
         min-width: 220px;
         width: 100%;
-    
+
         @include media('>small') {
           width: 50%;
         }
-    
+
         ::ng-deep {
-          .mat-paginator-container {
+          .mat-mdc-paginator-container {
             padding: 0;
-    
-            .mat-paginator-range-actions {
+
+            .mat-mdc-paginator-range-actions {
               width: 100%;
               justify-content: flex-end;
-    
-              .mat-paginator-range-label {
+
+              .mat-mdc-paginator-range-label {
                 padding-left: 5px;
                 margin: 0;
                 margin-right: auto;
-    
+
                 @include media('>small') {
                   margin-left: auto;
                   margin-right: 0;

@@ -3,7 +3,7 @@
 <div [id]="translateService.sections.myregion">
 
     <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
-    <app-map></app-map>
+    <app-map *ngIf="isPlatformBrowser()"></app-map>
 </div>
 <section [id]="translateService.sections.themes">
   <h2 class="ecl-u-type-heading-2" style="margin-top:0;margin-bottom:1rem;" i18n="@@page.home.themes">THEMES</h2>

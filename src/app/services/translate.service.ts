@@ -19,8 +19,7 @@ export class TranslateService {
     privacy: $localize`:@@translate.routes.privacy:privacy`,
     services: $localize`:@@translate.routes.services:services`,
     themes: $localize`:@@translate.routes.themes:themes`,
-    faq: $localize`:@@translate.routes.faq:faq`,
-    map: $localize`:@@translate.routes.map:map`
+    faq: $localize`:@@translate.routes.faq:faq`
   }
 
   public sections = {
@@ -48,7 +47,8 @@ export class TranslateService {
     "name": $localize`:@@translate.queryParams.name:name`,
     "beneficiaryType": $localize`:@@translate.queryParams.beneficiaryType:beneficiaryType`,
     "page": $localize`:@@translate.queryParams.page:page`,
-    "tab": $localize`:@@translate.queryParams.tab:tab`
+    "tab": $localize`:@@translate.queryParams.tab:tab`,
+    "mapRegion": $localize`:@@translate.queryParams.mapRegion:mapRegion`
   }
 
   public projectPage = {

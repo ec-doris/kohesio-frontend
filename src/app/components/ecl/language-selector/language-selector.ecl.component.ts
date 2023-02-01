@@ -99,7 +99,7 @@ export class KohesioEclLanguageSelectorComponent {
     const lang = this.languages.find((language:any)=>{
       return language.code == locale;
     })
-    return lang.label;
+    return lang ? lang.label : undefined;
   }
 
 

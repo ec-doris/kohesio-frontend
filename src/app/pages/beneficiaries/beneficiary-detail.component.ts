@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Inject, Input, OnDestroy, Renderer2, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Inject, Input, OnDestroy, PLATFORM_ID, Renderer2, ViewChild} from '@angular/core';
 import {ProjectService} from "../../services/project.service";
 import { Router, ActivatedRoute } from '@angular/router';
 import {MapComponent} from "../../components/kohesio/map/map.component";
@@ -13,6 +13,7 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {TranslateService} from "../../services/translate.service";
+import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 declare let L:any;
 
 @Component({
@@ -32,7 +33,7 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
     public isModal: boolean = false;
 
     public wikidataLink!: string;
-    public currentUrl: string = location.href;
+    public currentUrl: string = this._document.location.href;
     public displayedColumns: string[] = ['label', 'budget', 'euBudget', 'fundLabel'];
 
     @ViewChild(MapComponent) public map!: MapComponent;
@@ -47,7 +48,9 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
                 private route: ActivatedRoute,
                 private router: Router,
                 breakpointObserver: BreakpointObserver,
-                public translateService: TranslateService){
+                public translateService: TranslateService,
+                @Inject(DOCUMENT) private _document: Document,
+                @Inject(PLATFORM_ID) private platformId: Object){
 
                     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
@@ -76,7 +79,7 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit(): void {
-        if (this.beneficiary.coordinates) {
+        if (this.beneficiary.coordinates && this.isPlatformBrowser()) {
             let coords: any;
             // @ts-ignore
             coords = this.beneficiary.coordinates;
@@ -136,6 +139,10 @@ export class BeneficiaryDetailComponent implements AfterViewInit, OnDestroy {
         const body:string = "Please describe the error or the duplicate with the URLs: " + window.location;
         //location.href=`mailto:${to}?subject=${subject}&body=${body}`
         window.open(`mailto:${to}?subject=${subject}&body=${body}`, 'mail');
+    }
+
+    isPlatformBrowser(){
+      return isPlatformBrowser(this.platformId);
     }
 
 

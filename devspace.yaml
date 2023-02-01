@@ -2,16 +2,28 @@ version: v1beta11
 
 vars:
   - name: APP_IMAGE
-    value: loftsh/javascript:latest
+    value: node:lts
 
 deployments:
-  - name: app
+  - name: kohesio-config
+    kubectl:
+      manifests:
+        - devspace/kohesio.yaml
+  - name: kohesio-app
     helm:
       componentChart: true
       values:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            resources:
+              limits:
+                cpu: 3000m
+                memory: 6Gi
+              requests:
+                cpu: 2000m
+                memory: 4Gi
+            workingDir: /app
             command:
               - "/bin/sh"
             args:
@@ -23,14 +35,6 @@ deployments:
             - port: 4200
 
 dev:
-  ports:
-    - imageSelector: ${APP_IMAGE}
-      forward:
-        - port: 4200
-
-  open:
-    - url: http://localhost:4200
-
   sync:
     - imageSelector: ${APP_IMAGE}
       containerPath: /app
@@ -38,6 +42,7 @@ dev:
         - .git/
         - .git/
         - .devspace/
+        - devspace/
         - .angular/
         - README.md
       uploadExcludePaths:
@@ -45,11 +50,21 @@ dev:
         - devspace.yaml
         - deploy/
         - node_modules/
+        - dist/
 
 hooks:
   - command: |
       npm install
-      npm run start
     container:
       imageSelector: ${APP_IMAGE}
     events: ["after:initialSync:*"]
+
+commands:
+  - name: kohesio
+    description: Run the application on local
+    command: devspace enter -c node -- npm run devspace-start
+    appendArgs: true
+  - name: build-prod
+    description: Build prod to check if everything is good
+    command: devspace enter -c node -- npm run build-prod
+    appendArgs: true

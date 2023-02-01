@@ -1,0 +1,57 @@
+version: v1beta11
+
+vars:
+  - name: APP_IMAGE_CLIENT
+    value: kohesio-local-client:latest
+  - name: APP_IMAGE_SERVER
+    value: kohesio-local-server:latest
+
+images:
+  client:
+    image: ${APP_IMAGE_CLIENT}
+    context: ./
+    build:
+      custom:
+        skipImageArg: true
+        command: |-
+          nerdctl -n k8s.io image rm ${APP_IMAGE_CLIENT} -f
+          nerdctl -n k8s.io build -t ${APP_IMAGE_CLIENT} -f ssr.Dockerfile --debug-full --target client-browser .
+  server:
+    image: ${APP_IMAGE_SERVER}
+    context: ./
+    build:
+      custom:
+        skipImageArg: true
+        command: |-
+          nerdctl -n k8s.io image rm ${APP_IMAGE_SERVER} -f
+          nerdctl -n k8s.io build -t ${APP_IMAGE_SERVER} -f ssr.Dockerfile --debug-full --target ssr-server .
+deployments:
+  - name: kohesio-config
+    kubectl:
+      manifests:
+        - devspace/kohesio-ssr.yaml
+  - name: kohesio-app
+    helm:
+      componentChart: true
+      values:
+        containers:
+          - name: client
+            image: ${APP_IMAGE_CLIENT}
+            imagePullPolicy: Never
+            workingDir: /usr/share/nginx/html
+            command:
+              - "/bin/sh"
+            args:
+              - "-c"
+              - |
+                sleep 99999999;
+          - name: server
+            image: ${APP_IMAGE_SERVER}
+            imagePullPolicy: Never
+            workingDir: /app
+            env:
+              - name: PORT
+                value: "4000"
+        service:
+          ports:
+            - port: 80

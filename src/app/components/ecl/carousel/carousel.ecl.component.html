@@ -1,14 +1,16 @@
 <div class="ecl-carousel" data-ecl-carousel data-ecl-auto-init="Carousel">
     <div class="ecl-carousel__container" style="width:100%;max-width: 1108px;">
         <div class="ecl-carousel__slides" id="ecl-carousel-slider">
-            <div class="ecl-carousel__slide" role="group" aria-label="slide 1 of 3" style="width: 20%;">
+            <div class="ecl-carousel__slide" role="group" aria-label="slide 1 of 3" [style]="isPlatformBrowser() ? 'width: 20%;' : 'width: 100%;'">
                 <section class="ecl-page-banner ecl-page-banner--image-gradient">
                     <div class="ecl-page-banner__image" style="background-image:url(assets/images/banners/kohesio-citizens.png)"></div>
                     <div class="ecl-container">
                         <div class="ecl-page-banner__container">
                             <div class="ecl-page-banner__content">
                                 <div class="ecl-page-banner__title" i18n="@@page.home.carousel.banner1.title">Curious to discover what Europe does in your region?</div>
-                                <p class="ecl-page-banner__description" i18n="@@page.home.carousel.banner1.description">Find projects around you</p>
+                                <p class="ecl-page-banner__description">
+                                    <span class="ecl-page-banner__description-text" i18n="@@page.home.carousel.banner1.description">Find projects around you</span>
+                                </p>
                                 <div class="ecl-page-banner__cta">
                                     <a [href]="'#'+translateService.sections.myregion" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
                                         <span class="ecl-link__label" i18n="@@page.home.carousel.banner1.button">Explore the map</span>
@@ -22,14 +24,16 @@
                     </div>
                 </section>
             </div>
-            <div class="ecl-carousel__slide" role="group" aria-label="slide 2 of 3" style="width: 20%;">
+            <div class="ecl-carousel__slide" role="group" aria-label="slide 2 of 3" [style]="isPlatformBrowser() ? 'width: 20%;' : 'display:none;'">
                 <section class="ecl-page-banner ecl-page-banner--image-gradient">
                     <div class="ecl-page-banner__image" style="background-image:url(assets/images/banners/kohesio-policy.png)"></div>
                     <div class="ecl-container">
                         <div class="ecl-page-banner__container">
                             <div class="ecl-page-banner__content">
                                 <div class="ecl-page-banner__title" i18n="@@page.home.carousel.banner2.title">Are you looking for inspiration or projects to share?</div>
-                                <p class="ecl-page-banner__description" i18n="@@page.home.carousel.banner2.description">Check Kohesio's advanced search functionalities</p>
+                                <p class="ecl-page-banner__description">
+                                    <span class="ecl-page-banner__description-text" i18n="@@page.home.carousel.banner2.description">Check Kohesio's advanced search functionalities</span>
+                                </p>
                                 <div class="ecl-page-banner__cta">
                                     <a [routerLink]="['/'+translateService.routes.projects]" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
                                         <span class="ecl-link__label" i18n="@@page.home.carousel.banner2.button">Browse the projects</span>
@@ -43,14 +47,16 @@
                     </div>
                 </section>
             </div>
-            <div class="ecl-carousel__slide" role="group" aria-label="slide 3 of 3" style="width: 20%;">
+            <div class="ecl-carousel__slide" role="group" aria-label="slide 3 of 3" [style]="isPlatformBrowser() ? 'width: 20%;' : 'display:none;'">
                 <section class="ecl-page-banner ecl-page-banner--image-gradient">
                     <div class="ecl-page-banner__image" style="background-image:url(assets/images/banners/kohesio-data.png)"></div>
                     <div class="ecl-container">
                         <div class="ecl-page-banner__container">
                             <div class="ecl-page-banner__content">
                                 <div class="ecl-page-banner__title" i18n="@@page.home.carousel.banner3.title">Do you want to reuse our linked and open data?</div>
-                                <p class="ecl-page-banner__description" i18n="@@page.home.carousel.banner3.description">Navigate the EU knowledge graph or get the datasets</p>
+                                <p class="ecl-page-banner__description">
+                                    <span class="ecl-page-banner__description-text" i18n="@@page.home.carousel.banner3.description">Navigate the EU knowledge graph or get the datasets</span>
+                                </p>
                                 <div class="ecl-page-banner__cta">
                                     <a [routerLink]="['/'+translateService.routes.services]" class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe">
                                         <span class="ecl-link__label" i18n="@@page.home.carousel.banner3.button">Download the data</span>
@@ -66,29 +72,46 @@
             </div>
         </div>
     </div>
+    <button class="ecl-carousel__prev" aria-hidden="true">
+        <svg class="ecl-icon ecl-icon--m ecl-icon--rotate-270 ecl-icon--inverted ecl-u-d-block" focusable="false" aria-hidden="true">
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+        <span class="ecl-u-sr-only" i18n="@@page.home.carousel.previousSlides">Previous slides</span>
+    </button>
+    <button class="ecl-carousel__next" aria-hidden="true">
+        <svg class="ecl-icon ecl-icon--m ecl-icon--rotate-90 ecl-icon--inverted ecl-u-d-block" focusable="false" aria-hidden="true">
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+        <span class="ecl-u-sr-only" i18n="@@page.home.carousel.nextSlides">Next slides</span>
+    </button>
     <div class="ecl-carousel__controls">
-        <button class="ecl-carousel__prev" aria-hidden="true">
-            <svg class="ecl-icon ecl-icon--m ecl-icon--rotate-270 ecl-icon--inverted ecl-u-d-block" focusable="false" aria-hidden="true">
-                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
-            </svg>
-            <span class="ecl-u-sr-only" i18n="@@page.home.carousel.previousSlides">Previous slides</span>
-        </button>
-        <button class="ecl-carousel__next" aria-hidden="true">
-            <svg class="ecl-icon ecl-icon--m ecl-icon--rotate-90 ecl-icon--inverted ecl-u-d-block" focusable="false" aria-hidden="true">
-                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
-            </svg>
-            <span class="ecl-u-sr-only" i18n="@@page.home.carousel.nextSlides">Next slides</span>
-        </button>
         <div class="ecl-container">
-            <button class="ecl-carousel__toggle" aria-hidden="true" style="padding-top:0;">
-                <svg class="ecl-icon ecl-icon--l ecl-icon--inverted" focusable="false" aria-hidden="true">
+            <div class="ecl-carousel__autoplay">
+                <button class="ecl-carousel__play">
+                    <svg class="ecl-icon ecl-icon--l ecl-icon--inverted ecl-carousel__icon-default" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#play"></use>
+                    </svg>
+                    <svg class="ecl-icon ecl-icon--l ecl-icon--inverted ecl-carousel__icon-active" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#play-filled"></use>
+                    </svg>
+                    <span class="ecl-u-sr-only">Play carousel</span>
+                </button>
+                <button class="ecl-carousel__pause">
+                    <svg class="ecl-icon ecl-icon--l ecl-icon--inverted ecl-carousel__icon-default" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#pause"></use>
+                    </svg>
+                    <svg class="ecl-icon ecl-icon--l ecl-icon--inverted ecl-carousel__icon-active" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#pause-filled"></use>
+                    </svg>
+                    <span class="ecl-u-sr-only">Pause carousel</span>
+                </button>
+            </div>
+            <!--<button class="ecl-carousel__toggle" aria-hidden="true" style="padding-top:0;">
+                <svg class="ecl-icon ecl-icon&#45;&#45;l ecl-icon&#45;&#45;inverted" focusable="false" aria-hidden="true">
                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#pause"></use>
                 </svg>
                 <span class="ecl-u-sr-only"> i18n="@@page.home.carousel.autoPlay"Carousel auto play</span>
-            </button>
-            <div class="ecl-carousel__pagination">
-                <span class="ecl-carousel__current">1</span>&nbsp;<ng-container i18n="@@page.home.carousel.of">of</ng-container>&nbsp;3
-            </div>
+            </button>-->
             <div class="ecl-carousel__navigation">
                 <button class="ecl-carousel__navigation-item" aria-current="true">
                     <span class="ecl-u-sr-only" i18n="@@page.home.carousel.goTo1">Go to slide 1</span>
@@ -99,6 +122,9 @@
                 <button class="ecl-carousel__navigation-item">
                     <span class="ecl-u-sr-only" i18n="@@page.home.carousel.goTo3">Go to slide 3</span>
                 </button>
+            </div>
+            <div class="ecl-carousel__pagination">
+                <span class="ecl-carousel__current">1</span>&nbsp;<ng-container i18n="@@page.home.carousel.of">of</ng-container>&nbsp;3
             </div>
         </div>
     </div>

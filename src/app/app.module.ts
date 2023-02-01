@@ -42,7 +42,7 @@ registerLocaleData(LocaleEnglish);
   ],
   imports: [
     AppRoutingModule,
-    BrowserModule,
+    BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,

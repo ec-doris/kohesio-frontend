@@ -29,7 +29,6 @@ export class KohesioAutoCompleteComponent implements ControlValueAccessor, OnCha
   @Input() isDisabled: boolean = false;
   @Input() placeholder: string | undefined;
   @Output() change = new EventEmitter<any>();
-  private firstTimeChange:boolean = true;
   public hasSubItems = false;
 
   constructor(){}
@@ -61,10 +60,10 @@ export class KohesioAutoCompleteComponent implements ControlValueAccessor, OnCha
     this.onTouched = onTouched;
   }
   ngOnChanges(changes: SimpleChanges): void {
-    if (!this.firstTimeChange){
-      this.firstTimeChange = false;
-      this.change.emit();
+    if(this.items && this.items.length) {
+      this.internalItems = of(this.items);
     }
+    this.change.emit();
   }
 
   public onOptionSelected(event: MatAutocompleteSelectedEvent){
