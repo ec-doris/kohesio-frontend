@@ -116,6 +116,7 @@ export class MetaService {
             description = description.replace("${REGION-COUNTRY}",data["project"].regionText);
             description = description.replace("${FUND}",data["project"].fundLabel);
             this.metaService.updateTag({name: 'description', content: description});
+            this.metaService.updateTag({property: 'og:image', content: data["project"].images[0].image})
           }
 
           //Beneficiary detail page
@@ -123,6 +124,7 @@ export class MetaService {
             this.titleService.setTitle(data["beneficiary"].beneficiaryLabel + " | Kohesio");
             this.metaService.updateTag({property: 'og:title', content: data["beneficiary"].beneficiaryLabel+ " | Kohesio"});
             this.metaService.updateTag({name: 'description', content: data["beneficiary"].description })
+            this.metaService.updateTag({property: 'og:image', content: data["beneficiary"].images[0]})
           }
 
 
