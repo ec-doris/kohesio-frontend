@@ -51,6 +51,18 @@ export class TranslateService {
     "mapRegion": $localize`:@@translate.queryParams.mapRegion:mapRegion`
   }
 
+  public dynamicMetadata = {
+    projects: {
+      "titleAlt1": $localize `:@@page.metadata.projects-alt-1:Projects co-funded by the EU`,
+      "titleAlt2": $localize `:@@page.metadata.projects-alt-2:Projects in \${REGION-COUNTRY} co-funded by the EU`,
+      "titleAlt3": $localize `:@@page.metadata.projects-alt-3:Projects in \${REGION-COUNTRY} co-funded by the EU in \${FUND}`,
+      "titleAlt4": $localize `:@@page.metadata.projects-alt-4:Projects co-funded by the EU in \${FUND}`
+    },
+    projectDetail: {
+      "description": $localize `:@@page.metadata.project-detail.description:Project in \${REGION-COUNTRY} co-funded by the European Union under the \${FUND}`,
+    }
+  }
+
   public projectPage = {
     tabs: {
       results: $localize`:@@translate.projectPage.tabs.results:results`,

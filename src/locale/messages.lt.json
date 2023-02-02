@@ -254,7 +254,7 @@
 		"translate.filter.beneficiaryType.private": "Privatusis",
 		"translate.filter.interreg.interreg": "Interreg",
 		"translate.filter.interreg.investGrowthJobs": "Investicijos į ekonomikos augimą ir darbo vietų kūrimą",
-		"[object Object]": "Daugiau informacijos apie projektą",
+		"page.project-detail.project.readFurther": "Daugiau informacijos apie projektą",
 		"page.project-detail.fundWebsite.readFurther": "Daugiau informacijos apie fondą",
 		"page.project-detail.programme.readFurther": "Daugiau informacijos apie programą",
 		"page.services.datasetVisualisations": "{$START_LINK}Atvirųjų sanglaudos duomenų platformoje{$CLOSE_LINK} taip pat keičiamasi duomenų rinkiniais ir vizualizacijomis, susijusiais su ES sanglaudos politikos projektų laimėjimais, apibendrintais programų, nacionaliniais ir fondų lygmenimis.",
