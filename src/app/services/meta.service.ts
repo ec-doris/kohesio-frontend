@@ -69,7 +69,7 @@ export class MetaService {
           if (data["ogImage"]) {
             this.metaService.updateTag({property: 'og:image', content: data["ogImage"]})
           } else {
-            this.metaService.updateTag({property: 'og:image', content: this._document.location.origin+'/'+this.locale+'/assets/images/map/ogImage.png'})
+            this.metaService.updateTag({property: 'og:image', content: '/assets/images/map/ogImage.png'})
           }
 
           //Project list page
