@@ -16,7 +16,6 @@ import { MapComponentModule } from './components/kohesio/map/map.module';
 import { AboutComponent } from './pages/static/about/about.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
 import { NotFoundComponent } from './components/kohesio/notfound/notfound.component';
-import { CookieComponent } from './pages/static/cookie/cookie.component';
 import { CarouselEclModule } from './components/ecl/carousel/carousel.ecl.module';
 import { SiteHeaderEclModule } from './components/ecl/site-header/site-header.ecl.module';
 import { FooterEclModule } from './components/ecl/footer/footer.ecl.module';
@@ -36,7 +35,6 @@ registerLocaleData(LocaleEnglish);
     PrivacyPageComponent,
     ThemesComponent,
     NotFoundComponent,
-    CookieComponent,
     ServicesPageComponent,
     FaqPageComponent
   ],

@@ -18,8 +18,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.module';
 import { KohesioEclButtonModule } from 'src/app/components/ecl/button/button.ecl.module';
-import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { MAT_DATE_LOCALE } from '@angular/material/core'
+import {MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core'
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
@@ -53,7 +52,7 @@ import {KohesioAutoCompleteModule} from "../../components/kohesio/auto-complete/
     MatAutocompleteModule,
     MatSelectModule,
     MatDatepickerModule,
-    MatMomentDateModule,
+    MatNativeDateModule,
     KohesioEclFormModule,
     KohesioEclButtonModule,
     KohesioEclAccordionModule,
