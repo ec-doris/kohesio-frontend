@@ -102,6 +102,7 @@ export class MetaService {
               title = title.replace("${FUND}",fund);
             }
 
+
             this.titleService.setTitle(title);
             this.metaService.updateTag({property: 'og:title', content: title});
             this.metaService.updateTag({name: 'description', content: title})
