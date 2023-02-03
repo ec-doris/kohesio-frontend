@@ -23,6 +23,7 @@ import { ProjectDetailModalModule } from './components/kohesio/project-detail-mo
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import { FaqPageComponent } from './pages/static/faq/faq.component';
+import { TransferHttpCacheModule } from '@nguniversal/common';
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -41,6 +42,7 @@ registerLocaleData(LocaleEnglish);
   imports: [
     AppRoutingModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
+    TransferHttpCacheModule,
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
