@@ -16,6 +16,7 @@ import {environment} from "../../../environments/environment";
 import {MatDialog} from "@angular/material/dialog";
 import {TranslateService} from "../../services/translate.service";
 import { isPlatformBrowser } from '@angular/common';
+import {TransferStateService} from "../../services/transfer-state.service";
 
 @Component({
     templateUrl: './home.component.html',
@@ -39,11 +40,15 @@ export class HomePageComponent implements AfterViewInit {
                 private themeService: ThemeService,
                 private dialog: MatDialog,
                 public translateService: TranslateService,
-                @Inject(PLATFORM_ID) private platformId: object){
+                @Inject(PLATFORM_ID) private platformId: object,
+                public transferStateService: TransferStateService){
 
-        this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
-            this.stats = data;
+        this.transferStateService.fetch('statistics',this.statisticsService.getKeyFigures()).subscribe((data: Statistics)=>{
+          this.stats = data;
         });
+        /*this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
+            this.stats = data;
+        });*/
         this.themeService.getThemes().subscribe((themes)=>{
             this.homePageThemes = themes.filter((theme:Theme)=>{
                 return theme.id == "TO04" || theme.id == "TO05" || theme.id == "TO06";
