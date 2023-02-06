@@ -17,7 +17,7 @@ export class TransferStateInterceptor implements HttpInterceptor {
       return next.handle(req);
     }
 
-    const cachedResponse = this.transferStateService.get(req.url.split("/api").pop()!);
+    const cachedResponse = this.transferStateService.get(req.urlWithParams.split("/api").pop()!);
     if (cachedResponse) {
       // A cached response exists which means server set it before. Serve it instead of forwarding
       // the request to the next handler.
@@ -31,7 +31,7 @@ export class TransferStateInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       tap(event => {
         if (event instanceof HttpResponse) {
-          this.transferStateService.set(req.url.split("/api").pop()!, event.body);
+          this.transferStateService.set(req.urlWithParams.split("/api").pop()!, event.body);
         }
       })
     );
