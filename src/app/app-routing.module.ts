@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './components/kohesio/notfound/notfound.component';
 import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
-import { FaqPageComponent } from './pages/static/faq/faq.component';
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import { ThemesComponent } from './pages/static/themes/themes.component';
@@ -49,11 +48,10 @@ const routes: Routes = [
         }
       },{
         path: $localize`:@@translate.routes.faq:faq`,
-        component: FaqPageComponent,
-        pathMatch: 'full',
         data: {
           title: $localize`:@@page.faq.title:Frequently asked questions`
-        }
+        },
+        loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule)
       },{
         path: 'map',
         component: MapPageComponent,

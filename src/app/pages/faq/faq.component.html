@@ -131,6 +131,34 @@
               <p class="ecl-u-type-paragraph">Additionally, <a href="https://cohesiondata.ec.europa.eu/" target="blank">Cohesion Data</a> provides datasets at programme level. It is an open data platform providing data on financing and achievements under the ESI Funds 2014-2020. The platform visualises the latest data available for over 530 programmes.</p>
             </ng-container>
 
+            <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-10'" i18n="@@page.faq.section10.title">List of operation</h2>
+            <kohesio-ecl-accordion class="kohesio-faq-projects-block"
+                                   i18n-title="LIST OF OPERATION|@@page.faq.accordion.listofoperation"
+                                   title="LIST OF OPERATION" [collapsed]="true">
+                <div class="ecl-table-responsive" style="overflow: scroll;background-color: white;">
+                    <table class="ecl-table ecl-table--zebra">
+                        <thead class="ecl-table__head">
+                            <tr class="ecl-table__row">
+                                <th class="ecl-table__header">List of operations id</th>
+                                <th class="ecl-table__header">List of operations title</th>
+                                <th class="ecl-table__header">List of operations URL</th>
+                                <th class="ecl-table__header">Date of last update in Kohesio</th>
+                                <th class="ecl-table__header">CCIs covered by the list of operations</th>
+                            </tr>
+                        </thead>
+                        <tbody class="ecl-table__body">
+                            <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
+                                <td class="ecl-table__cell">{{loo.id}}</td>
+                                <td class="ecl-table__cell">{{loo.instanceLabel}}</td>
+                                <td class="ecl-table__cell">{{loo.url}}</td>
+                                <td class="ecl-table__cell">{{loo.last_update}}</td>
+                                <td class="ecl-table__cell">{{loo.ccis.toString()}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </kohesio-ecl-accordion>
+
         </div>
     </div>
 </div>

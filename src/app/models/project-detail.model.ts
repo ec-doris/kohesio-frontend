@@ -69,7 +69,7 @@ export class ProjectDetail implements Deserializable{
             programLabel: input.programLabel,
             programFullLabel: input.programFullLabel,
             managingAuthorityLabel: input.managingAuthorityLabel,
-            fundLabel: input.fundLabel,
+            fundLabel: input.funds && input.funds.length ? input.funds[0].label + ' ('+input.funds[0].id + ')' : undefined,
             countryCode: this.getCountryCode(input.countryCode),
             objectiveId: input.objectiveId,
             themeIds: input.themeIds,
@@ -85,7 +85,7 @@ export class ProjectDetail implements Deserializable{
             videos: input.videos,
             tweets: input.tweets,
             program: input.program,
-            fundWebsite: input.fundWebsite
+            fundWebsite: input.funds && input.funds.length ? input.funds[0].website : undefined,
         });
     }
 
