@@ -1,10 +1,15 @@
+import {Expose, Type} from "class-transformer";
 
 export class ListOfOperation{
 
-  first_ingestion!: Date | null;
+  @Type(() => Date)
+  @Expose({ name: 'first_ingestion' })
+  firstIngestion!: Date;
   instance!: string;
   ccis!: [string];
-  last_update!: Date | null;
+  @Type(() => Date)
+  @Expose({ name: 'last_update' })
+  lastUpdate!: Date;
   instanceLabel!: string;
   id!: string;
   url!: string;

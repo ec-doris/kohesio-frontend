@@ -85,7 +85,7 @@ export class MetaService {
             }else if(hasFund){
               title = this.translateService.dynamicMetadata.projects.titleAlt4;
             }
-            if (title.indexOf("${REGION-COUNTRY}")>-1){
+            if (title.indexOf("{$REGION-COUNTRY}")>-1){
               let countryRegion = "";
               if (hasRegion && hasCountry){
                 countryRegion = this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.region) + '-' +
@@ -95,11 +95,11 @@ export class MetaService {
               }else{
                 countryRegion += this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.country);
               }
-              title = title.replace("${REGION-COUNTRY}",countryRegion);
+              title = title.replace("{$REGION-COUNTRY}",countryRegion);
             }
-            if (title.indexOf("${FUND}")>-1){
+            if (title.indexOf("{$FUND}")>-1){
               let fund = this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.fund) + "";
-              title = title.replace("${FUND}",fund);
+              title = title.replace("{$FUND}",fund);
             }
 
 
@@ -114,8 +114,8 @@ export class MetaService {
             this.metaService.updateTag({property: 'og:title', content: data["project"].label+ " | Kohesio"});
 
             let description = this.translateService.dynamicMetadata.projectDetail.description;
-            description = description.replace("${REGION-COUNTRY}",data["project"].regionText);
-            description = description.replace("${FUND}",data["project"].fundLabel);
+            description = description.replace("{$REGION-COUNTRY}",data["project"].regionText);
+            description = description.replace("{$FUND}",data["project"].fundLabel);
             this.metaService.updateTag({name: 'description', content: description});
             this.metaService.updateTag({property: 'og:image', content: data["project"].images[0].image})
           }
