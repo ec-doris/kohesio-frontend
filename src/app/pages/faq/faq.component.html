@@ -99,7 +99,6 @@
             <ng-container i18n="@@page.faq.section6.description">
                 <p class="ecl-u-type-paragraph">We use <a href="https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/eTranslation" target="blank">eTranslation</a>, the machine translation tool designed by the European Commission, to translate automatically into English the operation / project titles and descriptions in Kohesio. Users can access the original project information by clicking on the “More” button at the top right of a project page.</p>
                 <p class="ecl-u-type-paragraph">While we strive to offer the best accuracy, translations of certain projects may be imprecise. You are encouraged to report these cases and join us in improving the overall quality of the Kohesio knowledge base by sending details to the <a href="mailto:REGIO-KOHESIO@ec.europa.eu" target="blank">Kohesio Team</a>.</p>
-                <p class="ecl-u-type-paragraph">We plan to offer automatic translation into the <a href="https://european-union.europa.eu/principles-countries-history/languages_en" target="blank">24 EU official languages</a> in the upcoming versions.</p>
             </ng-container>
 
             <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-7'" i18n="@@page.faq.section7.title">How do you enrich the data?</h2>
@@ -139,25 +138,87 @@
                     <table class="ecl-table ecl-table--zebra">
                         <thead class="ecl-table__head">
                             <tr class="ecl-table__row">
-                                <th class="ecl-table__header">List of operations id</th>
-                                <th class="ecl-table__header">List of operations title</th>
-                                <th class="ecl-table__header">List of operations URL</th>
-                                <th class="ecl-table__header">Date of last update in Kohesio</th>
-                                <th class="ecl-table__header">CCIs covered by the list of operations</th>
+                                <th class="ecl-table__header">Id</th>
+                                <th class="ecl-table__header">Title</th>
+                                <th class="ecl-table__header">Url</th>
+                                <th class="ecl-table__header">Last update in Kohesio</th>
+<!--                                <th class="ecl-table__header">CCIs covered by the list of operations</th>-->
                             </tr>
                         </thead>
                         <tbody class="ecl-table__body">
                             <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
                                 <td class="ecl-table__cell">{{loo.id}}</td>
                                 <td class="ecl-table__cell">{{loo.instanceLabel}}</td>
-                                <td class="ecl-table__cell">{{loo.url}}</td>
+                                <td class="ecl-table__cell"><a [href]="loo.url">url</a></td>
                                 <td class="ecl-table__cell">{{loo.lastUpdate | date:'d MMMM yyyy'}}</td>
-                                <td class="ecl-table__cell">{{loo.ccis.toString()}}</td>
+<!--                                <td class="ecl-table__cell">{{loo.ccis.toString()}}</td>-->
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </kohesio-ecl-accordion>
+            <div class="ecl-popover" data-ecl-popover data-ecl-auto-init="Popover"><a href="/component-library/example"
+                                                                     class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__toggle"
+                                                                     aria-controls="popover-example" data-ecl-popover-toggle="" aria-expanded="false" aria-label="Popover toggle"><svg
+                class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
+                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#share"></use>
+            </svg><span class="ecl-link__label">Popover</span></a>
+                <div id="popover-example" class="ecl-popover__container" hidden="">
+                    <div class="ecl-popover__content">
+                        <ul class="ecl-popover__list">
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 1"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 1</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 2"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 2</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 3"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 3</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 4"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 4</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 5"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 5</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 6"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 6</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 7"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 7</span></a></li>
+                            <li class="ecl-popover__item"><a href="/component-library/example"
+                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
+                                                             aria-label="Link to item 8"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
+                                                                                              aria-hidden="true">
+                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
+                            </svg><span class="ecl-link__label">item 8</span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
 
         </div>
     </div>

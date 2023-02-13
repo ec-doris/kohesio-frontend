@@ -98,7 +98,7 @@ export class FilterService {
         }
     }
 
-    getFilterLabel(type:string, key:string) {
+    getFilterLabel(type:string, key:string, rawLabel:boolean = false) {
         let result = null;
         if (key) {
             let record = this.filters[type].find((filter:any) => {
@@ -117,14 +117,18 @@ export class FilterService {
             }
             if (record) {
                 const value = record.shortValue ? record.shortValue : record.value;
-                result = value.split(' ').join('-');
+                if (rawLabel){
+                  result = value;
+                }else {
+                  result = value.split(' ').join('-');
+                }
             }
         }
        return result;
     }
 
     getFilterKey(type:string, label:string | null){
-        if (type && label) {
+        if (type && label && this.filters[type]) {
             label = label.split('-').join('');
             let result:any;
             this.filters[type].forEach((filter:any) => {
@@ -227,6 +231,19 @@ export class FilterService {
                     });
             }
         });
+    }
+
+    getFilterLabelByLabel(type:string, label:string){
+      const filterType:any = {
+        "theme":"thematic_objectives",
+        "policyObjective":"policy_objectives",
+        "fund":"funds",
+        "interventionField":"categoriesOfIntervention",
+        "country":"countries",
+        "region":"regions"
+      }
+      const key = this.getFilterKey(filterType[type], label);
+      return this.getFilterLabel(filterType[type],key, true);
     }
 
 }

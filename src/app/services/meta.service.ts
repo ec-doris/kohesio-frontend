@@ -5,6 +5,7 @@ import {Meta, Title} from "@angular/platform-browser";
 import {environment} from "../../environments/environment";
 import {TranslateService} from "./translate.service";
 import {DOCUMENT} from "@angular/common";
+import {FilterService} from "./filter.service";
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class MetaService {
               private activatedRoute: ActivatedRoute,
               private titleService: Title,
               private translateService: TranslateService,
+              private filterService: FilterService,
               @Inject(DOCUMENT) private _document: Document,
               @Inject(LOCALE_ID) public locale: string,
               private metaService: Meta) {
@@ -74,38 +76,7 @@ export class MetaService {
 
           //Project list page
           if (this.router.url.startsWith('/' + this.translateService.routes.projects)){
-            let title = this.translateService.dynamicMetadata.projects.titleAlt1;
-            const hasRegion = this.activatedRoute.snapshot.queryParamMap.has(this.translateService.queryParams.region);
-            const hasCountry = this.activatedRoute.snapshot.queryParamMap.has(this.translateService.queryParams.country);
-            const hasFund = this.activatedRoute.snapshot.queryParamMap.has(this.translateService.queryParams.fund);
-            if ((hasRegion || hasCountry) && hasFund){
-              title = this.translateService.dynamicMetadata.projects.titleAlt3;
-            }else if((hasRegion || hasCountry) && !hasFund){
-              title = this.translateService.dynamicMetadata.projects.titleAlt2;
-            }else if(hasFund){
-              title = this.translateService.dynamicMetadata.projects.titleAlt4;
-            }
-            if (title.indexOf("{$REGION-COUNTRY}")>-1){
-              let countryRegion = "";
-              if (hasRegion && hasCountry){
-                countryRegion = this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.region) + '-' +
-                  this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.country);
-              }else if(hasRegion && !hasCountry){
-                countryRegion += this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.region);
-              }else{
-                countryRegion += this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.country);
-              }
-              title = title.replace("{$REGION-COUNTRY}",countryRegion);
-            }
-            if (title.indexOf("{$FUND}")>-1){
-              let fund = this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.fund) + "";
-              title = title.replace("{$FUND}",fund);
-            }
-
-
-            this.titleService.setTitle(title);
-            this.metaService.updateTag({property: 'og:title', content: title});
-            this.metaService.updateTag({name: 'description', content: title})
+            this.changeProjectListMetadata();
           }
 
           //Project detail page
@@ -114,8 +85,11 @@ export class MetaService {
             this.metaService.updateTag({property: 'og:title', content: data["project"].label+ " | Kohesio"});
 
             let description = this.translateService.dynamicMetadata.projectDetail.description;
-            description = description.replace("{$REGION-COUNTRY}",data["project"].regionText);
-            description = description.replace("{$FUND}",data["project"].fundLabel);
+            description += " - " + data["project"].categoryLabels[0];
+            description += " - " + data["project"].themeLabels[0];
+            description += " - " + data["project"].fundLabel;
+            description += " - " + data["project"].regionText;
+
             this.metaService.updateTag({name: 'description', content: description});
             this.metaService.updateTag({property: 'og:image', content: data["project"].images[0].image})
           }
@@ -133,6 +107,51 @@ export class MetaService {
 
       })
 
+  }
+
+  public changeProjectListMetadata(){
+    let title:string = "";
+    let description = this.translateService.dynamicMetadata.projects.titleAlt0;
+    const priorityOrder:string[] = ["interventionField","theme","policyObjective","fund","region","country"];
+    priorityOrder.forEach((order:string)=>{
+      const queryParamTranslated:any = this.translateService.queryParams[order];
+      if (!title) {
+        if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)){
+          if (order == "interventionField" || order == "theme" || order == "policyObjective") {
+            title = this.translateService.dynamicMetadata.projects.titleAlt3;
+          } else if (order == "fund") {
+            title = this.translateService.dynamicMetadata.projects.titleAlt1;
+          } else {
+            title = this.translateService.dynamicMetadata.projects.titleAlt2;
+          }
+          if (order == "region") {
+            const country = this.filterService.getFilterLabelByLabel("country",
+              this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.country)!);
+            const region = this.filterService.getFilterLabelByLabel(order,
+              this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!);
+            if (region) {
+              title += " " + region + "," + country;
+            }else{
+              title += " " + country;
+            }
+          }else{
+            const label = this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!;
+            title += " " + this.filterService.getFilterLabelByLabel(order,label);
+          }
+        }
+      }
+      if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)){
+        const label = this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!;
+        description += ", " + this.filterService.getFilterLabelByLabel(order,label);
+      }
+    })
+    if (!title){
+      title = this.translateService.dynamicMetadata.projects.titleAlt0;
+    }
+
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({property: 'og:title', content: title});
+    this.metaService.updateTag({name: 'description', content: description})
   }
 
   getChild(activatedRoute: ActivatedRoute) : ActivatedRoute{
