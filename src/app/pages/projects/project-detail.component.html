@@ -1,12 +1,3 @@
-<!-- <ux-modal id="imageOverlay" [titleLabel]="project?.label" [isFooterVisible]="false" customWidth="500px">
-    <uxModalBody>
-        <div class="modal-body">
-            <img [src]="project?.images[0].image" alt="" *ngIf="project?.images && project?.images.length">
-            <div class="title" *ngIf="project?.images && project?.images.length">{{project?.images[0].imageCopyright}}</div>
-        </div>
-    </uxModalBody>
-</ux-modal> -->
-
 <nav *ngIf="!isModal" class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
@@ -30,8 +21,12 @@
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
     <div class="kohesio-page-detail-tools">
         <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.project-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.project-detail.button.more">More</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+                            i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
+                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                            i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
+                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>&nbsp;
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
@@ -56,11 +51,6 @@
                     </span>
                 </div>
 
-                <div class="content">
-                    <span i18n="@@page.project-detail.label.managingAuthority">Managing authority: </span>
-                    {{project.managingAuthorityLabel ? project.managingAuthorityLabel : "n/a"}}
-                </div>
-
                 <div class="content" *ngIf="project?.projectWebsite">
                     <span i18n="@@page.project-detail.label.projectWebsite">Project website: </span>
                     <a class="ecl-link ecl-link--standalone" [href]="project.projectWebsite" *ngIf="project?.projectWebsite" target="_blank" i18n="@@page.project-detail.link.link">link</a>
@@ -80,8 +70,6 @@
                     <ng-container *ngIf="!project?.keepUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
                 </div>
             </div>
-
-
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.funding">funding</span>
                 <div class="content">
@@ -114,7 +102,6 @@
                 </div>
 
             </div>
-
             <div class="kohesio-side-content-block" *ngIf="project.program && project.program.length">
                 <span class="title" i18n="@@page.project-detail.label.programmes">{project.program.length, plural, =0 {programme} =1 {programme} other {programmes}}</span>
                 <div class="programme-wrapper" *ngFor="let programme of project.program">
@@ -137,13 +124,15 @@
                             <ng-container *ngIf="!programme.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
                         </span>
                     </div>
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.managingAuthority">Managing authority: </span>
+                        {{project.managingAuthorityLabel ? project.managingAuthorityLabel : "n/a"}}
+                    </div>
                     <div class="content" *ngIf="programme.programInfoRegioUrl" style="margin-top: 10px;">
                         <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank" i18n="@@page.project-detail.programme.readFurther">Read further about the programme</a>
                     </div>
                 </div>
             </div>
-
-
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.theme">{project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}</span>
                 <div class="content  padding" *ngFor="let item of project?.themeLabels">
@@ -153,8 +142,6 @@
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
-
-
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.interventionField">{project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}</span>
                 <div class="content padding" *ngFor="let item of project?.categoryLabels; let i = index">
@@ -164,8 +151,6 @@
                     <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
                 </div>
             </div>
-
-
             <div class="kohesio-side-content-block" >
                 <span class="title" i18n="@@page.project-detail.label.beneficiary">{project.beneficiaries.length, plural, =0 {beneficiary} =1 {beneficiary} other {beneficiaries}}</span>
                 <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
@@ -214,9 +199,6 @@
                                 </ng-container>
                                 <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
                             </div>
-                            <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
-                                <b>Highlighted project</b>
-                            </ux-popover> -->
                             <h1 class="ecl-u-type-heading-4">
                                 {{project.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
                             </h1>
@@ -237,61 +219,7 @@
                                 </ng-container>
                         </div>
 
-                        <div class="kohesio-social-icons-wrapper">
-                            <span class="title" i18n="@@page.project-detail.label.shareon">share on </span>
-                            <ul class="ecl-social-media-follow__list">
-                                <li class="ecl-social-media-follow__item">
-                                    <a matTooltip="Share on Facebook" [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="ecl-social-media-follow__item">
-                                    <a matTooltip="Share on Twitter" [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <!--<li class="ecl-social-media-follow__item">
-                                    <a href="https://instagram.com/" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#instagram"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#instagram_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>-->
-                                <li class="ecl-social-media-follow__item">
-                                    <a matTooltip="Share on Linkedin" [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="ecl-social-media-follow__item">
-                                    <a matTooltip="Share by Email" [href]="'mailto:?subject=Kohesio&body=Check this project on Kohesio: ' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email" style="fill:#FFF;"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="kohesio-report-icons-wrapper">
-                            <span class="title" i18n="@@page.project-detail.label.reportIssue">report an issue</span>
-                            <ul class="ecl-social-media-follow__list">
-                                <li class="ecl-social-media-follow__item">
-                                    <a matTooltip="Report an issue by email" (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#bug"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <app-share-block [id]="project.item"></app-share-block>
                     </div>
                 </article>
             </div>

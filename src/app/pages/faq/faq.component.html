@@ -45,6 +45,8 @@
                             class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section8.title">Can I download the datasets?</a> </li>
                         <li class="ecl-inpage-navigation__item"> <a data-ecl-inpage-navigation-link="true" [href]="translateService.routes.faq + '#' + translateService.sections.section + '-9'"
                             class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section9.title">Where can I find additional information and complementary data about Cohesion Policy?</a> </li>
+                        <li class="ecl-inpage-navigation__item"> <a data-ecl-inpage-navigation-link="true" [href]="translateService.routes.faq + '#' + translateService.sections.section + '-10'"
+                                                                    class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section10.title">List of operation</a> </li>
                     </ul>
                 </div>
             </nav>
@@ -130,25 +132,52 @@
               <p class="ecl-u-type-paragraph">Additionally, <a href="https://cohesiondata.ec.europa.eu/" target="blank">Cohesion Data</a> provides datasets at programme level. It is an open data platform providing data on financing and achievements under the ESI Funds 2014-2020. The platform visualises the latest data available for over 530 programmes.</p>
             </ng-container>
 
-            <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-10'" i18n="@@page.faq.section10.title">List of operation</h2>
-            <kohesio-ecl-accordion class="kohesio-faq-projects-block"
-                                   i18n-title="LIST OF OPERATION|@@page.faq.accordion.listofoperation"
-                                   title="LIST OF OPERATION" [collapsed]="true">
+            <kohesio-ecl-accordion [id]="translateService.sections.section+'-10'" class="kohesio-faq-projects-block"
+                                   i18n-title="@@page.faq.section10.title"
+                                   title="List of operation" [collapsed]="true">
                 <div class="ecl-table-responsive" style="overflow: scroll;background-color: white;">
                     <table class="ecl-table ecl-table--zebra">
                         <thead class="ecl-table__head">
                             <tr class="ecl-table__row">
-                                <th class="ecl-table__header">Id</th>
-                                <th class="ecl-table__header">Title</th>
-                                <th class="ecl-table__header">Url</th>
-                                <th class="ecl-table__header">Last update in Kohesio</th>
+                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.id">Id</th>
+                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.title">Title</th>
+                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.url">Url</th>
+                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.lastUpdate">Last update in Kohesio</th>
 <!--                                <th class="ecl-table__header">CCIs covered by the list of operations</th>-->
                             </tr>
                         </thead>
                         <tbody class="ecl-table__body">
                             <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
                                 <td class="ecl-table__cell">{{loo.id}}</td>
-                                <td class="ecl-table__cell">{{loo.instanceLabel}}</td>
+                                <td class="ecl-table__cell">
+                                    <div class="cell-flex-content">
+                                        <div>{{loo.instanceLabel}}</div>
+                                        <div>
+                                            <popper-content #id>
+                                                <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                                                    <h5 class="ecl-u-type-heading-5 ecl-u-mv-none"
+                                                        i18n="@@page.faq.section10.popper.ccis.text">CCIs covered by the list of operations:</h5>
+                                                    <svg (click)="id.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+                                                    </svg>
+                                                </div>
+                                                <div class="ccis-list">
+                                                    {{loo.ccis.toString()}}
+                                                </div>
+                                            </popper-content>
+                                            <div [popper]="id"
+                                                 popperApplyClass="info-tooltip"
+                                                 [popperHideOnClickOutside]="true"
+                                                 [popperHideOnScroll]="true"
+                                                 [popperPositionFixed]="true"
+                                                 class="infoButton" >
+                                                <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                                 <td class="ecl-table__cell"><a [href]="loo.url">url</a></td>
                                 <td class="ecl-table__cell">{{loo.lastUpdate | date:'d MMMM yyyy'}}</td>
 <!--                                <td class="ecl-table__cell">{{loo.ccis.toString()}}</td>-->
@@ -157,67 +186,6 @@
                     </table>
                 </div>
             </kohesio-ecl-accordion>
-            <div class="ecl-popover" data-ecl-popover data-ecl-auto-init="Popover"><a href="/component-library/example"
-                                                                     class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__toggle"
-                                                                     aria-controls="popover-example" data-ecl-popover-toggle="" aria-expanded="false" aria-label="Popover toggle"><svg
-                class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
-                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#share"></use>
-            </svg><span class="ecl-link__label">Popover</span></a>
-                <div id="popover-example" class="ecl-popover__container" hidden="">
-                    <div class="ecl-popover__content">
-                        <ul class="ecl-popover__list">
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 1"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 1</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 2"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 2</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 3"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 3</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 4"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 4</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 5"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 5</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 6"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 6</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 7"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 7</span></a></li>
-                            <li class="ecl-popover__item"><a href="/component-library/example"
-                                                             class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-popover__link"
-                                                             aria-label="Link to item 8"><svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false"
-                                                                                              aria-hidden="true">
-                                <use xlink:href="/component-library/dist/media/icons.6770a2ae.svg#global"></use>
-                            </svg><span class="ecl-link__label">item 8</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
 
 
         </div>
