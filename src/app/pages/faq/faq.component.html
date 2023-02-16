@@ -45,8 +45,6 @@
                             class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section8.title">Can I download the datasets?</a> </li>
                         <li class="ecl-inpage-navigation__item"> <a data-ecl-inpage-navigation-link="true" [href]="translateService.routes.faq + '#' + translateService.sections.section + '-9'"
                             class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section9.title">Where can I find additional information and complementary data about Cohesion Policy?</a> </li>
-                        <li class="ecl-inpage-navigation__item"> <a data-ecl-inpage-navigation-link="true" [href]="translateService.routes.faq + '#' + translateService.sections.section + '-10'"
-                                                                    class="ecl-inpage-navigation__link ecl-link ecl-link--standalone" i18n="@@page.faq.section10.title">List of operation</a> </li>
                     </ul>
                 </div>
             </nav>
@@ -76,6 +74,66 @@
               <p class="ecl-u-type-paragraph">The European Commission cannot accept any liability for the accuracy of content from the list of operations in Kohesio.</p>
               <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a [routerLink]="['/'+translateService.routes.privacy]">Privacy Statement</a>.</p>
             </ng-container>
+            <kohesio-ecl-accordion class="kohesio-faq-projects-block"
+                                   i18n-title="@@@@page.faq.listsOfOperations.title"
+                                   title="Lists of operations" [collapsed]="true">
+                <div class="ecl-table-responsive" style="overflow: scroll;background-color: white;">
+                    <div class="loo_filters">
+                        <kohesio-ecl-form-group>
+                            <kohesio-ecl-form-label i18n="@@page.projects.label.country">COUNTRY</kohesio-ecl-form-label>
+                            <kohesio-ecl-form-select [(ngModel)]="countrySelected" [items]="this.countries" (change)="onCountryChange($event)"></kohesio-ecl-form-select>
+                        </kohesio-ecl-form-group>
+                    </div>
+                    <table class="ecl-table ecl-table--zebra">
+                        <thead class="ecl-table__head">
+                        <tr class="ecl-table__row">
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.id">Id</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.title">Title</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.url">Url</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.lastUpdate">Last update in Kohesio</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.country">Country</th>
+                        </tr>
+                        </thead>
+                        <tbody class="ecl-table__body">
+                        <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
+                            <td class="ecl-table__cell">{{loo.id}}</td>
+                            <td class="ecl-table__cell">
+                                <div class="cell-flex-content">
+                                    <div>{{loo.instanceLabel}}</div>
+                                    <div>
+                                        <popper-content #id>
+                                            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                                                <h5 class="ecl-u-type-heading-5 ecl-u-mv-none"
+                                                    i18n="@@page.faq.section10.popper.ccis.text">CCIs covered by the list of operations:</h5>
+                                                <svg (click)="id.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="ccis-list">
+                                                {{loo.ccis.toString()}}
+                                            </div>
+                                        </popper-content>
+                                        <div [popper]="id"
+                                             popperApplyClass="info-tooltip"
+                                             [popperHideOnClickOutside]="true"
+                                             [popperHideOnScroll]="true"
+                                             [popperPositionFixed]="true"
+                                             class="infoButton" >
+                                            <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ecl-table__cell"><a [href]="loo.url">url</a></td>
+                            <td class="ecl-table__cell">{{loo.lastUpdate | date:'d MMMM yyyy'}}</td>
+                            <td class="ecl-table__cell">{{loo.country}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </kohesio-ecl-accordion>
 
             <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-4'" i18n="@@page.faq.section4.title">What are the mandatory fields in the list of operations?</h2>
             <ng-container i18n="@@page.faq.section4.description">
@@ -132,60 +190,7 @@
               <p class="ecl-u-type-paragraph">Additionally, <a href="https://cohesiondata.ec.europa.eu/" target="blank">Cohesion Data</a> provides datasets at programme level. It is an open data platform providing data on financing and achievements under the ESI Funds 2014-2020. The platform visualises the latest data available for over 530 programmes.</p>
             </ng-container>
 
-            <kohesio-ecl-accordion [id]="translateService.sections.section+'-10'" class="kohesio-faq-projects-block"
-                                   i18n-title="@@page.faq.section10.title"
-                                   title="List of operation" [collapsed]="true">
-                <div class="ecl-table-responsive" style="overflow: scroll;background-color: white;">
-                    <table class="ecl-table ecl-table--zebra">
-                        <thead class="ecl-table__head">
-                            <tr class="ecl-table__row">
-                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.id">Id</th>
-                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.title">Title</th>
-                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.url">Url</th>
-                                <th class="ecl-table__header" i18n="@@page.faq.section10.table.lastUpdate">Last update in Kohesio</th>
-<!--                                <th class="ecl-table__header">CCIs covered by the list of operations</th>-->
-                            </tr>
-                        </thead>
-                        <tbody class="ecl-table__body">
-                            <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
-                                <td class="ecl-table__cell">{{loo.id}}</td>
-                                <td class="ecl-table__cell">
-                                    <div class="cell-flex-content">
-                                        <div>{{loo.instanceLabel}}</div>
-                                        <div>
-                                            <popper-content #id>
-                                                <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                                                    <h5 class="ecl-u-type-heading-5 ecl-u-mv-none"
-                                                        i18n="@@page.faq.section10.popper.ccis.text">CCIs covered by the list of operations:</h5>
-                                                    <svg (click)="id.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
-                                                    </svg>
-                                                </div>
-                                                <div class="ccis-list">
-                                                    {{loo.ccis.toString()}}
-                                                </div>
-                                            </popper-content>
-                                            <div [popper]="id"
-                                                 popperApplyClass="info-tooltip"
-                                                 [popperHideOnClickOutside]="true"
-                                                 [popperHideOnScroll]="true"
-                                                 [popperPositionFixed]="true"
-                                                 class="infoButton" >
-                                                <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
-                                                </svg>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td class="ecl-table__cell"><a [href]="loo.url">url</a></td>
-                                <td class="ecl-table__cell">{{loo.lastUpdate | date:'d MMMM yyyy'}}</td>
-<!--                                <td class="ecl-table__cell">{{loo.ccis.toString()}}</td>-->
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </kohesio-ecl-accordion>
+
 
 
         </div>

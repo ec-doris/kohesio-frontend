@@ -6,16 +6,20 @@ import {KohesioEclAccordionModule} from "../../components/ecl/accordion/accordio
 import {RouterModule} from "@angular/router";
 import {FaqRoutingModule} from "./faq-routing.module";
 import {NgxPopperjsModule} from "ngx-popperjs";
+import {KohesioEclFormModule} from "../../components/ecl/forms/form.ecl.module";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        MatTableModule,
-        KohesioEclAccordionModule,
-        FaqRoutingModule,
-        NgxPopperjsModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    MatTableModule,
+    KohesioEclAccordionModule,
+    FaqRoutingModule,
+    NgxPopperjsModule,
+    KohesioEclFormModule,
+    FormsModule
+  ],
   declarations: [
     FaqPageComponent
   ],

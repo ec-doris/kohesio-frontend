@@ -8,7 +8,7 @@ const routes: Routes = [
     path: '',
     component: FaqPageComponent,
     resolve: {
-      listOfOperation: FaqPageResolve
+      data: FaqPageResolve
     }
   }
 ];
