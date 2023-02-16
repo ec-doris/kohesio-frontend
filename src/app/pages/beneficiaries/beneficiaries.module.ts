@@ -18,6 +18,7 @@ import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.
 import {NgxPopperjsModule} from 'ngx-popperjs';
 import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/image-overlay.module';
 import {ShareBlockModule} from "../../components/kohesio/share-block/share-block.module";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {ShareBlockModule} from "../../components/kohesio/share-block/share-block
         KohesioEclSpinnerModule,
         NgxPopperjsModule,
         ImageOverlayModule,
-        ShareBlockModule
+        ShareBlockModule,
+        MatTooltipModule
     ],
     declarations: [
         BeneficiariesComponent,
