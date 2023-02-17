@@ -8,6 +8,7 @@ import {FaqRoutingModule} from "./faq-routing.module";
 import {NgxPopperjsModule} from "ngx-popperjs";
 import {KohesioEclFormModule} from "../../components/ecl/forms/form.ecl.module";
 import {FormsModule} from "@angular/forms";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @NgModule({
   imports: [
@@ -18,7 +19,8 @@ import {FormsModule} from "@angular/forms";
     FaqRoutingModule,
     NgxPopperjsModule,
     KohesioEclFormModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ],
   declarations: [
     FaqPageComponent

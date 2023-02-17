@@ -13,6 +13,9 @@ export class ListOfOperation{
   instanceLabel!: string;
   id!: string;
   url!: string;
-  country!: string;
+  country!: {
+    code: string,
+    label: string
+  };
 
 }
