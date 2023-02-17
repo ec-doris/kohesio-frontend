@@ -26,6 +26,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {TranslateService} from "../../services/translate.service";
+import {MetaService} from "../../services/meta.service";
 
 @Component({
   templateUrl: './projects.component.html',
@@ -76,7 +77,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private datePipe: DatePipe,
     breakpointObserver: BreakpointObserver,
     public translateService: TranslateService,
-    @Inject(PLATFORM_ID) private platformId: Object) {
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private metaService: MetaService) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -164,6 +166,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
           this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
           this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
+            this.metaService.changeProjectListMetadata();
             this.getProjectList();
           }
         });
