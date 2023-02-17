@@ -18,6 +18,7 @@ export class FaqPageComponent implements AfterViewInit {
     public mobileQuery: boolean;
     public countries!: [];
     public countrySelected:string = "";
+    public isLoading:boolean = false;
 
     constructor(public translateService: TranslateService,
                 @Inject(DOCUMENT) private _document: Document,
@@ -44,12 +45,15 @@ export class FaqPageComponent implements AfterViewInit {
     }
 
     onCountryChange(ev:any){
+      this.listOfOperation = [];
+      this.isLoading = true;
       let params:any = {};
       if (this.countrySelected){
         params.country = environment.entityURL + this.countrySelected;
       }
       this.listOfOperationService.getListOfOperation(params).subscribe((data:ListOfOperation[])=>{
         this.listOfOperation = data;
+        this.isLoading = false;
       })
     }
 

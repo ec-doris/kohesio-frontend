@@ -86,6 +86,7 @@
                             </kohesio-ecl-form-group>
                         </div>
                     </div>
+
                     <table class="ecl-table ecl-table--zebra">
                         <thead class="ecl-table__head">
                         <tr class="ecl-table__row">
@@ -96,6 +97,7 @@
                         </tr>
                         </thead>
                         <tbody class="ecl-table__body">
+                        <kohesio-ecl-spinner *ngIf="isLoading" style="display: table-row;"></kohesio-ecl-spinner>
                         <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
                             <td class="ecl-table__cell flag-cell">
                                 <span class="flag" [matTooltip]="loo.country.label">
