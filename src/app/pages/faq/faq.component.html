@@ -101,7 +101,7 @@
                         <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
                             <td class="ecl-table__cell flag-cell">
                                 <span class="flag" [matTooltip]="loo.country.label">
-                                    <img class="flag" src="{{'assets/images/flags/' + loo.country.code.toLowerCase() + '.png'}}">
+                                    <img class="flag" src="{{'assets/images/flags/' + loo.getCountryCode().toLowerCase() + '.png'}}">
                                 </span>
                             </td>
                             <td class="ecl-table__cell">

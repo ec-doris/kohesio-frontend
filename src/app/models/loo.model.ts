@@ -18,4 +18,8 @@ export class ListOfOperation{
     label: string
   };
 
+  getCountryCode() {
+    return this.country.code == 'TC' ? 'EU' : this.country.code;
+  }
+
 }

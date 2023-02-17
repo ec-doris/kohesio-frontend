@@ -38,8 +38,8 @@ export class FaqPageComponent implements AfterViewInit {
 
     ngAfterViewInit(): void {
       if (isPlatformBrowser(this.platformId)) {
-        var elt = this._document.querySelector('[data-ecl-inpage-navigation]');
-        var inpageNavigation = new ECL.InpageNavigation(elt);
+        const elt = this._document.querySelector('[data-ecl-inpage-navigation]');
+        const inpageNavigation = new ECL.InpageNavigation(elt);
         inpageNavigation.init();
       }
     }
