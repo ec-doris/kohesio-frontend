@@ -86,6 +86,7 @@
                             </kohesio-ecl-form-group>
                         </div>
                     </div>
+
                     <table class="ecl-table ecl-table--zebra">
                         <thead class="ecl-table__head">
                         <tr class="ecl-table__row">
@@ -95,9 +96,14 @@
                             <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.lastUpdate">Last update in Kohesio</th>
                         </tr>
                         </thead>
+
                         <tbody class="ecl-table__body">
                         <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
-                            <td class="ecl-table__cell">{{loo.country}}</td>
+                            <td class="ecl-table__cell flag-cell">
+                                <span class="flag" [matTooltip]="loo.country.label">
+                                    <img class="flag" src="{{'assets/images/flags/' + loo.getCountryCode().toLowerCase() + '.png'}}">
+                                </span>
+                            </td>
                             <td class="ecl-table__cell">
                                 <div class="cell-flex-content">
                                     <div>{{loo.instanceLabel}}</div>
@@ -133,6 +139,8 @@
                         </tr>
                         </tbody>
                     </table>
+
+                    <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
                 </div>
             </kohesio-ecl-accordion>
 

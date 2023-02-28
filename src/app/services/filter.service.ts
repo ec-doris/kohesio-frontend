@@ -1,7 +1,7 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable, Observer, of} from 'rxjs';
 import {forkJoin} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {FiltersApi} from "../models/filters-api.model";
@@ -233,17 +233,43 @@ export class FilterService {
         });
     }
 
-    getFilterLabelByLabel(type:string, label:string){
-      const filterType:any = {
-        "theme":"thematic_objectives",
-        "policyObjective":"policy_objectives",
-        "fund":"funds",
-        "interventionField":"categoriesOfIntervention",
-        "country":"countries",
-        "region":"regions"
-      }
-      const key = this.getFilterKey(filterType[type], label);
-      return this.getFilterLabel(filterType[type],key, true);
+    getFilterLabelByLabel(type:string, label:string):Promise<string>{
+      return new Promise((resolve, reject) => {
+        const filterType:any = {
+          "theme":"thematic_objectives",
+          "policyObjective":"policy_objectives",
+          "fund":"funds",
+          "interventionField":"categoriesOfIntervention",
+          "country":"countries",
+          "region":"regions"
+        }
+        let key = this.getFilterKey(filterType[type], label);
+        if (type == "interventionField"){
+          this.getKohesioCategory(key.id).subscribe((data:any)=>{
+            resolve(data.instanceLabel);
+          });
+        }else{
+          resolve(this.getFilterLabel(filterType[type],key, true));
+        }
+      });
     }
+
+  getKohesioCategory(interventionFieldId: string): Observable<any[]>{
+    const url = environment.apiBaseUrl + '/kohesio_categories';
+    let params = {
+      language: this.locale,
+      interventionField: 'https://linkedopendata.eu/entity/' + interventionFieldId
+    };
+
+    return this.http.get<any>(url,{ params: <any>params }).pipe(
+      map(data => {
+        if (data && data.length) {
+          return data[0];
+        }else{
+          return undefined;
+        }
+      })
+    );
+  }
 
 }
