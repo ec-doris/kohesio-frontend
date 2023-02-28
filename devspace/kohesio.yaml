@@ -35,6 +35,13 @@ spec:
           port: 4200
       middlewares:
         - name: security
+    - match: Host(`kohesio.local.europa.eu`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: kohesio-backend
+          port: 5678
+      middlewares:
+        - name: security
   tls:
     secretName: certificates-secret
 

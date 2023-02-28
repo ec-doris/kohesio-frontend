@@ -51,6 +51,9 @@ dev:
         - deploy/
         - node_modules/
         - dist/
+  terminal:
+    imageSelector: ${APP_IMAGE}
+    command: ["npm run devspace-start"]
 
 hooks:
   - command: |

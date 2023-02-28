@@ -109,14 +109,14 @@ export class MetaService {
 
   }
 
-  public changeProjectListMetadata(){
-    let title:string = "";
+  public async changeProjectListMetadata() {
+    let title: string = "";
     let description = this.translateService.dynamicMetadata.projects.titleAlt0;
-    const priorityOrder:string[] = ["interventionField","theme","policyObjective","fund","region","country"];
-    priorityOrder.forEach((order:string)=>{
-      const queryParamTranslated:any = this.translateService.queryParams[order];
+    const priorityOrder: string[] = ["interventionField", "theme", "policyObjective", "fund", "region", "country"];
+    for (const order of priorityOrder) {
+      const queryParamTranslated: any = this.translateService.queryParams[order];
       if (!title) {
-        if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)){
+        if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)) {
           if (order == "interventionField" || order == "theme" || order == "policyObjective") {
             title = this.translateService.dynamicMetadata.projects.titleAlt3;
           } else if (order == "fund") {
@@ -125,27 +125,28 @@ export class MetaService {
             title = this.translateService.dynamicMetadata.projects.titleAlt2;
           }
           if (order == "region") {
-            const country = this.filterService.getFilterLabelByLabel("country",
+            const country = await this.filterService.getFilterLabelByLabel("country",
               this.activatedRoute.snapshot.queryParamMap.get(this.translateService.queryParams.country)!);
-            const region = this.filterService.getFilterLabelByLabel(order,
+            const region = await this.filterService.getFilterLabelByLabel(order,
               this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!);
             if (region) {
               title += " " + region + "," + country;
-            }else{
+            } else {
               title += " " + country;
             }
-          }else{
+          } else {
             const label = this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!;
-            title += " " + this.filterService.getFilterLabelByLabel(order,label);
+            let titlePiece = await this.filterService.getFilterLabelByLabel(order, label);
+            title += " " + titlePiece;
           }
         }
       }
-      if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)){
+      if (this.activatedRoute.snapshot.queryParamMap.has(queryParamTranslated)) {
         const label = this.activatedRoute.snapshot.queryParamMap.get(queryParamTranslated)!;
-        description += ", " + this.filterService.getFilterLabelByLabel(order,label);
+        description += ", " + await this.filterService.getFilterLabelByLabel(order, label);
       }
-    })
-    if (!title){
+    }
+    if (!title) {
       title = this.translateService.dynamicMetadata.projects.titleAlt0;
     }
 
