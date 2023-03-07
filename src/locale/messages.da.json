@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "del på ",
 		"comp.share-block.label.reportIssue": "indberet et problem",
 		"comp.button.graph": "Graf",
-		"comp.button.more": "Mere"
+		"comp.button.more": "Mere",
+		"page.metadata.home.description": "Data om projekter, der finansieres af EU",
+		"page.metadata.beneficiaries.description": "Modtagere af EU-medfinansiering af projekter",
+		"comp.share-block.button.shareonfacebook.tooltip": "Del det på Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Del det på Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Del det på Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "Del det via e-mail",
+		"comp.share-block.button.reportissue.tooltip": "Indberet et problem via e-mail",
+		"comp.button.graph.tooltip": "Visualisér som netværk",
+		"comp.button.more.tooltip": "Åbn i EU's vidensgraf",
+		"page.faq.listsOfOperations.title": "Lister over operationer",
+		"page.faq.listsOfOperations.table.country": "Land",
+		"page.faq.listsOfOperations.table.title": "Titel",
+		"page.faq.listsOfOperations.table.url": "Webadresse",
+		"page.faq.listsOfOperations.table.lastUpdate": "Seneste opdatering i Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "KKI'er, der er omfattet af listen over operationer:",
+		"translate.queryParams.mapRegion": "mapRegion",
+		"page.metadata.projects-alt-0": "Projekter, der medfinansieres af EU",
+		"page.metadata.projects-alt-1": "EU-projekter",
+		"page.metadata.projects-alt-2": "EU-projekter i",
+		"page.metadata.projects-alt-3": "EU-projekter om",
+		"page.metadata.project-detail.description": "Projekt, der medfinansieres af EU"
 	}
 }

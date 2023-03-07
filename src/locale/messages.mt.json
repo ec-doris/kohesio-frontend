@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "ixxerja fuq ",
 		"comp.share-block.label.reportIssue": "irrapporta problema",
 		"comp.button.graph": "Graff",
-		"comp.button.more": "Aktar"
+		"comp.button.more": "Aktar ",
+		"page.metadata.home.description": "Data dwar proġetti ffinanzjati mill-Unjoni Ewropea",
+		"page.metadata.beneficiaries.description": "Benefiċjarji ta’ proġetti kofinanzjati mill-UE",
+		"comp.share-block.button.shareonfacebook.tooltip": "Ixxerja fuq Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Ixxerja fuq Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Ixxerja fuq Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "Ixxerja b’Email",
+		"comp.share-block.button.reportissue.tooltip": "Irrapporta problema b’email",
+		"comp.button.graph.tooltip": "Ivviżwalizza bħala network",
+		"comp.button.more.tooltip": "Miftuħa fil-Graff tal-Għarfien tal-UE",
+		"page.faq.listsOfOperations.title": "Lista ta’ operazzjonijiet",
+		"page.faq.listsOfOperations.table.country": "Pajjiż",
+		"page.faq.listsOfOperations.table.title": "Titlu",
+		"page.faq.listsOfOperations.table.url": "Url",
+		"page.faq.listsOfOperations.table.lastUpdate": "L-aħħar aġġornament f’Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "CCIs koperti mil-lista ta’ operazzjonijiet:",
+		"translate.queryParams.mapRegion": "mapRegion",
+		"page.metadata.projects-alt-0": "Proġetti kofinanzjati mill-UE",
+		"page.metadata.projects-alt-1": "Proġetti tal-UE",
+		"page.metadata.projects-alt-2": "Proġetti tal-UE fi",
+		"page.metadata.projects-alt-3": "Proġetti tal-UE dwar",
+		"page.metadata.project-detail.description": "Proġett kofinanzjat mill-UE"
 	}
 }

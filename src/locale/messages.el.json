@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "μοιραστείτε το στο ",
 		"comp.share-block.label.reportIssue": "αναφορά προβλήματος",
 		"comp.button.graph": "Γράφημα",
-		"comp.button.more": "Περισσότερα"
+		"comp.button.more": "Περισσότερα",
+		"page.metadata.home.description": "Δεδομένα σχετικά με έργα που χρηματοδοτούνται από την Ευρωπαϊκή Ένωση",
+		"page.metadata.beneficiaries.description": "Δικαιούχοι συγχρηματοδοτούμενων από την ΕΕ έργων",
+		"comp.share-block.button.shareonfacebook.tooltip": "μοιραστείτε το στο Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "μοιραστείτε το στο Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "μοιραστείτε το στο Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "μοιραστείτε το μέσω email",
+		"comp.share-block.button.reportissue.tooltip": "Αναφορά προβλήματος μέσω email",
+		"comp.button.graph.tooltip": "Απεικόνιση ως δίκτυο",
+		"comp.button.more.tooltip": "Άνοιγμα στο γράφημα γνώσεων της ΕΕ",
+		"page.faq.listsOfOperations.title": "Κατάλογος πράξεων",
+		"page.faq.listsOfOperations.table.country": "Χώρα",
+		"page.faq.listsOfOperations.table.title": "Τίτλος",
+		"page.faq.listsOfOperations.table.url": "Διεύθυνση URL",
+		"page.faq.listsOfOperations.table.lastUpdate": "Τελευταία ενημέρωση στο Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "Κοινοί κωδικοί αναγνώρισης που καλύπτονται από τον κατάλογο πράξεων:",
+		"translate.queryParams.mapRegion": "περιοχή_χάρτη",
+		"page.metadata.projects-alt-0": "Έργα που συγχρηματοδοτεί η ΕΕ",
+		"page.metadata.projects-alt-1": "Έργα της ΕΕ",
+		"page.metadata.projects-alt-2": "Έργα της ΕΕ στην περιφέρεια",
+		"page.metadata.projects-alt-3": "Έργα της ΕΕ στον θεματικό τομέα",
+		"page.metadata.project-detail.description": "Έργο που συγχρηματοδοτεί η ΕΕ"
 	}
 }

@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "zdieľať na ",
 		"comp.share-block.label.reportIssue": "nahlásiť problém",
 		"comp.button.graph": "Graf",
-		"comp.button.more": "Viac"
+		"comp.button.more": "Viac",
+		"page.metadata.home.description": "Údaje o projektoch financovaných Európskou úniou",
+		"page.metadata.beneficiaries.description": "Príjemcovia projektov spolufinancovaných z EÚ",
+		"comp.share-block.button.shareonfacebook.tooltip": "Zdieľať na Facebooku",
+		"comp.share-block.button.shareontwitter.tooltip": "Zdieľať na Twitteri",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Zdieľať na Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "Zdieľať e-mailom",
+		"comp.share-block.button.reportissue.tooltip": "Nahlásiť problém e-mailom",
+		"comp.button.graph.tooltip": "Vizualizovať ako sieť",
+		"comp.button.more.tooltip": "Otvoriť v grafe poznatkov o EÚ",
+		"page.faq.listsOfOperations.title": "Zoznam operácií",
+		"page.faq.listsOfOperations.table.country": "Krajina",
+		"page.faq.listsOfOperations.table.title": "Názov",
+		"page.faq.listsOfOperations.table.url": "Adresa URL",
+		"page.faq.listsOfOperations.table.lastUpdate": "Posledná aktualizácia na stránke Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "Kultúrne a kreatívne sektory, na ktoré sa vzťahuje zoznam operácií:",
+		"translate.queryParams.mapRegion": "mapRegion",
+		"page.metadata.projects-alt-0": "Projekty spolufinancované EÚ",
+		"page.metadata.projects-alt-1": "Projekty EÚ",
+		"page.metadata.projects-alt-2": "Projekty EÚ v",
+		"page.metadata.projects-alt-3": "Projekty EÚ na",
+		"page.metadata.project-detail.description": "Projekt spolufinancovaný EÚ"
 	}
 }

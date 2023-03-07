@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "teilen auf ",
 		"comp.share-block.label.reportIssue": "Problem melden",
 		"comp.button.graph": "Graph",
-		"comp.button.more": "Mehr"
+		"comp.button.more": "Mehr",
+		"page.metadata.home.description": "Daten über EU-finanzierte Projekte",
+		"page.metadata.beneficiaries.description": "Begünstigte von EU-kofinanzierten Projekten",
+		"comp.share-block.button.shareonfacebook.tooltip": "Auf Facebook teilen",
+		"comp.share-block.button.shareontwitter.tooltip": "Auf Twitter teilen",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Auf LinkedIn teilen",
+		"comp.share-block.button.sharebyemail.tooltip": "Per E-Mail teilen",
+		"comp.share-block.button.reportissue.tooltip": "Problem per E-Mail melden",
+		"comp.button.graph.tooltip": "Als Netzwerk anzeigen",
+		"comp.button.more.tooltip": "Im EU-Wissensgraphen öffnen",
+		"page.faq.listsOfOperations.title": "Liste der Vorhaben",
+		"page.faq.listsOfOperations.table.country": "Land",
+		"page.faq.listsOfOperations.table.title": "Titel",
+		"page.faq.listsOfOperations.table.url": "URL",
+		"page.faq.listsOfOperations.table.lastUpdate": "Letzte Aktualisierung in Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "In der Liste der Vorhaben abgedeckte CCI-Codes:",
+		"translate.queryParams.mapRegion": "mapRegion",
+		"page.metadata.projects-alt-0": "Von der EU kofinanzierte Projekte",
+		"page.metadata.projects-alt-1": "EU-Projekte",
+		"page.metadata.projects-alt-2": "EU-Projekte in",
+		"page.metadata.projects-alt-3": "EU-Projekte zu",
+		"page.metadata.project-detail.description": "Von der EU kofinanziertes Projekt"
 	}
 }
