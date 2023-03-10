@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "delen op ",
 		"comp.share-block.label.reportIssue": "een probleem melden",
 		"comp.button.graph": "Grafiek",
-		"comp.button.more": "Meer"
+		"comp.button.more": "Meer",
+		"page.metadata.home.description": "Gegevens over door de Europese Unie gefinancierde projecten",
+		"page.metadata.beneficiaries.description": "Begunstigden van door de EU medegefinancierde projecten",
+		"comp.share-block.button.shareonfacebook.tooltip": "Delen op Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Delen op Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Delen op LinkedIn",
+		"comp.share-block.button.sharebyemail.tooltip": "Delen via e-mail",
+		"comp.share-block.button.reportissue.tooltip": "Een probleem melden via e-mail",
+		"comp.button.graph.tooltip": "Visualiseer als een netwerk",
+		"comp.button.more.tooltip": "Openen in de EU-kennisgrafiek",
+		"page.faq.listsOfOperations.title": "Lijsten van concrete acties",
+		"page.faq.listsOfOperations.table.country": "Land",
+		"page.faq.listsOfOperations.table.title": "Titel",
+		"page.faq.listsOfOperations.table.url": "Url",
+		"page.faq.listsOfOperations.table.lastUpdate": "Laatst bijgewerkt in Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "CCI’s die onder de lijst van concrete acties vallen:",
+		"translate.queryParams.mapRegion": "kaart regio",
+		"page.metadata.projects-alt-0": "Door de EU medegefinancierde projecten",
+		"page.metadata.projects-alt-1": "EU-projecten",
+		"page.metadata.projects-alt-2": "Eu-projecten in",
+		"page.metadata.projects-alt-3": "Eu-projecten over",
+		"page.metadata.project-detail.description": "Door de EU medegefinancierd project"
 	}
 }

@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "partager sur ",
 		"comp.share-block.label.reportIssue": "signaler un problème",
 		"comp.button.graph": "Graphique",
-		"comp.button.more": "Plus"
+		"comp.button.more": "Plus",
+		"page.metadata.home.description": "Données relatives aux projets financés par l’Union européenne",
+		"page.metadata.beneficiaries.description": "Bénéficiaires de projets cofinancés par l’UE",
+		"comp.share-block.button.shareonfacebook.tooltip": "Partager sur Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Partager sur Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Partager sur Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "Partager par courrier électronique",
+		"comp.share-block.button.reportissue.tooltip": "Signaler un problème par courrier électronique",
+		"comp.button.graph.tooltip": "Visualiser en réseau",
+		"comp.button.more.tooltip": "Ouvrir dans le graphique de connaissances de l’UE",
+		"page.faq.listsOfOperations.title": "Listes des opérations",
+		"page.faq.listsOfOperations.table.country": "Pays",
+		"page.faq.listsOfOperations.table.title": "Intitulé",
+		"page.faq.listsOfOperations.table.url": "Url",
+		"page.faq.listsOfOperations.table.lastUpdate": "Dernière mise à jour dans Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "CCI couverts par la liste des opérations:",
+		"translate.queryParams.mapRegion": "carteRégion",
+		"page.metadata.projects-alt-0": "Projets cofinancés par l’UE",
+		"page.metadata.projects-alt-1": "Projets de l’UE",
+		"page.metadata.projects-alt-2": "Projets de l’UE à/au/aux/en",
+		"page.metadata.projects-alt-3": "Projets de l’UE en matière de",
+		"page.metadata.project-detail.description": "Projet cofinancé par l’UE"
 	}
 }

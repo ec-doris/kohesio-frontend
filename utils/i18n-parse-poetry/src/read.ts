@@ -5,8 +5,10 @@ const fs = require('fs');
 
 class Read {
 
+  private dir:string = "files/4batch";
+
   public async run(){
-    fs.readdir("files", (err, files) => {
+    fs.readdir(this.dir, (err, files) => {
       files.forEach(file => {
         this.processFile(file);
       });
@@ -15,7 +17,7 @@ class Read {
 
   private async processFile(fileName: string){
     const workbook = new ExcelJS.Workbook();
-    await workbook.xlsx.readFile("files/"+fileName);
+    await workbook.xlsx.readFile(`${this.dir}/${fileName}`);
 
     const worksheet = workbook.worksheets[0];
 
@@ -46,7 +48,7 @@ class Read {
               value += rText.text;
             })
           }
-          if (value) {
+          if (value && !key.startsWith("Q")) {
             json.translations[key] = this.cleanValue(value);
           }
         }

@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "condividi su ",
 		"comp.share-block.label.reportIssue": "segnala un problema",
 		"comp.button.graph": "Grafico",
-		"comp.button.more": "Altro"
+		"comp.button.more": "Altre info",
+		"page.metadata.home.description": "Dati sui progetti finanziati dall'Unione europea",
+		"page.metadata.beneficiaries.description": "Beneficiari di progetti cofinanziati dall'UE",
+		"comp.share-block.button.shareonfacebook.tooltip": "Condividi su Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Condividi su Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Condividi su LinkedIn",
+		"comp.share-block.button.sharebyemail.tooltip": "Condividi per e-mail",
+		"comp.share-block.button.reportissue.tooltip": "Segna un problema per e-mail",
+		"comp.button.graph.tooltip": "Visualizza come rete",
+		"comp.button.more.tooltip": "Apri nel grafico delle conoscenze dell'UE",
+		"page.faq.listsOfOperations.title": "Elenco delle operazioni",
+		"page.faq.listsOfOperations.table.country": "Paese",
+		"page.faq.listsOfOperations.table.title": "Titolo",
+		"page.faq.listsOfOperations.table.url": "Url",
+		"page.faq.listsOfOperations.table.lastUpdate": "Ultimo aggiornamento in Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "CCI che rientrano nell'elenco delle operazioni:",
+		"translate.queryParams.mapRegion": "mappaRegione",
+		"page.metadata.projects-alt-0": "Progetti finanziati dall'UE",
+		"page.metadata.projects-alt-1": "Progetti dell'UE",
+		"page.metadata.projects-alt-2": "Progetti dell'UE in",
+		"page.metadata.projects-alt-3": "Progetti dell'UE su",
+		"page.metadata.project-detail.description": "Progetti cofinanziati dall'UE"
 	}
 }

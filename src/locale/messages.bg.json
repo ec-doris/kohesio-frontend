@@ -281,6 +281,27 @@
 		"comp.share-block.label.shareon": "споделяне в ",
 		"comp.share-block.label.reportIssue": "съобщаване за проблем",
 		"comp.button.graph": "Графика",
-		"comp.button.more": "Още"
+		"comp.button.more": "Още",
+		"page.metadata.home.description": "Данни за проекти, финансирани от Европейския съюз",
+		"page.metadata.beneficiaries.description": "Бенефициери на съфинансирани от ЕС проекти",
+		"comp.share-block.button.shareonfacebook.tooltip": "Споделяне във Facebook",
+		"comp.share-block.button.shareontwitter.tooltip": "Споделяне в Twitter",
+		"comp.share-block.button.shareonlinkedin.tooltip": "Споделяне в Linkedin",
+		"comp.share-block.button.sharebyemail.tooltip": "Споделяне по ел. поща",
+		"comp.share-block.button.reportissue.tooltip": "Докладване за проблем по електронна поща",
+		"comp.button.graph.tooltip": "Визуализиране като мрежа",
+		"comp.button.more.tooltip": "Отваряне в EU Knowledge Graph",
+		"page.faq.listsOfOperations.title": "Списък на операциите",
+		"page.faq.listsOfOperations.table.country": "Държава",
+		"page.faq.listsOfOperations.table.title": "Наименование",
+		"page.faq.listsOfOperations.table.url": "URL адрес",
+		"page.faq.listsOfOperations.table.lastUpdate": "Последна актуализация в Kohesio",
+		"page.faq.listsOfOperations.popper.ccis.text": "Единни идентификационни кодове (CCI), обхванати от списъка на операциите:",
+		"translate.queryParams.mapRegion": "mapRegion",
+		"page.metadata.projects-alt-0": "Проекти, съфинансирани от ЕС",
+		"page.metadata.projects-alt-1": "Проекти на ЕС",
+		"page.metadata.projects-alt-2": "Проекти на ЕС в",
+		"page.metadata.projects-alt-3": "Проекти на ЕС в областта на",
+		"page.metadata.project-detail.description": "Проекти, съфинансирани от ЕС"
 	}
 }
