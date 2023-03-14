@@ -2,6 +2,9 @@
     <!--<a *ngFor="let project of projects" [routerLink]="['/projects/' + project.item.replace('https://linkedopendata.eu/entity/','')]">{{project.label}}</a>-->
     <div *ngFor="let project of projects" style="display: flex;flex-direction: row;" class="kohesio-ignore-map-layer kohesio-popup-title-project">
         <span style="color: #203F79;" class="kohesio-ignore-map-layer">{{project.isHighlighted ? '★' : ''}}</span>
-        <a class="kohesio-ignore-map-layer ecl-link ecl-link--standalone ecl-link--no-visited" style="cursor:pointer;" (click)="onSelectedProject(project)">{{project.label}}</a>
+        <a [routerLink]="openProjectInner ? undefined : ['/'+translateService.routes.projects+'/'+ cleanQID(project.item)]"
+           class="kohesio-ignore-map-layer ecl-link ecl-link--standalone ecl-link--no-visited" style="cursor:pointer;"
+           [target]="openProjectInner ? 'blank' : 'self'"
+           (click)="onSelectedProject(project)">{{project.label}}</a>
     </div>
 </div>

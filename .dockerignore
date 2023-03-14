@@ -1,3 +1,9 @@
 .git
+.devcontainer
+.devspace
+.idea
+.vscode
+devspace
+docs
 node_modules
 utils

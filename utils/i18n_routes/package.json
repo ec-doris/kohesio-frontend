@@ -1,0 +1,21 @@
+{
+  "name": "i18n-routes",
+  "version": "1.0.0",
+  "description": "Responsible to generate routes for each language, in order to use in the pre-render build",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "generate-routes": "ts-node src/generate_routes.ts"
+  },
+  "author": "Raphael Domingues",
+  "license": "ISC",
+  "dependencies": {
+    "exceljs": "^4.3.0"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.23",
+    "ts-node": "^10.7.0",
+    "tslib": "^2.3.1",
+    "typescript": "^4.6.3"
+  }
+}

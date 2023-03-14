@@ -12,6 +12,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
 import {YouTubePlayerModule} from "@angular/youtube-player";
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {ShareBlockModule} from "../share-block/share-block.module";
 
 @NgModule({
     imports: [
@@ -24,7 +25,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
         MatProgressSpinnerModule,
         KohesioEclButtonModule,
         YouTubePlayerModule,
-        MatTooltipModule
+        MatTooltipModule,
+        ShareBlockModule
     ],
     declarations: [
         ProjectDetailModalComponent,

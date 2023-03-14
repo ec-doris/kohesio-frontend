@@ -1,11 +1,20 @@
-import { AfterViewInit, Component, Inject, Renderer2, ViewChild, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  Inject,
+  Renderer2,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy,
+  PLATFORM_ID
+} from '@angular/core';
 import { ProjectService } from "../../services/project.service";
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
 import { Filters } from "../../models/filters.model";
 import { MatPaginator } from '@angular/material/paginator';
 import { Router, ActivatedRoute } from '@angular/router';
-import { DatePipe, DOCUMENT } from "@angular/common";
+import { DatePipe, DOCUMENT, isPlatformBrowser, isPlatformServer } from "@angular/common";
 import { FilterService } from "../../services/filter.service";
 import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
@@ -17,6 +26,7 @@ import { MatDrawer } from '@angular/material/sidenav';
 import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {TranslateService} from "../../services/translate.service";
+import {MetaService} from "../../services/meta.service";
 
 @Component({
   templateUrl: './projects.component.html',
@@ -66,7 +76,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document,
     private datePipe: DatePipe,
     breakpointObserver: BreakpointObserver,
-    public translateService: TranslateService) {
+    public translateService: TranslateService,
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private metaService: MetaService) {
 
       this.filters = this._route.snapshot.data['filters'];
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -88,7 +100,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
-        country: [!this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) ? this.getFilterKey("countries", this.translateService.queryParams.country) : undefined],
+        country: [this.getFilterKey("countries", this.translateService.queryParams.country)],
         region: [],
         policyObjective: [this.getFilterKey("policy_objectives", this.translateService.queryParams.policyObjective)],
         theme: [this.getFilterKey("thematic_objectives", this.translateService.queryParams.theme)],
@@ -105,16 +117,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
         nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)]
       });
-
-      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.nuts3) &&
-        (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.country) ||
-          this._route.snapshot.queryParamMap.has(this.translateService.queryParams.region))){
-        this._router.navigate([], {
-          relativeTo: this._route,
-          queryParams: this.generateQueryParams(),
-          queryParamsHandling: 'merge'
-        });
-      }
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
@@ -138,20 +140,23 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   }
 
     popperPlacement(): any {
-      if (window.innerWidth < 750) {
-        return "bottom"
-      } else {
-        return "auto"
+      if (isPlatformBrowser(this.platformId)) {
+        if (window.innerWidth < 750) {
+          return "bottom"
+        } else {
+          return "auto"
+        }
       }
     }
 
     ngOnInit() {
       if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-        Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
+        Promise.all([this.getRegions(), this.getPrograms(), this.getNuts3()]).then(results => {
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
             this.myForm.patchValue({
               region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
+            this.getNuts3().then();
           }
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.myForm.patchValue({
@@ -159,14 +164,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             });
           }
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
-          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
+          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
+            this.metaService.changeProjectListMetadata();
             this.getProjectList();
           }
         });
       }
 
       if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
-      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+      !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) &&
+        !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
         this.getProjectList();
       }
       this.onThemeChange();
@@ -247,8 +255,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             this.semanticTerms = result.similarWords;
             this.isLoading = false;
             //go to the top
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
+            this._document.body.scrollTop = 0;
+            this._document.documentElement.scrollTop = 0;
             if (this.selectedTabIndex == 2) {
               this.mapIsLoaded = true;
               setTimeout(
@@ -348,14 +356,24 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onCountryChange() {
-      if (this.myForm.value.country != null) {
-        this.getRegions().then();
-        this.getPrograms().then();
-      }
       this.myForm.patchValue({
         region: null,
         program: null,
         nuts3: null
+      });
+      if (this.myForm.value.country != null) {
+        this.getRegions().then();
+        this.getPrograms().then();
+        this.getNuts3().then();
+      }
+    }
+
+    onRegionChange(){
+      this.getNuts3().then();
+      this.getPrograms().then();
+      this.myForm.patchValue({
+        nuts3: null,
+        program: null
       });
     }
 
@@ -367,7 +385,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onFundChange() {
-        this.getPrograms()
+        this.getPrograms();
+        this.myForm.patchValue({
+          program: null
+        });
+    }
+
+    onProgrammeTypeChange(){
+      this.getPrograms();
+      this.myForm.patchValue({
+        program: null
+      });
     }
 
     onThemeChange() {
@@ -402,14 +430,41 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       return new Promise((resolve, reject) => {
         const country = environment.entityURL + this.myForm.value.country;
         let params: any = {
-          country: country,
+          country: country
         }
         if (this.myForm.value.fund) {
           params["fund"] = environment.entityURL + this.myForm.value.fund
         }
+        if(this.myForm.value.region) {
+          params["region"] = environment.entityURL + this.myForm.value.region
+        }
+        if(this.myForm.value.interreg) {
+          params["interreg"] = this.myForm.value.interreg
+        }
         this.filterService.getFilter("programs", params).subscribe(result => {
           this.filterService.filters.programs = result.programs;
           this.filters.programs = result.programs;
+          resolve(true);
+        });
+      });
+    }
+
+    getNuts3(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        let params: any = {}
+        if(this.myForm.value.country){
+          params["country"] = environment.entityURL + this.myForm.value.country;
+        }
+        if (this.myForm.value.region) {
+          params["region"] = environment.entityURL + this.myForm.value.region
+        }else if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) && this.filters.regions) {
+          params["region"] = environment.entityURL + this.getFilterKey("regions", this.translateService.queryParams.region)
+        }
+        this.filterService.getFilter("nuts3", params).subscribe(result => {
+          const filtersResults = new FiltersApi().deserialize({
+            nuts3: result.nuts3
+          });
+          this.filters.nuts3 = filtersResults.nuts3;
           resolve(true);
         });
       });
@@ -521,12 +576,20 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         }
 
   onNuts3Change(){
-    if (this.myForm.value.nuts3) {
+    /*if (this.myForm.value.nuts3) {
       this.myForm.patchValue({
         country: undefined,
         region: undefined
       });
-    }
+    }*/
+  }
+
+  isPlatformBrowser(){
+    return isPlatformBrowser(this.platformId);
+  }
+
+  isPlatformServer(){
+    return isPlatformServer(this.platformId);
   }
 
 

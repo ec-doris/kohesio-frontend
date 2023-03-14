@@ -74,6 +74,75 @@
               <p class="ecl-u-type-paragraph">The European Commission cannot accept any liability for the accuracy of content from the list of operations in Kohesio.</p>
               <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a [routerLink]="['/'+translateService.routes.privacy]">Privacy Statement</a>.</p>
             </ng-container>
+            <kohesio-ecl-accordion class="kohesio-faq-projects-block"
+                                   i18n-title="@@page.faq.listsOfOperations.title"
+                                   title="Lists of operations" [collapsed]="true">
+                <div class="ecl-table-responsive" style="background-color: white;">
+                    <div class="loo_filters">
+                        <div class="country_filter">
+                            <kohesio-ecl-form-group>
+                                <kohesio-ecl-form-label i18n="@@page.projects.label.country">COUNTRY</kohesio-ecl-form-label>
+                                <kohesio-ecl-form-select [(ngModel)]="countrySelected" [items]="this.countries" (change)="onCountryChange($event)"></kohesio-ecl-form-select>
+                            </kohesio-ecl-form-group>
+                        </div>
+                    </div>
+
+                    <table class="ecl-table ecl-table--zebra">
+                        <thead class="ecl-table__head">
+                        <tr class="ecl-table__row">
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.country">Country</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.title">Title</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.url">Url</th>
+                            <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.lastUpdate">Last update in Kohesio</th>
+                        </tr>
+                        </thead>
+
+                        <tbody class="ecl-table__body">
+                        <tr class="ecl-table__row" *ngFor="let loo of listOfOperation">
+                            <td class="ecl-table__cell flag-cell">
+                                <span class="flag" [matTooltip]="loo.country.label">
+                                    <img class="flag" src="{{'assets/images/flags/' + loo.getCountryCode().toLowerCase() + '.png'}}">
+                                </span>
+                            </td>
+                            <td class="ecl-table__cell">
+                                <div class="cell-flex-content">
+                                    <div>{{loo.instanceLabel}}</div>
+                                    <div>
+                                        <popper-content #id>
+                                            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+                                                <h5 class="ecl-u-type-heading-5 ecl-u-mv-none"
+                                                    i18n="@@page.faq.listsOfOperations.popper.ccis.text">CCIs covered by the list of operations:</h5>
+                                                <svg (click)="id.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+                                                </svg>
+                                            </div>
+                                            <div class="ccis-list">
+                                                {{loo.ccis.toString()}}
+                                            </div>
+                                        </popper-content>
+                                        <div [popper]="id"
+                                             popperApplyClass="info-tooltip"
+                                             [popperHideOnClickOutside]="true"
+                                             [popperHideOnScroll]="true"
+                                             [popperPositionFixed]="true"
+                                             class="infoButton" >
+                                            <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="ecl-table__cell"><a [href]="loo.url">url</a></td>
+                            <td class="ecl-table__cell">{{loo.lastUpdate | date:'d MMMM yyyy'}}</td>
+
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
+                </div>
+            </kohesio-ecl-accordion>
 
             <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-4'" i18n="@@page.faq.section4.title">What are the mandatory fields in the list of operations?</h2>
             <ng-container i18n="@@page.faq.section4.description">
@@ -99,7 +168,6 @@
             <ng-container i18n="@@page.faq.section6.description">
                 <p class="ecl-u-type-paragraph">We use <a href="https://ec.europa.eu/cefdigital/wiki/display/CEFDIGITAL/eTranslation" target="blank">eTranslation</a>, the machine translation tool designed by the European Commission, to translate automatically into English the operation / project titles and descriptions in Kohesio. Users can access the original project information by clicking on the “More” button at the top right of a project page.</p>
                 <p class="ecl-u-type-paragraph">While we strive to offer the best accuracy, translations of certain projects may be imprecise. You are encouraged to report these cases and join us in improving the overall quality of the Kohesio knowledge base by sending details to the <a href="mailto:REGIO-KOHESIO@ec.europa.eu" target="blank">Kohesio Team</a>.</p>
-                <p class="ecl-u-type-paragraph">We plan to offer automatic translation into the <a href="https://european-union.europa.eu/principles-countries-history/languages_en" target="blank">24 EU official languages</a> in the upcoming versions.</p>
             </ng-container>
 
             <h2 class="ecl-u-type-heading-2" [id]="translateService.sections.section+'-7'" i18n="@@page.faq.section7.title">How do you enrich the data?</h2>
@@ -130,6 +198,9 @@
               <p class="ecl-u-type-paragraph">You can find comprehensive and up-to-date information on Cohesion Policy on <a href="https://ec.europa.eu/regional_policy/en/" target="blank">InfoRegio</a>, the EU Regional Policy website.</p>
               <p class="ecl-u-type-paragraph">Additionally, <a href="https://cohesiondata.ec.europa.eu/" target="blank">Cohesion Data</a> provides datasets at programme level. It is an open data platform providing data on financing and achievements under the ESI Funds 2014-2020. The platform visualises the latest data available for over 530 programmes.</p>
             </ng-container>
+
+
+
 
         </div>
     </div>

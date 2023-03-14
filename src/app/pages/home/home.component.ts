@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, PLATFORM_ID, ViewChild} from '@angular/core';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { DOCUMENT } from '@angular/common';
 import {ActivatedRoute, Params, Router} from '@angular/router';
@@ -15,6 +15,8 @@ import {
 import {environment} from "../../../environments/environment";
 import {MatDialog} from "@angular/material/dialog";
 import {TranslateService} from "../../services/translate.service";
+import { isPlatformBrowser } from '@angular/common';
+import {TransferStateService} from "../../services/transfer-state.service";
 
 @Component({
     templateUrl: './home.component.html',
@@ -37,7 +39,9 @@ export class HomePageComponent implements AfterViewInit {
                 private statisticsService: StatisticsService,
                 private themeService: ThemeService,
                 private dialog: MatDialog,
-                public translateService: TranslateService){
+                public translateService: TranslateService,
+                @Inject(PLATFORM_ID) private platformId: object,
+                public transferStateService: TransferStateService){
 
         this.statisticsService.getKeyFigures().subscribe((data: Statistics)=>{
             this.stats = data;
@@ -60,27 +64,25 @@ export class HomePageComponent implements AfterViewInit {
           this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
             height: "85vh",
-            maxWidth: "100%",
+            maxWidth: "1300px",
             maxHeight: "100%",
             data: {
               id: this._route.snapshot.queryParamMap.get('project')
             }
           }).afterClosed().subscribe(()=>{
-            history.replaceState && history.replaceState(
-              null, '', location.pathname + location.search.replace(/[\?&]project=[^&]+/, '').replace(/^&/, '?') + location.hash
-            );
+            this.updateCoordsQueryParam();
           });
         }
 
     }
 
     ngAfterViewInit(): void {
+      if (this.isPlatformBrowser()){
         setTimeout(
-            () => {
-                this.map.loadMapRegion(new Filters());
-            }, 500);
-
-
+          () => {
+            this.map.loadMapRegion(new Filters());
+          }, 500);
+      }
     }
 
     public ngOnInit() {
@@ -103,6 +105,25 @@ export class HomePageComponent implements AfterViewInit {
         [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
         [this.translateService.queryParams.sort]: sort
       };
+    }
+
+    isPlatformBrowser(){
+      return isPlatformBrowser(this.platformId);
+    }
+
+    updateCoordsQueryParam(){
+      let fragment:string | undefined = this._route.snapshot.fragment + "";
+      if (!this._route.snapshot.fragment){
+        fragment = undefined;
+      }
+      this._router.navigate([], {
+        relativeTo: this._route,
+        fragment: fragment,
+        queryParams: {
+          project: undefined
+        },
+        queryParamsHandling: 'merge'
+      });
     }
 
 

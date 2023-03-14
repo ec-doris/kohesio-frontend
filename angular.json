@@ -94,8 +94,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "localize": true,
-            "outputPath": "dist",
+            "outputPath": "dist/kohesio-frontend/browser",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -124,21 +123,23 @@
               "node_modules/leaflet/dist/leaflet.js",
               "node_modules/leaflet.markercluster/dist/leaflet.markercluster-src.js",
               "src/assets/scripts/leaflet-gesture-handling.js",
-              "src/assets/scripts/kohesio-ecl.js"
+              "node_modules/@ecl/preset-ec/dist/scripts/ecl-ec.js"
             ]
           },
           "configurations": {
             "production": {
+              "aot":true,
+              "localize": true,
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1mb",
+                  "maximumWarning": "2mb",
                   "maximumError": "3mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "5kb",
-                  "maximumError": "10kb"
+                  "maximumWarning": "10kb",
+                  "maximumError": "20kb"
                 }
               ],
               "fileReplacements": [
@@ -150,6 +151,7 @@
               "outputHashing": "all"
             },
             "development": {
+              "localize": true,
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
@@ -213,6 +215,83 @@
               "src/styles.scss"
             ],
             "scripts": []
+          }
+        },
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/kohesio-frontend/server",
+            "main": "server.ts",
+            "tsConfig": "tsconfig.server.json",
+            "inlineStyleLanguage": "scss"
+          },
+          "configurations": {
+            "production": {
+              "outputHashing": "media",
+              "localize": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.cluster.ts"
+                }
+              ]
+            },
+            "development": {
+              "localize": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev.cluster.ts"
+                }
+              ],
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true
+            },
+            "local": {
+              "optimization": false,
+              "sourceMap": true,
+              "extractLicenses": false,
+              "vendorChunk": true,
+              "localize": ["en"]
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve-ssr": {
+          "builder": "@nguniversal/builders:ssr-dev-server",
+          "configurations": {
+            "development": {
+              "browserTarget": "kohesio-frontend:build:development",
+              "serverTarget": "kohesio-frontend:server:development"
+            },
+            "production": {
+              "browserTarget": "kohesio-frontend:build:production",
+              "serverTarget": "kohesio-frontend:server:production"
+            },
+            "local": {
+              "browserTarget": "kohesio-frontend:build:local",
+              "serverTarget": "kohesio-frontend:server:local"
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "prerender": {
+          "builder": "@nguniversal/builders:prerender",
+          "configurations": {
+            "development": {
+              "browserTarget": "kohesio-frontend:build:development",
+              "serverTarget": "kohesio-frontend:server:development",
+              "routesFile": "build/prerender-routes",
+              "guessRoutes": false
+            },
+            "production": {
+              "browserTarget": "kohesio-frontend:build:production",
+              "serverTarget": "kohesio-frontend:server:production",
+              "routesFile": "build/prerender-routes",
+              "guessRoutes": false
+            }
           }
         }
       }

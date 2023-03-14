@@ -19,8 +19,7 @@ export class TranslateService {
     privacy: $localize`:@@translate.routes.privacy:privacy`,
     services: $localize`:@@translate.routes.services:services`,
     themes: $localize`:@@translate.routes.themes:themes`,
-    faq: $localize`:@@translate.routes.faq:faq`,
-    map: $localize`:@@translate.routes.map:map`
+    faq: $localize`:@@translate.routes.faq:faq`
   }
 
   public sections = {
@@ -29,7 +28,7 @@ export class TranslateService {
     section: $localize`:@@translate.sections.section:section`
   }
 
-  public queryParams = {
+  public queryParams:any = {
     "keywords": $localize`:@@translate.queryParams.keywords:keywords`,
     "country": $localize`:@@translate.queryParams.country:country`,
     "region": $localize`:@@translate.queryParams.region:region`,
@@ -48,7 +47,20 @@ export class TranslateService {
     "name": $localize`:@@translate.queryParams.name:name`,
     "beneficiaryType": $localize`:@@translate.queryParams.beneficiaryType:beneficiaryType`,
     "page": $localize`:@@translate.queryParams.page:page`,
-    "tab": $localize`:@@translate.queryParams.tab:tab`
+    "tab": $localize`:@@translate.queryParams.tab:tab`,
+    "mapRegion": $localize`:@@translate.queryParams.mapRegion:mapRegion`
+  }
+
+  public dynamicMetadata = {
+    projects: {
+      "titleAlt0": $localize `:@@page.metadata.projects-alt-0:Projects co-funded by the EU`,
+      "titleAlt1": $localize `:@@page.metadata.projects-alt-1:EU projects`,
+      "titleAlt2": $localize `:@@page.metadata.projects-alt-2:EU projects in`,
+      "titleAlt3": $localize `:@@page.metadata.projects-alt-3:EU projects on`
+    },
+    projectDetail: {
+      "description": $localize `:@@page.metadata.project-detail.description:Project co-funded by the EU`,
+    }
   }
 
   public projectPage = {

@@ -1,9 +1,9 @@
 <app-ecl-site-header *ngIf="!url.startsWith('/map')"></app-ecl-site-header>
 
-<div class="ecl-page-header-harmonised">
-  <div class="ecl-container" style="overflow-x: hidden;">
+
+  <div class="ecl-container" style="overflow-x: hidden;padding-bottom: 2rem;">
     <router-outlet></router-outlet>
   </div>
-</div>
+
 
 <app-ecl-footer *ngIf="!url.startsWith('/map')"></app-ecl-footer>

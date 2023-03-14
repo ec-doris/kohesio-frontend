@@ -1,4 +1,13 @@
-import { AfterViewInit, Component, ViewChild, ChangeDetectorRef, OnDestroy, QueryList, ViewChildren } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ViewChild,
+  ChangeDetectorRef,
+  OnDestroy,
+  QueryList,
+  ViewChildren,
+  Inject, PLATFORM_ID
+} from '@angular/core';
 import { BeneficiaryService } from "../../services/beneficiary.service";
 import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
@@ -15,6 +24,7 @@ import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layou
 import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
 import {TranslateService} from "../../services/translate.service";
+import { isPlatformBrowser, isPlatformServer } from "@angular/common";
 
 @Component({
     templateUrl: './beneficiaries.component.html',
@@ -42,7 +52,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         private _route: ActivatedRoute,
         private _router: Router,
         breakpointObserver: BreakpointObserver,
-        public translateService: TranslateService) {
+        public translateService: TranslateService,
+        @Inject(PLATFORM_ID) private platformId: Object) {
 
             this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
             this.sidenavOpened = !this.mobileQuery;
@@ -263,5 +274,13 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         this.destroyed.next();
         this.destroyed.complete();
     }
+
+  isPlatformBrowser(){
+    return isPlatformBrowser(this.platformId);
+  }
+
+  isPlatformServer(){
+    return isPlatformServer(this.platformId);
+  }
 
 }

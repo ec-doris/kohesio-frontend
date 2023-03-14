@@ -1,12 +1,5 @@
-<!-- <ux-modal id="imageOverlay" [titleLabel]="beneficiary?.beneficiaryLabel" [isFooterVisible]="false" customWidth="500px">
-    <uxModalBody>
-        <div class="modal-body">
-            <img [src]="beneficiary?.images[0]" alt="" *ngIf="beneficiary?.images && beneficiary?.images.length">
-        </div>
-    </uxModalBody>
-</ux-modal> -->
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
-    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
@@ -26,8 +19,12 @@
 </nav>
 <div class="kohesio-page-detail">
     <div class="kohesio-page-detail-tools">
-        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@page.beneficiary-detail.button.graph">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@page.beneficiary-detail.button.more">More</kohesio-ecl-button>
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+                            i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
+                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                            i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
+                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>&nbsp;
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
@@ -111,82 +108,13 @@
                         <div class="kohesio-article-post-content">
                             <p class="ecl-u-type-paragraph">{{beneficiary.description}}</p>
                         </div>
-                        <div class="kohesio-social-icons-wrapper">
-                            <span class="title" i18n="@@page.beneficiary-detail.label.shareon">share on </span>
-                            <ul class="ecl-social-media-follow__list">
-                                <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#facebook_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#twitter_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <!--<li class="ecl-social-media-follow__item">
-                                    <a href="https://instagram.com/" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#instagram"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#instagram_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>-->
-                                <li class="ecl-social-media-follow__item">
-                                    <a [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#linkedin_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li class="ecl-social-media-follow__item">
-                                    <a [href]="'mailto:?subject=Kohesio&body=Check this beneficiary on Kohesio: ' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email" style="fill:#FFF;"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email_hover" style="fill:#FFF;"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="kohesio-report-icons-wrapper">
-                            <span class="title" i18n="@@page.beneficiary-detail.label.reportIssue">report an issue</span>
-                            <ul class="ecl-social-media-follow__list">
-                                <li class="ecl-social-media-follow__item">
-                                    <a (click)="reportDataBug()" href="javascript:void(0)" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#bug"></use>
-                                        </svg>
-                                        <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon-hover" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#bug_hover"></use>
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <app-share-block [id]="beneficiary.item"></app-share-block>
                     </div>
                 </article>
             </div>
 
             <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
-                <app-map mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
             </div>
             <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block"
                 i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects"

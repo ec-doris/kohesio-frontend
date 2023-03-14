@@ -220,7 +220,7 @@
             </div>
         </form>
     </mat-drawer>
-    <mat-drawer-content [ngClass]="advancedFilterIsExpanded ? 'kohesio-mat-drawer-container-expanded' : 'kohesio-mat-drawer-container'">
+    <mat-drawer-content [ngClass]="advancedFilterIsExpanded ? 'kohesio-mat-drawer-container-expanded' : 'kohesio-mat-drawer-container'" [style]="isPlatformServer() ? 'margin-left:350px;' : ''">
         <div class="tools">
             <div class="left-table-tools">
                 <app-download-button *ngIf="count && count <= 1000" [filters]="getFilters()" type="beneficiaries">

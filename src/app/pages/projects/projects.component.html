@@ -1,21 +1,3 @@
-<!-- <ux-modal id="imageOverlay" [titleLabel]="modalTitleLabel" [isFooterVisible]="false" customWidth="500px">
-    <uxModalBody>
-        <div class="modal-body">
-            <img [src]="modalImageUrl">
-            <div class="title">{{modalImageTitle}}</div>
-        </div>
-    </uxModalBody>
-</ux-modal>
-<ux-popover #popoverHelpKeywords title="KEYWORDS" size="large">
-    <p>By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ml"</b>).</p>
-    <p>The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
-    <p>To also include documents containing either word, use <b>green OR carbon</b>.</p>
-    <p>To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
-    <p>You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
-    <p>Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
-</ux-popover> -->
-<!-- <h1 class="ecl-page-header-harmonised__title">Projects</h1> -->
-
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
@@ -100,6 +82,7 @@
                 formControlName="region"
                 [items]="this.filters.regions"
                 [isDisabled]="!this.myForm.value.country"
+                (change)="onRegionChange()"
                 i18n-placeholder="Select a country|@@page.projects.placeholder.region"
                 placeholder="Select a country" >
                 </kohesio-ecl-form-select>
@@ -124,7 +107,7 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.programmeType">PROGRAMME TYPE</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg" (change)="onProgrammeTypeChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.programme">PROGRAMME</kohesio-ecl-form-label>
@@ -148,7 +131,7 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.nuts3">NUTS3</kohesio-ecl-form-label>
-                    <kohesio-auto-complete [items]="filters.nuts3" (change)="onNuts3Change()" formControlName="nuts3"></kohesio-auto-complete>
+                    <kohesio-auto-complete [items]="filters.nuts3 ? filters.nuts3 : []" (change)="onNuts3Change()" formControlName="nuts3"></kohesio-auto-complete>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.date">DATE</kohesio-ecl-form-label>
@@ -171,7 +154,7 @@
             </div>
         </form>
     </mat-drawer>
-    <mat-drawer-content [ngClass]="getClassMatDrawerContent()">
+    <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">

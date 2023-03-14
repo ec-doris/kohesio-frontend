@@ -1,7 +1,7 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {Observable, of} from 'rxjs';
+import {Observable, Observer, of} from 'rxjs';
 import {forkJoin} from 'rxjs';
 import {environment} from "../../environments/environment";
 import {FiltersApi} from "../models/filters-api.model";
@@ -98,7 +98,7 @@ export class FilterService {
         }
     }
 
-    getFilterLabel(type:string, key:string) {
+    getFilterLabel(type:string, key:string, rawLabel:boolean = false) {
         let result = null;
         if (key) {
             let record = this.filters[type].find((filter:any) => {
@@ -117,14 +117,18 @@ export class FilterService {
             }
             if (record) {
                 const value = record.shortValue ? record.shortValue : record.value;
-                result = value.split(' ').join('-');
+                if (rawLabel){
+                  result = value;
+                }else {
+                  result = value.split(' ').join('-');
+                }
             }
         }
        return result;
     }
 
     getFilterKey(type:string, label:string | null){
-        if (type && label) {
+        if (type && label && this.filters[type]) {
             label = label.split('-').join('');
             let result:any;
             this.filters[type].forEach((filter:any) => {
@@ -228,5 +232,44 @@ export class FilterService {
             }
         });
     }
+
+    getFilterLabelByLabel(type:string, label:string):Promise<string>{
+      return new Promise((resolve, reject) => {
+        const filterType:any = {
+          "theme":"thematic_objectives",
+          "policyObjective":"policy_objectives",
+          "fund":"funds",
+          "interventionField":"categoriesOfIntervention",
+          "country":"countries",
+          "region":"regions"
+        }
+        let key = this.getFilterKey(filterType[type], label);
+        if (type == "interventionField"){
+          this.getKohesioCategory(key.id).subscribe((data:any)=>{
+            resolve(data.instanceLabel);
+          });
+        }else{
+          resolve(this.getFilterLabel(filterType[type],key, true));
+        }
+      });
+    }
+
+  getKohesioCategory(interventionFieldId: string): Observable<any[]>{
+    const url = environment.apiBaseUrl + '/kohesio_categories';
+    let params = {
+      language: this.locale,
+      interventionField: 'https://linkedopendata.eu/entity/' + interventionFieldId
+    };
+
+    return this.http.get<any>(url,{ params: <any>params }).pipe(
+      map(data => {
+        if (data && data.length) {
+          return data[0];
+        }else{
+          return undefined;
+        }
+      })
+    );
+  }
 
 }

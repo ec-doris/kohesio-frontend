@@ -8,6 +8,6 @@ RUN npm run build-prod
 
 #Final image
 FROM nginx:1.15.8-alpine
-COPY --from=builder /usr/src/app/dist/ /usr/share/nginx/html
+COPY --from=builder /usr/src/app/dist/kohesio-frontend/browser /usr/share/nginx/html
 COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
 ENTRYPOINT ["nginx", "-g", "daemon off;"]

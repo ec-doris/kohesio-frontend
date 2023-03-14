@@ -27,6 +27,7 @@ export class Filters implements Deserializable{
     public beneficiaryType: string | undefined;
     public interreg: string | undefined;
     public nuts3: string | undefined;
+    public cci: string | undefined;
 
     deserialize(input: any): this {
 
@@ -63,7 +64,8 @@ export class Filters implements Deserializable{
             orderNumProjects:  this.buildSort("orderNumProjects",input.sort),
             beneficiaryType: input.beneficiaryType ? input.beneficiaryType : undefined,
             interreg: input.interreg ? input.interreg : undefined,
-            nuts3: input.nuts3 ? input.nuts3 : undefined
+            nuts3: input.nuts3 ? input.nuts3 : undefined,
+            cci: input.cci ? input.cci : undefined
         });
     }
 
@@ -110,6 +112,7 @@ export class Filters implements Deserializable{
             ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
+            ...(this.cci != undefined) && {cci: this.cci}
         }
     }
 

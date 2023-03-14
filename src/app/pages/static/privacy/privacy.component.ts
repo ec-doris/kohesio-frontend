@@ -1,5 +1,6 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
 import {TranslateService} from "../../../services/translate.service";
+import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 declare let ECL:any;
 
 @Component({
@@ -9,15 +10,19 @@ declare let ECL:any;
 export class PrivacyPageComponent implements AfterViewInit {
 
 
-    constructor(public translateService:TranslateService){}
+    constructor(public translateService:TranslateService,
+                @Inject(DOCUMENT) private _document: Document,
+                @Inject(PLATFORM_ID) private platformId: Object){}
 
     ngOnInit(){
     }
 
     ngAfterViewInit(): void {
-        var elt = document.querySelector('[data-ecl-inpage-navigation]');
-        var inpageNavigation = new ECL.InpageNavigation(elt);
-        inpageNavigation.init();
+        if (isPlatformBrowser(this.platformId)) {
+          var elt = this._document.querySelector('[data-ecl-inpage-navigation]');
+          var inpageNavigation = new ECL.InpageNavigation(elt);
+          inpageNavigation.init();
+        }
     }
 
 }

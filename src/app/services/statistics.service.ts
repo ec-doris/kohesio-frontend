@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { Statistics } from '../models/statistics.model';
-import { plainToClass } from 'class-transformer';
+import { plainToInstance } from 'class-transformer';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -13,14 +13,14 @@ export class StatisticsService {
 
     private url:string = '/statistics';
 
-    constructor(private http: HttpClient) { 
+    constructor(private http: HttpClient) {
         this.url = environment.apiBaseUrl + this.url;
     }
 
     getKeyFigures(): Observable<Statistics>  {
-        return this.http.get<Statistics>(this.url).pipe(
-            map((data:any) => {
-                return plainToClass(Statistics, data);
+        return this.http.get<any>(this.url).pipe(
+            map((data:Object) => {
+                return plainToInstance(Statistics, data);
             })
         );
     }
