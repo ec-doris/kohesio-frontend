@@ -29,7 +29,7 @@ export class FaqPageComponent implements AfterViewInit {
 
       this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
       const data = this._route.snapshot.data['data'];
-      this.listOfOperation = data.listOfOperation;
+      //this.listOfOperation = data.listOfOperation;
       this.countries = data.countries;
     }
 
@@ -55,6 +55,16 @@ export class FaqPageComponent implements AfterViewInit {
         this.listOfOperation = data;
         this.isLoading = false;
       })
+    }
+
+    onChangeListOfOperations(collapsed:boolean){
+      if (!this.listOfOperation) {
+        this.isLoading = true;
+        this.listOfOperationService.getListOfOperation().subscribe((data: ListOfOperation[]) => {
+          this.listOfOperation = data;
+          this.isLoading = false;
+        })
+      }
     }
 
 }

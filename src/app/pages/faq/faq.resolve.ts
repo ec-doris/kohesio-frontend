@@ -25,13 +25,11 @@ export class FaqPageResolve implements Resolve<ListOfOperation[]> {
 
   getData(): Observable<any>{
       return forkJoin([
-        this.looService.getListOfOperation(),
         this.filterService.getFilter('countries'),
       ]).pipe(
         map((data:any)=>{
           return {
-            listOfOperation: data[0],
-            countries: data[1].countries
+            countries: data[0].countries
           };
         })
       );
