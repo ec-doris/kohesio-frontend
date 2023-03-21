@@ -76,7 +76,8 @@
             </ng-container>
             <kohesio-ecl-accordion class="kohesio-faq-projects-block"
                                    i18n-title="@@page.faq.listsOfOperations.title"
-                                   title="Lists of operations" [collapsed]="true">
+                                   title="Lists of operations" [collapsed]="true"
+                                    (onChange)="onChangeListOfOperations($event)">
                 <div class="ecl-table-responsive" style="background-color: white;">
                     <div class="loo_filters">
                         <div class="country_filter">
