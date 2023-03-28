@@ -151,25 +151,27 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     ngOnInit() {
       if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-        Promise.all([this.getRegions(), this.getPrograms(), this.getNuts3()]).then(results => {
+        this.getRegions().then(()=>{
           if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
             this.myForm.patchValue({
               region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
-            this.getNuts3().then();
           }
-          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
-            this.myForm.patchValue({
-              program: this.getFilterKey("programs", this.translateService.queryParams.programme)
-            });
-          }
-          if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
-          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
-          this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
-            this.metaService.changeProjectListMetadata();
-            this.getProjectList();
-          }
+          Promise.all([this.getPrograms(), this.getNuts3()]).then(results => {
+            if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+              this.myForm.patchValue({
+                program: this.getFilterKey("programs", this.translateService.queryParams.programme)
+              });
+            }
+            if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
+              this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
+              this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
+              this.metaService.changeProjectListMetadata();
+              this.getProjectList();
+            }
+          });
         });
+
       }
 
       if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
