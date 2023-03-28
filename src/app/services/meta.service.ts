@@ -81,17 +81,28 @@ export class MetaService {
 
           //Project detail page
           if (data["project"]) {
-            this.titleService.setTitle(data["project"].label+ " | Kohesio");
-            this.metaService.updateTag({property: 'og:title', content: data["project"].label+ " | Kohesio"});
+            const project = data["project"];
+            this.titleService.setTitle(project.label+ " | Kohesio");
+            this.metaService.updateTag({property: 'og:title', content: project.label+ " | Kohesio"});
 
             let description = this.translateService.dynamicMetadata.projectDetail.description;
-            description += " - " + data["project"].categoryLabels[0];
-            description += " - " + data["project"].themeLabels[0];
-            description += " - " + data["project"].fundLabel;
-            description += " - " + data["project"].regionText;
+            description += " - " + project.categoryLabels[0];
+            description += " - " + project.themeLabels[0];
+            description += " - " + project.fundLabel;
+            description += " - " + project.regionText;
 
             this.metaService.updateTag({name: 'description', content: description});
-            this.metaService.updateTag({property: 'og:image', content: data["project"].images[0].image})
+
+            //Image
+            let ogImage:string = "";
+            if(project.images && project.images.length) {
+              ogImage = data["project"].images[0].image;
+            }else if (project.themeIds && project.themeIds.length == 1){
+              ogImage = 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'
+            }else if (project.themeIds && project.themeIds.length > 1){
+              ogImage = 'assets/images/topics/TO_multiple.png';
+            }
+            this.metaService.updateTag({property: 'og:image', content: ogImage})
           }
 
           //Beneficiary detail page
