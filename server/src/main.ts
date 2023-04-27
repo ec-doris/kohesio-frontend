@@ -22,7 +22,10 @@ async function bootstrap() {
 
   // Initialize client.
   let redisClient = createClient({
-    url: `redis://:${configService.get<string>('REDIS_PASSWORD')}@${configService.get<string>('REDIS_HOST')}:6379`
+    socket: {
+      host: configService.get<string>('REDIS_HOST')
+    },
+    password: configService.get<string>('REDIS_PASSWORD')
   })
   redisClient.connect().catch(console.error)
 
