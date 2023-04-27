@@ -18,4 +18,4 @@ WORKDIR /app
 COPY --from=builder /usr/src/app/dist/ /app/dist/
 COPY --from=builder /usr/src/app/server/dist/ /app/dist/server
 COPY --from=builder /usr/src/app/server/node_modules/ /app/dist/server/node_modules
-CMD npm run serve:bff
+CMD pm2-runtime dist/server/main.js --name ssr.kohesio
