@@ -17,4 +17,5 @@ interface environmentVARS {
   BACKEND_WIKI_HOST:string;
   REDIS_HOST:string;
   REDIS_PASSWORD:string;
+  NODE_PORT:number;
 }

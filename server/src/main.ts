@@ -22,7 +22,7 @@ async function bootstrap() {
 
   // Initialize client.
   let redisClient = createClient({
-    url: `redis://:${configService.get<string>('REDIS_PASSWORD')}@${configService.get<string>('REDIS_HOST')}:6379/0`
+    url: `redis://:${configService.get<string>('REDIS_PASSWORD')}@${configService.get<string>('REDIS_HOST')}:6379`
   })
   redisClient.connect().catch(console.error)
 
@@ -77,7 +77,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api',{
     exclude: [{ path: '', method: RequestMethod.GET }],
   });
-  await app.listen(3000);
+  const port = configService.get<number>('NODE_PORT');
+  await app.listen(port);
 }
 
 async function getTranslatedServer(lang) {
