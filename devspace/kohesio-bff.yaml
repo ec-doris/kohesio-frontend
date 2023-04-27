@@ -32,21 +32,7 @@ spec:
       kind: Rule
       services:
         - name: kohesio-app
-          port: 4200
-      middlewares:
-        - name: security
-    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/api`)
-      kind: Rule
-      services:
-        - name: kohesio-app
           port: 3000
-      middlewares:
-        - name: security
-    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/wikibase`)
-      kind: Rule
-      services:
-        - name: kohesio-backend
-          port: 5678
       middlewares:
         - name: security
   tls:

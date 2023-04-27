@@ -1,13 +1,21 @@
 #Build image
-FROM node:16.13.2-alpine As builder
+FROM node:18.13.0-alpine As builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
-RUN npm run build-dev
+RUN npm run build-ssr:dev
+WORKDIR /usr/src/app/server
+RUN rm -rf package-lock.json
+RUN npm cache clean -force
+RUN npm install
+RUN npm run build
 
 #Final image
-FROM nginx:1.15.8-alpine
-COPY --from=builder /usr/src/app/dist/kohesio-frontend/browser /usr/share/nginx/html
-COPY ./nginx/default.conf /etc/nginx/conf.d/default.conf
-ENTRYPOINT ["nginx", "-g", "daemon off;"]
+FROM node:18.13.0-alpine
+RUN npm install -g pm2@latest
+WORKDIR /app
+COPY --from=builder /usr/src/app/dist/ /app/dist/
+COPY --from=builder /usr/src/app/server/dist/ /app/dist/server
+COPY --from=builder /usr/src/app/server/node_modules/ /app/dist/server/node_modules
+CMD npm run serve:bff

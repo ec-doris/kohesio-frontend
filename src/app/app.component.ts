@@ -4,6 +4,7 @@ import { LOCALE_ID, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import {MetaService} from "./services/meta.service";
+import {UserService} from "./services/user.service";
 declare let ECL:any;
 declare let $wt:any;
 
@@ -25,7 +26,8 @@ export class AppComponent {
               @Inject(LOCALE_ID) public locale: string,
               public location: Location,
               @Inject(PLATFORM_ID) private platformId: Object,
-              private metaService:MetaService){
+              private metaService:MetaService,
+              private userService:UserService){
     //console.log("LOCALE=",locale);
     //console.log("LOCALE COUNTRY=",this.country);
     this.url = location.path();
@@ -35,6 +37,7 @@ export class AppComponent {
     if (isPlatformBrowser(this.platformId)) {
       this.router.events.subscribe(value => {
         if (value instanceof NavigationEnd) {
+          this.userService.keepAlive().subscribe();
           if ($wt && $wt.analytics.isTrackable()) {
             if (this.count > 0 && this.lastPage != value.url) {
               $wt.trackPageView();

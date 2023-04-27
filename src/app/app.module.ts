@@ -1,11 +1,11 @@
-import { NgModule } from '@angular/core';
+import {APP_INITIALIZER, Inject, NgModule, PLATFORM_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.component';
 import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-import { DatePipe, DecimalPipe, ViewportScroller} from '@angular/common';
+import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
 
 import { registerLocaleData } from '@angular/common';
 import LocaleFr from '@angular/common/locales/fr';
@@ -23,9 +23,17 @@ import { ProjectDetailModalModule } from './components/kohesio/project-detail-mo
 import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import {TransferStateInterceptor} from "./interceptors/transfer-state.interceptor";
+import {UserService} from "./services/user.service";
+import {EMPTY, Observable} from "rxjs";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
+
+export function appConfigFactory(userService: UserService) {
+  return (): Observable<any> => {
+    return userService.getUserDetails();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -52,8 +60,26 @@ registerLocaleData(LocaleEnglish);
   providers: [
     DecimalPipe,
     DatePipe,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeAppCustomLogic,
+      deps:[UserService, PLATFORM_ID],
+      multi: true,
+    },
     {provide: HTTP_INTERCEPTORS, useClass: TransferStateInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+
+export function initializeAppCustomLogic(userService: UserService, platformId: Object): () => Observable<any> {
+  return () => {
+    if (isPlatformBrowser(platformId)) {
+      userService.refreshUser();
+    }
+    /*}else{
+      return EMPTY;
+    }*/
+    return userService.getUserDetails();
+  }
+}

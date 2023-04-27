@@ -1,0 +1,44 @@
+<div class="ecl-site-header__action">
+    <div class="ecl-site-header__login-container">
+        <ng-container *ngIf="!userService.user">
+            <a [href]="'/api/login?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
+               class="ecl-button ecl-button--ghost ecl-site-header__login-toggle"
+               [attr.aria-expanded]="isLoginBoxActive">
+                <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__icon" focusable="false" aria-hidden="true">
+                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#log-in"></use>
+                </svg>
+                Login
+            </a>
+        </ng-container>
+        <ng-container *ngIf="userService.user">
+            <a href="#"
+               class="ecl-button ecl-button--ghost ecl-site-header__login-toggle"
+               aria-controls="login-box-id"
+               [attr.aria-expanded]="isLoginBoxActive"
+               (click)="onLoginBoxToggle($event)">
+                <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__icon" focusable="false" aria-hidden="true">
+                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#logged-in"></use>
+                </svg>
+                Logged in
+                <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__login-arrow" focusable="false" aria-hidden="true">
+                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                </svg>
+            </a>
+            <div class="{{ getLoginBoxCssClasses() }}">
+                <p class="ecl-site-header__login-description">
+                    Logged in as {{userService.user ? userService.user.name : '' }}
+                </p>
+                <hr class="ecl-site-header__login-separator">
+                <p>
+                <a href="/user" class="ecl-link ecl-link--standalone"
+                   aria-label="Read more about the Standalone link">User preferences</a>
+                </p>
+                <p>
+                <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
+                   class="ecl-link ecl-link--standalone"
+                   aria-label="Read more about the Standalone link" >Logout</a>
+                </p>
+            </div>
+        </ng-container>
+    </div>
+</div>
