@@ -87,12 +87,13 @@ async function bootstrap() {
   if (environment != 'local' && environment != 'production') {
     app.getHttpAdapter().getInstance().all('*', (req, res, next) => {
       //console.log("ALL redirection");
-      //console.log("USER=", req.user);
-      if (req.user || req.path == '/api/login') {
+      //console.log("PATH=", req.path);
+      //console.log("USER is ", typeof req.user);
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
-        res.redirect("/api/login?callback="+req.path);
+        res.redirect("/api/login?callback="+callback);
       }
     });
   }
