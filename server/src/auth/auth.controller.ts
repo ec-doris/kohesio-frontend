@@ -9,6 +9,7 @@ import { Response } from 'express';
 import { LoginGuard } from './login.guard';
 import {ConfigService} from "@nestjs/config";
 import {AuthService} from "./auth.service";
+import {UserInDto} from "../users/dtos/user.in.dto";
 
 @Controller()
 export class AuthController {
@@ -58,6 +59,9 @@ export class AuthController {
   async loginCallback(@Query('state') state, @Req() req, @Res() res: Response) {
     //console.log("STATE",state);
     //await this.authService.validateUser(req.user.userinfo);
+    //console.log("USER",req.user);
+    //const userDB:UserInDto = await this.authService.validateUser(req.user.userinfo.uid);
+    //console.log("USERDB = ", userDB);
     res.redirect(state);
   }
 

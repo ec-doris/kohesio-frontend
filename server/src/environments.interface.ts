@@ -14,7 +14,8 @@ interface environmentVARS {
   DB_USERNAME:string;
   DB_PASSWORD:string;
   DB_DATABASE:string;
-  BACKEND_WIKI_HOST:string;
+  BACKEND_QUERY_HOST:string;
+  BACKEND_EDITOR_HOST:string;
   REDIS_HOST:string;
   REDIS_PASSWORD:string;
   NODE_PORT:number;

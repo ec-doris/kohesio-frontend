@@ -11,7 +11,7 @@ export class WikiService{
   private baseUrl:string;
 
   constructor(private readonly httpService: HttpService, private readonly configService:ConfigService<environmentVARS>) {
-    this.baseUrl = configService.get<string>('BACKEND_WIKI_HOST');
+    this.baseUrl = configService.get<string>('BACKEND_QUERY_HOST');
   }
 
   async getStatistics():Promise<any>{

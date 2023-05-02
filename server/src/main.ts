@@ -19,6 +19,8 @@ async function bootstrap() {
   app.use(cookieParser());
 
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
+  const environment = configService.get<string>('ENV');
+  console.log("ENV=",environment);
 
   // Initialize client.
   let redisClient = createClient({
@@ -54,6 +56,18 @@ async function bootstrap() {
     inactive: sessionInactive(Object.assign({}, sessionConfig, { rolling: false }))
   };
 
+  //If is not production let's redirect everything to /login if there is no user info in the session
+  if (environment != 'local' && environment != 'production') {
+    app.getHttpAdapter().getInstance().all('*', (req, res, next) => {
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+        next();
+      }else{
+        const callback = req.path ? req.path : '/';
+        res.redirect("/api/login?callback="+callback);
+      }
+    });
+  }
+
   app.getHttpAdapter().getInstance().set('trust proxy', 1)
 
   app.use((req, res, next) => {
@@ -67,8 +81,7 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  const environment = configService.get<string>('ENV');
-  console.log("ENV=",environment);
+
   if (environment != "local") {
     for (let lang of languages) {
       const subApp = await getTranslatedServer(lang);
@@ -81,22 +94,6 @@ async function bootstrap() {
   app.setGlobalPrefix('api',{
     exclude: [{ path: '', method: RequestMethod.GET }],
   });
-
-
-  //If is not production let's redirect everything to /login if there is no user info in the session
-  if (environment != 'local' && environment != 'production') {
-    app.getHttpAdapter().getInstance().all('*', (req, res, next) => {
-      //console.log("ALL redirection");
-      //console.log("PATH=", req.path);
-      //console.log("USER is ", typeof req.user);
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
-        next();
-      }else{
-        const callback = req.path ? req.path : '/';
-        res.redirect("/api/login?callback="+callback);
-      }
-    });
-  }
 
   const port = configService.get<number>('NODE_PORT');
   await app.listen(port);

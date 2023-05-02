@@ -3,6 +3,7 @@ import { PassportStrategy } from '@nestjs/passport';
 import {Strategy, Client, TokenSet, Issuer, IdTokenClaims, ClientAuthMethod} from 'openid-client';
 import { AuthService } from './auth.service';
 import {ConfigService} from "@nestjs/config";
+import {UserInDto} from "../users/dtos/user.in.dto";
 
 export const buildOpenIdClient = async (configService: ConfigService) => {
   const TrustIssuer = await Issuer.discover(`${configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
@@ -50,6 +51,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
       const id_token = tokenset.id_token
       const access_token = tokenset.access_token
       const refresh_token = tokenset.refresh_token
+      const useruid = claims.sub;
       const user = {
         userinfo : {
           name: claims.given_name + ' ' + claims.family_name,
@@ -57,8 +59,14 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
           email: claims.email
         }
       }
-      //console.log(user);
-      return user;
+      const userDB:UserInDto = await this.authService.validateUser(useruid);
+      if (userDB){
+        console.log("USER AUTHORIZED",userDB);
+        return userDB;
+      }else{
+        console.log("USER UNAUTHORIZED",useruid);
+        throw new UnauthorizedException();
+      }
     } catch (err) {
       throw new UnauthorizedException();
     }
