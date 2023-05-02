@@ -35,39 +35,6 @@ deployments:
             - port: 4200
             - port: 3000
 
-  - name: mysql
-    helm:
-      componentChart: false
-      chart:
-        name: mysql
-        version: 9.4.5
-        repo: https://charts.bitnami.com/bitnami
-      values:
-        image:
-          tag: 8.0.31
-        resources:
-          limits:
-            memory: 2Gi
-          requests:
-            cpu: 0.5
-            memory: 1Gi
-        auth:
-          rootPassword: $!{DB_PASSWORD}
-          database: $!{DB_DATABASE}
-          username: $!{DB_USERNAME}
-          password: $!{DB_PASSWORD}
-        primary:
-          startupProbe:
-            enabled: false
-            initialDelaySeconds: 90
-          livenessProbe:
-            enabled: false
-          readinessProbe:
-            enabled: false
-          service:
-            ports:
-              mysql: ${DB_PORT}
-
   - name: redis
     helm:
       componentChart: false
@@ -89,10 +56,6 @@ deployments:
 
 dev:
   ports:
-    - imageSelector: docker.io/bitnami/mysql:8.0.31
-      forward:
-        - port: 3309
-          remotePort: 3306
     - imageSelector: docker.io/bitnami/redis:6.0.12
       forward:
         - port: 6379

@@ -42,7 +42,7 @@ spec:
           port: 3000
       middlewares:
         - name: security
-    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/wikibase`)
+    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/query`)
       kind: Rule
       services:
         - name: kohesio-backend
