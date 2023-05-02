@@ -68,6 +68,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         throw new UnauthorizedException();
       }
     } catch (err) {
+      console.log("ERROR", err);
       throw new UnauthorizedException();
     }
   }
