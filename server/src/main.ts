@@ -56,18 +56,6 @@ async function bootstrap() {
     inactive: sessionInactive(Object.assign({}, sessionConfig, { rolling: false }))
   };
 
-  //If is not production let's redirect everything to /login if there is no user info in the session
-  if (environment != 'local' && environment != 'production') {
-    app.getHttpAdapter().getInstance().all('*', (req, res, next) => {
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
-        next();
-      }else{
-        const callback = req.path ? req.path : '/';
-        res.redirect("/api/login?callback="+callback);
-      }
-    });
-  }
-
   app.getHttpAdapter().getInstance().set('trust proxy', 1)
 
   app.use((req, res, next) => {
@@ -81,6 +69,21 @@ async function bootstrap() {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  //If is not production let's redirect everything to /login if there is no user info in the session
+  if (environment != 'local' && environment != 'production') {
+    app.getHttpAdapter().getInstance().all('*', (req, res, next) => {
+      //console.log("PATH",req.path);
+      //console.log("USER", req.user);
+      //console.log("SESSION", req.session);
+      //console.log("REQ", req);
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+        next();
+      }else{
+        const callback = req.path ? req.path : '/';
+        res.redirect("/api/login?callback="+callback);
+      }
+    });
+  }
 
   if (environment != "local") {
     for (let lang of languages) {

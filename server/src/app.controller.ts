@@ -29,7 +29,7 @@ export class AppController {
     //console.log("REQUEST",req);
     //console.log("SESSION",req.session);
     if (req.user) {
-      return 'Hello, ' + req.user.userinfo.name + '! <a href="/logout">Logout</a>';
+      return 'Hello, ' + req.user.user_id + '! <a href="/logout">Logout</a>';
     } else {
       return this.appService.getHello() + ' <a href="/login">Login</a>';
     }
