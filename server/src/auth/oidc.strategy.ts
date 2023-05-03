@@ -47,18 +47,20 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         token: tokenset.access_token
       }
     });*/
-    try {
-      const id_token = tokenset.id_token
-      const access_token = tokenset.access_token
-      const refresh_token = tokenset.refresh_token
-      const useruid = claims.sub;
-      const user = {
+
+    const id_token = tokenset.id_token
+    const access_token = tokenset.access_token
+    const refresh_token = tokenset.refresh_token
+    //console.log("CLAIMS",claims);
+    const useruid = claims.sub;
+      /*const user = {
         userinfo : {
           name: claims.given_name + ' ' + claims.family_name,
           uid: claims.sub,
           email: claims.email
         }
-      }
+      }*/
+    try {
       const userDB:UserInDto = await this.authService.validateUser(useruid);
       if (userDB){
         console.log("USER AUTHORIZED",userDB);
@@ -68,7 +70,8 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         throw new UnauthorizedException();
       }
     } catch (err) {
-      console.log("ERROR", err);
+      //console.log("ERROR", err);
+      console.log("USER UNAUTHORIZED",useruid);
       throw new UnauthorizedException();
     }
   }

@@ -1,5 +1,6 @@
 import {ExecutionContext, Injectable, UnauthorizedException} from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
+import {ConfigService} from "@nestjs/config";
 
 export const defaultOptions = {
   session: false,
@@ -8,6 +9,10 @@ export const defaultOptions = {
 
 @Injectable()
 export class LoginGuard extends AuthGuard('oidc') {
+
+  constructor(private configService:ConfigService<environmentVARS>) {
+    super();
+  }
 
   async canActivate(context: ExecutionContext) {
     //console.log("LOGIN_GUARD");
@@ -31,7 +36,8 @@ export class LoginGuard extends AuthGuard('oidc') {
     const query = request.query;
     if (query && query.callback) {
       return {
-        state: query.callback
+        state: query.callback,
+        acr_values: this.configService.get<string>('OAUTH2_ACR_VALUES')
       };
     }
   }
