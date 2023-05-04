@@ -6,7 +6,6 @@ export class UserDTO{
 
   role: string;
 
-  @Exclude()
   active: boolean;
 
 }

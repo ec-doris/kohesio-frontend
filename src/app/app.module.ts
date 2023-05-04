@@ -29,12 +29,6 @@ import {EMPTY, Observable} from "rxjs";
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
 
-export function appConfigFactory(userService: UserService) {
-  return (): Observable<any> => {
-    return userService.getUserDetails();
-  }
-}
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -77,9 +71,6 @@ export function initializeAppCustomLogic(userService: UserService, platformId: O
     if (isPlatformBrowser(platformId)) {
       userService.refreshUser();
     }
-    /*}else{
-      return EMPTY;
-    }*/
     return userService.getUserDetails();
   }
 }

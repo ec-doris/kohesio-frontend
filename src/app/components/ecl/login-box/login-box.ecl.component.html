@@ -30,8 +30,8 @@
                 </p>
                 <hr class="ecl-site-header__login-separator">
                 <p>
-                <a href="/user" class="ecl-link ecl-link--standalone"
-                   aria-label="Read more about the Standalone link">User preferences</a>
+                <a [routerLink]="['/users']" class="ecl-link ecl-link--standalone"
+                   aria-label="Read more about the Standalone link">Users</a>
                 </p>
                 <p>
                 <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"

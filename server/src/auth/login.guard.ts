@@ -10,25 +10,19 @@ export const defaultOptions = {
 @Injectable()
 export class LoginGuard extends AuthGuard('oidc') {
 
-  constructor(private configService:ConfigService<environmentVARS>) {
+  constructor(protected configService:ConfigService<environmentVARS>) {
     super();
   }
 
   async canActivate(context: ExecutionContext) {
-    //console.log("LOGIN_GUARD");
+    if (context.switchToHttp().getRequest().user){
+      return true;
+    }
     const result = (await super.canActivate(context)) as boolean;
     //console.log("LOGIN_GUARD_RESULT=",result);
     const request = context.switchToHttp().getRequest();
     await super.logIn(request);
     return result;
-  }
-
-  handleRequest(err, user, info, context, status): any {
-    if (err || !user) {
-      console.log("ERROR",arguments);
-      throw err || new UnauthorizedException();
-    }
-    return user;
   }
 
   async getAuthenticateOptions(context: any) {

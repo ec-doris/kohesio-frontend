@@ -4,4 +4,6 @@ export class User {
 
   role!: string;
 
+  active!:boolean;
+
 }

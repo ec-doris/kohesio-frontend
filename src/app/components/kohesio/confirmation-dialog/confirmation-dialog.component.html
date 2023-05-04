@@ -1,0 +1,7 @@
+<h1 mat-dialog-title>Confirm</h1>
+<div mat-dialog-content>{{confirmMessage}}</div>
+<div mat-dialog-actions class="dialog-actions">
+    <kohesio-ecl-button type="button" variant="secondary" (click)="dialogRef.close(false)" i18n="@@component.confirmation.dialog.cancel">Cancel</kohesio-ecl-button>
+    &nbsp;
+    <kohesio-ecl-button type="button" (click)="dialogRef.close(true)" i18n="@@component.confirmation.dialog.confirm">Confirm</kohesio-ecl-button>
+</div>

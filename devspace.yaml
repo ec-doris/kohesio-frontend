@@ -16,6 +16,9 @@ deployments:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            env:
+              - name: NODE_PORT
+                value: ${NODE_PORT}
             resources:
               limits:
                 cpu: 3000m

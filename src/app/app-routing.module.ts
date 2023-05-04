@@ -73,6 +73,9 @@ const routes: Routes = [
         path: $localize`:@@translate.routes.search:search`,
         loadChildren: () => import('./pages/search/search-page.module').then(m => m.SearchPageModule)
       },{
+        path: 'users',
+        loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
+      },{
         path: '404',
         component: NotFoundComponent,
       },
