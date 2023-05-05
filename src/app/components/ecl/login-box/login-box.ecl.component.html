@@ -30,7 +30,7 @@
                 </p>
                 <hr class="ecl-site-header__login-separator">
                 <p>
-                <a [routerLink]="['/users']" class="ecl-link ecl-link--standalone"
+                <a [routerLink]="['/users']" *ngIf="userService.isAdmin()" class="ecl-link ecl-link--standalone"
                    aria-label="Read more about the Standalone link">Users</a>
                 </p>
                 <p>

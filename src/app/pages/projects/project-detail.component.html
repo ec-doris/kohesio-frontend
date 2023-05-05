@@ -20,6 +20,10 @@
 
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
     <div class="kohesio-page-detail-tools">
+        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && !editMode" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button (click)="editProject()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Save as draft</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button (click)="cancelEdit()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Cancel</kohesio-ecl-button>&nbsp;
         <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
         <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
                             i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"

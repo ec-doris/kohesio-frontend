@@ -9,6 +9,7 @@ import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/im
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslateService} from "../../services/translate.service";
 import {DOCUMENT, isPlatformBrowser} from "@angular/common";
+import {UserService} from "../../services/user.service";
 declare let L:any;
 
 @Component({
@@ -33,6 +34,8 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public entityURL = environment.entityURL;
 
+    public editMode:boolean = false;
+
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
                 private route: ActivatedRoute,
@@ -40,7 +43,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private sanitizer: DomSanitizer,
                 public translateService: TranslateService,
                 @Inject(DOCUMENT) private _document: Document,
-                @Inject(PLATFORM_ID) private platformId: Object){}
+                @Inject(PLATFORM_ID) private platformId: Object,
+                public userService: UserService){}
 
     ngOnInit(){
         if (!this.project) {
@@ -157,5 +161,13 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     isPlatformBrowser(){
       return isPlatformBrowser(this.platformId);
+    }
+
+    editProject(){
+      this.editMode = true;
+    }
+
+    cancelEdit(){
+      this.editMode = false;
     }
 }

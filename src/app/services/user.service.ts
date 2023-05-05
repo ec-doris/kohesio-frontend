@@ -104,4 +104,14 @@ export class UserService {
     )
   }
 
+  isAdmin():boolean{
+      return this.user && this.user.role == 'ADMIN' ? true : false;
+  }
+
+  canEdit():boolean{
+    return this.user && (this.user.role == 'EDITOR' ||
+      this.user.role == 'REVIEWER' ||
+    this.user.role == 'ADMIN') ? true : false;
+  }
+
 }
