@@ -8,6 +8,7 @@ import { ServicesPageComponent } from './pages/static/services/services.componen
 import { ThemesComponent } from './pages/static/themes/themes.component';
 import {MapPageComponent} from "./pages/map/map-page.component";
 import {MapPageResolve} from "./pages/map/map-page.resolve";
+import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
 
 const routes: Routes = [
       {
@@ -76,10 +77,12 @@ const routes: Routes = [
         path: 'users',
         loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
       },{
+        path: '403',
+        component: ForbiddenComponent,
+      }, {
         path: '404',
-        component: NotFoundComponent,
-      },
-      {
+        component: NotFoundComponent
+      },{
         path: '**',
         redirectTo: '/404'
       }

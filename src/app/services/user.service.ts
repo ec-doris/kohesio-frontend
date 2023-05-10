@@ -20,14 +20,14 @@ export class UserService {
       this.url = environment.api + this.url;
     }
 
-    getUserDetails(): Observable<any> {
+    getUserDetails(): Observable<User> {
         return this.http.get<any>(this.url).pipe(
            map((data:Object) => {
               //console.log("GET USER DETAILS, DATA",data);
               if (Object.keys(data).length) {
                 this.user = plainToInstance(User, data);
               }else{
-                this.user = undefined;
+                this.user = new User();
               }
              return this.user;
            }),

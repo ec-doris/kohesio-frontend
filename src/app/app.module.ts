@@ -24,7 +24,9 @@ import { PrivacyPageComponent } from './pages/static/privacy/privacy.component';
 import { ServicesPageComponent } from './pages/static/services/services.component';
 import {TransferStateInterceptor} from "./interceptors/transfer-state.interceptor";
 import {UserService} from "./services/user.service";
-import {EMPTY, Observable} from "rxjs";
+import {EMPTY, Observable, Subscriber} from "rxjs";
+import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
+import {User} from "./models/user.model";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -37,6 +39,7 @@ registerLocaleData(LocaleEnglish);
     PrivacyPageComponent,
     ThemesComponent,
     NotFoundComponent,
+    ForbiddenComponent,
     ServicesPageComponent
   ],
   imports: [
@@ -71,6 +74,10 @@ export function initializeAppCustomLogic(userService: UserService, platformId: O
     if (isPlatformBrowser(platformId)) {
       userService.refreshUser();
     }
-    return userService.getUserDetails();
+    return new Observable<any>((subscriber:Subscriber<any>)=>{
+      userService.getUserDetails().subscribe((user:User)=>{
+        subscriber.complete();
+      });
+    })
   }
 }

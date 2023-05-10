@@ -1,7 +1,7 @@
 import {Component, Inject, LOCALE_ID, PLATFORM_ID} from '@angular/core';
 import {TranslateService} from "../../../services/translate.service";
 import {UserService} from "../../../services/user.service";
-import {isPlatformBrowser, Location, LocationStrategy} from "@angular/common";
+import {LocationStrategy} from "@angular/common";
 import {User} from "../../../models/user.model";
 declare let ECL:any;
 
@@ -27,29 +27,11 @@ export class KohesioEclLoginBoxComponent {
 
   }
 
-  async ngOnInit(){
+  ngOnInit(){
 
   }
 
   ngAfterViewInit(): void {
-    /*this.userService.getUserDetails().subscribe((result:User)=>{
-      if (result && result.id){
-        this.logged = true;
-        this.user = result;
-      }
-    });*/
-  }
-
-  onLoginBoxToggle(evt: MouseEvent) {
-    //this.isLoginBoxActive = !this.isLoginBoxActive;
-    evt.preventDefault();
-  }
-
-  getLoginBoxCssClasses(): string {
-    return [
-      'ecl-site-header__login-box',
-      this.isLoginBoxActive ? 'ecl-site-header__login-box--active' : ''
-    ].join(' ');
   }
 
   onOpenMenu(){
