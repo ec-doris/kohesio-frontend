@@ -11,13 +11,13 @@ export class AuthGuard implements CanActivate{
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
-    if (this.userService.user === undefined){
+    if (typeof this.userService.user === 'undefined'){
+      //Sometimes the guard here is calling first then the APP_INITIALIZER
+      await firstValueFrom(this.userService.getUserDetails())
       if (this.userService.isAdmin()){
         return true;
       }
     }else{
-      //Sometimes the guard here is calling first then the APP_INITIALIZER
-      await firstValueFrom(this.userService.getUserDetails())
       if (this.userService.isAdmin()){
         return true;
       }
