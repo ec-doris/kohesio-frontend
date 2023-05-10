@@ -19,18 +19,52 @@
 </nav>
 
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
+    <form [formGroup]="myForm">
     <div class="kohesio-page-detail-tools">
-        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && !editMode" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button (click)="editProject()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Save as draft</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button (click)="cancelEdit()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Cancel</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+
+        <ng-container *ngIf="editMode">
+            <div class="text">Language:</div>
+            <ng-container>
+                <kohesio-ecl-form-group style="min-width:200px;">
+                    <kohesio-ecl-form-select
+                        [hasEmptyValue]="false"
+                        formControlName="language"
+                        [items]="languages">
+                    </kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+            </ng-container>
+        </ng-container>
+        <kohesio-ecl-button (click)="cancelEdit()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Cancel</kohesio-ecl-button>
+        <kohesio-ecl-button (click)="saveDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && !editDraft" i18n="@@page.project-detail.button.saveDraft">Save as draft</kohesio-ecl-button>
+        <kohesio-ecl-button (click)="saveDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && editDraft" i18n="@@page.project-detail.button.save">Save</kohesio-ecl-button>
+        <kohesio-ecl-button (click)="deleteDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && editDraft" i18n="@@page.project-detail.button.deleteDraft">Delete</kohesio-ecl-button>
+        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>
+
+        <ng-container *ngIf="!editMode && drafts.length">
+            <!--<div class="text">My drafts:</div>
+            <ng-container>
+                <kohesio-ecl-form-group style="min-width:200px;">
+                    <kohesio-ecl-form-select
+                        [items]="drafts"
+                        (change)="onDraftSelect($event)"
+                        placeholder="Select a draft" >
+                    </kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+            </ng-container>-->
+        <kohesio-ecl-dropdown-button variant="secondary" label="Drafts">
+            <ng-container *ngFor="let draft of drafts">
+                <kohesio-ecl-button variant="secondary" (click)="onDraftSelect(draft.id)">{{draft.value}}</kohesio-ecl-button>
+            </ng-container>
+        </kohesio-ecl-dropdown-button>
+        </ng-container>
+        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && !editMode" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>
+        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>
+        <kohesio-ecl-button *ngIf="!editMode" variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
                             i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
-                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>&nbsp;
-        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>
+        <kohesio-ecl-button *ngIf="!editMode" variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
                             i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
-                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>&nbsp;
+                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>
     </div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
@@ -203,12 +237,26 @@
                                 </ng-container>
                                 <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
                             </div>
-                            <h1 class="ecl-u-type-heading-4">
-                                {{project.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
+                            <h1 class="ecl-u-type-heading-4" style="width: 100%;">
+                                <ng-container *ngIf="editMode">
+                                    <kohesio-ecl-form-group>
+                                        <kohesio-ecl-form-text-area formControlName="label" extraClass="ecl-u-type-heading-4"></kohesio-ecl-form-text-area>
+                                    </kohesio-ecl-form-group>
+                                </ng-container>
+                                <ng-container *ngIf="!editMode">
+                                    {{project.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
+                                </ng-container>
                             </h1>
                         </div>
                         <div class="kohesio-article-post-content">
-                                <p class="ecl-u-type-paragraph">{{project.description}}</p>
+                                <ng-container *ngIf="editMode">
+                                    <kohesio-ecl-form-group>
+                                        <kohesio-ecl-form-text-area formControlName="description" extraClass="ecl-u-type-paragraph"></kohesio-ecl-form-text-area>
+                                    </kohesio-ecl-form-group>
+                                </ng-container>
+                                <ng-container *ngIf="!editMode">
+                                    <p class="ecl-u-type-paragraph">{{project.description}}</p>
+                                </ng-container>
 
                                 <ng-container *ngIf="!project.description">
                                     <div class="ecl-message ecl-message--warning" data-ecl-message="" role="alert" data-ecl-auto-init="Message">
@@ -252,4 +300,5 @@
             </div>
         </div>
     </div>
+    </form>
 </div>

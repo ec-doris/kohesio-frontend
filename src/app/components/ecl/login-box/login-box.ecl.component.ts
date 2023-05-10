@@ -8,6 +8,7 @@ declare let ECL:any;
 @Component({
     selector: 'kohesio-ecl-login-box',
     templateUrl: './login-box.ecl.component.html',
+    styleUrls: ['./login-box.ecl.component.scss']
 })
 export class KohesioEclLoginBoxComponent {
 
@@ -16,6 +17,7 @@ export class KohesioEclLoginBoxComponent {
   public isLoginBoxActive: boolean = false;
 
   public user?:User;
+  public opened:boolean = false;
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               public locationStrategy: LocationStrategy,
@@ -39,7 +41,7 @@ export class KohesioEclLoginBoxComponent {
   }
 
   onLoginBoxToggle(evt: MouseEvent) {
-    this.isLoginBoxActive = !this.isLoginBoxActive;
+    //this.isLoginBoxActive = !this.isLoginBoxActive;
     evt.preventDefault();
   }
 
@@ -50,5 +52,12 @@ export class KohesioEclLoginBoxComponent {
     ].join(' ');
   }
 
+  onOpenMenu(){
+    this.opened = true;
+  }
+
+  onCloseMenu(){
+    this.opened = false;
+  }
 
 }

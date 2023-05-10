@@ -1,0 +1,17 @@
+.login-box-menu-container{
+  display: flex;
+  flex-direction: column;
+  background-color: #EEEEEE;
+  padding: 10px;
+  .login-box-menu-item{
+    padding:10px 5px;
+    border-bottom: 1px gray solid;
+
+  }
+  .login-box-menu-item:last-child{
+    border-bottom: 0;
+  }
+}
+.login-box-menu-trigger[aria-expanded=true]{
+  background-color: #EEEEEE;
+}

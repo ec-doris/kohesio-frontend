@@ -1,9 +1,9 @@
-<h1 mat-dialog-title>{{editMode ? 'Edit user' : 'Add user'}}</h1>
-<form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-    <div mat-dialog-content>
+<div style="min-width:300px;">
+    <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
+    <form [formGroup]="myForm">
         <kohesio-ecl-form-group>
-            <kohesio-ecl-form-label>User ID:</kohesio-ecl-form-label>
-            <kohesio-ecl-form-text-input formControlName="userid" [isDisabled]="editMode"></kohesio-ecl-form-text-input>
+            <kohesio-ecl-form-label [required]="true">User ID:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-text-input formControlName="userid" [isDisabled]="editMode" [focus]="true"></kohesio-ecl-form-text-input>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
             <kohesio-ecl-form-label>Role:</kohesio-ecl-form-label>
@@ -12,11 +12,5 @@
         <kohesio-ecl-form-group>
             <kohesio-ecl-form-checkbox formControlName="active" label="Active"></kohesio-ecl-form-checkbox>
         </kohesio-ecl-form-group>
-    </div>
-
-    <div mat-dialog-actions class="dialog-actions">
-        <kohesio-ecl-button variant="secondary" type="button" (click)="cancel()" i18n="@@page.user.button.cancel">Cancel</kohesio-ecl-button>
-        &nbsp;
-        <kohesio-ecl-button type="submit" i18n="@@page.user.button.saveUser">Save</kohesio-ecl-button>
-    </div>
-</form>
+    </form>
+</div>

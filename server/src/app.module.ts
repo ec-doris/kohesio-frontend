@@ -5,13 +5,15 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import {WikiModule} from "./wiki/wiki.module";
+import {DraftModule} from "./drafts/draft.module";
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
     AuthModule,
     UserModule,
-    WikiModule
+    WikiModule,
+    DraftModule
   ],
   controllers: [AppController],
   providers: [AppService],

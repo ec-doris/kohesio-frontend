@@ -12,7 +12,6 @@ import {KohesioEclFormLabelModule} from "../../components/ecl/forms/label/form-l
 import {KohesioEclFormTextInputModule} from "../../components/ecl/forms/text-input/form-text-input.ecl.module";
 import {KohesioEclFormSelectModule} from "../../components/ecl/forms/select/form-select.ecl.module";
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
-import {ConfirmationDialogModule} from "../../components/kohesio/confirmation-dialog/confirmation-dialog.module";
 import {UserSaveDialogComponent} from "./save-dialog/user-save-dialog.component";
 import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/form-checkbox.ecl.module";
 
@@ -31,8 +30,7 @@ import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/
     KohesioEclFormCheckboxModule,
     KohesioEclMessageModule,
     UsersRoutingModule,
-    MatDialogModule,
-    ConfirmationDialogModule
+    MatDialogModule
   ],
   declarations: [
     UserDashboardComponent,

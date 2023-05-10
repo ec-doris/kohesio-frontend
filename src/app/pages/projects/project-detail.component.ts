@@ -4,12 +4,17 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslateService} from "../../services/translate.service";
 import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 import {UserService} from "../../services/user.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {DraftService} from "../../services/draft.service";
+import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
+import {SaveDraftComponent} from "./dialogs/save-draft.component";
+
 declare let L:any;
 
 @Component({
@@ -35,6 +40,19 @@ export class ProjectDetailComponent implements AfterViewInit {
     public entityURL = environment.entityURL;
 
     public editMode:boolean = false;
+    public editDraft:boolean = false;
+
+
+
+    public myForm!: FormGroup;
+    public drafts:any[] = [];
+
+    public languages:any[] = [{
+      id:'en',
+      value:'English'
+    }];
+
+    //public draftSelected:any;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -44,13 +62,25 @@ export class ProjectDetailComponent implements AfterViewInit {
                 public translateService: TranslateService,
                 @Inject(DOCUMENT) private _document: Document,
                 @Inject(PLATFORM_ID) private platformId: Object,
-                public userService: UserService){}
+                public userService: UserService,
+                private formBuilder: FormBuilder,
+                private draftService: DraftService){}
 
     ngOnInit(){
         if (!this.project) {
             this.project = this.route.snapshot.data['project'];
         }
         this.currentUrl += '/projects/' + this.project.item;
+
+        this.myForm = new FormGroup({
+          'draftId': new FormControl(),
+          'label': new FormControl(this.project.label, { nonNullable: true }),
+          'description': new FormControl(this.project.description, { nonNullable: true }),
+          'language': new FormControl(this.translateService.locale, {nonNullable: true})
+        })
+
+        this.getDraftsList();
+
     }
 
     ngAfterViewInit(): void {
@@ -168,6 +198,107 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     cancelEdit(){
-      this.editMode = false;
+      if (this.myForm.dirty){
+        let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          data:{
+            confirmMessage: "Do you want to discard the changes?"
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if(result && result.action == 'primary') {
+            this.myForm.reset();
+            this.editMode = false;
+            this.editDraft = false;
+          }else {
+            if (this.editDraft) {
+              this.myForm.reset();
+              this.editDraft = false;
+            }
+          }
+        });
+      }else {
+        this.editMode = false;
+        if(this.editDraft){
+          this.myForm.reset();
+          this.editDraft = false;
+        }
+      }
+
+    }
+
+    onDraftSelect($event:any){
+      //console.log("DRAFT SELECTED",this.draftSelected);
+      this.draftService.getDraft($event,this.project.item!).subscribe((draft:any)=>{
+        this.myForm.patchValue({
+          draftId: $event,
+          label:draft.label,
+          description:draft.summary,
+          language:draft.language
+        });
+        this.myForm.markAsPristine();
+        this.editMode = true;
+        this.editDraft = true;
+      })
+    }
+
+    deleteDraft(){
+      let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+        disableClose: false,
+        data:{
+          confirmMessage: "Do you want to delete this draft?"
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && result.action == 'primary') {
+          this.draftService.deleteDraft(this.myForm.value.draftId).subscribe(()=>{
+            this.getDraftsList();
+            this.editMode = false;
+            this.editDraft = false;
+          })
+        }
+      });
+    }
+
+    saveDraft(){
+      let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+        disableClose: false,
+        autoFocus: false,
+        data:{
+          childComponent: SaveDraftComponent,
+          title: "Save as draft",
+          primaryActionLabel: "Save",
+          secondaryActionLabel: "Cancel"
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result.action && result.action == 'primary') {
+          this.draftService.addDraft(
+            this.project.item!,
+            this.myForm.value.label,
+            this.myForm.value.description,
+            this.myForm.value.language).subscribe((draft:any)=>{
+            this.drafts.push({
+              id: draft['draft_id'],
+              value: draft['creation_time']
+            })
+          })
+          this.editMode = false;
+          this.editDraft = false;
+        }
+      });
+    }
+
+    getDraftsList(){
+      this.draftService.getDrafts(this.project.item!).subscribe(drafts=>{
+        drafts.forEach((draft:any)=>{
+          this.drafts.push({
+            id: draft['draft_id'],
+            value: draft['creation_time']
+          })
+        })
+      })
     }
 }

@@ -1,11 +1,9 @@
 import {AfterViewInit, Component } from '@angular/core';
 import {UserService} from "../../../services/user.service";
 import {User} from "../../../models/user.model";
-import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {
-  ConfirmationDialogComponent
-} from "../../../components/kohesio/confirmation-dialog/confirmation-dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 import {UserSaveDialogComponent} from "../save-dialog/user-save-dialog.component";
+import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 
 @Component({
     templateUrl: './user-dashboard.component.html',
@@ -16,8 +14,6 @@ export class UserDashboardComponent implements AfterViewInit {
     public usersList?:User[];
 
     messages:any[] = [];
-
-    dialogRef?: MatDialogRef<ConfirmationDialogComponent>;
 
     constructor(private userService: UserService,
                 public dialog: MatDialog){
@@ -31,32 +27,39 @@ export class UserDashboardComponent implements AfterViewInit {
     }
 
     saveUser(user?:User){
-      const dialogRef = this.dialog.open(UserSaveDialogComponent,{
-        data:user
+      const dialogRef = this.dialog.open(DialogEclComponent,{
+        disableClose: false,
+        autoFocus: false,
+        data:{
+          childComponent: UserSaveDialogComponent,
+          title: user ? "Edit user" : "Add user",
+          primaryActionLabel: "Save",
+          secondaryActionLabel: "Cancel",
+          data: user
+        }
       });
       dialogRef.afterClosed().subscribe(result => {
-        if (result && result.refresh) {
+        if(result && result.action=="primary" && result.data) {
           this.getListUsers();
           this.addMessage("success","The user was updated with success");
-        }else if(result && result.error){
-          this.addMessage("error",result.message.error);
         }
       });
     }
 
     deleteUser(user: User){
-      this.dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        disableClose: false
+      const dialogRef = this.dialog.open(DialogEclComponent, {
+        disableClose: false,
+        data:{
+          confirmMessage: "Are you sure you want to delete?"
+        }
       });
-      this.dialogRef.componentInstance.confirmMessage = "Are you sure you want to delete?"
-      this.dialogRef.afterClosed().subscribe(result => {
-        if(result) {
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && result.action=="primary") {
           this.userService.deleteUser(user.user_id).subscribe(result=>{
             this.getListUsers();
             this.addMessage("success","The user was deleted with success");
           });
         }
-        this.dialogRef = undefined;
       });
 
     }

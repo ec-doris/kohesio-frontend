@@ -1,28 +1,28 @@
-import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
 @Component({
-    selector: 'kohesio-ecl-form-text-input',
-    templateUrl: './form-text-input.ecl.component.html',
+    selector: 'kohesio-ecl-form-text-area',
+    templateUrl: './form-text-area.ecl.component.html',
+    styleUrls:['form-text-area.ecl.component.scss'],
     providers: [
         {
           provide: NG_VALUE_ACCESSOR,
           multi:true,
-          useExisting: KohesioEclFormTextInputComponent
+          useExisting: KohesioEclFormTextAreaComponent
         }
       ]
 })
-export class KohesioEclFormTextInputComponent implements ControlValueAccessor, AfterViewInit{
+export class KohesioEclFormTextAreaComponent implements ControlValueAccessor{
 
     inputValue:any;
     onChange = (_value:any) => {};
     onTouched = () => {};
 
     @Input() isDisabled:boolean = false;
-    @Input() focus:boolean = false;
-
-    @ViewChild("inputElement") inputElement!:ElementRef;
+    @Input() extraClass?:string;
+    @Input() autosize:boolean = true;
 
     writeValue(obj: string): void {
        this.inputValue = obj;
@@ -33,13 +33,8 @@ export class KohesioEclFormTextInputComponent implements ControlValueAccessor, A
     registerOnTouched(onTouched: any): void {
         this.onTouched = onTouched;
     }
-
-    ngAfterViewInit(){
-      if (this.focus) {
-        this.inputElement.nativeElement.focus();
-      }
+    innerTextCopy(){
+      return this.inputValue.replace(/\n/g, '<br/>');
     }
-
-
 
 }

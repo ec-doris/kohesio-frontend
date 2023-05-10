@@ -1,0 +1,21 @@
+.textarea-container {
+  position: relative;
+}
+
+.textarea-container > div, .textarea-container > textarea {
+  word-wrap: break-word; /* make sure the div and the textarea wrap words in the same way */
+  box-sizing: border-box;
+  padding: 2px;
+  width: 100%;
+}
+
+.textarea-container > textarea {
+  overflow: hidden;
+  position: absolute;
+  height: 100%;
+}
+
+.textarea-container > div {
+  padding-bottom: 1.5em; /* A bit more than one additional line of text. */
+  visibility: hidden;
+}

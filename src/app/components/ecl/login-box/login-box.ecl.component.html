@@ -11,11 +11,10 @@
             </a>
         </ng-container>
         <ng-container *ngIf="userService.user">
-            <a href="#"
-               class="ecl-button ecl-button--ghost ecl-site-header__login-toggle"
+            <!--<button [cdkMenuTriggerFor]="menu"
+               class="ecl-button ecl-button&#45;&#45;ghost"
                aria-controls="login-box-id"
-               [attr.aria-expanded]="isLoginBoxActive"
-               (click)="onLoginBoxToggle($event)">
+               [attr.aria-expanded]="isLoginBoxActive">
                 <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__icon" focusable="false" aria-hidden="true">
                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#logged-in"></use>
                 </svg>
@@ -23,22 +22,35 @@
                 <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__login-arrow" focusable="false" aria-hidden="true">
                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
                 </svg>
-            </a>
-            <div class="{{ getLoginBoxCssClasses() }}">
-                <p class="ecl-site-header__login-description">
-                    Logged in as {{userService.user ? userService.user.user_id : '' }}
-                </p>
-                <hr class="ecl-site-header__login-separator">
-                <p>
-                <a [routerLink]="['/users']" *ngIf="userService.isAdmin()" class="ecl-link ecl-link--standalone"
-                   aria-label="Read more about the Standalone link">Users</a>
-                </p>
-                <p>
-                <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
-                   class="ecl-link ecl-link--standalone"
-                   aria-label="Read more about the Standalone link" >Logout</a>
-                </p>
-            </div>
+            </button>-->
+            <button [cdkMenuTriggerFor]="menu" class="ecl-button ecl-button--ghost login-box-menu-trigger" (cdkMenuOpened)="onOpenMenu()" (cdkMenuClosed)="onCloseMenu()" [attr.aria-expanded]="opened">
+                <span class="ecl-button__container">
+                    <svg class="ecl-icon ecl-icon--xs ecl-site-header__icon ecl-button__icon--before" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#logged-in"></use>
+                    </svg>
+                    <span class="ecl-button__label" data-ecl-label="true">Logged in</span>
+                    <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate ecl-button__icon ecl-button__icon--after"
+                         [ngClass]="opened ? 'ecl-icon--rotate' : 'ecl-icon--rotate-180'" focusable="false" aria-hidden="true" data-ecl-icon>
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                    </svg>
+                </span>
+            </button>
+            <ng-template #menu>
+                <div class="login-box-menu-container" cdkMenu>
+                    <div class="login-box-menu-item">
+                        Logged in as {{userService.user ? userService.user.user_id : '' }}
+                    </div>
+                    <div class="login-box-menu-item" *ngIf="userService.isAdmin()">
+                        <a [routerLink]="['/users']" class="ecl-link ecl-link--standalone"
+                           aria-label="Read more about the Standalone link">Users</a>
+                    </div>
+                    <div class="login-box-menu-item">
+                        <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
+                           class="ecl-link ecl-link--standalone"
+                           aria-label="Read more about the Standalone link" >Logout</a>
+                    </div>
+                </div>
+            </ng-template>
         </ng-container>
     </div>
 </div>
