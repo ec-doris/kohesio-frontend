@@ -108,6 +108,12 @@ export class UserService {
       return this.user && this.user.role == 'ADMIN' ? true : false;
   }
 
+  isLoggedIn():boolean{
+      return (typeof this.user !== 'undefined'
+        && Object.keys(this.user).length > 0
+        && (this.user && this.user.user_id != undefined));
+  }
+
   canEdit():boolean{
     return this.user && (this.user.role == 'EDITOR' ||
       this.user.role == 'REVIEWER' ||

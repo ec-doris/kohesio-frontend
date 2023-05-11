@@ -1,8 +1,10 @@
-import {Component, Inject, LOCALE_ID, PLATFORM_ID} from '@angular/core';
+import {Component, Inject, LOCALE_ID, PLATFORM_ID, ViewChild} from '@angular/core';
 import {TranslateService} from "../../../services/translate.service";
 import {UserService} from "../../../services/user.service";
 import {LocationStrategy} from "@angular/common";
 import {User} from "../../../models/user.model";
+import {CdkMenuTrigger} from "@angular/cdk/menu";
+import {Router} from "@angular/router";
 declare let ECL:any;
 
 @Component({
@@ -19,9 +21,12 @@ export class KohesioEclLoginBoxComponent {
   public user?:User;
   public opened:boolean = false;
 
+  @ViewChild(CdkMenuTrigger) cdkMenuTrigger?: CdkMenuTrigger;
+
   constructor(@Inject(LOCALE_ID) public locale: string,
               public locationStrategy: LocationStrategy,
               public translateService: TranslateService,
+              public router: Router,
               @Inject(PLATFORM_ID) private platformId: Object,
               public userService: UserService){
 
@@ -40,6 +45,11 @@ export class KohesioEclLoginBoxComponent {
 
   onCloseMenu(){
     this.opened = false;
+  }
+
+  onMenuClick(router:string){
+    this.cdkMenuTrigger?.close()
+    this.router.navigate([router]);
   }
 
 }

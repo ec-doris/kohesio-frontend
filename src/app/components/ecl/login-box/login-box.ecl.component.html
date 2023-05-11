@@ -1,6 +1,6 @@
 <div class="ecl-site-header__action">
     <div class="ecl-site-header__login-container">
-        <ng-container *ngIf="!userService.user">
+        <ng-container *ngIf="!userService.isLoggedIn()">
             <a [href]="'/api/login?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
                class="ecl-button ecl-button--ghost ecl-site-header__login-toggle"
                [attr.aria-expanded]="isLoginBoxActive">
@@ -10,7 +10,7 @@
                 Login
             </a>
         </ng-container>
-        <ng-container *ngIf="userService.user">
+        <ng-container *ngIf="userService.isLoggedIn()">
             <!--<button [cdkMenuTriggerFor]="menu"
                class="ecl-button ecl-button&#45;&#45;ghost"
                aria-controls="login-box-id"
@@ -37,17 +37,15 @@
             </button>
             <ng-template #menu>
                 <div class="login-box-menu-container" cdkMenu>
-                    <div class="login-box-menu-item">
+                    <div class="login-box-menu-item userinfo">
                         Logged in as {{userService.user ? userService.user.user_id : '' }}
                     </div>
                     <div class="login-box-menu-item" *ngIf="userService.isAdmin()">
-                        <a [routerLink]="['/users']" class="ecl-link ecl-link--standalone"
-                           aria-label="Read more about the Standalone link">Users</a>
+                        <button (click)="onMenuClick('/users')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Users</button>
                     </div>
                     <div class="login-box-menu-item">
                         <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
-                           class="ecl-link ecl-link--standalone"
-                           aria-label="Read more about the Standalone link" >Logout</a>
+                           class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">Logout</a>
                     </div>
                 </div>
             </ng-template>
