@@ -1,10 +1,12 @@
-import {HttpException, HttpStatus, Injectable} from '@nestjs/common';
+import {Inject, Injectable, Scope} from '@nestjs/common';
 import {firstValueFrom, map, throwError} from "rxjs";
 import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
-import {UserInDto} from "./dtos/user.in.dto";
+import {UserInDto, UserInternalInDto} from "./dtos/user.in.dto";
 import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
+import {REQUEST} from "@nestjs/core";
+import {UserDTO} from "./dtos/user.dto";
 
 @Injectable()
 export class UserService {
@@ -18,67 +20,85 @@ export class UserService {
 
   async getUser(userid: string):Promise<UserInDto>{
     return await firstValueFrom(
-      this.httpService.get<UserInDto>(`${this.baseUrl}/users/${userid}`).pipe(
-        map((result:any)=>{
-          const data:Object = result.data;
-          return plainToInstance(UserInDto,data);
-        })
-      )
-    );
-  }
-
-  async getUsersList():Promise<UserInDto[]>{
-    return await firstValueFrom(
-      this.httpService.get<UserInDto[]>(`${this.baseUrl}/users`).pipe(
-        map((result:any)=>{
-          const data:Object[] = result.data;
-          return plainToInstance(UserInDto,data);
-        })
-      )
-    );
-  }
-
-  async addUser(userid: string, role: string, active:boolean):Promise<UserInDto>{
-    return await firstValueFrom(
-      this.httpService.post<UserInDto>(`${this.baseUrl}/users`,{
-        user_id: userid,
-        role: role,
-        active: active
-      }).pipe(
+      this.httpService.get<UserInDto>(`${this.baseUrl}/users/${userid}`,
+        {headers:{"user-id":userid}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
           return plainToInstance(UserInDto,data);
         }),
         catchError(err => {
-          return throwError(err.response);
+          return this.handlingCatchError(err)
         })
       )
     );
   }
 
-  async editUser(userid: string, role: string, active: boolean):Promise<UserInDto>{
+  async getUsersList(currentUser:string):Promise<UserDTO[]>{
     return await firstValueFrom(
-      this.httpService.put<UserInDto>(`${this.baseUrl}/users/${userid}`,{
-        user_id: userid,
-        role: role,
-        active: active
-      }).pipe(
+      this.httpService.get<UserDTO[]>(`${this.baseUrl}/users`,
+        {headers:{"user-id":currentUser}} as any).pipe(
+        map((result:any)=>{
+          const data:Object[] = result.data;
+          return plainToInstance(UserDTO,data,{
+            excludeExtraneousValues:true
+          });
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async addUser(currentUser:string, userDetails: UserInDto):Promise<UserDTO>{
+    return await firstValueFrom(
+      this.httpService.post<UserDTO>(`${this.baseUrl}/users`,
+        plainToInstance(UserInternalInDto,userDetails),
+        {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
-          return plainToInstance(UserInDto,data);
+          return plainToInstance(UserDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
         })
       )
     );
   }
 
-  async deleteUser(userid: string):Promise<boolean>{
+  async editUser(currentUser:string, userDetails: UserInDto):Promise<UserDTO>{
     return await firstValueFrom(
-      this.httpService.delete<any>(`${this.baseUrl}/users/${userid}`).pipe(
+      this.httpService.put<UserDTO>(`${this.baseUrl}/users/${userDetails.userid}`,
+        plainToInstance(UserInternalInDto,userDetails),
+        {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
-          return true;
+          const data:Object = result.data;
+          return plainToInstance(UserDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
         })
       )
     );
+  }
+
+  async deleteUser(currentUser:string, userid: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.delete<any>(`${this.baseUrl}/users/${userid}`,
+        {headers:{"user-id":currentUser}} as any).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  private handlingCatchError(err){
+    console.error("Error on User service:",err.response.data)
+    return throwError(err.response);
   }
 
 }

@@ -11,12 +11,9 @@ import { environment } from 'src/environments/environment';
 })
 export class StatisticsService {
 
-    //private url:string = '/api/wiki/stats';
-    private url:string = '/statistics';
+    private url:string = environment.api + '/queries/stats';
 
-    constructor(private http: HttpClient) {
-        this.url = environment.apiBaseUrl + this.url;
-    }
+    constructor(private http: HttpClient) {}
 
     getKeyFigures(): Observable<Statistics>  {
         return this.http.get<any>(this.url).pipe(

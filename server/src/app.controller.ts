@@ -21,11 +21,11 @@ export class AppController {
     res.redirect(acceptLanguage);
   }
 
-  @Get('/auth')
+  /*@Get('/auth')
   auth(@Req() req, @Session() session: Record<string, any>): string {
-    /*const environment = this.configService.get<string>('ENV');
+    /!*const environment = this.configService.get<string>('ENV');
     session.visits = session.visits ? session.visits + 1 : 1;
-    return this.appService.getHello() + " environment: "+ environment + " visits: "+session.visits;*/
+    return this.appService.getHello() + " environment: "+ environment + " visits: "+session.visits;*!/
     //console.log("REQUEST",req);
     //console.log("SESSION",req.session);
     if (req.user) {
@@ -33,5 +33,5 @@ export class AppController {
     } else {
       return this.appService.getHello() + ' <a href="/login">Login</a>';
     }
-  }
+  }*/
 }

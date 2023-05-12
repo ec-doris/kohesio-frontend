@@ -17,7 +17,7 @@ export class ProjectService {
     }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
-        const url = environment.apiBaseUrl + '/search/project';
+        const url = environment.api + '/queries/search/project';
         const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -52,7 +52,7 @@ export class ProjectService {
     }
 
     getProjectDetail(id: string | null): Observable<ProjectDetail> {
-        const url = environment.apiBaseUrl + '/project';
+        const url = environment.api + '/queries/project';
         let params = {
             id: environment.entityURL + id,
             language: this.locale

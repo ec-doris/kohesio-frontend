@@ -23,6 +23,6 @@ const OidcStrategyFactory = {
     PassportModule.register({ session: true, defaultStrategy: 'oidc' })
   ],
   controllers: [AuthController],
-  providers: [AuthService,OidcStrategyFactory, SessionSerializer, AuthService, ConfigService]
+  providers: [OidcStrategyFactory, SessionSerializer, AuthService, ConfigService]
 })
 export class AuthModule {}

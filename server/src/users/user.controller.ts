@@ -3,73 +3,100 @@ import {
   Controller,
   Delete,
   Get,
-  HttpException,
-  HttpStatus,
   Param,
   Post,
   Put,
   Req,
-  Session,
   UseGuards
 } from "@nestjs/common";
 import {UserService} from "./user.service";
 import {UserDTO} from "./dtos/user.dto";
 import {plainToInstance} from "class-transformer";
 import {UserInDto} from "./dtos/user.in.dto";
-import {LoginGuard} from "../auth/login.guard";
 import {Roles} from "../auth/roles.decorator";
 import {Role} from "../auth/role.enum";
 import {RolesGuard} from "../auth/roles.guard";
+import {
+  ApiBadRequestResponse, ApiCreatedResponse,
+  ApiForbiddenResponse,
+  ApiOkResponse,
+  ApiServiceUnavailableResponse,
+  ApiTags, refs
+} from "@nestjs/swagger";
+import {BaseController} from "../base.controller";
 
-@Controller('/user')
-export class UserController {
+@Controller('/users')
+@ApiTags('Users')
+export class UserController extends BaseController{
 
-  constructor(private userService: UserService){}
+  constructor(private userService: UserService){
+    super();
+  }
 
-  @Get('')
-  async user(@Req() req) {
-    //console.log("COOKIES",req.cookies);
+  @ApiOkResponse({
+    schema: {
+      anyOf: refs(
+        UserDTO,
+        Object
+      ),
+    },
+  })
+  @Get('/currentUser')
+  async user(@Req() req): Promise<UserDTO | Object> {
     if (req.user){
-      //const userDB:User = await this.userService.findByUid(req.user.userinfo.sid).then();
-      const userDTO:UserDTO = plainToInstance(UserDTO, req.user as Object);
-      return userDTO;
+      return plainToInstance(UserDTO, req.user as Object);
     }else{
       return {};
     }
   }
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
-  @Get('/users')
-  async users(){
-    const usersIn:UserInDto[] = await this.userService.getUsersList();
-    const usersDTO:UserDTO[] = plainToInstance(UserDTO, usersIn);
-    return usersDTO;
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @ApiOkResponse({
+    type:[UserDTO]
+  })
+  @Get('')
+  async users(@Req() req) : Promise<UserDTO[] | void>{
+    return await this.userService.getUsersList(req.user.user_id).catch(this.errorHandler);
   }
 
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
+  @ApiCreatedResponse({
+    type:UserDTO
+  })
+  @ApiBadRequestResponse({description: "The user already exists"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @Post('')
-  async addUser(@Body() userDTO: any){
-    return await this.userService.addUser(userDTO.userid,userDTO.role,userDTO.active).catch((err)=>{
-      throw new HttpException({
-        status: HttpStatus.BAD_REQUEST,
-        error: err.data.detail,
-      },HttpStatus.BAD_REQUEST);
-    });
+  async addUser(@Req() req, @Body() userDTO: UserInDto): Promise<UserDTO | void>{
+    return await this.userService.addUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
-  @Put('/users/:id')
-  async editUser(@Body() userDTO: any, @Param('id') id: string){
-    return await this.userService.editUser(id,userDTO.role,userDTO.active);
+  @ApiOkResponse({
+    type:UserDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Put('/:id')
+  async editUser(@Req() req,@Body() userDTO: UserInDto, @Param('id') id: string): Promise<UserDTO | void>{
+    userDTO.userid = id;
+    return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 
   @UseGuards(RolesGuard)
   @Roles(Role.Admin)
-  @Delete('/users/:id')
-  async deleteUser(@Param('id') id: string){
-    return await this.userService.deleteUser(id);
+  @ApiOkResponse({
+    type:Boolean
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Delete('/:id')
+  async deleteUser(@Req() req,@Param('id') id: string):Promise<boolean | void>{
+    return await this.userService.deleteUser(req.user.user_id,id).catch(this.errorHandler);
   }
 
 }

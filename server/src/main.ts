@@ -9,6 +9,7 @@ import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
 import {RequestMethod} from "@nestjs/common";
+import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -98,6 +99,7 @@ async function bootstrap() {
     exclude: [{ path: '', method: RequestMethod.GET }],
   });
 
+  setupSwagger(app);
   const port = configService.get<number>('NODE_PORT');
   await app.listen(port);
 }
@@ -111,5 +113,15 @@ async function getTranslatedServer(lang) {
     return serverApp;
   }
 };
+
+function setupSwagger(app){
+  const config = new DocumentBuilder()
+    .setTitle('Kohesio API')
+    .setDescription('Kohesio API')
+    .setVersion('1.0')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api', app, document);
+}
 
 bootstrap();

@@ -13,7 +13,7 @@ export class AuthGuard implements CanActivate{
 
     if (typeof this.userService.user === 'undefined'){
       //Sometimes the guard here is calling first then the APP_INITIALIZER
-      await firstValueFrom(this.userService.getUserDetails())
+      await firstValueFrom(this.userService.getCurrentUser())
       if (this.userService.isAdmin()){
         return true;
       }

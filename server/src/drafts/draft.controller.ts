@@ -19,8 +19,10 @@ import {Roles} from "../auth/roles.decorator";
 import {Role} from "../auth/role.enum";
 import {RolesGuard} from "../auth/roles.guard";
 import {DraftService} from "./draft.service";
+import {ApiTags} from "@nestjs/swagger";
 
 @Controller('/drafts')
+@ApiTags('Drafts')
 export class DraftController {
 
   constructor(private draftService: DraftService){}

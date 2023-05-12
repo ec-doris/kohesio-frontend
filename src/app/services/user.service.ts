@@ -11,7 +11,7 @@ import {environment} from "../../environments/environment";
 })
 export class UserService {
 
-    private readonly url:string = '/user';
+    private readonly url:string = '/users';
 
     public user?:User;
 
@@ -20,8 +20,8 @@ export class UserService {
       this.url = environment.api + this.url;
     }
 
-    getUserDetails(): Observable<User> {
-        return this.http.get<any>(this.url).pipe(
+    getCurrentUser(): Observable<User> {
+        return this.http.get<any>(`${this.url}/currentUser`).pipe(
            map((data:Object) => {
               //console.log("GET USER DETAILS, DATA",data);
               if (Object.keys(data).length) {
@@ -40,7 +40,7 @@ export class UserService {
     }
 
     getUsers(): Observable<User[]> {
-      return this.http.get<any>(this.url+'/users').pipe(
+      return this.http.get<any>(this.url).pipe(
         map((data:Object[]) => {
           return plainToInstance(User, data);
         }),
@@ -64,7 +64,7 @@ export class UserService {
     }
 
     editUser(userid:string, role:string, active:boolean): Observable<User> {
-      return this.http.put(this.url+'/users/'+userid,{userid:userid, role:role, active:active}).pipe(
+      return this.http.put(`${this.url}/${userid}`,{userid:userid, role:role, active:active}).pipe(
         map((data:Object) => {
           return plainToInstance(User, data);
         }),
@@ -76,7 +76,7 @@ export class UserService {
     }
 
     deleteUser(userid:string): Observable<any> {
-      return this.http.delete(this.url+'/users/'+userid).pipe(
+      return this.http.delete(`${this.url}/${userid}`).pipe(
         map((data:Object) => {
           return data;
         }),
@@ -89,7 +89,7 @@ export class UserService {
 
     refreshUser(){
       setTimeout(()=>{
-        this.getUserDetails().subscribe((user)=>{
+        this.getCurrentUser().subscribe((user)=>{
           this.user = user;
         });
         this.refreshUser();

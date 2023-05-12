@@ -75,7 +75,7 @@ export function initializeAppCustomLogic(userService: UserService, platformId: O
       userService.refreshUser();
     }
     return new Observable<any>((subscriber:Subscriber<any>)=>{
-      userService.getUserDetails().subscribe((user:User)=>{
+      userService.getCurrentUser().subscribe((user:User)=>{
         subscriber.complete();
       });
     })

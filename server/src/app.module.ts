@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
-import {WikiModule} from "./wiki/wiki.module";
+import {QueryModule} from "./queries/query.module";
 import {DraftModule} from "./drafts/draft.module";
 
 @Module({
@@ -12,7 +12,7 @@ import {DraftModule} from "./drafts/draft.module";
     ConfigModule.forRoot(),
     AuthModule,
     UserModule,
-    WikiModule,
+    QueryModule,
     DraftModule
   ],
   controllers: [AppController],
