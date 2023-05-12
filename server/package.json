@@ -43,7 +43,7 @@
     "xhr2": "^0.2.1"
   },
   "devDependencies": {
-    "@nestjs/cli": "^9.0.0",
+    "@nestjs/cli": "^9.4.2",
     "@nestjs/schematics": "^9.0.0",
     "@nestjs/testing": "^9.0.0",
     "@types/cookie-parser": "^1.4.3",
