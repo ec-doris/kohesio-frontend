@@ -1,11 +1,10 @@
-import {Type} from "class-transformer";
+import {Expose, Type} from "class-transformer";
 
 export class Draft {
 
   id!: number;
-
   qid!: string;
-
+  name?:string;
   label!:string;
   summary!:string;
   language!: string;
@@ -13,6 +12,7 @@ export class Draft {
   status!: string;
 
   @Type(() => Date)
+  @Expose({name:"creation_time"})
   creationTime!: Date;
 
 }

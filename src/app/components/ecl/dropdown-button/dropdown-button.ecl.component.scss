@@ -3,3 +3,6 @@
   flex-direction: column;
 }
 
+button[aria-expanded=true]{
+  background-color: #EEEEEE;
+}

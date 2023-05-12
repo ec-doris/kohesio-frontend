@@ -41,20 +41,14 @@
         <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>
 
         <ng-container *ngIf="!editMode && drafts.length">
-            <!--<div class="text">My drafts:</div>
-            <ng-container>
-                <kohesio-ecl-form-group style="min-width:200px;">
-                    <kohesio-ecl-form-select
-                        [items]="drafts"
-                        (change)="onDraftSelect($event)"
-                        placeholder="Select a draft" >
-                    </kohesio-ecl-form-select>
-                </kohesio-ecl-form-group>
-            </ng-container>-->
-        <kohesio-ecl-dropdown-button variant="secondary" label="Drafts">
-            <ng-container *ngFor="let draft of drafts">
-                <kohesio-ecl-button variant="secondary" (click)="onDraftSelect(draft.id)">{{draft.value}}</kohesio-ecl-button>
-            </ng-container>
+        <kohesio-ecl-dropdown-button variant="ghost" label="Drafts">
+            <div class="draft-menu-container">
+                <ng-container *ngFor="let draft of drafts">
+                    <div class="draft-menu-item">
+                        <button class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone " (click)="onDraftSelect(draft.id)">{{draft.value}}</button>
+                    </div>
+                </ng-container>
+            </div>
         </kohesio-ecl-dropdown-button>
         </ng-container>
         <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && !editMode" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>

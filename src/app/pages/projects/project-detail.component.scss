@@ -54,3 +54,21 @@ a:visited {
 .kohesio-page-detail-tools > kohesio-ecl-button{
   margin-left:3px;
 }
+
+.draft-menu-container{
+  display: flex;
+  flex-direction: column;
+  background-color: #EEEEEE;
+  padding: 10px;
+  .draft-menu-item{
+    padding: 0.75rem 1rem;
+    border-bottom: 1px gray solid;
+    button, a{
+      padding: 0;
+    }
+  }
+  .draft-menu-item:last-child{
+    border-bottom: 0;
+  }
+}
+

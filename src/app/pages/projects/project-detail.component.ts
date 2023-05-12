@@ -14,6 +14,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DraftService} from "../../services/draft.service";
 import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
 import {SaveDraftComponent} from "./dialogs/save-draft.component";
+import {Draft} from "../../models/draft.model";
 
 declare let L:any;
 
@@ -263,40 +264,57 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     saveDraft(){
-      let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
-        disableClose: false,
-        autoFocus: false,
-        data:{
-          childComponent: SaveDraftComponent,
-          title: "Save as draft",
-          primaryActionLabel: "Save",
-          secondaryActionLabel: "Cancel"
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if(result.action && result.action == 'primary') {
-          this.draftService.addDraft(
-            this.project.item!,
-            this.myForm.value.label,
-            this.myForm.value.description,
-            this.myForm.value.language).subscribe((draft:any)=>{
-            this.drafts.push({
-              id: draft['draft_id'],
-              value: draft['creation_time']
-            })
-          })
+      if (this.myForm.value.draftId){
+        this.draftService.editDraft(
+          this.myForm.value.draftId,
+          this.myForm.value.label,
+          this.myForm.value.description,
+          this.myForm.value.language).subscribe((draft: any) => {
           this.editMode = false;
           this.editDraft = false;
-        }
-      });
+        });
+      }else {
+        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          autoFocus: false,
+          data: {
+            childComponent: SaveDraftComponent,
+            title: "Save as draft",
+            primaryActionLabel: "Save",
+            secondaryActionLabel: "Cancel"
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result.action && result.action == 'primary') {
+            this.draftService.addDraft(
+              this.project.item!,
+              this.myForm.value.label,
+              this.myForm.value.description,
+              this.myForm.value.language,
+              result.data.name).subscribe((draft: Draft) => {
+                this.drafts.push({
+                  id: draft['id'],
+                  value: draft.name ?
+                    `${draft.name} - ${draft.creationTime.toLocaleString()}` :
+                    draft.creationTime.toLocaleString()
+                })
+            })
+            this.editMode = false;
+            this.editDraft = false;
+          }
+        });
+      }
     }
 
     getDraftsList(){
-      this.draftService.getDrafts(this.project.item!).subscribe(drafts=>{
-        drafts.forEach((draft:any)=>{
+      this.drafts=[];
+      this.draftService.getDrafts(this.project.item!).subscribe((drafts:Draft[])=>{
+        drafts.forEach((draft:Draft)=>{
           this.drafts.push({
-            id: draft['draft_id'],
-            value: draft['creation_time']
+            id: draft.id,
+            value: draft.name ?
+              `${draft.name} - ${draft.creationTime.toLocaleString()}` :
+              draft.creationTime.toLocaleString()
           })
         })
       })

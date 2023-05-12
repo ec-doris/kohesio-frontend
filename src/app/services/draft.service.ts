@@ -20,7 +20,11 @@ export class DraftService {
     }
 
     getDrafts(qid: string): Observable<Draft[]> {
-      return this.http.get<any>(this.url).pipe(
+      return this.http.get<any>(this.url,{
+        params:{
+          qid:qid
+        }
+      }).pipe(
         map((data:Object[]) => {
           return plainToInstance(Draft, data);
         }),
@@ -43,12 +47,13 @@ export class DraftService {
       )
     }
 
-    addDraft(qid:string, label: string, summary: string, language: string): Observable<Draft> {
+    addDraft(qid:string, label: string, summary: string, language: string, name:string): Observable<Draft> {
       return this.http.post(this.url,{
         qid:qid,
         label:label,
         summary:summary,
-        language:language}
+        language:language,
+        name:name}
       ).pipe(
         map((data:Object) => {
           return plainToInstance(Draft, data);
@@ -59,9 +64,8 @@ export class DraftService {
       )
     }
 
-    editDraft(id:number, qid:string, label: string, summary: string, language: string): Observable<Draft> {
+    editDraft(id:number, label: string, summary: string, language: string): Observable<Draft> {
       return this.http.put(this.url+'/'+id,{
-        qid:qid,
         label:label,
         summary:summary,
         language:language}
