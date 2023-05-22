@@ -12,9 +12,8 @@ import {
 import {UserService} from "./user.service";
 import {UserDTO} from "./dtos/user.dto";
 import {plainToInstance} from "class-transformer";
-import {UserInDto} from "./dtos/user.in.dto";
+import {Role, UserInDto} from "./dtos/user.in.dto";
 import {Roles} from "../auth/roles.decorator";
-import {Role} from "../auth/role.enum";
 import {RolesGuard} from "../auth/roles.guard";
 import {
   ApiBadRequestResponse, ApiCreatedResponse,
@@ -50,7 +49,7 @@ export class UserController extends BaseController{
     }
   }
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   @ApiOkResponse({
@@ -62,7 +61,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @ApiCreatedResponse({
     type:UserDTO
   })
@@ -75,7 +74,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @ApiOkResponse({
     type:UserDTO
   })
@@ -88,7 +87,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin)
+  @Roles(Role.ADMIN)
   @ApiOkResponse({
     type:Boolean
   })

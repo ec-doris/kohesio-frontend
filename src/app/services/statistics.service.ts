@@ -11,7 +11,7 @@ import { environment } from 'src/environments/environment';
 })
 export class StatisticsService {
 
-    private url:string = environment.api + '/queries/stats';
+    private url:string = environment.api + '/queries/statistics';
 
     constructor(private http: HttpClient) {}
 

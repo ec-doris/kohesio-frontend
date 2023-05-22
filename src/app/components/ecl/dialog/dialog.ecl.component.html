@@ -9,7 +9,9 @@
     </button>
 </header>
 <div class="ecl-modal__body">
-    <ng-container *ngIf="confirmMessage">{{confirmMessage}}</ng-container>
+    <ng-container *ngIf="confirmMessage">
+        <div [innerHTML]="confirmMessage"></div>
+    </ng-container>
     <ng-template adHost></ng-template>
 </div>
 <footer class="ecl-modal__footer">

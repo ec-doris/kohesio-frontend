@@ -1,0 +1,10 @@
+.page-header{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ecl-table__cell.action{
+  kohesio-ecl-button{
+    margin-left: 3px;
+  }
+}

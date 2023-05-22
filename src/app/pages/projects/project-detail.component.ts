@@ -15,6 +15,7 @@ import {DraftService} from "../../services/draft.service";
 import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
 import {SaveDraftComponent} from "./dialogs/save-draft.component";
 import {Draft} from "../../models/draft.model";
+import {EditService} from "../../services/edit.service";
 
 declare let L:any;
 
@@ -65,7 +66,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                 @Inject(PLATFORM_ID) private platformId: Object,
                 public userService: UserService,
                 private formBuilder: FormBuilder,
-                private draftService: DraftService){}
+                private draftService: DraftService,
+                private editService: EditService){}
 
     ngOnInit(){
         if (!this.project) {
@@ -80,7 +82,7 @@ export class ProjectDetailComponent implements AfterViewInit {
           'language': new FormControl(this.translateService.locale, {nonNullable: true})
         })
 
-        this.getDraftsList();
+      this.getDraftsList();
 
     }
 
@@ -318,5 +320,40 @@ export class ProjectDetailComponent implements AfterViewInit {
           })
         })
       })
+    }
+
+    submitEdit(){
+      if (this.project.hasSubmitted) {
+        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          data: {
+            confirmMessage: "<p>There is already a submitted version, waiting for approval, do you want to submit this version?</p>" +
+              "<p>This action will cancel the other version that was submitted before.</p>"
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if (result && result.action == 'primary') {
+            this.editService.submit(this.project.item!,
+              this.myForm.value.draftId,
+              this.myForm.value.label,
+              this.myForm.value.description,
+              this.myForm.value.language).subscribe(edit=>{
+              this.editMode = false;
+              this.project.hasSubmitted = true;
+            })
+
+          }
+        });
+      }else{
+        this.editService.submit(this.project.item!,
+          this.myForm.value.draftId,
+          this.myForm.value.label,
+          this.myForm.value.description,
+          this.myForm.value.language).subscribe(edit=>{
+          this.editMode = false;
+          this.project.hasSubmitted = true;
+        })
+      }
     }
 }

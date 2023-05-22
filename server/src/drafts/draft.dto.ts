@@ -18,7 +18,6 @@ export class DraftInDTO {
   language?: string;
   @Exclude()
   user_id?: string;
-  @Exclude()
   status?:string;
 
 }

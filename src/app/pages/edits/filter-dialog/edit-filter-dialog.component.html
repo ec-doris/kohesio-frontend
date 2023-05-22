@@ -1,0 +1,9 @@
+<div style="min-width:300px;">
+    <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
+    <form [formGroup]="myForm">
+        <kohesio-ecl-form-group>
+            <kohesio-ecl-form-label>Status:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-select formControlName="status" [items]="this.statuses" [hasEmptyValue]="false"></kohesio-ecl-form-select>
+        </kohesio-ecl-form-group>
+    </form>
+</div>

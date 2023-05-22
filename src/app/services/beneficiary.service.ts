@@ -16,7 +16,7 @@ export class BeneficiaryService {
     constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
     getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList | null>  {
-        const url = environment.apiBaseUrl + "/search/beneficiaries";
+        const url = environment.api + "/beneficiaries";
         const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -45,7 +45,7 @@ export class BeneficiaryService {
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
-        const url = environment.apiBaseUrl + "/search/beneficiaries/" + type;
+        const url = environment.api + "/beneficiaries/download/" + type;
         let params:any = filters.getBeneficiariesFilters();
         params.language = this.locale;
         return this.http.get(url,{
@@ -55,29 +55,19 @@ export class BeneficiaryService {
     }
 
     getBeneficiaryDetail(id: string | null): Observable<BeneficiaryDetail> {
-        const url = environment.apiBaseUrl + '/beneficiary';
+        const url = environment.api + '/beneficiaries/' + id;
         let params = {
           language:this.locale,
-            id: environment.entityURL + id
+          id: environment.entityURL + id
         };
         return this.http.get<any>(url, { params: <any>params }).pipe(
             map((data:any) => {
                 return new BeneficiaryDetail().deserialize(data);
             }));
-        /*return this.http.get<any>(url, { params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    throwError('Data is inconsistent');
-                }else {
-                    return new BeneficiaryDetail().deserialize(data);
-                }
-                return undefined
-            })
-        );*/
     }
 
     getBeneficiaryProjects(id: string | null, pageIndex:number = 0): Observable<BeneficiaryProjectList> {
-        const url = environment.apiBaseUrl + '/beneficiary/project';
+        const url = environment.api + '/beneficiaries/'+id+'/projects';
         let params = {
             id: environment.entityURL + id,
             page: pageIndex,
@@ -88,16 +78,6 @@ export class BeneficiaryService {
             map((data:any) => {
                 return new BeneficiaryProjectList().deserialize(data);
             }));
-        /*return this.http.get<any>(url, { params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    throwError('Data is inconsistent');
-                }else {
-                    return new BeneficiaryProjectList().deserialize(data);
-                }
-                return undefined;
-            })
-        );*/
     }
 
 }

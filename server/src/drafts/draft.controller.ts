@@ -10,12 +10,12 @@ import {
   UseGuards, UsePipes, ValidationPipe
 } from "@nestjs/common";
 import {Roles} from "../auth/roles.decorator";
-import {Role} from "../auth/role.enum";
 import {RolesGuard} from "../auth/roles.guard";
 import {DraftService} from "./draft.service";
 import {ApiTags} from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
 import {DraftInDTO, DraftOutDTO} from "./draft.dto";
+import {Role} from "../users/dtos/user.in.dto";
 
 @Controller('/drafts')
 @ApiTags('Drafts')
@@ -26,20 +26,20 @@ export class DraftController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin,Role.Editor,Role.Reviewer)
+  @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @Get(':id')
   async draft(@Req() req, @Param('id') draftId: number):Promise<DraftOutDTO | void> {
     return await this.draftService.getDraft(req.user.user_id,draftId).catch(this.errorHandler);
   }
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin,Role.Editor,Role.Reviewer)
+  @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @Get('')
   async drafts(@Req() req, @Query('qid') qId: string):Promise<DraftOutDTO[] | void>{
     return await this.draftService.getDrafts(req.user.user_id,qId).catch(this.errorHandler);
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin,Role.Editor,Role.Reviewer)
+  @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Post('')
   async addDraft(@Req() req, @Body() draftInDTO: DraftInDTO): Promise<DraftOutDTO | void>{
@@ -47,7 +47,7 @@ export class DraftController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin,Role.Editor,Role.Reviewer)
+  @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Put('/:id')
   async editDraft(@Req() req, @Body() draftInDTO: DraftInDTO, @Param('id') draftId: number): Promise<DraftOutDTO | void>{
@@ -55,7 +55,7 @@ export class DraftController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.Admin,Role.Editor,Role.Reviewer)
+  @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @Delete('/:id')
   async deleteUser(@Req() req,@Param('id') draftId: number):Promise<boolean | void>{
     return await this.draftService.deleteDraft(req.user.user_id,draftId).catch(this.errorHandler);

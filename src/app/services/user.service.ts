@@ -120,4 +120,13 @@ export class UserService {
     this.user.role == 'ADMIN') ? true : false;
   }
 
+  canApprove():boolean{
+      return this.user && (this.user.role == 'REVIEWER' ||
+      this.user.role == 'ADMIN') ? true : false;
+  }
+
+  isEditor():boolean{
+      return (this.user && this.user.role == 'EDITOR') ? true : false;
+  }
+
 }

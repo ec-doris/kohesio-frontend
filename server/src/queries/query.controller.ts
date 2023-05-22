@@ -1,62 +1,159 @@
-import {Controller, Get, HttpException, HttpStatus, Query} from "@nestjs/common";
+import {Controller, Get, HttpException, HttpStatus, Query, Req, Res} from "@nestjs/common";
 import {QueryService} from "./query.service";
-import {FilterThemeInDto} from "./dtos/in/filter-theme.in.dto";
 import {
-  ApiBadRequestResponse, ApiOkResponse,
+  ApiBadRequestResponse, ApiOkResponse, ApiProduces,
   ApiServiceUnavailableResponse,
   ApiTags
 } from "@nestjs/swagger";
-import {StatisticsOutDto} from "./dtos/out/statistics.out.dto";
-import {BasicFilterOutDto} from "./dtos/out/basic-filter.out.dto";
-import {ProjectSearchWrapperOutDto} from "./dtos/out/project-search.out.dto";
-import {ProjectSearchInDto} from "./dtos/in/project-search.in.dto";
-import {ProjectInDto} from "./dtos/in/project.in.dto";
-import {ProjectOutDto} from "./dtos/out/project.out.dto";
+import {StatisticsOutDTO} from "./dtos/statistics.dto";
+import {ThematicObjectivesInDTO, ThematicObjectivesOutDTO} from "./dtos/thematic_objectives.dto";
+import {RegionInDTO, RegionOutDTO} from "./dtos/region.dto";
+import {ProgramInDTO, ProgramOutDTO} from "./dtos/program.dto";
+import {PolicyInDTO, PolicyOutDTO} from "./dtos/policy.dto";
+import {OutermostRegionsInDTO, OutermostRegionsOutDTO} from "./dtos/outermost-regions.dto";
+import {Nuts3InDTO, Nuts3OutDTO} from "./dtos/nuts3.dto";
+import {LooMetadataInDTO, LooMetadataOutDTO} from "./dtos/loo-metadata.dto";
+import {KohesioCategoryInDTO, KohesioCategoryOutDTO} from "./dtos/kohesio-category.dto";
+import {FundInDTO, FundOutDTO} from "./dtos/fund.dto";
+import {CountryInDto, CountryOutDto} from "./dtos/country.dto";
+import {CategoryInDTO, CategoryOutDTO} from "./dtos/category.dto";
+import {GeneralSearchInDTO, GeneralSearchWrapperOutDTO} from "./dtos/general.search.dto";
+
 
 @Controller('/queries')
 @ApiTags('Queries')
 export class QueryController {
 
-  constructor(private readonly wikiService:QueryService){}
+  constructor(private readonly queryService:QueryService){}
 
-  @Get('stats')
+  @Get('statistics')
   @ApiOkResponse({
-    type:StatisticsOutDto
+    type:StatisticsOutDTO
   })
   @ApiBadRequestResponse({description: "Statistics not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  async stats():Promise<StatisticsOutDto | void>{
-    return await this.wikiService.getStatistics().catch(this.errorHandler);
+  async statistics():Promise<StatisticsOutDTO | void>{
+    return await this.queryService.getStatistics().catch(this.errorHandler);
   }
 
-  @Get('filter/theme')
+  @Get('thematic_objectives')
   @ApiOkResponse({
-    type:[BasicFilterOutDto]
+    type:[ThematicObjectivesOutDTO]
   })
   @ApiBadRequestResponse({description: "Thematic objective not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  async filterTheme(@Query() queryParam: FilterThemeInDto){
-    return await this.wikiService.getBasicFilter("thematic_objectives", queryParam).catch(this.errorHandler);
+  async thematic_objectives(@Query() queryParam: ThematicObjectivesInDTO): Promise<ThematicObjectivesOutDTO[] | void>{
+    return await this.queryService.getThematicObjectives(queryParam).catch(this.errorHandler);
   }
 
-  @Get('search/project')
+  @Get('regions')
   @ApiOkResponse({
-    type:ProjectSearchWrapperOutDto
+    type:[RegionOutDTO]
   })
-  @ApiBadRequestResponse({description: "Project not found"})
+  @ApiBadRequestResponse({description: "Region not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  async projectSearch(@Query() queryParam: ProjectSearchInDto){
-    return await this.wikiService.projectSearch(queryParam).catch(this.errorHandler);
+  async regions(@Query() queryParam: RegionInDTO): Promise<RegionOutDTO[] | void>{
+    return await this.queryService.getRegions(queryParam).catch(this.errorHandler);
   }
 
-  @Get('project')
+  @Get('programs')
   @ApiOkResponse({
-    type:ProjectOutDto
+    type:[ProgramOutDTO]
   })
-  @ApiBadRequestResponse({description: "Project not found"})
+  @ApiBadRequestResponse({description: "Program not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  async project(@Query() queryParam: ProjectInDto){
-    return await this.wikiService.project(queryParam).catch(this.errorHandler);
+  async programs(@Query() queryParam: ProgramInDTO): Promise<ProgramOutDTO[] | void>{
+    return await this.queryService.getPrograms(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('policy_objectives')
+  @ApiOkResponse({
+    type:[PolicyOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Policy objective not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async policy_objectives(@Query() queryParam: PolicyInDTO): Promise<PolicyOutDTO[] | void>{
+    return await this.queryService.getPolicyObjectives(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('outermost_regions')
+  @ApiOkResponse({
+    type:[OutermostRegionsOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Outermost region not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async outermost_regions(@Query() queryParam: OutermostRegionsInDTO): Promise<OutermostRegionsOutDTO[] | void>{
+    return await this.queryService.getOutermostRegions(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('nuts3')
+  @ApiOkResponse({
+    type:[Nuts3OutDTO]
+  })
+  @ApiBadRequestResponse({description: "Nuts3 not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async nuts3(@Query() queryParam: Nuts3InDTO): Promise<Nuts3OutDTO[] | void>{
+    return await this.queryService.getNuts3(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('loo_metadata')
+  @ApiOkResponse({
+    type:[LooMetadataOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Loo metadata not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async loo_metadata(@Query() queryParam: LooMetadataInDTO): Promise<LooMetadataOutDTO[] | void>{
+    return await this.queryService.getLooMetadata(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('kohesio_categories')
+  @ApiOkResponse({
+    type:[KohesioCategoryOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Kohesio category not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async kohesio_categories(@Query() queryParam: KohesioCategoryInDTO): Promise<KohesioCategoryOutDTO[] | void>{
+    return await this.queryService.getKohesioCategories(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('funds')
+  @ApiOkResponse({
+    type:[FundOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Fund not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async funds(@Query() queryParam: FundInDTO): Promise<FundOutDTO[] | void>{
+    return await this.queryService.getFunds(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('countries')
+  @ApiOkResponse({
+    type:[CountryOutDto]
+  })
+  @ApiBadRequestResponse({description: "Country not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async countries(@Query() queryParam: CountryInDto): Promise<CountryOutDto[] | void>{
+    return await this.queryService.getCountries(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('categoriesOfIntervention')
+  @ApiOkResponse({
+    type:[CategoryOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Country not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async categoriesOfIntervention(@Query() queryParam: CategoryInDTO): Promise<CategoryOutDTO[] | void>{
+    return await this.queryService.getCategoriesOfIntervention(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('search/general')
+  @ApiOkResponse({
+    type:GeneralSearchWrapperOutDTO
+  })
+  @ApiBadRequestResponse({description: "Country not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async generalSearch(@Query() queryParam: GeneralSearchInDTO): Promise<GeneralSearchWrapperOutDTO | void>{
+    return await this.queryService.generalSearch(queryParam).catch(this.errorHandler);
   }
 
   private errorHandler(err){

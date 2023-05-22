@@ -77,6 +77,9 @@ const routes: Routes = [
         path: 'users',
         loadChildren: () => import('./pages/users/users.module').then(m => m.UsersModule)
       },{
+        path: 'edits',
+        loadChildren: () => import('./pages/edits/edits.module').then(m => m.EditsModule)
+      },{
         path: '403',
         component: ForbiddenComponent,
       }, {

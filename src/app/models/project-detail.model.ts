@@ -46,6 +46,7 @@ export class ProjectDetail implements Deserializable{
     tweets: string[] = [];
     program: Program[] = [];
     fundWebsite: string | undefined;
+    hasSubmitted:boolean = false;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -86,6 +87,7 @@ export class ProjectDetail implements Deserializable{
             tweets: input.tweets,
             program: input.program,
             fundWebsite: input.funds && input.funds.length ? input.funds[0].website : undefined,
+            hasSubmitted: input.hasSubmitted
         });
     }
 

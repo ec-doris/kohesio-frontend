@@ -1,0 +1,59 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Edits Dashboard</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="page-header">
+        <h1>Edits</h1>
+        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
+    </div>
+    <div class="users-table" *ngIf="editsList">
+        <div class="ecl-table-responsive">
+            <table class="ecl-table ecl-table--zebra">
+                <thead class="ecl-table__head">
+                <tr class="ecl-table__row">
+                    <th class="ecl-table__header">ID</th>
+                    <th class="ecl-table__header">Status</th>
+                    <th class="ecl-table__header">Created</th>
+                    <th class="ecl-table__header">Language</th>
+                    <th class="ecl-table__header" *ngIf="!userService.isEditor()">User</th>
+                    <th class="ecl-table__header">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="ecl-table__body">
+                    <tr class="ecl-table__row" *ngFor="let edit of editsList">
+                        <td class="ecl-table__cell">
+                            <a [routerLink]="['/projects/'+edit.qid]" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
+                                <span class="ecl-link__label">{{edit.qid}}</span>
+                                    <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
+                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
+                                </svg>
+                            </a>
+                            </td>
+                        <td class="ecl-table__cell">
+                            <div class="ecl-tag" style="text-decoration: none;">{{edit.status}}</div>
+                        </td>
+                        <td class="ecl-table__cell">{{edit.creationTime.toLocaleString()}}</td>
+                        <td class="ecl-table__cell">{{edit.language}}</td>
+                        <td class="ecl-table__cell" *ngIf="!userService.isEditor()">{{edit.userid}}</td>
+                        <td class="ecl-table__cell action">
+                            <kohesio-ecl-button *ngIf="edit.status == 'SUBMITTED' && userService.canApprove()" variant="secondary" type="button" (click)="onAction(edit.id,'approve')">Approve</kohesio-ecl-button>
+                            <kohesio-ecl-button *ngIf="edit.status == 'SUBMITTED' && userService.canApprove()" variant="secondary" type="button" (click)="onAction(edit.id,'reject')">Reject</kohesio-ecl-button>
+                            <kohesio-ecl-button *ngIf="edit.status != 'APPROVED'" variant="secondary" type="button" (click)="deleteEdit()">Delete</kohesio-ecl-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

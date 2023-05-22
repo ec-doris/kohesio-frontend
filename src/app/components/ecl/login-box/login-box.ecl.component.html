@@ -44,6 +44,9 @@
                         <button (click)="onMenuClick('/users')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Users</button>
                     </div>
                     <div class="login-box-menu-item">
+                        <button (click)="onMenuClick('/edits')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Edits</button>
+                    </div>
+                    <div class="login-box-menu-item">
                         <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
                            class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">Logout</a>
                     </div>

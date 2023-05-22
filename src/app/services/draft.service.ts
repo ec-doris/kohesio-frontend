@@ -19,11 +19,13 @@ export class DraftService {
       this.url = environment.api + this.url;
     }
 
-    getDrafts(qid: string): Observable<Draft[]> {
+    getDrafts(qid?: string): Observable<Draft[]> {
+      const params:any = {}
+      if (qid){
+        params.qid = qid;
+      }
       return this.http.get<any>(this.url,{
-        params:{
-          qid:qid
-        }
+        params:params
       }).pipe(
         map((data:Object[]) => {
           return plainToInstance(Draft, data);
