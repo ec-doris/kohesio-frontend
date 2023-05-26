@@ -51,8 +51,8 @@ export class UserService {
       )
     }
 
-    addUser(userid:string, role:string, active: boolean): Observable<User> {
-      return this.http.post(this.url,{userid:userid, role:role, active: active}).pipe(
+    addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[]): Observable<User> {
+      return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids}).pipe(
         map((data:Object) => {
           return plainToInstance(User, data);
         }),
@@ -63,8 +63,8 @@ export class UserService {
       )
     }
 
-    editUser(userid:string, role:string, active:boolean): Observable<User> {
-      return this.http.put(`${this.url}/${userid}`,{userid:userid, role:role, active:active}).pipe(
+    editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[]): Observable<User> {
+      return this.http.put(`${this.url}/${userid}`,{userid:userid, role:role, active:active, allowed_cci_qids: allowed_cci_qids}).pipe(
         map((data:Object) => {
           return plainToInstance(User, data);
         }),
@@ -95,14 +95,6 @@ export class UserService {
         this.refreshUser();
       },5000)
     }
-
-  keepAlive(): Observable<any> {
-    return this.http.get<any>('/api/keepAlive').pipe(
-      map((data:Object) => {
-        return data;
-      })
-    )
-  }
 
   isAdmin():boolean{
       return this.user && this.user.role == 'ADMIN' ? true : false;

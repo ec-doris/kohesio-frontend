@@ -9,5 +9,7 @@ export class UserDTO{
   role: Role;
   @Expose()
   active: boolean;
+  @Expose()
+  allowed_cci_qids: string[];
 
 }

@@ -5,6 +5,7 @@ export class UserInDto {
   userid: string;
   role: Role;
   active: boolean;
+  allowed_cci_qids: string[];
 
 }
 
@@ -14,6 +15,7 @@ export class UserInternalInDto {
   user_id: string;
   role: Role;
   active: boolean;
+  allowed_cci_qids: string[];
 
 }
 

@@ -37,7 +37,6 @@ export class AppComponent {
     if (isPlatformBrowser(this.platformId)) {
       this.router.events.subscribe(value => {
         if (value instanceof NavigationEnd) {
-          this.userService.keepAlive().subscribe();
           if ($wt && $wt.analytics.isTrackable()) {
             if (this.count > 0 && this.lastPage != value.url) {
               $wt.trackPageView();
