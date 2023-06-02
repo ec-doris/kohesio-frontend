@@ -30,6 +30,8 @@
                             <kohesio-ecl-form-select
                                 [hasEmptyValue]="false"
                                 formControlName="language"
+                                [isDisabled]="true"
+                                [placeholder]="getLanguagePlaceHolder(this.myForm.value.language)"
                                 [items]="languages">
                             </kohesio-ecl-form-select>
                         </kohesio-ecl-form-group>

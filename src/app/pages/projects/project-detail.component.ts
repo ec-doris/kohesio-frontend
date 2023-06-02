@@ -44,9 +44,78 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public myForm!: FormGroup;
 
-    public languages:any[] = [{
-      id:'en',
-      value:'English'
+    public languages: any[] = [{
+      id: "bg",
+      value: "български"
+    },{
+      id: "es",
+      value:"español"
+    },{
+      id: "cs",
+      value:"čeština"
+    },{
+      id: "da",
+      value:"dansk"
+    },{
+      id: "de",
+      value:"Deutsch"
+    },{
+      id: "et",
+      value:"eesti"
+    },{
+      id: "el",
+      value:"ελληνικά"
+    },{
+      id: "en",
+      value:"English"
+    },{
+      id: "fr",
+      value:"français"
+    },{
+      id: "ga",
+      value:"Gaeilge"
+    },{
+      id: "hr",
+      value:"hrvatski"
+    },{
+      id: "it",
+      value:"italiano"
+    },{
+      id: "lv",
+      value:"latviešu"
+    },{
+      id: "lt",
+      value:"lietuvių"
+    },{
+      id: "hu",
+      value:"magyar"
+    },{
+      id: "mt",
+      value:"Malti"
+    },{
+      id: "nl",
+      value:"Nederlands"
+    },{
+      id: "pl",
+      value:"polski"
+    },{
+      id: "pt",
+      value:"português"
+    },{
+      id: "ro",
+      value:"română"
+    },{
+      id: "sk",
+      value:"slovenčina"
+    },{
+      id: "sl",
+      value:"slovenščina"
+    },{
+      id: "fi",
+      value:"suomi"
+    },{
+      id: "sv",
+      value:"svenska"
     }];
     public versions:any[] = [];
     public originalVersion:any = {
@@ -324,4 +393,13 @@ export class ProjectDetailComponent implements AfterViewInit {
         }
       })
     }
+
+  getLanguagePlaceHolder(language:string){
+      for(let lang of this.languages){
+        if (lang.id == language){
+          return lang.value;
+        }
+      }
+      return "";
+  }
 }
