@@ -10,6 +10,7 @@ import {
   ProjectSearchInDto,
   ProjectSearchWrapperOutDto
 } from "./project.dto";
+import {UserDTO} from "../users/dtos/user.dto";
 
 
 
@@ -75,6 +76,38 @@ export class ProjectService {
         })
       )
     );
+  }
+
+  canEdit(user:UserDTO, project:ProjectOutDto):boolean{
+    if (user.role == 'ADMIN'){
+      return true;
+    }
+    if (user.role == 'USER'){
+      return false;
+    }
+    let project_cci = project.program && project.program.length ? project.program[0].link : undefined;
+    if (!project_cci){
+      return false;
+    }
+    project_cci = project_cci.replace("https://linkedopendata.eu/entity/","");
+    const found = user.allowed_cci_qids.find((cci:string)=>{
+      return project_cci == cci;
+    })
+    return found ? true : false;
+  }
+
+  canApprove(user:UserDTO, project:ProjectOutDto):boolean{
+    if (user.role == 'ADMIN'){
+      return true;
+    }
+    const canEdit = this.canEdit(user,project);
+    if (!canEdit){
+      return false;
+    }
+    if (user.role == 'REVIEWER'){
+      return true;
+    }
+    return false;
   }
 
   handlingCatchError(err){

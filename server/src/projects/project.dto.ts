@@ -109,6 +109,8 @@ export class ProjectOutDto {
   region: string;
   keepUrl: string;
   hasSubmitted:boolean;
+  canEdit:boolean;
+  canApprove:boolean;
 
 }
 

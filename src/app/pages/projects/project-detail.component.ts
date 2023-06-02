@@ -11,11 +11,10 @@ import {TranslateService} from "../../services/translate.service";
 import {DOCUMENT, isPlatformBrowser} from "@angular/common";
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {DraftService} from "../../services/draft.service";
 import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
 import {SaveDraftComponent} from "./dialogs/save-draft.component";
-import {Draft} from "../../models/draft.model";
 import {EditService} from "../../services/edit.service";
+import {EditVersion} from "../../models/edit.model";
 
 declare let L:any;
 
@@ -42,19 +41,19 @@ export class ProjectDetailComponent implements AfterViewInit {
     public entityURL = environment.entityURL;
 
     public editMode:boolean = false;
-    public editDraft:boolean = false;
-
-
 
     public myForm!: FormGroup;
-    public drafts:any[] = [];
 
     public languages:any[] = [{
       id:'en',
       value:'English'
     }];
+    public versions:any[] = [];
+    public originalVersion:any = {
+      id:0,
+      value:"--ORIGINAL VERSION--"
+    };
 
-    //public draftSelected:any;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -66,7 +65,6 @@ export class ProjectDetailComponent implements AfterViewInit {
                 @Inject(PLATFORM_ID) private platformId: Object,
                 public userService: UserService,
                 private formBuilder: FormBuilder,
-                private draftService: DraftService,
                 private editService: EditService){}
 
     ngOnInit(){
@@ -76,13 +74,13 @@ export class ProjectDetailComponent implements AfterViewInit {
         this.currentUrl += '/projects/' + this.project.item;
 
         this.myForm = new FormGroup({
-          'draftId': new FormControl(),
+          'editId': new FormControl(),
+          'versionId': new FormControl(0,{nonNullable:true}),
+          'status': new FormControl(),
           'label': new FormControl(this.project.label, { nonNullable: true }),
           'description': new FormControl(this.project.description, { nonNullable: true }),
           'language': new FormControl(this.translateService.locale, {nonNullable: true})
         })
-
-      this.getDraftsList();
 
     }
 
@@ -91,7 +89,6 @@ export class ProjectDetailComponent implements AfterViewInit {
         if (this.isPlatformBrowser()) {
           if (this.project.coordinates && this.project.coordinates.length) {
             this.project.coordinates.forEach(coords => {
-              //this.project["coordinates"][0]; ??
               const coord = coords.replace("Point(", "").replace(")", "").split(" ");
               const marker = this.map.addMarker(coord[1], coord[0], false);
               markers.push(marker);
@@ -197,7 +194,38 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     editProject(){
-      this.editMode = true;
+      this.versions = [this.originalVersion];
+      this.editService.getLatestVersion({qid:this.project.item}).subscribe(edit=>{
+        if (edit && Object.keys(edit).length && edit.id){
+          if (edit.id){
+            this.myForm.patchValue({
+              editId: edit.id
+            });
+          }
+          if (edit.latest_version) {
+            this.myForm.patchValue({
+              versionId: edit.latest_version.edit_version_id,
+              status:edit.latest_version.status,
+              label: edit.latest_version.label,
+              description: edit.latest_version.summary,
+              language: edit.language
+            });
+          }
+          if (edit.edit_versions){
+            for(const version of edit.edit_versions.reverse()){
+              this.versions.push({
+                id: version.edit_version_id,
+                value:  version.status + ' - ' +
+                  (version.version_name ? version.version_name + ' - ' : '') +
+                  (version.creation_time?.toLocaleString())
+              })
+            }
+          }
+        }else{
+          this.myForm.reset();
+        }
+        this.editMode = true;
+      })
     }
 
     cancelEdit(){
@@ -213,147 +241,87 @@ export class ProjectDetailComponent implements AfterViewInit {
           if(result && result.action == 'primary') {
             this.myForm.reset();
             this.editMode = false;
-            this.editDraft = false;
-          }else {
-            if (this.editDraft) {
-              this.myForm.reset();
-              this.editDraft = false;
-            }
           }
         });
       }else {
         this.editMode = false;
-        if(this.editDraft){
-          this.myForm.reset();
-          this.editDraft = false;
-        }
       }
 
     }
 
-    onDraftSelect($event:any){
-      //console.log("DRAFT SELECTED",this.draftSelected);
-      this.draftService.getDraft($event,this.project.item!).subscribe((draft:any)=>{
-        this.myForm.patchValue({
-          draftId: $event,
-          label:draft.label,
-          description:draft.summary,
-          language:draft.language
-        });
-        this.myForm.markAsPristine();
-        this.editMode = true;
-        this.editDraft = true;
-      })
+    onVersionSelect(){
+      if (this.myForm.value.versionId==this.originalVersion.id){
+        this.myForm.reset();
+      }else {
+        this.editService.getVersion(this.myForm.value.versionId).subscribe((version: EditVersion) => {
+          this.myForm.patchValue({
+            versionId: version.edit_version_id,
+            status: version.status,
+            label: version.label,
+            description: version.summary
+          });
+          this.myForm.markAsPristine();
+        })
+      }
     }
 
-    deleteDraft(){
+    onDeleteVersion(){
       let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
         disableClose: false,
         data:{
-          confirmMessage: "Do you want to delete this draft?"
+          confirmMessage: "Do you want to delete this version?"
         }
       });
 
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action == 'primary') {
-          this.draftService.deleteDraft(this.myForm.value.draftId).subscribe(()=>{
-            this.getDraftsList();
-            this.editMode = false;
-            this.editDraft = false;
+          this.editService.deleteVersion(this.myForm.value.versionId).subscribe(()=>{
+            this.myForm.patchValue({
+              versionId: null,
+              status: null
+            });
+            this.editProject();
           })
         }
       });
     }
 
-    saveDraft(){
-      if (this.myForm.value.draftId){
-        this.draftService.editDraft(
-          this.myForm.value.draftId,
-          this.myForm.value.label,
-          this.myForm.value.description,
-          this.myForm.value.language).subscribe((draft: any) => {
-          this.editMode = false;
-          this.editDraft = false;
-        });
-      }else {
-        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
-          disableClose: false,
-          autoFocus: false,
-          data: {
-            childComponent: SaveDraftComponent,
-            title: "Save as draft",
-            primaryActionLabel: "Save",
-            secondaryActionLabel: "Cancel"
-          }
-        });
-        dialogRef.afterClosed().subscribe(result => {
-          if (result.action && result.action == 'primary') {
-            this.draftService.addDraft(
-              this.project.item!,
-              this.myForm.value.label,
-              this.myForm.value.description,
-              this.myForm.value.language,
-              result.data.name).subscribe((draft: Draft) => {
-                this.drafts.push({
-                  id: draft['id'],
-                  value: draft.name ?
-                    `${draft.name} - ${draft.creationTime.toLocaleString()}` :
-                    draft.creationTime.toLocaleString()
-                })
-            })
-            this.editMode = false;
-            this.editDraft = false;
-          }
-        });
-      }
+    saveVersion(status:string){
+      let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+        disableClose: false,
+        autoFocus: false,
+        data: {
+          childComponent: SaveDraftComponent,
+          title: "Save as",
+          primaryActionLabel: "Save",
+          secondaryActionLabel: "Cancel"
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result.action && result.action == 'primary') {
+          this.createEditVersion(result.data.name, status);
+        }
+      });
     }
 
-    getDraftsList(){
-      this.drafts=[];
-      this.draftService.getDrafts(this.project.item!).subscribe((drafts:Draft[])=>{
-        drafts.forEach((draft:Draft)=>{
-          this.drafts.push({
-            id: draft.id,
-            value: draft.name ?
-              `${draft.name} - ${draft.creationTime.toLocaleString()}` :
-              draft.creationTime.toLocaleString()
-          })
-        })
+  createEditVersion(version_name:string, status: string){
+      const edit:EditVersion = new EditVersion();
+      edit.cci_qid=this.project.program[0].link.replace(environment.entityURL,"");
+      edit.operation_qid=this.project.item as string;
+      edit.edit_id=this.myForm.value.editId;
+      edit.label=this.myForm.value.label;
+      edit.summary=this.myForm.value.description;
+      edit.version_name=version_name;
+      edit.language=this.myForm.value.language;
+      edit.status=status;
+      this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
+        if (status == 'APPROVED'){
+          this.project.label = version.label;
+          this.project.description = version.summary;
+          this.editMode = false;
+        }else{
+          this.editProject();
+        }
       })
-    }
-
-    submitEdit(){
-      if (this.project.hasSubmitted) {
-        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
-          disableClose: false,
-          data: {
-            confirmMessage: "<p>There is already a submitted version, waiting for approval, do you want to submit this version?</p>" +
-              "<p>This action will cancel the other version that was submitted before.</p>"
-          }
-        });
-
-        dialogRef.afterClosed().subscribe(result => {
-          if (result && result.action == 'primary') {
-            this.editService.submit(this.project.item!,
-              this.myForm.value.draftId,
-              this.myForm.value.label,
-              this.myForm.value.description,
-              this.myForm.value.language).subscribe(edit=>{
-              this.editMode = false;
-              this.project.hasSubmitted = true;
-            })
-
-          }
-        });
-      }else{
-        this.editService.submit(this.project.item!,
-          this.myForm.value.draftId,
-          this.myForm.value.label,
-          this.myForm.value.description,
-          this.myForm.value.language).subscribe(edit=>{
-          this.editMode = false;
-          this.project.hasSubmitted = true;
-        })
-      }
     }
 }

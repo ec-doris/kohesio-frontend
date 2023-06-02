@@ -14,6 +14,7 @@ import {
   ProjectSearchInDto,
   ProjectSearchWrapperOutDto
 } from "./project.dto";
+import {EditVersionDTO} from "../edits/edit.dto";
 
 @Controller('/projects')
 @ApiTags('Projects')
@@ -84,8 +85,20 @@ export class ProjectController {
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async project(@Req() req, @Query() queryParam: ProjectInDto){
     const project:ProjectOutDto | void = await this.projectService.project(queryParam).catch(this.errorHandler);
+    if (project) {
+      const latest_edit: EditVersionDTO | void = await this.editService.getLatestApprovedVersion(project.item).catch(err=>{
+        if (err.status != 404){
+          this.errorHandler(err);
+        }
+      });
+      if (latest_edit) {
+        project.label = latest_edit.label;
+        project.description = latest_edit.summary;
+      }
+    }
     if (req.user && project){
-      project.hasSubmitted = await this.editService.hasEditSubmitted(req.user.user_id,project.item);
+      project.canEdit = this.projectService.canEdit(req.user, project);
+      project.canApprove = this.projectService.canApprove(req.user, project);
     }
     return project;
   }

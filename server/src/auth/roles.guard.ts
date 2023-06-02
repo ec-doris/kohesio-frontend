@@ -19,12 +19,12 @@ export class RolesGuard extends LoginGuard implements CanActivate {
         context.getHandler(),
         context.getClass(),
       ]);
-      console.log('REQUIRED_ROLES',requiredRoles);
+      //console.log('REQUIRED_ROLES',requiredRoles);
       if (!requiredRoles) {
         return true;
       }
       const { user } = context.switchToHttp().getRequest();
-      console.log('USER',user);
+      //console.log('USER',user);
       return requiredRoles.some((role) => user.role == role);
     }else{
       return false;

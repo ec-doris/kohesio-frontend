@@ -5,7 +5,6 @@ import { ConfigModule } from "@nestjs/config";
 import { AuthModule } from './auth/auth.module';
 import { UserModule } from './users/user.module';
 import {QueryModule} from "./queries/query.module";
-import {DraftModule} from "./drafts/draft.module";
 import {EditModule} from "./edits/edit.module";
 import {BeneficiaryModule} from "./beneficiaries/beneficiary.module";
 import {ProjectModule} from "./projects/project.module";
@@ -17,7 +16,6 @@ import {MapModule} from "./map/map.module";
     AuthModule,
     UserModule,
     QueryModule,
-    DraftModule,
     EditModule,
     BeneficiaryModule,
     ProjectModule,

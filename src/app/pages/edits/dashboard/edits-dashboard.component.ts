@@ -1,11 +1,10 @@
 import {AfterViewInit, Component } from '@angular/core';
 import {MatDialog, MatDialogRef} from "@angular/material/dialog";
-import {Draft} from "../../../models/draft.model";
 import {EditService} from "../../../services/edit.service";
 import {UserService} from "../../../services/user.service";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
-import {UserSaveDialogComponent} from "../../users/save-dialog/user-save-dialog.component";
 import {EditFilterDialogComponent} from "../filter-dialog/edit-filter-dialog.component";
+import {Edit} from "../../../models/edit.model";
 
 @Component({
     templateUrl: './edits-dashboard.component.html',
@@ -13,9 +12,10 @@ import {EditFilterDialogComponent} from "../filter-dialog/edit-filter-dialog.com
 })
 export class EditsDashboardComponent implements AfterViewInit {
 
-    public editsList?:Draft[];
+    public editsList?:Edit[];
 
-    public filters:any;
+    public filters:any = {
+    };
     public filtersCount?:number;
 
     constructor(private editService: EditService,
@@ -30,9 +30,9 @@ export class EditsDashboardComponent implements AfterViewInit {
     ngAfterViewInit(): void {
     }
 
-    getEditsList(params:any = {}){
-      this.editService.list(params).subscribe((drafts:Draft[])=>{
-        this.editsList = drafts;
+    getEditsList(){
+      this.editService.list(this.filters).subscribe((edits:Edit[])=>{
+        this.editsList = edits;
       })
     }
 
@@ -65,16 +65,30 @@ export class EditsDashboardComponent implements AfterViewInit {
           childComponent: EditFilterDialogComponent,
           title: "Filters",
           primaryActionLabel: "Apply",
-          secondaryActionLabel: "Cancel"
+          secondaryActionLabel: "Cancel",
+          data:{
+            filters:this.filters
+          }
         }
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action=="primary" && result.data) {
           this.filters = result.data;
           this.filtersCount = Object.keys(this.filters).length ? Object.keys(this.filters).length : undefined;
-          this.getEditsList(this.filters);
+          this.getEditsList();
         }
       });
+    }
+
+    showEditVersion(edit:Edit){
+      if (!edit.edit_versions || !edit.edit_versions.length){
+        this.editService.getEdit(edit.id).subscribe((result:Edit)=>{
+          edit.showHistory = !edit.showHistory;
+          edit.edit_versions = result.edit_versions;
+        })
+      }else{
+        edit.showHistory = !edit.showHistory;
+      }
     }
 
 }

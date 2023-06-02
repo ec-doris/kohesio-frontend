@@ -106,12 +106,6 @@ export class UserService {
         && (this.user && this.user.user_id != undefined));
   }
 
-  canEdit():boolean{
-    return this.user && (this.user.role == 'EDITOR' ||
-      this.user.role == 'REVIEWER' ||
-    this.user.role == 'ADMIN') ? true : false;
-  }
-
   canApprove():boolean{
       return this.user && (this.user.role == 'REVIEWER' ||
       this.user.role == 'ADMIN') ? true : false;

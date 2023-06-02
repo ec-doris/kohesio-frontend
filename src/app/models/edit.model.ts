@@ -1,18 +1,38 @@
 import {Expose, Type} from "class-transformer";
 
-export class Draft {
+export class Edit {
 
   id!: number;
   qid!: string;
-  name?:string;
-  label!:string;
-  summary!:string;
-  language!: string;
+  cci_qid!:string;
   userid!: string;
-  status!: string;
 
   @Type(() => Date)
-  @Expose({name:"creation_time"})
-  creationTime!: Date;
+  creation_time?: Date;
+
+  latest_version?: EditVersion;
+  language!:string;
+
+  @Type(() => EditVersion)
+  edit_versions?: EditVersion[];
+  showHistory:boolean = false;
+  latest_status!:string;
+
+}
+
+export class EditVersion {
+
+  edit_id!: number;
+  cci_qid?: string;
+  operation_qid?: string;
+  edit_version_id!: number;
+  user_id?: string;
+  version_name?: string;
+  status?: string;
+  label?: string;
+  language?:string;
+  summary?: string;
+  @Type(() => Date)
+  creation_time?: Date;
 
 }

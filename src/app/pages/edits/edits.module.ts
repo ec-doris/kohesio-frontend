@@ -17,23 +17,23 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {EditFilterDialogComponent} from "./filter-dialog/edit-filter-dialog.component";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    KohesioEclButtonModule,
-    KohesioEclFormModule,
-    KohesioEclFormGroupModule,
-    KohesioEclFormLabelModule,
-    KohesioEclFormTextInputModule,
-    KohesioEclFormSelectModule,
-    KohesioEclFormCheckboxModule,
-    KohesioEclMessageModule,
-    EditsRoutingModule,
-    MatDialogModule,
-    MatBadgeModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        KohesioEclButtonModule,
+        KohesioEclFormModule,
+        KohesioEclFormGroupModule,
+        KohesioEclFormLabelModule,
+        KohesioEclFormTextInputModule,
+        KohesioEclFormSelectModule,
+        KohesioEclFormCheckboxModule,
+        KohesioEclMessageModule,
+        EditsRoutingModule,
+        MatDialogModule,
+        MatBadgeModule
+    ],
   declarations: [
     EditsDashboardComponent,
     EditFilterDialogComponent

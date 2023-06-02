@@ -20,7 +20,22 @@ export class EditInDTO {
   status?:Status;
   @Expose({name:"id"})
   edit_id?:number;
+  archive?:boolean;
 
+}
+
+export class EditVersionInDTO{
+
+  @Allow()
+  edit_id: number;
+  cci_qid?: string;
+  operation_qid?: string;
+  edit_version_id?: number;
+  user_id?: string;
+  version_name?: string;
+  status?: string;
+  label?: string;
+  summary?: string;
 }
 
 /**
@@ -34,16 +49,25 @@ export class EditOutDTO {
   id: number;
   @Expose({name:"operation_qid"})
   qid: string;
-  @Expose({name:"edit_name"})
-  name: string;
+  cci_qid?: string;
+  language:string;
+  updated_time:Date;
+  creation_time:Date;
+  edit_versions?: EditVersionDTO[];
+  edit_version?: EditVersionDTO;
+  latest_version?: EditVersionDTO;
+
+}
+
+export class EditVersionDTO{
+  edit_id: number;
+  edit_version_id: number;
+  creation_time: Date;
+  user_id: string;
+  version_name: string;
+  status: string;
   label?: string;
   summary?: string;
-  language: string;
-  @Expose({name:"user_id"})
-  userid: string;
-  status:Status;
-  creation_time?:string;
-
 }
 
 export enum Status {

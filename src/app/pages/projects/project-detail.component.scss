@@ -51,7 +51,32 @@ a:visited {
   }
 }
 
-.kohesio-page-detail-tools > kohesio-ecl-button{
+.kohesio-page-detail-tools{
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  .edit-tools{
+    margin-top: 3px;
+    .versions{
+      display: flex;
+      align-items: center;
+      .text{
+        margin-right:3px;
+      }
+    }
+  }
+  .buttons{
+    display: flex;
+    .language{
+      display: flex;
+      align-items: center;
+      .text{
+        margin-right:3px;
+      }
+    }
+  }
+}
+.kohesio-page-detail-tools > .buttons > kohesio-ecl-button{
   margin-left:3px;
 }
 

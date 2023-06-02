@@ -21,45 +21,52 @@
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
     <form [formGroup]="myForm">
     <div class="kohesio-page-detail-tools">
-
-        <ng-container *ngIf="editMode">
-            <div class="text">Language:</div>
-            <ng-container>
+        <div class="buttons">
+            <ng-container *ngIf="project.canEdit && editMode">
+                <div class="language">
+                    <div class="text">Language:</div>
+                    <ng-container>
+                        <kohesio-ecl-form-group style="min-width:200px;">
+                            <kohesio-ecl-form-select
+                                [hasEmptyValue]="false"
+                                formControlName="language"
+                                [items]="languages">
+                            </kohesio-ecl-form-select>
+                        </kohesio-ecl-form-group>
+                    </ng-container>
+                </div>
+                <kohesio-ecl-button (click)="cancelEdit()" variant="secondary" i18n="@@page.project-detail.button.saveDraft">Cancel</kohesio-ecl-button>
+                <kohesio-ecl-button (click)="onDeleteVersion()" *ngIf="myForm.value.versionId" variant="secondary" i18n="@@page.project-detail.button.saveDraft">Delete</kohesio-ecl-button>
+                <kohesio-ecl-button (click)="saveVersion('DRAFT')" variant="secondary" i18n="@@page.project-detail.button.saveDraft">Save</kohesio-ecl-button>
+                <kohesio-ecl-button (click)="saveVersion('SUBMITTED')" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>
+                <kohesio-ecl-button (click)="saveVersion('APPROVED')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove" i18n="@@page.project-detail.button.submit">Approve</kohesio-ecl-button>
+            </ng-container>
+            <ng-container *ngIf="!editMode">
+                <kohesio-ecl-button (click)="editProject()" *ngIf="project.canEdit" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>
+                <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>
+                <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+                                    i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
+                                    matTooltip="Visualise as a network">Graph</kohesio-ecl-button>
+                <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                                    i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
+                                    matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>
+            </ng-container>
+        </div>
+        <div class="edit-tools" *ngIf="editMode">
+            <div class="versions" *ngIf="versions.length">
+                <div class="text">Versions:</div>
                 <kohesio-ecl-form-group style="min-width:200px;">
                     <kohesio-ecl-form-select
                         [hasEmptyValue]="false"
-                        formControlName="language"
-                        [items]="languages">
+                        formControlName="versionId"
+                        [items]="versions"
+                        (change)="onVersionSelect()">
                     </kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
-            </ng-container>
-        </ng-container>
-        <kohesio-ecl-button (click)="cancelEdit()" variant="secondary" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.saveDraft">Cancel</kohesio-ecl-button>
-        <kohesio-ecl-button (click)="saveDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && !editDraft" i18n="@@page.project-detail.button.saveDraft">Save as draft</kohesio-ecl-button>
-        <kohesio-ecl-button (click)="saveDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && editDraft" i18n="@@page.project-detail.button.save">Save</kohesio-ecl-button>
-        <kohesio-ecl-button (click)="deleteDraft()" variant="secondary" *ngIf="userService.canEdit() && editMode && editDraft" i18n="@@page.project-detail.button.deleteDraft">Delete</kohesio-ecl-button>
-        <kohesio-ecl-button (click)="submitEdit()" *ngIf="userService.canEdit() && editMode" i18n="@@page.project-detail.button.submit">Submit</kohesio-ecl-button>
-
-
-        <ng-container *ngIf="!editMode && drafts.length">
-        <kohesio-ecl-dropdown-button variant="ghost" label="Drafts">
-            <div class="draft-menu-container">
-                <ng-container *ngFor="let draft of drafts">
-                    <div class="draft-menu-item">
-                        <button class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone " (click)="onDraftSelect(draft.id)">{{draft.value}}</button>
-                    </div>
-                </ng-container>
             </div>
-        </kohesio-ecl-dropdown-button>
-        </ng-container>
-        <kohesio-ecl-button (click)="editProject()" *ngIf="userService.canEdit() && !editMode" i18n="@@page.project-detail.button.edit">Edit</kohesio-ecl-button>
-        <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>
-        <kohesio-ecl-button *ngIf="!editMode" variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
-                            i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
-                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>
-        <kohesio-ecl-button *ngIf="!editMode" variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
-                            i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
-                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>
+        </div>
+
+
     </div>
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">

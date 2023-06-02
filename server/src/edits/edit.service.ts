@@ -1,20 +1,22 @@
-import {Injectable} from '@nestjs/common';
-import {firstValueFrom, map, throwError} from "rxjs";
+import {HttpStatus, Injectable} from '@nestjs/common';
+import {EMPTY, firstValueFrom, map, throwError} from "rxjs";
 import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
 import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
-import {EditInDTO, EditOutDTO} from "./edit.dto";
+import {EditInDTO, EditOutDTO, EditVersionDTO, EditVersionInDTO} from "./edit.dto";
 import {Status} from "./edit.dto";
 
 @Injectable()
 export class EditService {
 
   private baseUrl:string;
+  private baseUrlVersions:string;
 
   constructor(private readonly httpService: HttpService,
               private readonly configService:ConfigService<environmentVARS>) {
     this.baseUrl = configService.get<string>('BACKEND_EDITOR_HOST') + '/edits';
+    this.baseUrlVersions = configService.get<string>('BACKEND_EDITOR_HOST') + '/edit-versions';
   }
 
   async getEdits(currentUser: string, params: EditInDTO):Promise<EditOutDTO[]>{
@@ -35,7 +37,49 @@ export class EditService {
     );
   }
 
-  async saveEdit(currentUser:string, editDetails: EditInDTO):Promise<EditOutDTO>{
+  async getEdit(currentUser: string, editId:number):Promise<EditOutDTO>{
+    return await firstValueFrom(
+      this.httpService.get<EditOutDTO>(`${this.baseUrl}/${editId}`,
+        {
+          headers:{"user-id":currentUser}
+        } as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(EditOutDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err);
+        })
+      )
+    );
+  }
+
+  async getLatestApprovedVersion(qid:string):Promise<EditVersionDTO | void>{
+    return await firstValueFrom(
+      this.httpService.get<EditVersionDTO>(`${this.baseUrl}/latest-approved`,
+        {
+          params: {
+            operation_qid: qid
+          }
+        } as any).pipe(
+        map((result:any)=>{
+          //console.log(result);
+          const data:Object = result.data;
+          return plainToInstance(EditVersionDTO,data);
+        }),
+        catchError(err => {
+          //console.log(err);
+          /*if (err.response.status == HttpStatus.NOT_FOUND){
+            return EMPTY;
+          }else {*/
+            return this.handlingCatchError(err);
+          //}
+        })
+      )
+    );
+  }
+
+  async saveEdit(currentUser:string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
     if (editDetails.edit_id){
       return this.updateEdit(currentUser,editDetails);
     }else {
@@ -43,14 +87,14 @@ export class EditService {
     }
   }
 
-  async addEdit(currentUser: string, editDetails: EditInDTO):Promise<EditOutDTO>{
+  async addEdit(currentUser: string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
     editDetails.user_id=currentUser;
     return await firstValueFrom(
-      this.httpService.post<EditOutDTO>(`${this.baseUrl}`,editDetails,
+      this.httpService.post<EditVersionDTO>(`${this.baseUrl}`,editDetails,
         {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
-          return plainToInstance(EditOutDTO,data);
+          return plainToInstance(EditVersionDTO,data);
         }),
         catchError(err => {
           return this.handlingCatchError(err);
@@ -59,14 +103,14 @@ export class EditService {
     );
   }
 
-  async updateEdit(currentUser: string, editDetails: EditInDTO):Promise<EditOutDTO>{
+  async updateEdit(currentUser: string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
     editDetails.user_id=currentUser;
     return await firstValueFrom(
-      this.httpService.put<EditOutDTO>(`${this.baseUrl}/${editDetails.edit_id}`,editDetails,
+      this.httpService.put<EditVersionDTO>(`${this.baseUrl}/${editDetails.edit_id}`,editDetails,
         {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
-          return plainToInstance(EditOutDTO,data);
+          return plainToInstance(EditVersionDTO,data);
         }),
         catchError(err => {
           return this.handlingCatchError(err);
@@ -75,7 +119,40 @@ export class EditService {
     );
   }
 
-  async approve(currentUser: string, id: number):Promise<EditOutDTO>{
+  async getEditVersion(currentUser: string, editVersionId:number):Promise<EditVersionDTO>{
+    return await firstValueFrom(
+      this.httpService.get<EditVersionDTO>(`${this.baseUrlVersions}/${editVersionId}`,
+        {
+          headers:{"user-id":currentUser}
+        } as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(EditVersionDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err);
+        })
+      )
+    );
+  }
+
+  async deleteEditVersion(currentUser: string, editVersionId:number):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.delete<boolean>(`${this.baseUrlVersions}/${editVersionId}`,
+        {
+          headers:{"user-id":currentUser}
+        } as any).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err);
+        })
+      )
+    );
+  }
+
+  /*async approve(currentUser: string, id: number):Promise<EditOutDTO>{
     return this.changeStatus(currentUser, id, Status.APPROVE);
   }
 
@@ -110,10 +187,10 @@ export class EditService {
         })
       )
     );
-  }
+  }*/
 
   handlingCatchError(err){
-    console.error("Error on Edit service:",err.response.data)
+    //console.error("Error on Edit service:",err.response.data)
     return throwError(err.response);
   }
 

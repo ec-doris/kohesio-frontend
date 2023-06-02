@@ -14,7 +14,7 @@ export class EditFilterDialogComponent implements DialogChildInterface{
 
   @Input('data') data: any;
   public statuses:any[] = [{
-    id: null,
+    id: "ALL",
     value: "ALL"
   },{
     id: "DRAFT",
@@ -26,9 +26,6 @@ export class EditFilterDialogComponent implements DialogChildInterface{
     id: "APPROVED",
     value: "APPROVED"
   },{
-    id: "REJECTED",
-    value: "REJECTED"
-  },{
     id: "PUBLISHED",
     value: "PUBLISHED"
   }];
@@ -39,16 +36,21 @@ export class EditFilterDialogComponent implements DialogChildInterface{
   ) {}
 
   ngOnInit(): void {
+    const filters = this.data.filters;
     this.myForm = this.formBuilder.group({
-      'status': this.data ? this.data.status : null,
+      'archive': filters ? filters.archive : true,
+      'latest_status': filters && filters.latest_status ? filters.latest_status : "ALL"
     })
 
   }
 
   getData(): any {
-    const filters = this.myForm.value
-    if (filters.status == null){
-      delete filters.status;
+    const filters = {...this.myForm.value}
+    if (!filters.latest_status || filters.latest_status=="ALL"){
+      delete filters.latest_status;
+    }
+    if (!filters.archive){
+      delete filters.archive;
     }
     return filters;
   }
