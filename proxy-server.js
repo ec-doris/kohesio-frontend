@@ -1,8 +1,9 @@
 const express = require("express");
 const path = require("path");
-const langs = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
-  "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
+/*const langs = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
+  "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];*/
 //const langs = ["fr","pt","en"];
+const langs = ["en"];
 
 const getTranslatedServer = (lang) => {
   const distFolder = path.join(
@@ -14,7 +15,7 @@ const getTranslatedServer = (lang) => {
 };
 
 function run() {
-  const port = process.env.PORT || 80;
+  const port = process.env.PORT || 3000;
 
   let apps = [];
 

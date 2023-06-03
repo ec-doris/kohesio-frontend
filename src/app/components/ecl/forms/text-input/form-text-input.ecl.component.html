@@ -1,1 +1,5 @@
-<input type="text" style="width:100%;" (input)="onChange($any($event.target).value)" [(ngModel)]="inputValue" class="ecl-text-input ecl-text-input--m"/>
+<input type="text" style="width:100%;"
+       (input)="onChange($any($event.target).value)"
+       [disabled]="isDisabled"
+       #inputElement
+       [(ngModel)]="inputValue" class="ecl-text-input ecl-text-input--m"/>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Input, ViewChild} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
@@ -13,11 +13,16 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
         }
       ]
 })
-export class KohesioEclFormTextInputComponent implements ControlValueAccessor{
-    
+export class KohesioEclFormTextInputComponent implements ControlValueAccessor, AfterViewInit{
+
     inputValue:any;
     onChange = (_value:any) => {};
     onTouched = () => {};
+
+    @Input() isDisabled:boolean = false;
+    @Input() focus:boolean = false;
+
+    @ViewChild("inputElement") inputElement!:ElementRef;
 
     writeValue(obj: string): void {
        this.inputValue = obj;
@@ -28,5 +33,13 @@ export class KohesioEclFormTextInputComponent implements ControlValueAccessor{
     registerOnTouched(onTouched: any): void {
         this.onTouched = onTouched;
     }
+
+    ngAfterViewInit(){
+      if (this.focus) {
+        this.inputElement.nativeElement.focus();
+      }
+    }
+
+
 
 }

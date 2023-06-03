@@ -28,14 +28,21 @@ spec:
   entryPoints:
     - websecure
   routes:
-    - match: Host(`kohesio.local.europa.eu`) && PathPrefix(`/`)
+    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/`)
       kind: Rule
       services:
         - name: kohesio-app
           port: 4200
       middlewares:
         - name: security
-    - match: Host(`kohesio.local.europa.eu`) && PathPrefix(`/api`)
+    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/api`)
+      kind: Rule
+      services:
+        - name: kohesio-app
+          port: 3000
+      middlewares:
+        - name: security
+    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/query`)
       kind: Rule
       services:
         - name: kohesio-backend

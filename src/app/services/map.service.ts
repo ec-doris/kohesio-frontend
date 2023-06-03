@@ -13,7 +13,7 @@ export class MapService {
     constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
     public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any>{
-        const url = environment.apiBaseUrl + '/search/project/map';
+        const url = environment.api + '/map/search';
         let params:any = {}
         if (filters){
             params = Object.assign(filters.getMapProjectsFilters());
@@ -30,7 +30,7 @@ export class MapService {
     }
 
     public getPointsNearBy(): Observable<any>{
-        const url = environment.apiBaseUrl + '/map/nearby';
+        const url = environment.api + '/map/nearby';
         return this.http.get<any>(url).pipe(
             map(data => {
                 return data;
@@ -39,7 +39,7 @@ export class MapService {
     }
 
     public getProjectsPerCoordinate(coordinates: string, filters?: Filters): Observable<any>{
-        const url = environment.apiBaseUrl + '/search/project/map/point';
+        const url = environment.api + '/map/point';
         let params:any = {}
         if (filters){
             params = Object.assign(filters.getProjectsFilters());
@@ -54,7 +54,7 @@ export class MapService {
     }
 
     public getOutermostRegions(): Observable<any>{
-      const url = environment.apiBaseUrl + '/outermost_regions';
+      const url = environment.api + '/queries/outermost_regions';
       let params:any = {
         language: this.locale
       }

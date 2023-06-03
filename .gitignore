@@ -19,6 +19,7 @@ yarn-error.log
 *.launch
 .settings/
 *.sublime-workspace
+*.env
 
 # Visual Studio Code
 .vscode/*
@@ -40,13 +41,18 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+/eulogin
 
 # Utils
 /utils/i18n-parse-poetry/node_modules
 /utils/i18n-parse-poetry/output/
 /utils/i18n-parse-poetry/files/*
+/utils/i18n_routes/node_modules
 
 # Ignore DevSpace cache and log folder
 .devspace/
 
 /src/assets/locale/
+
+# Server
+/server/.env

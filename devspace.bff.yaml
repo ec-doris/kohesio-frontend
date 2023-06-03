@@ -1,0 +1,85 @@
+version: v1beta11
+
+vars:
+  - name: APP_IMAGE
+    value: kohesio-local-frontend:latest
+
+images:
+  kohesio-frontend:
+    image: ${APP_IMAGE}
+    context: ./
+    build:
+      custom:
+        skipImageArg: true
+        command: |-
+          nerdctl -n k8s.io image rm ${APP_IMAGE} -f
+          nerdctl -n k8s.io build -t ${APP_IMAGE} -f Dockerfile --debug-full .
+deployments:
+  - name: kohesio-config
+    kubectl:
+      manifests:
+        - devspace/kohesio-bff.yaml
+  - name: kohesio-app
+    helm:
+      componentChart: true
+      values:
+        containers:
+          - name: kohesio-frontend
+            image: ${APP_IMAGE}
+            env:
+              - name: ENV
+                value: ${ENV}
+              - name: SESSION_SECRET
+                value: ${SESSION_SECRET}
+              - name: OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER
+                value: ${OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER}
+              - name: OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID
+                value: ${OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_ID}
+              - name: OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET
+                value: ${OAUTH2_CLIENT_REGISTRATION_LOGIN_CLIENT_SECRET}
+              - name: OAUTH2_CLIENT_REGISTRATION_LOGIN_SCOPE
+                value: ${OAUTH2_CLIENT_REGISTRATION_LOGIN_SCOPE}
+              - name: OAUTH2_CLIENT_REGISTRATION_LOGIN_REDIRECT_URI
+                value: ${OAUTH2_CLIENT_REGISTRATION_LOGIN_REDIRECT_URI}
+              - name: OAUTH2_CLIENT_REGISTRATION_LOGIN_POST_LOGOUT_REDIRECT_URI
+                value: ${OAUTH2_CLIENT_REGISTRATION_LOGIN_POST_LOGOUT_REDIRECT_URI}
+              - name: OAUTH2_TOKEN_ENDPOINT_AUTH_METHOD
+                value: ${OAUTH2_TOKEN_ENDPOINT_AUTH_METHOD}
+              - name: OAUTH2_ID_TOKEN_SIGNED_RESPONSE_ALG
+                value: ${OAUTH2_ID_TOKEN_SIGNED_RESPONSE_ALG}
+              - name: BACKEND_WIKI_HOST
+                value: ${BACKEND_WIKI_HOST}
+              - name: REDIS_HOST
+                value: ${REDIS_HOST}
+              - name: REDIS_PASSWORD
+                value: ${REDIS_PASSWORD}
+            imagePullPolicy: Never
+            workingDir: /app
+            command:
+              - "/bin/sh"
+            args:
+              - "-c"
+              - |
+                sleep 99999999;
+        service:
+          ports:
+            - port: 3000
+  - name: redis
+    helm:
+      componentChart: false
+      chart:
+        name: redis
+        version: 17.4.0
+        repo: https://charts.bitnami.com/bitnami
+      values:
+        image:
+          tag: 6.0.12
+        networkPolicy:
+          enabled: true
+          allowExternal: true
+        auth:
+          password: $!{REDIS_PASSWORD}
+        cluster:
+          enabled: false
+        replica:
+          replicaCount: 1

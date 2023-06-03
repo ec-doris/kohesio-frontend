@@ -1,0 +1,22 @@
+version: v1beta11
+
+deployments:
+  - name: redis
+    helm:
+      componentChart: false
+      chart:
+        name: redis
+        version: 17.4.0
+        repo: https://charts.bitnami.com/bitnami
+      values:
+        image:
+          tag: 6.0.12
+        networkPolicy:
+          enabled: true
+          allowExternal: true
+        auth:
+          password: $!{REDIS_PASSWORD}
+        cluster:
+          enabled: false
+        replica:
+          replicaCount: 1

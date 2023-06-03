@@ -1,6 +1,8 @@
 import {Deserializable} from "./deserializable.model";
 
 export class Program {
+
+  link!:string;
   programInfoRegioUrl!: string;
   programmingPeriodLabel!: string;
   programFullLabel!: string;
@@ -46,6 +48,9 @@ export class ProjectDetail implements Deserializable{
     tweets: string[] = [];
     program: Program[] = [];
     fundWebsite: string | undefined;
+    hasSubmitted:boolean = false;
+    canEdit:boolean = false;
+    canApprove:boolean = false;
 
     deserialize(input: any): this {
         return Object.assign(this, {
@@ -86,6 +91,9 @@ export class ProjectDetail implements Deserializable{
             tweets: input.tweets,
             program: input.program,
             fundWebsite: input.funds && input.funds.length ? input.funds[0].website : undefined,
+            hasSubmitted: input.hasSubmitted,
+            canEdit: input.canEdit,
+            canApprove: input.canApprove
         });
     }
 

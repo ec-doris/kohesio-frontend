@@ -14,7 +14,7 @@ export class ThemeService {
     constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {}
 
     getThemes(): Observable<Theme[]> {
-        const url = environment.apiBaseUrl + '/thematic_objectives';
+        const url = environment.api + '/queries/thematic_objectives';
         let params = {
           language: this.locale
         };
@@ -27,7 +27,7 @@ export class ThemeService {
     }
 
     getPolicyObjectives(): Observable<PolicyObjective[]> {
-      const url = environment.apiBaseUrl + '/policy_objectives';
+      const url = environment.api + '/queries/policy_objectives';
       let params = {
         language: this.locale
       };

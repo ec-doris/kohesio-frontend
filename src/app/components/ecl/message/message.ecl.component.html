@@ -1,0 +1,20 @@
+<div class="ecl-message" [ngClass]="classType" data-ecl-message="" role="alert" data-ecl-auto-init="Message" *ngIf="!closed">
+    <svg class="ecl-icon ecl-icon--l ecl-message__icon" focusable="false" aria-hidden="true">
+        <use *ngIf="type=='error'" xlink:href="assets/images/ecl/icons.a892a63d.svg#error"></use>
+        <use *ngIf="type=='info'" xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+        <use *ngIf="type=='warning'" xlink:href="assets/images/ecl/icons.a892a63d.svg#warning"></use>
+        <use *ngIf="type=='success'" xlink:href="assets/images/ecl/icons.a892a63d.svg#success"></use>
+    </svg>
+    <div class="ecl-message__content">
+        <button class="ecl-button ecl-button--ghost ecl-message__close" type="button" data-ecl-message-close="" (click)="onClose()">
+            <span class="ecl-button__container">
+                <span class="ecl-button__label" data-ecl-label="true">Close</span>
+                <svg class="ecl-icon ecl-icon--xs ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                </svg>
+            </span>
+        </button>
+        <div class="ecl-message__title">{{title}}</div>
+        <div class="ecl-message__description">{{message}}</div>
+    </div>
+</div>

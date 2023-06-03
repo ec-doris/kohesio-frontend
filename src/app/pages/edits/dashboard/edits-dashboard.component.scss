@@ -1,0 +1,15 @@
+.page-header{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.ecl-table__cell.action{
+  kohesio-ecl-button{
+    margin-left: 3px;
+  }
+}
+
+.ec-table__cell__inner {
+  padding: 10px 10px 20px 40px;
+  background-color: white;
+}

@@ -1,0 +1,15 @@
+<button [cdkMenuTriggerFor]="menu" class="ecl-button" [ngClass]="'ecl-button--'+variant" (cdkMenuOpened)="onOpenMenu()" (cdkMenuClosed)="onCloseMenu()" [attr.aria-expanded]="opened">
+    <span class="ecl-button__container">
+        <span class="ecl-button__label" data-ecl-label="true">{{label}}</span>
+
+        <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate ecl-button__icon ecl-button__icon--after"
+             [ngClass]="opened ? 'ecl-icon--rotate' : 'ecl-icon--rotate-180'" focusable="false" aria-hidden="true" data-ecl-icon>
+            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+        </svg>
+    </span>
+</button>
+<ng-template #menu>
+    <div class="ecl-dropdown-menu" cdkMenu>
+        <ng-content></ng-content>
+    </div>
+</ng-template>
