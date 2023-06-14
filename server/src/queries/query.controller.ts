@@ -18,6 +18,7 @@ import {FundInDTO, FundOutDTO} from "./dtos/fund.dto";
 import {CountryInDto, CountryOutDto} from "./dtos/country.dto";
 import {CategoryInDTO, CategoryOutDTO} from "./dtos/category.dto";
 import {GeneralSearchInDTO, GeneralSearchWrapperOutDTO} from "./dtos/general.search.dto";
+import {PriorityAxisInDTO, PriorityAxisOutDTO} from "./dtos/priorityAxis.dto";
 
 
 @Controller('/queries')
@@ -154,6 +155,16 @@ export class QueryController {
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async generalSearch(@Query() queryParam: GeneralSearchInDTO): Promise<GeneralSearchWrapperOutDTO | void>{
     return await this.queryService.generalSearch(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('priority_axis')
+  @ApiOkResponse({
+    type:[PriorityAxisOutDTO]
+  })
+  @ApiBadRequestResponse({description: "Priority Axis not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async priorityAxis(@Query() queryParam: PriorityAxisInDTO): Promise<PriorityAxisOutDTO[] | void>{
+    return await this.queryService.getPriorityAxis(queryParam).catch(this.errorHandler);
   }
 
   private errorHandler(err){

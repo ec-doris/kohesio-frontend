@@ -10,7 +10,7 @@ export class FiltersApi implements Deserializable{
     public categoriesOfIntervention: AutoCompleteItem[] = [];
     public regions: [] | undefined;
     public nuts3: AutoCompleteItem[] = [];
-
+    public priority_axis: [] | undefined;
 
     //Static
     public countries: any[] | undefined;
@@ -126,7 +126,8 @@ export class FiltersApi implements Deserializable{
             programmingPeriods: this.programmingPeriods,
             totalProjectBudget: this.totalProjectBudget,
             amountEUSupport: this.amountEUSupport,
-            interreg: this.interreg
+            interreg: this.interreg,
+            priority_axis: this.priority_axis
         });
     }
 

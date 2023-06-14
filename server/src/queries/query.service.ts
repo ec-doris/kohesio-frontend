@@ -17,6 +17,7 @@ import {FundInDTO, FundOutDTO} from "./dtos/fund.dto";
 import {CountryInDto, CountryOutDto} from "./dtos/country.dto";
 import {CategoryInDTO, CategoryOutDTO} from "./dtos/category.dto";
 import {GeneralSearchInDTO, GeneralSearchWrapperOutDTO} from "./dtos/general.search.dto";
+import {PriorityAxisInDTO, PriorityAxisOutDTO} from "./dtos/priorityAxis.dto";
 
 @Injectable()
 export class QueryService {
@@ -209,6 +210,22 @@ export class QueryService {
         map((result:any)=>{
           const data:Object[] = result.data;
           return plainToInstance(CategoryOutDTO, data)
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async getPriorityAxis(params: PriorityAxisInDTO):Promise<PriorityAxisOutDTO[]>{
+    return await firstValueFrom(
+      this.httpService.get<PriorityAxisOutDTO[]>(`${this.baseUrl}/priority_axis`,{
+        params: params
+      }).pipe(
+        map((result:any)=>{
+          const data:Object[] = result.data;
+          return plainToInstance(PriorityAxisOutDTO, data)
         }),
         catchError(err => {
           return this.handlingCatchError(err)

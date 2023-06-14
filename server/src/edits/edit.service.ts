@@ -54,12 +54,13 @@ export class EditService {
     );
   }
 
-  async getLatestApprovedVersion(qid:string):Promise<EditVersionDTO | void>{
+  async getLatestApprovedVersion(qid:string, language:string):Promise<EditVersionDTO | void>{
     return await firstValueFrom(
       this.httpService.get<EditVersionDTO>(`${this.baseUrl}/latest-approved`,
         {
           params: {
-            operation_qid: qid
+            operation_qid: qid,
+            language:language
           }
         } as any).pipe(
         map((result:any)=>{

@@ -28,6 +28,7 @@ export class Filters implements Deserializable{
     public interreg: string | undefined;
     public nuts3: string | undefined;
     public cci: string | undefined;
+    public priority_axis: string | undefined;
 
     deserialize(input: any): this {
 
@@ -65,7 +66,8 @@ export class Filters implements Deserializable{
             beneficiaryType: input.beneficiaryType ? input.beneficiaryType : undefined,
             interreg: input.interreg ? input.interreg : undefined,
             nuts3: input.nuts3 ? input.nuts3 : undefined,
-            cci: input.cci ? input.cci : undefined
+            cci: input.cci ? input.cci : undefined,
+            priority_axis: input.priority_axis ? input.priority_axis : undefined,
         });
     }
 
@@ -90,7 +92,8 @@ export class Filters implements Deserializable{
             ...(this.orderEuBudget != undefined) && {orderEuBudget: this.orderEuBudget},
             ...(this.orderTotalBudget != undefined) && {orderTotalBudget: this.orderTotalBudget},
             ...(this.interreg != undefined) && {interreg: this.interreg},
-            ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3}
+            ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
+            ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis}
         }
     }
 
@@ -112,7 +115,8 @@ export class Filters implements Deserializable{
             ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
-            ...(this.cci != undefined) && {cci: this.cci}
+            ...(this.cci != undefined) && {cci: this.cci},
+            ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis}
         }
     }
 
@@ -134,6 +138,7 @@ export class Filters implements Deserializable{
             ...(this.endDateBefore) && {endDateBefore: this.endDateBefore},
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
+            ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis}
         }
     }
 
