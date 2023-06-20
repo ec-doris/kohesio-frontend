@@ -27,7 +27,7 @@ export class EditVersion {
   operation_qid?: string;
   edit_version_id!: number;
   user_id?: string;
-  version_name?: string;
+  version_comment?: string;
   status?: string;
   label?: string;
   language?:string;

@@ -84,7 +84,6 @@ export class ProjectController {
   @ApiBadRequestResponse({description: "Project not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async project(@Req() req, @Query() queryParam: ProjectInDto){
-    console.log("LANGUAGE",queryParam.language);
     const project:ProjectOutDto | void = await this.projectService.project(queryParam).catch(this.errorHandler);
     if (project) {
       const latest_edit: EditVersionDTO | void = await this.editService.getLatestApprovedVersion(project.item, queryParam.language).catch(err=>{

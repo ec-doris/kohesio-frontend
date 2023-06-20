@@ -51,7 +51,11 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     const id_token = tokenset.id_token
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token
-    //console.log("CLAIMS",claims);
+    /*console.log("CLAIMS",claims);
+    const department:string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
+    const displayName:string = `${claims.given_name} ${claims.family_name}`;
+    console.log("DEPARTMENT",department);
+    console.log("DISPLAY_NAME",displayName);*/
     const useruid = claims.sub;
       /*const user = {
         userinfo : {
@@ -63,7 +67,8 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     try {
       const userDB:UserInDto = await this.authService.validateUser(useruid);
       if (userDB){
-        console.log("USER AUTHORIZED",userDB);
+        //console.log("USER AUTHORIZED",userDB);
+        //TODO update user with department and displayName info
         return userDB;
       }else{
         console.log("USER UNAUTHORIZED",useruid);

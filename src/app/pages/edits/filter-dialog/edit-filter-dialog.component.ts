@@ -38,7 +38,6 @@ export class EditFilterDialogComponent implements DialogChildInterface{
   ngOnInit(): void {
     const filters = this.data.filters;
     this.myForm = this.formBuilder.group({
-      'archive': filters ? filters.archive : true,
       'latest_status': filters && filters.latest_status ? filters.latest_status : "ALL"
     })
 
@@ -48,9 +47,6 @@ export class EditFilterDialogComponent implements DialogChildInterface{
     const filters = {...this.myForm.value}
     if (!filters.latest_status || filters.latest_status=="ALL"){
       delete filters.latest_status;
-    }
-    if (!filters.archive){
-      delete filters.archive;
     }
     return filters;
   }

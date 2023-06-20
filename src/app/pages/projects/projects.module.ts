@@ -34,6 +34,7 @@ import {SaveDraftComponent} from "./dialogs/save-draft.component";
 import {Dialog} from "@angular/cdk/dialog";
 import {DialogEclModule} from "../../components/ecl/dialog/dialog.ecl.module";
 import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-button/dropdown-button.ecl.module";
+import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 
 
 @NgModule({
@@ -69,7 +70,8 @@ import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-butt
     ImageOverlayModule,
     KohesioAutoCompleteModule,
     DialogEclModule,
-    KohesioEclDropDownButtonModule
+    KohesioEclDropDownButtonModule,
+    KohesioEclMessageModule
   ],
     declarations: [
         ProjectsComponent,

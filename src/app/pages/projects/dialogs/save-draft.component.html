@@ -1,6 +1,8 @@
 <form [formGroup]="myForm">
     <kohesio-ecl-form-group>
-        <kohesio-ecl-form-label>Name:</kohesio-ecl-form-label>
-        <kohesio-ecl-form-text-input [focus]="true" formControlName="name"></kohesio-ecl-form-text-input>
+        <kohesio-ecl-form-label>Comment:</kohesio-ecl-form-label>
+        <div class="comment-textarea">
+            <kohesio-ecl-form-text-area [focus]="true" formControlName="comment"></kohesio-ecl-form-text-area>
+        </div>
     </kohesio-ecl-form-group>
 </form>
