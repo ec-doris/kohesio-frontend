@@ -1,10 +1,10 @@
-<div class="textarea-container">
+<div class="textarea-container" [ngClass]="extraClass">
     <textarea class="ecl-text-area ecl-text-area--m"
-          [ngClass]="extraClass"
-          style="width:100%; padding:1px;resize: none;"
-          (input)="onChange($any($event.target).value)"
-          [disabled]="isDisabled"
-          [(ngModel)]="inputValue"
-          placeholder="Placeholder text"></textarea>
+              #textareaElement
+              [ngClass]="extraClass"
+              style="width:100%; padding:1px;resize: none;"
+              (input)="onChange($any($event.target).value)"
+              [disabled]="isDisabled"
+              [(ngModel)]="inputValue"></textarea>
     <div [ngClass]="extraClass" [innerHTML]="innerTextCopy()"></div>
 </div>

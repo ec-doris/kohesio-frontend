@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, ElementRef, Input, ViewChild} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
@@ -23,6 +23,8 @@ export class KohesioEclFormTextAreaComponent implements ControlValueAccessor{
     @Input() isDisabled:boolean = false;
     @Input() extraClass?:string;
     @Input() autosize:boolean = true;
+    @Input() focus:boolean = false;
+    @ViewChild("textareaElement") textareaElement!:ElementRef;
 
     writeValue(obj: string): void {
        this.inputValue = obj;
@@ -35,6 +37,11 @@ export class KohesioEclFormTextAreaComponent implements ControlValueAccessor{
     }
     innerTextCopy(){
       return this.inputValue.replace(/\n/g, '<br/>');
+    }
+    ngAfterViewInit(){
+      if (this.focus) {
+        this.textareaElement.nativeElement.focus();
+      }
     }
 
 }

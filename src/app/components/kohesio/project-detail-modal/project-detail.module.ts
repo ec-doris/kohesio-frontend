@@ -18,6 +18,7 @@ import {KohesioEclFormModule} from "../../ecl/forms/form.ecl.module";
 import {KohesioEclFormTextAreaModule} from "../../ecl/forms/text-area/form-text-area.ecl.module";
 import {KohesioEclFormLabelModule} from "../../ecl/forms/label/form-label.ecl.module";
 import {KohesioEclDropDownButtonModule} from "../../ecl/dropdown-button/dropdown-button.ecl.module";
+import {KohesioEclMessageModule} from "../../ecl/message/message.ecl.module";
 
 @NgModule({
     imports: [
@@ -36,7 +37,8 @@ import {KohesioEclDropDownButtonModule} from "../../ecl/dropdown-button/dropdown
         YouTubePlayerModule,
         MatTooltipModule,
         ShareBlockModule,
-        KohesioEclDropDownButtonModule
+        KohesioEclDropDownButtonModule,
+        KohesioEclMessageModule
     ],
     declarations: [
         ProjectDetailModalComponent,

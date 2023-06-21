@@ -2,12 +2,14 @@ import {
   Body,
   Controller,
   Delete,
-  Get, HttpException, HttpStatus,
+  Get,
   Param,
   Post,
-  Put, Query,
+  Query,
   Req,
-  UseGuards, UsePipes, ValidationPipe
+  UseGuards,
+  UsePipes,
+  ValidationPipe
 } from "@nestjs/common";
 import {Roles} from "../auth/roles.decorator";
 import {RolesGuard} from "../auth/roles.guard";
@@ -47,6 +49,7 @@ export class EditController extends BaseController{
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('version')
   async listVersions(@Req() req, @Query() filters: EditInDTO):Promise<EditOutDTO | {} | void>{
+    filters.latest_status = [Status.DRAFT,Status.SUBMITTED];
     const edits:EditOutDTO[] | void = await this.editService.getEdits(req.user.user_id, filters).catch(this.errorHandler);
     if (edits && edits.length){
       for (const edit of edits) {

@@ -24,11 +24,14 @@ export class EditService {
       this.httpService.get<EditOutDTO[]>(`${this.baseUrl}`,
         {
           headers:{"user-id":currentUser},
-          params:params
+          params:params,
+          paramsSerializer: {
+            indexes: null
+          }
         } as any).pipe(
         map((result:any)=>{
           const data:Object[] = result.data;
-          return plainToInstance(EditOutDTO,data);
+          return plainToInstance(EditOutDTO,data,{enableImplicitConversion: true});
         }),
         catchError(err => {
           return this.handlingCatchError(err);

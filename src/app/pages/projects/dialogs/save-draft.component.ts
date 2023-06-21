@@ -17,14 +17,14 @@ export class SaveDraftComponent implements DialogChildInterface{
   ) {
 
     this.myForm = this.formBuilder.group({
-      'name': ''
+      'comment': ''
     })
 
   }
 
   getData():any {
     return {
-      name: this.myForm.value.name
+      comment: this.myForm.value.comment
     }
   }
 

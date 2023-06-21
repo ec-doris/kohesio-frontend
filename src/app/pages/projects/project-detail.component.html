@@ -20,6 +20,9 @@
 
 <div class="kohesio-page-detail" [ngClass]="isModal == true ? 'modal' : 'no-modal'">
     <form [formGroup]="myForm">
+    <div class="message-container">
+        <kohesio-ecl-message type="info" [message]="messageLanguageEditConflict" *ngIf="messageLanguageEditConflict" (dismissMessage)="messageLanguageEditConflict = undefined"></kohesio-ecl-message>
+    </div>
     <div class="kohesio-page-detail-tools">
         <div class="buttons">
             <ng-container *ngIf="project.canEdit && editMode">

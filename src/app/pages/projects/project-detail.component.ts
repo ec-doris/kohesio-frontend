@@ -8,7 +8,7 @@ import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslateService} from "../../services/translate.service";
-import {DOCUMENT, isPlatformBrowser} from "@angular/common";
+import {DatePipe, DOCUMENT, isPlatformBrowser} from "@angular/common";
 import {UserService} from "../../services/user.service";
 import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
 import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
@@ -122,7 +122,7 @@ export class ProjectDetailComponent implements AfterViewInit {
       id:0,
       value:"--ORIGINAL VERSION--"
     };
-
+    public messageLanguageEditConflict?:string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -134,6 +134,7 @@ export class ProjectDetailComponent implements AfterViewInit {
                 @Inject(PLATFORM_ID) private platformId: Object,
                 public userService: UserService,
                 private formBuilder: FormBuilder,
+                private datePipe: DatePipe,
                 private editService: EditService){}
 
     ngOnInit(){
@@ -265,35 +266,37 @@ export class ProjectDetailComponent implements AfterViewInit {
     editProject(){
       this.versions = [this.originalVersion];
       this.editService.getLatestVersion({qid:this.project.item}).subscribe(edit=>{
-        if (edit && Object.keys(edit).length && edit.id){
-          if (edit.id){
-            this.myForm.patchValue({
-              editId: edit.id
-            });
-          }
-          if (edit.latest_version) {
-            this.myForm.patchValue({
-              versionId: edit.latest_version.edit_version_id,
-              status:edit.latest_version.status,
-              label: edit.latest_version.label,
-              description: edit.latest_version.summary,
-              language: edit.language
-            });
-          }
-          if (edit.edit_versions){
-            for(const version of edit.edit_versions.reverse()){
-              this.versions.push({
-                id: version.edit_version_id,
-                value:  version.status + ' - ' +
-                  (version.version_name ? version.version_name + ' - ' : '') +
-                  (version.creation_time?.toLocaleString())
-              })
+        if (edit.language == this.translateService.locale || !edit.id) {
+          if (edit && Object.keys(edit).length && edit.id) {
+            if (edit.id) {
+              this.myForm.patchValue({
+                editId: edit.id
+              });
             }
+            if (edit.latest_version) {
+              this.myForm.patchValue({
+                versionId: edit.latest_version.edit_version_id,
+                status: edit.latest_version.status,
+                label: edit.latest_version.label,
+                description: edit.latest_version.summary,
+                language: edit.language
+              });
+            }
+            if (edit.edit_versions) {
+              for (const version of edit.edit_versions.reverse()) {
+                this.versions.push({
+                  id: version.edit_version_id,
+                  value: version.status + ' - ' + version.creation_time?.toLocaleString()
+                })
+              }
+            }
+          } else {
+            this.myForm.reset();
           }
+          this.editMode = true;
         }else{
-          this.myForm.reset();
+          this.messageLanguageEditConflict = `We've found an edit in "${this.getLanguagePlaceHolder(edit.language)}". Please change to the right language to continue editing`;
         }
-        this.editMode = true;
       })
     }
 
@@ -368,19 +371,19 @@ export class ProjectDetailComponent implements AfterViewInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if (result.action && result.action == 'primary') {
-          this.createEditVersion(result.data.name, status);
+          this.createEditVersion(result.data.comment, status);
         }
       });
     }
 
-  createEditVersion(version_name:string, status: string){
+  createEditVersion(version_comment:string, status: string){
       const edit:EditVersion = new EditVersion();
       edit.cci_qid=this.project.program[0].link.replace(environment.entityURL,"");
       edit.operation_qid=this.project.item as string;
       edit.edit_id=this.myForm.value.editId;
       edit.label=this.myForm.value.label;
       edit.summary=this.myForm.value.description;
-      edit.version_name=version_name;
+      edit.version_comment=version_comment;
       edit.language=this.myForm.value.language;
       edit.status=status;
       this.editService.createVersion(edit).subscribe((version:EditVersion)=>{

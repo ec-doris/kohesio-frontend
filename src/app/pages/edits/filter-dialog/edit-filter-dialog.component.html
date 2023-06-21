@@ -2,9 +2,6 @@
     <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group>
-            <kohesio-ecl-form-checkbox formControlName="archive" label="Archive"></kohesio-ecl-form-checkbox>
-        </kohesio-ecl-form-group>
-        <kohesio-ecl-form-group>
             <kohesio-ecl-form-label>Latest Status:</kohesio-ecl-form-label>
             <kohesio-ecl-form-select formControlName="latest_status" [items]="this.statuses" [hasEmptyValue]="false"></kohesio-ecl-form-select>
         </kohesio-ecl-form-group>
