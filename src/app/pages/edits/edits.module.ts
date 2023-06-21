@@ -15,6 +15,7 @@ import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.
 import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/form-checkbox.ecl.module";
 import {MatBadgeModule} from "@angular/material/badge";
 import {EditFilterDialogComponent} from "./filter-dialog/edit-filter-dialog.component";
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
     imports: [
@@ -32,7 +33,8 @@ import {EditFilterDialogComponent} from "./filter-dialog/edit-filter-dialog.comp
         KohesioEclMessageModule,
         EditsRoutingModule,
         MatDialogModule,
-        MatBadgeModule
+        MatBadgeModule,
+        MatSelectModule
     ],
   declarations: [
     EditsDashboardComponent,

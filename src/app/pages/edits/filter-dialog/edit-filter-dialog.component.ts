@@ -1,5 +1,5 @@
 import {Component, Input} from "@angular/core";
-import { UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
+import {FormControl, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
 
 @Component({
@@ -14,9 +14,6 @@ export class EditFilterDialogComponent implements DialogChildInterface{
 
   @Input('data') data: any;
   public statuses:any[] = [{
-    id: "ALL",
-    value: "ALL"
-  },{
     id: "DRAFT",
     value: "DRAFT"
   },{
@@ -38,14 +35,14 @@ export class EditFilterDialogComponent implements DialogChildInterface{
   ngOnInit(): void {
     const filters = this.data.filters;
     this.myForm = this.formBuilder.group({
-      'latest_status': filters && filters.latest_status ? filters.latest_status : "ALL"
+      'latest_status': new FormControl(filters && filters.latest_status ? filters.latest_status : [])
     })
 
   }
 
   getData(): any {
     const filters = {...this.myForm.value}
-    if (!filters.latest_status || filters.latest_status=="ALL"){
+    if (!filters.latest_status || !filters.latest_status.length){
       delete filters.latest_status;
     }
     return filters;
