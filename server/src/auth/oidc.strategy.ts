@@ -4,6 +4,8 @@ import {Strategy, Client, TokenSet, Issuer, IdTokenClaims, ClientAuthMethod} fro
 import { AuthService } from './auth.service';
 import {ConfigService} from "@nestjs/config";
 import {UserInDto} from "../users/dtos/user.in.dto";
+import {UserService} from "../users/user.service";
+import {UserDTO} from "../users/dtos/user.dto";
 
 export const buildOpenIdClient = async (configService: ConfigService) => {
   const TrustIssuer = await Issuer.discover(`${configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
@@ -37,38 +39,31 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   }
 
   async validate(tokenset: TokenSet): Promise<any> {
-
+    //console.log(arguments);
     const claims:IdTokenClaims = tokenset.claims();
-    //console.log("VALIDATE FUNCTION CLAIMS", claims);
-    /*const userinfo: UserinfoResponse = await this.client.userinfo(tokenset,{
-      method: 'POST',
-      via: 'body',
-      params: {
-        token: tokenset.access_token
-      }
-    });*/
-
-    const id_token = tokenset.id_token
-    const access_token = tokenset.access_token
-    const refresh_token = tokenset.refresh_token
-    /*console.log("CLAIMS",claims);
-    const department:string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
-    const displayName:string = `${claims.given_name} ${claims.family_name}`;
-    console.log("DEPARTMENT",department);
-    console.log("DISPLAY_NAME",displayName);*/
+    //console.log("CLAIMS",claims);
     const useruid = claims.sub;
-      /*const user = {
-        userinfo : {
-          name: claims.given_name + ' ' + claims.family_name,
-          uid: claims.sub,
-          email: claims.email
-        }
-      }*/
+    /*const id_token = tokenset.id_token
+    const access_token = tokenset.access_token
+    const refresh_token = tokenset.refresh_token*/
     try {
-      const userDB:UserInDto = await this.authService.validateUser(useruid);
+      const userDB:UserDTO = await this.authService.validateUser(useruid);
       if (userDB){
+        const department:string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
+        const displayName:string = `${claims.given_name} ${claims.family_name}`;
+        //const email:string claims.email;
+        //console.log("DEPARTMENT",department);
+        //console.log("DISPLAY_NAME",displayName);
+
+        if ((!userDB.name && displayName)||!userDB.organization && department){
+          const userInput:UserInDto = new UserInDto();
+          userInput.userid = userDB.user_id;
+          userInput.name = userDB.name ? userDB.name : displayName;
+          userInput.organization = userDB.organization ? userDB.organization : department;
+          //console.log("USER_INPUT",userInput);
+          //await this.authService.updateUser(userInput);
+        }
         //console.log("USER AUTHORIZED",userDB);
-        //TODO update user with department and displayName info
         return userDB;
       }else{
         console.log("USER UNAUTHORIZED",useruid);

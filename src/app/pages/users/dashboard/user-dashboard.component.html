@@ -26,6 +26,8 @@
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
                     <th class="ecl-table__header">User ID</th>
+                    <th class="ecl-table__header">Name</th>
+                    <th class="ecl-table__header">Organization</th>
                     <th class="ecl-table__header">Role</th>
                     <th class="ecl-table__header">Active</th>
                     <th class="ecl-table__header">Actions</th>
@@ -34,6 +36,8 @@
                 <tbody class="ecl-table__body">
                     <tr class="ecl-table__row" *ngFor="let user of usersList">
                         <td class="ecl-table__cell">{{user.user_id}}</td>
+                        <td class="ecl-table__cell">{{user.name}}</td>
+                        <td class="ecl-table__cell">{{user.organization}}</td>
                         <td class="ecl-table__cell">{{user.role}}</td>
                         <td class="ecl-table__cell">{{user.active}}</td>
                         <td class="ecl-table__cell">

@@ -22,6 +22,7 @@
     <form [formGroup]="myForm">
     <div class="message-container">
         <kohesio-ecl-message type="info" [message]="messageLanguageEditConflict" *ngIf="messageLanguageEditConflict" (dismissMessage)="messageLanguageEditConflict = undefined"></kohesio-ecl-message>
+        <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     </div>
     <div class="kohesio-page-detail-tools">
         <div class="buttons">

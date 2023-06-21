@@ -5,5 +5,7 @@ export class User {
   role!: string;
 
   active!:boolean;
+  name?:string;
+  organization?:string;
 
 }
