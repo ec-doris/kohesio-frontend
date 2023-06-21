@@ -61,7 +61,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
           userInput.name = userDB.name ? userDB.name : displayName;
           userInput.organization = userDB.organization ? userDB.organization : department;
           //console.log("USER_INPUT",userInput);
-          //await this.authService.updateUser(userInput);
+          await this.authService.updateUser(userInput);
         }
         //console.log("USER AUTHORIZED",userDB);
         return userDB;
