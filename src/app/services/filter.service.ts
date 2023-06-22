@@ -25,7 +25,8 @@ export class FilterService {
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
                 this.getFilter('countries'),
-                this.getFilter('nuts3')
+                this.getFilter('nuts3'),
+                this.getFilter('project_types')
             ])
         );
     }
