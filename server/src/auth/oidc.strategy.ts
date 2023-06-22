@@ -51,15 +51,18 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
       if (userDB){
         const department:string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
         const displayName:string = `${claims.given_name} ${claims.family_name}`;
-        //const email:string claims.email;
+        const email:string = claims.email as string;
         //console.log("DEPARTMENT",department);
         //console.log("DISPLAY_NAME",displayName);
 
-        if ((!userDB.name && displayName)||!userDB.organization && department){
+        if ((!userDB.name && displayName) ||
+          !userDB.organization && department ||
+          !userDB.email && department){
           const userInput:UserInDto = new UserInDto();
           userInput.userid = userDB.user_id;
           userInput.name = userDB.name ? userDB.name : displayName;
           userInput.organization = userDB.organization ? userDB.organization : department;
+          userInput.email = userDB.email ? userDB.email : email;
           //console.log("USER_INPUT",userInput);
           await this.authService.updateUser(userInput);
         }

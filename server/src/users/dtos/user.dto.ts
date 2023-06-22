@@ -14,5 +14,7 @@ export class UserDTO{
   name:string;
   @Expose()
   organization:string;
+  @Expose()
+  email:string;
 
 }
