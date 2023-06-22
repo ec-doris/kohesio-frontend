@@ -19,6 +19,8 @@ deployments:
             env:
               - name: NODE_PORT
                 value: ${NODE_PORT}
+              - name: TZ
+                value: CET
             resources:
               limits:
                 cpu: 3000m

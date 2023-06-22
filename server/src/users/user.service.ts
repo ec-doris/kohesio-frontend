@@ -18,13 +18,13 @@ export class UserService {
     this.baseUrl = configService.get<string>('BACKEND_EDITOR_HOST');
   }
 
-  async getUser(userid: string):Promise<UserInDto>{
+  async getUser(userid: string):Promise<UserDTO>{
     return await firstValueFrom(
-      this.httpService.get<UserInDto>(`${this.baseUrl}/users/${userid}`,
+      this.httpService.get<UserDTO>(`${this.baseUrl}/users/${userid}`,
         {headers:{"user-id":userid}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
-          return plainToInstance(UserInDto,data);
+          return plainToInstance(UserDTO,data);
         }),
         catchError(err => {
           return this.handlingCatchError(err)

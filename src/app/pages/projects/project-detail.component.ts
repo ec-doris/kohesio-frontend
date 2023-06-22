@@ -123,6 +123,7 @@ export class ProjectDetailComponent implements AfterViewInit {
       value:"--ORIGINAL VERSION--"
     };
     public messageLanguageEditConflict?:string;
+    public errorMessage?:string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -359,21 +360,25 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     saveVersion(status:string){
-      let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
-        disableClose: false,
-        autoFocus: false,
-        data: {
-          childComponent: SaveDraftComponent,
-          title: "Save as",
-          primaryActionLabel: "Save",
-          secondaryActionLabel: "Cancel"
-        }
-      });
-      dialogRef.afterClosed().subscribe(result => {
-        if (result.action && result.action == 'primary') {
-          this.createEditVersion(result.data.comment, status);
-        }
-      });
+      if (this.myForm.dirty) {
+        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          autoFocus: false,
+          data: {
+            childComponent: SaveDraftComponent,
+            title: "Save as",
+            primaryActionLabel: "Save",
+            secondaryActionLabel: "Cancel"
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result.action && result.action == 'primary') {
+            this.createEditVersion(result.data.comment, status);
+          }
+        });
+      }else{
+        this.errorMessage = 'There is no change!'
+      }
     }
 
   createEditVersion(version_comment:string, status: string){

@@ -116,7 +116,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         sort: [this.getFilterKey("sort", this.translateService.queryParams.sort)],
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
         nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)],
-        priority_axis: []
+        priority_axis: [],
+        projectTypes: [this.getFilterKey("project_types", this.translateService.queryParams.projectTypes)]
       });
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -124,7 +125,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
           this.myForm.value.projectEnd || this.myForm.value.interreg ||
-          this.myForm.value.nuts3 || this.myForm.value.priority_axis){
+          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectTypes){
             this.advancedFilterIsExpanded = true;
       };
 
@@ -364,6 +365,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         ),
         [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
         [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
+        [this.translateService.queryParams.projectTypes]: this.getFilterLabel("project_types", this.myForm.value.projectTypes),
       }
     }
 
@@ -404,6 +406,13 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           program: null
         });
     }
+
+  onProgramChange(){
+    this.getPriorityAxis().then();
+    this.myForm.patchValue({
+      priority_axis: null
+    });
+  }
 
     onProgrammeTypeChange(){
       this.getPrograms();
@@ -491,13 +500,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           country: country
         }
         if (this.myForm.value.program) {
-          params["fund"] = environment.entityURL + this.myForm.value.program
+          params["program"] = environment.entityURL + this.myForm.value.program
         }
-        this.filterService.getFilter("priority_axis", params).subscribe(result => {
-          this.filterService.filters.priority_axis = result.priority_axis;
-          this.filters.priority_axis = result.priority_axis;
+        if (params.country && params.program) {
+          this.filterService.getFilter("priority_axis", params).subscribe(result => {
+            this.filterService.filters.priority_axis = result.priority_axis;
+            this.filters.priority_axis = result.priority_axis;
+            resolve(true);
+          });
+        }else{
           resolve(true);
-        });
+        }
       });
     }
 

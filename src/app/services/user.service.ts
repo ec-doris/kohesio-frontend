@@ -114,5 +114,8 @@ export class UserService {
   isEditor():boolean{
       return (this.user && this.user.role == 'EDITOR') ? true : false;
   }
+  isReviewer():boolean{
+    return (this.user && this.user.role == 'REVIEWER') ? true : false;
+  }
 
 }

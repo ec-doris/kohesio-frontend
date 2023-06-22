@@ -19,6 +19,7 @@ import {CountryInDto, CountryOutDto} from "./dtos/country.dto";
 import {CategoryInDTO, CategoryOutDTO} from "./dtos/category.dto";
 import {GeneralSearchInDTO, GeneralSearchWrapperOutDTO} from "./dtos/general.search.dto";
 import {PriorityAxisInDTO, PriorityAxisOutDTO} from "./dtos/priorityAxis.dto";
+import {ProjectTypeDTO, ProjectTypeInDTO} from "./dtos/project-type.dto";
 
 
 @Controller('/queries')
@@ -165,6 +166,16 @@ export class QueryController {
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async priorityAxis(@Query() queryParam: PriorityAxisInDTO): Promise<PriorityAxisOutDTO[] | void>{
     return await this.queryService.getPriorityAxis(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('project_types')
+  @ApiOkResponse({
+    type:[ProjectTypeDTO]
+  })
+  @ApiBadRequestResponse({description: "Project Type not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async projectTypes(@Query() queryParam: ProjectTypeInDTO): Promise<ProjectTypeDTO[] | void>{
+    return await this.queryService.getProjectTypes(queryParam).catch(this.errorHandler);
   }
 
   private errorHandler(err){

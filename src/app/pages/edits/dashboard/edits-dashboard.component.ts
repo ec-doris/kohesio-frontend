@@ -24,6 +24,17 @@ export class EditsDashboardComponent implements AfterViewInit {
     }
 
     ngOnInit(){
+      if (this.userService.isEditor()){
+        this.filters = {
+          latest_status:['DRAFT']
+        }
+        this.filtersCount = 1;
+      }else if (this.userService.isReviewer()){
+        this.filters = {
+          latest_status:['SUBMITTED']
+        }
+        this.filtersCount = 1;
+      }
       this.getEditsList();
     }
 
