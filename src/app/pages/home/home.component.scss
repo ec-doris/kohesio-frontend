@@ -15,8 +15,8 @@
 
 .main-theme {
     background-color: #004494;
-    color: white; 
-    text-align: center; 
+    color: white;
+    text-align: center;
     padding-bottom: 50px;
     padding-top: 40px;
 
@@ -37,7 +37,7 @@
     }
 }
 
-@include media("<=small") {
+@include media("<=medium") {
     .main-theme {
         min-height: 215px;
     }
@@ -48,7 +48,7 @@
 }
 
 .themes-row {
-    margin-top: -30px; 
+    margin-top: -30px;
     justify-content: space-between;
 }
 
@@ -60,9 +60,9 @@
     padding-left: 1rem;
 }
 
-@include media("<=small") {
+@include media("<=medium") {
     .theme-col{
-        padding: 0 1rem;
+        padding: 0 1rem 0 1rem;
     }
 }
 
