@@ -190,7 +190,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     openNewTab(){
-        window.open(location.origin + "/projects/" + this.project.item, "_blank");
+      const link = `${location.origin}/${this.translateService.locale}/${this.translateService.routes.projects}/${this.project.item}`;
+      window.open(link, "_blank");
     }
 
     openWikidataLink(event: any){
