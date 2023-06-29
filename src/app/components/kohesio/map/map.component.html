@@ -52,7 +52,7 @@
                     </span>
                 </button>
             </div>
-            <div class="map-project-count-container" *ngIf="heatScale && !hideScale && !isLoading">
+            <div class="map-project-count-container" *ngIf="heatScale && !hideScale && !isLoading && heatMapScale && heatMapScale.length">
                 <div class="title" i18n="@@comp.map.button.numberOfProjects">Number of projects</div>
                 <div class="wrapper-scale-legend" *ngFor="let scale of heatMapScale">
                     <div class="color-scale" [style]="'background-color:'+scale.color+';'"></div>

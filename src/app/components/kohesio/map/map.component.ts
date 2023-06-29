@@ -692,7 +692,7 @@ export class MapComponent implements AfterViewInit {
 
     private polygonsStyle(feature:any){
         let backgroundColor = "#ff7800";
-        if (feature.properties && this.heatScale){
+        if (feature.properties && this.heatScale && this.heatMapScale && this.heatMapScale.length){
           backgroundColor = this.heatMapScale[this.heatMapScale.length-1].color;
           this.heatMapScale.forEach((scale:any)=>{
             const count = feature.properties.count;
