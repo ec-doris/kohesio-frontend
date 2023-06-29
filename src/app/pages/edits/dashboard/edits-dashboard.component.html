@@ -41,7 +41,7 @@
                 <tbody class="ecl-table__body">
                 <ng-container *ngFor="let edit of editsList">
                     <tr class="ecl-table__row">
-                        <td class="ecl-table__cell">
+                        <td class="ecl-table__cell" data-ecl-table-header="ID">
                             <a [routerLink]="['/projects/'+edit.qid]" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
                                 <span class="ecl-link__label">{{edit.qid}}</span>
                                 <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
@@ -49,17 +49,17 @@
                                 </svg>
                             </a>
                         </td>
-                        <td class="ecl-table__cell">{{edit.cci_qid}}</td>
-                        <td class="ecl-table__cell">
+                        <td class="ecl-table__cell" data-ecl-table-header="CCI">{{edit.cci_qid}}</td>
+                        <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
                             <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
                         </td>
-                        <td class="ecl-table__cell">
+                        <td class="ecl-table__cell" data-ecl-table-header="Created">
                             {{edit.creation_time?.toLocaleString()}}
                         </td>
-                        <td class="ecl-table__cell">
+                        <td class="ecl-table__cell" data-ecl-table-header="Language">
                             {{edit.language}}
                         </td>
-                        <td class="ecl-table__cell action">
+                        <td class="ecl-table__cell action" data-ecl-table-header="History">
                             <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">{{
                                 edit.showHistory ? 'Hide history' : 'Show history'
                                 }}</kohesio-ecl-button>
@@ -87,12 +87,12 @@
                                     <tbody class="ecl-table__body">
                                         <ng-container *ngFor="let version of edit.edit_versions">
                                             <tr class="ecl-table__row">
-                                                <td class="ecl-table__cell">{{version.creation_time?.toLocaleString()}}</td>
-                                                <td class="ecl-table__cell">
+                                                <td class="ecl-table__cell" data-ecl-table-header="Created">{{version.creation_time?.toLocaleString()}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="Status">
                                                     <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
                                                 </td>
-                                                <td class="ecl-table__cell" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
-                                                <td class="ecl-table__cell">{{version.user_id}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_id}}</td>
                                             </tr>
                                         </ng-container>
                                     </tbody>

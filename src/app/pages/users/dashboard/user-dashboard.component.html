@@ -35,12 +35,12 @@
                 </thead>
                 <tbody class="ecl-table__body">
                     <tr class="ecl-table__row" *ngFor="let user of usersList">
-                        <td class="ecl-table__cell">{{user.user_id}}</td>
-                        <td class="ecl-table__cell">{{user.name}}</td>
-                        <td class="ecl-table__cell">{{user.organization}}</td>
-                        <td class="ecl-table__cell">{{user.role}}</td>
-                        <td class="ecl-table__cell">{{user.active}}</td>
-                        <td class="ecl-table__cell">
+                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.user_id}}</td>
+                        <td data-ecl-table-header="Name" class="ecl-table__cell">{{user.name}}</td>
+                        <td data-ecl-table-header="Organization" class="ecl-table__cell">{{user.organization}}</td>
+                        <td data-ecl-table-header="Role" class="ecl-table__cell">{{user.role}}</td>
+                        <td data-ecl-table-header="Active" class="ecl-table__cell">{{user.active}}</td>
+                        <td data-ecl-table-header="Actions" class="ecl-table__cell">
                             <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)" i18n="@@page.user.button.delete">Edit</kohesio-ecl-button>&nbsp;
                             <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)" i18n="@@page.user.button.delete">Delete</kohesio-ecl-button>
                         </td>
