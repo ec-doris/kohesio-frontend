@@ -360,7 +360,7 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     saveVersion(status:string){
-      if (this.myForm.dirty) {
+      if (this.myForm.dirty || status != "DRAFT") {
         let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
           disableClose: false,
           autoFocus: false,

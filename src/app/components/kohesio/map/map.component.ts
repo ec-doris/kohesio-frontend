@@ -164,10 +164,12 @@ export class MapComponent implements AfterViewInit {
           color: this.colorsHeatMap[i-1]
         });
       }
-      scales.push({
-        from:  scales[scales.length-1].to,
-        color: this.colorsHeatMap[scales.length]
-      });
+      if (scales.length) {
+        scales.push({
+          from: scales[scales.length - 1].to,
+          color: this.colorsHeatMap[scales.length]
+        });
+      }
 
       this.heatMapScale = scales;
     }
