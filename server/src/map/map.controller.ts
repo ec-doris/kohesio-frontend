@@ -47,8 +47,8 @@ export class MapController {
   })
   @ApiBadRequestResponse({description: "Project not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  async nearby(): Promise<MapSearchNearbyOutDTO | void>{
-    return await this.mapService.getPointsNearby().catch(this.errorHandler);
+  async nearby(@Req() req): Promise<MapSearchNearbyOutDTO | void>{
+    return await this.mapService.getPointsNearby(req).catch(this.errorHandler);
   }
 
 

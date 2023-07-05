@@ -4,6 +4,7 @@ import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
 import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
+import {Request} from 'express';
 import {
   MapSearchInDTO,
   MapSearchNearbyOutDTO,
@@ -11,6 +12,7 @@ import {
   MapSearchPointInDTO,
   MapSearchPointOutDTO
 } from "./map.dto";
+
 @Injectable()
 export class MapService {
 
@@ -52,9 +54,26 @@ export class MapService {
     );
   }
 
-  async getPointsNearby():Promise<MapSearchNearbyOutDTO>{
+  async getPointsNearby(req:Request):Promise<MapSearchNearbyOutDTO>{
+    const candidates = ["X-Forwarded-For",
+      "Proxy-Client-IP",
+      "WL-Proxy-Client-IP",
+      "HTTP_X_FORWARDED_FOR",
+      "HTTP_X_FORWARDED",
+      "HTTP_X_CLUSTER_CLIENT_IP",
+      "HTTP_CLIENT_IP",
+      "HTTP_FORWARDED_FOR",
+      "HTTP_FORWARDED",
+      "HTTP_VIA",
+      "REMOTE_ADDR"];
+    const headers = {};
+    candidates.forEach(candidate=>{
+      headers[candidate] = req.header(candidate);
+    })
     return await firstValueFrom(
-      this.httpService.get<MapSearchNearbyOutDTO>(`${this.baseUrl}/map/nearby`).pipe(
+      this.httpService.get<MapSearchNearbyOutDTO>(`${this.baseUrl}/map/nearby`, {
+        headers:headers
+      }).pipe(
         map((result:any)=>{
           const data:Object = result.data;
           return plainToInstance(MapSearchNearbyOutDTO, data)
