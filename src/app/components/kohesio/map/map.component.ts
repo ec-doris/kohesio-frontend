@@ -775,7 +775,8 @@ export class MapComponent implements AfterViewInit {
         relativeTo: this._route,
         fragment: fragment,
         queryParams: {
-          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined
+          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined,
+          parentLocation: (window.location !== window.parent.location) ? window.parent.location['href'] : undefined
         },
         queryParamsHandling: 'merge'
       });
