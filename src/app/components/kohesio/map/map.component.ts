@@ -95,6 +95,7 @@ export class MapComponent implements AfterViewInit {
     public hasQueryParams:boolean = false;
     public onlyOnceParamsApply:boolean = true;
     public queryParamMapRegionName = 'mapRegion'
+    public queryParamParentLocation = 'parentLocation'
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -775,7 +776,9 @@ export class MapComponent implements AfterViewInit {
         relativeTo: this._route,
         fragment: fragment,
         queryParams: {
-          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined
+          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined,
+          parentLocation: (window.location !== window.parent.location) ?
+            (this._route.snapshot.queryParamMap.has(this.queryParamParentLocation) ? this._route.snapshot.queryParamMap.get(this.queryParamParentLocation) : 'embedMap') : undefined
         },
         queryParamsHandling: 'merge'
       });

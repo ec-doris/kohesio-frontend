@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "EU-projekt",
 		"page.metadata.projects-alt-2": "EU-projekt i",
 		"page.metadata.projects-alt-3": "EU-projekt om",
-		"page.metadata.project-detail.description": "Projekt som samfinansieras av EU"
+		"page.metadata.project-detail.description": "Projekt som samfinansieras av EU",
+    "page.projects.label.projectCollection": "projekt samling"
 	}
 }

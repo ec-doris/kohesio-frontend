@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "EU-hankkeet",
 		"page.metadata.projects-alt-2": "EU-hankkeet /",
 		"page.metadata.projects-alt-3": "EU-hankkeet /",
-		"page.metadata.project-detail.description": "EU:n yhteisrahoittamat hankkeet"
+		"page.metadata.project-detail.description": "EU:n yhteisrahoittamat hankkeet",
+    "page.projects.label.projectCollection": "projekti kokoelma"
 	}
 }

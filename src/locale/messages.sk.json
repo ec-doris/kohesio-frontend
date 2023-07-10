@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Projekty EÚ",
 		"page.metadata.projects-alt-2": "Projekty EÚ v",
 		"page.metadata.projects-alt-3": "Projekty EÚ na",
-		"page.metadata.project-detail.description": "Projekt spolufinancovaný EÚ"
+		"page.metadata.project-detail.description": "Projekt spolufinancovaný EÚ",
+    "page.projects.label.projectCollection": "projektová zbierka"
 	}
 }

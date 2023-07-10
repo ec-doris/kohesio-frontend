@@ -117,7 +117,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
         nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)],
         priority_axis: [],
-        projectTypes: [this.getFilterKey("project_types", this.translateService.queryParams.projectTypes)]
+        projectCollection: [this.getFilterKey("project_types", this.translateService.queryParams.projectCollection)]
       });
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -125,7 +125,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
           this.myForm.value.projectEnd || this.myForm.value.interreg ||
-          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectTypes){
+          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectCollection){
             this.advancedFilterIsExpanded = true;
       };
 
@@ -365,7 +365,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         ),
         [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
         [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
-        [this.translateService.queryParams.projectTypes]: this.getFilterLabel("project_types", this.myForm.value.projectTypes),
+        [this.translateService.queryParams.projectCollection]: this.getFilterLabel("project_types", this.myForm.value.projectCollection),
       }
     }
 
