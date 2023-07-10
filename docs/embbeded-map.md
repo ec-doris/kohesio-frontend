@@ -1,9 +1,11 @@
 # Embedding Kohesio Map
 
-You can embed the kohesio map into your website, just use the code snippet bellow and customize using the parameters.  
+You can embed the kohesio map into your website, just use the code snippet bellow and customize using the parameters.
+
+- Please use the parameter parentLocation=NAME_OF_YOUR_WEBSITE for us to understand from where the traffic is coming, this can be the name of the website or one key to identify your website
 
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE"  width="800" height="800">
 ```
 
 ## Languages
@@ -12,12 +14,12 @@ The kohesio map supports all EU languages:
 
 - French version
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/fr/map"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/fr/map?parentLocation=NAME_OF_YOUR_WEBSITE"  width="800" height="800">
 ```
 
 - Greek version
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/el/map"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/el/map?parentLocation=NAME_OF_YOUR_WEBSITE"  width="800" height="800">
 ```
 
 ## Parameters
@@ -36,15 +38,15 @@ You can customize the map visualization using the following parameters:
 
 ### Drill-down region
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
 ```
 
 ### Drill-down region with coordinates selection
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
 ```
 
 ### Drill-down into a region with heat scale
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?heatScale=true&mapRegion=Q2556137"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&?heatScale=true&mapRegion=Q2556137"  width="800" height="800">
 ```

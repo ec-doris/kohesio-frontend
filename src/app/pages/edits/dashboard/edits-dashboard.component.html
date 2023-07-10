@@ -1,0 +1,108 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Edits Dashboard</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="page-header">
+        <h1>Edits</h1>
+        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
+    </div>
+    <div class="users-table" *ngIf="editsList">
+        <div class="ecl-table-responsive">
+            <table class="ecl-table ecl-table--zebra">
+                <thead class="ecl-table__head">
+                <tr class="ecl-table__row">
+                    <th class="ecl-table__header">ID</th>
+                    <th class="ecl-table__header">CCI</th>
+                    <th class="ecl-table__header">Latest Status</th>
+                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
+                        Created
+                        <button class="ecl-table__arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
+                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-down">
+                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
+                        </button>
+                    </th>
+                    <th class="ecl-table__header">Language</th>
+                    <th class="ecl-table__header">History</th>
+                </tr>
+                </thead>
+                <tbody class="ecl-table__body">
+                <ng-container *ngFor="let edit of editsList">
+                    <tr class="ecl-table__row">
+                        <td class="ecl-table__cell" data-ecl-table-header="ID">
+                            <a [routerLink]="['/projects/'+edit.qid]" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
+                                <span class="ecl-link__label">{{edit.qid}}</span>
+                                <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
+                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
+                                </svg>
+                            </a>
+                        </td>
+                        <td class="ecl-table__cell" data-ecl-table-header="CCI">{{edit.cci_qid}}</td>
+                        <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
+                            <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
+                        </td>
+                        <td class="ecl-table__cell" data-ecl-table-header="Created">
+                            {{edit.creation_time?.toLocaleString()}}
+                        </td>
+                        <td class="ecl-table__cell" data-ecl-table-header="Language">
+                            {{edit.language}}
+                        </td>
+                        <td class="ecl-table__cell action" data-ecl-table-header="History">
+                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">{{
+                                edit.showHistory ? 'Hide history' : 'Show history'
+                                }}</kohesio-ecl-button>
+                        </td>
+                    </tr>
+                    <tr class="ecl-table__inner-row" *ngIf="edit.showHistory">
+                        <td class="ec-table__cell__inner" colspan="6">
+                            <div class="version_inner_table_wrapper">
+                                <table class="ecl-table ecl-table--zebra">
+                                    <thead class="ecl-table__head">
+                                    <tr class="ecl-table__row">
+                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">Created
+                                            <button class="ecl-table__arrow">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
+                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-down">
+                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
+                                            </button>
+                                        </th>
+                                        <th class="ecl-table__header">Status</th>
+                                        <th class="ecl-table__header">Comment</th>
+                                        <th class="ecl-table__header">User</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="ecl-table__body">
+                                        <ng-container *ngFor="let version of edit.edit_versions">
+                                            <tr class="ecl-table__row">
+                                                <td class="ecl-table__cell" data-ecl-table-header="Created">{{version.creation_time?.toLocaleString()}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="Status">
+                                                    <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
+                                                </td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_id}}</td>
+                                            </tr>
+                                        </ng-container>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

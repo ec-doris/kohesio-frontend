@@ -2,7 +2,7 @@ version: v1beta11
 
 vars:
   - name: APP_IMAGE
-    value: node:lts
+    value: node:18.13.0-alpine
 
 deployments:
   - name: kohesio-config
@@ -16,6 +16,11 @@ deployments:
         containers:
           - name: node
             image: ${APP_IMAGE}
+            env:
+              - name: NODE_PORT
+                value: ${NODE_PORT}
+              - name: TZ
+                value: CET
             resources:
               limits:
                 cpu: 3000m
@@ -33,8 +38,35 @@ deployments:
         service:
           ports:
             - port: 4200
+            - port: 3000
+
+  - name: redis
+    helm:
+      componentChart: false
+      chart:
+        name: redis
+        version: 17.4.0
+        repo: https://charts.bitnami.com/bitnami
+      values:
+        image:
+          tag: 6.0.12
+        networkPolicy:
+          enabled: true
+          allowExternal: true
+        password: $!{REDIS_PASSWORD}
+        auth:
+          password: $!{REDIS_PASSWORD}
+        cluster:
+          enabled: false
+        replica:
+          replicaCount: 1
 
 dev:
+  ports:
+    - imageSelector: docker.io/bitnami/redis:6.0.12
+      forward:
+        - port: 6379
+          remotePort: 6379
   sync:
     - imageSelector: ${APP_IMAGE}
       containerPath: /app
@@ -53,7 +85,7 @@ dev:
         - dist/
   terminal:
     imageSelector: ${APP_IMAGE}
-    command: ["npm run devspace-start"]
+    ##command: ["npm run devspace-start"]
 
 hooks:
   - command: |

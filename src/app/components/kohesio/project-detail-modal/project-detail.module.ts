@@ -13,20 +13,32 @@ import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
 import {YouTubePlayerModule} from "@angular/youtube-player";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ShareBlockModule} from "../share-block/share-block.module";
+import {ReactiveFormsModule} from "@angular/forms";
+import {KohesioEclFormModule} from "../../ecl/forms/form.ecl.module";
+import {KohesioEclFormTextAreaModule} from "../../ecl/forms/text-area/form-text-area.ecl.module";
+import {KohesioEclFormLabelModule} from "../../ecl/forms/label/form-label.ecl.module";
+import {KohesioEclDropDownButtonModule} from "../../ecl/dropdown-button/dropdown-button.ecl.module";
+import {KohesioEclMessageModule} from "../../ecl/message/message.ecl.module";
 
 @NgModule({
     imports: [
         CommonModule,
         RouterModule,
+        ReactiveFormsModule,
         MapComponentModule,
         MatDialogModule,
         MatIconModule,
         MatButtonModule,
         MatProgressSpinnerModule,
         KohesioEclButtonModule,
+        KohesioEclFormModule,
+        KohesioEclFormLabelModule,
+        KohesioEclFormTextAreaModule,
         YouTubePlayerModule,
         MatTooltipModule,
-        ShareBlockModule
+        ShareBlockModule,
+        KohesioEclDropDownButtonModule,
+        KohesioEclMessageModule
     ],
     declarations: [
         ProjectDetailModalComponent,

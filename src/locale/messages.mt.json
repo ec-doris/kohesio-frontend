@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Proġetti tal-UE",
 		"page.metadata.projects-alt-2": "Proġetti tal-UE fi",
 		"page.metadata.projects-alt-3": "Proġetti tal-UE dwar",
-		"page.metadata.project-detail.description": "Proġett kofinanzjat mill-UE"
+		"page.metadata.project-detail.description": "Proġett kofinanzjat mill-UE",
+    "page.projects.label.projectCollection": "ġbir tal-proġett"
 	}
 }

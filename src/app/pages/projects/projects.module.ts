@@ -29,6 +29,12 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {KohesioAutoCompleteModule} from "../../components/kohesio/auto-complete/auto-complete.module";
+import {KohesioEclFormTextAreaModule} from "../../components/ecl/forms/text-area/form-text-area.ecl.module";
+import {SaveDraftComponent} from "./dialogs/save-draft.component";
+import {Dialog} from "@angular/cdk/dialog";
+import {DialogEclModule} from "../../components/ecl/dialog/dialog.ecl.module";
+import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-button/dropdown-button.ecl.module";
+import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 
 
 @NgModule({
@@ -57,14 +63,19 @@ import {KohesioAutoCompleteModule} from "../../components/kohesio/auto-complete/
     KohesioEclButtonModule,
     KohesioEclAccordionModule,
     KohesioEclSpinnerModule,
+    KohesioEclFormTextAreaModule,
     ProjectDetailModalModule,
     DownloadButtonModule,
     NgxPopperjsModule,
     ImageOverlayModule,
-    KohesioAutoCompleteModule
+    KohesioAutoCompleteModule,
+    DialogEclModule,
+    KohesioEclDropDownButtonModule,
+    KohesioEclMessageModule
   ],
     declarations: [
-        ProjectsComponent
+        ProjectsComponent,
+        SaveDraftComponent
     ],
     exports: [
     ],

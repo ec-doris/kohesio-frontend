@@ -1,0 +1,40 @@
+apiVersion: traefik.containo.us/v1alpha1
+kind: Middleware
+metadata:
+  name: security
+  namespace: kohesio
+spec:
+  headers:
+    frameDeny: true
+    sslRedirect: true
+    browserXssFilter: true
+    contentTypeNosniff: true
+    stsIncludeSubdomains: true
+    stsPreload: true
+    addVaryHeader: true
+    stsSeconds: 31536000
+    contentSecurityPolicy: upgrade-insecure-requests
+    customRequestHeaders:
+      X-Forwarded-Proto: https
+
+---
+
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: kohesio-ing-route
+  namespace: kohesio
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`kohesio.local.ec.europa.eu`) && PathPrefix(`/`)
+      kind: Rule
+      services:
+        - name: kohesio-app
+          port: 3000
+      middlewares:
+        - name: security
+  tls:
+    secretName: certificates-secret
+

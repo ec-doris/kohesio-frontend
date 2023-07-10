@@ -11,10 +11,10 @@ import {ListOfOperation} from "../models/loo.model";
 })
 export class ListOfOperationService {
 
-  private readonly url:string = '/loo_metadata';
+  private readonly url:string = '/queries/loo_metadata';
 
   constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) {
-    this.url = environment.apiBaseUrl + this.url;
+    this.url = environment.api + this.url;
   }
 
   getListOfOperation(params:any = {}): Observable<ListOfOperation[]>  {

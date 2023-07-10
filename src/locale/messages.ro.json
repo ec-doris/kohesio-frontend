@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Proiecte europene",
 		"page.metadata.projects-alt-2": "Proiecte UE în",
 		"page.metadata.projects-alt-3": "ProiecteUE despre",
-		"page.metadata.project-detail.description": "Proiecte cofinanțate de UE"
+		"page.metadata.project-detail.description": "Proiecte cofinanțate de UE",
+    "page.projects.label.projectCollection": "colecție de proiecte"
 	}
 }

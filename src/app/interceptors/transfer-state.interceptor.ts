@@ -1,19 +1,32 @@
-import {Injectable} from "@angular/core";
+import {Inject, Injectable, Optional} from "@angular/core";
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
 import {TransferStateService} from "../services/transfer-state.service";
 import {Observable, of} from "rxjs";
 import {tap} from "rxjs/operators";
+import {REQUEST} from "@nguniversal/express-engine/tokens";
 
 @Injectable()
 export class TransferStateInterceptor implements HttpInterceptor {
-  constructor(private transferStateService: TransferStateService) {
+  constructor(private transferStateService: TransferStateService,
+              @Optional() @Inject(REQUEST) private httpRequest:any) {
   }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+    if (this.httpRequest) //If optional request is provided, we are server side
+    {
+      req = req.clone(
+        {
+          setHeaders:
+            {
+              Cookie: this.httpRequest.headers.cookie
+            }
+        });
+    }
     /**
      * Skip this interceptor if the request method isn't GET.
      */
-    if (req.method !== 'GET') {
+    if (req.method !== 'GET' || req.urlWithParams == '/api/user') {
       return next.handle(req);
     }
 
@@ -23,6 +36,8 @@ export class TransferStateInterceptor implements HttpInterceptor {
       // the request to the next handler.
       return of(new HttpResponse<any>({ body: cachedResponse }));
     }
+
+
 
     /**
      * No cached response exists. Go to the network, and cache

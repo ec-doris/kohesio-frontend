@@ -55,12 +55,12 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
         public translateService: TranslateService,
         @Inject(PLATFORM_ID) private platformId: Object) {
 
-            this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+            this.mobileQuery = breakpointObserver.isMatched('(max-width: 820px)');
             this.sidenavOpened = !this.mobileQuery;
 
             breakpointObserver
             .observe([
-                "(max-width: 768px)"
+                "(max-width: 820px)"
             ])
             .pipe(takeUntil(this.destroyed))
             .subscribe(result => {

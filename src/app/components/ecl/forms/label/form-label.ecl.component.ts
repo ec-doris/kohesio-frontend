@@ -1,4 +1,4 @@
-import { Component, HostBinding } from '@angular/core';
+import {Component, Input} from '@angular/core';
 
 
 @Component({
@@ -6,5 +6,7 @@ import { Component, HostBinding } from '@angular/core';
     templateUrl: './form-label.ecl.component.html',
 })
 export class KohesioEclFormLabelComponent {
+
+  @Input() required:boolean = false;
 
 }

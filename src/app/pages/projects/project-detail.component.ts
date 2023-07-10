@@ -4,11 +4,18 @@ import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
 import { environment } from 'src/environments/environment';
 import { MapComponent } from 'src/app/components/kohesio/map/map.component';
-import { MatDialog } from '@angular/material/dialog';
+import {MatDialog, MatDialogRef} from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {DomSanitizer} from "@angular/platform-browser";
 import {TranslateService} from "../../services/translate.service";
-import {DOCUMENT, isPlatformBrowser} from "@angular/common";
+import {DatePipe, DOCUMENT, isPlatformBrowser} from "@angular/common";
+import {UserService} from "../../services/user.service";
+import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.component";
+import {SaveDraftComponent} from "./dialogs/save-draft.component";
+import {EditService} from "../../services/edit.service";
+import {EditVersion} from "../../models/edit.model";
+
 declare let L:any;
 
 @Component({
@@ -33,6 +40,91 @@ export class ProjectDetailComponent implements AfterViewInit {
 
     public entityURL = environment.entityURL;
 
+    public editMode:boolean = false;
+
+    public myForm!: FormGroup;
+
+    public languages: any[] = [{
+      id: "bg",
+      value: "български"
+    },{
+      id: "es",
+      value:"español"
+    },{
+      id: "cs",
+      value:"čeština"
+    },{
+      id: "da",
+      value:"dansk"
+    },{
+      id: "de",
+      value:"Deutsch"
+    },{
+      id: "et",
+      value:"eesti"
+    },{
+      id: "el",
+      value:"ελληνικά"
+    },{
+      id: "en",
+      value:"English"
+    },{
+      id: "fr",
+      value:"français"
+    },{
+      id: "ga",
+      value:"Gaeilge"
+    },{
+      id: "hr",
+      value:"hrvatski"
+    },{
+      id: "it",
+      value:"italiano"
+    },{
+      id: "lv",
+      value:"latviešu"
+    },{
+      id: "lt",
+      value:"lietuvių"
+    },{
+      id: "hu",
+      value:"magyar"
+    },{
+      id: "mt",
+      value:"Malti"
+    },{
+      id: "nl",
+      value:"Nederlands"
+    },{
+      id: "pl",
+      value:"polski"
+    },{
+      id: "pt",
+      value:"português"
+    },{
+      id: "ro",
+      value:"română"
+    },{
+      id: "sk",
+      value:"slovenčina"
+    },{
+      id: "sl",
+      value:"slovenščina"
+    },{
+      id: "fi",
+      value:"suomi"
+    },{
+      id: "sv",
+      value:"svenska"
+    }];
+    public versions:any[] = [];
+    public originalVersion:any = {
+      id:0,
+      value:"--ORIGINAL VERSION--"
+    };
+    public messageLanguageEditConflict?:string;
+    public errorMessage?:string;
+
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
                 private route: ActivatedRoute,
@@ -40,13 +132,27 @@ export class ProjectDetailComponent implements AfterViewInit {
                 private sanitizer: DomSanitizer,
                 public translateService: TranslateService,
                 @Inject(DOCUMENT) private _document: Document,
-                @Inject(PLATFORM_ID) private platformId: Object){}
+                @Inject(PLATFORM_ID) private platformId: Object,
+                public userService: UserService,
+                private formBuilder: FormBuilder,
+                private datePipe: DatePipe,
+                private editService: EditService){}
 
     ngOnInit(){
         if (!this.project) {
             this.project = this.route.snapshot.data['project'];
         }
         this.currentUrl += '/projects/' + this.project.item;
+
+        this.myForm = new FormGroup({
+          'editId': new FormControl(),
+          'versionId': new FormControl(0,{nonNullable:true}),
+          'status': new FormControl(),
+          'label': new FormControl(this.project.label, { nonNullable: true }),
+          'description': new FormControl(this.project.description, { nonNullable: true }),
+          'language': new FormControl(this.translateService.locale, {nonNullable: true})
+        })
+
     }
 
     ngAfterViewInit(): void {
@@ -54,7 +160,6 @@ export class ProjectDetailComponent implements AfterViewInit {
         if (this.isPlatformBrowser()) {
           if (this.project.coordinates && this.project.coordinates.length) {
             this.project.coordinates.forEach(coords => {
-              //this.project["coordinates"][0]; ??
               const coord = coords.replace("Point(", "").replace(")", "").split(" ");
               const marker = this.map.addMarker(coord[1], coord[0], false);
               markers.push(marker);
@@ -85,7 +190,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     openNewTab(){
-        window.open(location.origin + "/projects/" + this.project.item, "_blank");
+      const link = `${location.origin}/${this.translateService.locale}/${this.translateService.routes.projects}/${this.project.item}`;
+      window.open(link, "_blank");
     }
 
     openWikidataLink(event: any){
@@ -158,4 +264,151 @@ export class ProjectDetailComponent implements AfterViewInit {
     isPlatformBrowser(){
       return isPlatformBrowser(this.platformId);
     }
+
+    editProject(){
+      this.versions = [this.originalVersion];
+      this.editService.getLatestVersion({qid:this.project.item}).subscribe(edit=>{
+        if (edit.language == this.translateService.locale || !edit.id) {
+          if (edit && Object.keys(edit).length && edit.id) {
+            if (edit.id) {
+              this.myForm.patchValue({
+                editId: edit.id
+              });
+            }
+            if (edit.latest_version) {
+              this.myForm.patchValue({
+                versionId: edit.latest_version.edit_version_id,
+                status: edit.latest_version.status,
+                label: edit.latest_version.label,
+                description: edit.latest_version.summary,
+                language: edit.language
+              });
+            }
+            if (edit.edit_versions) {
+              for (const version of edit.edit_versions.reverse()) {
+                this.versions.push({
+                  id: version.edit_version_id,
+                  value: version.status + ' - ' + version.creation_time?.toLocaleString()
+                })
+              }
+            }
+          } else {
+            this.myForm.reset();
+          }
+          this.editMode = true;
+        }else{
+          this.messageLanguageEditConflict = `We've found an edit in "${this.getLanguagePlaceHolder(edit.language)}". Please change to the right language to continue editing`;
+        }
+      })
+    }
+
+    cancelEdit(){
+      if (this.myForm.dirty){
+        let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          data:{
+            confirmMessage: "Do you want to discard the changes?"
+          }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          if(result && result.action == 'primary') {
+            this.myForm.reset();
+            this.editMode = false;
+          }
+        });
+      }else {
+        this.editMode = false;
+      }
+
+    }
+
+    onVersionSelect(){
+      if (this.myForm.value.versionId==this.originalVersion.id){
+        this.myForm.reset();
+      }else {
+        this.editService.getVersion(this.myForm.value.versionId).subscribe((version: EditVersion) => {
+          this.myForm.patchValue({
+            versionId: version.edit_version_id,
+            status: version.status,
+            label: version.label,
+            description: version.summary
+          });
+          this.myForm.markAsPristine();
+        })
+      }
+    }
+
+    onDeleteVersion(){
+      let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+        disableClose: false,
+        data:{
+          confirmMessage: "Do you want to delete this version?"
+        }
+      });
+
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && result.action == 'primary') {
+          this.editService.deleteVersion(this.myForm.value.versionId).subscribe(()=>{
+            this.myForm.patchValue({
+              versionId: null,
+              status: null
+            });
+            this.editProject();
+          })
+        }
+      });
+    }
+
+    saveVersion(status:string){
+      if (this.myForm.dirty || status != "DRAFT") {
+        let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
+          disableClose: false,
+          autoFocus: false,
+          data: {
+            childComponent: SaveDraftComponent,
+            title: "Save as",
+            primaryActionLabel: "Save",
+            secondaryActionLabel: "Cancel"
+          }
+        });
+        dialogRef.afterClosed().subscribe(result => {
+          if (result.action && result.action == 'primary') {
+            this.createEditVersion(result.data.comment, status);
+          }
+        });
+      }else{
+        this.errorMessage = 'There is no change!'
+      }
+    }
+
+  createEditVersion(version_comment:string, status: string){
+      const edit:EditVersion = new EditVersion();
+      edit.cci_qid=this.project.program[0].link.replace(environment.entityURL,"");
+      edit.operation_qid=this.project.item as string;
+      edit.edit_id=this.myForm.value.editId;
+      edit.label=this.myForm.value.label;
+      edit.summary=this.myForm.value.description;
+      edit.version_comment=version_comment;
+      edit.language=this.myForm.value.language;
+      edit.status=status;
+      this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
+        if (status == 'APPROVED'){
+          this.project.label = version.label;
+          this.project.description = version.summary;
+          this.editMode = false;
+        }else{
+          this.editProject();
+        }
+      })
+    }
+
+  getLanguagePlaceHolder(language:string){
+      for(let lang of this.languages){
+        if (lang.id == language){
+          return lang.value;
+        }
+      }
+      return "";
+  }
 }

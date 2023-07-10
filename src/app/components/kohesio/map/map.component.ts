@@ -95,6 +95,7 @@ export class MapComponent implements AfterViewInit {
     public hasQueryParams:boolean = false;
     public onlyOnceParamsApply:boolean = true;
     public queryParamMapRegionName = 'mapRegion'
+    public queryParamParentLocation = 'parentLocation'
 
     constructor(private mapService: MapService,
                 private filterService:FilterService,
@@ -164,10 +165,12 @@ export class MapComponent implements AfterViewInit {
           color: this.colorsHeatMap[i-1]
         });
       }
-      scales.push({
-        from:  scales[scales.length-1].to,
-        color: this.colorsHeatMap[scales.length]
-      });
+      if (scales.length) {
+        scales.push({
+          from: scales[scales.length - 1].to,
+          color: this.colorsHeatMap[scales.length]
+        });
+      }
 
       this.heatMapScale = scales;
     }
@@ -690,7 +693,7 @@ export class MapComponent implements AfterViewInit {
 
     private polygonsStyle(feature:any){
         let backgroundColor = "#ff7800";
-        if (feature.properties && this.heatScale){
+        if (feature.properties && this.heatScale && this.heatMapScale && this.heatMapScale.length){
           backgroundColor = this.heatMapScale[this.heatMapScale.length-1].color;
           this.heatMapScale.forEach((scale:any)=>{
             const count = feature.properties.count;
@@ -773,7 +776,9 @@ export class MapComponent implements AfterViewInit {
         relativeTo: this._route,
         fragment: fragment,
         queryParams: {
-          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined
+          [this.queryParamMapRegionName]: regions.length ? regions.join(",") : undefined,
+          parentLocation: (window.location !== window.parent.location) ?
+            (this._route.snapshot.queryParamMap.has(this.queryParamParentLocation) ? this._route.snapshot.queryParamMap.get(this.queryParamParentLocation) : 'embedMap') : undefined
         },
         queryParamsHandling: 'merge'
       });

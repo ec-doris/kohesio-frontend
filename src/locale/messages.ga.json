@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Tionscadail EU",
 		"page.metadata.projects-alt-2": "Tionscadail an Aontais in",
 		"page.metadata.projects-alt-3": "Tionscadail an Aontais maidir le",
-		"page.metadata.project-detail.description": "Tionscadal arna chómhaoiniú ag an Aontas"
+		"page.metadata.project-detail.description": "Tionscadal arna chómhaoiniú ag an Aontas",
+    "page.projects.label.projectCollection": "bailiúchán tionscadal"
 	}
 }

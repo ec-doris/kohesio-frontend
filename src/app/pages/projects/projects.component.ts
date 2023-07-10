@@ -81,12 +81,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     private metaService: MetaService) {
 
       this.filters = this._route.snapshot.data['filters'];
-      this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
+      this.mobileQuery = breakpointObserver.isMatched('(max-width: 820px)');
       this.sidenavOpened = !this.mobileQuery;
 
       breakpointObserver
       .observe([
-          "(max-width: 768px)"
+          "(max-width: 820px)"
       ])
       .pipe(takeUntil(this.destroyed))
       .subscribe(result => {
@@ -115,14 +115,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         projectEnd: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectEnd))],
         sort: [this.getFilterKey("sort", this.translateService.queryParams.sort)],
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
-        nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)]
+        nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)],
+        priority_axis: [],
+        projectCollection: [this.getFilterKey("project_types", this.translateService.queryParams.projectCollection)]
       });
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
           this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
-          this.myForm.value.projectEnd || this.myForm.value.interreg || this.myForm.value.nuts3){
+          this.myForm.value.projectEnd || this.myForm.value.interreg ||
+          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectCollection){
             this.advancedFilterIsExpanded = true;
       };
 
@@ -157,15 +160,22 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
               region: this.getFilterKey("regions", this.translateService.queryParams.region)
             });
           }
-          Promise.all([this.getPrograms(), this.getNuts3()]).then(results => {
+          Promise.all([this.getPrograms(), this.getNuts3(), this.getPriorityAxis()]).then(results => {
             if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
               this.myForm.patchValue({
                 program: this.getFilterKey("programs", this.translateService.queryParams.programme)
               });
             }
+            if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.priorityAxis)) {
+              this.myForm.patchValue({
+                priority_axis: this.getFilterKey("priority_axis", this.translateService.queryParams.priorityAxis)
+              });
+            }
+
             if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
               this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
-              this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
+              this._route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3) ||
+              this._route.snapshot.queryParamMap.get(this.translateService.queryParams.priorityAxis)) {
               this.metaService.changeProjectListMetadata();
               this.getProjectList();
             }
@@ -353,7 +363,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           "nuts3",
           this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
         ),
-        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false")
+        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
+        [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
+        [this.translateService.queryParams.projectCollection]: this.getFilterLabel("project_types", this.myForm.value.projectCollection),
       }
     }
 
@@ -361,12 +373,14 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.myForm.patchValue({
         region: null,
         program: null,
-        nuts3: null
+        nuts3: null,
+        priority_axis: null
       });
       if (this.myForm.value.country != null) {
         this.getRegions().then();
         this.getPrograms().then();
         this.getNuts3().then();
+        this.getPriorityAxis().then();
       }
     }
 
@@ -392,6 +406,13 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           program: null
         });
     }
+
+  onProgramChange(){
+    this.getPriorityAxis().then();
+    this.myForm.patchValue({
+      priority_axis: null
+    });
+  }
 
     onProgrammeTypeChange(){
       this.getPrograms();
@@ -469,6 +490,27 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.filters.nuts3 = filtersResults.nuts3;
           resolve(true);
         });
+      });
+    }
+
+    getPriorityAxis(): Promise<any> {
+      return new Promise((resolve, reject) => {
+        const country = environment.entityURL + this.myForm.value.country;
+        let params: any = {
+          country: country
+        }
+        if (this.myForm.value.program) {
+          params["program"] = environment.entityURL + this.myForm.value.program
+        }
+        if (params.country && params.program) {
+          this.filterService.getFilter("priority_axis", params).subscribe(result => {
+            this.filterService.filters.priority_axis = result.priority_axis;
+            this.filters.priority_axis = result.priority_axis;
+            resolve(true);
+          });
+        }else{
+          resolve(true);
+        }
       });
     }
 

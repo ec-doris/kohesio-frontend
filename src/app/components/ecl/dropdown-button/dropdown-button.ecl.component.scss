@@ -1,0 +1,8 @@
+.ecl-dropdown-menu{
+  display: flex;
+  flex-direction: column;
+}
+
+button[aria-expanded=true]{
+  background-color: #EEEEEE;
+}

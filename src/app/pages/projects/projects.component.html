@@ -102,6 +102,10 @@
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.projectCollection">project collection</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="projectCollection" [items]="this.filters.project_types"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.fund">FUND</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
@@ -114,8 +118,18 @@
                     <kohesio-ecl-form-select formControlName="program"
                                              [items]="this.filters.programs"
                                              [isDisabled]="!this.myForm.value.country"
+                                             (change)="onProgramChange()"
                                              i18n-placeholder="Select a country|@@page.projects.placeholder.programme"
                                              placeholder="Select a country" ></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.priorityAxis">PRIORITY AXIS</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="priority_axis"
+                                             [items]="this.filters.priority_axis"
+                                             [isDisabled]="!this.myForm.value.country || !this.myForm.value.program"
+                                             i18n-placeholder="Select a country and a program|@@page.projects.placeholder.priorityAxis"
+                                             placeholder="Select a country and a program"
+                    ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.totalBudget">TOTAL BUDGET</kohesio-ecl-form-label>

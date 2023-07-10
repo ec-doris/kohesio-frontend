@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiBaseUrl: "../api/facet/eu",
+  apiBaseUrl: "../wikibase/facet/eu",
+  api:'/api',
   entityURL: 'https://linkedopendata.eu/entity/'
 };
 

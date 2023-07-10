@@ -25,7 +25,8 @@ export class FilterService {
                 this.getFilter('funds'),
                 this.getFilter('categoriesOfIntervention'),
                 this.getFilter('countries'),
-                this.getFilter('nuts3')
+                this.getFilter('nuts3'),
+                this.getFilter('project_types')
             ])
         );
     }
@@ -64,7 +65,7 @@ export class FilterService {
     }
 
     getFilter(type: any, params:any = {}):Observable<any>{
-        const url = environment.apiBaseUrl + '/' + type;
+        const url = environment.api + '/queries/' + type;
         if (!params || !params.language) {
           params.language = this.locale;
         }
@@ -173,7 +174,7 @@ export class FilterService {
     }
 
     getRegions(country: string): Observable<any[]>{
-        const urlRegions = environment.apiBaseUrl + '/regions';
+        const urlRegions = environment.api + '/queries/regions';
         let params = {
             language: this.locale,
             country: 'https://linkedopendata.eu/entity/' + country
@@ -255,7 +256,7 @@ export class FilterService {
     }
 
   getKohesioCategory(interventionFieldId: string): Observable<any[]>{
-    const url = environment.apiBaseUrl + '/kohesio_categories';
+    const url = environment.api + '/queries/kohesio_categories';
     let params = {
       language: this.locale,
       interventionField: 'https://linkedopendata.eu/entity/' + interventionFieldId

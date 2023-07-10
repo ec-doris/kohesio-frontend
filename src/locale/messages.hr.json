@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Projekti EU-a",
 		"page.metadata.projects-alt-2": "Projekti EU-a u",
 		"page.metadata.projects-alt-3": "Projekti EU-a u području",
-		"page.metadata.project-detail.description": "Projekt koji sufinancira EU"
+		"page.metadata.project-detail.description": "Projekt koji sufinancira EU",
+    "page.projects.label.projectCollection": "zbirka projekata"
 	}
 }

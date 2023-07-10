@@ -1,0 +1,52 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">User Dashboard</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="page-header">
+        <h1>Users</h1>
+        <kohesio-ecl-button type="button" (click)="saveUser()">Add User</kohesio-ecl-button>
+    </div>
+    <div class="users-table" *ngIf="usersList">
+        <ng-container *ngFor="let message of messages">
+            <kohesio-ecl-message [type]="message.type" [message]="message.message" (dismissMessage)="dismissMessage($event)"></kohesio-ecl-message>
+        </ng-container>
+        <div class="ecl-table-responsive">
+            <table class="ecl-table ecl-table--zebra">
+                <thead class="ecl-table__head">
+                <tr class="ecl-table__row">
+                    <th class="ecl-table__header">User ID</th>
+                    <th class="ecl-table__header">Name</th>
+                    <th class="ecl-table__header">Organization</th>
+                    <th class="ecl-table__header">Role</th>
+                    <th class="ecl-table__header">Active</th>
+                    <th class="ecl-table__header">Actions</th>
+                </tr>
+                </thead>
+                <tbody class="ecl-table__body">
+                    <tr class="ecl-table__row" *ngFor="let user of usersList">
+                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.user_id}}</td>
+                        <td data-ecl-table-header="Name" class="ecl-table__cell">{{user.name}}</td>
+                        <td data-ecl-table-header="Organization" class="ecl-table__cell">{{user.organization}}</td>
+                        <td data-ecl-table-header="Role" class="ecl-table__cell">{{user.role}}</td>
+                        <td data-ecl-table-header="Active" class="ecl-table__cell">{{user.active}}</td>
+                        <td data-ecl-table-header="Actions" class="ecl-table__cell">
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)">Edit</kohesio-ecl-button>&nbsp;
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)">Delete</kohesio-ecl-button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

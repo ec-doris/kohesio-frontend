@@ -41,6 +41,8 @@ export class TranslateService {
     "amountEUSupport": $localize`:@@translate.queryParams.amountEUSupport:amountEUSupport`,
     "interventionField": $localize`:@@translate.queryParams.interventionField:interventionField`,
     "nuts3": $localize`:@@translate.queryParams.nuts3:nuts3`,
+    "priorityAxis": $localize`:@@translate.queryParams.priorityAxis:priorityAxis`,
+    "projectCollection": $localize`:@@translate.queryParams.projectCollection:projectCollection`,
     "projectStart": $localize`:@@translate.queryParams.projectStart:projectStart`,
     "projectEnd": $localize`:@@translate.queryParams.projectEnd:projectEnd`,
     "sort": $localize`:@@translate.queryParams.sort:sort`,

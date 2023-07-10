@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "EU-projecten",
 		"page.metadata.projects-alt-2": "Eu-projecten in",
 		"page.metadata.projects-alt-3": "Eu-projecten over",
-		"page.metadata.project-detail.description": "Door de EU medegefinancierd project"
+		"page.metadata.project-detail.description": "Door de EU medegefinancierd project",
+    "page.projects.label.projectCollection": "project collectie"
 	}
 }

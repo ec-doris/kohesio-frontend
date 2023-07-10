@@ -1,0 +1,22 @@
+<header class="ecl-modal__header">
+    <div class="ecl-modal__header-content">{{title}}</div>
+    <button class="ecl-button ecl-button--ghost ecl-modal__close" type="button" data-ecl-modal-close (click)="onActionClick('close')">
+        <span class="ecl-button__container"><span class="ecl-u-sr-only" data-ecl-label="true">Close</span>
+            <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+            </svg>
+        </span>
+    </button>
+</header>
+<div class="ecl-modal__body">
+    <ng-container *ngIf="confirmMessage">
+        <div [innerHTML]="confirmMessage"></div>
+    </ng-container>
+    <ng-template adHost></ng-template>
+</div>
+<footer class="ecl-modal__footer">
+    <div class="ecl-modal__footer-content">
+        <button class="ecl-button ecl-button--secondary ecl-modal__button" type="button" data-ecl-modal-close (click)="onActionClick('secondary')">{{secondaryAction}}</button>
+        <button class="ecl-button ecl-button--primary ecl-modal__button" type="button" (click)="onActionClick('primary')">{{primaryAction}}</button></div>
+</footer>
+

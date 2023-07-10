@@ -17,7 +17,7 @@ export class ProjectService {
     }
 
     getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
-        const url = environment.apiBaseUrl + '/search/project';
+        const url = environment.api + '/projects';
         const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params }).pipe(
             map(data => {
@@ -31,7 +31,7 @@ export class ProjectService {
     }
 
     getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{
-        const url = environment.apiBaseUrl + '/search/project/image';
+        const url = environment.api + '/projects/image';
         const params = this.generateParameters(filters.getAssetsFilters(), offset, limit);
         return this.http.get<any>(url,{ params: <any>params });
     }
@@ -52,7 +52,7 @@ export class ProjectService {
     }
 
     getProjectDetail(id: string | null): Observable<ProjectDetail> {
-        const url = environment.apiBaseUrl + '/project';
+        const url = environment.api + '/projects/'+id;
         let params = {
             id: environment.entityURL + id,
             language: this.locale
@@ -61,20 +61,10 @@ export class ProjectService {
             map((data:any) => {
                 return new ProjectDetail().deserialize(data);
             }));
-        /*return this.http.get<any>(url, { params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    throwError('Data is inconsistent');
-                }else {
-                    const result: ProjectDetail = new ProjectDetail().deserialize(data);
-                    return result;
-                }
-            })
-        );*/
     }
 
     getFile(filters: Filters, type: string):Observable<any>{
-        const url = environment.apiBaseUrl + "/search/project/" + type;
+        const url = environment.api + "/projects/download/" + type;
         const params:any = filters.getProjectsFilters();
         params.language = this.locale;
         return this.http.get(url,{
