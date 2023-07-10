@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "ES projekti",
 		"page.metadata.projects-alt-2": "ES projekti (vieta)",
 		"page.metadata.projects-alt-3": "ES projekti (joma)",
-		"page.metadata.project-detail.description": "ES līdzfinansēti projekti"
+		"page.metadata.project-detail.description": "ES līdzfinansēti projekti",
+    "page.projects.label.projectCollection": "projektu kolekcija"
 	}
 }

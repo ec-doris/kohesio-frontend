@@ -303,6 +303,7 @@
 		"page.metadata.projects-alt-1": "ELi projektid",
 		"page.metadata.projects-alt-2": "ELi projektid",
 		"page.metadata.projects-alt-3": "ELi projektid",
-		"page.metadata.project-detail.description": "ELi kaasrahastatud projekt"
+		"page.metadata.project-detail.description": "ELi kaasrahastatud projekt",
+    "page.projects.label.projectCollection": "projektikogu"
 	}
 }

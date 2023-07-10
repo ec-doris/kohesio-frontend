@@ -303,6 +303,7 @@
 		"page.metadata.projects-alt-1": "EU-projektek",
 		"page.metadata.projects-alt-2": "EU-projektek itt:",
 		"page.metadata.projects-alt-3": "EU-projektek ebben a témában:",
-		"page.metadata.project-detail.description": "Uniós társfinanszírozású projekt"
+		"page.metadata.project-detail.description": "Uniós társfinanszírozású projekt",
+    "page.projects.label.projectCollection": "projektgyűjtemény"
 	}
 }

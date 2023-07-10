@@ -42,7 +42,7 @@ export class TranslateService {
     "interventionField": $localize`:@@translate.queryParams.interventionField:interventionField`,
     "nuts3": $localize`:@@translate.queryParams.nuts3:nuts3`,
     "priorityAxis": $localize`:@@translate.queryParams.priorityAxis:priorityAxis`,
-    "projectTypes": $localize`:@@translate.queryParams.projectTypes:projectTypes`,
+    "projectCollection": $localize`:@@translate.queryParams.projectCollection:projectCollection`,
     "projectStart": $localize`:@@translate.queryParams.projectStart:projectStart`,
     "projectEnd": $localize`:@@translate.queryParams.projectEnd:projectEnd`,
     "sort": $localize`:@@translate.queryParams.sort:sort`,

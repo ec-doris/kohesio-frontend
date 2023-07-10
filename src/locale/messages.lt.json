@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "ES projektai",
 		"page.metadata.projects-alt-2": "ES projektų vieta",
 		"page.metadata.projects-alt-3": "ES projektų sritis",
-		"page.metadata.project-detail.description": "ES bendrai finansuojamas projektas"
+		"page.metadata.project-detail.description": "ES bendrai finansuojamas projektas",
+    "page.projects.label.projectCollection": "projektų rinkinys"
 	}
 }

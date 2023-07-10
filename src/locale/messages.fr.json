@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Projets de l’UE",
 		"page.metadata.projects-alt-2": "Projets de l’UE à/au/aux/en",
 		"page.metadata.projects-alt-3": "Projets de l’UE en matière de",
-		"page.metadata.project-detail.description": "Projet cofinancé par l’UE"
+		"page.metadata.project-detail.description": "Projet cofinancé par l’UE",
+    "page.projects.label.projectCollection": "collection de projets"
 	}
 }

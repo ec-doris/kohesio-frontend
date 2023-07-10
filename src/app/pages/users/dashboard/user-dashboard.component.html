@@ -8,14 +8,14 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.faq.breadcrumb.faq">User Dashboard</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">User Dashboard</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
         <h1>Users</h1>
-        <kohesio-ecl-button type="button" (click)="saveUser()" i18n="@@page.user.button.addUser">Add User</kohesio-ecl-button>
+        <kohesio-ecl-button type="button" (click)="saveUser()">Add User</kohesio-ecl-button>
     </div>
     <div class="users-table" *ngIf="usersList">
         <ng-container *ngFor="let message of messages">
@@ -41,8 +41,8 @@
                         <td data-ecl-table-header="Role" class="ecl-table__cell">{{user.role}}</td>
                         <td data-ecl-table-header="Active" class="ecl-table__cell">{{user.active}}</td>
                         <td data-ecl-table-header="Actions" class="ecl-table__cell">
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)" i18n="@@page.user.button.delete">Edit</kohesio-ecl-button>&nbsp;
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)" i18n="@@page.user.button.delete">Delete</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)">Edit</kohesio-ecl-button>&nbsp;
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)">Delete</kohesio-ecl-button>
                         </td>
                     </tr>
                 </tbody>

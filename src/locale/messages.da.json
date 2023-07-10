@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "EU-projekter",
 		"page.metadata.projects-alt-2": "EU-projekter i",
 		"page.metadata.projects-alt-3": "EU-projekter om",
-		"page.metadata.project-detail.description": "Projekt, der medfinansieres af EU"
+		"page.metadata.project-detail.description": "Projekt, der medfinansieres af EU",
+    "page.projects.label.projectCollection": "projektopsamling"
 	}
 }

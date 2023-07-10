@@ -302,6 +302,7 @@
 		"page.metadata.projects-alt-1": "Проекти на ЕС",
 		"page.metadata.projects-alt-2": "Проекти на ЕС в",
 		"page.metadata.projects-alt-3": "Проекти на ЕС в областта на",
-		"page.metadata.project-detail.description": "Проекти, съфинансирани от ЕС"
-	}
+		"page.metadata.project-detail.description": "Проекти, съфинансирани от ЕС",
+    "page.projects.label.projectCollection": "колекция от проекти"
+  }
 }
