@@ -4,7 +4,8 @@
 
 export const environment = {
   production: true,
-  apiBaseUrl: "http://kohesio-backend-service/api/facet/eu",
+  apiBaseUrl: "http://kohesio-backend-service/wikibase/facet/eu",
+  api:'http://kohesio-frontend-service/api',
   entityURL: 'https://linkedopendata.eu/entity/'
 };
 
