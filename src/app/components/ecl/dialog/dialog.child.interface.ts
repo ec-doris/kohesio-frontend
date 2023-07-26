@@ -1,7 +1,7 @@
 import {Observable} from "rxjs";
 
 export interface DialogChildInterface{
-  getData():any;
+  getData?():any;
 
   data?:any;
 
