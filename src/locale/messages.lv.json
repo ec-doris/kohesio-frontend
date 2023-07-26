@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "ES projekti (vieta)",
 		"page.metadata.projects-alt-3": "ES projekti (joma)",
 		"page.metadata.project-detail.description": "ES līdzfinansēti projekti",
-    "page.projects.label.projectCollection": "projektu kolekcija"
+    "page.projects.label.projectCollection": "projektu kolekcija",
+    "comp.survey-dialog.doNotShowAgain": "Vairs nejautājiet man par šo aptauju.",
+    "comp.survey-dialog.privacyStatement": "paziņojumu par privātumu",
+    "comp.survey-dialog.privacy-pre": "Esmu izlasījis",
+    "comp.survey-dialog.privacy-post": "un tam piekrītu.",
+    "comp.survey-dialog.title": "ES/Eiropas Komisijas anketa",
+    "comp.survey-dialog.button.no": "Nevēlos atbildēt",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Lai jūs vairs nesaņemtu šo ziņu, tiks izveidota sīkdatne)",
+    "comp.survey-dialog.text": "Mēs nepārtraukti cenšamies uzlabot mūsu tīmekļa vietni, tādēļ mums ir svarīgs jūsu viedoklis. Jūsu atbildes palīdzēs mums padarīt \"Kohesio\" tīmekļa vietni vieglāk lietojamu un saprotamāku."
 	}
 }

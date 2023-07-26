@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Έργα της ΕΕ στην περιφέρεια",
 		"page.metadata.projects-alt-3": "Έργα της ΕΕ στον θεματικό τομέα",
 		"page.metadata.project-detail.description": "Έργο που συγχρηματοδοτεί η ΕΕ",
-    "page.projects.label.projectCollection": "συλλογή έργων"
+    "page.projects.label.projectCollection": "συλλογή έργων",
+    "comp.survey-dialog.doNotShowAgain": "Παρακαλώ μην με ξαναρωτήσετε σχετικά με αυτήν την έρευνα.",
+    "comp.survey-dialog.privacyStatement": "δήλωση περί απορρήτου",
+    "comp.survey-dialog.privacy-pre": "Διάβασα και συμφωνώ με τη",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "Έρευνα της Ευρωπαϊκής Επιτροπής/ΕΕ",
+    "comp.survey-dialog.button.no": "Όχι ευχαριστώ",
+    "comp.survey-dialog.button.ok": "Ναι",
+    "comp.survey-dialog.cookieDisclaimer": "(Θα δημιουργηθεί ένα cookie ώστε να μην λάβετε αυτό το μήνυμα ξανά)",
+    "comp.survey-dialog.text": "Επιδιώκουμε να βελτιώνουμε διαρκώς τον δικτυακό τόπο μας. Για αυτό θέλουμε να μάθουμε την άποψή σας. Η συμβολή σας θα μας βοηθήσει να καταστήσουμε τον δικτυακό τόπο Kohesio όσο το δυνατό πιο φιλικό για τον χρήστη και πιο σαφή."
 	}
 }

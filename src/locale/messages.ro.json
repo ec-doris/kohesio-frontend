@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Proiecte UE în",
 		"page.metadata.projects-alt-3": "ProiecteUE despre",
 		"page.metadata.project-detail.description": "Proiecte cofinanțate de UE",
-    "page.projects.label.projectCollection": "colecție de proiecte"
+    "page.projects.label.projectCollection": "colecție de proiecte",
+    "comp.survey-dialog.doNotShowAgain": "Nu mă mai întreba despre acest sondaj.",
+    "comp.survey-dialog.privacyStatement": "declarația de confidențialitate",
+    "comp.survey-dialog.privacy-pre": "Am citit și accept",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "Sondaj realizat de Comisia Europeană/UE",
+    "comp.survey-dialog.button.no": "Nu, mulţumesc",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Va fi creat un cookie pentru a nu mai primi acest mesaj)",
+    "comp.survey-dialog.text": "Căutăm mereu să ne îmbunătățim site-ul. De aceea, dorim să aflăm opinia dvs. Contribuția dvs. ne va ajuta să facem Kohesio cât mai ușor de utilizat și mai clar posibil."
 	}
 }

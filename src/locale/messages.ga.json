@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Tionscadail an Aontais in",
 		"page.metadata.projects-alt-3": "Tionscadail an Aontais maidir le",
 		"page.metadata.project-detail.description": "Tionscadal arna chómhaoiniú ag an Aontas",
-    "page.projects.label.projectCollection": "bailiúchán tionscadal"
+    "page.projects.label.projectCollection": "bailiúchán tionscadal",
+    "comp.survey-dialog.doNotShowAgain": "Ná hiarr orm arís an suirbhé seo a dhéanamh.",
+    "comp.survey-dialog.privacyStatement": "ráiteas príobháideachais",
+    "comp.survey-dialog.privacy-pre": "Léigh mé an",
+    "comp.survey-dialog.privacy-post": "agus glacaim leis.",
+    "comp.survey-dialog.title": "Suirbhé de chuid an Aontais Eorpaigh/an Choimisiúin Eorpaigh",
+    "comp.survey-dialog.button.no": "Níor mhaith liom, go raibh maith agat",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Cruthófar fianán ionas nach bhfaighidh tú an teachtaireacht seo arís)",
+    "comp.survey-dialog.text": "Táimid i gcónaí ag iarraidh feabhas a chur ar ár suíomh gréasáin. Sin an fáth ar mhaith linn do thuairim a fháil. Cabhróidh d’aighneacht linn Kohesio a dhéanamh chomh héasca agus chomh soiléir agus is féidir."
 	}
 }

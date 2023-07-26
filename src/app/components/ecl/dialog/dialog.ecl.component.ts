@@ -56,12 +56,12 @@ export class DialogEclComponent {
     if (this.childComponent){
       if ( typeof this.childComponent.instance['beforeSave'] === 'function' && type=="primary") {
         this.childComponent.instance.beforeSave!().subscribe((beforeSaveResult:boolean)=>{
-          if (beforeSaveResult){
+          if (beforeSaveResult && this.childComponent!.instance.getData){
             result.data = this.childComponent!.instance.getData();
             this.dialogRef.close(result);
           }
         })
-      }else{
+      }else if (this.childComponent!.instance.getData){
         result.data = this.childComponent.instance.getData();
         this.dialogRef.close(result);
       }

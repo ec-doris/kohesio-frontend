@@ -14,20 +14,6 @@
     <script defer src="https://europa.eu/webtools/load.js?globan=1110" type="text/javascript"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    <script type="text/javascript">
-        const now = Date.now || function() {
-            return +new Date
-        };
-        const url = 'https://ec.europa.eu/wel/surveys/wr_survey03/js/main.js?' + Math.floor(now() / 18E5);
-        let callback;
-        const head = document.getElementsByTagName("head")[0];
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-        script.src = url;
-        callback || (callback = function() {});
-        script.addEventListener ? script.addEventListener("load", callback, !1) : script.readyState && (script.onreadystatechange = callback);
-        head.appendChild(script);
-    </script>
 </head>
 <body>
   <app-root></app-root>

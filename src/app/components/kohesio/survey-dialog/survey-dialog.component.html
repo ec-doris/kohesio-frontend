@@ -1,0 +1,35 @@
+<div id="ec-survey-pop-up-container-wrapper" class=" ecsi-container-wrapper ecsi_visible" style="display: block; height: 322px; top: 477px;">
+    <div class="ecsi-header" id="ec-survey-pop-up-header">
+        <div class="ecsi-title" id="ec-survey-pop-up-title" i18n="@@comp.survey-dialog.title">EU/European Commission survey</div>
+        <button class="ecl-button ecl-button--ghost ecl-modal__close" type="button" data-ecl-modal-close (click)="onActionClick('close')">
+            <span class="ecl-button__container"><span class="ecl-u-sr-only" data-ecl-label="true">Close</span>
+                <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
+                    <use style="fill:white;" xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                </svg>
+            </span>
+        </button>
+    </div>
+    <div class="ecsi-body" id="ec-survey-pop-up-body">
+        <div class="ecsi-body-main-text" id="ec-survey-pop-up-body-main-text" i18n="@@comp.survey-dialog.text">We are always looking to improve our website. That's why we want to know you opinion. Your contribution will help us to make Kohesio as user friendly and clear as possible.</div>
+        <div class="ecsi-body-checkbox">
+            <input type="checkbox" class="ecsi-checkbox" id="ec-survey-pop-up-checkbox-accept-terms" [(ngModel)]="hasAcceptedTerms" name="ec-survey-pop-up-checkbox-accept-terms" value="0">
+            <label class="ecsi-body-checkbox-label" id="ec-survey-pop-up-body-checkbox-accept-terms-label" for="ec-survey-pop-up-checkbox-accept-terms">
+                <span id="ec-survey-pop-up-body-privacy-link-pre" i18n="@@comp.survey-dialog.privacy-pre">I have read and agree with the</span>
+                <a class="ecsi-body-privacy-link" i18n="@@comp.survey-dialog.privacyStatement" id="ec-survey-pop-up-body-privacy-link" target="_blank" href="https://ec.europa.eu/eusurvey/home/privacystatement?language=en">Privacy statement</a>
+                <span id="ec-survey-pop-up-body-privacy-link-post" i18n="@@comp.survey-dialog.privacy-post"></span>
+            </label>
+        </div>
+        <div class="ecsi-body-buttons" id="ec-survey-pop-up-body-buttons">
+            <div id="ecsi-body-button-participate-now-wrapper" [ngClass]="!hasAcceptedTerms ? 'disabled' : ''">
+                <a class="ecsi-body-button-participate-after-visit" id="ec-survey-pop-up-body-button-participate-after-visit"
+                   target="_blank" href="https://ec.europa.eu/eusurvey/runner/kohesio-user-survey" (click)="onActionClick('ok')" i18n="@@comp.survey-dialog.button.ok">OK</a>
+            </div>
+            <a class="ecsi-body-button-do-not-participate" id="ec-survey-pop-up-body-button-do-not-participate" (click)="onActionClick('close')" i18n="@@comp.survey-dialog.button.no">No, thank you</a>
+        </div>
+        <div class="ecsi-body-checkbox" id="ec-survey-pop-up-body-checkbox">
+            <input type="checkbox" class="ecsi-checkbox" id="ec-survey-pop-up-checkbox-do-not-show-again" [(ngModel)]="dontAskmeAnymore" name="ec-survey-pop-up-checkbox-do-not-show-again" value="0">
+            <label class="ecsi-body-checkbox-label" id="ec-survey-pop-up-body-checkbox-label" for="ec-survey-pop-up-checkbox-do-not-show-again" i18n="@@comp.survey-dialog.doNotShowAgain">Don’t ask me about this survey again.</label>
+        </div>
+        <div class="ecsi-body-cookie-disclaimer" id="ec-survey-pop-up-body-cookie-disclaimer" i18n="@@comp.survey-dialog.cookieDisclaimer">(A cookie will be created so that you do not receive this message again)</div>
+    </div>
+</div>

@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Projekti EU-a u",
 		"page.metadata.projects-alt-3": "Projekti EU-a u području",
 		"page.metadata.project-detail.description": "Projekt koji sufinancira EU",
-    "page.projects.label.projectCollection": "zbirka projekata"
+    "page.projects.label.projectCollection": "zbirka projekata",
+    "comp.survey-dialog.doNotShowAgain": "Nemojte me pitati o ovom istraživanju ponovno.",
+    "comp.survey-dialog.privacyStatement": "izjavu o zaštiti osobnih podataka",
+    "comp.survey-dialog.privacy-pre": "Pročitao sam i prihvaćam",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "Anketa EU-a / Europske komisije",
+    "comp.survey-dialog.button.no": "Ne, hvala",
+    "comp.survey-dialog.button.ok": "U redu",
+    "comp.survey-dialog.cookieDisclaimer": "(Cookie će se stvoriti, tako da ne opet primiti ovu poruku.)",
+    "comp.survey-dialog.text": "Neprestano nastojimo poboljšati svoju mrežnu stranicu. Zato želimo znati vaše mišljenje. Vaš doprinos pomoći će nam da Kohesio učinimo što pristupačnijim i jasnijim."
 	}
 }
