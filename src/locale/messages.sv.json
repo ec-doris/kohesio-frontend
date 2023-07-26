@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "EU-projekt i",
 		"page.metadata.projects-alt-3": "EU-projekt om",
 		"page.metadata.project-detail.description": "Projekt som samfinansieras av EU",
-    "page.projects.label.projectCollection": "projekt samling"
+    "page.projects.label.projectCollection": "projekt samling",
+    "comp.survey-dialog.doNotShowAgain": "Fråga mig inte om denna undersökning igen.",
+    "comp.survey-dialog.privacyStatement": "reglerna för skydd av personuppgifter",
+    "comp.survey-dialog.privacy-pre": "Jag har läst och godkänner",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": " EU/Europeiska kommissionen-enkät",
+    "comp.survey-dialog.button.no": "Nej tack",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(En cookie kommer skapas så att du inte får det här meddelandet igen)",
+    "comp.survey-dialog.text": "Vi försöker alltid förbättra vår webbplats. Det är därför vi vill höra din åsikt. Ditt bidrag kommer att hjälpa oss att göra Kohesio så användarvänlig och tydlig som möjligt.\n"
 	}
 }

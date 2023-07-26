@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Projekty EU v",
 		"page.metadata.projects-alt-3": "Projekty EU na téma",
 		"page.metadata.project-detail.description": "Projekt spolufinancovaný z EU",
-    "page.projects.label.projectCollection": "projektová sbírka"
+    "page.projects.label.projectCollection": "projektová sbírka",
+    "comp.survey-dialog.doNotShowAgain": "Dotaz k tomuto průzkumu již nezobrazovat.",
+    "comp.survey-dialog.privacyStatement": "prohlášení o ochraně osobních údajů",
+    "comp.survey-dialog.privacy-pre": "Přečetl(a) jsem si",
+    "comp.survey-dialog.privacy-post": "a souhlasím s ním",
+    "comp.survey-dialog.title": "Průzkum EU / Evropské komise",
+    "comp.survey-dialog.button.no": "Ne, děkuji",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Vytvoří se soubor cookie, abyste již tuto zprávu nedostávali)",
+    "comp.survey-dialog.text": "Stále se snažíme naše webové stránky vylepšovat. Proto chceme znát váš názor. Váš příspěvek nám pomůže, aby byly stránky Kohesio uživatelsky co nejpřívětivější a nejpřehlednější."
 	}
 }

@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Eu-projecten in",
 		"page.metadata.projects-alt-3": "Eu-projecten over",
 		"page.metadata.project-detail.description": "Door de EU medegefinancierd project",
-    "page.projects.label.projectCollection": "project collectie"
+    "page.projects.label.projectCollection": "project collectie",
+    "comp.survey-dialog.doNotShowAgain": "Ik wil geen vragen meer over deze enquête.",
+    "comp.survey-dialog.privacyStatement": "Privacyverklaring",
+    "comp.survey-dialog.privacy-pre": "Ik heb de",
+    "comp.survey-dialog.privacy-post": "gelezen en ga ermee akkoord.",
+    "comp.survey-dialog.title": "Enquête van de EU/Europese Commissie",
+    "comp.survey-dialog.button.no": "Nee, dank u",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Er wordt een cookie aangemaakt zodat u dit bericht niet meer te zien krijgt)",
+    "comp.survey-dialog.text": "We zijn altijd op zoek naar manieren om onze website te verbeteren. Daarom willen we graag uw mening weten. Uw bijdrage helpt ons om Kohesio zo gebruiksvriendelijk en duidelijk mogelijk te maken."
 	}
 }

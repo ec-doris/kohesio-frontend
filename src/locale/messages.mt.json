@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Proġetti tal-UE fi",
 		"page.metadata.projects-alt-3": "Proġetti tal-UE dwar",
 		"page.metadata.project-detail.description": "Proġett kofinanzjat mill-UE",
-    "page.projects.label.projectCollection": "ġbir tal-proġett"
+    "page.projects.label.projectCollection": "ġbir tal-proġett",
+    "comp.survey-dialog.doNotShowAgain": "Terġax tistaqsini dwar dan l-istħarriġ.",
+    "comp.survey-dialog.privacyStatement": "mal-istqarrija ta’ privatezza.",
+    "comp.survey-dialog.privacy-pre": "Qrajt u naqbel",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "Stħarriġ tal-Kummissjoni Ewropea/tal-UE",
+    "comp.survey-dialog.button.no": "Le grazzi",
+    "comp.survey-dialog.button.ok": "Iva",
+    "comp.survey-dialog.cookieDisclaimer": "(Sejra tinħoloq cookie sabiex inti ma terġax tirċievi dan il-messaġġ)",
+    "comp.survey-dialog.text": "Dejjem qed infittxu li ntejbu s-sit web tagħna. Huwa għalhekk li rridu nkunu nafu l-opinjoni tiegħek. Il-kontribut tiegħek se jgħinna nagħmlu Kohesio kemm jista’ jkun faċli għall-utent u ċar."
 	}
 }

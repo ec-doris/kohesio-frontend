@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Projekty UE w:",
 		"page.metadata.projects-alt-3": "Projekty UE w dziedzinie",
 		"page.metadata.project-detail.description": "Projekt współfinansowany przez UE",
-    "page.projects.label.projectCollection": "zbiór projektów"
+    "page.projects.label.projectCollection": "zbiór projektów",
+    "comp.survey-dialog.doNotShowAgain": "Terġax tistaqsini dwar dan l-istħarriġ.",
+    "comp.survey-dialog.privacyStatement": "oświadczeniem o ochronie prywatności",
+    "comp.survey-dialog.privacy-pre": "Zapoznałem(-am) się z",
+    "comp.survey-dialog.privacy-post": "i akceptuję je.",
+    "comp.survey-dialog.title": "Ankieta Komisji Europejskiej / badanie UE",
+    "comp.survey-dialog.button.no": "Nie, dziękuję",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Na twardym dysku komputera zostanie utworzony plik cookie, dzięki czemu już więcej nie otrzymasz tego powiadomienia)",
+    "comp.survey-dialog.text": "Jednym z naszych celów jest nieustanne usprawnianie naszego serwisu, dlatego właśnie zależy nam na poznaniu opinii jego użytkowników. Dzięki Państwa odpowiedziom będziemy w stanie zadbać o to, by serwis Kohesio był jeszcze bardziej przejrzysty i przyjazny dla użytkowników."
 	}
 }

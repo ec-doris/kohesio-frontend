@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "Progetti dell'UE in",
 		"page.metadata.projects-alt-3": "Progetti dell'UE su",
 		"page.metadata.project-detail.description": "Progetti cofinanziati dall'UE",
-    "page.projects.label.projectCollection": "raccolta progetti"
+    "page.projects.label.projectCollection": "raccolta progetti",
+    "comp.survey-dialog.doNotShowAgain": "Non chiedermi di nuovo di partecipare a questo sondaggio.",
+    "comp.survey-dialog.privacyStatement": "l’informativa sulla privacy",
+    "comp.survey-dialog.privacy-pre": "Dichiaro di aver letto e di accettare",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "Sondaggio della Commissione europea/UE",
+    "comp.survey-dialog.button.no": "No grazie",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Verrà creato un cookie in modo che non riceverai più questo messaggio)",
+    "comp.survey-dialog.text": "Ci impegniamo a migliorare costantemente il sito web e per questo desideriamo conoscere il tuo parere. Il tuo contributo ci aiuterà a rendere il sito Kohesio il più intuitivo e più chiaro possibile."
 	}
 }
