@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "EU-Projekte in",
 		"page.metadata.projects-alt-3": "EU-Projekte zu",
 		"page.metadata.project-detail.description": "Von der EU kofinanziertes Projekt",
-    "page.projects.label.projectCollection": "Projektsammlung"
+    "page.projects.label.projectCollection": "Projektsammlung",
+    "comp.survey-dialog.doNotShowAgain": "Weisen Sie mich bitte nicht mehr auf diese Umfrage hin.",
+    "comp.survey-dialog.privacyStatement": "Datenschutzerklärung",
+    "comp.survey-dialog.privacy-pre": "Ich habe die",
+    "comp.survey-dialog.privacy-post": "gelesen und erkläre mich damit einverstanden.",
+    "comp.survey-dialog.title": "Umfrage der EU/Europäischen Kommission",
+    "comp.survey-dialog.button.no": "Nein danke",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Ein Cookie wird erstellt, damit Sie diese Nachricht nicht mehr erhalten)",
+    "comp.survey-dialog.text": "Wir streben stets danach, unsere Website zu verbessern. Daher holen wir Ihre Meinung ein. Durch Ihren Beitrag können wir Kohesio so nutzungsfreundlich und verständlich wie möglich gestalten."
 	}
 }

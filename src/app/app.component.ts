@@ -1,12 +1,15 @@
 import {Component, PLATFORM_ID} from '@angular/core';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 import { LOCALE_ID, Inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { isPlatformBrowser } from '@angular/common';
 import {MetaService} from "./services/meta.service";
 import {UserService} from "./services/user.service";
+import {MatDialog} from "@angular/material/dialog";
+import {SurveyDialogComponent} from "./components/kohesio/survey-dialog/survey-dialog.component";
 declare let ECL:any;
 declare let $wt:any;
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -27,7 +30,9 @@ export class AppComponent {
               public location: Location,
               @Inject(PLATFORM_ID) private platformId: Object,
               private metaService:MetaService,
-              private userService:UserService){
+              private userService:UserService,
+              public dialog: MatDialog,
+              private cookieService: CookieService){
     //console.log("LOCALE=",locale);
     //console.log("LOCALE COUNTRY=",this.country);
     this.url = location.path();
@@ -54,6 +59,14 @@ export class AppComponent {
   ngAfterViewInit(): void {
     if (isPlatformBrowser(this.platformId)) {
       ECL.autoInit();
+    }
+    //Survey Component
+    const cookieExists:boolean = this.cookieService.check('kohesio.survey');
+    if (isPlatformBrowser(this.platformId) && !cookieExists) {
+      this.dialog.open(SurveyDialogComponent, {
+        disableClose: true,
+        autoFocus: false
+      });
     }
   }
 

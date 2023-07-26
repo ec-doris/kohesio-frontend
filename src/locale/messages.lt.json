@@ -303,6 +303,15 @@
 		"page.metadata.projects-alt-2": "ES projektų vieta",
 		"page.metadata.projects-alt-3": "ES projektų sritis",
 		"page.metadata.project-detail.description": "ES bendrai finansuojamas projektas",
-    "page.projects.label.projectCollection": "projektų rinkinys"
+    "page.projects.label.projectCollection": "projektų rinkinys",
+    "comp.survey-dialog.doNotShowAgain": "Daugiau nesiūlyti man šios apklausos.",
+    "comp.survey-dialog.privacyStatement": "Pareiškimą apie privatumo apsaugą*",
+    "comp.survey-dialog.privacy-pre": "",
+    "comp.survey-dialog.privacy-post": "perskaičiau ir su juo sutinku",
+    "comp.survey-dialog.title": "ES / Europos Komisijos apklausa",
+    "comp.survey-dialog.button.no": "Ačiū, ne",
+    "comp.survey-dialog.button.ok": "Gerai",
+    "comp.survey-dialog.cookieDisclaimer": "(Kad nebegautumėte šio pranešimo, bus sukurtas slapukas)",
+    "comp.survey-dialog.text": "Visada stengiamės tobulinti savo svetainę. Todėl norime žinoti jūsų nuomonę. Jūsų indėlis padės mums padaryti „Kohesio“ kuo patogesne ir aiškesne."
 	}
 }

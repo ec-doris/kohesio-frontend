@@ -27,6 +27,8 @@ import {UserService} from "./services/user.service";
 import {EMPTY, Observable, Subscriber} from "rxjs";
 import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
 import {User} from "./models/user.model";
+import {MatDialogModule} from "@angular/material/dialog";
+import {SurveyDialogModule} from "./components/kohesio/survey-dialog/survey-dialog.module";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -52,7 +54,9 @@ registerLocaleData(LocaleEnglish);
     CarouselEclModule,
     SiteHeaderEclModule,
     FooterEclModule,
-    ProjectDetailModalModule
+    ProjectDetailModalModule,
+    MatDialogModule,
+    SurveyDialogModule
   ],
   providers: [
     DecimalPipe,

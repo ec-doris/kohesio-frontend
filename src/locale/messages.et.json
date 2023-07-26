@@ -304,6 +304,15 @@
 		"page.metadata.projects-alt-2": "ELi projektid",
 		"page.metadata.projects-alt-3": "ELi projektid",
 		"page.metadata.project-detail.description": "ELi kaasrahastatud projekt",
-    "page.projects.label.projectCollection": "projektikogu"
+    "page.projects.label.projectCollection": "projektikogu",
+    "comp.survey-dialog.doNotShowAgain": "Ärge küsige minult enam selle küsitluse kohta.",
+    "comp.survey-dialog.privacyStatement": "isikuandmete kaitse põhimõtetega.",
+    "comp.survey-dialog.privacy-pre": "Olen tutvunud ja nõustun",
+    "comp.survey-dialog.privacy-post": "",
+    "comp.survey-dialog.title": "ELi / Euroopa Komisjoni küsitlus",
+    "comp.survey-dialog.button.no": "Tänan, ei",
+    "comp.survey-dialog.button.ok": "OK",
+    "comp.survey-dialog.cookieDisclaimer": "(Luuakse küpsis, mis tagab, et te ei saa enam seda teadet)",
+    "comp.survey-dialog.text": "Püüame pidevalt oma veebisaiti täiustada. Seetõttu soovime teie arvamust teada. Teie panus aitab meil muuta Kohesio võimalikult kasutajasõbralikuks ja selgeks."
 	}
 }
