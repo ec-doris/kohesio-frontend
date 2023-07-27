@@ -33,6 +33,7 @@ export class ProjectSearchInDto extends BasicDTO{
   highlighted?:boolean;
   cci?:string;
   timeout?:number;
+  projectTypes?:string;
 
 }
 
