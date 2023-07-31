@@ -19,6 +19,8 @@ export class FaqPageComponent implements AfterViewInit {
     public countries!: [];
     public countrySelected:string = "";
     public isLoading:boolean = false;
+    public infoPopupCCIs:boolean = false;
+    public popupCciList:string = "";
 
     constructor(public translateService: TranslateService,
                 @Inject(DOCUMENT) private _document: Document,
@@ -65,6 +67,11 @@ export class FaqPageComponent implements AfterViewInit {
           this.isLoading = false;
         })
       }
+    }
+
+    openCCIPopup(ccis:any){
+      this.popupCciList = ccis.toString();
+      this.infoPopupCCIs = !this.infoPopupCCIs;
     }
 
 }

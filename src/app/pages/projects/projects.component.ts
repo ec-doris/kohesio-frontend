@@ -65,6 +65,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public mobileQuery: boolean;
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
+  public infoPopup:boolean = false;
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -141,16 +142,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
 
   }
-
-    popperPlacement(): any {
-      if (isPlatformBrowser(this.platformId)) {
-        if (window.innerWidth < 750) {
-          return "bottom"
-        } else {
-          return "auto"
-        }
-      }
-    }
 
     ngOnInit() {
       if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {

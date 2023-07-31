@@ -1,129 +1,3 @@
-<!-- <ux-popover #popoverHelpBeneficiaryType title="TYPE">
-
-</ux-popover>
-
-<eui-page class="projects-list">
-    <eui-page-content>
-        <eui-page-columns>
-            <eui-page-column label="Filter" size="xxxxl" [isCollapsible]="true" [isCollapsed]="(uxAppShellService.breakpoints$ | async).isMobile" >
-                <eui-page-column-body>
-                    <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                        <ux-form-group label="BENEFICIARY NAME" [isVertical]="true">
-                            <input class="form-control" type="text" formControlName="name"/>
-                        </ux-form-group>
-                        <ux-form-group label="COUNTRY" [isVertical]="true">
-                            <ux-form-control formControlName="country"
-                                             [isSelect]="true"
-                                             [selectOptions]="filters.countries"
-                                             (modelChange)="onCountryChange()">
-                            </ux-form-control>
-                        </ux-form-group>
-                        <ux-form-group [label]="this.myForm.value.country ? 'REGION' : 'REGION (select a country)'" [isVertical]="true">
-                            <ux-form-control formControlName="region"
-                                             [isSelect]="true"
-                                             [isDisabled]="!this.myForm.value.country"
-                                             [selectOptions]="filters.regions">
-                            </ux-form-control>
-                        </ux-form-group>
-
-                        <ux-panel label="ADVANCED FILTERS" [isExpandable]="true" [isFlat]="true" [isExpanded]="advancedFilterExpanded">
-                            <ux-form-group label="FUND" [isVertical]="true">
-                                <ux-form-control formControlName="fund"
-                                                 [isSelect]="true"
-                                                 [selectOptions]="this.filters.funds">
-                                </ux-form-control>
-                            </ux-form-group>
-                            <ux-form-group [label]="this.myForm.value.country ? 'PROGRAMME' : 'PROGRAMME (select a country)'" [isVertical]="true">
-                                <ux-form-control formControlName="program"
-                                                 [isSelect]="true"
-                                                 [isDisabled]="!this.myForm.value.country"
-                                                 [selectOptions]="this.filters.programs">
-                                </ux-form-control>
-                            </ux-form-group>
-                            <ux-form-group label="TYPE" [isVertical]="true">
-                                <uxFormGroupLeftTitleContent>
-                                    <i class="eui-icon ux-icon-info-circle ux-u-cursor-help" (click)="popoverHelpBeneficiaryType.toggle($event)"></i>
-                                </uxFormGroupLeftTitleContent>
-                                <ux-form-control formControlName="beneficiaryType"
-                                                 [isSelect]="true"
-                                                 [selectOptions]="this.filters.beneficiaryType">
-                                </ux-form-control>
-                            </ux-form-group>
-                        </ux-panel>
-                        <div class="search-buttons">
-                            <button type="button" euiButton euiBlockButton euiSecondary (click)="resetForm()"><span euiLabel>RESET FILTERS</span></button>&nbsp;
-                            <button type="submit" euiButton euiBlockButton euiPrimary><span euiLabel>SHOW RESULTS</span></button>
-                        </div>
-                    </form>
-                </eui-page-column-body>
-            </eui-page-column>
-            <eui-page-column class="column-without-title column-without-padding-top">
-                <eui-page-column-body>
-                    <div class="tools">
-                        <div class="left-table-tools">
-                            <app-download-button *ngIf="count && count <= 1000" [form]="myForm" type="beneficiaries"></app-download-button>
-                        </div>
-                        <div class="right-table-tools">
-                            <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-                                <ux-form-control formControlName="sort"
-                                                 [isSelect]="true"
-                                                 [selectOptions]="this.filters.sortBeneficiaries"
-                                                 placeholderLabel="No sort"
-                                                 (modelChange)="onSortChange()">
-                                </ux-form-control>
-                            </form>
-                            <mat-paginator [pageSize]="15"
-                                           [length]="count"
-                                           [hidePageSize]="true"
-                                           (page)="onPaginate($event)">
-                            </mat-paginator>
-                        </div>
-                    </div>
-                    <div class="no-results" *ngIf="dataSource && dataSource.data.length === 0 && !isLoading">No results</div>
-                    <ux-block-content [isBlocked]="isLoading">
-                        <mat-table [dataSource]="dataSource">
-                            <ng-container matColumnDef="name">
-                                <mat-header-cell *matHeaderCellDef>BENEFICIARY NAME</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
-                                    </ux-popover>
-                                    <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}" (mouseover)="popover.show($event)" (mouseout)="popover.hide($event)">
-                                    <span>
-                                        <a [routerLink]="['/beneficiaries/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
-                                    </span>
-                                </mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="budget">
-                                <mat-header-cell *matHeaderCellDef>TOTAL BUDGET</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <span class="mobile-header">TOTAL BUDGET&nbsp;:&nbsp;</span> {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
-                                </mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="euBudget">
-                                <mat-header-cell *matHeaderCellDef>EU CONTRIBUTION</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <span class="mobile-header">EU CONTRIBUTION&nbsp;:&nbsp;</span> {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
-                                </mat-cell>
-                            </ng-container>
-                            <ng-container matColumnDef="numberProjects">
-                                <mat-header-cell *matHeaderCellDef>NUMBER OF PROJECTS</mat-header-cell>
-                                <mat-cell *matCellDef="let row">
-                                    <span class="mobile-header">NUMBER OF PROJECTS&nbsp;:&nbsp;</span> {{row.numberProjects}}
-                                </mat-cell>
-                            </ng-container>
-                            <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="dataSource && dataSource.data.length === 0"></mat-header-row>
-                            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-                        </mat-table>
-                    </ux-block-content>
-                </eui-page-column-body>
-            </eui-page-column>
-        </eui-page-columns>
-    </eui-page-content>
-</eui-page> -->
-
-<!-- <h1 class="ecl-page-header-harmonised__title">Beneficiaries</h1> -->
-
-
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
@@ -151,16 +25,23 @@
     </span>
 </button>
 
-<popper-content #tooltip>
-    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.beneficiaries.label.type">TYPE</h5>
-        <svg (click)="tooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
-        </svg>
+<ng-template cdkConnectedOverlay
+             (overlayOutsideClick)="infoPopupLabelType = false;"
+             [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"
+             [cdkConnectedOverlayOpen]="infoPopupLabelType">
+    <div style="background-color: white;color: black;border: 0;max-width: 600px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+    z-index: 999;border-radius: 3px;padding: 10px;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.beneficiaries.label.type">TYPE</h5>
+            <svg (click)="infoPopupLabelType = false;" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true" style="cursor: pointer;">
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+            </svg>
+        </div>
+        <hr>
+        <p class="ecl-u-type-paragraph" i18n="@@page.beneficiaries.labelInfo.type">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
     </div>
-    <hr>
-    <p class="ecl-u-type-paragraph" i18n="@@page.beneficiaries.labelInfo.type">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
-</popper-content>
+</ng-template>
 
 <mat-drawer-container>
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
@@ -200,7 +81,7 @@
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>
                         <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
-                        <div [popper]="tooltip" [popperShowOnStart]="false" [popperHideOnClickOutside]="true" [popperHideOnScroll]="true" class="infoButton" >
+                        <div (click)="infoPopupLabelType = !infoPopupLabelType" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
                             <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                             </svg>
