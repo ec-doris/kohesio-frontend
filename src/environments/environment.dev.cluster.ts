@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiBaseUrl: "http://kohesio-backend-service/wikibase/facet/eu",
   api:'http://kohesio-frontend-service/api',
-  entityURL: 'https://linkedopendata.eu/entity/'
+  entityURL: 'https://linkedopendata.eu/entity/',
+  surveyEnabled: false
 };
 
 /*

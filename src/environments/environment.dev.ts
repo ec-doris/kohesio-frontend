@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   apiBaseUrl: "../wikibase/facet/eu",
   api:'/api',
-  entityURL: 'https://linkedopendata.eu/entity/'
+  entityURL: 'https://linkedopendata.eu/entity/',
+  surveyEnabled: false
 };
 
 /*
