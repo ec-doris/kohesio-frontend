@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   api:'/api',
-  entityURL: 'https://linkedopendata.eu/entity/'
+  entityURL: 'https://linkedopendata.eu/entity/',
+  surveyEnabled: false
 };
 
 /*

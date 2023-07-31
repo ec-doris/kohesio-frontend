@@ -10,6 +10,7 @@ import {SurveyDialogComponent} from "./components/kohesio/survey-dialog/survey-d
 declare let ECL:any;
 declare let $wt:any;
 import {CookieService} from 'ngx-cookie-service';
+import {environment} from "../environments/environment";
 
 @Component({
   selector: 'app-root',
@@ -61,12 +62,14 @@ export class AppComponent {
       ECL.autoInit();
     }
     //Survey Component
-    const cookieExists:boolean = this.cookieService.check('kohesio.survey');
-    if (isPlatformBrowser(this.platformId) && !cookieExists) {
-      this.dialog.open(SurveyDialogComponent, {
-        disableClose: true,
-        autoFocus: false
-      });
+    if (environment.surveyEnabled && isPlatformBrowser(this.platformId)) {
+      const cookieExists: boolean = this.cookieService.check('kohesio.survey');
+      if (!cookieExists) {
+        this.dialog.open(SurveyDialogComponent, {
+          disableClose: true,
+          autoFocus: false
+        });
+      }
     }
   }
 
