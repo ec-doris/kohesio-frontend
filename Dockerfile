@@ -4,6 +4,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
 COPY . .
+
 RUN npm run build-ssr:dev
 WORKDIR /usr/src/app/server
 RUN rm -rf package-lock.json
