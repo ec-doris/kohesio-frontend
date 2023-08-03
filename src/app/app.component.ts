@@ -62,13 +62,16 @@ export class AppComponent {
       ECL.autoInit();
     }
     //Survey Component
-    if (environment.surveyEnabled && isPlatformBrowser(this.platformId)) {
+    if (environment.survey.enabled && isPlatformBrowser(this.platformId)) {
       const cookieExists: boolean = this.cookieService.check('kohesio.survey');
       if (!cookieExists) {
-        this.dialog.open(SurveyDialogComponent, {
-          disableClose: true,
-          autoFocus: false
-        });
+        setTimeout(() => {
+          this.dialog.open(SurveyDialogComponent, {
+            disableClose: true,
+            autoFocus: false
+          });
+        }, environment.survey.popupDelaySeconds * 1000);
+
       }
     }
   }

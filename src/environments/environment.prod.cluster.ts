@@ -7,7 +7,10 @@ export const environment = {
   apiBaseUrl: "http://kohesio-backend-service/wikibase/facet/eu",
   api:'http://kohesio-frontend-service/api',
   entityURL: 'https://linkedopendata.eu/entity/',
-  surveyEnabled: false
+  survey:{
+    enabled: false,
+    popupDelaySeconds: 15
+  }
 };
 
 /*

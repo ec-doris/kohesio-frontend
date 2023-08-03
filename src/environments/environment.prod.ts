@@ -3,5 +3,8 @@ export const environment = {
   apiBaseUrl: "../api/facet/eu",
   api:'/api',
   entityURL: 'https://linkedopendata.eu/entity/',
-  surveyEnabled: false
+  survey:{
+    enabled: true,
+    popupDelaySeconds: 15
+  }
 };
