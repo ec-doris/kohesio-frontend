@@ -1,57 +1,40 @@
-<a class="ecl-button ecl-button--ghost ecl-site-header-harmonised__language-selector"
-   href="#language" data-ecl-language-selector aria-label="Change language"
-   aria-controls="language-list-overlay"><span class="ecl-site-header-harmonised__language-icon">
-            <svg class="ecl-icon ecl-icon--s ecl-site-header-harmonised__icon" focusable="false" aria-hidden="true">
-              <use xlink:href="assets/images/ecl/icons.a892a63d.svg#language"></use>
+<div class="ecl-site-header__language">
+    <a class="ecl-button ecl-button--ghost ecl-site-header__language-selector" href="/component-library/example"
+        data-ecl-language-selector="" role="button" aria-label="Change language, current language is English"
+        aria-controls="language-list-overlay">
+        <span class="ecl-site-header__language-icon">
+            <svg class="ecl-icon ecl-icon--s ecl-site-header__icon" focusable="false" aria-hidden="true">
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#global"></use>
             </svg>
-            <span class="ecl-site-header-harmonised__language-code">{{locale}}</span></span>{{localeLabel}}
-</a>
-
-<div class="ecl-language-list ecl-language-list--overlay" data-ecl-language-list-overlay aria-labelledby="ecl-language-list__title" role="dialog" hidden id="language-list-overlay">
-    <div class="ecl-language-list__container ecl-container">
-        <div class="ecl-language-list--overlay__header">
-            <div class="ecl-language-list__close ecl-col-12 ecl-col-l-8 ecl-col-m-11 ecl-offset-l-2"><button class="ecl-button ecl-button--ghost ecl-language-list__close-button" type="submit" data-ecl-language-list-close><span class="ecl-button__container"><span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.language-selector.close">Close</span><svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
-                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
-              </svg></span></button></div>
-            <div class="ecl-language-list__title ecl-col-12 ecl-col-l-8 ecl-offset-l-2 ecl-col-m-11 ecl-offset-m-1" id="ecl-language-list__title"><svg class="ecl-icon ecl-icon--m ecl-language-list__title-icon" focusable="false" aria-hidden="true">
-                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#generic-lang"></use>
-            </svg><ng-container i18n="@@comp.language-selector.selectYourLanguage">Select your language</ng-container></div>
+        </span>
+        {{localeLabel}}
+    </a>
+    <div class="ecl-site-header__language-container" id="language-list-overlay" hidden=""
+         data-ecl-language-list-overlay="" aria-labelledby="ecl-site-header__language-title" role="dialog">
+        <div class="ecl-site-header__language-header">
+            <div class="ecl-site-header__language-title" id="ecl-site-header__language-title" i18n="@@comp.language-selector.selectYourLanguage">Select your language</div>
+            <button class="ecl-button ecl-button--ghost ecl-site-header__language-close" type="submit"
+                          data-ecl-language-list-close=""><span class="ecl-button__container">
+                <span class="ecl-u-sr-only" data-ecl-label="true">Close</span>
+                    <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                    </svg>
+                </span>
+            </button>
         </div>
-        <div class="ecl-row ecl-language-list__eu">
-            <div class="ecl-language-list__column ecl-col-12 ecl-col-l-4 ecl-offset-l-2 ecl-col-m-5 ecl-offset-m-1">
-                <ul class="ecl-language-list__list">
-                    <ng-container *ngFor="let lang of languages | slice:0:12">
-                        <li [ngClass]="lang.code == locale ? 'ecl-language-list__item ecl-language-list__item--is-active' : 'ecl-language-list__item'">
-                            <ng-container *ngIf="lang.code != locale">
-                                <a href="javascript:void(0)" (click)="changeLanguage(lang.code)" class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code" [hreflang]="lang.code" rel="alternate">{{lang.label}}</a>
-                            </ng-container>
-                            <ng-container *ngIf="lang.code == locale">
-                                <a href="javascript:void(0)" (click)="changeLanguage(lang.code)" class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code" [hreflang]="lang.code" rel="alternate">
-                                    <span class="ecl-link__label">{{lang.label}}</span>
-                                    <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
-                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#check"></use>
-                                    </svg>
-                                </a>
-                            </ng-container>
-                        </li>
-                    </ng-container>
-                </ul>
-            </div>
-            <div class="ecl-language-list__column ecl-col-12 ecl-col-l-4 ecl-col-m-5">
-                <ul class="ecl-language-list__list">
-                    <ng-container *ngFor="let lang of languages | slice:12:24">
-                        <li [ngClass]="lang.code == locale ? 'ecl-language-list__item ecl-language-list__item--is-active' : 'ecl-language-list__item'">
-                            <ng-container *ngIf="lang.code != locale">
-                                <a href="javascript:void(0)" (click)="changeLanguage(lang.code)" class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code" [hreflang]="lang.code" rel="alternate">{{lang.label}}</a>
-                            </ng-container>
-                            <ng-container *ngIf="lang.code == locale">
-                                <a href="javascript:void(0)" (click)="changeLanguage(lang.code)" class="ecl-link ecl-link--standalone ecl-language-list__link" [lang]="lang.code" [hreflang]="lang.code" rel="alternate">
-                                    <span class="ecl-link__label">{{lang.label}}</span>
-                                    <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
-                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#check"></use>
-                                    </svg>
-                                </a>
-                            </ng-container>
+        <div class="ecl-site-header__language-content">
+            <div class="ecl-site-header__language-category" data-ecl-language-list-eu="">
+<!--                <div class="ecl-site-header__language-category-title">Official EU languages:</div>-->
+                <ul class="ecl-site-header__language-list">
+                    <ng-container *ngFor="let lang of languages">
+                        <li class="ecl-site-header__language-item">
+                            <a href="javascript:void(0)" (click)="changeLanguage(lang.code)"
+                               [ngClass]="lang.code == locale ? 'ecl-link ecl-link--standalone ecl-site-header__language-link ecl-site-header__language-link--active' :
+                                                                'ecl-link ecl-link--standalone ecl-site-header__language-link'"
+                               [lang]="lang.code" [hreflang]="lang.code">
+                                <span class="ecl-site-header__language-link-code">{{lang.code}}</span>
+                                <span class="ecl-site-header__language-link-label">{{lang.label}}</span>
+                            </a>
                         </li>
                     </ng-container>
                 </ul>
