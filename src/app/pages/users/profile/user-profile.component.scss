@@ -1,0 +1,15 @@
+.page-header{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  .actions{
+    kohesio-ecl-button{
+      margin-left:5px;
+    }
+  }
+}
+.label-only{
+  display:block;
+  margin-top: 0;
+  margin: calc(0.75rem - 1px);
+}

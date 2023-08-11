@@ -14,6 +14,11 @@ import {KohesioEclFormSelectModule} from "../../components/ecl/forms/select/form
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 import {UserSaveDialogComponent} from "./save-dialog/user-save-dialog.component";
 import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/form-checkbox.ecl.module";
+import {UserProfileComponent} from "./profile/user-profile.component";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
 
 @NgModule({
   imports: [
@@ -30,15 +35,21 @@ import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/
     KohesioEclFormCheckboxModule,
     KohesioEclMessageModule,
     UsersRoutingModule,
-    MatDialogModule
+    MatDialogModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule
   ],
   declarations: [
     UserDashboardComponent,
-    UserSaveDialogComponent
+    UserSaveDialogComponent,
+    UserProfileComponent
   ],
   exports: [
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })
 export class UsersModule {}

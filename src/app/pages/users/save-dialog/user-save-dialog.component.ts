@@ -53,7 +53,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       'active': this.data ? this.data.active : true,
       'country': '',
       'cci': '',
-      'ccis': new FormControl(this.data && this.data.allowed_cci_qids ? [...this.data.allowed_cci_qids] : new Array())
+      'ccis': new FormControl(this.data && this.data.allowed_cci_qids ? [...this.data.allowed_cci_qids] : new Array()),
+      'expiration': this.data ? this.data.expiration_time : undefined,
     })
 
     if (this.data && this.data.allowed_cci_qids){
@@ -91,14 +92,16 @@ export class UserSaveDialogComponent implements DialogChildInterface{
           this.userService.editUser(this.data.user_id,
             this.myForm.value.role,
             this.myForm.value.active,
-            this.myForm.value.ccis).subscribe(user => {
+            this.myForm.value.ccis,
+            this.myForm.value.expiration).subscribe(user => {
             observer.next(true);
           })
         } else {
           this.userService.addUser(this.myForm.value.userid,
             this.myForm.value.role,
             this.myForm.value.active,
-            this.myForm.value.ccis).pipe(
+            this.myForm.value.ccis,
+            this.myForm.value.expiration).pipe(
             catchError(err => {
               this.errorMessage = err.error;
               observer.next(false);

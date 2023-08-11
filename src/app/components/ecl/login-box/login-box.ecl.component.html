@@ -40,6 +40,9 @@
                     <div class="login-box-menu-item userinfo">
                         Logged in as {{userService.user ? userService.user.user_id : '' }}
                     </div>
+                    <div class="login-box-menu-item">
+                        <button (click)="onMenuClick('/users/profile')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">My profile</button>
+                    </div>
                     <div class="login-box-menu-item" *ngIf="userService.isAdmin()">
                         <button (click)="onMenuClick('/users')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Users</button>
                     </div>

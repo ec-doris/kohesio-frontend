@@ -81,11 +81,28 @@ export class UserController extends BaseController{
   })
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Put('/updateProfile')
+  async updateProfile(@Req() req,@Body() userDTO: UserInDto): Promise<UserDTO | void>{
+    userDTO.userid = req.user.user_id;
+    const newUser = await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
+    req.session.passport.user = newUser;
+    return newUser;
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiOkResponse({
+    type:UserDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   @Put('/:id')
   async editUser(@Req() req,@Body() userDTO: UserInDto, @Param('id') id: string): Promise<UserDTO | void>{
     userDTO.userid = id;
     return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
+
+
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)

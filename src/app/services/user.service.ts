@@ -13,7 +13,7 @@ export class UserService {
 
     private readonly url:string = '/users';
 
-    public user?:User;
+    public user:User = new User();
 
     constructor(private http: HttpClient,
                 @Inject(PLATFORM_ID) private platformId: Object) {
@@ -33,7 +33,6 @@ export class UserService {
            }),
           catchError(err => {
             console.error("ERR",err);
-            this.user = undefined;
             return EMPTY;
           })
       )
@@ -51,8 +50,9 @@ export class UserService {
       )
     }
 
-    addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[]): Observable<User> {
-      return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids}).pipe(
+    addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
+      const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
+      return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
         map((data:Object) => {
           return plainToInstance(User, data);
         }),
@@ -63,8 +63,31 @@ export class UserService {
       )
     }
 
-    editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[]): Observable<User> {
-      return this.http.put(`${this.url}/${userid}`,{userid:userid, role:role, active:active, allowed_cci_qids: allowed_cci_qids}).pipe(
+    editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
+      const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
+      return this.http.put(`${this.url}/${userid}`,{
+        userid:userid,
+        role:role,
+        active:active,
+        allowed_cci_qids: allowed_cci_qids,
+        expiration_time: adjustedExpirationTime}).pipe(
+        map((data:Object) => {
+          return plainToInstance(User, data);
+        }),
+        catchError(err => {
+          console.error("ERR",err);
+          return EMPTY;
+        })
+      )
+    }
+
+    updateProfile(userid:string, name:string, email:string, organization:string): Observable<User> {
+      return this.http.put(`${this.url}/updateProfile`,{
+        userid:userid,
+        name:name,
+        email:email,
+        organization: organization
+      }).pipe(
         map((data:Object) => {
           return plainToInstance(User, data);
         }),
