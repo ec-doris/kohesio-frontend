@@ -4,7 +4,7 @@ export const environment = {
   api:'/api',
   entityURL: 'https://linkedopendata.eu/entity/',
   survey:{
-    enabled: true,
+    enabled: false,
     popupDelaySeconds: 15
   }
 };
