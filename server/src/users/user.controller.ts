@@ -116,4 +116,21 @@ export class UserController extends BaseController{
     return await this.userService.deleteUser(req.user.user_id,id).catch(this.errorHandler);
   }
 
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiOkResponse({
+    type:UserDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Get('/impersonateUser/:id')
+  async impersonateUser(@Req() req,@Param("id") impersonateUserId:string): Promise<void>{
+    const impersonateUser = await this.userService.getUser(impersonateUserId).catch(this.errorHandler);
+    const impersonateUserSession:any = {...impersonateUser};
+    impersonateUserSession.originalUser = req.session.passport.user
+    impersonateUserSession.impersonateUser = true;
+    req.session.passport.user = impersonateUserSession;
+    return impersonateUserSession;
+  }
+
 }

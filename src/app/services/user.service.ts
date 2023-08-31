@@ -110,6 +110,18 @@ export class UserService {
       )
     }
 
+    impersonateUser(impersonateUserId:string): Observable<User> {
+      return this.http.get<any>(this.url+'/impersonateUser/'+impersonateUserId).pipe(
+        map((data:Object) => {
+          return plainToInstance(User, data);
+        }),
+        catchError(err => {
+          console.error("ERR",err);
+          return EMPTY;
+        })
+      )
+    }
+
     refreshUser(){
       setTimeout(()=>{
         this.getCurrentUser().subscribe((user)=>{

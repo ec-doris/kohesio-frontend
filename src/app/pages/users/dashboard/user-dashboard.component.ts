@@ -4,6 +4,7 @@ import {User} from "../../../models/user.model";
 import {MatDialog} from "@angular/material/dialog";
 import {UserSaveDialogComponent} from "../save-dialog/user-save-dialog.component";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
+import {Router} from "@angular/router";
 
 @Component({
     templateUrl: './user-dashboard.component.html',
@@ -16,7 +17,8 @@ export class UserDashboardComponent implements AfterViewInit {
     messages:any[] = [];
 
     constructor(private userService: UserService,
-                public dialog: MatDialog){
+                public dialog: MatDialog,
+                private router: Router){
     }
 
     ngOnInit(){
@@ -44,6 +46,10 @@ export class UserDashboardComponent implements AfterViewInit {
           this.addMessage("success","The user was updated with success");
         }
       });
+    }
+
+    inviteUser(){
+
     }
 
     deleteUser(user: User){
@@ -80,6 +86,13 @@ export class UserDashboardComponent implements AfterViewInit {
         message:message
       })
     }
+
+  impersonateUser(user: User){
+    this.userService.impersonateUser(user.user_id).subscribe((user:User)=>{
+      console.log("impersonateUser");
+      this.router.navigate(["/"]);
+    })
+  }
 
 
 }

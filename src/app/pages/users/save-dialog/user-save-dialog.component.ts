@@ -54,7 +54,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       'country': '',
       'cci': '',
       'ccis': new FormControl(this.data && this.data.allowed_cci_qids ? [...this.data.allowed_cci_qids] : new Array()),
-      'expiration': this.data ? new Date(this.data.expiration_time) : undefined,
+      'expiration': this.data && this.data.expiration_time ? new Date(this.data.expiration_time) : undefined,
     })
 
     if (this.data && this.data.allowed_cci_qids){

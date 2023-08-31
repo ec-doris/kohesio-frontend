@@ -15,7 +15,10 @@
 <div class="ecl-container">
     <div class="page-header">
         <h1>Users</h1>
-        <kohesio-ecl-button type="button" (click)="saveUser()">Add User</kohesio-ecl-button>
+        <div class="action-buttons">
+            <kohesio-ecl-button type="button" (click)="saveUser()">Add User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="inviteUser()">Invite User</kohesio-ecl-button>
+        </div>
     </div>
     <div class="users-table" *ngIf="usersList">
         <ng-container *ngFor="let message of messages">
@@ -42,7 +45,8 @@
                         <td data-ecl-table-header="Active" class="ecl-table__cell">{{user.active}}</td>
                         <td data-ecl-table-header="Actions" class="ecl-table__cell">
                             <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)">Edit</kohesio-ecl-button>&nbsp;
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)">Delete</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)">Delete</kohesio-ecl-button>&nbsp;
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="impersonateUser(user)" *ngIf="user.role!='ADMIN'">Impersonate</kohesio-ecl-button>
                         </td>
                     </tr>
                 </tbody>
