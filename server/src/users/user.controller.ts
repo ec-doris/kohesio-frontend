@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards
-} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {UserDTO} from "./dtos/user.dto";
 import {plainToInstance} from "class-transformer";
@@ -16,11 +6,13 @@ import {Role, UserInDto} from "./dtos/user.in.dto";
 import {Roles} from "../auth/roles.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {
-  ApiBadRequestResponse, ApiCreatedResponse,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiServiceUnavailableResponse,
-  ApiTags, refs
+  ApiTags,
+  refs
 } from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
 
@@ -49,7 +41,7 @@ export class UserController extends BaseController{
     }
   }
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.REVIEWER)
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   @ApiOkResponse({

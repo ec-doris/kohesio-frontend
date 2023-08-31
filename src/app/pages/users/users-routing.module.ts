@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {UserDashboardComponent} from "./dashboard/user-dashboard.component";
-import {AuthGuard} from "./auth.guard";
 import {UserProfileComponent} from "./profile/user-profile.component";
 import {LoggedinGuard} from "../../guards/loggedin.guard";
+import {AdminGuard} from "./guards/admin.guard";
+import {ReviewerGuard} from "./guards/reviewer.guard";
 
 const routes: Routes = [
   {
     path: '',
     component: UserDashboardComponent,
-    canActivate: [AuthGuard]
+    canActivate: [ReviewerGuard]
   },{
     path: 'profile',
     component: UserProfileComponent,
