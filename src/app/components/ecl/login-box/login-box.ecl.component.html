@@ -39,11 +39,12 @@
                 <div class="login-box-menu-container" cdkMenu>
                     <div class="login-box-menu-item userinfo">
                         Logged in as {{userService.user ? userService.user.user_id : '' }}
+                        <div *ngIf="userService.user.impersonateUser" class="impersonatedUser-label">(IMPERSONATED)</div>
                     </div>
                     <div class="login-box-menu-item">
                         <button (click)="onMenuClick('/users/profile')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">My profile</button>
                     </div>
-                    <div class="login-box-menu-item" *ngIf="userService.isAdmin()">
+                    <div class="login-box-menu-item" *ngIf="userService.isAdmin() || userService.isReviewer()">
                         <button (click)="onMenuClick('/users')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Users</button>
                     </div>
                     <div class="login-box-menu-item">
@@ -51,7 +52,10 @@
                     </div>
                     <div class="login-box-menu-item">
                         <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
-                           class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">Logout</a>
+                           class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">
+                            Logout
+                            <ng-container *ngIf="userService.user.impersonateUser"> as {{userService.user.user_id}}</ng-container>
+                        </a>
                     </div>
                 </div>
             </ng-template>

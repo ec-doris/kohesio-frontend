@@ -7,4 +7,5 @@ export class User {
   allowed_cci_qids?:string[];
   email?:string;
   expiration_time?:Date;
+  impersonateUser?:boolean=false;
 }

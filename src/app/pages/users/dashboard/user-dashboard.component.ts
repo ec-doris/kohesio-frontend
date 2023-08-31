@@ -90,7 +90,10 @@ export class UserDashboardComponent implements AfterViewInit {
   impersonateUser(user: User){
     this.userService.impersonateUser(user.user_id).subscribe((user:User)=>{
       console.log("impersonateUser");
-      this.router.navigate(["/"]);
+      this.router.navigate(['/'])
+        .then(() => {
+          window.location.reload();
+        });
     })
   }
 
