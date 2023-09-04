@@ -19,6 +19,7 @@ import {MatDatepickerModule} from "@angular/material/datepicker";
 import {MatFormFieldModule} from "@angular/material/form-field";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
+import {UserInviteDialogComponent} from "./invite-dialog/user-invite-dialog.component";
 
 @NgModule({
   imports: [
@@ -44,6 +45,7 @@ import {MatInputModule} from "@angular/material/input";
   declarations: [
     UserDashboardComponent,
     UserSaveDialogComponent,
+    UserInviteDialogComponent,
     UserProfileComponent
   ],
   exports: [

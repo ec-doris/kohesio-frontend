@@ -3,18 +3,23 @@ import {
   Get,
   Request,
   Res, Req, Session,
-  UseGuards, Query,
+  UseGuards, Query, Param, HttpStatus, HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginGuard } from './login.guard';
 import {ConfigService} from "@nestjs/config";
 import {AuthService} from "./auth.service";
-import {UserInDto} from "../users/dtos/user.in.dto";
+import {UserService} from "../users/user.service";
+import {BaseController} from "../base.controller";
 
 @Controller()
-export class AuthController {
+export class AuthController extends BaseController{
 
-  constructor(private configService:ConfigService<environmentVARS>, private authService: AuthService){}
+  constructor(private configService:ConfigService<environmentVARS>,
+              private authService: AuthService,
+              private userService: UserService){
+    super();
+  }
 
 
 /*  @Get('/')
@@ -87,5 +92,22 @@ export class AuthController {
         })
       });
     }
+  }
+
+  @UseGuards(LoginGuard)
+  @Get('/invitation/:token')
+  async invitation(@Req() req, @Res() res: Response, @Param("token")token:string) {
+    console.log("USER_ID",req.user.user_id);
+    console.log("EMAIL",req.user.email);
+    console.log("TOKEN",token);
+    await this.userService.acceptInvitation(req.user.user_id, req.user.email, token).catch(error=>{
+      if (error.status == HttpStatus.NOT_FOUND){
+        throw new HttpException({
+          status: HttpStatus.NOT_FOUND,
+          error: "The invitation was not found",
+        }, HttpStatus.NOT_FOUND);
+      }
+    });
+    res.redirect('/');
   }
 }

@@ -11,125 +11,139 @@ import {environment} from "../../environments/environment";
 })
 export class UserService {
 
-    private readonly url:string = '/users';
+  private readonly url:string = '/users';
 
-    public user:User = new User();
+  public user:User = new User();
 
-    constructor(private http: HttpClient,
-                @Inject(PLATFORM_ID) private platformId: Object) {
-      this.url = environment.api + this.url;
-    }
+  constructor(private http: HttpClient,
+              @Inject(PLATFORM_ID) private platformId: Object) {
+    this.url = environment.api + this.url;
+  }
 
-    getCurrentUser(): Observable<User> {
-        return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`).pipe(
-           map((data:Object) => {
-              //console.log("GET USER DETAILS, DATA",data);
-              if (Object.keys(data).length) {
-                this.user = plainToInstance(User, data);
-              }else{
-                this.user = new User();
-              }
-             return this.user;
-           }),
-          catchError(err => {
-            console.error("ERR",err);
-            return EMPTY;
-          })
-      )
-    }
-
-    getUsers(): Observable<User[]> {
-      return this.http.get<any>(this.url).pipe(
-        map((data:Object[]) => {
-          return plainToInstance(User, data);
-        }),
+  getCurrentUser(): Observable<User> {
+      return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`).pipe(
+         map((data:Object) => {
+            //console.log("GET USER DETAILS, DATA",data);
+            if (Object.keys(data).length) {
+              this.user = plainToInstance(User, data);
+            }else{
+              this.user = new User();
+            }
+           return this.user;
+         }),
         catchError(err => {
           console.error("ERR",err);
           return EMPTY;
         })
-      )
-    }
+    )
+  }
 
-    addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
-      const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
-      return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
-        map((data:Object) => {
-          return plainToInstance(User, data);
-        }),
-        catchError(err => {
-          //console.error("ERR",err);
-          return throwError(err.error);
-        })
-      )
-    }
+  getUsers(): Observable<User[]> {
+    return this.http.get<any>(this.url).pipe(
+      map((data:Object[]) => {
+        return plainToInstance(User, data);
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
 
-    editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
-      const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
-      return this.http.put(`${this.url}/${userid}`,{
-        userid:userid,
-        role:role,
-        active:active,
-        allowed_cci_qids: allowed_cci_qids,
-        expiration_time: adjustedExpirationTime}).pipe(
-        map((data:Object) => {
-          return plainToInstance(User, data);
-        }),
-        catchError(err => {
-          console.error("ERR",err);
-          return EMPTY;
-        })
-      )
-    }
+  addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
+    const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
+    return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
+      map((data:Object) => {
+        return plainToInstance(User, data);
+      }),
+      catchError(err => {
+        //console.error("ERR",err);
+        return throwError(err.error);
+      })
+    )
+  }
 
-    updateProfile(userid:string, name:string, email:string, organization:string): Observable<User> {
-      return this.http.put(`${this.url}/updateProfile`,{
-        userid:userid,
-        name:name,
-        email:email,
-        organization: organization
-      }).pipe(
-        map((data:Object) => {
-          return plainToInstance(User, data);
-        }),
-        catchError(err => {
-          console.error("ERR",err);
-          return EMPTY;
-        })
-      )
-    }
+  editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
+    const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
+    return this.http.put(`${this.url}/${userid}`,{
+      userid:userid,
+      role:role,
+      active:active,
+      allowed_cci_qids: allowed_cci_qids,
+      expiration_time: adjustedExpirationTime}).pipe(
+      map((data:Object) => {
+        return plainToInstance(User, data);
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
 
-    deleteUser(userid:string): Observable<any> {
-      return this.http.delete(`${this.url}/${userid}`).pipe(
-        map((data:Object) => {
-          return data;
-        }),
-        catchError(err => {
-          console.error("ERR",err);
-          return EMPTY;
-        })
-      )
-    }
+  updateProfile(userid:string, name:string, email:string, organization:string): Observable<User> {
+    return this.http.put(`${this.url}/updateProfile`,{
+      userid:userid,
+      name:name,
+      email:email,
+      organization: organization
+    }).pipe(
+      map((data:Object) => {
+        return plainToInstance(User, data);
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
 
-    impersonateUser(impersonateUserId:string): Observable<User> {
-      return this.http.get<any>(this.url+'/impersonateUser/'+impersonateUserId).pipe(
-        map((data:Object) => {
-          return plainToInstance(User, data);
-        }),
-        catchError(err => {
-          console.error("ERR",err);
-          return EMPTY;
-        })
-      )
-    }
+  deleteUser(userid:string): Observable<any> {
+    return this.http.delete(`${this.url}/${userid}`).pipe(
+      map((data:Object) => {
+        return data;
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
 
-    refreshUser(){
-      setTimeout(()=>{
-        this.getCurrentUser().subscribe((user)=>{
-          this.user = user;
-        });
-        this.refreshUser();
-      },5000)
-    }
+  impersonateUser(impersonateUserId:string): Observable<User> {
+    return this.http.get<any>(this.url+'/impersonateUser/'+impersonateUserId).pipe(
+      map((data:Object) => {
+        return plainToInstance(User, data);
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
+
+  inviteUser(email:string):Observable<any>{
+    return this.http.put(`${this.url}/inviteUser`,{
+      email:email
+    }).pipe(
+      map((data:any) => {
+        return true;
+      }),
+      catchError(err => {
+        console.error("ERR",err);
+        return EMPTY;
+      })
+    )
+  }
+
+  refreshUser(){
+    setTimeout(()=>{
+      this.getCurrentUser().subscribe((user)=>{
+        this.user = user;
+      });
+      this.refreshUser();
+    },5000)
+  }
 
   isAdmin():boolean{
       return this.user && this.user.role == 'ADMIN' ? true : false;

@@ -15,6 +15,7 @@ import {
   refs
 } from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
+import {InvitationInDTO, InvitationOutDTO} from "./dtos/invitation.dto";
 
 @Controller('/users')
 @ApiTags('Users')
@@ -82,6 +83,18 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN,Role.REVIEWER)
+  @ApiOkResponse({
+    type:InvitationOutDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Put('/inviteUser')
+  async inviteUser(@Req() req,@Body() invitation: InvitationInDTO): Promise<InvitationOutDTO | void>{
+    return await this.userService.inviteUser(req.user.user_id,invitation).catch(this.errorHandler);
+  }
+
+  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @ApiOkResponse({
     type:UserDTO
@@ -94,19 +107,6 @@ export class UserController extends BaseController{
     return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 
-
-
-  @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
-  @ApiOkResponse({
-    type:Boolean
-  })
-  @ApiForbiddenResponse({description: "You don't have access to this operation"})
-  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
-  @Delete('/:id')
-  async deleteUser(@Req() req,@Param('id') id: string):Promise<boolean | void>{
-    return await this.userService.deleteUser(req.user.user_id,id).catch(this.errorHandler);
-  }
 
   @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
@@ -123,6 +123,18 @@ export class UserController extends BaseController{
     impersonateUserSession.impersonateUser = true;
     req.session.passport.user = impersonateUserSession;
     return impersonateUserSession;
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiOkResponse({
+    type:Boolean
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Delete('/:id')
+  async deleteUser(@Req() req,@Param('id') id: string):Promise<boolean | void>{
+    return await this.userService.deleteUser(req.user.user_id,id).catch(this.errorHandler);
   }
 
 }

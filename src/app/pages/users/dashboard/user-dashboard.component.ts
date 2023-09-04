@@ -5,6 +5,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {UserSaveDialogComponent} from "../save-dialog/user-save-dialog.component";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {Router} from "@angular/router";
+import {UserInviteDialogComponent} from "../invite-dialog/user-invite-dialog.component";
 
 @Component({
     templateUrl: './user-dashboard.component.html',
@@ -16,7 +17,7 @@ export class UserDashboardComponent implements AfterViewInit {
 
     messages:any[] = [];
 
-    constructor(private userService: UserService,
+    constructor(public userService: UserService,
                 public dialog: MatDialog,
                 private router: Router){
     }
@@ -49,7 +50,22 @@ export class UserDashboardComponent implements AfterViewInit {
     }
 
     inviteUser(){
-
+      const dialogRef = this.dialog.open(DialogEclComponent,{
+        disableClose: false,
+        autoFocus: false,
+        data:{
+          childComponent: UserInviteDialogComponent,
+          title: "Invite user",
+          primaryActionLabel: "Send invitation",
+          secondaryActionLabel: "Cancel"
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if(result && result.action=="primary" && result.data) {
+          this.getListUsers();
+          this.addMessage("success","The user was invited");
+        }
+      });
     }
 
     deleteUser(user: User){
