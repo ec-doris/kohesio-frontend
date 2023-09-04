@@ -134,6 +134,20 @@ export class UserService {
     );
   }
 
+  async loginUser(userid: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.get<boolean>(`${this.baseUrl}/login`,
+        {headers:{"user-id":userid}} as any).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
   private handlingCatchError(err){
     console.error("Error on User service:",err.response.data)
     return throwError(err.response);

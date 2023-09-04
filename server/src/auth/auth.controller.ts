@@ -94,20 +94,9 @@ export class AuthController extends BaseController{
     }
   }
 
-  @UseGuards(LoginGuard)
   @Get('/invitation/:token')
   async invitation(@Req() req, @Res() res: Response, @Param("token")token:string) {
-    console.log("USER_ID",req.user.user_id);
-    console.log("EMAIL",req.user.email);
-    console.log("TOKEN",token);
-    await this.userService.acceptInvitation(req.user.user_id, req.user.email, token).catch(error=>{
-      if (error.status == HttpStatus.NOT_FOUND){
-        throw new HttpException({
-          status: HttpStatus.NOT_FOUND,
-          error: "The invitation was not found",
-        }, HttpStatus.NOT_FOUND);
-      }
-    });
-    res.redirect('/');
+    res.redirect('/api/login?callback=/invitation/'+token);
   }
+
 }
