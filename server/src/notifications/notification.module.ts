@@ -1,20 +1,15 @@
 import { Module } from '@nestjs/common';
-import { UserService } from './user.service';
-import {UserController} from "./user.controller";
 import {ConfigModule} from "@nestjs/config";
 import {HttpModule} from "@nestjs/axios";
 import {PassportModule} from "@nestjs/passport";
-import {NotificationService} from "../notifications/notification.service";
+import {NotificationService} from "./notification.service";
+import {NotificationController} from "./notification.controller";
 
 @Module({
   imports:[ConfigModule.forRoot(),HttpModule,
     PassportModule.register({ session: true, defaultStrategy: 'oidc' })],
-  providers: [UserService, NotificationService],
-  exports: [UserService],
-  controllers: [UserController]
+  providers: [NotificationService],
+  exports: [NotificationService],
+  controllers: [NotificationController]
 })
-
-export class UserModule {
-
-
-}
+export class NotificationModule {}

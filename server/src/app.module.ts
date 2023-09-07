@@ -9,6 +9,7 @@ import {EditModule} from "./edits/edit.module";
 import {BeneficiaryModule} from "./beneficiaries/beneficiary.module";
 import {ProjectModule} from "./projects/project.module";
 import {MapModule} from "./map/map.module";
+import {NotificationModule} from "./notifications/notification.module";
 
 @Module({
   imports: [
@@ -19,7 +20,8 @@ import {MapModule} from "./map/map.module";
     EditModule,
     BeneficiaryModule,
     ProjectModule,
-    MapModule
+    MapModule,
+    NotificationModule
   ],
   controllers: [AppController],
   providers: [AppService],

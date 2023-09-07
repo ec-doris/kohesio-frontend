@@ -16,12 +16,14 @@ import {
 } from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
 import {InvitationInDTO, InvitationOutDTO} from "./dtos/invitation.dto";
+import {NotificationService} from "../notifications/notification.service";
 
 @Controller('/users')
 @ApiTags('Users')
 export class UserController extends BaseController{
 
-  constructor(private userService: UserService){
+  constructor(private userService: UserService,
+              private notificationService: NotificationService){
     super();
   }
 
@@ -36,7 +38,9 @@ export class UserController extends BaseController{
   @Get('/currentUser')
   async user(@Req() req): Promise<UserDTO | Object> {
     if (req.user){
-      return plainToInstance(UserDTO, req.user as Object);
+      const user:UserDTO = plainToInstance(UserDTO, req.user as Object);
+      user.notifications_count = await this.notificationService.getNotificationsCount(req.user.user_id);
+      return user;
     }else{
       return {};
     }

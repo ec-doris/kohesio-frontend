@@ -1,11 +1,11 @@
 <div class="ecl-checkbox">
     <input type="checkbox" name="checkbox-default" class="ecl-checkbox__input"
-           (change)="change($event)"
+           (change)="ngOnChanges($event)"
            [disabled]="isDisabled"
            [(ngModel)]="inputValue"
-           id="kohesio-ecl-form-checkbox"
+           [id]="componentId"
            [checked]="checked" />
-    <label class="ecl-checkbox__label" for="kohesio-ecl-form-checkbox">
+    <label class="ecl-checkbox__label" [for]="componentId">
         <span class="ecl-checkbox__box">
             <svg class="ecl-icon ecl-icon--m ecl-checkbox__icon" focusable="false" aria-hidden="true">
                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#check"></use>

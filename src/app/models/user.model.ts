@@ -8,4 +8,5 @@ export class User {
   email?:string;
   expiration_time?:Date;
   impersonateUser?:boolean=false;
+  notifications_count?:number;
 }
