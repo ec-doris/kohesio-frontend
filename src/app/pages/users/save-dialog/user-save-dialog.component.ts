@@ -48,7 +48,9 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   ngOnInit(): void {
     this.myForm = this.formBuilder.group({
-      'userid': new FormControl(this.data ? this.data.user_id : '',Validators.required),
+      'formType': 'addUser',
+      'userid': new FormControl(this.data ? this.data.user_id : ''),
+      'email': new FormControl(''),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
@@ -83,42 +85,73 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.editMode = true;
       this.myForm.get('userid')?.disable();
     }
+
+    //this.onFormChanges();
+  }
+
+  onFormChanges(): void {
+    this.myForm.valueChanges.subscribe(val => {
+      console.log(val);
+      console.log("FORM_TYPE",this.myForm.value.formType);
+      /*if (this.myForm.value.formType == 'invitation'){
+        this.myForm.controls["email"].setValidators([Validators.required]);
+        this.myForm.controls["userid"].setValidators(null);
+      }else{
+        this.myForm.controls["userid"].setValidators([Validators.required]);
+        this.myForm.controls["email"].setValidators(null);
+      }
+      this.myForm.controls["userid"].updateValueAndValidity();
+      this.myForm.controls["email"].updateValueAndValidity();*/
+    });
   }
 
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
-      if (this.myForm.valid) {
-        if (this.editMode) {
-          this.userService.editUser(this.data.user_id,
-            this.myForm.value.role,
-            this.myForm.value.active,
-            this.myForm.value.ccis,
-            this.myForm.value.expiration).subscribe(user => {
-            observer.next(true);
-          })
-        } else {
-          this.userService.addUser(this.myForm.value.userid,
-            this.myForm.value.role,
-            this.myForm.value.active,
-            this.myForm.value.ccis,
-            this.myForm.value.expiration).pipe(
-            catchError(err => {
-              this.errorMessage = err.error;
-              observer.next(false);
-              return EMPTY;
-            })
-          ).subscribe((user: User) => {
-            observer.next(true);
-          })
-        }
-      }else{
+      if (this.myForm.value.formType == 'addUser' && !this.myForm.value.userid) {
         this.errorMessage = "UserID is mandatory.";
+      }else if(this.myForm.value.formType == 'invitation' && !this.myForm.value.email) {
+        this.errorMessage = "Email is mandatory.";
+      }else {
+        if (this.myForm.value.formType == 'invitation'){
+          this.userService.inviteUser(this.myForm.value.email,
+            this.myForm.value.role,
+            this.myForm.value.ccis).subscribe(result=>{
+            observer.next(true);
+          })
+        }else {
+          if (this.editMode) {
+            this.userService.editUser(this.data.user_id,
+              this.myForm.value.role,
+              this.myForm.value.active,
+              this.myForm.value.ccis,
+              this.myForm.value.expiration).subscribe(user => {
+              observer.next(true);
+            })
+          } else {
+            this.userService.addUser(this.myForm.value.userid,
+              this.myForm.value.role,
+              this.myForm.value.active,
+              this.myForm.value.ccis,
+              this.myForm.value.expiration).pipe(
+              catchError(err => {
+                this.errorMessage = err.error;
+                observer.next(false);
+                return EMPTY;
+              })
+            ).subscribe((user: User) => {
+              observer.next(true);
+            })
+          }
+        }
       }
     })
   }
 
   getData(): any {
-    return {refresh:true}
+    return {
+      ...this.myForm.value,
+      refresh:true
+    }
   }
 
   onCountrySelection(event:any){
@@ -151,6 +184,11 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   onClickCci(cci_qid:string){
     this.myForm.value.ccis.splice(this.myForm.value.ccis.findIndex((a:string) => a === cci_qid) , 1)
     this.ccis_list.splice(this.ccis_list.findIndex((a:any) => a.cci === cci_qid) , 1)
+  }
+
+  changeFormType(type:string){
+    console.log('FORM_TYPE',type);
+    console.log("FORM_FORM_TYPE",this.myForm.value.formType);
   }
 
 }

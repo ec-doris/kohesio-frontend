@@ -17,7 +17,7 @@
         <h1>Users</h1>
         <div class="action-buttons">
             <kohesio-ecl-button type="button" (click)="saveUser()" *ngIf="userService.isAdmin()">Add User</kohesio-ecl-button>
-            <kohesio-ecl-button type="button" (click)="inviteUser()">Invite User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="inviteUser()" *ngIf="!userService.isAdmin()">Invite User</kohesio-ecl-button>
         </div>
     </div>
     <div class="users-table" *ngIf="usersList">

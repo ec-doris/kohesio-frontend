@@ -1,6 +1,6 @@
 <div class="ecl-radio">
     <input type="radio" name="radio-default" class="ecl-radio__input"
-           (change)="ngOnChanges($event)"
+           (change)="onChange(staticValue)"
            [disabled]="isDisabled"
            [(ngModel)]="inputValue"
            [id]="componentId"

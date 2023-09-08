@@ -61,7 +61,6 @@ export class NotificationService {
       this.httpService.put<any>(`${this.baseUrl}/${notificationId}`,{},
         {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
-          console.log(result);
           return result.data;
         }),
         catchError(err => {

@@ -72,7 +72,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.REVIEWER,Role.EDITOR,Role.USER)
   @ApiOkResponse({
     type:UserDTO
   })

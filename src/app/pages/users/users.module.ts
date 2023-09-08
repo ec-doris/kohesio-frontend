@@ -20,28 +20,31 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {UserInviteDialogComponent} from "./invite-dialog/user-invite-dialog.component";
+import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-radio.ecl.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    KohesioEclButtonModule,
-    KohesioEclFormModule,
-    KohesioEclFormGroupModule,
-    KohesioEclFormLabelModule,
-    KohesioEclFormTextInputModule,
-    KohesioEclFormSelectModule,
-    KohesioEclFormCheckboxModule,
-    KohesioEclMessageModule,
-    UsersRoutingModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatInputModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        KohesioEclButtonModule,
+        KohesioEclFormModule,
+        KohesioEclFormGroupModule,
+        KohesioEclFormLabelModule,
+        KohesioEclFormTextInputModule,
+        KohesioEclFormSelectModule,
+        KohesioEclFormCheckboxModule,
+        KohesioEclFormRadioModule,
+        KohesioEclMessageModule,
+        UsersRoutingModule,
+        MatDialogModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatInputModule,
+        KohesioEclFormRadioModule
+    ],
   declarations: [
     UserDashboardComponent,
     UserSaveDialogComponent,

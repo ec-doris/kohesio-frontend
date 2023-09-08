@@ -42,12 +42,5 @@ export class KohesioEclFormRadioComponent implements ControlValueAccessor{
         this.onTouched = onTouched;
     }
 
-    ngOnChanges($event:any){
-      if ($event.target) {
-        this.onChange(this.staticValue);
-        this.change.emit();
-      }
-    }
-
 }
 

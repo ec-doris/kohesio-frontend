@@ -42,7 +42,8 @@
                 <ng-container *ngFor="let edit of editsList">
                     <tr class="ecl-table__row">
                         <td class="ecl-table__cell" data-ecl-table-header="ID">
-                            <a [routerLink]="['/projects/'+edit.qid]" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
+                            <a [routerLink]="['/projects/'+edit.qid]"
+                               [queryParams]="{edit: 'true'}" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
                                 <span class="ecl-link__label">{{edit.qid}}</span>
                                 <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>

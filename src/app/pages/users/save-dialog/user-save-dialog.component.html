@@ -1,15 +1,25 @@
 <div style="min-width:500px;">
     <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     <form [formGroup]="myForm">
-        <kohesio-ecl-form-group>
+        <kohesio-ecl-form-group *ngIf="!editMode">
+            <div class="kohesio-ecl-form-group-formType">
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation"></kohesio-ecl-form-radio>
+            </div>
+        </kohesio-ecl-form-group>
+        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
             <kohesio-ecl-form-label [required]="true">User ID:</kohesio-ecl-form-label>
             <kohesio-ecl-form-text-input formControlName="userid" [isDisabled]="editMode" [focus]="true"></kohesio-ecl-form-text-input>
+        </kohesio-ecl-form-group>
+        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'invitation'">
+            <kohesio-ecl-form-label [required]="true">Email:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-text-input formControlName="email" [focus]="true"></kohesio-ecl-form-text-input>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
             <kohesio-ecl-form-label>Role:</kohesio-ecl-form-label>
             <kohesio-ecl-form-select formControlName="role" [items]="this.roles.reverse()" [hasEmptyValue]="false"></kohesio-ecl-form-select>
         </kohesio-ecl-form-group>
-        <kohesio-ecl-form-group>
+        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
             <kohesio-ecl-form-label>Expiration Date:</kohesio-ecl-form-label>
             <mat-form-field style="margin-top:0px;width:100%;">
                 <input formControlName="expiration" matInput [matDatepicker]="picker">
@@ -17,7 +27,7 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
         </kohesio-ecl-form-group>
-        <kohesio-ecl-form-group>
+        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
             <kohesio-ecl-form-checkbox formControlName="active" label="Active"></kohesio-ecl-form-checkbox>
         </kohesio-ecl-form-group>
         <article class="ecl-card" *ngIf="myForm && (myForm.value['role'] == 'EDITOR' || myForm.value['role'] == 'REVIEWER')">

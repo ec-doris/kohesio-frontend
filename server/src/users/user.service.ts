@@ -102,6 +102,8 @@ export class UserService {
       this.httpService.post<InvitationOutDTO>(`${this.baseUrl}/invitations/send`,
         {
           email:invitation.email,
+          role: invitation.role,
+          cci_scope: invitation.allowed_cci_qids,
           base_url: `${this.configService.get("BASE_URL")}/api/invitation/`
         },
         {headers:{"user-id":currentUser}} as any).pipe(

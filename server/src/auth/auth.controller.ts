@@ -75,7 +75,7 @@ export class AuthController extends BaseController{
     //const id_token = session.passport.user ? session.passport.user.id_token : undefined;
     if (req.session.passport.user.impersonateUser){
       req.session.passport.user = req.session.passport.user.originalUser;
-      res.redirect(callback);
+      res.redirect('/');
     }else {
       req.logout(() => {
         req.session.destroy(async (error: any) => {

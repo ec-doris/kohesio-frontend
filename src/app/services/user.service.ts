@@ -122,9 +122,11 @@ export class UserService {
     )
   }
 
-  inviteUser(email:string):Observable<any>{
+  inviteUser(email:string, role?: string, allowed_cci_qids?:string[]):Observable<any>{
     return this.http.put(`${this.url}/inviteUser`,{
-      email:email
+      email:email,
+      role:role,
+      allowed_cci_qids: allowed_cci_qids
     }).pipe(
       map((data:any) => {
         return true;

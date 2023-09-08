@@ -43,8 +43,12 @@ export class UserDashboardComponent implements AfterViewInit {
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action=="primary" && result.data) {
-          this.getListUsers();
-          this.addMessage("success","The user was updated with success");
+          if (result.data.formType == 'invitation'){
+            this.addMessage("success","The user was invited");
+          }else {
+            this.getListUsers();
+            this.addMessage("success", "The user was updated with success");
+          }
         }
       });
     }
