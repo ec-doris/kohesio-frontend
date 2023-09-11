@@ -14,31 +14,47 @@ import {KohesioEclFormSelectModule} from "../../components/ecl/forms/select/form
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 import {UserSaveDialogComponent} from "./save-dialog/user-save-dialog.component";
 import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/form-checkbox.ecl.module";
+import {UserProfileComponent} from "./profile/user-profile.component";
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
+import {MatInputModule} from "@angular/material/input";
+import {UserInviteDialogComponent} from "./invite-dialog/user-invite-dialog.component";
+import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-radio.ecl.module";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    RouterModule,
-    FormsModule,
-    ReactiveFormsModule,
-    KohesioEclButtonModule,
-    KohesioEclFormModule,
-    KohesioEclFormGroupModule,
-    KohesioEclFormLabelModule,
-    KohesioEclFormTextInputModule,
-    KohesioEclFormSelectModule,
-    KohesioEclFormCheckboxModule,
-    KohesioEclMessageModule,
-    UsersRoutingModule,
-    MatDialogModule
-  ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        FormsModule,
+        ReactiveFormsModule,
+        KohesioEclButtonModule,
+        KohesioEclFormModule,
+        KohesioEclFormGroupModule,
+        KohesioEclFormLabelModule,
+        KohesioEclFormTextInputModule,
+        KohesioEclFormSelectModule,
+        KohesioEclFormCheckboxModule,
+        KohesioEclFormRadioModule,
+        KohesioEclMessageModule,
+        UsersRoutingModule,
+        MatDialogModule,
+        MatDatepickerModule,
+        MatFormFieldModule,
+        MatNativeDateModule,
+        MatInputModule,
+        KohesioEclFormRadioModule
+    ],
   declarations: [
     UserDashboardComponent,
-    UserSaveDialogComponent
+    UserSaveDialogComponent,
+    UserInviteDialogComponent,
+    UserProfileComponent
   ],
   exports: [
   ],
   providers: [
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
   ]
 })
 export class UsersModule {}

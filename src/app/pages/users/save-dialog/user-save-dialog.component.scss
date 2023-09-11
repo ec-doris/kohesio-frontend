@@ -21,3 +21,13 @@
     overflow: hidden;
   }
 }
+
+.kohesio-ecl-form-group-formType{
+  display: flex;
+  justify-content: center;
+
+  kohesio-ecl-form-radio{
+    margin-right: 5px;
+  }
+}
+

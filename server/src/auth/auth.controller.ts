@@ -3,18 +3,23 @@ import {
   Get,
   Request,
   Res, Req, Session,
-  UseGuards, Query,
+  UseGuards, Query, Param, HttpStatus, HttpException,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginGuard } from './login.guard';
 import {ConfigService} from "@nestjs/config";
 import {AuthService} from "./auth.service";
-import {UserInDto} from "../users/dtos/user.in.dto";
+import {UserService} from "../users/user.service";
+import {BaseController} from "../base.controller";
 
 @Controller()
-export class AuthController {
+export class AuthController extends BaseController{
 
-  constructor(private configService:ConfigService<environmentVARS>, private authService: AuthService){}
+  constructor(private configService:ConfigService<environmentVARS>,
+              private authService: AuthService,
+              private userService: UserService){
+    super();
+  }
 
 
 /*  @Get('/')
@@ -68,20 +73,30 @@ export class AuthController {
   @Get('/logout')
   async logout(@Query('callback') callback, @Session() session: Record<string, any>,@Request() req, @Res() res: Response) {
     //const id_token = session.passport.user ? session.passport.user.id_token : undefined;
-    req.logout(()=>{
-      req.session.destroy(async (error: any) => {
-        /*const TrustIssuer = await Issuer.discover(`${this.configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
-        const end_session_endpoint = TrustIssuer.metadata.end_session_endpoint;
-        if (end_session_endpoint) {
-          res.redirect(end_session_endpoint +
-            '?post_logout_redirect_uri=' + this.configService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_POST_LOGOUT_REDIRECT_URI') +
-            (id_token ? '&id_token_hint=' + id_token : ''));
-        } else {
-          res.redirect('/')
-        }*/
-        res.redirect(callback);
-      })
-    });
-
+    if (req.session.passport.user.impersonateUser){
+      req.session.passport.user = req.session.passport.user.originalUser;
+      res.redirect('/');
+    }else {
+      req.logout(() => {
+        req.session.destroy(async (error: any) => {
+          /*const TrustIssuer = await Issuer.discover(`${this.configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
+          const end_session_endpoint = TrustIssuer.metadata.end_session_endpoint;
+          if (end_session_endpoint) {
+            res.redirect(end_session_endpoint +
+              '?post_logout_redirect_uri=' + this.configService.get<string>('OAUTH2_CLIENT_REGISTRATION_LOGIN_POST_LOGOUT_REDIRECT_URI') +
+              (id_token ? '&id_token_hint=' + id_token : ''));
+          } else {
+            res.redirect('/')
+          }*/
+          res.redirect(callback);
+        })
+      });
+    }
   }
+
+  @Get('/invitation/:token')
+  async invitation(@Req() req, @Res() res: Response, @Param("token")token:string) {
+    res.redirect('/api/login?callback=/invitation/'+token);
+  }
+
 }

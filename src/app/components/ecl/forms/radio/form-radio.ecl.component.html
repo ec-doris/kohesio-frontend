@@ -1,0 +1,12 @@
+<div class="ecl-radio">
+    <input type="radio" name="radio-default" class="ecl-radio__input"
+           (change)="onChange(staticValue)"
+           [disabled]="isDisabled"
+           [(ngModel)]="inputValue"
+           [id]="componentId"
+           [value]="staticValue"/>
+    <label class="ecl-radio__label" [for]="componentId">
+        <span class="ecl-radio__box"><span class="ecl-radio__box-inner"></span></span>
+        <span class="ecl-radio__text">{{label}}</span></label>
+    <div class="ecl-radio__help" *ngIf="helpText">{{helpText}}</div>
+</div>

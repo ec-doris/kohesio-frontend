@@ -7,6 +7,7 @@ import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
 import {REQUEST} from "@nestjs/core";
 import {UserDTO} from "./dtos/user.dto";
+import {InvitationInDTO, InvitationOutDTO} from "./dtos/invitation.dto";
 
 @Injectable()
 export class UserService {
@@ -86,6 +87,59 @@ export class UserService {
     return await firstValueFrom(
       this.httpService.delete<any>(`${this.baseUrl}/users/${userid}`,
         {headers:{"user-id":currentUser}} as any).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async inviteUser(currentUser:string, invitation: InvitationInDTO):Promise<InvitationOutDTO>{
+    return await firstValueFrom(
+      this.httpService.post<InvitationOutDTO>(`${this.baseUrl}/invitations/send`,
+        {
+          email:invitation.email,
+          role: invitation.role,
+          cci_scope: invitation.allowed_cci_qids,
+          base_url: `${this.configService.get("BASE_URL")}/api/invitation/`
+        },
+        {headers:{"user-id":currentUser}} as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(InvitationOutDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async acceptInvitation(userid:string, email:string, token: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.post<boolean>(`${this.baseUrl}/invitations/accept`,
+        {
+          user_id:userid,
+          email:email ? email.toLowerCase() : '',
+          token:token
+        }).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async loginUser(userid: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.get<boolean>(`${this.baseUrl}/login`,
+        {headers:{"user-id":userid}} as any).pipe(
         map((result:any)=>{
           return true;
         }),

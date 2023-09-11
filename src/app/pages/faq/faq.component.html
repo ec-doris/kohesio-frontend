@@ -89,8 +89,7 @@
               <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a [routerLink]="['/'+translateService.routes.privacy]">Privacy Statement</a>.</p>
             </ng-container>
             <kohesio-ecl-accordion class="kohesio-faq-projects-block"
-                                   i18n-title="@@page.faq.listsOfOperations.title"
-                                   title="Lists of operations" [collapsed]="true"
+                                   i18n-title="@@page.faq.listsOfOperations.title" [collapsed]="true"
                                     (onChange)="onChangeListOfOperations($event)">
                 <div class="ecl-table-responsive" style="background-color: white;">
                     <div class="loo_filters">
@@ -107,6 +106,7 @@
                         <tr class="ecl-table__row">
                             <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.country">Country</th>
                             <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.title">Title</th>
+                            <!--<th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.popper.ccis.text">CCIs covered by the list of operations</th>-->
                             <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.url">Url</th>
                             <th class="ecl-table__header" i18n="@@page.faq.listsOfOperations.table.lastUpdate">Last update in Kohesio</th>
                         </tr>
@@ -123,24 +123,7 @@
                                 <div class="cell-flex-content">
                                     <div>{{loo.instanceLabel}}</div>
                                     <div>
-                                        <popper-content #id>
-                                            <div style="display: flex; flex-direction: row; justify-content: space-between;">
-                                                <h5 class="ecl-u-type-heading-5 ecl-u-mv-none"
-                                                    i18n="@@page.faq.listsOfOperations.popper.ccis.text">CCIs covered by the list of operations:</h5>
-                                                <svg (click)="id.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
-                                                </svg>
-                                            </div>
-                                            <div class="ccis-list">
-                                                {{loo.ccis.toString()}}
-                                            </div>
-                                        </popper-content>
-                                        <div [popper]="id"
-                                             popperApplyClass="info-tooltip"
-                                             [popperHideOnClickOutside]="true"
-                                             [popperHideOnScroll]="true"
-                                             [popperPositionFixed]="true"
-                                             class="infoButton" >
+                                        <div class="infoButton" [matTooltip]="loo.ccis.toString()">
                                             <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                                             </svg>

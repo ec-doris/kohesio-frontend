@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {EditsDashboardComponent} from "./dashboard/edits-dashboard.component";
-import {EditsGuard} from "./edits.guard";
+import {LoggedinGuard} from "../../guards/loggedin.guard";
 
 const routes: Routes = [
   {
     path: '',
     component: EditsDashboardComponent,
-    canActivate: [EditsGuard]
+    canActivate: [LoggedinGuard]
   }
 ];
 

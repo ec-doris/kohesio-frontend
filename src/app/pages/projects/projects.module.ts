@@ -23,7 +23,6 @@ import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/acco
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
 import { ProjectDetailModalModule } from 'src/app/components/kohesio/project-detail-modal/project-detail.module';
-import {NgxPopperjsModule} from 'ngx-popperjs';
 import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/image-overlay.module';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
@@ -35,6 +34,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {DialogEclModule} from "../../components/ecl/dialog/dialog.ecl.module";
 import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-button/dropdown-button.ecl.module";
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 
 @NgModule({
@@ -66,12 +66,12 @@ import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.
     KohesioEclFormTextAreaModule,
     ProjectDetailModalModule,
     DownloadButtonModule,
-    NgxPopperjsModule,
     ImageOverlayModule,
     KohesioAutoCompleteModule,
     DialogEclModule,
     KohesioEclDropDownButtonModule,
-    KohesioEclMessageModule
+    KohesioEclMessageModule,
+    OverlayModule
   ],
     declarations: [
         ProjectsComponent,

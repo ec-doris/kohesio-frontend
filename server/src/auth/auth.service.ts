@@ -15,4 +15,8 @@ export class AuthService {
     return await this.userService.editUser(userdata.userid,userdata);
   }
 
+  async loginUser(userid:string):Promise<boolean>{
+    return await this.userService.loginUser(userid);
+  }
+
 }

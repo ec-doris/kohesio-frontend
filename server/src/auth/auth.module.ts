@@ -6,15 +6,16 @@ import {buildOpenIdClient, OidcStrategy} from "./oidc.strategy";
 import {PassportModule} from "@nestjs/passport";
 import {SessionSerializer} from "./session.serializer";
 import {AuthController} from "./auth.controller";
+import {UserService} from "../users/user.service";
 
 const OidcStrategyFactory = {
   provide: 'OidcStrategy',
-  useFactory: async (authService: AuthService, configService: ConfigService) => {
+  useFactory: async (authService: AuthService, userService: UserService, configService: ConfigService) => {
     const client = await buildOpenIdClient(configService); // secret sauce! build the dynamic client before injecting it into the strategy for use in the constructor super call.
-    const strategy = new OidcStrategy(authService, client, configService);
+    const strategy = new OidcStrategy(client, authService, userService, configService);
     return strategy;
   },
-  inject: [AuthService, ConfigService]
+  inject: [AuthService, UserService, ConfigService]
 };
 @Module({
   imports: [

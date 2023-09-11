@@ -80,6 +80,9 @@ const routes: Routes = [
         path: 'edits',
         loadChildren: () => import('./pages/edits/edits.module').then(m => m.EditsModule)
       },{
+        path: 'notifications',
+        loadChildren: () => import('./pages/notitications/notifications.module').then(m => m.NotificationsModule)
+      },{
         path: '403',
         component: ForbiddenComponent,
       }, {

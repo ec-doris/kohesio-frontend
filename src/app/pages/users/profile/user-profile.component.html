@@ -1,0 +1,86 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">My Profile</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="page-header">
+        <h1>My Profile</h1>
+        <div class="actions">
+            <kohesio-ecl-button type="button" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="onSubmit()" *ngIf="editMode">Save</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="onCancel()" *ngIf="editMode">Cancel</kohesio-ecl-button>
+        </div>
+    </div>
+    <div class="page-content">
+        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>USER ID:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.user_id}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>NAME:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="name"></kohesio-ecl-form-text-input>
+                <div class="label-only" *ngIf="!editMode">
+                    {{myForm.value.name}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>EMAIL:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="email"></kohesio-ecl-form-text-input>
+                <div class="label-only" *ngIf="!editMode">
+                    {{myForm.value.email}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>ORGANIZATION:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="organization"></kohesio-ecl-form-text-input>
+                <div class="label-only" *ngIf="!editMode">
+                    {{myForm.value.organization}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>ROLE:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.role}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>ACTIVE:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{myForm.value.active}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>EXPIRATION:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.expiration_time ?
+                    (userService.user.expiration_time | date:'d MMMM yyyy') :
+                        'NEVER'}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>CCI SCOPE:</kohesio-ecl-form-label>
+
+                <div class="label-only ecl-description-list__definition ecl-description-list__definition--taxonomy"
+                     *ngIf="userService.user.role != 'ADMIN'">
+                    <button type="button" class="ecl-tag ecl-tag--removable" *ngFor="let cci of userService.user.allowed_cci_qids">{{cci}}</button>
+                </div>
+                <div class="label-only" *ngIf="userService.user.role == 'ADMIN'">
+                    All CCIs
+                </div>
+            </kohesio-ecl-form-group>
+        </form>
+    </div>
+</div>

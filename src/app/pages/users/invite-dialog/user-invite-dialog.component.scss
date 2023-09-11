@@ -1,0 +1,23 @@
+.dialog-actions{
+  display: flex;
+  justify-content: flex-end;
+}
+.ecl-card{
+  margin-top: 10px;
+  max-height: 400px;
+  overflow: scroll;
+}
+.ecl-tag.ecl-tag--removable{
+  padding: 0.5rem 0.2rem;
+  width: 100%;
+
+  margin-top: 5px;
+  .ecl-tag__icon{
+    margin-right:10px;
+  }
+  .ecl-tag__text{
+    font-size: 0.8rem;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}

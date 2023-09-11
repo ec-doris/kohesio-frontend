@@ -1,14 +1,4 @@
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  Param,
-  Post,
-  Put,
-  Req,
-  UseGuards
-} from "@nestjs/common";
+import {Body, Controller, Delete, Get, Param, Post, Put, Req, UseGuards} from "@nestjs/common";
 import {UserService} from "./user.service";
 import {UserDTO} from "./dtos/user.dto";
 import {plainToInstance} from "class-transformer";
@@ -16,19 +6,24 @@ import {Role, UserInDto} from "./dtos/user.in.dto";
 import {Roles} from "../auth/roles.decorator";
 import {RolesGuard} from "../auth/roles.guard";
 import {
-  ApiBadRequestResponse, ApiCreatedResponse,
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
   ApiForbiddenResponse,
   ApiOkResponse,
   ApiServiceUnavailableResponse,
-  ApiTags, refs
+  ApiTags,
+  refs
 } from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
+import {InvitationInDTO, InvitationOutDTO} from "./dtos/invitation.dto";
+import {NotificationService} from "../notifications/notification.service";
 
 @Controller('/users')
 @ApiTags('Users')
 export class UserController extends BaseController{
 
-  constructor(private userService: UserService){
+  constructor(private userService: UserService,
+              private notificationService: NotificationService){
     super();
   }
 
@@ -43,13 +38,15 @@ export class UserController extends BaseController{
   @Get('/currentUser')
   async user(@Req() req): Promise<UserDTO | Object> {
     if (req.user){
-      return plainToInstance(UserDTO, req.user as Object);
+      const user:UserDTO = plainToInstance(UserDTO, req.user as Object);
+      user.notifications_count = await this.notificationService.getNotificationsCount(req.user.user_id);
+      return user;
     }else{
       return {};
     }
   }
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.REVIEWER)
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   @ApiOkResponse({
@@ -75,6 +72,33 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN,Role.REVIEWER,Role.EDITOR,Role.USER)
+  @ApiOkResponse({
+    type:UserDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Put('/updateProfile')
+  async updateProfile(@Req() req,@Body() userDTO: UserInDto): Promise<UserDTO | void>{
+    userDTO.userid = req.user.user_id;
+    const newUser = await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
+    req.session.passport.user = newUser;
+    return newUser;
+  }
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN,Role.REVIEWER)
+  @ApiOkResponse({
+    type:InvitationOutDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Put('/inviteUser')
+  async inviteUser(@Req() req,@Body() invitation: InvitationInDTO): Promise<InvitationOutDTO | void>{
+    return await this.userService.inviteUser(req.user.user_id,invitation).catch(this.errorHandler);
+  }
+
+  @UseGuards(RolesGuard)
   @Roles(Role.ADMIN)
   @ApiOkResponse({
     type:UserDTO
@@ -85,6 +109,24 @@ export class UserController extends BaseController{
   async editUser(@Req() req,@Body() userDTO: UserInDto, @Param('id') id: string): Promise<UserDTO | void>{
     userDTO.userid = id;
     return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
+  }
+
+
+  @UseGuards(RolesGuard)
+  @Roles(Role.ADMIN)
+  @ApiOkResponse({
+    type:UserDTO
+  })
+  @ApiForbiddenResponse({description: "You don't have access to this operation"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @Get('/impersonateUser/:id')
+  async impersonateUser(@Req() req,@Param("id") impersonateUserId:string): Promise<void>{
+    const impersonateUser = await this.userService.getUser(impersonateUserId).catch(this.errorHandler);
+    const impersonateUserSession:any = {...impersonateUser};
+    impersonateUserSession.originalUser = req.session.passport.user
+    impersonateUserSession.impersonateUser = true;
+    req.session.passport.user = impersonateUserSession;
+    return impersonateUserSession;
   }
 
   @UseGuards(RolesGuard)

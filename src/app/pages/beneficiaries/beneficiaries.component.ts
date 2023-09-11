@@ -45,6 +45,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     public sidenavOpened: boolean;
     private destroyed = new Subject<void>();
     public pageSize = 15;
+    public infoPopupLabelType:boolean = false;
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
