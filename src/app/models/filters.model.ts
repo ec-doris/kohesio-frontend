@@ -12,7 +12,7 @@ export class Filters implements Deserializable{
     public policyObjective: string | undefined;
     public fund: string | undefined;
     public program: string | undefined;
-    public interventionField: string | undefined;
+    public interventionField: string[] | undefined;
     public budgetSmallerThan: number | undefined;
     public budgetBiggerThan: number | undefined;
     public budgetEUSmallerThan: number | undefined;
@@ -82,7 +82,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -109,7 +109,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -133,7 +133,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -172,6 +172,14 @@ export class Filters implements Deserializable{
             }
         }
         return undefined;
+    }
+
+    private setEntityInArray(values:string[]){
+      const result:string[] = []
+      values.forEach(value=>{
+        result.push(environment.entityURL + value);
+      })
+      return result;
     }
 
 }

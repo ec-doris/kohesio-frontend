@@ -27,6 +27,7 @@ import { MatDialog } from '@angular/material/dialog';
 import {ImageOverlayComponent} from "src/app/components/kohesio/image-overlay/image-overlay.component"
 import {TranslateService} from "../../services/translate.service";
 import {MetaService} from "../../services/meta.service";
+import {AutoCompleteItem} from "../../components/kohesio/auto-complete/item.model";
 
 @Component({
   templateUrl: './projects.component.html',
@@ -98,6 +99,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       });
 
 
+      //Get interventionfield values
+      let interventionField:any = undefined;
+      if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.interventionField)){
+        interventionField = [];
+        const interventionFieldKeys:string[] = this._route.snapshot.queryParamMap.get(this.translateService.queryParams.interventionField)!.split(",");
+        interventionFieldKeys.forEach(key=>{
+          const ifValue = this.filterService.getFilterKey("categoriesOfIntervention", key);
+          interventionField.push(ifValue);
+        })
+      }
+
 
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
@@ -109,7 +121,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         programPeriod: [this.getFilterKey("programmingPeriods", "programPeriod")],
         fund: [this.getFilterKey("funds", this.translateService.queryParams.fund)],
         program: [],
-        interventionField: [this.getFilterKey("categoriesOfIntervention", this.translateService.queryParams.interventionField)],
+        interventionField: [interventionField],
         totalProjectBudget: [this.getFilterKey("totalProjectBudget", this.translateService.queryParams.totalProjectBudget)],
         amountEUSupport: [this.getFilterKey("amountEUSupport", this.translateService.queryParams.amountEUSupport)],
         projectStart: [this.getDate(this._route.snapshot.queryParamMap.get(this.translateService.queryParams.projectStart))],
@@ -332,6 +344,12 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     generateQueryParams() {
+      let interventionFieldQueryParam:string[] = [];
+      if (this.myForm.value.interventionField && this.myForm.value.interventionField.length){
+        this.myForm.value.interventionField.forEach((interventionFieldValue:AutoCompleteItem)=>{
+          interventionFieldQueryParam.push(this.getFilterLabel("categoriesOfIntervention",interventionFieldValue.id!));
+        })
+      }
       return {
         [this.translateService.queryParams.keywords]: this.myForm.value.keywords ? this.myForm.value.keywords.trim() : null,
         [this.translateService.queryParams.country]: this.getFilterLabel("countries", this.myForm.value.country),
@@ -341,10 +359,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         programPeriod: this.getFilterLabel("programmingPeriods", this.myForm.value.programPeriod),
         [this.translateService.queryParams.fund]: this.getFilterLabel("funds", this.myForm.value.fund),
         [this.translateService.queryParams.programme]: this.getFilterLabel("programs", this.myForm.value.program),
-        [this.translateService.queryParams.interventionField]: this.getFilterLabel(
-          "categoriesOfIntervention",
-          this.myForm.value.interventionField ? this.myForm.value.interventionField.id : null
-        ),
+        [this.translateService.queryParams.interventionField]: interventionFieldQueryParam.length ? interventionFieldQueryParam.toString() : null,
         [this.translateService.queryParams.totalProjectBudget]: this.getFilterLabel("totalProjectBudget", this.myForm.value.totalProjectBudget),
         [this.translateService.queryParams.amountEUSupport]: this.getFilterLabel("amountEUSupport", this.myForm.value.amountEUSupport),
         [this.translateService.queryParams.projectStart]: this.myForm.value.projectStart ? this.datePipe.transform(this.myForm.value.projectStart, 'dd-MM-yyyy') : null,
@@ -543,7 +558,13 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       getFilters() {
         const formValues = Object.assign({}, this.myForm.value);
-        formValues.interventionField = formValues.interventionField ? formValues.interventionField.id : undefined;
+        if (formValues.interventionField && formValues.interventionField.length){
+          let interventionFieldIds:any[] = []
+          formValues.interventionField.forEach((item:AutoCompleteItem)=>{
+            interventionFieldIds.push(item.id);
+          })
+          formValues.interventionField = interventionFieldIds;
+        }
         formValues.nuts3 = formValues.nuts3 ? formValues.nuts3.id : undefined;
         formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
         formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;

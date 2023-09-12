@@ -35,6 +35,7 @@ import {DialogEclModule} from "../../components/ecl/dialog/dialog.ecl.module";
 import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-button/dropdown-button.ecl.module";
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 import {OverlayModule} from "@angular/cdk/overlay";
+import {KohesioMultiAutoCompleteModule} from "../../components/kohesio/multi-auto-complete/multi-auto-complete.module";
 
 
 @NgModule({
@@ -64,6 +65,7 @@ import {OverlayModule} from "@angular/cdk/overlay";
     KohesioEclAccordionModule,
     KohesioEclSpinnerModule,
     KohesioEclFormTextAreaModule,
+    KohesioMultiAutoCompleteModule,
     ProjectDetailModalModule,
     DownloadButtonModule,
     ImageOverlayModule,

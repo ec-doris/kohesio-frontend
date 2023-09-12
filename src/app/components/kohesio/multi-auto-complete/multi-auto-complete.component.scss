@@ -1,0 +1,19 @@
+.autocomplete-wrapper {
+    margin: 0;
+    width: 100%;
+}
+.selected-chip-option{
+  display: flex;
+  --mdc-chip-container-height: auto;
+  padding: 5px 0;
+
+  span[role=gridcell]{
+    color:white;
+  }
+
+}
+
+.selected-chip-option-text{
+  white-space: normal;
+  font-size: 12px;
+}
