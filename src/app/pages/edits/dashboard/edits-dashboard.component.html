@@ -17,7 +17,6 @@
         <h1>Edits</h1>
         <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
     </div>
-    <kohesio-ecl-spinner *ngIf="!editsList"></kohesio-ecl-spinner>
     <div class="users-table" *ngIf="editsList">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
@@ -40,6 +39,13 @@
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
+                <ng-container *ngIf="isLoading">
+                    <tr>
+                        <td colspan="6">
+                            <kohesio-ecl-spinner></kohesio-ecl-spinner>
+                        </td>
+                    </tr>
+                </ng-container>
                 <ng-container *ngFor="let edit of editsList">
                     <tr class="ecl-table__row">
                         <td class="ecl-table__cell" data-ecl-table-header="ID">

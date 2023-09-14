@@ -20,6 +20,7 @@ export class EditsDashboardComponent implements AfterViewInit {
     public filters:any = {
     };
     public filtersCount?:number;
+    public isLoading = false;
 
     constructor(private editService: EditService,
                 public userService: UserService,
@@ -46,20 +47,27 @@ export class EditsDashboardComponent implements AfterViewInit {
     }
 
     getEditsList(){
+      this.isLoading = true;
+      this.editsList = [];
       this.editService.list(this.filters).subscribe((edits:Edit[])=>{
-        const programLabelsObservables:any[] = []
-        edits.forEach((edit:Edit)=>{
-          programLabelsObservables.push(this.filterService.getFilter("programs",
-            {qid:environment.entityURL+edit.cci_qid}));
-        })
-        forkJoin(programLabelsObservables).subscribe((results:any)=>{
-          results.forEach((result:any,index:number)=>{
-            if (result && result.programs && result.programs.length){
-              edits[index].cci_label = result.programs[0].value;
-            }
+        if (edits && edits.length) {
+          const programLabelsObservables: any[] = []
+          edits.forEach((edit: Edit) => {
+            programLabelsObservables.push(this.filterService.getFilter("programs",
+              {qid: environment.entityURL + edit.cci_qid}));
           })
-          this.editsList = edits;
-        })
+          forkJoin(programLabelsObservables).subscribe((results: any) => {
+            results.forEach((result: any, index: number) => {
+              if (result && result.programs && result.programs.length) {
+                edits[index].cci_label = result.programs[0].value;
+              }
+            })
+            this.editsList = edits;
+            this.isLoading = false;
+          })
+        }else{
+          this.isLoading = false;
+        }
       })
     }
 
