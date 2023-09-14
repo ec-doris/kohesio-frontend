@@ -17,6 +17,7 @@
         <h1>Edits</h1>
         <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
     </div>
+    <kohesio-ecl-spinner *ngIf="!editsList"></kohesio-ecl-spinner>
     <div class="users-table" *ngIf="editsList">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
@@ -50,7 +51,9 @@
                                 </svg>
                             </a>
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="CCI">{{edit.cci_qid}}</td>
+                        <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
+                            <button type="button" class="ecl-tag ecl-tag--removable" style="white-space: normal;text-align: center;font-size: 12px;">{{edit.cci_label}}</button>
+                        </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
                             <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
                         </td>

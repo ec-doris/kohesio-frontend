@@ -86,30 +86,13 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.myForm.get('userid')?.disable();
     }
 
-    //this.onFormChanges();
-  }
-
-  onFormChanges(): void {
-    this.myForm.valueChanges.subscribe(val => {
-      console.log(val);
-      console.log("FORM_TYPE",this.myForm.value.formType);
-      /*if (this.myForm.value.formType == 'invitation'){
-        this.myForm.controls["email"].setValidators([Validators.required]);
-        this.myForm.controls["userid"].setValidators(null);
-      }else{
-        this.myForm.controls["userid"].setValidators([Validators.required]);
-        this.myForm.controls["email"].setValidators(null);
-      }
-      this.myForm.controls["userid"].updateValueAndValidity();
-      this.myForm.controls["email"].updateValueAndValidity();*/
-    });
   }
 
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
-      if (this.myForm.value.formType == 'addUser' && !this.myForm.value.userid) {
+      if (!this.editMode && this.myForm.value.formType == 'addUser' && !this.myForm.value.userid) {
         this.errorMessage = "UserID is mandatory.";
-      }else if(this.myForm.value.formType == 'invitation' && !this.myForm.value.email) {
+      }else if(!this.editMode && this.myForm.value.formType == 'invitation' && !this.myForm.value.email) {
         this.errorMessage = "Email is mandatory.";
       }else {
         if (this.myForm.value.formType == 'invitation'){
@@ -186,9 +169,5 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     this.ccis_list.splice(this.ccis_list.findIndex((a:any) => a.cci === cci_qid) , 1)
   }
 
-  changeFormType(type:string){
-    console.log('FORM_TYPE',type);
-    console.log("FORM_FORM_TYPE",this.myForm.value.formType);
-  }
 
 }

@@ -72,10 +72,12 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>CCI SCOPE:</kohesio-ecl-form-label>
-
+                <div class="kohesio-ecl-spinner">
+                    <kohesio-ecl-spinner [hasLabel]="false" *ngIf="!ccis_list.length && userService.user.role != 'ADMIN'"></kohesio-ecl-spinner>
+                </div>
                 <div class="label-only ecl-description-list__definition ecl-description-list__definition--taxonomy"
                      *ngIf="userService.user.role != 'ADMIN'">
-                    <button type="button" class="ecl-tag ecl-tag--removable" *ngFor="let cci of userService.user.allowed_cci_qids">{{cci}}</button>
+                    <button type="button" class="ecl-tag ecl-tag--removable" *ngFor="let cci of ccis_list">{{cci}}</button>
                 </div>
                 <div class="label-only" *ngIf="userService.user.role == 'ADMIN'">
                     All CCIs

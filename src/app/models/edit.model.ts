@@ -5,6 +5,7 @@ export class Edit {
   id!: number;
   qid!: string;
   cci_qid!:string;
+  cci_label?:string;
   userid!: string;
 
   @Type(() => Date)

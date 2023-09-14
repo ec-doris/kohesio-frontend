@@ -5,6 +5,9 @@ import {UserService} from "../../../services/user.service";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {EditFilterDialogComponent} from "../filter-dialog/edit-filter-dialog.component";
 import {Edit} from "../../../models/edit.model";
+import {environment} from "../../../../environments/environment";
+import {forkJoin} from "rxjs";
+import {FilterService} from "../../../services/filter.service";
 
 @Component({
     templateUrl: './edits-dashboard.component.html',
@@ -20,6 +23,7 @@ export class EditsDashboardComponent implements AfterViewInit {
 
     constructor(private editService: EditService,
                 public userService: UserService,
+                private filterService: FilterService,
                 public dialog: MatDialog){
     }
 
@@ -43,7 +47,19 @@ export class EditsDashboardComponent implements AfterViewInit {
 
     getEditsList(){
       this.editService.list(this.filters).subscribe((edits:Edit[])=>{
-        this.editsList = edits;
+        const programLabelsObservables:any[] = []
+        edits.forEach((edit:Edit)=>{
+          programLabelsObservables.push(this.filterService.getFilter("programs",
+            {qid:environment.entityURL+edit.cci_qid}));
+        })
+        forkJoin(programLabelsObservables).subscribe((results:any)=>{
+          results.forEach((result:any,index:number)=>{
+            if (result && result.programs && result.programs.length){
+              edits[index].cci_label = result.programs[0].value;
+            }
+          })
+          this.editsList = edits;
+        })
       })
     }
 

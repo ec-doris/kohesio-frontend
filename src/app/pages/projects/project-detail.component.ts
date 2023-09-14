@@ -156,8 +156,19 @@ export class ProjectDetailComponent implements AfterViewInit {
           'language': new FormControl(this.translateService.locale, {nonNullable: true})
         })
 
+
         if (this._route.snapshot.queryParamMap.has("edit")){
-          this.editProject();
+          if (this.project.canEdit) {
+            this.editProject();
+          }else{
+            this._router.navigate([], {
+              queryParams: {
+                edit:undefined,
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
+          }
         }
 
     }
