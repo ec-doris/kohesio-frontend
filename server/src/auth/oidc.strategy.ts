@@ -48,9 +48,9 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token*/
     try {
-      if (req.query.state.startsWith("/invitation")) {
+      if (req.query.state.startsWith("/api/invitation")) {
         console.log("CHECKING THE INVITATION");
-        const token = req.query.state.replace("/invitation/", "");
+        const token = req.query.state.replace("/api/invitation/", "");
         const email: string = claims.email as string;
         await this.userService.acceptInvitation(useruid, email, token).catch(error => {
           if (error.status == HttpStatus.NOT_FOUND) {

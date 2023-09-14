@@ -96,7 +96,17 @@ export class AuthController extends BaseController{
 
   @Get('/invitation/:token')
   async invitation(@Req() req, @Res() res: Response, @Param("token")token:string) {
-    res.redirect('/api/login?callback=/invitation/'+token);
+    console.log("accepting the invitation",token)
+    const redirectURL = '/api/login?callback=/api/invitation/'+token;
+    if (req.user){
+      req.logout(() => {
+        req.session.destroy(async (error: any) => {
+          res.redirect(redirectURL);
+        })
+      })
+    }else {
+      res.redirect(redirectURL);
+    }
   }
 
 }
