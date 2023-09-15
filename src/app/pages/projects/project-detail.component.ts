@@ -318,6 +318,7 @@ export class ProjectDetailComponent implements AfterViewInit {
                   description: edit.latest_version.summary,
                   language: edit.language
                 });
+                this.myForm.markAsPristine();
                 this.startEditMode();
               }
             }
