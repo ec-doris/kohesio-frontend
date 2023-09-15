@@ -354,6 +354,7 @@ export class ProjectDetailComponent implements AfterViewInit {
       });
     }
 
+
     updateQueryParams(key:string, value:Object|undefined){
       this._router.navigate([], {
         queryParams: {
@@ -416,6 +417,12 @@ export class ProjectDetailComponent implements AfterViewInit {
               versionId: null,
               status: null
             });
+            this._router.navigate([], {
+              queryParams: {
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
             this.editProject();
           })
         }
@@ -460,6 +467,12 @@ export class ProjectDetailComponent implements AfterViewInit {
           this.project.description = version.summary;
           this.finishEditMode();
         }else{
+          this._router.navigate([], {
+            queryParams: {
+              editVersion:undefined
+            },
+            queryParamsHandling: "merge"
+          });
           this.editProject();
         }
       })
