@@ -5,6 +5,9 @@ import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {environment} from "../../../../environments/environment";
 import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
+import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
+import {MatDialog} from "@angular/material/dialog";
+import {Router} from "@angular/router";
 
 @Component({
     templateUrl: './user-profile.component.html',
@@ -20,7 +23,9 @@ export class UserProfileComponent implements AfterViewInit {
 
     constructor(public userService: UserService,
                 private filterService: FilterService,
-                private formBuilder: UntypedFormBuilder){
+                private formBuilder: UntypedFormBuilder,
+                public dialog: MatDialog,
+                private router: Router){
       this.myForm = this.formBuilder.group({
         user_id: userService.user.user_id,
         name: userService.user.name,
@@ -68,6 +73,25 @@ export class UserProfileComponent implements AfterViewInit {
         this.editMode = false;
       })
     }
+
+  onDeleteProfile(){
+    const dialogRef = this.dialog.open(DialogEclComponent, {
+      disableClose: false,
+      data:{
+        confirmMessage: "Are you sure you want to delete?"
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.action=="primary") {
+        this.userService.deleteUser(this.userService.user.user_id).subscribe(result=>{
+          this.router.navigate(['/'])
+            .then(() => {
+              window.location.reload();
+            });
+        });
+      }
+    });
+  }
 
 
 }

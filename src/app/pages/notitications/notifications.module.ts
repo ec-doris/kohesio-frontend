@@ -16,6 +16,7 @@ import {MatBadgeModule} from "@angular/material/badge";
 import {MatSelectModule} from "@angular/material/select";
 import {NotificationsDashboardComponent} from "./dashboard/notifications-dashboard.component";
 import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-radio.ecl.module";
+import {KohesioEclSpinnerModule} from "../../components/ecl/spinner/spinner.ecl.module";
 
 @NgModule({
     imports: [
@@ -35,7 +36,8 @@ import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-r
         NotificationsRoutingModule,
         MatDialogModule,
         MatBadgeModule,
-        MatSelectModule
+        MatSelectModule,
+        KohesioEclSpinnerModule
     ],
   declarations: [
     NotificationsDashboardComponent

@@ -16,7 +16,7 @@
     <div class="page-header">
         <h1>My Profile</h1>
         <div class="actions">
-            <kohesio-ecl-button type="button" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" variant="call" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
             <kohesio-ecl-button type="button" (click)="onSubmit()" *ngIf="editMode">Save</kohesio-ecl-button>
             <kohesio-ecl-button type="button" (click)="onCancel()" *ngIf="editMode">Cancel</kohesio-ecl-button>
         </div>
@@ -72,8 +72,8 @@
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>CCI SCOPE:</kohesio-ecl-form-label>
-                <div class="kohesio-ecl-spinner">
-                    <kohesio-ecl-spinner [hasLabel]="false" *ngIf="!ccis_list.length && userService.user.role != 'ADMIN'"></kohesio-ecl-spinner>
+                <div class="kohesio-ecl-spinner" *ngIf="!ccis_list.length && userService.user.role != 'ADMIN'">
+                    <kohesio-ecl-spinner [hasLabel]="false" ></kohesio-ecl-spinner>
                 </div>
                 <div class="label-only ecl-description-list__definition ecl-description-list__definition--taxonomy"
                      *ngIf="userService.user.role != 'ADMIN'">
@@ -84,5 +84,8 @@
                 </div>
             </kohesio-ecl-form-group>
         </form>
+        <div class="danger-zone">
+            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()" *ngIf="!editMode">Click here if you want to delete your profile.</kohesio-ecl-button>
+        </div>
     </div>
 </div>

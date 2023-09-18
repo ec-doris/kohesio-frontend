@@ -10,6 +10,7 @@ export class Notification {
   @Type(() => Date)
   creation_time!: Date;
   operation_qid!:string;
+  projectTitle?:string;
   @Type(() => Date)
   seen_at!: Date;
 

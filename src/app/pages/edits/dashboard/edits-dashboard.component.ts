@@ -8,6 +8,7 @@ import {Edit} from "../../../models/edit.model";
 import {environment} from "../../../../environments/environment";
 import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
     templateUrl: './edits-dashboard.component.html',
@@ -25,6 +26,7 @@ export class EditsDashboardComponent implements AfterViewInit {
     constructor(private editService: EditService,
                 public userService: UserService,
                 private filterService: FilterService,
+                private projectService: ProjectService,
                 public dialog: MatDialog){
     }
 
@@ -51,15 +53,15 @@ export class EditsDashboardComponent implements AfterViewInit {
       this.editsList = [];
       this.editService.list(this.filters).subscribe((edits:Edit[])=>{
         if (edits && edits.length) {
-          const programLabelsObservables: any[] = []
+          const projectObservables: any[] = [];
           edits.forEach((edit: Edit) => {
-            programLabelsObservables.push(this.filterService.getFilter("programs",
-              {qid: environment.entityURL + edit.cci_qid}));
+            projectObservables.push(this.projectService.getProjectDetail(edit.qid));
           })
-          forkJoin(programLabelsObservables).subscribe((results: any) => {
+          forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {
-              if (result && result.programs && result.programs.length) {
-                edits[index].cci_label = result.programs[0].value;
+              if (result && result.program && result.program.length) {
+                edits[index].cci_label = result.program[0].programFullLabel;
+                edits[index].projectTitle = result.label;
               }
             })
             this.editsList = edits;

@@ -27,12 +27,12 @@
             </form>
         </div>
     </div>
-    <div class="users-table" *ngIf="notificationList">
+    <div class="users-table">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                     <tr class="ecl-table__row">
-                        <th class="ecl-table__header">ID</th>
+                        <th class="ecl-table__header">Project</th>
                         <th class="ecl-table__header">Status</th>
                         <th class="ecl-table__header">Date</th>
                         <th class="ecl-table__header">User</th>
@@ -40,6 +40,13 @@
                     </tr>
                 </thead>
                 <tbody class="ecl-table__body">
+                    <ng-container *ngIf="isLoading">
+                        <tr>
+                            <td colspan="6">
+                                <kohesio-ecl-spinner></kohesio-ecl-spinner>
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngFor="let notification of notificationList">
                         <tr class="ecl-table__row">
                             <td class="ecl-table__cell" data-ecl-table-header="CCI">
@@ -49,7 +56,7 @@
                                     {}
                                    "
                                    class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
-                                    <span class="ecl-link__label">{{notification.operation_qid}}</span>
+                                    <span class="ecl-link__label">{{notification.projectTitle}}</span>
                                     <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
                                         <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
                                     </svg>

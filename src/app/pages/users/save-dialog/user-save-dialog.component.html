@@ -1,4 +1,4 @@
-<div style="min-width:500px;">
+<div style="min-width:500px;max-height: 350px;overflow: auto;">
     <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group *ngIf="!editMode">
