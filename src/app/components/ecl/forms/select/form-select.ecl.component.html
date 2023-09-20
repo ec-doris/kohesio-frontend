@@ -3,7 +3,10 @@
     <select *ngIf="isDisabled && placeholder" class="ecl-select" disabled>
         <option value="" disabled selected>{{placeholder}}</option>
     </select>
-    <select *ngIf="!isDisabled || !placeholder" class="ecl-select" [(ngModel)]="inputValue" (change)="onChange($any($event.target).value)">
+    <select *ngIf="isDisabled && !placeholder" class="ecl-select" disabled>
+        <option [value]="inputValue" disabled selected>{{inputLabel}}</option>
+    </select>
+    <select *ngIf="!isDisabled" class="ecl-select" [(ngModel)]="inputValue" (change)="onChange($any($event.target).value)">
         <!-- Empty value -->
         <option *ngIf="hasEmptyValue" value="" [selected]="!inputValue"></option>
         <!-- Items -->

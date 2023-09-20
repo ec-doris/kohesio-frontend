@@ -30,7 +30,6 @@ export class ProjectController {
   @ApiBadRequestResponse({description: "Project not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async projectSearch(@Query() queryParam: ProjectSearchInDto){
-    console.log("INPUT",queryParam);
     return await this.projectService.projectSearch(queryParam).catch(this.errorHandler);
   }
 
