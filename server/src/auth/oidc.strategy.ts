@@ -58,9 +58,9 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
             throw new UnauthorizedException();
           }
         });
-        req.query.state = '/';
+        req.query.state = '/users/profile';
       }
-      const userDB: UserDTO = await this.authService.validateUser(useruid);
+      let userDB: UserDTO = await this.authService.validateUser(useruid);
       if (userDB) {
         const department: string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
         const displayName: string = `${claims.given_name} ${claims.family_name}`;
@@ -69,15 +69,15 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         //console.log("DISPLAY_NAME",displayName);
 
         if ((!userDB.name && displayName) ||
-          !userDB.organization && department ||
-          !userDB.email && department) {
+          (!userDB.organization && department) ||
+          (!userDB.email && email)) {
           const userInput: UserInDto = new UserInDto();
           userInput.userid = userDB.user_id;
           userInput.name = userDB.name ? userDB.name : displayName;
           userInput.organization = userDB.organization ? userDB.organization : department;
           userInput.email = userDB.email ? userDB.email : email;
           //console.log("USER_INPUT",userInput);
-          await this.authService.updateUser(userInput);
+          userDB = await this.authService.updateUser(userInput);
         }
         //console.log("USER AUTHORIZED",userDB);
         await this.authService.loginUser(useruid);
