@@ -7,7 +7,7 @@ import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {MatDialog} from "@angular/material/dialog";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
     templateUrl: './user-profile.component.html',
@@ -21,11 +21,17 @@ export class UserProfileComponent implements AfterViewInit {
 
     public editMode:boolean = false;
 
+    public messages?:[{
+      type:'info' | 'success' | 'warning' | 'error',
+      message:string
+    }];
+
     constructor(public userService: UserService,
                 private filterService: FilterService,
                 private formBuilder: UntypedFormBuilder,
                 public dialog: MatDialog,
-                private router: Router){
+                private router: Router,
+                private _route: ActivatedRoute){
       this.myForm = this.formBuilder.group({
         user_id: userService.user.user_id,
         name: userService.user.name,
@@ -51,18 +57,49 @@ export class UserProfileComponent implements AfterViewInit {
     }
 
     ngOnInit(){
-
+      if (this._route.snapshot.queryParamMap.has("edit")){
+        this.startEditMode();
+      }
+      if (this._route.snapshot.queryParamMap.has("update")){
+        this.showMessage("info", "Please, update your profile data.");
+        this.router.navigate([], {
+          queryParams: {
+            update:undefined
+          },
+          queryParamsHandling: "merge"
+        });
+      }
     }
 
     ngAfterViewInit(): void {
     }
 
     onEdit(){
-      this.editMode = true;
+      this.startEditMode();
     }
 
     onCancel(){
+      this.finishEditMode();
+    }
+
+    startEditMode(){
+      this.editMode = true;
+      this.router.navigate([], {
+        queryParams: {
+          edit:true
+        },
+        queryParamsHandling: "merge"
+      });
+    }
+
+    finishEditMode(){
       this.editMode = false;
+      this.router.navigate([], {
+        queryParams: {
+          edit:undefined
+        },
+        queryParamsHandling: "merge"
+      });
     }
 
     onSubmit() {
@@ -70,8 +107,9 @@ export class UserProfileComponent implements AfterViewInit {
         this.myForm.value.name,
         this.myForm.value.email,
         this.myForm.value.organization).subscribe(user=>{
-        this.editMode = false;
-      })
+          this.showMessage("success", "Your profile was updated.");
+          this.finishEditMode();
+        })
     }
 
   onDeleteProfile(){
@@ -91,6 +129,13 @@ export class UserProfileComponent implements AfterViewInit {
         });
       }
     });
+  }
+
+  showMessage(type:'info' | 'success' | 'warning' | 'error', message:string){
+      this.messages = [{
+        type: type,
+        message: message
+      }];
   }
 
 

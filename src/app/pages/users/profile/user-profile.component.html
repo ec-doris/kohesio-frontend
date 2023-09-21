@@ -23,6 +23,9 @@
     </div>
     <div class="page-content">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="message-container">
+                <kohesio-ecl-message *ngFor="let message of messages" [type]="message.type" [message]="message.message" (dismissMessage)="messages = undefined"></kohesio-ecl-message>
+            </div>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>USER ID:</kohesio-ecl-form-label>
                 <div class="label-only">
@@ -84,8 +87,8 @@
                 </div>
             </kohesio-ecl-form-group>
         </form>
-        <div class="danger-zone">
-            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()" *ngIf="!editMode">Click here if you want to delete your profile.</kohesio-ecl-button>
+        <div class="danger-zone" *ngIf="!editMode">
+            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()">Click here if you want to delete your profile.</kohesio-ecl-button>
         </div>
     </div>
 </div>

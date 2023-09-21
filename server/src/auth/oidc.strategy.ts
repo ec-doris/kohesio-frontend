@@ -47,8 +47,10 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     /*const id_token = tokenset.id_token
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token*/
+    let invitation:boolean = false;
     try {
       if (req.query.state.startsWith("/api/invitation")) {
+        invitation = true;
         console.log("CHECKING THE INVITATION");
         const token = req.query.state.replace("/api/invitation/", "");
         const email: string = claims.email as string;
@@ -58,7 +60,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
             throw new UnauthorizedException();
           }
         });
-        req.query.state = '/users/profile';
+        req.query.state = '/';
       }
       let userDB: UserDTO = await this.authService.validateUser(useruid);
       if (userDB) {
@@ -78,6 +80,11 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
           userInput.email = userDB.email ? userDB.email : email;
           //console.log("USER_INPUT",userInput);
           userDB = await this.authService.updateUser(userInput);
+        }
+
+        //If still doesn't have name or organization, send user to profile page to change it
+        if (invitation && (!userDB.name || !userDB.organization)) {
+          req.query.state = '/users/profile?edit=true&update=true';
         }
         //console.log("USER AUTHORIZED",userDB);
         await this.authService.loginUser(useruid);

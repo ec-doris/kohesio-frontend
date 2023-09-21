@@ -113,6 +113,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
       this.myForm = this.formBuilder.group({
         keywords: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
+        town: this._route.snapshot.queryParamMap.get(this.translateService.queryParams.town),
         country: [this.getFilterKey("countries", this.translateService.queryParams.country)],
         region: [],
         policyObjective: [this.getFilterKey("policy_objectives", this.translateService.queryParams.policyObjective)],
@@ -138,7 +139,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.myForm.value.interventionField || this.myForm.value.totalProjectBudget ||
           this.myForm.value.amountEUSupport || this.myForm.value.projectStart ||
           this.myForm.value.projectEnd || this.myForm.value.interreg ||
-          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectCollection){
+          this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectCollection || this.myForm.value.town){
             this.advancedFilterIsExpanded = true;
       };
 
@@ -372,6 +373,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
         [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
         [this.translateService.queryParams.projectCollection]: this.getFilterLabel("project_types", this.myForm.value.projectCollection),
+        [this.translateService.queryParams.town]: this.myForm.value.town ? this.myForm.value.town.trim() : null
       }
     }
 
