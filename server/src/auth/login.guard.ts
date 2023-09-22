@@ -25,6 +25,14 @@ export class LoginGuard extends AuthGuard('oidc') {
     return result;
   }
 
+  handleRequest(err, user, info) {
+    // You can throw an exception based on either "info" or "err" arguments
+    if (err || !user) {
+      throw err || new UnauthorizedException();
+    }
+    return user;
+  }
+
   async getAuthenticateOptions(context: any) {
     const request = context.switchToHttp().getRequest();
     const query = request.query;

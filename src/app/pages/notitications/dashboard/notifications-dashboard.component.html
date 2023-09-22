@@ -49,7 +49,7 @@
                     </ng-container>
                     <ng-container *ngFor="let notification of notificationList">
                         <tr class="ecl-table__row">
-                            <td class="ecl-table__cell" data-ecl-table-header="CCI">
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
                                 <a [routerLink]="['/projects/'+notification.operation_qid]"
                                    [queryParams]="(notification.notification_type == 'EDIT_SUBMITTED') ?
                                     {edit: 'true',editVersion:notification.edit_version_id} :

@@ -99,7 +99,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.REVIEWER)
   @ApiOkResponse({
     type:UserDTO
   })
@@ -108,6 +108,7 @@ export class UserController extends BaseController{
   @Put('/:id')
   async editUser(@Req() req,@Body() userDTO: UserInDto, @Param('id') id: string): Promise<UserDTO | void>{
     userDTO.userid = id;
+    //console.log("USER_EDIT",userDTO);
     return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 

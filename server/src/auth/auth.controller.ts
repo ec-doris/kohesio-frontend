@@ -3,7 +3,7 @@ import {
   Get,
   Request,
   Res, Req, Session,
-  UseGuards, Query, Param, HttpStatus, HttpException,
+  UseGuards, Query, Param, HttpStatus, HttpException, UseFilters,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginGuard } from './login.guard';
@@ -11,6 +11,7 @@ import {ConfigService} from "@nestjs/config";
 import {AuthService} from "./auth.service";
 import {UserService} from "../users/user.service";
 import {BaseController} from "../base.controller";
+import {ViewAuthFilter} from "./unauthorized.filter";
 
 @Controller()
 export class AuthController extends BaseController{
@@ -60,6 +61,7 @@ export class AuthController extends BaseController{
   }
 
   @UseGuards(LoginGuard)
+  @UseFilters(ViewAuthFilter)
   @Get('/loginCallback')
   async loginCallback(@Query('state') state, @Req() req, @Res() res: Response) {
     //console.log("STATE",state);

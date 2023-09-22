@@ -41,7 +41,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private userService:UserService,
+    public userService:UserService,
     private filterService: FilterService
   ) {
   }
@@ -165,8 +165,10 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   }
 
   onClickCci(cci_qid:string){
-    this.myForm.value.ccis.splice(this.myForm.value.ccis.findIndex((a:string) => a === cci_qid) , 1)
-    this.ccis_list.splice(this.ccis_list.findIndex((a:any) => a.cci === cci_qid) , 1)
+    if (this.userService.isAdmin()) {
+      this.myForm.value.ccis.splice(this.myForm.value.ccis.findIndex((a: string) => a === cci_qid), 1)
+      this.ccis_list.splice(this.ccis_list.findIndex((a: any) => a.cci === cci_qid), 1)
+    }
   }
 
 
