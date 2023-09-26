@@ -128,4 +128,8 @@ export class EditsDashboardComponent implements AfterViewInit {
       }
     }
 
+    onPaginate(event: any) {
+     console.log(event);
+    }
+
 }
