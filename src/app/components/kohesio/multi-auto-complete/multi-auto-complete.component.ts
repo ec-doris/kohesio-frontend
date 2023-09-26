@@ -51,6 +51,7 @@ export class KohesioMultiAutoCompleteComponent implements ControlValueAccessor, 
   writeValue(obj: any): void {
     if (obj == null){
       this.inputValue = undefined;
+      this.selectedItems = [];
     }
     if (obj && obj.length){
       obj.forEach((o:AutoCompleteItem)=>{
