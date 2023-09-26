@@ -7,13 +7,9 @@
                 <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation"></kohesio-ecl-form-radio>
             </div>
         </kohesio-ecl-form-group>
-        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
-            <kohesio-ecl-form-label [required]="true">User ID:</kohesio-ecl-form-label>
-            <kohesio-ecl-form-text-input formControlName="userid" [isDisabled]="editMode" [focus]="true"></kohesio-ecl-form-text-input>
-        </kohesio-ecl-form-group>
-        <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'invitation'">
+        <kohesio-ecl-form-group>
             <kohesio-ecl-form-label [required]="true">Email:</kohesio-ecl-form-label>
-            <kohesio-ecl-form-text-input formControlName="email" [focus]="true"></kohesio-ecl-form-text-input>
+            <kohesio-ecl-form-text-input formControlName="email" [focus]="true" [isDisabled]="editMode"></kohesio-ecl-form-text-input>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
             <kohesio-ecl-form-label>Role:</kohesio-ecl-form-label>

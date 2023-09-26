@@ -67,7 +67,6 @@ export class UserController extends BaseController{
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @Post('')
   async addUser(@Req() req, @Body() userDTO: UserInDto): Promise<UserDTO | void>{
-    userDTO.userid = userDTO.userid.toLowerCase();
     return await this.userService.addUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 

@@ -50,7 +50,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     this.myForm = this.formBuilder.group({
       'formType': 'addUser',
       'userid': new FormControl(this.data ? this.data.user_id : ''),
-      'email': new FormControl(''),
+      'email': new FormControl(this.data ? this.data.email : ''),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
@@ -90,9 +90,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
-      if (!this.editMode && this.myForm.value.formType == 'addUser' && !this.myForm.value.userid) {
-        this.errorMessage = "UserID is mandatory.";
-      }else if(!this.editMode && this.myForm.value.formType == 'invitation' && !this.myForm.value.email) {
+      if(!this.myForm.value.email) {
         this.errorMessage = "Email is mandatory.";
       }else {
         if (this.myForm.value.formType == 'invitation'){
@@ -111,7 +109,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
               observer.next(true);
             })
           } else {
-            this.userService.addUser(this.myForm.value.userid,
+            this.userService.addUser(
+              this.myForm.value.email,
               this.myForm.value.role,
               this.myForm.value.active,
               this.myForm.value.ccis,

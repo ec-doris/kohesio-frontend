@@ -52,6 +52,8 @@ export class UserService {
   }
 
   async addUser(currentUser:string, userDetails: UserInDto):Promise<UserDTO>{
+    console.log("CURRENT_USER",currentUser);
+    console.log("USER_DETAILS",userDetails);
     return await firstValueFrom(
       this.httpService.post<UserDTO>(`${this.baseUrl}/users`,
         plainToInstance(UserInternalInDto,userDetails),
