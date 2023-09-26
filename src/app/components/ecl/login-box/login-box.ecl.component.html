@@ -40,7 +40,7 @@
             <ng-template #menu>
                 <div class="login-box-menu-container" cdkMenu>
                     <div class="login-box-menu-item userinfo">
-                        Logged in as {{userService.user ? userService.user.user_id : '' }}
+                        Logged in as {{userService.user ? userService.user.name : '' }}
                         <div *ngIf="userService.user.impersonateUser" class="impersonatedUser-label">(IMPERSONATED)</div>
                     </div>
                     <div class="login-box-menu-item">

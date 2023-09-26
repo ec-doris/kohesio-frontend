@@ -118,11 +118,10 @@ export class UserService {
     );
   }
 
-  async acceptInvitation(userid:string, email:string, token: string):Promise<boolean>{
+  async acceptInvitation(email:string, token: string):Promise<boolean>{
     return await firstValueFrom(
       this.httpService.post<boolean>(`${this.baseUrl}/invitations/accept`,
         {
-          user_id:userid,
           email:email ? email.toLowerCase() : '',
           token:token
         }).pipe(
@@ -142,6 +141,21 @@ export class UserService {
         {headers:{"user-id":userid}} as any).pipe(
         map((result:any)=>{
           return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async validateUser(userEmail: string):Promise<UserDTO>{
+    return await firstValueFrom(
+      this.httpService.get<UserDTO>(`${this.baseUrl}/login/validate`,
+        {params:{"email":userEmail}} as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(UserDTO,data);
         }),
         catchError(err => {
           return this.handlingCatchError(err)

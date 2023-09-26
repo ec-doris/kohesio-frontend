@@ -7,15 +7,15 @@ import {UserDTO} from "../users/dtos/user.dto";
 export class AuthService {
   constructor(private userService: UserService) {}
 
-  async validateUser(userid:string): Promise<UserDTO | undefined>{
-    const userDB:UserDTO = await this.userService.getUser(userid);
+  async validateUser(userid:string): Promise<UserDTO>{
+    return await this.userService.validateUser(userid);
     //console.log("VALIDATE_USER",userDB);
-    if (!userDB.active ||
+    /*if (!userDB.active ||
       (userDB.expiration_time && (new Date(userDB.expiration_time) < new Date))){
       return undefined;
     }else {
       return userDB;
-    }
+    }*/
   }
 
   async updateUser(userdata:UserInDto): Promise<UserDTO>{

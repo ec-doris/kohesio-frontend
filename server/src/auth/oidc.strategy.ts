@@ -43,7 +43,8 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     //console.log("STATE",req.query.state);
     const claims:IdTokenClaims = tokenset.claims();
     //console.log("CLAIMS",claims);
-    const useruid = claims.sub;
+    //const useruid = claims.sub;
+    const email: string = claims.email as string;
     /*const id_token = tokenset.id_token
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token*/
@@ -54,16 +55,18 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         console.log("CHECKING THE INVITATION");
         const token = req.query.state.replace("/api/invitation/", "");
         const email: string = claims.email as string;
-        await this.userService.acceptInvitation(useruid, email, token).catch(error => {
+        await this.userService.acceptInvitation(email, token).catch(error => {
           if (error.status == HttpStatus.NOT_FOUND) {
-            console.log("USER UNAUTHORIZED, NO INVITATION FOUNDED", useruid);
+            console.log("USER UNAUTHORIZED, NO INVITATION FOUNDED", email);
             throw new UnauthorizedException();
           }
         });
         req.query.state = '/';
       }
-      let userDB: UserDTO = await this.authService.validateUser(useruid);
-      if (userDB) {
+      let userValidated: UserDTO = await this.authService.validateUser(email);
+      console.log("USER",userValidated);
+      if (userValidated && userValidated['user-id']) {
+        let userDB: UserDTO = await this.userService.getUser(userValidated['user-id']);
         const department: string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
         const displayName: string = `${claims.given_name} ${claims.family_name}`;
         const email: string = claims.email as string;
@@ -87,14 +90,14 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
           req.query.state = '/users/profile?edit=true&update=true';
         }
         //console.log("USER AUTHORIZED",userDB);
-        await this.authService.loginUser(useruid);
+        await this.authService.loginUser(userValidated['user-id']);
         return userDB;
       }else{
-        console.log("USER UNAUTHORIZED",useruid);
+        console.log("USER UNAUTHORIZED",email);
         throw new UnauthorizedException();
       }
     } catch (err) {
-      console.log("ERROR, USER UNAUTHORIZED",useruid);
+      console.log("ERROR, USER UNAUTHORIZED",email);
       throw new UnauthorizedException();
     }
   }
