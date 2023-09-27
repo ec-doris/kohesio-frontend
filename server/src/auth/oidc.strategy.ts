@@ -64,7 +64,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         req.query.state = '/';
       }
       let userValidated: UserDTO = await this.authService.validateUser(email);
-      console.log("USER",userValidated);
+      //console.log("USER",userValidated);
       if (userValidated && userValidated['user-id']) {
         let userDB: UserDTO = await this.userService.getUser(userValidated['user-id']);
         const department: string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
