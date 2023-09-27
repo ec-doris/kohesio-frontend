@@ -4,7 +4,7 @@ import {catchError, map} from 'rxjs/operators';
 import {EMPTY, Observable, throwError} from 'rxjs';
 import { plainToInstance } from 'class-transformer';
 import {environment} from "../../environments/environment";
-import {Edit, EditVersion} from "../models/edit.model";
+import {Edit, EditVersion, EditWrapper} from "../models/edit.model";
 
 @Injectable({
   providedIn: 'root'
@@ -46,12 +46,12 @@ export class EditService {
       )
     }
 
-    list(params:any): Observable<Edit[]> {
+    list(params:any): Observable<EditWrapper> {
       return this.http.get<any>(this.url,{
         params:params
       }).pipe(
-        map((data:Object[]) => {
-          return plainToInstance(Edit, data);
+        map((data:Object) => {
+          return plainToInstance(EditWrapper, data);
         }),
         catchError(err => {
           console.error("ERR",err);

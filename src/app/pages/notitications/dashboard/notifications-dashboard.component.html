@@ -66,7 +66,7 @@
                                 <div class="ecl-tag" style="text-decoration: none;">{{notification.notification_type}}</div>
                             </td>
                             <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.creation_time.toLocaleString()}}</td>
-                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_id}}</td>
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_name}}</td>
                             <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
                                 <kohesio-ecl-button variant="secondary" *ngIf="!notification.seen_at" type="button" (click)="markAsRead(notification)">Mark as Read</kohesio-ecl-button>&nbsp;
                             </td>

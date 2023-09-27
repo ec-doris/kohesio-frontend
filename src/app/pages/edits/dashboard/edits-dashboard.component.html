@@ -96,7 +96,7 @@
                                                     <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
                                                 </td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
-                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_id}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_name}}</td>
                                             </tr>
                                         </ng-container>
                                     </tbody>
@@ -107,13 +107,15 @@
                 </ng-container>
                 </tbody>
             </table>
-            <!--<mat-paginator #paginatorTop
-                           [length]="100"
-                           [pageIndex]="0"
-                           [pageSize]="10"
-                           [pageSizeOptions]="[5, 10, 25, 100]"
-                           (page)="onPaginate($event)">
-            </mat-paginator>-->
+            <div class="bottom-tools" *ngIf="!isLoading">
+                <mat-paginator #paginator
+                               [length]="editCount"
+                               [pageIndex]="filters.page"
+                               [pageSize]="filters.page_size"
+                               [pageSizeOptions]="[5, 10, 25, 100]"
+                               (page)="onPaginate($event)">
+                </mat-paginator>
+            </div>
         </div>
     </div>
 </div>

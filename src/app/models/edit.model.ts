@@ -22,6 +22,11 @@ export class Edit {
 
 }
 
+export class EditWrapper {
+  count!: number;
+  data!: Edit[];
+}
+
 export class EditVersion {
 
   edit_id!: number;
@@ -29,6 +34,7 @@ export class EditVersion {
   operation_qid?: string;
   edit_version_id!: number;
   user_id?: string;
+  user_name?: string;
   version_comment?: string;
   status?: string;
   label?: string;
