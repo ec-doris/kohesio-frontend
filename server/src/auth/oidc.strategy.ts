@@ -87,7 +87,7 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
 
         //If still doesn't have name or organization, send user to profile page to change it
         if (invitation && (!userDB.name || !userDB.organization)) {
-          req.query.state = '/users/profile?edit=true&update=true';
+          req.query.state = '/en/users/profile?edit=true&update=true';
         }
         //console.log("USER AUTHORIZED",userDB);
         await this.authService.loginUser(userValidated['user-id']);
