@@ -28,7 +28,7 @@
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">User ID</th>
+                    <th class="ecl-table__header">Email</th>
                     <th class="ecl-table__header">Name</th>
                     <th class="ecl-table__header">Organization</th>
                     <th class="ecl-table__header">Role</th>
@@ -38,7 +38,7 @@
                 </thead>
                 <tbody class="ecl-table__body">
                     <tr class="ecl-table__row" *ngFor="let user of usersList" style="height: 70px;">
-                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.user_id}}</td>
+                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.email}}</td>
                         <td data-ecl-table-header="Name" class="ecl-table__cell">{{user.name}}</td>
                         <td data-ecl-table-header="Organization" class="ecl-table__cell">{{user.organization}}</td>
                         <td data-ecl-table-header="Role" class="ecl-table__cell">{{user.role}}</td>

@@ -66,11 +66,21 @@
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>CREATED:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.creation_time?.toLocaleString()}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>LAST LOGIN:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.last_login_time?.toLocaleString()}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>EXPIRATION:</kohesio-ecl-form-label>
                 <div class="label-only">
-                    {{userService.user.expiration_time ?
-                    (userService.user.expiration_time | date:'d MMMM yyyy') :
-                        'NEVER'}}
+                    {{userService.user.expiration_time ? userService.user.expiration_time.toLocaleDateString() : 'NEVER'}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
