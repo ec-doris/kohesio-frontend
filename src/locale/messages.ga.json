@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Níor mhaith liom, go raibh maith agat",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Cruthófar fianán ionas nach bhfaighidh tú an teachtaireacht seo arís)",
-    "comp.survey-dialog.text": "Táimid i gcónaí ag iarraidh feabhas a chur ar ár suíomh gréasáin. Sin an fáth ar mhaith linn do thuairim a fháil. Cabhróidh d’aighneacht linn Kohesio a dhéanamh chomh héasca agus chomh soiléir agus is féidir."
+    "comp.survey-dialog.text": "Táimid i gcónaí ag iarraidh feabhas a chur ar ár suíomh gréasáin. Sin an fáth ar mhaith linn do thuairim a fháil. Cabhróidh d’aighneacht linn Kohesio a dhéanamh chomh héasca agus chomh soiléir agus is féidir.",
+    "page.projects.label.town": "baile",
+    "translate.queryParams.town": "baile"
 	}
 }

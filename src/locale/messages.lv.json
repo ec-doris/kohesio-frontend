@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nevēlos atbildēt",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Lai jūs vairs nesaņemtu šo ziņu, tiks izveidota sīkdatne)",
-    "comp.survey-dialog.text": "Mēs nepārtraukti cenšamies uzlabot mūsu tīmekļa vietni, tādēļ mums ir svarīgs jūsu viedoklis. Jūsu atbildes palīdzēs mums padarīt \"Kohesio\" tīmekļa vietni vieglāk lietojamu un saprotamāku."
+    "comp.survey-dialog.text": "Mēs nepārtraukti cenšamies uzlabot mūsu tīmekļa vietni, tādēļ mums ir svarīgs jūsu viedoklis. Jūsu atbildes palīdzēs mums padarīt \"Kohesio\" tīmekļa vietni vieglāk lietojamu un saprotamāku.",
+    "page.projects.label.town": "mazpilsēta",
+    "translate.queryParams.town": "mazpilsēta"
 	}
 }

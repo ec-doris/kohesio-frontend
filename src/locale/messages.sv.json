@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nej tack",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(En cookie kommer skapas så att du inte får det här meddelandet igen)",
-    "comp.survey-dialog.text": "Vi försöker alltid förbättra vår webbplats. Det är därför vi vill höra din åsikt. Ditt bidrag kommer att hjälpa oss att göra Kohesio så användarvänlig och tydlig som möjligt.\n"
+    "comp.survey-dialog.text": "Vi försöker alltid förbättra vår webbplats. Det är därför vi vill höra din åsikt. Ditt bidrag kommer att hjälpa oss att göra Kohesio så användarvänlig och tydlig som möjligt.\n",
+    "page.projects.label.town": "småstad",
+    "translate.queryParams.town": "småstad"
 	}
 }

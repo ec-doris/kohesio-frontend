@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Ei kiitos",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Tietokoneellesi tallennetaan eväste, joka estää sinua saamasta tätä viestiä uudestaan)",
-    "comp.survey-dialog.text": "Pyrimme aina parantamaan verkkosivustoamme. Siksi haluamme kuulla sinun mielipiteesi. Vastauksesi auttaa meitä parantamaan Kohesio-sivuston käytettävyyttä ja selkeyttä."
+    "comp.survey-dialog.text": "Pyrimme aina parantamaan verkkosivustoamme. Siksi haluamme kuulla sinun mielipiteesi. Vastauksesi auttaa meitä parantamaan Kohesio-sivuston käytettävyyttä ja selkeyttä.",
+    "page.projects.label.town": "pikkukaupunki",
+    "translate.queryParams.town": "pikkukaupunki"
 	}
 }

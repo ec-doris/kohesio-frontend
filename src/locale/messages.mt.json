@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Le grazzi",
     "comp.survey-dialog.button.ok": "Iva",
     "comp.survey-dialog.cookieDisclaimer": "(Sejra tinħoloq cookie sabiex inti ma terġax tirċievi dan il-messaġġ)",
-    "comp.survey-dialog.text": "Dejjem qed infittxu li ntejbu s-sit web tagħna. Huwa għalhekk li rridu nkunu nafu l-opinjoni tiegħek. Il-kontribut tiegħek se jgħinna nagħmlu Kohesio kemm jista’ jkun faċli għall-utent u ċar."
+    "comp.survey-dialog.text": "Dejjem qed infittxu li ntejbu s-sit web tagħna. Huwa għalhekk li rridu nkunu nafu l-opinjoni tiegħek. Il-kontribut tiegħek se jgħinna nagħmlu Kohesio kemm jista’ jkun faċli għall-utent u ċar.",
+    "page.projects.label.town": "belt",
+    "translate.queryParams.town": "belt"
 	}
 }
