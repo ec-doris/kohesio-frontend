@@ -3,6 +3,9 @@ import {NotificationService} from "../../../services/notification.service";
 import {Notification} from "../../../models/notification.model";
 import {FormControl, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
+import {Edit} from "../../../models/edit.model";
+import {forkJoin} from "rxjs";
+import {ProjectService} from "../../../services/project.service";
 
 @Component({
     templateUrl: './notifications-dashboard.component.html',
@@ -12,6 +15,7 @@ export class NotificationsDashboardComponent implements AfterViewInit {
 
     public notificationList?:Notification[];
     public myForm!: UntypedFormGroup;
+    public isLoading = false;
 
     public filters:any = {
     };
@@ -19,6 +23,7 @@ export class NotificationsDashboardComponent implements AfterViewInit {
 
     constructor(private notificationService: NotificationService,
                 private userService: UserService,
+                private projectService: ProjectService,
                 private formBuilder: UntypedFormBuilder){
     }
 
@@ -40,6 +45,8 @@ export class NotificationsDashboardComponent implements AfterViewInit {
     }
 
     getNotificationList(){
+      this.isLoading = true;
+      this.notificationList = [];
       let seen:boolean|undefined = undefined;
       if (this.myForm) {
         if (this.myForm.value.seen == 'unread') {
@@ -51,7 +58,23 @@ export class NotificationsDashboardComponent implements AfterViewInit {
         seen = false;
       }
       this.notificationService.getNotifications(seen).subscribe((notifications:Notification[])=>{
-        this.notificationList = notifications;
+        if (notifications && notifications.length) {
+          const projectObservables: any[] = [];
+          notifications.forEach((notification: Notification) => {
+            projectObservables.push(this.projectService.getProjectDetail(notification.operation_qid));
+          })
+          forkJoin(projectObservables).subscribe((results: any) => {
+            results.forEach((result: any, index: number) => {
+              if (result && result.program && result.program.length) {
+                notifications[index].projectTitle = result.label;
+              }
+            })
+            this.notificationList = notifications;
+            this.isLoading = false;
+          })
+        }else{
+          this.isLoading = false;
+        }
       })
     }
 

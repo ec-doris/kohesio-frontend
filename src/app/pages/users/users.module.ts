@@ -21,6 +21,7 @@ import {MAT_DATE_LOCALE, MatNativeDateModule} from "@angular/material/core";
 import {MatInputModule} from "@angular/material/input";
 import {UserInviteDialogComponent} from "./invite-dialog/user-invite-dialog.component";
 import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-radio.ecl.module";
+import {KohesioEclSpinnerModule} from "../../components/ecl/spinner/spinner.ecl.module";
 
 @NgModule({
     imports: [
@@ -43,7 +44,8 @@ import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-r
         MatFormFieldModule,
         MatNativeDateModule,
         MatInputModule,
-        KohesioEclFormRadioModule
+        KohesioEclFormRadioModule,
+        KohesioEclSpinnerModule
     ],
   declarations: [
     UserDashboardComponent,

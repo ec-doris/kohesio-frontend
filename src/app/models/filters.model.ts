@@ -12,7 +12,7 @@ export class Filters implements Deserializable{
     public policyObjective: string | undefined;
     public fund: string | undefined;
     public program: string | undefined;
-    public interventionField: string | undefined;
+    public interventionField: string[] | undefined;
     public budgetSmallerThan: number | undefined;
     public budgetBiggerThan: number | undefined;
     public budgetEUSmallerThan: number | undefined;
@@ -30,6 +30,7 @@ export class Filters implements Deserializable{
     public cci: string | undefined;
     public priority_axis: string | undefined;
     public projectTypes: string | undefined;
+    public town: string | undefined;
 
     deserialize(input: any): this {
 
@@ -70,6 +71,7 @@ export class Filters implements Deserializable{
             cci: input.cci ? input.cci : undefined,
             priority_axis: input.priority_axis ? input.priority_axis : undefined,
             projectTypes: input.projectCollection ? input.projectCollection : undefined,
+            town: input.town ? input.town : undefined,
         });
     }
 
@@ -82,7 +84,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -96,7 +98,8 @@ export class Filters implements Deserializable{
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
             ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis},
-            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes}
+            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes},
+            ...(this.town != undefined) && {town: this.town}
         }
     }
 
@@ -109,7 +112,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -120,7 +123,8 @@ export class Filters implements Deserializable{
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
             ...(this.cci != undefined) && {cci: this.cci},
             ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis},
-            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes}
+            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes},
+            ...(this.town != undefined) && {town: this.town}
         }
     }
 
@@ -133,7 +137,7 @@ export class Filters implements Deserializable{
             ...(this.policyObjective) && {policyObjective: environment.entityURL + this.policyObjective},
             ...(this.fund) && {fund: environment.entityURL + this.fund},
             ...(this.program) && {program: environment.entityURL + this.program},
-            ...(this.interventionField) && {categoryOfIntervention: environment.entityURL + this.interventionField},
+            ...(this.interventionField) && {categoryOfIntervention: this.setEntityInArray(this.interventionField)},
             ...(this.budgetSmallerThan) && {budgetSmallerThan: this.budgetSmallerThan},
             ...(this.budgetBiggerThan) && {budgetBiggerThan: this.budgetBiggerThan},
             ...(this.budgetEUSmallerThan) && {budgetEUSmallerThan: this.budgetEUSmallerThan},
@@ -143,7 +147,8 @@ export class Filters implements Deserializable{
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
             ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis},
-            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes}
+            ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes},
+            ...(this.town != undefined) && {town: this.town}
         }
     }
 
@@ -172,6 +177,14 @@ export class Filters implements Deserializable{
             }
         }
         return undefined;
+    }
+
+    private setEntityInArray(values:string[]){
+      const result:string[] = []
+      values.forEach(value=>{
+        result.push(environment.entityURL + value);
+      })
+      return result;
     }
 
 }

@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nee, dank u",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Er wordt een cookie aangemaakt zodat u dit bericht niet meer te zien krijgt)",
-    "comp.survey-dialog.text": "We zijn altijd op zoek naar manieren om onze website te verbeteren. Daarom willen we graag uw mening weten. Uw bijdrage helpt ons om Kohesio zo gebruiksvriendelijk en duidelijk mogelijk te maken."
+    "comp.survey-dialog.text": "We zijn altijd op zoek naar manieren om onze website te verbeteren. Daarom willen we graag uw mening weten. Uw bijdrage helpt ons om Kohesio zo gebruiksvriendelijk en duidelijk mogelijk te maken.",
+    "page.projects.label.town": "town",
+    "translate.queryParams.town": "town"
 	}
 }

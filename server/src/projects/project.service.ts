@@ -26,7 +26,10 @@ export class ProjectService {
   async projectSearch(params: ProjectSearchInDto):Promise<ProjectSearchWrapperOutDto>{
     return await firstValueFrom(
       this.httpService.get<ProjectSearchWrapperOutDto>(`${this.baseUrl}/search/project`,{
-        params: params
+        params: params,
+        paramsSerializer: {
+          indexes: null
+        }
       }).pipe(
         map((result:any)=>{
           const data:Object = result.data;
@@ -42,7 +45,10 @@ export class ProjectService {
   async projectSearchImage(params: ProjectSearchInDto):Promise<ProjectImageSearchWrapperOutDto>{
     return await firstValueFrom(
       this.httpService.get<ProjectImageSearchWrapperOutDto>(`${this.baseUrl}/search/project/image`,{
-        params: params
+        params: params,
+        paramsSerializer: {
+          indexes: null
+        }
       }).pipe(
         map((result:any)=>{
           const data:Object = result.data;

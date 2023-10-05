@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nu, mulţumesc",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Va fi creat un cookie pentru a nu mai primi acest mesaj)",
-    "comp.survey-dialog.text": "Căutăm mereu să ne îmbunătățim site-ul. De aceea, dorim să aflăm opinia dvs. Contribuția dvs. ne va ajuta să facem Kohesio cât mai ușor de utilizat și mai clar posibil."
+    "comp.survey-dialog.text": "Căutăm mereu să ne îmbunătățim site-ul. De aceea, dorim să aflăm opinia dvs. Contribuția dvs. ne va ajuta să facem Kohesio cât mai ușor de utilizat și mai clar posibil.",
+    "page.projects.label.town": "orășel",
+    "translate.queryParams.town": "orășel"
 	}
 }

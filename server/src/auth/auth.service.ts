@@ -8,7 +8,14 @@ export class AuthService {
   constructor(private userService: UserService) {}
 
   async validateUser(userid:string): Promise<UserDTO>{
-    return await this.userService.getUser(userid);
+    return await this.userService.validateUser(userid);
+    //console.log("VALIDATE_USER",userDB);
+    /*if (!userDB.active ||
+      (userDB.expiration_time && (new Date(userDB.expiration_time) < new Date))){
+      return undefined;
+    }else {
+      return userDB;
+    }*/
   }
 
   async updateUser(userdata:UserInDto): Promise<UserDTO>{

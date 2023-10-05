@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Ne, děkuji",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Vytvoří se soubor cookie, abyste již tuto zprávu nedostávali)",
-    "comp.survey-dialog.text": "Stále se snažíme naše webové stránky vylepšovat. Proto chceme znát váš názor. Váš příspěvek nám pomůže, aby byly stránky Kohesio uživatelsky co nejpřívětivější a nejpřehlednější."
+    "comp.survey-dialog.text": "Stále se snažíme naše webové stránky vylepšovat. Proto chceme znát váš názor. Váš příspěvek nám pomůže, aby byly stránky Kohesio uživatelsky co nejpřívětivější a nejpřehlednější.",
+    "page.projects.label.town": "malé město",
+    "translate.queryParams.town": "malé město"
 	}
 }

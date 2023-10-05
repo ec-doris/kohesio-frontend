@@ -3,6 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
 import {Observable, Observer, of} from 'rxjs';
 import {forkJoin} from 'rxjs';
+import { zip } from "rxjs";
 import {environment} from "../../environments/environment";
 import {FiltersApi} from "../models/filters-api.model";
 
@@ -244,12 +245,22 @@ export class FilterService {
           "country":"countries",
           "region":"regions"
         }
-        let key = this.getFilterKey(filterType[type], label);
         if (type == "interventionField"){
-          this.getKohesioCategory(key.id).subscribe((data:any)=>{
-            resolve(data.instanceLabel);
-          });
+          let labels:string[] = label.split(",");
+          let observables:any[] = [];
+          labels.forEach((lbl:string)=>{
+            let keyId = this.getFilterKey(filterType[type], lbl).id;
+            observables.push(this.getKohesioCategory(keyId));
+          })
+          forkJoin(observables).subscribe((results:any[])=>{
+            let data:string[] = [];
+            results.forEach(result=>{
+              data.push(result.instanceLabel);
+            })
+            resolve(data.toString());
+          })
         }else{
+          let key = this.getFilterKey(filterType[type], label);
           resolve(this.getFilterLabel(filterType[type],key, true));
         }
       });

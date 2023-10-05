@@ -125,6 +125,7 @@ export class ProjectDetailComponent implements AfterViewInit {
     };
     public messageLanguageEditConflict?:string;
     public errorMessage?:string;
+    public successMessage?:string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -156,8 +157,19 @@ export class ProjectDetailComponent implements AfterViewInit {
           'language': new FormControl(this.translateService.locale, {nonNullable: true})
         })
 
+
         if (this._route.snapshot.queryParamMap.has("edit")){
-          this.editProject();
+          if (this.project.canEdit) {
+            this.editProject();
+          }else{
+            this._router.navigate([], {
+              queryParams: {
+                edit:undefined,
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
+          }
         }
 
     }
@@ -307,6 +319,7 @@ export class ProjectDetailComponent implements AfterViewInit {
                   description: edit.latest_version.summary,
                   language: edit.language
                 });
+                this.myForm.markAsPristine();
                 this.startEditMode();
               }
             }
@@ -342,6 +355,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         queryParamsHandling: "merge"
       });
     }
+
 
     updateQueryParams(key:string, value:Object|undefined){
       this._router.navigate([], {
@@ -405,31 +419,40 @@ export class ProjectDetailComponent implements AfterViewInit {
               versionId: null,
               status: null
             });
+            this._router.navigate([], {
+              queryParams: {
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
             this.editProject();
           })
         }
       });
     }
 
-    saveVersion(status:string){
+    saveVersion(status:string, title:string){
       if (this.myForm.dirty || status != "DRAFT") {
         let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
           disableClose: false,
           autoFocus: false,
           data: {
             childComponent: SaveDraftComponent,
-            title: "Save as",
+            title: title,
             primaryActionLabel: "Save",
             secondaryActionLabel: "Cancel"
           }
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result.action && result.action == 'primary') {
+            if (status == 'REJECT'){
+              status = 'DRAFT';
+            }
             this.createEditVersion(result.data.comment, status);
           }
         });
       }else{
-        this.errorMessage = 'There is no change!'
+        this.errorMessage = 'There is no change detected.'
       }
     }
 
@@ -444,11 +467,19 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.language=this.myForm.value.language;
       edit.status=status;
       this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
-        if (status == 'APPROVED'){
+        if (status == 'APPROVED' || status == 'SUBMITTED'){
           this.project.label = version.label;
           this.project.description = version.summary;
+          this.successMessage = status == 'APPROVED' ? 'The version was approved and will be published as soon as possible. Every week, we will inform you by email about the status of your edits.'
+            : 'The version was submitted and will be revised by a reviewer.'
           this.finishEditMode();
         }else{
+          this._router.navigate([], {
+            queryParams: {
+              editVersion:undefined
+            },
+            queryParamsHandling: "merge"
+          });
           this.editProject();
         }
       })

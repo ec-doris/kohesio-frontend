@@ -67,7 +67,6 @@ export class UserController extends BaseController{
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @Post('')
   async addUser(@Req() req, @Body() userDTO: UserInDto): Promise<UserDTO | void>{
-    userDTO.userid = userDTO.userid.toLowerCase();
     return await this.userService.addUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 
@@ -99,7 +98,7 @@ export class UserController extends BaseController{
   }
 
   @UseGuards(RolesGuard)
-  @Roles(Role.ADMIN)
+  @Roles(Role.ADMIN,Role.REVIEWER)
   @ApiOkResponse({
     type:UserDTO
   })
@@ -108,6 +107,7 @@ export class UserController extends BaseController{
   @Put('/:id')
   async editUser(@Req() req,@Body() userDTO: UserInDto, @Param('id') id: string): Promise<UserDTO | void>{
     userDTO.userid = id;
+    //console.log("USER_EDIT",userDTO);
     return await this.userService.editUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 

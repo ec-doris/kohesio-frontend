@@ -7,7 +7,7 @@ export class ProjectSearchInDto extends BasicDTO{
   theme?:string;
   fund?:string;
   program?:string;
-  categoryOfIntervention?:string;
+  categoryOfIntervention?:string[];
   policyObjective?:string;
   budgetBiggerThan?:number;
   budgetSmallerThan?:number;

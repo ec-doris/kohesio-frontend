@@ -16,6 +16,8 @@ import {KohesioEclFormCheckboxModule} from "../../components/ecl/forms/checkbox/
 import {MatBadgeModule} from "@angular/material/badge";
 import {EditFilterDialogComponent} from "./filter-dialog/edit-filter-dialog.component";
 import {MatSelectModule} from "@angular/material/select";
+import {KohesioEclSpinnerModule} from "../../components/ecl/spinner/spinner.ecl.module";
+import {MatPaginatorModule} from "@angular/material/paginator";
 
 @NgModule({
     imports: [
@@ -34,7 +36,9 @@ import {MatSelectModule} from "@angular/material/select";
         EditsRoutingModule,
         MatDialogModule,
         MatBadgeModule,
-        MatSelectModule
+        MatSelectModule,
+        KohesioEclSpinnerModule,
+        MatPaginatorModule
     ],
   declarations: [
     EditsDashboardComponent,

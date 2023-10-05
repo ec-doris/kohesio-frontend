@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nein danke",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Ein Cookie wird erstellt, damit Sie diese Nachricht nicht mehr erhalten)",
-    "comp.survey-dialog.text": "Wir streben stets danach, unsere Website zu verbessern. Daher holen wir Ihre Meinung ein. Durch Ihren Beitrag können wir Kohesio so nutzungsfreundlich und verständlich wie möglich gestalten."
+    "comp.survey-dialog.text": "Wir streben stets danach, unsere Website zu verbessern. Daher holen wir Ihre Meinung ein. Durch Ihren Beitrag können wir Kohesio so nutzungsfreundlich und verständlich wie möglich gestalten.",
+    "page.projects.label.town": "Kleinstadt",
+    "translate.queryParams.town": "Kleinstadt"
 	}
 }

@@ -10,7 +10,7 @@ export class LoggedinGuard implements CanActivate{
 
   async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
 
-    if (typeof this.userService.user === 'undefined'){
+    if (typeof this.userService.user === 'undefined' || (this.userService.user && this.userService.user.user_id == undefined)){
       //Sometimes the guard here is calling first then the APP_INITIALIZER
       await firstValueFrom(this.userService.getCurrentUser())
       if (this.userService.isLoggedIn()){

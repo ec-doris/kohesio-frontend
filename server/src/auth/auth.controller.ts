@@ -3,7 +3,7 @@ import {
   Get,
   Request,
   Res, Req, Session,
-  UseGuards, Query, Param, HttpStatus, HttpException,
+  UseGuards, Query, Param, HttpStatus, HttpException, UseFilters,
 } from '@nestjs/common';
 import { Response } from 'express';
 import { LoginGuard } from './login.guard';
@@ -11,6 +11,7 @@ import {ConfigService} from "@nestjs/config";
 import {AuthService} from "./auth.service";
 import {UserService} from "../users/user.service";
 import {BaseController} from "../base.controller";
+import {ViewAuthFilter} from "./unauthorized.filter";
 
 @Controller()
 export class AuthController extends BaseController{
@@ -60,6 +61,7 @@ export class AuthController extends BaseController{
   }
 
   @UseGuards(LoginGuard)
+  @UseFilters(ViewAuthFilter)
   @Get('/loginCallback')
   async loginCallback(@Query('state') state, @Req() req, @Res() res: Response) {
     //console.log("STATE",state);
@@ -96,7 +98,17 @@ export class AuthController extends BaseController{
 
   @Get('/invitation/:token')
   async invitation(@Req() req, @Res() res: Response, @Param("token")token:string) {
-    res.redirect('/api/login?callback=/invitation/'+token);
+    console.log("accepting the invitation",token)
+    const redirectURL = '/api/login?callback=/api/invitation/'+token;
+    if (req.user){
+      req.logout(() => {
+        req.session.destroy(async (error: any) => {
+          res.redirect(redirectURL);
+        })
+      })
+    }else {
+      res.redirect(redirectURL);
+    }
   }
 
 }

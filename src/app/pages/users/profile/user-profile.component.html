@@ -16,13 +16,16 @@
     <div class="page-header">
         <h1>My Profile</h1>
         <div class="actions">
-            <kohesio-ecl-button type="button" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" variant="call" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
             <kohesio-ecl-button type="button" (click)="onSubmit()" *ngIf="editMode">Save</kohesio-ecl-button>
             <kohesio-ecl-button type="button" (click)="onCancel()" *ngIf="editMode">Cancel</kohesio-ecl-button>
         </div>
     </div>
     <div class="page-content">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+            <div class="message-container">
+                <kohesio-ecl-message *ngFor="let message of messages" [type]="message.type" [message]="message.message" (dismissMessage)="messages = undefined"></kohesio-ecl-message>
+            </div>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>USER ID:</kohesio-ecl-form-label>
                 <div class="label-only">
@@ -63,24 +66,39 @@
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>CREATED:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.creation_time?.toLocaleString()}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>LAST LOGIN:</kohesio-ecl-form-label>
+                <div class="label-only">
+                    {{userService.user.last_login_time?.toLocaleString()}}
+                </div>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>EXPIRATION:</kohesio-ecl-form-label>
                 <div class="label-only">
-                    {{userService.user.expiration_time ?
-                    (userService.user.expiration_time | date:'d MMMM yyyy') :
-                        'NEVER'}}
+                    {{userService.user.expiration_time ? userService.user.expiration_time.toLocaleDateString() : 'NEVER'}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>CCI SCOPE:</kohesio-ecl-form-label>
-
+                <div class="kohesio-ecl-spinner" *ngIf="!ccis_list.length && userService.user.role != 'ADMIN'">
+                    <kohesio-ecl-spinner [hasLabel]="false" ></kohesio-ecl-spinner>
+                </div>
                 <div class="label-only ecl-description-list__definition ecl-description-list__definition--taxonomy"
                      *ngIf="userService.user.role != 'ADMIN'">
-                    <button type="button" class="ecl-tag ecl-tag--removable" *ngFor="let cci of userService.user.allowed_cci_qids">{{cci}}</button>
+                    <button type="button" class="ecl-tag ecl-tag--removable" *ngFor="let cci of ccis_list">{{cci}}</button>
                 </div>
                 <div class="label-only" *ngIf="userService.user.role == 'ADMIN'">
                     All CCIs
                 </div>
             </kohesio-ecl-form-group>
         </form>
+        <div class="danger-zone" *ngIf="!editMode">
+            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()">Click here if you want to delete your profile.</kohesio-ecl-button>
+        </div>
     </div>
 </div>

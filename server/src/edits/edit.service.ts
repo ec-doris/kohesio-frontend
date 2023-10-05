@@ -4,7 +4,7 @@ import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
 import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
-import {EditInDTO, EditOutDTO, EditVersionDTO, EditVersionInDTO} from "./edit.dto";
+import {EditInDTO, EditOutDTO, EditOutWrapperDTO, EditVersionDTO, EditVersionInDTO} from "./edit.dto";
 import {Status} from "./edit.dto";
 
 @Injectable()
@@ -19,9 +19,9 @@ export class EditService {
     this.baseUrlVersions = configService.get<string>('BACKEND_EDITOR_HOST') + '/edit-versions';
   }
 
-  async getEdits(currentUser: string, params: EditInDTO):Promise<EditOutDTO[]>{
+  async getEdits(currentUser: string, params: EditInDTO):Promise<EditOutWrapperDTO>{
     return await firstValueFrom(
-      this.httpService.get<EditOutDTO[]>(`${this.baseUrl}`,
+      this.httpService.get<EditOutWrapperDTO>(`${this.baseUrl}`,
         {
           headers:{"user-id":currentUser},
           params:params,
@@ -30,8 +30,8 @@ export class EditService {
           }
         } as any).pipe(
         map((result:any)=>{
-          const data:Object[] = result.data;
-          return plainToInstance(EditOutDTO,data,{enableImplicitConversion: true});
+          const data:Object = result.data;
+          return plainToInstance(EditOutWrapperDTO,data,{enableImplicitConversion: true});
         }),
         catchError(err => {
           return this.handlingCatchError(err);

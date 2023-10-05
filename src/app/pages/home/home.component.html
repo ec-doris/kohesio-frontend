@@ -21,11 +21,11 @@
                                 </svg>
                             </span>
                         </button>
-                        <h1 class="ecl-card__title" style="color: white;">
+                        <div class="ecl-card__title" style="color: white;">
                             <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getPolicyURL(policyObjective.instanceLabel)" class="themes-title">
                                 {{policyObjective.instanceLabel}}
                             </a>
-                        </h1>
+                        </div>
                         <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}}
                             <ng-container i18n="@@page.home.project">{stats?.themes?.greenerAndCarbonFreeEurope, plural, =1 {project} other {projects}}</ng-container>
                         </div>
@@ -38,11 +38,11 @@
                         <div class="ecl-col-l-4 theme-col" *ngFor="let theme of homePageThemes">
                             <article class="ecl-card theme-card">
                                 <div class="ecl-card__body theme-body">
-                                    <h1 class="ecl-card__title">
+                                    <div class="ecl-card__title">
                                         <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getThemeURL(theme.instanceLabel)" class="ecl-link ecl-link--standalone">
                                             {{theme.instanceLabel}}
                                         </a>
-                                    </h1>
+                                    </div>
                                     <div class="ecl-card__info-container number">
                                         <ng-container *ngIf="theme.id=='TO04'" >
                                             {{stats?.themes?.lowCarbonEconomy | number:'1.0-3':'fr'}}

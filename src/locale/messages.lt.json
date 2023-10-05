@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Ačiū, ne",
     "comp.survey-dialog.button.ok": "Gerai",
     "comp.survey-dialog.cookieDisclaimer": "(Kad nebegautumėte šio pranešimo, bus sukurtas slapukas)",
-    "comp.survey-dialog.text": "Visada stengiamės tobulinti savo svetainę. Todėl norime žinoti jūsų nuomonę. Jūsų indėlis padės mums padaryti „Kohesio“ kuo patogesne ir aiškesne."
+    "comp.survey-dialog.text": "Visada stengiamės tobulinti savo svetainę. Todėl norime žinoti jūsų nuomonę. Jūsų indėlis padės mums padaryti „Kohesio“ kuo patogesne ir aiškesne.",
+    "page.projects.label.town": "mažas miestas",
+    "translate.queryParams.town": "mažas miestas"
 	}
 }

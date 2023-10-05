@@ -27,12 +27,12 @@
             </form>
         </div>
     </div>
-    <div class="users-table" *ngIf="notificationList">
+    <div class="users-table">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                     <tr class="ecl-table__row">
-                        <th class="ecl-table__header">ID</th>
+                        <th class="ecl-table__header">Project</th>
                         <th class="ecl-table__header">Status</th>
                         <th class="ecl-table__header">Date</th>
                         <th class="ecl-table__header">User</th>
@@ -40,13 +40,23 @@
                     </tr>
                 </thead>
                 <tbody class="ecl-table__body">
+                    <ng-container *ngIf="isLoading">
+                        <tr>
+                            <td colspan="6">
+                                <kohesio-ecl-spinner></kohesio-ecl-spinner>
+                            </td>
+                        </tr>
+                    </ng-container>
                     <ng-container *ngFor="let notification of notificationList">
                         <tr class="ecl-table__row">
-                            <td class="ecl-table__cell" data-ecl-table-header="CCI">
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
                                 <a [routerLink]="['/projects/'+notification.operation_qid]"
-                                   [queryParams]="{edit: 'true',editVersion:notification.edit_version_id}"
+                                   [queryParams]="(notification.notification_type == 'EDIT_SUBMITTED') ?
+                                    {edit: 'true',editVersion:notification.edit_version_id} :
+                                    {}
+                                   "
                                    class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
-                                    <span class="ecl-link__label">{{notification.operation_qid}}</span>
+                                    <span class="ecl-link__label">{{notification.projectTitle}}</span>
                                     <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
                                         <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
                                     </svg>
@@ -56,7 +66,7 @@
                                 <div class="ecl-tag" style="text-decoration: none;">{{notification.notification_type}}</div>
                             </td>
                             <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.creation_time.toLocaleString()}}</td>
-                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_id}}</td>
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_name}}</td>
                             <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
                                 <kohesio-ecl-button variant="secondary" *ngIf="!notification.seen_at" type="button" (click)="markAsRead(notification)">Mark as Read</kohesio-ecl-button>&nbsp;
                             </td>

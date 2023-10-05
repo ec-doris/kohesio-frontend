@@ -41,7 +41,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private userService:UserService,
+    public userService:UserService,
     private filterService: FilterService
   ) {
   }
@@ -50,7 +50,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     this.myForm = this.formBuilder.group({
       'formType': 'addUser',
       'userid': new FormControl(this.data ? this.data.user_id : ''),
-      'email': new FormControl(''),
+      'email': new FormControl(this.data ? this.data.email : ''),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
@@ -86,30 +86,11 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.myForm.get('userid')?.disable();
     }
 
-    //this.onFormChanges();
-  }
-
-  onFormChanges(): void {
-    this.myForm.valueChanges.subscribe(val => {
-      console.log(val);
-      console.log("FORM_TYPE",this.myForm.value.formType);
-      /*if (this.myForm.value.formType == 'invitation'){
-        this.myForm.controls["email"].setValidators([Validators.required]);
-        this.myForm.controls["userid"].setValidators(null);
-      }else{
-        this.myForm.controls["userid"].setValidators([Validators.required]);
-        this.myForm.controls["email"].setValidators(null);
-      }
-      this.myForm.controls["userid"].updateValueAndValidity();
-      this.myForm.controls["email"].updateValueAndValidity();*/
-    });
   }
 
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
-      if (this.myForm.value.formType == 'addUser' && !this.myForm.value.userid) {
-        this.errorMessage = "UserID is mandatory.";
-      }else if(this.myForm.value.formType == 'invitation' && !this.myForm.value.email) {
+      if(!this.myForm.value.email) {
         this.errorMessage = "Email is mandatory.";
       }else {
         if (this.myForm.value.formType == 'invitation'){
@@ -128,7 +109,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
               observer.next(true);
             })
           } else {
-            this.userService.addUser(this.myForm.value.userid,
+            this.userService.addUser(
+              this.myForm.value.email,
               this.myForm.value.role,
               this.myForm.value.active,
               this.myForm.value.ccis,
@@ -182,13 +164,11 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   }
 
   onClickCci(cci_qid:string){
-    this.myForm.value.ccis.splice(this.myForm.value.ccis.findIndex((a:string) => a === cci_qid) , 1)
-    this.ccis_list.splice(this.ccis_list.findIndex((a:any) => a.cci === cci_qid) , 1)
+    if (this.userService.isAdmin()) {
+      this.myForm.value.ccis.splice(this.myForm.value.ccis.findIndex((a: string) => a === cci_qid), 1)
+      this.ccis_list.splice(this.ccis_list.findIndex((a: any) => a.cci === cci_qid), 1)
+    }
   }
 
-  changeFormType(type:string){
-    console.log('FORM_TYPE',type);
-    console.log("FORM_FORM_TYPE",this.myForm.value.formType);
-  }
 
 }

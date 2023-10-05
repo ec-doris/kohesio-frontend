@@ -50,9 +50,9 @@ export class UserService {
     )
   }
 
-  addUser(userid:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
+  addUser(email:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
     const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
-    return this.http.post(this.url,{userid:userid, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
+    return this.http.post(this.url,{email:email, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
       map((data:Object) => {
         return plainToInstance(User, data);
       }),

@@ -16,7 +16,7 @@ const routes: Routes = [
         component: HomePageComponent,
         pathMatch: 'full',
         data: {
-          title: 'Kohesio',
+          title: $localize `:@@comp.header.label.siteHeader:Kohesio: discover EU projects in your region`,
           description: $localize `:@@page.metadata.home.description:Data about projects funded by the European Union`
         }
       },{

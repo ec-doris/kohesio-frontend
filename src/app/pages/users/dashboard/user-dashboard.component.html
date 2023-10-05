@@ -16,8 +16,8 @@
     <div class="page-header">
         <h1>Users</h1>
         <div class="action-buttons">
-            <kohesio-ecl-button type="button" (click)="saveUser()" *ngIf="userService.isAdmin()">Add User</kohesio-ecl-button>
-            <kohesio-ecl-button type="button" (click)="inviteUser()" *ngIf="!userService.isAdmin()">Invite User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="saveUser()" variant="call" *ngIf="userService.isAdmin()">Add User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="inviteUser()" variant="call" *ngIf="!userService.isAdmin()">Invite User</kohesio-ecl-button>
         </div>
     </div>
     <div class="users-table" *ngIf="usersList">
@@ -28,7 +28,7 @@
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">User ID</th>
+                    <th class="ecl-table__header">Email</th>
                     <th class="ecl-table__header">Name</th>
                     <th class="ecl-table__header">Organization</th>
                     <th class="ecl-table__header">Role</th>
@@ -37,16 +37,23 @@
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
-                    <tr class="ecl-table__row" *ngFor="let user of usersList">
-                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.user_id}}</td>
+                    <tr class="ecl-table__row" *ngFor="let user of usersList" style="height: 70px;">
+                        <td data-ecl-table-header="User ID" class="ecl-table__cell">{{user.email}}</td>
                         <td data-ecl-table-header="Name" class="ecl-table__cell">{{user.name}}</td>
                         <td data-ecl-table-header="Organization" class="ecl-table__cell">{{user.organization}}</td>
                         <td data-ecl-table-header="Role" class="ecl-table__cell">{{user.role}}</td>
-                        <td data-ecl-table-header="Active" class="ecl-table__cell">{{user.active}}</td>
+                        <td data-ecl-table-header="Active" class="ecl-table__cell">
+                            <svg *ngIf="user.active" class="ecl-icon ecl-icon--m" focusable="false" aria-hidden="true">
+                                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#check"></use>
+                            </svg>
+                        </td>
                         <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)" *ngIf="userService.isAdmin()">Edit</kohesio-ecl-button>&nbsp;
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)">Delete</kohesio-ecl-button>&nbsp;
-                            <kohesio-ecl-button variant="secondary" type="button" (click)="impersonateUser(user)" *ngIf="user.role!='ADMIN' && userService.isAdmin()">Impersonate</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)"
+                                                *ngIf="(userService.isAdmin() || (userService.isReviewer() && user.role=='EDITOR'))">Edit</kohesio-ecl-button>&nbsp;
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)"
+                                                *ngIf="(userService.isAdmin()) || (userService.isReviewer() && user.role=='EDITOR')">Delete</kohesio-ecl-button>&nbsp;
+                            <kohesio-ecl-button variant="secondary" type="button" (click)="impersonateUser(user)"
+                                                *ngIf="user.role!='ADMIN' && userService.isAdmin()">Impersonate</kohesio-ecl-button>
                         </td>
                     </tr>
                 </tbody>

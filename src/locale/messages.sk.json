@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nie, ďakujem",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Vytvorí sa súbor cookie, vďaka ktorému sa vám už nebude táto správa zobrazovať)",
-    "comp.survey-dialog.text": "Neustále sa snažíme zlepšovať naše webové sídlo. Preto chceme poznať váš názor. Váš názor nám pomôže urobiť webové sídlo Kohesio čo najprívetivejším a najprehľadnejším."
+    "comp.survey-dialog.text": "Neustále sa snažíme zlepšovať naše webové sídlo. Preto chceme poznať váš názor. Váš názor nám pomôže urobiť webové sídlo Kohesio čo najprívetivejším a najprehľadnejším.",
+    "page.projects.label.town": "mesto",
+    "translate.queryParams.town": "mesto"
 	}
 }

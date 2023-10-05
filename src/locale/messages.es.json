@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "No, gracias",
     "comp.survey-dialog.button.ok": "De acuerdo",
     "comp.survey-dialog.cookieDisclaimer": "(Se creará una cookie para que no vuelva a recibir este mensaje)",
-    "comp.survey-dialog.text": "Gracias por su interés en participar. Siempre estamos intentando mejorar nuestro sitio web. Por eso queremos conocer su opinión. Su contribución nos permitirá que el sitio web de Kohesio sea lo más sencillo y claro posible."
+    "comp.survey-dialog.text": "Gracias por su interés en participar. Siempre estamos intentando mejorar nuestro sitio web. Por eso queremos conocer su opinión. Su contribución nos permitirá que el sitio web de Kohesio sea lo más sencillo y claro posible.",
+    "page.projects.label.town": "Villa",
+    "translate.queryParams.town": "Villa"
 	}
 }
