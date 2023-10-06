@@ -7,5 +7,7 @@ import { Component, Input } from '@angular/core';
 })
 export class KohesioEclSpinnerComponent {
 
+  @Input()
+  hasLabel:boolean = true;
 
 }

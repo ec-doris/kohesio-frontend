@@ -15,6 +15,7 @@ import {DialogEclComponent} from "../../components/ecl/dialog/dialog.ecl.compone
 import {SaveDraftComponent} from "./dialogs/save-draft.component";
 import {EditService} from "../../services/edit.service";
 import {EditVersion} from "../../models/edit.model";
+import {toNumbers} from "@angular/compiler-cli/src/version_helpers";
 
 declare let L:any;
 
@@ -124,6 +125,7 @@ export class ProjectDetailComponent implements AfterViewInit {
     };
     public messageLanguageEditConflict?:string;
     public errorMessage?:string;
+    public successMessage?:string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -136,7 +138,9 @@ export class ProjectDetailComponent implements AfterViewInit {
                 public userService: UserService,
                 private formBuilder: FormBuilder,
                 private datePipe: DatePipe,
-                private editService: EditService){}
+                private editService: EditService,
+                private _router: Router,
+                private _route: ActivatedRoute){}
 
     ngOnInit(){
         if (!this.project) {
@@ -152,6 +156,21 @@ export class ProjectDetailComponent implements AfterViewInit {
           'description': new FormControl(this.project.description, { nonNullable: true }),
           'language': new FormControl(this.translateService.locale, {nonNullable: true})
         })
+
+
+        if (this._route.snapshot.queryParamMap.has("edit")){
+          if (this.project.canEdit) {
+            this.editProject();
+          }else{
+            this._router.navigate([], {
+              queryParams: {
+                edit:undefined,
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
+          }
+        }
 
     }
 
@@ -275,31 +294,76 @@ export class ProjectDetailComponent implements AfterViewInit {
                 editId: edit.id
               });
             }
-            if (edit.latest_version) {
-              this.myForm.patchValue({
-                versionId: edit.latest_version.edit_version_id,
-                status: edit.latest_version.status,
-                label: edit.latest_version.label,
-                description: edit.latest_version.summary,
-                language: edit.language
-              });
-            }
             if (edit.edit_versions) {
               for (const version of edit.edit_versions.reverse()) {
                 this.versions.push({
                   id: version.edit_version_id,
-                  value: version.status + ' - ' + version.creation_time?.toLocaleString()
+                  value: version.status + ' - ' + version.creation_time?.toLocaleString(),
+                  latestVersion: edit.latest_version && edit.latest_version.edit_version_id == version.edit_version_id
                 })
+              }
+            }
+            if (edit.latest_version) {
+              if (this._route.snapshot.queryParamMap.has("editVersion")) {
+                const editVersion:number = +this._route.snapshot.queryParamMap.get("editVersion")!;
+                this.myForm.patchValue({
+                  versionId: editVersion
+                })
+                this.onVersionSelect();
+                this.startEditMode(editVersion);
+              } else {
+                this.myForm.patchValue({
+                  versionId: edit.latest_version.edit_version_id,
+                  status: edit.latest_version.status,
+                  label: edit.latest_version.label,
+                  description: edit.latest_version.summary,
+                  language: edit.language
+                });
+                this.myForm.markAsPristine();
+                this.startEditMode();
               }
             }
           } else {
             this.myForm.reset();
+            this.startEditMode();
           }
-          this.editMode = true;
+
         }else{
           this.messageLanguageEditConflict = `We've found an edit in "${this.getLanguagePlaceHolder(edit.language)}". Please change to the right language to continue editing`;
         }
       })
+    }
+
+    startEditMode(editVersion?:number){
+      this.editMode = true;
+      this._router.navigate([], {
+        queryParams: {
+          edit:true,
+          editVersion:editVersion
+        },
+        queryParamsHandling: "merge"
+      });
+    }
+
+    finishEditMode(){
+      this.editMode = false;
+      this._router.navigate([], {
+        queryParams: {
+          edit:undefined,
+          editVersion:undefined
+        },
+        queryParamsHandling: "merge"
+      });
+    }
+
+
+    updateQueryParams(key:string, value:Object|undefined){
+      this._router.navigate([], {
+        queryParams: {
+          [key]: value
+        },
+        queryParamsHandling: 'merge'
+      });
     }
 
     cancelEdit(){
@@ -314,11 +378,11 @@ export class ProjectDetailComponent implements AfterViewInit {
         dialogRef.afterClosed().subscribe(result => {
           if(result && result.action == 'primary') {
             this.myForm.reset();
-            this.editMode = false;
+            this.finishEditMode();
           }
         });
       }else {
-        this.editMode = false;
+        this.finishEditMode();
       }
 
     }
@@ -334,6 +398,7 @@ export class ProjectDetailComponent implements AfterViewInit {
             label: version.label,
             description: version.summary
           });
+          this.updateQueryParams("editVersion", version.edit_version_id);
           this.myForm.markAsPristine();
         })
       }
@@ -354,31 +419,40 @@ export class ProjectDetailComponent implements AfterViewInit {
               versionId: null,
               status: null
             });
+            this._router.navigate([], {
+              queryParams: {
+                editVersion:undefined
+              },
+              queryParamsHandling: "merge"
+            });
             this.editProject();
           })
         }
       });
     }
 
-    saveVersion(status:string){
+    saveVersion(status:string, title:string){
       if (this.myForm.dirty || status != "DRAFT") {
         let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
           disableClose: false,
           autoFocus: false,
           data: {
             childComponent: SaveDraftComponent,
-            title: "Save as",
+            title: title,
             primaryActionLabel: "Save",
             secondaryActionLabel: "Cancel"
           }
         });
         dialogRef.afterClosed().subscribe(result => {
           if (result.action && result.action == 'primary') {
+            if (status == 'REJECT'){
+              status = 'DRAFT';
+            }
             this.createEditVersion(result.data.comment, status);
           }
         });
       }else{
-        this.errorMessage = 'There is no change!'
+        this.errorMessage = 'There is no change detected.'
       }
     }
 
@@ -393,11 +467,19 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.language=this.myForm.value.language;
       edit.status=status;
       this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
-        if (status == 'APPROVED'){
+        if (status == 'APPROVED' || status == 'SUBMITTED'){
           this.project.label = version.label;
           this.project.description = version.summary;
-          this.editMode = false;
+          this.successMessage = status == 'APPROVED' ? 'The version was approved and will be published as soon as possible. Every week, we will inform you by email about the status of your edits.'
+            : 'The version was submitted and will be revised by a reviewer.'
+          this.finishEditMode();
         }else{
+          this._router.navigate([], {
+            queryParams: {
+              editVersion:undefined
+            },
+            queryParamsHandling: "merge"
+          });
           this.editProject();
         }
       })

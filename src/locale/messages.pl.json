@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Nie, dziękuję",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Na twardym dysku komputera zostanie utworzony plik cookie, dzięki czemu już więcej nie otrzymasz tego powiadomienia)",
-    "comp.survey-dialog.text": "Jednym z naszych celów jest nieustanne usprawnianie naszego serwisu, dlatego właśnie zależy nam na poznaniu opinii jego użytkowników. Dzięki Państwa odpowiedziom będziemy w stanie zadbać o to, by serwis Kohesio był jeszcze bardziej przejrzysty i przyjazny dla użytkowników."
+    "comp.survey-dialog.text": "Jednym z naszych celów jest nieustanne usprawnianie naszego serwisu, dlatego właśnie zależy nam na poznaniu opinii jego użytkowników. Dzięki Państwa odpowiedziom będziemy w stanie zadbać o to, by serwis Kohesio był jeszcze bardziej przejrzysty i przyjazny dla użytkowników.",
+    "page.projects.label.town": "miasteczko",
+    "translate.queryParams.town": "miasteczko"
 	}
 }

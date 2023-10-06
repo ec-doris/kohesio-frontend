@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Ne, hvala",
     "comp.survey-dialog.button.ok": "U redu",
     "comp.survey-dialog.cookieDisclaimer": "(Cookie će se stvoriti, tako da ne opet primiti ovu poruku.)",
-    "comp.survey-dialog.text": "Neprestano nastojimo poboljšati svoju mrežnu stranicu. Zato želimo znati vaše mišljenje. Vaš doprinos pomoći će nam da Kohesio učinimo što pristupačnijim i jasnijim."
+    "comp.survey-dialog.text": "Neprestano nastojimo poboljšati svoju mrežnu stranicu. Zato želimo znati vaše mišljenje. Vaš doprinos pomoći će nam da Kohesio učinimo što pristupačnijim i jasnijim.",
+    "page.projects.label.town": "gradić",
+    "translate.queryParams.town": "gradić"
 	}
 }

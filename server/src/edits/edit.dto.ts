@@ -16,10 +16,14 @@ export class EditInDTO {
   summary?: string;
   language?: string;
   user_id?: string;
+  user_name?: string;
   latest_status?:Status[];
   @Expose({name:"id"})
   edit_id?:number;
   archive?:boolean;
+
+  page:number = 0;
+  page_size:number = 0;
 
 }
 
@@ -73,6 +77,11 @@ export class EditOutDTO {
 
 }
 
+export class EditOutWrapperDTO {
+  count:number;
+  @Type(() => EditOutDTO)
+  data?:EditOutDTO[];
+}
 
 
 export enum Status {

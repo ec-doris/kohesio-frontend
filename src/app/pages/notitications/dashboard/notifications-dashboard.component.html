@@ -1,0 +1,79 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Notification Dashboard</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="page-header">
+        <h1>Notifications</h1>
+        <div class="filters">
+            <form [formGroup]="myForm">
+                <kohesio-ecl-form-group>
+                    <div class="kohesio-ecl-form-group-seen">
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="read" label="Read"></kohesio-ecl-form-radio>
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="unread" label="Unread"></kohesio-ecl-form-radio>
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="all" label="All"></kohesio-ecl-form-radio>
+                    </div>
+                </kohesio-ecl-form-group>
+            </form>
+        </div>
+    </div>
+    <div class="users-table">
+        <div class="ecl-table-responsive">
+            <table class="ecl-table ecl-table--zebra">
+                <thead class="ecl-table__head">
+                    <tr class="ecl-table__row">
+                        <th class="ecl-table__header">Project</th>
+                        <th class="ecl-table__header">Status</th>
+                        <th class="ecl-table__header">Date</th>
+                        <th class="ecl-table__header">User</th>
+                        <th class="ecl-table__header">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="ecl-table__body">
+                    <ng-container *ngIf="isLoading">
+                        <tr>
+                            <td colspan="6">
+                                <kohesio-ecl-spinner></kohesio-ecl-spinner>
+                            </td>
+                        </tr>
+                    </ng-container>
+                    <ng-container *ngFor="let notification of notificationList">
+                        <tr class="ecl-table__row">
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
+                                <a [routerLink]="['/projects/'+notification.operation_qid]"
+                                   [queryParams]="(notification.notification_type == 'EDIT_SUBMITTED') ?
+                                    {edit: 'true',editVersion:notification.edit_version_id} :
+                                    {}
+                                   "
+                                   class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
+                                    <span class="ecl-link__label">{{notification.projectTitle}}</span>
+                                    <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
+                                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
+                                    </svg>
+                                </a>
+                            </td>
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI">
+                                <div class="ecl-tag" style="text-decoration: none;">{{notification.notification_type}}</div>
+                            </td>
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.creation_time.toLocaleString()}}</td>
+                            <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_name}}</td>
+                            <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
+                                <kohesio-ecl-button variant="secondary" *ngIf="!notification.seen_at" type="button" (click)="markAsRead(notification)">Mark as Read</kohesio-ecl-button>&nbsp;
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

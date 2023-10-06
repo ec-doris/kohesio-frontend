@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Non merci",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Un cookie sera créé pour que vous ne receviez plus ce message)",
-    "comp.survey-dialog.text": "Nous cherchons continuellement à améliorer notre site web. C’est pourquoi nous aimerions connaître votre avis. Votre contribution nous aidera à rendre Kohesio aussi convivial et clair que possible."
+    "comp.survey-dialog.text": "Nous cherchons continuellement à améliorer notre site web. C’est pourquoi nous aimerions connaître votre avis. Votre contribution nous aidera à rendre Kohesio aussi convivial et clair que possible.",
+    "page.projects.label.town": "petite ville",
+    "translate.queryParams.town": "petite ville"
 	}
 }

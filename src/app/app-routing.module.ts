@@ -16,7 +16,7 @@ const routes: Routes = [
         component: HomePageComponent,
         pathMatch: 'full',
         data: {
-          title: 'Kohesio',
+          title: $localize `:@@comp.header.label.siteHeader:Kohesio: discover EU projects in your region`,
           description: $localize `:@@page.metadata.home.description:Data about projects funded by the European Union`
         }
       },{
@@ -79,6 +79,9 @@ const routes: Routes = [
       },{
         path: 'edits',
         loadChildren: () => import('./pages/edits/edits.module').then(m => m.EditsModule)
+      },{
+        path: 'notifications',
+        loadChildren: () => import('./pages/notitications/notifications.module').then(m => m.NotificationsModule)
       },{
         path: '403',
         component: ForbiddenComponent,

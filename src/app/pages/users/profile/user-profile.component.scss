@@ -1,0 +1,37 @@
+.page-header{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  .actions{
+    kohesio-ecl-button{
+      margin-left:5px;
+    }
+  }
+}
+.label-only{
+  display:block;
+  margin-top: 0;
+  margin: calc(0.75rem - 1px);
+}
+.kohesio-ecl-spinner{
+  display:flex;
+  padding: 0;
+  justify-content: flex-start;
+  width:20px;
+}
+.danger-zone{
+  border: 1px solid red;
+  margin-top: 40px;
+  kohesio-ecl-button{
+    color: red;
+    button.ecl-button--ghost{
+      color: red;
+    }
+  }
+}
+
+.label-only.ecl-description-list__definition{
+  display: flex;
+  flex-direction: column;
+  row-gap:3px;
+}

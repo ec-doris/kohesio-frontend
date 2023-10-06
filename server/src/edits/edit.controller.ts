@@ -16,7 +16,7 @@ import {RolesGuard} from "../auth/roles.guard";
 import {EditService} from "./edit.service";
 import {ApiTags} from "@nestjs/swagger";
 import {BaseController} from "../base.controller";
-import {EditInDTO, EditOutDTO, EditVersionDTO, EditVersionInDTO, Status} from "./edit.dto";
+import {EditInDTO, EditOutDTO, EditOutWrapperDTO, EditVersionDTO, EditVersionInDTO, Status} from "./edit.dto";
 import {Role} from "../users/dtos/user.in.dto";
 
 
@@ -32,7 +32,7 @@ export class EditController extends BaseController{
   @Roles(Role.ADMIN,Role.EDITOR,Role.REVIEWER)
   @UsePipes(new ValidationPipe({ transform: true }))
   @Get('')
-  async listEdits(@Req() req, @Query() filters: EditInDTO):Promise<EditOutDTO[] | {} | void>{
+  async listEdits(@Req() req, @Query() filters: EditInDTO):Promise<EditOutWrapperDTO | {} | void>{
     return await this.editService.getEdits(req.user.user_id, filters).catch(this.errorHandler);
   }
 
@@ -50,9 +50,9 @@ export class EditController extends BaseController{
   @Get('version')
   async listVersions(@Req() req, @Query() filters: EditInDTO):Promise<EditOutDTO | {} | void>{
     filters.latest_status = [Status.DRAFT,Status.SUBMITTED];
-    const edits:EditOutDTO[] | void = await this.editService.getEdits(req.user.user_id, filters).catch(this.errorHandler);
-    if (edits && edits.length){
-      for (const edit of edits) {
+    const edits:EditOutWrapperDTO | void = await this.editService.getEdits(req.user.user_id, filters).catch(this.errorHandler);
+    if (edits && edits.count){
+      for (const edit of edits.data) {
         return await this.editService.getEdit(req.user.user_id, edit.id);
       }
     }

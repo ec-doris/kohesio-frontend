@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "Ne, hvala",
     "comp.survey-dialog.button.ok": "V redu",
     "comp.survey-dialog.cookieDisclaimer": "(Ustvarjen bo piškotek, zato tega sporočila ne boste več prejeli)",
-    "comp.survey-dialog.text": "Nenehno si prizadevamo izboljšati naše spletno mesto. Zato želimo slišati vaše mnenje. Vaš prispevek nam bo pomagal, da bo čim bolj uporabniku prijazno in jasno."
+    "comp.survey-dialog.text": "Nenehno si prizadevamo izboljšati naše spletno mesto. Zato želimo slišati vaše mnenje. Vaš prispevek nam bo pomagal, da bo čim bolj uporabniku prijazno in jasno.",
+    "page.projects.label.town": "mesto",
+    "translate.queryParams.town": "mesto"
 	}
 }

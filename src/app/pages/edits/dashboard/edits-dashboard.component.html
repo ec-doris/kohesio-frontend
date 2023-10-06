@@ -22,7 +22,7 @@
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">ID</th>
+                    <th class="ecl-table__header">Project</th>
                     <th class="ecl-table__header">CCI</th>
                     <th class="ecl-table__header">Latest Status</th>
                     <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
@@ -34,35 +34,39 @@
                                 <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
                         </button>
                     </th>
-                    <th class="ecl-table__header">Language</th>
                     <th class="ecl-table__header">History</th>
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
+                <ng-container *ngIf="isLoading">
+                    <tr>
+                        <td colspan="6">
+                            <kohesio-ecl-spinner></kohesio-ecl-spinner>
+                        </td>
+                    </tr>
+                </ng-container>
                 <ng-container *ngFor="let edit of editsList">
                     <tr class="ecl-table__row">
-                        <td class="ecl-table__cell" data-ecl-table-header="ID">
-                            <a [routerLink]="['/projects/'+edit.qid]" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
-                                <span class="ecl-link__label">{{edit.qid}}</span>
+                        <td class="ecl-table__cell" data-ecl-table-header="ID" style="max-width: 200px;font-size: 14px;">
+                            <a [routerLink]="['/projects/'+edit.qid]"
+                               [queryParams]="{edit: 'true'}" class="ecl-link ecl-link--default ecl-link--icon ecl-link--icon-after" target="_blank">
+                                <span class="ecl-link__label">{{edit.projectTitle}}</span>
                                 <svg class="ecl-icon ecl-icon--fluid ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#external"></use>
                                 </svg>
                             </a>
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="CCI">{{edit.cci_qid}}</td>
+                        <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
+                            <button type="button" class="ecl-tag ecl-tag--removable" style="white-space: normal;text-align: center;font-size: 12px;">{{edit.cci_label}}</button>
+                        </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
                             <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="Created">
+                        <td class="ecl-table__cell" data-ecl-table-header="Created" style="font-size: 14px;">
                             {{edit.creation_time?.toLocaleString()}}
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="Language">
-                            {{edit.language}}
-                        </td>
                         <td class="ecl-table__cell action" data-ecl-table-header="History">
-                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">{{
-                                edit.showHistory ? 'Hide history' : 'Show history'
-                                }}</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">More</kohesio-ecl-button>
                         </td>
                     </tr>
                     <tr class="ecl-table__inner-row" *ngIf="edit.showHistory">
@@ -92,7 +96,7 @@
                                                     <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
                                                 </td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
-                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_id}}</td>
+                                                <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_name}}</td>
                                             </tr>
                                         </ng-container>
                                     </tbody>
@@ -103,6 +107,15 @@
                 </ng-container>
                 </tbody>
             </table>
+            <div class="bottom-tools" *ngIf="!isLoading">
+                <mat-paginator #paginator
+                               [length]="editCount"
+                               [pageIndex]="filters.page"
+                               [pageSize]="filters.page_size"
+                               [pageSizeOptions]="[5, 10, 25, 100]"
+                               (page)="onPaginate($event)">
+                </mat-paginator>
+            </div>
         </div>
     </div>
 </div>

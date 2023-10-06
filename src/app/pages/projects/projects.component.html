@@ -24,22 +24,28 @@
         </svg>
     </span>
 </button>
-
-<popper-content #keywordsTooltip>
-    <div style="display: flex; flex-direction: row; justify-content: space-between;">
-        <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.projects.label.keywords">KEYWORDS</h5>
-        <svg (click)="keywordsTooltip.hide()" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
-        </svg>
+<ng-template cdkConnectedOverlay
+             (overlayOutsideClick)="infoPopup = false;"
+              [cdkConnectedOverlayOrigin]="infoPopupTrigger"
+              [cdkConnectedOverlayOpen]="infoPopup">
+    <div style="background-color: white;color: black;border: 0;max-width: 600px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+    z-index: 999;border-radius: 3px;padding: 10px;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.projects.label.keywords">KEYWORDS</h5>
+            <svg (click)="infoPopup = false" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true" style="cursor: pointer;">
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+            </svg>
+        </div>
+        <hr>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p1">By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>).</p>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p2">The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p3">To also include documents containing either word, use <b>green OR carbon</b>.</p>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p4">To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p5">You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
+        <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p6">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
     </div>
-    <hr>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p1">By default, semantic search automatically expands your keywords to similar words (searching for <b>ai</b> will also include results containg <b>artificial intelligence</b> as well as <b>machine learning</b> for instance). To disable keyword expansion and revert to classic (strict) search, use double quotes (<b>"ai"</b>).</p>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p2">The operator AND can be used for conjunction: <b>green AND carbon</b> only retrieves documents containing both words in any order.</p>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p3">To also include documents containing either word, use <b>green OR carbon</b>.</p>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p4">To exclude one term from the results, you can you the - (NOT) operator : <b>green -carbon</b> (projects containing "green" but not "carbon").</p>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p5">You can also search for an exact expression using double quotes: <b>"artificial intelligence"</b> only returns results with the words in that order.</p>
-    <p class="ecl-u-type-paragraph" i18n="@@page.projects.labelinfo.keywords.p6">Additionally, you can use the star operator as a wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
-</popper-content>
+</ng-template>
 
 <mat-drawer-container class="filters-wrapper-container" autosize>
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
@@ -47,13 +53,7 @@
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>
                     <ng-container i18n="@@page.projects.label.keywords">KEYWORDS</ng-container>
-                    <div [popper]="keywordsTooltip"
-                    popperApplyClass="info-tooltip"
-                    [popperHideOnClickOutside]="true"
-                    [popperHideOnScroll]="true"
-                    [popperPositionFixed]="true"
-                    [popperPlacement]="popperPlacement()"
-                    class="infoButton" >
+                    <div class="infoButton" (click)="infoPopup = !infoPopup" cdkOverlayOrigin #infoPopupTrigger="cdkOverlayOrigin" style="cursor:pointer;">
                         <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                         </svg>
@@ -102,6 +102,10 @@
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.town">TOWN</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-text-input formControlName="town"></kohesio-ecl-form-text-input>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.projectCollection">project collection</kohesio-ecl-form-label>
                     <kohesio-ecl-form-select formControlName="projectCollection" [items]="this.filters.project_types"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
@@ -141,7 +145,7 @@
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.interventionField">INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <kohesio-auto-complete [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-auto-complete>
+                    <kohesio-multi-auto-complete [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-multi-auto-complete>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.nuts3">NUTS3</kohesio-ecl-form-label>

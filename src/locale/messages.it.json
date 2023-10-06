@@ -312,6 +312,8 @@
     "comp.survey-dialog.button.no": "No grazie",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Verrà creato un cookie in modo che non riceverai più questo messaggio)",
-    "comp.survey-dialog.text": "Ci impegniamo a migliorare costantemente il sito web e per questo desideriamo conoscere il tuo parere. Il tuo contributo ci aiuterà a rendere il sito Kohesio il più intuitivo e più chiaro possibile."
+    "comp.survey-dialog.text": "Ci impegniamo a migliorare costantemente il sito web e per questo desideriamo conoscere il tuo parere. Il tuo contributo ci aiuterà a rendere il sito Kohesio il più intuitivo e più chiaro possibile.",
+    "page.projects.label.town": "cittadina",
+    "translate.queryParams.town": "cittadina"
 	}
 }

@@ -313,6 +313,8 @@
     "comp.survey-dialog.button.no": "Nem, köszönöm",
     "comp.survey-dialog.button.ok": "OK",
     "comp.survey-dialog.cookieDisclaimer": "(Egy cookie jön létre, így Ön nem kapja meg az üzenetet)",
-    "comp.survey-dialog.text": "Folyamatosan törekszünk weboldalunk javítására. Ezért kíváncsiak vagyunk véleményére. Válaszaival segít, hogy a Kohesio weboldal minél felhasználóbarátabb és átláthatóbb legyen."
+    "comp.survey-dialog.text": "Folyamatosan törekszünk weboldalunk javítására. Ezért kíváncsiak vagyunk véleményére. Válaszaival segít, hogy a Kohesio weboldal minél felhasználóbarátabb és átláthatóbb legyen.",
+    "page.projects.label.town": "kisváros",
+    "translate.queryParams.town": "kisváros"
 	}
 }

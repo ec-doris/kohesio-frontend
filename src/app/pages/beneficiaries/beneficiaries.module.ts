@@ -15,10 +15,10 @@ import { KohesioEclFormModule } from 'src/app/components/ecl/forms/form.ecl.modu
 import { KohesioEclAccordionModule } from 'src/app/components/ecl/accordion/accordion.ecl.module';
 import { DownloadButtonModule } from 'src/app/components/kohesio/download-button/download-button.module';
 import { KohesioEclSpinnerModule } from 'src/app/components/ecl/spinner/spinner.ecl.module';
-import {NgxPopperjsModule} from 'ngx-popperjs';
 import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/image-overlay.module';
 import {ShareBlockModule} from "../../components/kohesio/share-block/share-block.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {OverlayModule} from "@angular/cdk/overlay";
 
 @NgModule({
     imports: [
@@ -35,10 +35,10 @@ import {MatTooltipModule} from "@angular/material/tooltip";
         KohesioEclAccordionModule,
         DownloadButtonModule,
         KohesioEclSpinnerModule,
-        NgxPopperjsModule,
         ImageOverlayModule,
         ShareBlockModule,
-        MatTooltipModule
+        MatTooltipModule,
+        OverlayModule
     ],
     declarations: [
         BeneficiariesComponent,

@@ -16,5 +16,9 @@ export class UserDTO{
   organization:string;
   @Expose()
   email:string;
+  @Expose()
+  expiration_time:string;
+  @Expose()
+  notifications_count:number;
 
 }

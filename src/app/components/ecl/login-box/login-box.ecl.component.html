@@ -23,7 +23,9 @@
                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
                 </svg>
             </button>-->
-            <button [cdkMenuTriggerFor]="menu" class="ecl-button ecl-button--ghost login-box-menu-trigger" (cdkMenuOpened)="onOpenMenu()" (cdkMenuClosed)="onCloseMenu()" [attr.aria-expanded]="opened">
+            <button [cdkMenuTriggerFor]="menu" class="ecl-button ecl-button--ghost login-box-menu-trigger"
+                    [matBadge]="userService.user.notifications_count ? userService.user.notifications_count : undefined"
+                    matBadgeColor="warn" (cdkMenuOpened)="onOpenMenu()" (cdkMenuClosed)="onCloseMenu()" [attr.aria-expanded]="opened">
                 <span class="ecl-button__container">
                     <svg class="ecl-icon ecl-icon--xs ecl-site-header__icon ecl-button__icon--before" focusable="false" aria-hidden="true">
                         <use xlink:href="assets/images/ecl/icons.a892a63d.svg#logged-in"></use>
@@ -38,9 +40,17 @@
             <ng-template #menu>
                 <div class="login-box-menu-container" cdkMenu>
                     <div class="login-box-menu-item userinfo">
-                        Logged in as {{userService.user ? userService.user.user_id : '' }}
+                        Logged in as {{userService.user ? (userService.user.name ? userService.user.name : userService.user.user_id) : '' }}
+                        <div *ngIf="userService.user.impersonateUser" class="impersonatedUser-label">(IMPERSONATED)</div>
                     </div>
-                    <div class="login-box-menu-item" *ngIf="userService.isAdmin()">
+                    <div class="login-box-menu-item">
+                        <button (click)="onMenuClick('/users/profile')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">My profile</button>
+                    </div>
+                    <div class="login-box-menu-item">
+                        <button (click)="onMenuClick('/notifications')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone"
+                                [matBadge]="userService.user.notifications_count ? userService.user.notifications_count : undefined" matBadgeColor="warn">Notifications</button>
+                    </div>
+                    <div class="login-box-menu-item" *ngIf="userService.isAdmin() || userService.isReviewer()">
                         <button (click)="onMenuClick('/users')" class="ecl-button ecl-button--ghost ecl-link ecl-link--standalone">Users</button>
                     </div>
                     <div class="login-box-menu-item">
@@ -48,7 +58,10 @@
                     </div>
                     <div class="login-box-menu-item">
                         <a [href]="'/api/logout?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
-                           class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">Logout</a>
+                           class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">
+                            Logout
+                            <ng-container *ngIf="userService.user.impersonateUser"> as {{userService.user.name ? userService.user.name : userService.user.user_id}}</ng-container>
+                        </a>
                     </div>
                 </div>
             </ng-template>

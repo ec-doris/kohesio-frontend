@@ -32,6 +32,7 @@ export class TranslateService {
     "keywords": $localize`:@@translate.queryParams.keywords:keywords`,
     "country": $localize`:@@translate.queryParams.country:country`,
     "region": $localize`:@@translate.queryParams.region:region`,
+    "town": $localize`:@@translate.queryParams.town:town`,
     "policyObjective": $localize`:@@translate.queryParams.policyObjective:policyObjective`,
     "theme": $localize`:@@translate.queryParams.theme:theme`,
     "fund": $localize`:@@translate.queryParams.fund:fund`,

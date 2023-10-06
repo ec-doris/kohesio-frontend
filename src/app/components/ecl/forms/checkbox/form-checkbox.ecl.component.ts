@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 
@@ -14,6 +14,9 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
       ]
 })
 export class KohesioEclFormCheckboxComponent implements ControlValueAccessor{
+    private static id: number = 0;
+
+    public componentId: string = "";
 
     inputValue:any;
     onChange = (_value:any) => {};
@@ -23,6 +26,11 @@ export class KohesioEclFormCheckboxComponent implements ControlValueAccessor{
     @Input() helpText?:string;
     @Input() isDisabled:boolean = false;
     @Input() checked:boolean = false;
+    @Output() change = new EventEmitter<any>();
+
+    ngOnInit(): void {
+      this.componentId = 'kohesio-ecl-form-checkbox-' + ++KohesioEclFormCheckboxComponent.id;
+    }
 
     writeValue(obj: string): void {
        this.inputValue = obj;
@@ -34,8 +42,12 @@ export class KohesioEclFormCheckboxComponent implements ControlValueAccessor{
         this.onTouched = onTouched;
     }
 
-    change($event:any){
-      this.onChange($event.target.checked);
+    ngOnChanges($event:any){
+      if ($event.target) {
+        this.onChange($event.target.checked);
+        this.change.emit();
+      }
     }
 
 }
+

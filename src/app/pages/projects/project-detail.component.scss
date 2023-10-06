@@ -56,17 +56,26 @@ a:visited {
   flex-direction: column;
   align-items: flex-end;
   .edit-tools{
-    margin-top: 3px;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
     .versions{
       display: flex;
       align-items: center;
+      column-gap: 2px;
       .text{
         margin-right:3px;
       }
     }
+    .edit-actions-buttons{
+      display: flex;
+      column-gap: 2px;
+    }
   }
   .buttons{
     display: flex;
+    justify-content: flex-end;
+    width: 100%;
     .language{
       display: flex;
       align-items: center;
@@ -107,4 +116,9 @@ a:visited {
 }
 .message-container{
   margin-bottom:5px;
+}
+
+.editMode{
+  padding: 5px;
+  border: 1px dashed;
 }

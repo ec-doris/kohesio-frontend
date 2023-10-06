@@ -7,6 +7,7 @@ import {plainToInstance} from "class-transformer";
 import {catchError} from "rxjs/operators";
 import {REQUEST} from "@nestjs/core";
 import {UserDTO} from "./dtos/user.dto";
+import {InvitationInDTO, InvitationOutDTO} from "./dtos/invitation.dto";
 
 @Injectable()
 export class UserService {
@@ -51,6 +52,8 @@ export class UserService {
   }
 
   async addUser(currentUser:string, userDetails: UserInDto):Promise<UserDTO>{
+    console.log("CURRENT_USER",currentUser);
+    console.log("USER_DETAILS",userDetails);
     return await firstValueFrom(
       this.httpService.post<UserDTO>(`${this.baseUrl}/users`,
         plainToInstance(UserInternalInDto,userDetails),
@@ -88,6 +91,73 @@ export class UserService {
         {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
           return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async inviteUser(currentUser:string, invitation: InvitationInDTO):Promise<InvitationOutDTO>{
+    return await firstValueFrom(
+      this.httpService.post<InvitationOutDTO>(`${this.baseUrl}/invitations/send`,
+        {
+          email:invitation.email,
+          role: invitation.role,
+          cci_scope: invitation.allowed_cci_qids,
+          base_url: `${this.configService.get("BASE_URL")}/api/invitation/`
+        },
+        {headers:{"user-id":currentUser}} as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(InvitationOutDTO,data);
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async acceptInvitation(email:string, token: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.post<boolean>(`${this.baseUrl}/invitations/accept`,
+        {
+          email:email ? email.toLowerCase() : '',
+          token:token
+        }).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async loginUser(userid: string):Promise<boolean>{
+    return await firstValueFrom(
+      this.httpService.get<boolean>(`${this.baseUrl}/login`,
+        {headers:{"user-id":userid}} as any).pipe(
+        map((result:any)=>{
+          return true;
+        }),
+        catchError(err => {
+          return this.handlingCatchError(err)
+        })
+      )
+    );
+  }
+
+  async validateUser(userEmail: string):Promise<UserDTO>{
+    return await firstValueFrom(
+      this.httpService.get<UserDTO>(`${this.baseUrl}/login/validate`,
+        {params:{"email":userEmail}} as any).pipe(
+        map((result:any)=>{
+          const data:Object = result.data;
+          return plainToInstance(UserDTO,data);
         }),
         catchError(err => {
           return this.handlingCatchError(err)

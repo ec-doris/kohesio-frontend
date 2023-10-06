@@ -4,7 +4,6 @@
 }
 .ecl-card{
   margin-top: 10px;
-  max-height: 400px;
   overflow: scroll;
 }
 .ecl-tag.ecl-tag--removable{
@@ -21,3 +20,13 @@
     overflow: hidden;
   }
 }
+
+.kohesio-ecl-form-group-formType{
+  display: flex;
+  justify-content: center;
+
+  kohesio-ecl-form-radio{
+    margin-right: 5px;
+  }
+}
+
