@@ -2,6 +2,7 @@ import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "
 import {Injectable} from "@angular/core";
 import {firstValueFrom} from "rxjs";
 import {UserService} from "../../../services/user.service";
+import {isPlatformServer} from "@angular/common";
 
 @Injectable({ providedIn: 'root' })
 export class ReviewerGuard implements CanActivate{
@@ -22,6 +23,10 @@ export class ReviewerGuard implements CanActivate{
       }
     }
     this.router.navigate(["/403"]).then();
+    if (isPlatformServer){
+      console.log("DEBUGGING-MODE, 403");
+      console.log("DEBUGGING-MODE, 403 - USER",this.userService.user);
+    }
     return false;
   }
 
