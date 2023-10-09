@@ -1,5 +1,5 @@
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from "@angular/router";
-import {Injectable} from "@angular/core";
+import {Inject, Injectable, PLATFORM_ID} from "@angular/core";
 import {firstValueFrom} from "rxjs";
 import {UserService} from "../../../services/user.service";
 import {isPlatformServer} from "@angular/common";
@@ -9,7 +9,7 @@ export class ReviewerGuard implements CanActivate{
 
   constructor(private userService:UserService,
               private router: Router,
-              private platformId: Object){}
+              @Inject(PLATFORM_ID) private platformId: Object){}
 
   async canActivate(route: ActivatedRouteSnapshot,
                     state: RouterStateSnapshot): Promise<boolean> {
