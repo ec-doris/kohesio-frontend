@@ -7,9 +7,12 @@ import {isPlatformServer} from "@angular/common";
 @Injectable({ providedIn: 'root' })
 export class ReviewerGuard implements CanActivate{
 
-  constructor(private userService:UserService, private router: Router){}
+  constructor(private userService:UserService,
+              private router: Router,
+              private platformId: Object){}
 
-  async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
+  async canActivate(route: ActivatedRouteSnapshot,
+                    state: RouterStateSnapshot): Promise<boolean> {
 
     if (typeof this.userService.user === 'undefined'){
       //Sometimes the guard here is calling first then the APP_INITIALIZER
@@ -23,7 +26,7 @@ export class ReviewerGuard implements CanActivate{
       }
     }
     this.router.navigate(["/403"]).then();
-    if (isPlatformServer){
+    if (isPlatformServer(this.platformId)){
       console.log("DEBUGGING-MODE, 403");
       console.log("DEBUGGING-MODE, 403 - USER",this.userService.user);
     }
