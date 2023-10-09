@@ -3,6 +3,7 @@ import {Inject, Injectable, PLATFORM_ID} from "@angular/core";
 import {firstValueFrom} from "rxjs";
 import {UserService} from "../../../services/user.service";
 import {isPlatformServer} from "@angular/common";
+import {User} from "../../../models/user.model";
 
 @Injectable({ providedIn: 'root' })
 export class ReviewerGuard implements CanActivate{
@@ -14,17 +15,15 @@ export class ReviewerGuard implements CanActivate{
   async canActivate(route: ActivatedRouteSnapshot,
                     state: RouterStateSnapshot): Promise<boolean> {
 
-    if (typeof this.userService.user === 'undefined'){
-      //Sometimes the guard here is calling first then the APP_INITIALIZER
-      await firstValueFrom(this.userService.getCurrentUser())
-      if (this.userService.isAdmin() || this.userService.isReviewer()){
-        return true;
-      }
-    }else{
-      if (this.userService.isAdmin() || this.userService.isReviewer()){
-        return true;
-      }
+    //Sometimes the guard here is calling first then the APP_INITIALIZER
+    const user:User = await firstValueFrom(this.userService.getCurrentUser())
+    if (isPlatformServer(this.platformId)) {
+      console.log("DEBUGGING-MODE, 403 - USERDB",user);
     }
+    if (user && (user.role == 'ADMIN' || user.role == 'REVIEWER')){
+      return true;
+    }
+
     this.router.navigate(["/403"]).then();
     if (isPlatformServer(this.platformId)){
       console.log("DEBUGGING-MODE, 403");

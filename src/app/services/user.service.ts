@@ -1,7 +1,7 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
-import {EMPTY, Observable, throwError} from 'rxjs';
+import {EMPTY, Observable, of, throwError} from 'rxjs';
 import { plainToInstance } from 'class-transformer';
 import {User} from "../models/user.model";
 import {environment} from "../../environments/environment";
@@ -21,6 +21,9 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<User> {
+      if (this.user && this.user.user_id){
+        return of(this.user);
+      }
       return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`).pipe(
          map((data:Object) => {
             //console.log("GET USER DETAILS, DATA",data);
