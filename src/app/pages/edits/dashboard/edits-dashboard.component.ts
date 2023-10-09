@@ -10,6 +10,7 @@ import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
 import {ProjectService} from "../../../services/project.service";
 import {MatPaginator} from "@angular/material/paginator";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './edits-dashboard.component.html',
@@ -31,6 +32,7 @@ export class EditsDashboardComponent implements AfterViewInit {
                 public userService: UserService,
                 private filterService: FilterService,
                 private projectService: ProjectService,
+                public translateService: TranslateService,
                 public dialog: MatDialog){
     }
 
