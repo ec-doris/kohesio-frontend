@@ -13,7 +13,7 @@
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
             <kohesio-ecl-form-label>Role:</kohesio-ecl-form-label>
-            <kohesio-ecl-form-select formControlName="role" [items]="this.roles.reverse()" [isDisabled]="!userService.isAdmin()" [hasEmptyValue]="false"></kohesio-ecl-form-select>
+            <kohesio-ecl-form-select formControlName="role" [items]="this.roles" [isDisabled]="!userService.isAdmin()" [hasEmptyValue]="false"></kohesio-ecl-form-select>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
             <kohesio-ecl-form-label>Expiration Date:</kohesio-ecl-form-label>

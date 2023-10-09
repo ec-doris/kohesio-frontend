@@ -20,18 +20,18 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   public errorMessage?:string;
 
   @Input('data') data: any;
-  public roles:any[] = [{
-    id: "ADMIN",
-    value: "ADMIN"
-  },{
-    id: "EDITOR",
-    value: "EDITOR"
+  public readonly roles:any[] = [{
+    id: "USER",
+    value: "USER"
   },{
     id: "REVIEWER",
     value: "REVIEWER"
   },{
-    id: "USER",
-    value: "USER"
+    id: "EDITOR",
+    value: "EDITOR"
+  },{
+    id: "ADMIN",
+    value: "ADMIN"
   }];
 
   public countries:any[] = [];
