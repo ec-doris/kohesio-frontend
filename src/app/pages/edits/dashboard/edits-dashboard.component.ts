@@ -57,7 +57,7 @@ export class EditsDashboardComponent implements AfterViewInit {
         if (editData && editData.count) {
           const projectObservables: any[] = [];
           editData.data.forEach((edit: Edit) => {
-            projectObservables.push(this.projectService.getProjectDetail(edit.qid));
+            projectObservables.push(this.projectService.getProjectDetail(edit.qid,'en'));
           })
           forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {
@@ -137,4 +137,7 @@ export class EditsDashboardComponent implements AfterViewInit {
       this.getEditsList();
     }
 
+    async getLabel(locale:string, label:string) {
+      return await this.translateService.getLocaleLabel(locale, label);
+    }
 }
