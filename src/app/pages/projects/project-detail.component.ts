@@ -331,7 +331,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         }else{
           this.translateService.translateUrl(edit.language).subscribe((url:string)=>{
             if (this._route.snapshot.queryParamMap.has("edit")){
-              window.location.href = url;
+              window.location.href = url+'?edit=true';
             }else{
               this.messageLanguageEditConflict = `We've found an edit in "${this.getLanguagePlaceHolder(edit.language)}".
                   <a href='${url}?edit=true'>Click here</a> to continue editing in this language`;
