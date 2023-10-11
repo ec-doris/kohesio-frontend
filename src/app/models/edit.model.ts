@@ -24,6 +24,7 @@ export class Edit {
 
 export class EditWrapper {
   count!: number;
+  @Type(() => Edit)
   data!: Edit[];
 }
 

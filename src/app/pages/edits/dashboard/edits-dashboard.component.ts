@@ -10,6 +10,7 @@ import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
 import {ProjectService} from "../../../services/project.service";
 import {MatPaginator} from "@angular/material/paginator";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './edits-dashboard.component.html',
@@ -31,6 +32,7 @@ export class EditsDashboardComponent implements AfterViewInit {
                 public userService: UserService,
                 private filterService: FilterService,
                 private projectService: ProjectService,
+                public translateService: TranslateService,
                 public dialog: MatDialog){
     }
 
@@ -55,7 +57,7 @@ export class EditsDashboardComponent implements AfterViewInit {
         if (editData && editData.count) {
           const projectObservables: any[] = [];
           editData.data.forEach((edit: Edit) => {
-            projectObservables.push(this.projectService.getProjectDetail(edit.qid));
+            projectObservables.push(this.projectService.getProjectDetail(edit.qid,'en'));
           })
           forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {
@@ -135,4 +137,7 @@ export class EditsDashboardComponent implements AfterViewInit {
       this.getEditsList();
     }
 
+    async getLabel(locale:string, label:string) {
+      return await this.translateService.getLocaleLabel(locale, label);
+    }
 }
