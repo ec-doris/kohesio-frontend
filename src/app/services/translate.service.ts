@@ -2,7 +2,7 @@ import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient} from '@angular/common/http';
 import {FilterService} from "./filter.service";
 import {ActivatedRoute, ParamMap, Router, UrlSegment} from "@angular/router";
-import {Observable, Observer, forkJoin} from "rxjs";
+import {Observable, Observer, forkJoin, firstValueFrom} from "rxjs";
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
 
@@ -276,6 +276,19 @@ export class TranslateService {
     }else{
       return this.http.get("assets/locale/messages.json");
     }
+  }
+
+  public getLocaleLabel(locale: string, labelKey:string):Promise<string | undefined>{
+    return new Promise((resolve, reject) => {
+      this.getLocaleFile(locale).subscribe(data=>{
+        for (let key in data.translations){
+          if (key==labelKey){
+            resolve(data.translations[key]);
+          }
+        }
+        reject();
+      });
+    })
   }
 
   private isStaticFilter(type:string){

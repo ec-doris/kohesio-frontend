@@ -51,11 +51,11 @@ export class ProjectService {
         return params;
     }
 
-    getProjectDetail(id: string | null): Observable<ProjectDetail> {
+    getProjectDetail(id: string | null, locale = this.locale): Observable<ProjectDetail> {
         const url = environment.api + '/projects/'+id;
         let params = {
             id: environment.entityURL + id,
-            language: this.locale
+            language: locale
         };
         return this.http.get<any>(url, { params: <any>params }).pipe(
             map((data:any) => {
