@@ -144,8 +144,12 @@
                     <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label i18n="@@page.projects.label.sdg">SDG</kohesio-ecl-form-label>
+                    <kohesio-ecl-form-select formControlName="sdg" [items]="this.filters.sdg" (change)="onSDGChange()"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.interventionField">INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <kohesio-multi-auto-complete [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-multi-auto-complete>
+                    <kohesio-multi-auto-complete [isDisabled]="!myForm.value.sdg" [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-multi-auto-complete>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label i18n="@@page.projects.label.nuts3">NUTS3</kohesio-ecl-form-label>

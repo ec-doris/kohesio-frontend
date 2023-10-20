@@ -131,7 +131,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         interreg: [this.getFilterKey("interreg", this.translateService.queryParams.interreg)],
         nuts3: [this.getFilterKey("nuts3", this.translateService.queryParams.nuts3)],
         priority_axis: [],
-        projectCollection: [this.getFilterKey("project_types", this.translateService.queryParams.projectCollection)]
+        projectCollection: [this.getFilterKey("project_types", this.translateService.queryParams.projectCollection)],
+        sdg: []
       });
 
       if (this.myForm.value.programPeriod || this.myForm.value.fund ||
@@ -648,6 +649,28 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
   isPlatformServer(){
     return isPlatformServer(this.platformId);
+  }
+
+  onSDGChange(){
+    const sdgValue:any = this.filters.sdg?.find((value)=>{
+      return value.id == this.myForm.value.sdg;
+    })
+    this.myForm.patchValue({
+      'interventionField':undefined
+    })
+    if (sdgValue && sdgValue.interventionField){
+      let qids:any[] = [];
+      sdgValue.interventionField.forEach((intFieldCode:string)=>{
+        const ifValue:any = this.filterService.getFilterKey("categoriesOfIntervention", intFieldCode);
+        qids.push(ifValue);
+      })
+      if (qids.length){
+        this.myForm.patchValue({
+          'interventionField':qids
+        })
+      }
+    }
+    //console.log("SDG",sdgValue);
   }
 
 

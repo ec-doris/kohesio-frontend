@@ -154,8 +154,6 @@ export class KohesioMultiAutoCompleteComponent implements ControlValueAccessor, 
     }
   }
 
-  protected readonly undefined = undefined;
-
   remove(removedItem:any){
     this.selectedItems = this.selectedItems.filter((item:AutoCompleteItem) => {
       return item.id !== removedItem.id;
