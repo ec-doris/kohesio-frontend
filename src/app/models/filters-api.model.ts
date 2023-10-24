@@ -115,56 +115,56 @@ export class FiltersApi implements Deserializable{
           value: $localize`:@@translate.filter.interreg.investGrowthJobs:Investment in Growth and Jobs`
         }];
         FiltersApi.prototype.sdg = [{
-          id: '0',
-          value: $localize`:@@translate.filter.sdg.notAssigned:Not assigned`,
-          interventionField:['078','079','096','098','099','101','119','121','122','123']
-        },{
           id: '1',
-          value: $localize`:@@translate.filter.sdg.noPoverty:No poverty`,
+          value: $localize`:@@translate.filter.sdg.noPoverty:01 - No poverty`,
           interventionField:['054','055','080','109','110','111']
         },{
           id: '3',
-          value: $localize`:@@translate.filter.sdg.goodHealthWellBeing:Good health and well being`,
+          value: $localize`:@@translate.filter.sdg.goodHealthWellBeing:03 - Good health and well being`,
           interventionField:['053','081','107','112']
         },{
           id: '4',
-          value: $localize`:@@translate.filter.sdg.qualityEducation:Quality education`,
+          value: $localize`:@@translate.filter.sdg.qualityEducation:04 - Quality education`,
           interventionField:['049','050','051','052','115','116','117','118','120']
         },{
           id: '6',
-          value: $localize`:@@translate.filter.sdg.cleanWater:Clean water and sanitation`,
+          value: $localize`:@@translate.filter.sdg.cleanWater:06 - Clean water and sanitation`,
           interventionField:['020','021','022']
         },{
           id: '7',
-          value: $localize`:@@translate.filter.sdg.affordableCleanEnergy:Affordable and clean energy`,
+          value: $localize`:@@translate.filter.sdg.affordableCleanEnergy:07 - Affordable and clean energy`,
           interventionField:['003','005','006','007','008','009','010','011','012','013','014','015','016','068','070','071']
         },{
           id: '8',
-          value: $localize`:@@translate.filter.sdg.decentWork:Decent work and economic growth`,
+          value: $localize`:@@translate.filter.sdg.decentWork:08 - Decent work and economic growth`,
           interventionField: ['001','062','063','066','067','073','074','075','076','077','082','092','093',
             '094','095','097','102','103','104','105','106','108','113','114']
         },{
           id: '9',
-          value: $localize`:@@translate.filter.sdg.industryInnovation:Industry, innovation, infrastructure`,
+          value: $localize`:@@translate.filter.sdg.industryInnovation:09 - Industry, innovation, infrastructure`,
           interventionField:['002','004','024','025','026','027','028','029','030','031','032','033','034',
             '035','036','037','038','039','040','041','042','043','044','045','046','047','048','056','057',
             '058','059','060','061','064','065','072']
         },{
           id: '11',
-          value: $localize`:@@translate.filter.sdg.sustainableCities:Sustainable cities and communities`,
+          value: $localize`:@@translate.filter.sdg.sustainableCities:11 - Sustainable cities and communities`,
           interventionField:['083','084','088','090']
         },{
           id: '12',
-          value: $localize`:@@translate.filter.sdg.responsibleConsumption:Responsible consumption and production`,
+          value: $localize`:@@translate.filter.sdg.responsibleConsumption:12 - Responsible consumption and production`,
           interventionField:['017','018','019','069']
         },{
           id: '13',
-          value: $localize`:@@translate.filter.sdg.climateAction:Climate action`,
+          value: $localize`:@@translate.filter.sdg.climateAction:13 - Climate action`,
           interventionField:['023','087','100']
         },{
           id: '15',
-          value: $localize`:@@translate.filter.sdg.lifeOnLand:Life on land`,
+          value: $localize`:@@translate.filter.sdg.lifeOnLand:15 - Life on land`,
           interventionField:['085','086','089','091']
+        },{
+          id: '0',
+          value: $localize`:@@translate.filter.sdg.notAssigned:Not assigned`,
+          interventionField:['078','079','096','098','099','101','119','121','122','123']
         }];
     })();
 
