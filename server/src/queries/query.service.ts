@@ -253,7 +253,7 @@ export class QueryService {
 
   async generalSearch(params: GeneralSearchInDTO):Promise<GeneralSearchWrapperOutDTO>{
     return await firstValueFrom(
-      this.httpService.get<GeneralSearchWrapperOutDTO>(`${this.baseUrl}/categoriesOfIntervention`,{
+      this.httpService.get<GeneralSearchWrapperOutDTO>(`${this.baseUrl}/search/general`,{
         params: params
       }).pipe(
         map((result:any)=>{
