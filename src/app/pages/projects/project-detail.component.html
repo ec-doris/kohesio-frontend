@@ -286,7 +286,7 @@
             <div class="kohesio-audio-visual-wrapper">
                 <div class="kohesio-project-detail-video-wrapper">
                     <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
-                        <youtube-player [videoId]="getVideoId(video)"> </youtube-player>
+                        <iframe [src]="video" allowfullscreen=""></iframe>
                     </div>
                 </div>
                 <div class="kohesio-project-detail-twitter-wrapper">

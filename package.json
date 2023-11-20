@@ -35,7 +35,6 @@
     "@angular/platform-browser-dynamic": "^16.1.7",
     "@angular/platform-server": "^16.1.7",
     "@angular/router": "^16.1.7",
-    "@angular/youtube-player": "^16.1.6",
     "@ecl/preset-ec": "^3.11.1",
     "@nguniversal/express-engine": "^16.1.2",
     "class-transformer": "^0.5.1",

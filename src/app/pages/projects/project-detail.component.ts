@@ -172,6 +172,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           }
         }
 
+        this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
+
     }
 
     ngAfterViewInit(): void {
@@ -193,6 +195,7 @@ export class ProjectDetailComponent implements AfterViewInit {
           }
           (<any>window).twttr.widgets.load();
         }
+
     }
 
     openWiki(event: any){
@@ -248,6 +251,13 @@ export class ProjectDetailComponent implements AfterViewInit {
     getVideoId(video:string): any{
       if (video) {
         return this.project.youtube_parser(video);
+      }
+    }
+
+    getYoutubeVideoEC(video:string): any{
+      if (video) {
+        //return this.sanitizer.bypassSecurityTrustResourceUrl("https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/"+this.project.youtube_parser(video));
+        return this.sanitizer.bypassSecurityTrustResourceUrl("https://www.youtube.com/embed/"+this.project.youtube_parser(video)+'?enablejsapi=1&amp;origin=https%3A%2F%2Fkohesio.local.ec.europa.eu&amp;widgetid=1');
       }
     }
 
@@ -500,4 +510,17 @@ export class ProjectDetailComponent implements AfterViewInit {
       }
       return "";
   }
+
+  sanitizeUrls(urls:any, type:string):any{
+    const sanitizedUrls: string[] = [];
+    urls.forEach((url:string)=>{
+      if (type == 'YOUTUBE'){
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
+          "https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/" +
+          this.project.youtube_parser(url)));
+      }
+    });
+    return sanitizedUrls;
+  }
+
 }
