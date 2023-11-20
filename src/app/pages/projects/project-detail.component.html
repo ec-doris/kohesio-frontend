@@ -274,7 +274,7 @@
             </div>
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
                 <h2 class="title ecl-u-type-heading-5">
-                    <img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+                    <img class="flag" [alt]="'Flag of ' + project.countryLabel" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
                     <ng-container>&nbsp;</ng-container>
                     <ng-container *ngIf="project?.regionText">
                         {{project.regionText}}

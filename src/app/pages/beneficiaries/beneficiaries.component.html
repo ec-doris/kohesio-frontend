@@ -47,48 +47,56 @@
     <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.beneficiaryName">BENEFICIARY NAME</kohesio-ecl-form-label>
-                <kohesio-ecl-form-text-input formControlName="name"></kohesio-ecl-form-text-input>
-            </kohesio-ecl-form-group>
-            <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.country">COUNTRY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries"
-                    (change)="onCountryChange()"></kohesio-ecl-form-select>
-            </kohesio-ecl-form-group>
-            <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.region">REGION
+                <kohesio-ecl-form-label>
+                    <div i18n="@@page.beneficiaries.label.beneficiaryName" class="label">BENEFICIARY NAME</div>
+                    <kohesio-ecl-form-text-input formControlName="name"></kohesio-ecl-form-text-input>
                 </kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
-                    [isDisabled]="!this.myForm.value.country"
-                    i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
-                    placeholder="Select a country" ></kohesio-ecl-form-select>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>
+                    <div  i18n="@@page.beneficiaries.label.country" class="label">COUNTRY</div>
+                    <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries"
+                         (change)="onCountryChange()"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
+            </kohesio-ecl-form-group>
+            <kohesio-ecl-form-group>
+                <kohesio-ecl-form-label>
+                    <div  i18n="@@page.beneficiaries.label.region" class="label">REGION</div>
+                    <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
+                         [isDisabled]="!this.myForm.value.country"
+                         i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
+                         placeholder="Select a country" ></kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <br/>
             <kohesio-ecl-accordion i18n-title="ADVANCED FILTERS|@@page.beneficiaries.label.advancedFilters" title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.fund">FUND</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds">
-                    </kohesio-ecl-form-select>
-                </kohesio-ecl-form-group>
-                <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.beneficiaries.label.programme">PROGRAMME
+                    <kohesio-ecl-form-label>
+                        <div  i18n="@@page.beneficiaries.label.fund" class="label">FUND</div>
+                        <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds"></kohesio-ecl-form-select>
                     </kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs"
-                        [isDisabled]="!this.myForm.value.country"
-                        placeholder="Select a country"
-                        i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.program" ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>
-                        <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
-                        <div (click)="infoPopupLabelType = !infoPopupLabelType" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
-                            <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
-                            </svg>
-                        </div>
+                        <div  i18n="@@page.beneficiaries.label.programme" class="label">PROGRAMME</div>
+                        <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs"
+                             [isDisabled]="!this.myForm.value.country"
+                             placeholder="Select a country"
+                             i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.program" ></kohesio-ecl-form-select>
                     </kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType">
-                    </kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>
+                        <div class="label">
+                            <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
+                            <div (click)="infoPopupLabelType = !infoPopupLabelType" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
+                                <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                                </svg>
+                            </div>
+                        </div>
+                        <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="this.filters.beneficiaryType"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
             </kohesio-ecl-accordion>
             <br />
@@ -110,7 +118,7 @@
             <div class="right-table-tools">
                 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                     <kohesio-ecl-form-group>
-                        <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort"
+                        <kohesio-ecl-form-select ariaLabel="sort" [hasEmptyValue]="false" formControlName="sort"
                             [items]="this.filters.sortBeneficiaries" (change)="onSortChange()">
                         </kohesio-ecl-form-select>
                     </kohesio-ecl-form-group>
@@ -125,7 +133,7 @@
                 <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiaries.table.header.beneficiaryName">BENEFICIARY NAME</mat-header-cell>
                 <mat-cell *matCellDef="let row">
                     <!-- <ux-popover #popover title="{{row.countryName ? row.countryName : row.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true"></ux-popover> -->
-                    <img class="flag" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
+                    <img class="flag" [alt]="'Flag of ' + row.countryCode" src="{{'assets/images/flags/' + row.countryCode?.toLowerCase() + '.png'}}">
                     <span>
                         <a class="ecl-link ecl-link--standalone" [routerLink]="['/'+translateService.routes.beneficiaries+'/' + row.id]">{{row.label}}</a> <span *ngIf="row.transliteration" class="muted-text"> ({{row.transliteration}})</span>
                     </span>

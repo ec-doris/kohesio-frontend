@@ -24,6 +24,7 @@ export class KohesioEclFormSelectComponent implements ControlValueAccessor, OnCh
     @Input() hasEmptyValue: boolean = true;
     @Input() isDisabled: boolean = false;
     @Input() placeholder: string | undefined;
+    @Input() ariaLabel: string | undefined;
     @Output() change = new EventEmitter<any>();
     private firstTimeChange:boolean = true;
 

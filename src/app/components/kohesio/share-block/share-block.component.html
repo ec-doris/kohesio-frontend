@@ -1,50 +1,62 @@
 <div class="kohesio-social-icons-wrapper">
-    <span class="title" i18n="@@comp.share-block.label.shareon">share on </span>
-    <ul class="ecl-social-media-follow__list">
-        <li class="ecl-social-media-follow__item">
-            <a
-                i18n-matTooltip="Share on Facebook|@@comp.share-block.button.shareonfacebook.tooltip"
-                matTooltip="Share on Facebook"
-                [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                    <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#facebook"></use>
-                </svg>
-            </a>
-        </li>
-        <li class="ecl-social-media-follow__item">
-            <a
-                i18n-matTooltip="Share on Twitter|@@comp.share-block.button.shareontwitter.tooltip"
-                matTooltip="Share on Twitter"
-                [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                    <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#twitter"></use>
-                </svg>
-            </a>
-        </li>
-        <li class="ecl-social-media-follow__item">
-            <a
-                i18n-matTooltip="Share on Linkedin|@@comp.share-block.button.shareonlinkedin.tooltip"
-                matTooltip="Share on Linkedin"
-                [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                    <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#linkedin"></use>
-                </svg>
-            </a>
-        </li>
-        <li class="ecl-social-media-follow__item">
-            <a
-                i18n-matTooltip="Share by Email|@@comp.share-block.button.sharebyemail.tooltip"
-                matTooltip="Share by Email"
-                [href]="'mailto:?subject=Kohesio&body=Check this project on Kohesio: ' + currentUrl" target="_blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-follow__link">
-                <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
-                    <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email" style="fill:#FFF;"></use>
-                </svg>
-            </a>
-        </li>
-    </ul>
+    <div class="ecl-social-media-share">
+        <p class="ecl-social-media-share__description title" i18n="@@comp.share-block.label.shareon">share on </p>
+        <ul class="ecl-social-media-share__list">
+            <!--Facebook-->
+            <li class="ecl-social-media-share__item">
+                <a [href]="'https://www.facebook.com/sharer/sharer.php?u=' + currentUrl" target="_blank"
+                   i18n-matTooltip="Share on Facebook|@@comp.share-block.button.shareonfacebook.tooltip"
+                   matTooltip="Share on Facebook"
+                   class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                    <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#facebook-color"></use>
+                    </svg>
+                    <span class="ecl-link__label">Facebook</span>
+                </a>
+            </li>
+            <!--Twitter-->
+            <li class="ecl-social-media-share__item">
+                <a
+                    [href]="'https://twitter.com/intent/tweet?url=' + currentUrl" target="_blank"
+                    i18n-matTooltip="Share on Twitter|@@comp.share-block.button.shareontwitter.tooltip"
+                    matTooltip="Share on Twitter"
+                    class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                    <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-color"></use>
+                    </svg>
+                    <span class="ecl-link__label">Twitter</span>
+                </a>
+            </li>
+            <!--LinkedIn-->
+            <li class="ecl-social-media-share__item">
+                <a
+                    [href]="'https://www.linkedin.com/sharing/share-offsite/?url='+ currentUrl" target="_blank"
+                    i18n-matTooltip="Share on Linkedin|@@comp.share-block.button.shareonlinkedin.tooltip"
+                    matTooltip="Share on Linkedin"
+                    class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                    <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#linkedin-color"></use>
+                    </svg>
+                    <span class="ecl-link__label">Linkedin</span>
+                </a>
+            </li>
+            <!--Email-->
+            <li class="ecl-social-media-share__item">
+                <a
+                    i18n-matTooltip="Share by Email|@@comp.share-block.button.sharebyemail.tooltip"
+                    matTooltip="Share by Email"
+                    [href]="'mailto:?subject=Kohesio&body=Check this project on Kohesio: ' + currentUrl" target="_blank"
+                    class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                    <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                        <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#email" style="fill:#FFF;"></use>
+                    </svg>
+                    <span class="ecl-link__label">Email</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
 <div class="kohesio-report-icons-wrapper">
-    <span class="title" i18n="@@comp.share-block.label.reportIssue">report an issue</span>
     <ul class="ecl-social-media-follow__list">
         <li class="ecl-social-media-follow__item">
             <a
@@ -54,6 +66,7 @@
                 <svg class="ecl-icon ecl-icon--xl ecl-link__icon ecl-social-media-follow__icon" focusable="false" aria-hidden="true">
                     <use xlink:href="assets/images/ecl/icons-social.d5f51eae.svg#bug"></use>
                 </svg>
+                <span class="title" i18n="@@comp.share-block.label.reportIssue">report an issue</span>
             </a>
         </li>
     </ul>
