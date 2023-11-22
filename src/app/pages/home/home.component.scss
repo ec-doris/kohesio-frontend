@@ -37,6 +37,14 @@
     }
 }
 
+@include media(">medium") {
+  .main-theme {
+    button {
+      top: 40px;
+    }
+  }
+}
+
 @include media("<=medium") {
     .main-theme {
         min-height: 215px;
