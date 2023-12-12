@@ -14,12 +14,15 @@
             </div>
         </div>
         <div class="map-attribution">
-            <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap</a> |
-            <a href="https://ec.europa.eu/eurostat/web/gisco" target="_blank">&copy; GISCO</a> |
-            <a href="https://www.maxmind.com/en/home" target="_blank">&copy; MaxMind</a> |
-            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer">Disclaimer</a>
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" tabindex="-1">&copy; OpenStreetMap</a> |
+            <a href="https://ec.europa.eu/eurostat/web/gisco" target="_blank" tabindex="-1">&copy; GISCO</a> |
+            <a href="https://www.maxmind.com/en/home" target="_blank" tabindex="-1">&copy; MaxMind</a> |
+            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer" tabindex="-1">Disclaimer</a>
         </div>
         <app-map-message-box></app-map-message-box>
+        <div class="map-frame">
+            <div [id]="mapId"></div>
+        </div>
         <ng-container *ngIf="!hideNavigation">
             <div class="loading" *ngIf="isLoading">
                 <kohesio-ecl-spinner></kohesio-ecl-spinner>
@@ -78,9 +81,7 @@
                 </div>
             </div>
         </ng-container>
-        <div class="map-frame">
-            <div [id]="mapId"></div>
-        </div>
+
         <div class="map-results">
             <ng-template #mobileListProjects>
             </ng-template>

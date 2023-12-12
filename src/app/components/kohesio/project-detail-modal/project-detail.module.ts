@@ -10,7 +10,6 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
 import { KohesioEclButtonModule } from '../../ecl/button/button.ecl.module';
-import {YouTubePlayerModule} from "@angular/youtube-player";
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ShareBlockModule} from "../share-block/share-block.module";
 import {ReactiveFormsModule} from "@angular/forms";
@@ -34,7 +33,6 @@ import {KohesioEclMessageModule} from "../../ecl/message/message.ecl.module";
         KohesioEclFormModule,
         KohesioEclFormLabelModule,
         KohesioEclFormTextAreaModule,
-        YouTubePlayerModule,
         MatTooltipModule,
         ShareBlockModule,
         KohesioEclDropDownButtonModule,

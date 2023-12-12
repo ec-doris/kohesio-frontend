@@ -31,10 +31,19 @@
         text-decoration: underline;
     }
 
+
     button {
         position: absolute;
         right: 15px;
     }
+}
+
+@include media(">medium") {
+  .main-theme {
+    button {
+      top: 40px;
+    }
+  }
 }
 
 @include media("<=medium") {

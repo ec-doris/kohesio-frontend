@@ -56,3 +56,6 @@ Thumbs.db
 
 # Server
 /server/.env
+
+#Import Users scrips
+/utils/import-users/

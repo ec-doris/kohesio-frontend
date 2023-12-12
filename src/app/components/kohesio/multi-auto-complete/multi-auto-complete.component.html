@@ -5,35 +5,36 @@
                       (removed)="remove(item)"
                       [aria-description]="'press enter to edit ' + item.label">
             <div class="selected-chip-option-text">{{item.label}}</div>
-            <button matChipRemove [attr.aria-label]="'remove ' + item.label">
+            <button matChipRemove [attr.aria-label]="'remove ' + item.label" *ngIf="isDisabled">
                 <mat-icon>cancel</mat-icon>
             </button>
         </mat-chip-row>
-        <input onClick="this.setSelectionRange(0, this.value.length)" (input)="onInputType($any($event.target).value)"
-               type="text" [(ngModel)]="inputValue"
-               [matChipInputFor]="chipGrid"
-               matInput [matAutocomplete]="autoGroup">
-        <mat-autocomplete
-            #autoGroup="matAutocomplete"
-            [panelWidth]="'auto'"
-            [displayWith]="displayWith"
-            (optionSelected)="onOptionSelected($event)"
-            (opened)="onOpen()"
-            (closed)="onClosed()">
-            <ng-container *ngIf="hasSubItems">
-                <mat-optgroup *ngFor="let item of internalItems | async" [label]="item.label">
-                    <mat-option *ngFor="let subItem of item.subItems" [value]="subItem">
-                        <mat-checkbox [checked]="subItem.selected ? subItem.selected : false" (change)="toggleSelection(subItem)" (click)="$event.stopPropagation()">
-                            {{ subItem.label }}
-                        </mat-checkbox>
+            <input [disabled]="!isDisabled" onClick="this.setSelectionRange(0, this.value.length)" (input)="onInputType($any($event.target).value)"
+                   type="text" [(ngModel)]="inputValue"
+                   [matChipInputFor]="chipGrid"
+                   matInput [matAutocomplete]="autoGroup">
+            <mat-autocomplete
+                #autoGroup="matAutocomplete"
+                [panelWidth]="'auto'"
+                [displayWith]="displayWith"
+                (optionSelected)="onOptionSelected($event)"
+                (opened)="onOpen()"
+                (closed)="onClosed()">
+                <ng-container *ngIf="hasSubItems">
+                    <mat-optgroup *ngFor="let item of internalItems | async" [label]="item.label">
+                        <mat-option *ngFor="let subItem of item.subItems" [value]="subItem">
+                            <mat-checkbox [checked]="subItem.selected ? subItem.selected : false" (change)="toggleSelection(subItem)" (click)="$event.stopPropagation()">
+                                {{ subItem.label }}
+                            </mat-checkbox>
+                        </mat-option>
+                    </mat-optgroup>
+                </ng-container>
+                <ng-container *ngIf="!hasSubItems">
+                    <mat-option *ngFor="let item of internalItems | async" [value]="item">
+                        {{ item.label }}
                     </mat-option>
-                </mat-optgroup>
-            </ng-container>
-            <ng-container *ngIf="!hasSubItems">
-                <mat-option *ngFor="let item of internalItems | async" [value]="item">
-                    {{ item.label }}
-                </mat-option>
-            </ng-container>
-        </mat-autocomplete>
+                </ng-container>
+            </mat-autocomplete>
     </mat-chip-grid>
+
 </mat-form-field>

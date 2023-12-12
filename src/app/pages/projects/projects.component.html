@@ -52,14 +52,16 @@
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>
-                    <ng-container i18n="@@page.projects.label.keywords">KEYWORDS</ng-container>
-                    <div class="infoButton" (click)="infoPopup = !infoPopup" cdkOverlayOrigin #infoPopupTrigger="cdkOverlayOrigin" style="cursor:pointer;">
-                        <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
-                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
-                        </svg>
+                    <div class="label">
+                        <ng-container i18n="@@page.projects.label.keywords">KEYWORDS</ng-container>
+                        <div class="infoButton" (click)="infoPopup = !infoPopup" cdkOverlayOrigin #infoPopupTrigger="cdkOverlayOrigin" style="cursor:pointer;">
+                            <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                            </svg>
+                        </div>
                     </div>
+                    <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
                 </kohesio-ecl-form-label>
-                <kohesio-ecl-form-text-input formControlName="keywords"></kohesio-ecl-form-text-input>
             </kohesio-ecl-form-group>
             <div class="semantic-terms" *ngIf="semanticTerms && semanticTerms.length">
                 <div class="top">
@@ -73,27 +75,35 @@
                 <a mat-stroked-button (click)="onRestrictSearch($event)" i18n="@@page.projects.label.useMyKeywordsOnly">Use my keywords only</a>
             </div>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.projects.label.country">COUNTRY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>
+                    <div i18n="@@page.projects.label.country" class="label">COUNTRY</div>
+                    <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries" (change)="onCountryChange()"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.projects.label.region">REGION</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select
-                formControlName="region"
-                [items]="this.filters.regions"
-                [isDisabled]="!this.myForm.value.country"
-                (change)="onRegionChange()"
-                i18n-placeholder="Select a country|@@page.projects.placeholder.region"
-                placeholder="Select a country" >
-                </kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>
+                    <div i18n="@@page.projects.label.region" class="label">REGION</div>
+                    <kohesio-ecl-form-select
+                        formControlName="region"
+                        [items]="this.filters.regions"
+                        [isDisabled]="!this.myForm.value.country"
+                        (change)="onRegionChange()"
+                        i18n-placeholder="Select a country|@@page.projects.placeholder.region"
+                        placeholder="Select a country" >
+                    </kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.projects.label.policy">POLICY</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objectives" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>
+                    <div i18n="@@page.projects.label.policy" class="label">POLICY</div>
+                    <kohesio-ecl-form-select formControlName="policyObjective" [items]="this.filters.policy_objectives" (change)="onPolicyObjectivesChange()"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label i18n="@@page.projects.label.theme">THEME</kohesio-ecl-form-label>
-                <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
+                <kohesio-ecl-form-label>
+                    <div i18n="@@page.projects.label.theme" class="label">THEME</div>
+                    <kohesio-ecl-form-select formControlName="theme" [items]="this.themeSelection" (change)="onThemeChange()"></kohesio-ecl-form-select>
+                </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <br/>
             <kohesio-ecl-accordion i18n-title="ADVANCED FILTERS|@@page.projects.label.advancedFilters" title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
@@ -102,66 +112,94 @@
                     <kohesio-ecl-form-select formControlName="programPeriod" [items]="this.filters.programmingPeriods"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-group> -->
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.town">TOWN</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-text-input formControlName="town"></kohesio-ecl-form-text-input>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.town" class="label">TOWN</div>
+                        <kohesio-ecl-form-text-input formControlName="town"></kohesio-ecl-form-text-input>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.projectCollection">project collection</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="projectCollection" [items]="this.filters.project_types"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.projectCollection" class="label">project collection</div>
+                        <kohesio-ecl-form-select formControlName="projectCollection" [items]="this.filters.project_types"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.fund">FUND</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.fund" class="label">FUND</div>
+                        <kohesio-ecl-form-select formControlName="fund" [items]="this.filters.funds" (change)="onFundChange()"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.programmeType">PROGRAMME TYPE</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg" (change)="onProgrammeTypeChange()"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.programmeType" class="label">PROGRAMME TYPE</div>
+                        <kohesio-ecl-form-select formControlName="interreg" [items]="this.filters.interreg" (change)="onProgrammeTypeChange()"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.programme">PROGRAMME</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="program"
-                                             [items]="this.filters.programs"
-                                             [isDisabled]="!this.myForm.value.country"
-                                             (change)="onProgramChange()"
-                                             i18n-placeholder="Select a country|@@page.projects.placeholder.programme"
-                                             placeholder="Select a country" ></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.programme" class="label">PROGRAMME</div>
+                        <kohesio-ecl-form-select formControlName="program"
+                             [items]="this.filters.programs"
+                             [isDisabled]="!this.myForm.value.country"
+                             (change)="onProgramChange()"
+                             i18n-placeholder="Select a country|@@page.projects.placeholder.programme"
+                             placeholder="Select a country" ></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.priorityAxis">PRIORITY AXIS</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="priority_axis"
-                                             [items]="this.filters.priority_axis"
-                                             [isDisabled]="!this.myForm.value.country || !this.myForm.value.program"
-                                             i18n-placeholder="Select a country and a program|@@page.projects.placeholder.priorityAxis"
-                                             placeholder="Select a country and a program"
-                    ></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.priorityAxis" class="label">PRIORITY AXIS</div>
+                        <kohesio-ecl-form-select formControlName="priority_axis"
+                             [items]="this.filters.priority_axis"
+                             [isDisabled]="!this.myForm.value.country || !this.myForm.value.program"
+                             i18n-placeholder="Select a country and a program|@@page.projects.placeholder.priorityAxis"
+                             placeholder="Select a country and a program"
+                        ></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.totalBudget">TOTAL BUDGET</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="totalProjectBudget" [items]="this.filters.totalProjectBudget"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.totalBudget" class="label">TOTAL BUDGET</div>
+                        <kohesio-ecl-form-select formControlName="totalProjectBudget" [items]="this.filters.totalProjectBudget"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.EuContribution">EU CONTRIBUTION</kohesio-ecl-form-label>
-                    <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.EuContribution" class="label">EU CONTRIBUTION</div>
+                        <kohesio-ecl-form-select formControlName="amountEUSupport" [items]="this.filters.amountEUSupport"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.interventionField">INTERVENTION FIELD</kohesio-ecl-form-label>
-                    <kohesio-multi-auto-complete [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-multi-auto-complete>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.sdg" class="label">SDG</div>
+                        <kohesio-ecl-form-select formControlName="sdg" [items]="this.filters.sdg" (change)="onSDGChange()"></kohesio-ecl-form-select>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.nuts3">NUTS3</kohesio-ecl-form-label>
-                    <kohesio-auto-complete [items]="filters.nuts3 ? filters.nuts3 : []" (change)="onNuts3Change()" formControlName="nuts3"></kohesio-auto-complete>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.interventionField" class="label">INTERVENTION FIELD</div>
+                        <kohesio-multi-auto-complete [isDisabled]="!myForm.value.sdg" [items]="filters.categoriesOfIntervention" formControlName="interventionField"></kohesio-multi-auto-complete>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
-                    <kohesio-ecl-form-label i18n="@@page.projects.label.date">DATE</kohesio-ecl-form-label>
-                    <mat-form-field appearance="fill" style="margin-top:0px;width:100%;">
-                        <mat-label i18n="@@page.projects.label.enterDateRange">Enter a date range</mat-label>
-                        <mat-date-range-input [rangePicker]="picker">
-                            <input formControlName="projectStart" matStartDate placeholder="Start">
-                            <input formControlName="projectEnd" matEndDate placeholder="End">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.nuts3" class="label">NUTS3</div>
+                        <kohesio-auto-complete [items]="filters.nuts3 ? filters.nuts3 : []" (change)="onNuts3Change()" formControlName="nuts3"></kohesio-auto-complete>
+                    </kohesio-ecl-form-label>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-form-group>
+                    <kohesio-ecl-form-label>
+                        <div i18n="@@page.projects.label.date" class="label">DATE</div>
+                        <mat-form-field appearance="fill" style="margin-top:0px;width:100%;">
+                            <mat-label i18n="@@page.projects.label.enterDateRange">Enter a date range</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                                <input formControlName="projectStart" matStartDate placeholder="Start">
+                                <input formControlName="projectEnd" matEndDate placeholder="End">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
 
             </kohesio-ecl-accordion>
@@ -182,7 +220,7 @@
                     <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
                         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                             <kohesio-ecl-form-group>
-                                <kohesio-ecl-form-select [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sort" (change)="onSortChange()"></kohesio-ecl-form-select>
+                                <kohesio-ecl-form-select ariaLabel="sort" [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sort" (change)="onSortChange()"></kohesio-ecl-form-select>
                             </kohesio-ecl-form-group>
                         </form>
                         <mat-paginator #paginatorTop
@@ -204,7 +242,7 @@
                                     <div class="prj-image--wrapper">
                                         <ng-container *ngIf="project.images && project.images.length">
                                             <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)">
-                                                <div class="prj-image--image" style="background-image: url('{{ project.images[0] }}')" *ngIf="!mobileQuery"></div>
+                                                <img [alt]="'Image represent the project ' + project.title" class="prj-image--image" [src]="project.images[0]" *ngIf="!mobileQuery"/>
                                             </a>
                                         </ng-container>
                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
@@ -227,14 +265,14 @@
                                 <ul class="nowrap">
                                     <li class="article--post__theme">
                                         <span class="icon">
-                                            <img *ngIf="project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                            <img *ngIf="project.objectiveId" [alt]="'Topic image of ' + project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
                                         </span>
                                         {{filterService.getThemeLabel(project.objectiveId)}}
                                         <ng-container *ngIf="!project.objectiveId">Intervention field not available</ng-container>
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
-                                            <span class="flag"><img class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
                                             <span class="amount">
                                                 {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                 <span *ngIf="!project.totalBudget">n/a</span>

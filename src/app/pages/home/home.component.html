@@ -13,6 +13,11 @@
             <div class="row">
                 <div class="ecl-col-12 themes-main ecl-u-pa-none">
                     <article class="ecl-card main-theme">
+                        <div class="ecl-card__title" style="color: white;">
+                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getPolicyURL(policyObjective.instanceLabel)" class="themes-title">
+                                {{policyObjective.instanceLabel}}
+                            </a>
+                        </div>
                         <button [routerLink]="['/'+translateService.routes.themes]" class="ecl-button ecl-button--call" type="button">
                             <span class="ecl-button__container">
                                 <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.home.exploreMore">Explore more</span>
@@ -21,11 +26,6 @@
                                 </svg>
                             </span>
                         </button>
-                        <div class="ecl-card__title" style="color: white;">
-                            <a [routerLink]="['/'+translateService.routes.projects]" [queryParams]="getPolicyURL(policyObjective.instanceLabel)" class="themes-title">
-                                {{policyObjective.instanceLabel}}
-                            </a>
-                        </div>
                         <div>{{stats?.themes?.greenerAndCarbonFreeEurope | number:'1.0-3':'fr'}}
                             <ng-container i18n="@@page.home.project">{stats?.themes?.greenerAndCarbonFreeEurope, plural, =1 {project} other {projects}}</ng-container>
                         </div>
