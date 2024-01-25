@@ -19,13 +19,15 @@ export class TranslateService {
     privacy: $localize`:@@translate.routes.privacy:privacy`,
     services: $localize`:@@translate.routes.services:services`,
     themes: $localize`:@@translate.routes.themes:themes`,
-    faq: $localize`:@@translate.routes.faq:faq`
+    faq: $localize`:@@translate.routes.faq:faq`,
+    accessibility: $localize`:@@translate.routes.accessibility:accessibility`
   }
 
   public sections = {
     myregion: $localize`:@@translate.sections.myregion:my-region`,
     themes: $localize`:@@translate.sections.themes:themes`,
-    section: $localize`:@@translate.sections.section:section`
+    section: $localize`:@@translate.sections.section:section`,
+    accessibilityNonContentSection: $localize`:@@translate.sections.accessibilityNonContentSection:accessibilityNonContentSection`
   }
 
   public queryParams:any = {

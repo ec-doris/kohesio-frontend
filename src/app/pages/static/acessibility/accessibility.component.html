@@ -1,0 +1,89 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.accessibility.breadcrumb.accessibility">Accessibility</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="ecl-row ecl-u-pt-xs">
+        <div class="ecl-col-xl-12 ecl-u-pt-none">
+            <h1 class="ecl-u-type-heading-1" i18n="@@page.accessibility.title">Accessibility statement</h1>
+            <ng-container i18n="@@page.accessibility.description">
+                <p class="ecl-u-type-paragraph">This statement applies to content published on the domain: https://kohesio.ec.europa.eu</p>
+                <p class="ecl-u-type-paragraph">It does not apply to other content or websites published on any of its subdomains. These websites and their content will have their own specific accessibility statement.</p>
+                <p class="ecl-u-type-paragraph">This website is managed by the European Commission’s Directorate-General for Regional and Urban Policy and the European Commission’s Directorate-General Communications Networks, Content and Technology. It is designed to be used by as many people as possible, including people with disabilities.</p>
+                <p class="ecl-u-type-paragraph">You should be able to:</p>
+                <ul class="ecl-unordered-list">
+                    <li class="ecl-unordered-list__item">zoom up to 200% without problems</li>
+                    <li class="ecl-unordered-list__item">navigate most of the website using just a keyboard</li>
+                    <li class="ecl-unordered-list__item">navigate most of the website using a modern screen reader and speech recognition software (on your computer or phone)</li>
+                </ul>
+                <p class="ecl-u-type-paragraph">This website is designed to comply with the <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf">technical standard for websites and mobile apps, EN 301 549, v.3.2.1</a>. This closely follows level ‘AA’ of the <a href="https://www.w3.org/TR/WCAG21/">Web Content Accessibility Guidelines (WCAG) version 2.1</a>.</p>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.complianceTitle">Compliance status</h2>
+            <ng-container i18n="@@page.accessibility.complianceDescription">
+                <p class="ecl-u-type-paragraph">This website is partially compliant with <a href="https://www.etsi.org/deliver/etsi_en/301500_301599/301549/03.02.01_60/en_301549v030201p.pdf">technical standard EN 301 549 v.3.2.1</a> and the <a href="https://www.w3.org/WAI/standards-guidelines/wcag/">Web Content Accessibility Guidelines (WCAG) 2.1 Level AA</a>. See <a [href]="translateService.routes.accessibility + '#' + translateService.sections.accessibilityNonContentSection">Non-accessible content</a> for more details.</p>
+                <p class="ecl-u-type-paragraph">The website was last tested on 15/11/2023.</p>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.preparationTitle">Preparation of this statement</h2>
+            <ng-container i18n="@@page.accessibility.preparationDescription">
+                <p class="ecl-u-type-paragraph">This statement was reviewed on [XXXXXXXXX]</p>
+                <p class="ecl-u-type-paragraph">The statement is based on a review by an automated tool called Axe Monitor.</p>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.feedbackTitle">Feedback</h2>
+            <ng-container i18n="@@page.accessibility.feedbackDescription">
+                <p class="ecl-u-type-paragraph">We welcome your feedback on the accessibility of the Kohesio website. Please let us know if you encounter accessibility barriers:</p>
+                <ul class="ecl-unordered-list">
+                    <li class="ecl-unordered-list__item">Phone: <a href="tel:0080067891011">00 800 6 7 8 9 10 11</a></li>
+                    <li class="ecl-unordered-list__item">Contact form: <a href="https://european-union.europa.eu/contact-eu/write-us_en">Write to us</a> (please refrain from providing sensitive information in the form, e.g. any information that would reveal personal financial information, information related to your health, or any other sensitive topic).</li>
+                </ul>
+                <p class="ecl-u-type-paragraph">We try to respond to feedback within 15 business days from the date of receipt of the enquiry by the responsible Commission department.</p>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.compatibilityTitle">Compatibility with browsers and assistive technology</h2>
+            <ng-container i18n="@@page.accessibility.compatibilityDescription">
+                <p class="ecl-u-type-paragraph">The Kohesio website is designed to be compatible with the following most used assistive technologies:</p>
+                <ul class="ecl-unordered-list">
+                    <li class="ecl-unordered-list__item">the latest version of Google Chrome and Apple Safari browsers;</li>
+                    <li class="ecl-unordered-list__item">in combination with the latest versions of JAWS, NVDA, VoiceOver and TalkBack.</li>
+                </ul>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.technicalTitle">Technical specifications</h2>
+            <ng-container i18n="@@page.accessibility.technicalDescription">
+                <p class="ecl-u-type-paragraph">The accessibility of the Kohesio website relies on the following technologies to work with the particular combination of web browser and any assistive technologies or plugins installed on your computer:</p>
+                <ul class="ecl-unordered-list">
+                    <li class="ecl-unordered-list__item">HTML</li>
+                    <li class="ecl-unordered-list__item">WAI-ARIA</li>
+                    <li class="ecl-unordered-list__item">CSS</li>
+                    <li class="ecl-unordered-list__item">JavaScript</li>
+                </ul>
+            </ng-container>
+
+            <h2 class="ecl-u-type-heading-2" i18n="@@page.accessibility.nonAccessibleContentTitle" [id]="translateService.sections.accessibilityNonContentSection">Non-accessible content</h2>
+            <ng-container i18n="@@page.accessibility.nonAccessibleContentDescription">
+                <p class="ecl-u-type-paragraph">Despite our best efforts to ensure accessibility of the Kohesio website, we are aware of some limitations, which we are working to fix. Below is a description of known limitations and potential solutions. Please contact us if you encounter an issue not listed below.</p>
+                <p class="ecl-u-type-paragraph">Known limitations of the Kohesio website:</p>
+                <ul class="ecl-unordered-list">
+                    <li class="ecl-unordered-list__item"><strong>Maps:</strong> Navigating through our project collection using the map option might be difficult for some users as they rely on visual identification of the regions. Also, on some selections a large amount of dots can be displayed. For a better experience in those cases the recommended option is to use the filtering of lists instead of the map navigation.</li>
+                    <li class="ecl-unordered-list__item"><strong>Videos:</strong> Embedded videos on this website do not have audio description.</li>
+                    <li class="ecl-unordered-list__item"><strong>Texts:</strong> the readability of some titles and descriptions is limited, either due to a low redactional level, the use of acronyms or the machine translation process.</li>
+                    <li class="ecl-unordered-list__item"><strong>Images:</strong> some images lack alternative text description</li>
+                    <li class="ecl-unordered-list__item"><strong>Heading Hierarchy:</strong> Some pages do not present content in an hierarchical heading organization</li>
+                    <li class="ecl-unordered-list__item"><strong>ARIA:</strong> Some ARIA hidden elements contain focusable elements.</li>
+                </ul>
+            </ng-container>
+        </div>
+    </div>
+ </div>

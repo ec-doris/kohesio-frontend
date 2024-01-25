@@ -272,7 +272,7 @@
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
-                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + (project.countryCode ? project.countryCode.toLowerCase() + '.png': '')}}"></span>
                                             <span class="amount">
                                                 {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                 <span *ngIf="!project.totalBudget">n/a</span>
