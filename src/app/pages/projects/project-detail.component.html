@@ -253,8 +253,7 @@
                                     </kohesio-ecl-form-group>
                                 </ng-container>
                                 <ng-container *ngIf="!editMode">
-                                    <ng-container [innerHTML]="project.description"></ng-container>
-
+                                    <div [innerHTML]="project.description"></div>
                                 </ng-container>
 
                                 <ng-container *ngIf="!project.description">
