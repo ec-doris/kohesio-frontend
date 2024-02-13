@@ -29,7 +29,7 @@ import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.compo
 import {User} from "./models/user.model";
 import {MatDialogModule} from "@angular/material/dialog";
 import {SurveyDialogModule} from "./components/kohesio/survey-dialog/survey-dialog.module";
-import {AccessibilityPageComponent} from "./pages/static/acessibility/accessibility.component";
+import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);

@@ -21,9 +21,6 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<User> {
-      if (this.user && this.user.user_id){
-        return of(this.user);
-      }
       return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`).pipe(
          map((data:Object) => {
             //console.log("GET USER DETAILS, DATA",data);

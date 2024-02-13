@@ -3,20 +3,20 @@
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group *ngIf="!editMode">
             <div class="kohesio-ecl-form-group-formType">
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User"></kohesio-ecl-form-radio>
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User" i18n="@@page.users.save-dialog.label.addUser"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation" i18n="@@page.users.save-dialog.label.invitation"></kohesio-ecl-form-radio>
             </div>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
-            <kohesio-ecl-form-label [required]="true">Email:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-label [required]="true" i18n="@@page.users.save-dialog.label.email">Email:</kohesio-ecl-form-label>
             <kohesio-ecl-form-text-input formControlName="email" [focus]="true" [isDisabled]="editMode"></kohesio-ecl-form-text-input>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
-            <kohesio-ecl-form-label>Role:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-label i18n="@@page.users.save-dialog.label.role">Role:</kohesio-ecl-form-label>
             <kohesio-ecl-form-select formControlName="role" [items]="this.roles" [isDisabled]="!userService.isAdmin()" [hasEmptyValue]="false"></kohesio-ecl-form-select>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
-            <kohesio-ecl-form-label>Expiration Date:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-label i18n="@@page.users.save-dialog.label.expirationDate">Expiration Date:</kohesio-ecl-form-label>
             <mat-form-field style="margin-top:0px;width:100%;">
                 <input formControlName="expiration" matInput [matDatepicker]="picker">
                 <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
@@ -29,18 +29,18 @@
         <article class="ecl-card" *ngIf="myForm && (myForm.value['role'] == 'EDITOR' || myForm.value['role'] == 'REVIEWER')">
             <div class="ecl-card__body">
                 <div class="ecl-content-block ecl-card__content-block" style="max-width: 450px;">
-                    <h2 class="ecl-content-block__title">Allowed CCIs:</h2>
+                    <h2 class="ecl-content-block__title" i18n="@@page.users.save-dialog.label.allowedCCIs">Allowed CCIs:</h2>
                     <ng-container *ngIf="userService.isAdmin()">
                         <kohesio-ecl-form-group>
-                            <kohesio-ecl-form-label>Country:</kohesio-ecl-form-label>
+                            <kohesio-ecl-form-label i18n="@@page.users.save-dialog.label.country">Country:</kohesio-ecl-form-label>
                             <kohesio-ecl-form-select formControlName="country" [items]="this.countries" (change)="onCountrySelection($event)"></kohesio-ecl-form-select>
                         </kohesio-ecl-form-group>
                         <kohesio-ecl-form-group>
-                            <kohesio-ecl-form-label>CCI:</kohesio-ecl-form-label>
+                            <kohesio-ecl-form-label i18n="@@page.users.save-dialog.label.cci">CCI:</kohesio-ecl-form-label>
                             <kohesio-ecl-form-select formControlName="cci" [items]="this.ccis" [isDisabled]="myForm && !myForm.value['country']"
                                                      placeholder="Select a country"></kohesio-ecl-form-select>
                         </kohesio-ecl-form-group>
-                        <kohesio-ecl-button style="float:right;margin-top:5px;" type="button" variant="secondary" (click)="addCCI()">Add</kohesio-ecl-button>
+                        <kohesio-ecl-button style="float:right;margin-top:5px;" type="button" variant="secondary" (click)="addCCI()" i18n="@@page.users.save-dialog.label.addCCI">Add</kohesio-ecl-button>
                     </ng-container>
                     <ng-container class="ccis-list" *ngFor="let cci_list_item of ccis_list">
                         <button type="button" (click)="onClickCci(cci_list_item.cci)" aria-label="Dismiss" class="ecl-tag ecl-tag--removable">

@@ -8,17 +8,17 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">My Profile</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.users.breadcrumb.profile">My Profile</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
-        <h1>My Profile</h1>
+        <h1 i18n="@@page.users.profile.title">My Profile</h1>
         <div class="actions">
-            <kohesio-ecl-button type="button" variant="call" (click)="onEdit()" *ngIf="!editMode">Edit</kohesio-ecl-button>
-            <kohesio-ecl-button type="button" (click)="onSubmit()" *ngIf="editMode">Save</kohesio-ecl-button>
-            <kohesio-ecl-button type="button" (click)="onCancel()" *ngIf="editMode">Cancel</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" variant="call" (click)="onEdit()" *ngIf="!editMode" i18n="@@page.users.profile.button.edit">Edit</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="onSubmit()" *ngIf="editMode" i18n="@@page.users.profile.button.save">Save</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="onCancel()" *ngIf="editMode" i18n="@@page.users.profile.button.cancel">Cancel</kohesio-ecl-button>
         </div>
     </div>
     <div class="page-content">
@@ -27,64 +27,64 @@
                 <kohesio-ecl-message *ngFor="let message of messages" [type]="message.type" [message]="message.message" (dismissMessage)="messages = undefined"></kohesio-ecl-message>
             </div>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>USER ID:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.userId">USER ID:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{userService.user.user_id}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>NAME:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.name">NAME:</kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="name"></kohesio-ecl-form-text-input>
                 <div class="label-only" *ngIf="!editMode">
                     {{myForm.value.name}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>EMAIL:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.email">EMAIL:</kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="email"></kohesio-ecl-form-text-input>
                 <div class="label-only" *ngIf="!editMode">
                     {{myForm.value.email}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>ORGANIZATION:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.organization">ORGANIZATION:</kohesio-ecl-form-label>
                 <kohesio-ecl-form-text-input *ngIf="editMode" formControlName="organization"></kohesio-ecl-form-text-input>
                 <div class="label-only" *ngIf="!editMode">
                     {{myForm.value.organization}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>ROLE:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.role">ROLE:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{userService.user.role}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>ACTIVE:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.active">ACTIVE:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{myForm.value.active}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>CREATED:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.created">CREATED:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{userService.user.creation_time?.toLocaleString()}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>LAST LOGIN:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.lastLogin">LAST LOGIN:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{userService.user.last_login_time?.toLocaleString()}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>EXPIRATION:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.expiration">EXPIRATION:</kohesio-ecl-form-label>
                 <div class="label-only">
                     {{userService.user.expiration_time ? userService.user.expiration_time.toLocaleDateString() : 'NEVER'}}
                 </div>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
-                <kohesio-ecl-form-label>CCI SCOPE:</kohesio-ecl-form-label>
+                <kohesio-ecl-form-label i18n="@@page.users.profile.label.cciScope">CCI SCOPE:</kohesio-ecl-form-label>
                 <div class="kohesio-ecl-spinner" *ngIf="!ccis_list.length && userService.user.role != 'ADMIN'">
                     <kohesio-ecl-spinner [hasLabel]="false" ></kohesio-ecl-spinner>
                 </div>
@@ -98,7 +98,7 @@
             </kohesio-ecl-form-group>
         </form>
         <div class="danger-zone" *ngIf="!editMode">
-            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()">Click here if you want to delete your profile.</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" variant="ghost" (click)="onDeleteProfile()" i18n="@@page.users.profile.button.deleteProfile">Click here if you want to delete your profile.</kohesio-ecl-button>
         </div>
     </div>
 </div>
