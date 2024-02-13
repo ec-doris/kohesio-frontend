@@ -7,7 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: NotificationsDashboardComponent,
-    canActivate: [LoggedinGuard]
+    canActivate: [LoggedinGuard],
+    data: {
+      title: $localize`:@@page.notifications.dashboard.title:Notifications`
+    }
   }
 ];
 

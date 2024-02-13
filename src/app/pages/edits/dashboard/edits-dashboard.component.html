@@ -8,24 +8,24 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Edits Dashboard</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.edits.breadcrumb.dashboard">Edits Dashboard</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
-        <h1>Edits</h1>
-        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
+        <h1 i18n="@@page.edits.dashboard.title">Edits</h1>
+        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()" i18n="@@page.edits.dashboard.button.filters">Filters</kohesio-ecl-button>
     </div>
     <div class="users-table" *ngIf="editsList">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">Project</th>
-                    <th class="ecl-table__header">CCI</th>
-                    <th class="ecl-table__header">Latest Status</th>
-                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.project">Project</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.cci">CCI</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.latestStatus">Latest Status</th>
+                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header" i18n="@@page.edit.dashboard.label.created">
                         Created
                         <button class="ecl-table__arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
@@ -34,7 +34,7 @@
                                 <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
                         </button>
                     </th>
-                    <th class="ecl-table__header">History</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.history">History</th>
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
@@ -74,7 +74,7 @@
                                 <table class="ecl-table ecl-table--zebra">
                                     <thead class="ecl-table__head">
                                     <tr class="ecl-table__row">
-                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">Created
+                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending" i18n="@@page.edit.dashboard.label.historyCreated">Created
                                             <button class="ecl-table__arrow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
                                                     <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
@@ -82,9 +82,9 @@
                                                     <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
                                             </button>
                                         </th>
-                                        <th class="ecl-table__header">Status</th>
-                                        <th class="ecl-table__header">Comment</th>
-                                        <th class="ecl-table__header">User</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyStatus">Status</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyComment">Comment</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.histroyUser">User</th>
                                     </tr>
                                     </thead>
                                     <tbody class="ecl-table__body">

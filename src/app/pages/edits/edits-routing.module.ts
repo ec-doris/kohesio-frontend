@@ -7,7 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: EditsDashboardComponent,
-    canActivate: [LoggedinGuard]
+    canActivate: [LoggedinGuard],
+    data: {
+      title: $localize`:@@page.edits.dashboard.title:Edits`
+    }
   }
 ];
 

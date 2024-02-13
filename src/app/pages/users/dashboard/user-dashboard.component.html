@@ -8,16 +8,16 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">User Dashboard</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.users.breadcrumb.dashboard">User Dashboard</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
-        <h1>Users</h1>
+        <h1 i18n="@@page.users.dashboard.title">Users</h1>
         <div class="action-buttons">
-            <kohesio-ecl-button type="button" (click)="saveUser()" variant="call" *ngIf="userService.isAdmin()">Add User</kohesio-ecl-button>
-            <kohesio-ecl-button type="button" (click)="inviteUser()" variant="call" *ngIf="!userService.isAdmin()">Invite User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="saveUser()" variant="call" *ngIf="userService.isAdmin()" i18n="@@page.users.dashboard.button.add">Add User</kohesio-ecl-button>
+            <kohesio-ecl-button type="button" (click)="inviteUser()" variant="call" *ngIf="!userService.isAdmin()" i18n="@@page.users.dashboard.button.invite">Invite User</kohesio-ecl-button>
         </div>
     </div>
     <div class="users-table" *ngIf="usersList">
@@ -28,12 +28,12 @@
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">Email</th>
-                    <th class="ecl-table__header">Name</th>
-                    <th class="ecl-table__header">Organization</th>
-                    <th class="ecl-table__header">Role</th>
-                    <th class="ecl-table__header">Active</th>
-                    <th class="ecl-table__header">Actions</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.email">Email</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.name">Name</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.organization">Organization</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.role">Role</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.active">Active</th>
+                    <th class="ecl-table__header" i18n="@@page.users.dashboard.label.actions">Actions</th>
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
@@ -49,11 +49,20 @@
                         </td>
                         <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
                             <kohesio-ecl-button variant="secondary" type="button" (click)="saveUser(user)"
-                                                *ngIf="(userService.isAdmin() || (userService.isReviewer() && user.role=='EDITOR'))">Edit</kohesio-ecl-button>&nbsp;
+                                *ngIf="(userService.isAdmin() || (userService.isReviewer() && user.role=='EDITOR'))"
+                                i18n="@@page.users.dashboard.button.edit">
+                                    Edit
+                            </kohesio-ecl-button>&nbsp;
                             <kohesio-ecl-button variant="secondary" type="button" (click)="deleteUser(user)"
-                                                *ngIf="(userService.isAdmin()) || (userService.isReviewer() && user.role=='EDITOR')">Delete</kohesio-ecl-button>&nbsp;
+                                *ngIf="(userService.isAdmin()) || (userService.isReviewer() && user.role=='EDITOR')"
+                                i18n="@@page.users.dashboard.button.delete">
+                                    Delete
+                            </kohesio-ecl-button>&nbsp;
                             <kohesio-ecl-button variant="secondary" type="button" (click)="impersonateUser(user)"
-                                                *ngIf="user.role!='ADMIN' && userService.isAdmin()">Impersonate</kohesio-ecl-button>
+                                *ngIf="user.role!='ADMIN' && userService.isAdmin()"
+                                i18n="@@page.users.dashboard.button.impersonate">
+                                Impersonate
+                            </kohesio-ecl-button>
                         </td>
                     </tr>
                 </tbody>
