@@ -9,7 +9,7 @@ export class TruncateHtmlPipe  implements PipeTransform {
       return text;
     }
 
-    let without_html:string = text.replace(/<(?:.|\n)*?>/gm, ' ');
+    let without_html:string = text.replace(/<(?:.|\n)*?>/gm, '');
     without_html = without_html.replace(/ +(?= )/g,'');
     without_html = without_html.replace(/&nbsp;/gi," ")
 
