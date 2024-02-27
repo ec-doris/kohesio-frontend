@@ -42,16 +42,10 @@ import {QuillModule} from "ngx-quill";
           modules: {
             toolbar:[
 
-              ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+              ['bold', 'italic', 'underline'],        // toggled buttons
 
-              [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+              [{ 'header': 2 }],               // custom button values
               [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-              [{ 'indent': '-1'}, { 'indent': '+1' }],          // outdent/indent
-
-              [{ 'color': [] }, { 'background': [] }],          // dropdown with defaults from theme
-              [{ 'align': [] }],
-
-              ['clean'],                                         // remove formatting button
 
               ['link']                         // link and image, video
             ]
