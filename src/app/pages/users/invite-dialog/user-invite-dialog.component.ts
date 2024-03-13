@@ -3,6 +3,7 @@ import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@an
 import {UserService} from "../../../services/user.service";
 import {EMPTY, forkJoin, Observable, Subscriber} from "rxjs";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
   selector: 'user-invite-dialog',
@@ -17,7 +18,8 @@ export class UserInviteDialogComponent implements DialogChildInterface{
 
   constructor(
     private formBuilder: UntypedFormBuilder,
-    private userService:UserService
+    private userService:UserService,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {
@@ -33,7 +35,7 @@ export class UserInviteDialogComponent implements DialogChildInterface{
             observer.next(true);
           })
       }else{
-        this.errorMessage = "Email is mandatory.";
+        this.errorMessage = this.translateService.userManagement.messages.emailMandatory;
       }
     })
   }

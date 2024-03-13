@@ -85,7 +85,7 @@ class Write {
     }
 
     private mapLink(code:string):string{
-        let link = "https://kohesio.ec.europa.eu"
+        let link = "https://kohesio.ec.europa.eu/en"
         if (code.startsWith("page") && !code.startsWith("page.home")
             && !code.startsWith("page.project-detail")
             && !code.startsWith("page.beneficiary-detail")){

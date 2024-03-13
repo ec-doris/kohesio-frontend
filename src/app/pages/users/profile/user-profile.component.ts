@@ -1,6 +1,5 @@
 import {AfterViewInit, Component } from '@angular/core';
 import {UserService} from "../../../services/user.service";
-import {User} from "../../../models/user.model";
 import {UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {environment} from "../../../../environments/environment";
 import {forkJoin} from "rxjs";
@@ -8,6 +7,7 @@ import {FilterService} from "../../../services/filter.service";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {MatDialog} from "@angular/material/dialog";
 import {ActivatedRoute, Router} from "@angular/router";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './user-profile.component.html',
@@ -28,6 +28,7 @@ export class UserProfileComponent implements AfterViewInit {
 
     constructor(public userService: UserService,
                 private filterService: FilterService,
+                private translateService: TranslateService,
                 private formBuilder: UntypedFormBuilder,
                 public dialog: MatDialog,
                 private router: Router,
@@ -38,7 +39,8 @@ export class UserProfileComponent implements AfterViewInit {
         email: userService.user.email,
         organization: userService.user.organization,
         role: userService.user.role,
-        active: userService.user.active ? "YES" : "NO"
+        active: userService.user.active ? this.translateService.userManagement.labels.activeYES :
+          this.translateService.userManagement.labels.activeNO
       });
       if (userService.user.allowed_cci_qids && userService.user.allowed_cci_qids.length){
         const programLabelsObservables:any[] = []
@@ -61,7 +63,7 @@ export class UserProfileComponent implements AfterViewInit {
         this.startEditMode();
       }
       if (this._route.snapshot.queryParamMap.has("update")){
-        this.showMessage("info", "Please, update your profile data.");
+        this.showMessage("info", this.translateService.userManagement.messages.pleaseUpdatedProfile);
         this.router.navigate([], {
           queryParams: {
             update:undefined
@@ -107,7 +109,7 @@ export class UserProfileComponent implements AfterViewInit {
         this.myForm.value.name,
         this.myForm.value.email,
         this.myForm.value.organization).subscribe(user=>{
-          this.showMessage("success", "Your profile was updated.");
+          this.showMessage("success", this.translateService.userManagement.messages.updatedProfile);
           this.finishEditMode();
         })
     }
@@ -116,7 +118,7 @@ export class UserProfileComponent implements AfterViewInit {
     const dialogRef = this.dialog.open(DialogEclComponent, {
       disableClose: false,
       data:{
-        confirmMessage: "Are you sure you want to delete?"
+        confirmMessage: this.translateService.userManagement.messages.confirmDelete
       }
     });
     dialogRef.afterClosed().subscribe(result => {

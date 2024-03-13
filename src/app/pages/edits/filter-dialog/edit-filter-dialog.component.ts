@@ -15,16 +15,16 @@ export class EditFilterDialogComponent implements DialogChildInterface{
   @Input('data') data: any;
   public statuses:any[] = [{
     id: "DRAFT",
-    value: "DRAFT"
+    value: $localize `:@@page.edits.label.status.draft:DRAFT`
   },{
     id: "SUBMITTED",
-    value: "SUBMITTED"
+    value: $localize `:@@page.edits.label.status.submitted:SUBMITTED`
   },{
     id: "APPROVED",
-    value: "APPROVED"
+    value: $localize `:@@page.edits.label.status.approved:APPROVED`
   },{
     id: "PUBLISHED",
-    value: "PUBLISHED"
+    value: $localize `:@@page.edits.label.status.published:PUBLISHED`
   }];
   public editMode:boolean = false;
 

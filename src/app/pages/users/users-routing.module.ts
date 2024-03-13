@@ -18,7 +18,7 @@ const routes: Routes = [
     component: UserProfileComponent,
     canActivate: [LoggedinGuard],
     data: {
-      title: $localize`:@@page.users.profile.title:My profile`
+      title: $localize`:@@page.users.profile.title:My Profile`
     }
   }
 ];

@@ -3,12 +3,11 @@
         <ng-container *ngIf="!userService.isLoggedIn()">
             <a [href]="'/api/login?callback='+(this.locationStrategy.path() ? this.locationStrategy.path() : '/')"
                class="ecl-button ecl-button--ghost ecl-site-header__login-toggle"
-               i18n="@@comp.login-box.button.login"
                [attr.aria-expanded]="isLoginBoxActive">
                 <svg class="ecl-icon ecl-icon&#45;&#45;s ecl-site-header__icon" focusable="false" aria-hidden="true">
                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#log-in"></use>
                 </svg>
-                Login
+                <ng-container i18n="@@comp.login-box.button.login">Login</ng-container>
             </a>
         </ng-container>
         <ng-container *ngIf="userService.isLoggedIn()">
@@ -54,7 +53,7 @@
                            class="ecl-button ecl-button--ghost  ecl-link ecl-link--standalone">
                             <ng-container i18n="@@comp.login-box.button.logout">Logout</ng-container>
                             <ng-container *ngIf="userService.user.impersonateUser" >
-                                <ng-container i18n="@@comp.login-box.button.logoutas">&nbsp;as&nbsp;</ng-container>
+                                &nbsp;<ng-container i18n="@@comp.login-box.button.logoutas">as</ng-container>&nbsp;
                                 <ng-container>{{userService.user.name ? userService.user.name : userService.user.user_id}}</ng-container>
                             </ng-container>
                         </a>

@@ -25,8 +25,8 @@
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.project">Project</th>
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.cci">CCI</th>
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.latestStatus">Latest Status</th>
-                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header" i18n="@@page.edit.dashboard.label.created">
-                        Created
+                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
+                        <ng-container i18n="@@page.edit.dashboard.label.created">Created</ng-container>
                         <button class="ecl-table__arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
                                 <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
@@ -74,7 +74,8 @@
                                 <table class="ecl-table ecl-table--zebra">
                                     <thead class="ecl-table__head">
                                     <tr class="ecl-table__row">
-                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending" i18n="@@page.edit.dashboard.label.historyCreated">Created
+                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">
+                                            <ng-container i18n="@@page.edit.dashboard.label.historyCreated">Created</ng-container>
                                             <button class="ecl-table__arrow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
                                                     <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
@@ -84,7 +85,7 @@
                                         </th>
                                         <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyStatus">Status</th>
                                         <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyComment">Comment</th>
-                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.histroyUser">User</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyUser">User</th>
                                     </tr>
                                     </thead>
                                     <tbody class="ecl-table__body">
