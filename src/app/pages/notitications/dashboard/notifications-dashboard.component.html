@@ -8,20 +8,20 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Notification Dashboard</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.notifications.breadcrumb.dashboard">Notification Dashboard</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
-        <h1>Notifications</h1>
+        <h1 i18n="@@page.notifications.dashboard.title">Notifications</h1>
         <div class="filters">
             <form [formGroup]="myForm">
                 <kohesio-ecl-form-group>
                     <div class="kohesio-ecl-form-group-seen">
-                        <kohesio-ecl-form-radio formControlName="seen" staticValue="read" label="Read"></kohesio-ecl-form-radio>
-                        <kohesio-ecl-form-radio formControlName="seen" staticValue="unread" label="Unread"></kohesio-ecl-form-radio>
-                        <kohesio-ecl-form-radio formControlName="seen" staticValue="all" label="All"></kohesio-ecl-form-radio>
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="read" label="Read" i18n="@@page.notifications.dashboard.filter.read"></kohesio-ecl-form-radio>
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="unread" label="Unread" i18n="@@page.notifications.dashboard.filter.unread"></kohesio-ecl-form-radio>
+                        <kohesio-ecl-form-radio formControlName="seen" staticValue="all" label="All" i18n="@@page.notifications.dashboard.filter.all"></kohesio-ecl-form-radio>
                     </div>
                 </kohesio-ecl-form-group>
             </form>
@@ -32,11 +32,11 @@
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                     <tr class="ecl-table__row">
-                        <th class="ecl-table__header">Project</th>
-                        <th class="ecl-table__header">Status</th>
-                        <th class="ecl-table__header">Date</th>
-                        <th class="ecl-table__header">User</th>
-                        <th class="ecl-table__header">Actions</th>
+                        <th class="ecl-table__header" i18n="@@page.notifications.dashboard.label.project">Project</th>
+                        <th class="ecl-table__header" i18n="@@page.notifications.dashboard.label.status">Status</th>
+                        <th class="ecl-table__header" i18n="@@page.notifications.dashboard.label.date">Date</th>
+                        <th class="ecl-table__header" i18n="@@page.notifications.dashboard.label.user">User</th>
+                        <th class="ecl-table__header" i18n="@@page.notifications.dashboard.label.actions">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="ecl-table__body">
@@ -68,7 +68,9 @@
                             <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.creation_time.toLocaleString()}}</td>
                             <td class="ecl-table__cell" data-ecl-table-header="CCI">{{notification.generating_user_name}}</td>
                             <td data-ecl-table-header="Actions" class="actions ecl-table__cell">
-                                <kohesio-ecl-button variant="secondary" *ngIf="!notification.seen_at" type="button" (click)="markAsRead(notification)">Mark as Read</kohesio-ecl-button>&nbsp;
+                                <kohesio-ecl-button variant="secondary" *ngIf="!notification.seen_at"
+                                                    i18n="@@page.notifications.dashboard.button.markAsread"
+                                                    type="button" (click)="markAsRead(notification)">Mark as Read</kohesio-ecl-button>&nbsp;
                             </td>
                         </tr>
                     </ng-container>

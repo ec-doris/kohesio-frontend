@@ -15,6 +15,8 @@ export class ShareBlockComponent implements AfterViewInit {
   public currentUrl: string = (this._document.location.protocol + '//' + this._document.location.hostname) +
     (this._document.location.port != "" ? ':' + this._document.location.port : '');
 
+  public currentURI: string = this._document.location + "";
+
     constructor(@Inject(DOCUMENT) private _document: Document){}
 
     ngOnInit(){

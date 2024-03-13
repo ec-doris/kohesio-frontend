@@ -8,6 +8,7 @@ import {User} from "../../../models/user.model";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
 import {FilterService} from "../../../services/filter.service";
 import {environment} from "../../../../environments/environment";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
   selector: 'user-save-dialog',
@@ -42,7 +43,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   constructor(
     private formBuilder: UntypedFormBuilder,
     public userService:UserService,
-    private filterService: FilterService
+    private filterService: FilterService,
+    private translateService: TranslateService
   ) {
   }
 
@@ -91,7 +93,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
       if(!this.myForm.value.email) {
-        this.errorMessage = "Email is mandatory.";
+        this.errorMessage = this.translateService.userManagement.messages.emailMandatory;
       }else {
         if (this.myForm.value.formType == 'invitation'){
           this.userService.inviteUser(this.myForm.value.email,
