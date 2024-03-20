@@ -24,6 +24,8 @@ export class Filters implements Deserializable{
     public orderEuBudget: boolean | undefined;
     public orderTotalBudget: boolean | undefined;
     public orderNumProjects: boolean | undefined;
+    public orderReadability: boolean | undefined;
+    public orderReadabilityBudget: boolean | undefined;
     public beneficiaryType: string | undefined;
     public interreg: string | undefined;
     public nuts3: string | undefined;
@@ -65,6 +67,8 @@ export class Filters implements Deserializable{
             orderEuBudget:  this.buildSort("orderEuBudget",input.sort),
             orderTotalBudget:  this.buildSort("orderTotalBudget",input.sort),
             orderNumProjects:  this.buildSort("orderNumProjects",input.sort),
+            orderReadability:  this.buildSort("orderReadability",input.sort),
+            orderReadabilityBudget:  this.buildSort("orderReadabilityBudget",input.sort),
             beneficiaryType: input.beneficiaryType ? input.beneficiaryType : undefined,
             interreg: input.interreg ? input.interreg : undefined,
             nuts3: input.nuts3 ? input.nuts3 : undefined,
@@ -95,6 +99,8 @@ export class Filters implements Deserializable{
             ...(this.orderEndDate != undefined) && {orderEndDate: this.orderEndDate},
             ...(this.orderEuBudget != undefined) && {orderEuBudget: this.orderEuBudget},
             ...(this.orderTotalBudget != undefined) && {orderTotalBudget: this.orderTotalBudget},
+            ...(this.orderReadability != undefined) && {orderReadability: this.orderReadability},
+            ...(this.orderReadabilityBudget != undefined) && {orderReadabilityBudget: this.orderReadabilityBudget},
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
             ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis},
