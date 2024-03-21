@@ -173,7 +173,7 @@
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
-              "localize": ["en","pt"]
+              "localize": ["en"]
             }
           },
           "defaultConfiguration": "production"
