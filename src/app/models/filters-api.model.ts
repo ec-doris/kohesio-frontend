@@ -85,7 +85,7 @@ export class FiltersApi implements Deserializable{
           value: $localize`:@@translate.filter.sortProjects.orderReadabilityDesc:Readability`
         },{
           id: 'orderReadabilityBudget-false',
-          value: $localize`:@@translate.filter.sortProjects.orderReadabilityBudgetDesc:Readability Budget`
+          value: $localize`:@@translate.filter.sortProjects.orderReadabilityBudgetDesc:Readability and Budget`
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
             id: 'orderNumProjects-true',
