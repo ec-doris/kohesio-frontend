@@ -30,6 +30,7 @@ export class Filters implements Deserializable{
     public interreg: string | undefined;
     public nuts3: string | undefined;
     public cci: string | undefined;
+    public ccis!: [];
     public priority_axis: string | undefined;
     public projectTypes: string | undefined;
     public town: string | undefined;
@@ -73,6 +74,7 @@ export class Filters implements Deserializable{
             interreg: input.interreg ? input.interreg : undefined,
             nuts3: input.nuts3 ? input.nuts3 : undefined,
             cci: input.cci ? input.cci : undefined,
+            ccis: input?.ccis,
             priority_axis: input.priority_axis ? input.priority_axis : undefined,
             projectTypes: input.projectCollection ? input.projectCollection : undefined,
             town: input.town ? input.town : undefined,
@@ -128,6 +130,7 @@ export class Filters implements Deserializable{
             ...(this.interreg != undefined) && {interreg: this.interreg},
             ...(this.nuts3 != undefined) && {nuts3: environment.entityURL + this.nuts3},
             ...(this.cci != undefined) && {cci: this.cci},
+            ...(this.ccis != undefined) && {ccis: this.ccis},
             ...(this.priority_axis != undefined) && {priority_axis: environment.entityURL + this.priority_axis},
             ...(this.projectTypes != undefined) && {projectTypes: environment.entityURL + this.projectTypes},
             ...(this.town != undefined) && {town: this.town}
