@@ -64,7 +64,7 @@ export class HomePageComponent implements AfterViewInit {
           this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
             maxWidth: "1300px",
-            maxHeight: "100%%",
+            maxHeight: "100%",
             position: { top: '10px' },
             panelClass: "project-detail-modal",
             data: {
