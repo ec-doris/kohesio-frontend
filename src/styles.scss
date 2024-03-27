@@ -80,3 +80,8 @@ mat-tab-body{
 .cck-banner .cck-container {
   z-index: 9999;
 }
+
+.project-detail-modal .kohesio-page-detail-container {
+  overflow-y: scroll;
+  height: 80vh;
+}

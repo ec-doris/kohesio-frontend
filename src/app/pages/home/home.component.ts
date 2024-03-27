@@ -63,9 +63,9 @@ export class HomePageComponent implements AfterViewInit {
         if (this._route.snapshot.queryParamMap.has('project')){
           this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
-            height: "85vh",
             maxWidth: "1300px",
             maxHeight: "100%",
+            panelClass: "project-detail-modal",
             data: {
               id: this._route.snapshot.queryParamMap.get('project')
             }
