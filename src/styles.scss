@@ -81,7 +81,14 @@ mat-tab-body{
   z-index: 9999;
 }
 
-.project-detail-modal .kohesio-page-detail-container {
-  overflow-y: scroll;
-  height: 80vh;
+.project-detail-modal {
+  .kohesio-page-detail-container {
+    overflow-y: scroll;
+    height: 75vh;
+  }
+
+  mat-dialog-content {
+    height: 85vh;
+    overflow: hidden;
+  }
 }
