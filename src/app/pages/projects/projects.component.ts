@@ -67,6 +67,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
   public infoPopup:boolean = false;
+  private notOutside = false;
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -673,5 +674,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     //console.log("SDG",sdgValue);
   }
 
+  onOutsideClick() {
+    if (this.notOutside) {
+      this.notOutside = false;
+      return;
+    }
+    this.infoPopup = false;
 
+  }
+
+  toggleInfoBtn() {
+    this.notOutside = true;
+    this.infoPopup = !this.infoPopup;
+  }
 }
