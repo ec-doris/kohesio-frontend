@@ -276,7 +276,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             this._document.body.scrollTop = 0;
             this._document.documentElement.scrollTop = 0;
             if (this.selectedTabIndex == 2) {
-              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                  this.mapIsLoaded = true;
+                }, 0);
               setTimeout(
                 () => {
                     this.map.loadMapRegion(this.lastFiltersSearch);
