@@ -13,7 +13,7 @@ export class TransferStateInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-    if (this.httpRequest) //If optional request is provided, we are server side
+    if (this.httpRequest && this.httpRequest.headers.cookie) //If optional request is provided, we are server side
     {
       req = req.clone(
         {
