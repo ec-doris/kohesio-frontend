@@ -22,7 +22,7 @@ async function bootstrap() {
   app.enableCors({
     origin: /\.europa\.eu$/
   });
-  app.use(helmet());
+  //app.use(helmet());
 
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
   const environment = configService.get<string>('ENV');

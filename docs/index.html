@@ -1,6 +1,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" >
 <head>
     <title>Embedded Map Integration</title>
+    <script>
+        function getKohesioStatistics(){
+            fetch('https://kohesio.ec.europa.eu/api/queries/statistics')
+                .then( res => res.json() )
+                .then(response => {
+                    document.getElementById('resultStatistics').innerHTML = response;
+                })
+                .catch(error => console.error('Error:', error));
+        }
+
+    </script>
 </head>
 <body>
     <h1>Kohesio Embedded Map Integration</h1>
@@ -18,6 +29,12 @@
 
     <h2>Drill-down into a region with heat scale</h2>
     <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=KohesioExample&heatScale=true&mapRegion=Q2556137"  width="1000" height="800">
+
+    <h2>Get Statistics</h2>
+    <input id="button" type="button" value="Get Statistics" onclick="getKohesioStatistics();" />
+    <div id="resultStatistics">
+
+    </div>
 
 </body>
 </html>
