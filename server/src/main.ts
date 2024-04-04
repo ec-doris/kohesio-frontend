@@ -5,6 +5,7 @@ import {ConfigService} from "@nestjs/config";
 import * as sessionActive from 'express-session';
 import * as sessionInactive from 'express-session';
 import * as passport from "passport";
+import helmet from 'helmet';
 import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
@@ -21,6 +22,7 @@ async function bootstrap() {
   app.enableCors({
     origin: /\.europa\.eu$/
   });
+  //app.use(helmet());
 
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
   const environment = configService.get<string>('ENV');
