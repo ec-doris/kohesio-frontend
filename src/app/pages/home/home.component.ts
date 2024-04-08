@@ -96,7 +96,8 @@ export class HomePageComponent implements AfterViewInit {
       const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
         [this.translateService.queryParams.theme]: theme.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.sort]: sort,
+        [this.translateService.queryParams.policyObjective]: this.policyObjective.instanceLabel.split(' ').join('-')
       };
     }
 
