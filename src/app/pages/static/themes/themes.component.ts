@@ -19,7 +19,7 @@ export class ThemesComponent implements OnInit {
     TO04: { color: 'green', pId: 'PO02' },
     TO05: { color: 'green', pId: 'PO02' },
     TO06: { color: 'green', pId: 'PO02' },
-    TO07: { color: 'green', pId: 'PO02' },
+    TO07: { color: 'green', pId: 'PO03' },
     TO08: { color: 'yellow', pId: 'PO04' },
     TO09: { color: 'yellow', pId: 'PO04' },
     TO10: { color: 'yellow', pId: 'PO04' },
