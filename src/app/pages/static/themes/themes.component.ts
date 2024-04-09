@@ -55,7 +55,7 @@ export class ThemesComponent implements OnInit {
     return {
       [this.translateService.queryParams.theme]: theme.instanceLabel.split(' ').join('-'),
       [this.translateService.queryParams.sort]: sort,
-      [this.translateService.queryParams.policyObjective]: this.policyObjectives[this.themeColors[theme.id].pId].instanceLabel.split(' ').join('-')
+      [this.translateService.queryParams.policyObjective]: this.policyObjectives[this.themeColors[theme.id].pId]?.instanceLabel.split(' ').join('-')
 
     };
   }
