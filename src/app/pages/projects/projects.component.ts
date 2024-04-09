@@ -594,6 +594,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         resetForm() {
           this.myForm.reset();
+          this.themeSelection = this.filters.thematic_objectives;
           this.semanticTerms = [];
         }
 
