@@ -1,4 +1,5 @@
 interface environmentVARS {
+  SESSION_TYPE: string;
   SESSION_SECRET: string;
   ENV: string;
   BASE_URL: string;

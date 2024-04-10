@@ -11,6 +11,7 @@ import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
 import {RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import * as session from 'express-session';
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -22,40 +23,54 @@ async function bootstrap() {
   app.enableCors({
     origin: /\.europa\.eu$/
   });
+
   //app.use(helmet());
 
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
   const environment = configService.get<string>('ENV');
   console.log("ENV=",environment);
 
-  // Initialize client.
-  let redisClient = createClient({
-    socket: {
-      host: configService.get<string>('REDIS_HOST'),
-      connectTimeout: 50000
-    },
-    password: configService.get<string>('REDIS_PASSWORD')
-  })
-  redisClient.connect().catch(console.error)
-
-  // Initialize store.
-  let redisStore = new RedisStore({
-    client: redisClient,
-    prefix: "kohesio_session:"
-  })
-
- const sessionConfig = {
-    secret: configService.get<string>('SESSION_SECRET'),
-    store: redisStore,
-    resave: false,
-    rolling: true,
-    saveUninitialized: true,
-    name: "kohesio.sid",
-    cookie: {
-      secure: true,
-      maxAge: (60000 * 60) * 2 //2 hours
+  let sessionConfig:any = undefined;
+  const sessionType = configService.get<string>('SESSION_TYPE')
+  console.log("SESSION_TYPE", sessionType);
+  if (sessionType == 'express'){
+    const sessionConfig = {
+      secret: configService.get<string>('SESSION_SECRET'),
+      resave: false,
+      saveUninitialized: true
     }
-  };
+    app.use(
+      session(sessionConfig),
+    );
+  }else{
+    let redisClient = createClient({
+      socket: {
+        host: configService.get<string>('REDIS_HOST'),
+        connectTimeout: 50000
+      },
+      password: configService.get<string>('REDIS_PASSWORD')
+    })
+    redisClient.connect().catch(console.error)
+
+    // Initialize store.
+    let redisStore = new RedisStore({
+      client: redisClient,
+      prefix: "kohesio_session:"
+    })
+
+    sessionConfig = {
+      secret: configService.get<string>('SESSION_SECRET'),
+      store: redisStore,
+      resave: false,
+      rolling: true,
+      saveUninitialized: true,
+      name: "kohesio.sid",
+      cookie: {
+        secure: true,
+        maxAge: (60000 * 60) * 2 //2 hours
+      }
+    };
+  }
 
   const sessionObj = {
     active: sessionActive(sessionConfig),
