@@ -19,6 +19,8 @@ const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
+
+  const configService:ConfigService<environmentVARS> = app.get(ConfigService);
   const environment = configService.get<string>('ENV');
   console.log("ENV=",environment);
   app.use(cookieParser());
@@ -32,11 +34,7 @@ async function bootstrap() {
     });
   }
 
-
   //app.use(helmet());
-
-  const configService:ConfigService<environmentVARS> = app.get(ConfigService);
-
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
