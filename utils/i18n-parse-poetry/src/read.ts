@@ -5,7 +5,7 @@ const fs = require('fs');
 
 class Read {
 
-  private dir:string = "files/4batch";
+  private dir:string = "files/5batch";
 
   public async run(){
     fs.readdir(this.dir, (err, files) => {

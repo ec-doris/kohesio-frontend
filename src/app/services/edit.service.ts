@@ -22,7 +22,8 @@ export class EditService {
 
     getLatestVersion(params: any): Observable<Edit>{
       return this.http.get<any>(this.url_version,{
-        params:params
+        params:params,
+        withCredentials:true
       }).pipe(
         map((data:Object) => {
           return plainToInstance(Edit, data);
@@ -35,7 +36,7 @@ export class EditService {
     }
 
     getEdit(editId: number): Observable<Edit>{
-      return this.http.get<any>(`${this.url}/get/${editId}`).pipe(
+      return this.http.get<any>(`${this.url}/get/${editId}`,{withCredentials:true}).pipe(
         map((data:Object) => {
           return plainToInstance(Edit, data);
         }),
@@ -48,7 +49,8 @@ export class EditService {
 
     list(params:any): Observable<EditWrapper> {
       return this.http.get<any>(this.url,{
-        params:params
+        params:params,
+        withCredentials:true
       }).pipe(
         map((data:Object) => {
           return plainToInstance(EditWrapper, data);
@@ -61,7 +63,7 @@ export class EditService {
     }
 
     createVersion(params: EditVersion): Observable<EditVersion>{
-      return this.http.post(this.url_version,params
+      return this.http.post(this.url_version,params,{withCredentials:true}
       ).pipe(
         map((data:Object) => {
           return plainToInstance(EditVersion, data);
@@ -74,7 +76,7 @@ export class EditService {
     }
 
     getVersion(version_id:number): Observable<EditVersion>{
-      return this.http.get<any>(`${this.url_version}/${version_id}`).pipe(
+      return this.http.get<any>(`${this.url_version}/${version_id}`,{withCredentials:true}).pipe(
         map((data:Object) => {
           return plainToInstance(EditVersion, data);
         }),
@@ -86,7 +88,7 @@ export class EditService {
     }
 
     deleteVersion(version_id:number): Observable<EditVersion>{
-      return this.http.delete<any>(`${this.url_version}/${version_id}`).pipe(
+      return this.http.delete<any>(`${this.url_version}/${version_id}`,{withCredentials:true}).pipe(
         map((data:Object) => {
           return plainToInstance(EditVersion, data);
         }),
@@ -103,7 +105,8 @@ export class EditService {
         id:id,
         label:label,
         summary:summary,
-        language:language}
+        language:language},
+        {withCredentials:true}
       ).pipe(
         map((data:Object) => {
           return plainToInstance(Edit, data);
@@ -116,7 +119,7 @@ export class EditService {
     }
 
     action(id:number,action:string){
-      return this.http.get(`${this.url}/${id}/${action}`).pipe(
+      return this.http.get(`${this.url}/${id}/${action}`,{withCredentials:true}).pipe(
         map((data:Object) => {
           return plainToInstance(Edit, data);
         }),

@@ -22,11 +22,12 @@ async function bootstrap() {
 
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
   const environment = configService.get<string>('ENV');
+  const baseUrl = configService.get<string>('BASE_URL');
   console.log("ENV=",environment);
   app.use(cookieParser());
   if (environment=='local'){
     app.enableCors({
-      origin: 'http://localhost:4200',
+      origin: baseUrl,
       credentials: true
     });
   }else{
