@@ -10,6 +10,12 @@ class Read {
   public async run(){
     fs.readdir(this.dir, (err, files) => {
       files.forEach(file => {
+        /* DEBUGGING ONE FILE
+        if (file == 'REGIO-2022-00163-00-04-HU-TRA-00.XLSX') {
+          console.log("processing FILE="+file);
+          this.processFile(file);
+        }
+        */
         this.processFile(file);
       });
     });
@@ -38,10 +44,12 @@ class Read {
       worksheet.eachRow((row, rowNumber) => {
         if (row && rowNumber > 1) {
           let key: string = row.getCell(2).value;
+          //console.log("PROCESSING KEY="+key);
           if (row.getCell(2).value.richText && row.getCell(2).value.richText.length) {
             key = row.getCell(2).value.richText[0].text;
           }
           let value = row.getCell(3).value;
+          //console.log("PROCESSING VALUE="+value);
           if (row.getCell(3).value.richText && row.getCell(3).value.richText.length) {
             value = "";
             row.getCell(3).value.richText.forEach(rText=>{
