@@ -147,6 +147,11 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.ccis = result.programs;
     });
   }
+  addAllCCI(){
+    this.myForm.controls['ccis'].reset();
+    this.ccis_list = this.ccis.map(x => ({ cci: x.id, label: x.value }));
+    this.myForm.patchValue({ ccis: this.ccis.map(y => y.cci) });
+  }
 
   addCCI(){
     if (this.myForm.value.cci && this.myForm.value.ccis.findIndex((a:string) => a === this.myForm.value.cci) == -1) {
