@@ -41,7 +41,7 @@
                                                      placeholder="Select a country"></kohesio-ecl-form-select>
                         </kohesio-ecl-form-group>
                         <kohesio-ecl-button style="float:right;margin-top:5px;" type="button" variant="secondary" (click)="addCCI()" i18n="@@page.users.save-dialog.label.addCCI">Add</kohesio-ecl-button>
-                        <kohesio-ecl-button style="float:right;margin-top:5px;margin-right: 1rem" type="button" variant="secondary" (click)="addAllCCI()" i18n="@@page.users.save-dialog.label.addALLCCI">Add All CCI</kohesio-ecl-button>
+                        <kohesio-ecl-button style="float:right;margin-top:5px;margin-right: 1rem" type="button" variant="secondary" (click)="addAllCCI()" i18n="@@page.users.save-dialog.label.addALLCCI">Add All CCIs</kohesio-ecl-button>
                     </ng-container>
                     <ng-container class="ccis-list" *ngFor="let cci_list_item of ccis_list">
                         <button type="button" (click)="onClickCci(cci_list_item.cci)" aria-label="Dismiss" class="ecl-tag ecl-tag--removable">
