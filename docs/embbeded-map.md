@@ -36,6 +36,11 @@ You can customize the map visualization using the following parameters:
 
 ## Example:
 
+### Pass multiple CCI parameters with the name "ccis"
+```html
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?heatScale=true&fund=Q2504368&ccis=5BQ2463081,Q2463082"  width="800" height="800">
+```
+
 ### Drill-down region
 ```html
 <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&mapRegion=Q2556199&coords=-8.3211792431454,40.1552222"  width="800" height="800">
