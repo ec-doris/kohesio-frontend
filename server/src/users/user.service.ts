@@ -100,6 +100,12 @@ export class UserService {
   }
 
   async inviteUser(currentUser:string, invitation: InvitationInDTO):Promise<InvitationOutDTO>{
+    console.log("INVITATION_USER_PAYLOAD",{
+      email:invitation.email,
+      role: invitation.role,
+      cci_scope: invitation.allowed_cci_qids,
+      base_url: `${this.configService.get("BASE_URL")}/api/invitation/`
+    });
     return await firstValueFrom(
       this.httpService.post<InvitationOutDTO>(`${this.baseUrl}/invitations/send`,
         {
