@@ -67,6 +67,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
   public infoPopup:boolean = false;
+  private notOutside = false;
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -275,7 +276,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             this._document.body.scrollTop = 0;
             this._document.documentElement.scrollTop = 0;
             if (this.selectedTabIndex == 2) {
-              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                  this.mapIsLoaded = true;
+                }, 0);
               setTimeout(
                 () => {
                     this.map.loadMapRegion(this.lastFiltersSearch);
@@ -590,6 +594,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         resetForm() {
           this.myForm.reset();
+          this.themeSelection = this.filters.thematic_objectives;
           this.semanticTerms = [];
         }
 
@@ -673,5 +678,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     //console.log("SDG",sdgValue);
   }
 
+  onOutsideClick() {
+    if (this.notOutside) {
+      this.notOutside = false;
+      return;
+    }
+    this.infoPopup = false;
 
+  }
+
+  toggleInfoBtn() {
+    this.notOutside = true;
+    this.infoPopup = !this.infoPopup;
+  }
 }

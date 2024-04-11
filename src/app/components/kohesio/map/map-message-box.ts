@@ -10,6 +10,7 @@ import {animate, state, style, transition, trigger} from "@angular/animations";
         opacity: 1
       })),
       state('closed', style({
+        display: 'none',
         opacity: 0
       })),
       transition('open => closed', [

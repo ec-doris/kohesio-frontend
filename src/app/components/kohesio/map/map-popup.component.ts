@@ -27,9 +27,10 @@ export class MapPopupComponent {
         this.selectedProject = project;
         this.dialog.open(ProjectDetailModalComponent, {
           width: "90%",
-          height: "85vh",
           maxWidth: "1300px",
           maxHeight: "100%",
+          position: { top: '10px' },
+          panelClass: "project-detail-modal",
           data: {
             id: project.item.replace(environment.entityURL, "")
           }

@@ -80,6 +80,12 @@ export class FiltersApi implements Deserializable{
         },{
             id: 'orderTotalBudget-false',
             value: $localize`:@@translate.filter.sortProjects.orderTotalBudgetDesc:Total Budget (descending)`
+        },{
+          id: 'orderReadability-false',
+          value: $localize`:@@translate.filter.sortProjects.orderReadabilityDesc:Readability`
+        },{
+          id: 'orderReadabilityBudget-false',
+          value: $localize`:@@translate.filter.sortProjects.orderReadabilityBudgetDesc:Readability and Budget`
         }];
         FiltersApi.prototype.sortBeneficiaries = [{
             id: 'orderNumProjects-true',

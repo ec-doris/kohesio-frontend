@@ -255,7 +255,7 @@
               "sourceMap": true,
               "extractLicenses": false,
               "vendorChunk": true,
-              "localize": ["en"]
+              "localize": ["en","pt"]
             }
           },
           "defaultConfiguration": "production"
