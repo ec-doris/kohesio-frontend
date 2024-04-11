@@ -14,7 +14,7 @@ export class MapPageComponent implements AfterViewInit {
   public country: string | null;
   public heatScale: boolean = false;
   public openProjectInner: boolean = false;
-  public ccis: [];
+  public cci: [];
   public fund = '';
 
   constructor(public actRoute: ActivatedRoute) {
@@ -22,7 +22,7 @@ export class MapPageComponent implements AfterViewInit {
     this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == 'true');
     this.openProjectInner = (this.actRoute.snapshot.queryParamMap.get('openProjectInner') == 'true');
     this.country = this.actRoute.snapshot.queryParamMap.get('country');
-    this.ccis = this.actRoute.snapshot.queryParamMap.get('ccis')?.split(',') as [];
+    this.cci = this.actRoute.snapshot.queryParamMap.get('cci')?.split(',') as [];
     this.fund = this.actRoute.snapshot.queryParamMap.get('fund') as string;
   }
 
@@ -31,7 +31,7 @@ export class MapPageComponent implements AfterViewInit {
       () => {
         const filters = new Filters().deserialize({
           country: this.country,
-          ccis: this.ccis,
+          cci: this.cci,
           fund: this.fund
         });
         this.map.loadMapRegion(filters);

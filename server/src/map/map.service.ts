@@ -25,7 +25,10 @@ export class MapService {
   async getMapRegions(params: MapSearchInDTO):Promise<MapSearchOutDTO>{
     return await firstValueFrom(
       this.httpService.get<MapSearchOutDTO>(`${this.baseUrl}/search/project/map`,{
-        params: params
+        params: params,
+        paramsSerializer: {
+          indexes: null
+        }
       }).pipe(
         map((result:any)=>{
           const data:Object = result.data;
