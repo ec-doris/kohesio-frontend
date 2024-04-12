@@ -210,6 +210,9 @@ function configureHelmet():any{
         connectSrc: [
           "'unsafe-inline'",
         ].concat(trusted),
+        frameAncestors: [
+          'http://localhost:63342'
+        ].concat(trusted),
       }
     }
   });
