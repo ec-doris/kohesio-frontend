@@ -45,14 +45,7 @@ async function bootstrap() {
   })
 
   app.use(helmet({
-    contentSecurityPolicy:{
-      directives:{
-        scriptSrc: ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu'],
-        styleSrc: null,
-        imgSrc: ["'self'",'europa.eu','gisco-services.ec.europa.eu'],
-        frameSrc: ["'self'",'platform.twitter.com']
-      }
-    }
+    contentSecurityPolicy: false
   }));
 
   let sessionConfig:any = undefined;
