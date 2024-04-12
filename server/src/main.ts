@@ -183,6 +183,7 @@ function configureHelmet():any{
         frameSrc: [
           '*.platform.twitter.com',
           'https://platform.twitter.com',
+          'https://www.youtube.com'
         ].concat(trusted),
         fontSrc: [
         ].concat(trusted),
