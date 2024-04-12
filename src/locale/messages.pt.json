@@ -458,6 +458,7 @@
 		"page.edits.button.action.save": "Salvaguardar",
 		"page.edits.button.action.cancel": "Anular",
     "page.users.save-dialog.label.addUser": "Acrescentar utilizador",
-    "page.users.save-dialog.label.inviteUser": "Convidar utilizador"
+    "page.users.save-dialog.label.inviteUser": "Convidar utilizador",
+    "page.users.save-dialog.label.active": "Ativo"
   }
 }
