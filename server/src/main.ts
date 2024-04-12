@@ -192,6 +192,9 @@ function configureHelmet():any{
         ].concat(trusted),
         scriptSrcElem: [
           '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://europa.eu',
+          'https://www.youtube.com'
         ].concat(trusted),
         scriptSrcAttr: [
           "'unsafe-eval'",
