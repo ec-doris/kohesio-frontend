@@ -111,3 +111,17 @@ For the map we are using pure leaflet version 1.6.0
 - Angular Material: [https://material.angular.io/](https://material.angular.io/)
 - Include media: [https://eduardoboucas.github.io/include-media/](https://eduardoboucas.github.io/include-media/)
 
+## Run SSR-dev in local
+
+- build dev using:
+
+```shell
+npm run build-dev
+```
+- change environment.dev.cluster.ts
+
+```ts
+api:'http://localhost:3000/api'
+```
+
+- change .env and set ENV=development

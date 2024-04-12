@@ -26,32 +26,25 @@ async function bootstrap() {
   const baseUrl = configService.get<string>('BASE_URL');
   console.log("ENV=",environment);
   app.use(cookieParser());
-  if (environment=='local'){
+
+  if (environment == 'local') {
     app.enableCors({
       origin: baseUrl,
       credentials: true
     });
+    const httpService: HttpService = app.get(HttpService);
+    const logger = new Logger(HttpService.name);
+    httpService.axiosRef.interceptors.request.use(config => {
+      logger.debug(config.url);
+      return config;
+    })
   }else{
     app.enableCors({
       origin: /\.europa\.eu$/
     });
   }
 
-  const httpService:HttpService = app.get(HttpService);
-  const logger = new Logger(HttpService.name);
-  httpService.axiosRef.interceptors.request.use(config=>{
-    logger.debug(config.url);
-    return config;
-  })
-
-  const scriptSources = ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu']
-  app.use(helmet({
-    contentSecurityPolicy:{
-      directives:{
-        scriptSrc: scriptSources
-      }
-    }
-  }));
+  app.use(configureHelmet());
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -120,9 +113,7 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      const path = req.path;
-      const parts = path.split("/")
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || parts[parts.length-1] == 'map') {
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || req.path == '/api') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
@@ -167,6 +158,64 @@ function setupSwagger(app){
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+}
+
+function configureHelmet():any{
+  const trusted = [
+    "'self'",
+    'https://europa.eu',
+    '*.europa.eu'
+  ];
+  return helmet({
+    contentSecurityPolicy:{
+      directives:{
+        defaultSrc: trusted,
+        scriptSrc: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameSrc: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        fontSrc: [
+        ].concat(trusted),
+        imgSrc: [
+          'data',
+          'data:'
+        ].concat(trusted),
+        scriptSrcElem: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://europa.eu',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        scriptSrcAttr: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrcElem: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        connectSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameAncestors: [
+          'http://localhost:63342'
+        ].concat(trusted),
+      }
+    }
+  });
 }
 
 bootstrap();
