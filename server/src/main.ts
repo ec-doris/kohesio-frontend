@@ -44,14 +44,13 @@ async function bootstrap() {
     return config;
   })
 
-  const scriptSources = ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu']
   app.use(helmet({
     contentSecurityPolicy:{
       directives:{
-        scriptSrc: scriptSources,
-        styleSrc: ['self','unsafe-inline'],
-        imgSrc: ['europa.eu','gisco-services.ec.europa.eu'],
-        frameSrc: ['platform.twitter.com']
+        scriptSrc: ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu'],
+        styleSrc: ["'self'",'unsafe-inline'],
+        imgSrc: ["'self'",'europa.eu','gisco-services.ec.europa.eu'],
+        frameSrc: ["'self'",'platform.twitter.com']
       }
     }
   }));
