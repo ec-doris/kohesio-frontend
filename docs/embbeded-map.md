@@ -33,12 +33,13 @@ You can customize the map visualization using the following parameters:
 - openProjectInner - To show the project detail inside the map window (default is false, it means the projects will open in a new tab window)
 - project - It will open the project directly in a popup (default is empty). This parameter depends on the openProjectInner set to true
 - cci - "Common Identification Code". It will take priority over the others parameters and will show only the coordinates for this particular cci
+- fund - Fund this project was financed from (ex: https://linkedopendata.eu/entity/Q2504369)
 
 ## Example:
 
-### Pass multiple CCI parameters with the name "ccis"
+### Pass multiple CCI parameters with the name "cci"
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?heatScale=true&fund=Q2504368&ccis=5BQ2463081,Q2463082"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?heatScale=true&fund=Q2504368&cci=5BQ2463081,Q2463082"  width="800" height="800">
 ```
 
 ### Drill-down region
