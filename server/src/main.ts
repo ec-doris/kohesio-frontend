@@ -44,9 +44,7 @@ async function bootstrap() {
     return config;
   })
 
-  app.use(helmet({
-    contentSecurityPolicy: false
-  }));
+  app.use(configureHelmet());
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -162,6 +160,36 @@ function setupSwagger(app){
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+}
+
+function configureHelmet():any{
+  const trusted = [
+    "'self'",
+    'europa.eu'
+  ];
+  return helmet({
+    contentSecurityPolicy:{
+      directives:{
+        defaultSrc: trusted,
+        scriptSrc: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+        ].concat(trusted),
+        styleSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameSrc: [
+          '*.platform.twitter.com',
+        ].concat(trusted),
+        fontSrc: [
+        ].concat(trusted),
+        imgSrc: [
+        ].concat(trusted),
+      }
+    }
+  });
 }
 
 bootstrap();
