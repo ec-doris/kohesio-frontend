@@ -26,24 +26,22 @@ async function bootstrap() {
   const baseUrl = configService.get<string>('BASE_URL');
   console.log("ENV=",environment);
   app.use(cookieParser());
-  if (environment=='local'){
+
+  if (environment == 'local') {
     app.enableCors({
       origin: baseUrl,
       credentials: true
     });
-  }else{
-    app.enableCors({
-      origin: /\.europa\.eu$/
-    });
-  }
-
-  if (environment == 'local') {
     const httpService: HttpService = app.get(HttpService);
     const logger = new Logger(HttpService.name);
     httpService.axiosRef.interceptors.request.use(config => {
       logger.debug(config.url);
       return config;
     })
+  }else{
+    app.enableCors({
+      origin: /\.europa\.eu$/
+    });
   }
 
   app.use(configureHelmet());
@@ -115,9 +113,7 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      const path = req.path;
-      const parts = path.split("/")
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || parts[parts.length-1] == 'map') {
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || req.path == '/api') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
