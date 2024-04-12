@@ -36,7 +36,7 @@ async function bootstrap() {
     });
   }
 
-  //app.use(helmet());
+  app.use(helmet());
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -105,7 +105,9 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+      const path = req.path;
+      const parts = path.split("/")
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || parts[parts.length-1] == 'map') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
