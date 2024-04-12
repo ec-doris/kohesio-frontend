@@ -3,8 +3,8 @@
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group *ngIf="!editMode">
             <div class="kohesio-ecl-form-group-formType">
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User" i18n="@@page.users.save-dialog.label.addUser"></kohesio-ecl-form-radio>
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation" i18n="@@page.users.save-dialog.label.invitation"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User" i18n-label="Add User|@@page.users.save-dialog.label.addUser"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invite User" i18n-label="Invite User|@@page.users.save-dialog.label.inviteUser"></kohesio-ecl-form-radio>
             </div>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
@@ -24,7 +24,7 @@
             </mat-form-field>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
-            <kohesio-ecl-form-checkbox formControlName="active" label="Active"></kohesio-ecl-form-checkbox>
+            <kohesio-ecl-form-checkbox formControlName="active" label="Active" i18n-label="Active|@@page.users.save-dialog.label.active"></kohesio-ecl-form-checkbox>
         </kohesio-ecl-form-group>
         <article class="ecl-card" *ngIf="myForm && (myForm.value['role'] == 'EDITOR' || myForm.value['role'] == 'REVIEWER')">
             <div class="ecl-card__body">
@@ -40,7 +40,16 @@
                             <kohesio-ecl-form-select formControlName="cci" [items]="this.ccis" [isDisabled]="myForm && !myForm.value['country']"
                                                      placeholder="Select a country"></kohesio-ecl-form-select>
                         </kohesio-ecl-form-group>
+                        <div style="display: flex;justify-content: space-between;">
+                            <kohesio-ecl-button style="float:right;margin-top:5px;"
+                                                type="button"
+                                                [isDisabled]="ccis.length == 0"
+                                                variant="secondary"
+                                                (click)="addAllCCI()"
+                                                i18n="@@page.users.save-dialog.label.addALLCCI">Add all CCIs</kohesio-ecl-button>
                         <kohesio-ecl-button style="float:right;margin-top:5px;" type="button" variant="secondary" (click)="addCCI()" i18n="@@page.users.save-dialog.label.addCCI">Add</kohesio-ecl-button>
+
+                        </div>
                     </ng-container>
                     <ng-container class="ccis-list" *ngFor="let cci_list_item of ccis_list">
                         <button type="button" (click)="onClickCci(cci_list_item.cci)" aria-label="Dismiss" class="ecl-tag ecl-tag--removable">

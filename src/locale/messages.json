@@ -393,6 +393,7 @@
     "page.users.save-dialog.label.country": "Country:",
     "page.users.save-dialog.label.cci": "CCI:",
     "page.users.save-dialog.label.addCCI": "Add",
+    "page.users.save-dialog.label.addALLCCI": "Add all CCIs",
     "translate.sections.myregion": "my-region",
     "translate.sections.themes": "themes",
     "translate.sections.section": "section",
@@ -452,6 +453,9 @@
     "page.edits.label.dialogTitleFilters": "Filters",
     "page.edits.button.action.apply": "Apply",
     "page.edits.button.action.save": "Save",
-    "page.edits.button.action.cancel": "Cancel"
+    "page.edits.button.action.cancel": "Cancel",
+    "page.users.save-dialog.label.addUser": "Add User",
+    "page.users.save-dialog.label.inviteUser": "Invite User",
+    "page.users.save-dialog.label.active": "Active"
   }
 }

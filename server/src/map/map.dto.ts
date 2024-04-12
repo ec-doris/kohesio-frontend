@@ -27,7 +27,7 @@ export class MapSearchInDTO extends BasicDTO{
   nuts3?:string;
   interreg?:boolean;
   highlighted?:boolean;
-  ccis?: string;
+  cci?: string[];
   timeout?:number;
 
 }

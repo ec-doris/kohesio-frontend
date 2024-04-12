@@ -9,9 +9,10 @@ import helmet from 'helmet';
 import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
-import {RequestMethod} from "@nestjs/common";
+import {Logger, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
+import {HttpService} from "@nestjs/axios";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -25,18 +26,25 @@ async function bootstrap() {
   const baseUrl = configService.get<string>('BASE_URL');
   console.log("ENV=",environment);
   app.use(cookieParser());
-  if (environment=='local'){
+
+  if (environment == 'local') {
     app.enableCors({
       origin: baseUrl,
       credentials: true
     });
+    const httpService: HttpService = app.get(HttpService);
+    const logger = new Logger(HttpService.name);
+    httpService.axiosRef.interceptors.request.use(config => {
+      logger.debug(config.url);
+      return config;
+    })
   }else{
     app.enableCors({
       origin: /\.europa\.eu$/
     });
   }
 
-  //app.use(helmet());
+  app.use(configureHelmet(configService));
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -105,7 +113,7 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || req.path == '/api') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
@@ -150,6 +158,65 @@ function setupSwagger(app){
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+}
+
+function configureHelmet(configService:any):any{
+  const trusted = [
+    "'self'",
+    'https://europa.eu',
+    '*.europa.eu'
+  ];
+  const CSP_FRAME_ANCESTOR = configService.get('CSP_FRAME_ANCESTOR') ?
+    configService.get('CSP_FRAME_ANCESTOR').split(",") : [];
+  return helmet({
+    contentSecurityPolicy:{
+      directives:{
+        defaultSrc: trusted,
+        scriptSrc: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameSrc: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        fontSrc: [
+        ].concat(trusted),
+        imgSrc: [
+          'data',
+          'data:'
+        ].concat(trusted),
+        scriptSrcElem: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://europa.eu',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        scriptSrcAttr: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrcElem: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        connectSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameAncestors: [
+        ].concat(trusted).concat(CSP_FRAME_ANCESTOR),
+      }
+    }
+  });
 }
 
 bootstrap();
