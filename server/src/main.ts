@@ -48,7 +48,7 @@ async function bootstrap() {
     contentSecurityPolicy:{
       directives:{
         scriptSrc: ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu'],
-        styleSrc: ["'self'",'unsafe-inline'],
+        styleSrc: null,
         imgSrc: ["'self'",'europa.eu','gisco-services.ec.europa.eu'],
         frameSrc: ["'self'",'platform.twitter.com']
       }
