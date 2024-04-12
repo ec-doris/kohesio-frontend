@@ -3,8 +3,8 @@
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group *ngIf="!editMode">
             <div class="kohesio-ecl-form-group-formType">
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User" i18n="@@page.users.save-dialog.label.addUser"></kohesio-ecl-form-radio>
-                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invitation" i18n="@@page.users.save-dialog.label.invitation"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="addUser" label="Add User" i18n-label="Add User|@@page.users.save-dialog.label.addUser"></kohesio-ecl-form-radio>
+                <kohesio-ecl-form-radio formControlName="formType" staticValue="invitation" label="Invite User" i18n-label="Invite User|@@page.users.save-dialog.label.inviteUser"></kohesio-ecl-form-radio>
             </div>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group>
@@ -24,7 +24,7 @@
             </mat-form-field>
         </kohesio-ecl-form-group>
         <kohesio-ecl-form-group *ngIf="myForm.value.formType == 'addUser'">
-            <kohesio-ecl-form-checkbox formControlName="active" label="Active"></kohesio-ecl-form-checkbox>
+            <kohesio-ecl-form-checkbox formControlName="active" label="Active" i18n-label="Active|@@page.users.save-dialog.label.active"></kohesio-ecl-form-checkbox>
         </kohesio-ecl-form-group>
         <article class="ecl-card" *ngIf="myForm && (myForm.value['role'] == 'EDITOR' || myForm.value['role'] == 'REVIEWER')">
             <div class="ecl-card__body">
