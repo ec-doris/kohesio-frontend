@@ -165,7 +165,7 @@ function setupSwagger(app){
 function configureHelmet():any{
   const trusted = [
     "'self'",
-    'europa.eu'
+    '*.europa.eu'
   ];
   return helmet({
     contentSecurityPolicy:{
@@ -186,6 +186,7 @@ function configureHelmet():any{
         fontSrc: [
         ].concat(trusted),
         imgSrc: [
+          'data'
         ].concat(trusted),
       }
     }
