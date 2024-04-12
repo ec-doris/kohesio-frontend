@@ -48,7 +48,10 @@ async function bootstrap() {
   app.use(helmet({
     contentSecurityPolicy:{
       directives:{
-        scriptSrc: scriptSources
+        scriptSrc: scriptSources,
+        styleSrc: ['self','unsafe-inline'],
+        imgSrc: ['europa.eu','gisco-services.ec.europa.eu'],
+        frameSrc: ['platform.twitter.com']
       }
     }
   }));
