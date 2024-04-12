@@ -37,12 +37,14 @@ async function bootstrap() {
     });
   }
 
-  const httpService:HttpService = app.get(HttpService);
-  const logger = new Logger(HttpService.name);
-  httpService.axiosRef.interceptors.request.use(config=>{
-    logger.debug(config.url);
-    return config;
-  })
+  if (environment == 'local') {
+    const httpService: HttpService = app.get(HttpService);
+    const logger = new Logger(HttpService.name);
+    httpService.axiosRef.interceptors.request.use(config => {
+      logger.debug(config.url);
+      return config;
+    })
+  }
 
   app.use(configureHelmet());
 
@@ -165,6 +167,7 @@ function setupSwagger(app){
 function configureHelmet():any{
   const trusted = [
     "'self'",
+    'https://europa.eu',
     '*.europa.eu'
   ];
   return helmet({
@@ -183,6 +186,7 @@ function configureHelmet():any{
         ].concat(trusted),
         frameSrc: [
           '*.platform.twitter.com',
+          'https://platform.twitter.com',
         ].concat(trusted),
         fontSrc: [
         ].concat(trusted),
@@ -202,6 +206,12 @@ function configureHelmet():any{
           '*.youtube.com',
           '*.platform.twitter.com',
           'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrcElem: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        connectSrc: [
+          "'unsafe-inline'",
         ].concat(trusted),
       }
     }
