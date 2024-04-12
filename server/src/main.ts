@@ -44,7 +44,7 @@ async function bootstrap() {
     });
   }
 
-  app.use(configureHelmet());
+  app.use(configureHelmet(configService));
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -160,12 +160,14 @@ function setupSwagger(app){
   SwaggerModule.setup('api', app, document);
 }
 
-function configureHelmet():any{
+function configureHelmet(configService:any):any{
   const trusted = [
     "'self'",
     'https://europa.eu',
     '*.europa.eu'
   ];
+  const CSP_FRAME_ANCESTOR = configService.get('CSP_FRAME_ANCESTOR') ?
+    configService.get('CSP_FRAME_ANCESTOR').split(",") : [];
   return helmet({
     contentSecurityPolicy:{
       directives:{
@@ -211,8 +213,7 @@ function configureHelmet():any{
           "'unsafe-inline'",
         ].concat(trusted),
         frameAncestors: [
-          'http://localhost:63342'
-        ].concat(trusted),
+        ].concat(trusted).concat(CSP_FRAME_ANCESTOR),
       }
     }
   });
