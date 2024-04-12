@@ -176,6 +176,7 @@ function configureHelmet():any{
           "'unsafe-inline'",
           '*.youtube.com',
           '*.platform.twitter.com',
+          'https://platform.twitter.com'
         ].concat(trusted),
         styleSrc: [
           "'unsafe-inline'",
@@ -187,6 +188,16 @@ function configureHelmet():any{
         ].concat(trusted),
         imgSrc: [
           'data'
+        ].concat(trusted),
+        scriptSrcElem: [
+          '*.platform.twitter.com',
+        ].concat(trusted),
+        scriptSrcAttr: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
         ].concat(trusted),
       }
     }
