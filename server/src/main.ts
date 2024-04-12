@@ -187,7 +187,8 @@ function configureHelmet():any{
         fontSrc: [
         ].concat(trusted),
         imgSrc: [
-          'data'
+          'data',
+          'data:'
         ].concat(trusted),
         scriptSrcElem: [
           '*.platform.twitter.com',
