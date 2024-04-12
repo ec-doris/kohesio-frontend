@@ -56,7 +56,7 @@ export class EditsDashboardComponent implements AfterViewInit {
         if (editData && editData.count) {
           const projectObservables: any[] = [];
           editData.data.forEach((edit: Edit) => {
-            projectObservables.push(this.projectService.getProjectDetail(edit.qid,'en'));
+            projectObservables.push(this.projectService.getProjectDetail(edit.qid));
           })
           forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {

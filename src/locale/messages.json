@@ -453,6 +453,8 @@
     "page.edits.label.dialogTitleFilters": "Filters",
     "page.edits.button.action.apply": "Apply",
     "page.edits.button.action.save": "Save",
-    "page.edits.button.action.cancel": "Cancel"
+    "page.edits.button.action.cancel": "Cancel",
+    "page.users.save-dialog.label.addUser": "Add User",
+    "page.users.save-dialog.label.inviteUser": "Invite User"
   }
 }

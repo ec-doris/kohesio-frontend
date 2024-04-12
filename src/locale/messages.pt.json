@@ -456,6 +456,8 @@
 		"page.edits.label.dialogTitleFilters": "Filtros",
 		"page.edits.button.action.apply": "Aplicar",
 		"page.edits.button.action.save": "Salvaguardar",
-		"page.edits.button.action.cancel": "Anular"
-	}
+		"page.edits.button.action.cancel": "Anular",
+    "page.users.save-dialog.label.addUser": "Acrescentar utilizador",
+    "page.users.save-dialog.label.inviteUser": "Convidar utilizador"
+  }
 }

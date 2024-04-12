@@ -65,7 +65,7 @@
                             {{edit.creation_time?.toLocaleString()}}
                         </td>
                         <td class="ecl-table__cell action" data-ecl-table-header="History">
-                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">More</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)" i18n="@@comp.button.more">More</kohesio-ecl-button>
                         </td>
                     </tr>
                     <tr class="ecl-table__inner-row" *ngIf="edit.showHistory">
