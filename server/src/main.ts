@@ -9,9 +9,10 @@ import helmet from 'helmet';
 import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
-import {RequestMethod} from "@nestjs/common";
+import {Logger, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
+import {HttpService} from "@nestjs/axios";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -36,7 +37,21 @@ async function bootstrap() {
     });
   }
 
-  //app.use(helmet());
+  const httpService:HttpService = app.get(HttpService);
+  const logger = new Logger(HttpService.name);
+  httpService.axiosRef.interceptors.request.use(config=>{
+    logger.debug(config.url);
+    return config;
+  })
+
+  const scriptSources = ["'self'",'europa.eu','www.youtube.com','platform.twitter.com','gisco-services.ec.europa.eu']
+  app.use(helmet({
+    contentSecurityPolicy:{
+      directives:{
+        scriptSrc: scriptSources
+      }
+    }
+  }));
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
@@ -105,7 +120,9 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+      const path = req.path;
+      const parts = path.split("/")
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || parts[parts.length-1] == 'map') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
