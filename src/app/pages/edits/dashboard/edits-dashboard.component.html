@@ -59,7 +59,7 @@
                             <button type="button" class="ecl-tag ecl-tag--removable" style="white-space: normal;text-align: center;font-size: 12px;">{{edit.cci_label}}</button>
                         </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
-                            <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
+                            <div class="ecl-tag" style="text-decoration: none;">{{translateService.editManagement.status?.[edit.latest_status.toLowerCase()]}}</div>
                         </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Created" style="font-size: 14px;">
                             {{edit.creation_time?.toLocaleString()}}
@@ -93,7 +93,7 @@
                                             <tr class="ecl-table__row">
                                                 <td class="ecl-table__cell" data-ecl-table-header="Created">{{version.creation_time?.toLocaleString()}}</td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Status">
-                                                    <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
+                                                    <div class="ecl-tag" style="text-decoration: none;">{{version.status ? translateService.editManagement.status?.[version.status.toLowerCase()] : undefined}}</div>
                                                 </td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_name}}</td>

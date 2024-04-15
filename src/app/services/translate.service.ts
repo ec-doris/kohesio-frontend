@@ -136,7 +136,7 @@ export class TranslateService {
     }
   }
 
-  public editManagement = {
+  public editManagement:any = {
     messages:{
       "confirmDeleteItem": $localize `:@@page.edits.message.confirmDeleteItem:Are you sure you want to delete this item?`,
       "discardChanges": $localize `:@@page.edits.message.discardChanges:Do you want to discard the changes?`,
@@ -152,6 +152,12 @@ export class TranslateService {
       "actionApply": $localize `:@@page.edits.button.action.apply:Apply`,
       "actionSave": $localize `:@@page.edits.button.action.save:Save`,
       "actionCancel": $localize `:@@page.edits.button.action.cancel:Cancel`
+    },
+    status:{
+      "draft": $localize `:@@page.edits.label.status.draft:DRAFT`,
+      "submitted": $localize `:@@page.edits.label.status.submitted:SUBMITTED`,
+      "approved": $localize `:@@page.edits.label.status.approved:APPROVED`,
+      "published": $localize `:@@page.edits.label.status.published:PUBLISHED`
     }
   }
 
