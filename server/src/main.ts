@@ -27,25 +27,27 @@ async function bootstrap() {
     configService.get<string>('LOG_LEVEL') ?
       configService.get<string>('LOG_LEVEL').split(",") as LogLevel[]: undefined;
   if (LOG_LEVEL) {
-    logger.debug("LOG_LEVEL="+configService.get<string>('LOG_LEVEL'));
+    console.log("LOG_LEVEL="+configService.get<string>('LOG_LEVEL'));
     app.useLogger(LOG_LEVEL);
   }
   const environment = configService.get<string>('ENV');
   const baseUrl = configService.get<string>('BASE_URL');
-  logger.debug("ENVIRONMENT="+environment);
+  console.log("ENVIRONMENT="+environment);
   app.use(cookieParser());
 
-  const httpService: HttpService = app.get(HttpService);
-  httpService.axiosRef.interceptors.request.use(config => {
-    if (!config.url.includes('notifications/count-unseen')){
-      let logString:string = config.method.toUpperCase() + "-" + config.url;
-      if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
-        logString += ",PARAMS=" + JSON.stringify(config.params);
+  if(LOG_LEVEL.includes("debug")) {
+    const httpService: HttpService = app.get(HttpService);
+    httpService.axiosRef.interceptors.request.use(config => {
+      if (!config.url.includes('notifications/count-unseen')) {
+        let logString: string = config.method.toUpperCase() + "-" + config.url;
+        if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
+          logString += ",PARAMS=" + JSON.stringify(config.params);
+        }
+        logger.debug(logString);
       }
-      logger.debug(logString);
-    }
-    return config;
-  })
+      return config;
+    })
+  }
 
   if (environment == 'local') {
     app.enableCors({
