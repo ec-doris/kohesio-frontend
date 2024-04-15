@@ -6,6 +6,7 @@ import {UserService} from "../../../services/user.service";
 import {Edit} from "../../../models/edit.model";
 import {forkJoin} from "rxjs";
 import {ProjectService} from "../../../services/project.service";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './notifications-dashboard.component.html',
@@ -24,7 +25,8 @@ export class NotificationsDashboardComponent implements AfterViewInit {
     constructor(private notificationService: NotificationService,
                 private userService: UserService,
                 private projectService: ProjectService,
-                private formBuilder: UntypedFormBuilder){
+                private formBuilder: UntypedFormBuilder,
+                private translateService: TranslateService){
     }
 
     ngOnInit(){
@@ -62,6 +64,8 @@ export class NotificationsDashboardComponent implements AfterViewInit {
           const projectObservables: any[] = [];
           notifications.forEach((notification: Notification) => {
             projectObservables.push(this.projectService.getProjectDetail(notification.operation_qid));
+            const status = notification.notification_type.replace("EDIT_","").toLowerCase();
+            notification.notification_type = this.translateService.editManagement.status[status];
           })
           forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {
