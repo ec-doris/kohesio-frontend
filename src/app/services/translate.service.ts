@@ -19,13 +19,15 @@ export class TranslateService {
     privacy: $localize`:@@translate.routes.privacy:privacy`,
     services: $localize`:@@translate.routes.services:services`,
     themes: $localize`:@@translate.routes.themes:themes`,
-    faq: $localize`:@@translate.routes.faq:faq`
+    faq: $localize`:@@translate.routes.faq:faq`,
+    accessibility: $localize`:@@translate.routes.accessibility:accessibility`
   }
 
   public sections = {
     myregion: $localize`:@@translate.sections.myregion:my-region`,
     themes: $localize`:@@translate.sections.themes:themes`,
-    section: $localize`:@@translate.sections.section:section`
+    section: $localize`:@@translate.sections.section:section`,
+    accessibilityNonContentSection: $localize`:@@translate.sections.accessibilityNonContentSection:accessibilityNonContentSection`
   }
 
   public queryParams:any = {
@@ -107,6 +109,55 @@ export class TranslateService {
     "interreg":{
       "true":"interreg",
       "false":"investGrowthJobs"
+    }
+  }
+
+  public userManagement = {
+    messages:{
+      "invitedUser": $localize `:@@page.users.message.invited:The user was invited`,
+      "updatedUser": $localize `:@@page.users.message.updated:The user was updated with success`,
+      "confirmDelete": $localize `:@@page.users.message.confirmDelete:Are you sure you want to delete?`,
+      "deletedUser": $localize `:@@page.users.message.deleted:The user was deleted with success`,
+      "emailMandatory": $localize `:@@page.users.message.emailMandatory:Email is mandatory.`,
+      "updatedProfile": $localize `:@@page.users.message.updatedProfile:Your profile was updated.`,
+      "pleaseUpdatedProfile": $localize `:@@page.users.message.pleaseUpdatedProfile:Please, update your profile data.`,
+    },
+    labels:{
+      "dialogTitleAddUser": $localize `:@@page.users.label.dialogTitleAddUser:Add user`,
+      "dialogTitleEditUser": $localize `:@@page.users.label.dialogTitleEditUser:Edit user`,
+      "dialogTitleInviteUser": $localize `:@@page.users.label.dialogTitleInviteUser:Invite user`,
+      "activeYES": $localize `:@@page.users.label.activeYES:YES`,
+      "activeNO": $localize `:@@page.users.label.activeNO:NO`
+    },
+    buttons:{
+      "actionSave": $localize `:@@page.users.button.action.save:Save`,
+      "actionCancel": $localize `:@@page.users.button.action.cancel:Cancel`,
+      "sendInvitation": $localize `:@@page.users.button.action.sendInvitation:Send invitation`,
+    }
+  }
+
+  public editManagement:any = {
+    messages:{
+      "confirmDeleteItem": $localize `:@@page.edits.message.confirmDeleteItem:Are you sure you want to delete this item?`,
+      "discardChanges": $localize `:@@page.edits.message.discardChanges:Do you want to discard the changes?`,
+      "confirmDeleteVersion": $localize `:@@page.edits.message.confirmDeleteVersion:Do you want to delete this version?`,
+      "noChangeDetected": $localize `:@@page.edits.message.noChangeDetected:There is no change detected.`,
+      "submittedMessage": $localize `:@@page.edits.message.submittedMessage:The version was submitted and will be revised by a reviewer.`,
+      "approvedMessage": $localize `:@@page.edits.message.approvedMessage:The version was approved and will be published as soon as possible. Every week, we will inform you by email about the status of your edits.`,
+    },
+    labels:{
+      "dialogTitleFilters": $localize `:@@page.edits.label.dialogTitleFilters:Filters`,
+    },
+    buttons:{
+      "actionApply": $localize `:@@page.edits.button.action.apply:Apply`,
+      "actionSave": $localize `:@@page.edits.button.action.save:Save`,
+      "actionCancel": $localize `:@@page.edits.button.action.cancel:Cancel`
+    },
+    status:{
+      "draft": $localize `:@@page.edits.label.status.draft:DRAFT`,
+      "submitted": $localize `:@@page.edits.label.status.submitted:SUBMITTED`,
+      "approved": $localize `:@@page.edits.label.status.approved:APPROVED`,
+      "published": $localize `:@@page.edits.label.status.published:PUBLISHED`
     }
   }
 

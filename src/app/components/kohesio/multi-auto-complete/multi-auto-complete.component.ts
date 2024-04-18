@@ -158,6 +158,7 @@ export class KohesioMultiAutoCompleteComponent implements ControlValueAccessor, 
     this.selectedItems = this.selectedItems.filter((item:AutoCompleteItem) => {
       return item.id !== removedItem.id;
     });
+    this.onChange(this.selectedItems);
     this.internalItems.subscribe(items=>{
       items.forEach(internalItem=>{
         if (internalItem.id == removedItem.id){

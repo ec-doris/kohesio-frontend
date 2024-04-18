@@ -5,11 +5,14 @@ import {ConfigService} from "@nestjs/config";
 import * as sessionActive from 'express-session';
 import * as sessionInactive from 'express-session';
 import * as passport from "passport";
+import helmet from 'helmet';
 import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
-import {RequestMethod} from "@nestjs/common";
+import {Logger, LogLevel, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import * as session from 'express-session';
+import {HttpService} from "@nestjs/axios";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -17,43 +20,89 @@ const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
-  app.use(cookieParser());
-  app.enableCors({
-    origin: /\.eu$/
-  });
-
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
+  const logger = new Logger(AppModule.name);
+
+  const LOG_LEVEL:LogLevel[] | undefined=
+    configService.get<string>('LOG_LEVEL') ?
+      configService.get<string>('LOG_LEVEL').split(",") as LogLevel[]: undefined;
+  if (LOG_LEVEL) {
+    console.log("LOG_LEVEL="+configService.get<string>('LOG_LEVEL'));
+    app.useLogger(LOG_LEVEL);
+  }
   const environment = configService.get<string>('ENV');
-  console.log("ENV=",environment);
+  const baseUrl = configService.get<string>('BASE_URL');
+  console.log("ENVIRONMENT="+environment);
+  app.use(cookieParser());
 
-  // Initialize client.
-  let redisClient = createClient({
-    socket: {
-      host: configService.get<string>('REDIS_HOST'),
-      connectTimeout: 50000
-    },
-    password: configService.get<string>('REDIS_PASSWORD')
-  })
-  redisClient.connect().catch(console.error)
+  if(LOG_LEVEL.includes("debug")) {
+    const httpService: HttpService = app.get(HttpService);
+    httpService.axiosRef.interceptors.request.use(config => {
+      if (!config.url.includes('notifications/count-unseen')) {
+        let logString: string = config.method.toUpperCase() + "-" + config.url;
+        if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
+          logString += ",PARAMS=" + JSON.stringify(config.params);
+        }
+        logger.debug(logString);
+      }
+      return config;
+    })
+  }
 
-  // Initialize store.
-  let redisStore = new RedisStore({
-    client: redisClient,
-    prefix: "kohesio_session:"
-  })
+  if (environment == 'local') {
+    app.enableCors({
+      origin: baseUrl,
+      credentials: true
+    });
+  }else{
+    app.enableCors({
+      origin: /\.europa\.eu$/
+    });
+  }
 
- const sessionConfig = {
-    secret: configService.get<string>('SESSION_SECRET'),
-    store: redisStore,
-    resave: false,
-    rolling: true,
-    saveUninitialized: true,
-    name: "kohesio.sid",
-    cookie: {
-      secure: true,
-      maxAge: (60000 * 60) * 2 //2 hours
+  app.use(configureHelmet(configService));
+
+  let sessionConfig:any = undefined;
+  const sessionType = configService.get<string>('SESSION_TYPE')
+
+  if (sessionType == 'express'){
+    const sessionConfig = {
+      secret: configService.get<string>('SESSION_SECRET'),
+      resave: false,
+      saveUninitialized: true
     }
-  };
+    app.use(
+      session(sessionConfig),
+    );
+  }else{
+    let redisClient = createClient({
+      socket: {
+        host: configService.get<string>('REDIS_HOST'),
+        connectTimeout: 50000
+      },
+      password: configService.get<string>('REDIS_PASSWORD')
+    })
+    redisClient.connect().catch(console.error)
+
+    // Initialize store.
+    let redisStore = new RedisStore({
+      client: redisClient,
+      prefix: "kohesio_session:"
+    })
+
+    sessionConfig = {
+      secret: configService.get<string>('SESSION_SECRET'),
+      store: redisStore,
+      resave: false,
+      rolling: true,
+      saveUninitialized: true,
+      name: "kohesio.sid",
+      cookie: {
+        secure: true,
+        maxAge: (60000 * 60) * 2 //2 hours
+      }
+    };
+  }
 
   const sessionObj = {
     active: sessionActive(sessionConfig),
@@ -80,7 +129,7 @@ async function bootstrap() {
       //console.log("USER", req.user);
       //console.log("SESSION", req.session);
       //console.log("REQ", req);
-      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback') {
+      if (req.user || req.path == '/api/login' || req.path == '/api/loginCallback' || req.path == '/api') {
         next();
       }else{
         const callback = req.path ? req.path : '/';
@@ -125,6 +174,65 @@ function setupSwagger(app){
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document);
+}
+
+function configureHelmet(configService:any):any{
+  const trusted = [
+    "'self'",
+    'https://europa.eu',
+    '*.europa.eu'
+  ];
+  const CSP_FRAME_ANCESTOR = configService.get('CSP_FRAME_ANCESTOR') ?
+    configService.get('CSP_FRAME_ANCESTOR').split(",") : [];
+  return helmet({
+    contentSecurityPolicy:{
+      directives:{
+        defaultSrc: trusted,
+        scriptSrc: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameSrc: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        fontSrc: [
+        ].concat(trusted),
+        imgSrc: [
+          'data',
+          'data:'
+        ].concat(trusted),
+        scriptSrcElem: [
+          '*.platform.twitter.com',
+          'https://platform.twitter.com',
+          'https://europa.eu',
+          'https://www.youtube.com'
+        ].concat(trusted),
+        scriptSrcAttr: [
+          "'unsafe-eval'",
+          "'unsafe-inline'",
+          '*.youtube.com',
+          '*.platform.twitter.com',
+          'https://platform.twitter.com'
+        ].concat(trusted),
+        styleSrcElem: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        connectSrc: [
+          "'unsafe-inline'",
+        ].concat(trusted),
+        frameAncestors: [
+        ].concat(trusted).concat(CSP_FRAME_ANCESTOR),
+      }
+    }
+  });
 }
 
 bootstrap();

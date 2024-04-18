@@ -18,6 +18,7 @@ import {KohesioEclFormTextAreaModule} from "../../ecl/forms/text-area/form-text-
 import {KohesioEclFormLabelModule} from "../../ecl/forms/label/form-label.ecl.module";
 import {KohesioEclDropDownButtonModule} from "../../ecl/dropdown-button/dropdown-button.ecl.module";
 import {KohesioEclMessageModule} from "../../ecl/message/message.ecl.module";
+import {QuillModule} from "ngx-quill";
 
 @NgModule({
     imports: [
@@ -36,7 +37,20 @@ import {KohesioEclMessageModule} from "../../ecl/message/message.ecl.module";
         MatTooltipModule,
         ShareBlockModule,
         KohesioEclDropDownButtonModule,
-        KohesioEclMessageModule
+        KohesioEclMessageModule,
+        QuillModule.forRoot({
+          modules: {
+            toolbar:[
+
+              ['bold', 'italic', 'underline'],        // toggled buttons
+
+              [{ 'header': 2 }],               // custom button values
+              [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+
+              ['link']                         // link and image, video
+            ]
+          }
+        })
     ],
     declarations: [
         ProjectDetailModalComponent,

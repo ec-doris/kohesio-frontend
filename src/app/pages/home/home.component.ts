@@ -63,9 +63,10 @@ export class HomePageComponent implements AfterViewInit {
         if (this._route.snapshot.queryParamMap.has('project')){
           this.dialog.open(ProjectDetailModalComponent,{
             width: "90%",
-            height: "85vh",
             maxWidth: "1300px",
             maxHeight: "100%",
+            position: { top: '10px' },
+            panelClass: "project-detail-modal",
             data: {
               id: this._route.snapshot.queryParamMap.get('project')
             }
@@ -92,18 +93,15 @@ export class HomePageComponent implements AfterViewInit {
     }
 
     getThemeURL(theme:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
         [this.translateService.queryParams.theme]: theme.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.policyObjective]: this.policyObjective.instanceLabel.split(' ').join('-')
       };
     }
 
     getPolicyURL(policy:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-')
       };
     }
 

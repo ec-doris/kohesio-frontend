@@ -67,6 +67,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public sidenavOpened: boolean;
   private destroyed = new Subject<void>();
   public infoPopup:boolean = false;
+  private notOutside = false;
 
   constructor(private projectService: ProjectService,
     public filterService: FilterService,
@@ -275,7 +276,10 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
             this._document.body.scrollTop = 0;
             this._document.documentElement.scrollTop = 0;
             if (this.selectedTabIndex == 2) {
-              this.mapIsLoaded = true;
+              setTimeout(
+                () => {
+                  this.mapIsLoaded = true;
+                }, 0);
               setTimeout(
                 () => {
                     this.map.loadMapRegion(this.lastFiltersSearch);
@@ -295,11 +299,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onSubmit() {
-      if (!this.myForm.value.sort) {
-        this.myForm.patchValue({
-          sort: "orderTotalBudget-false"
-        });
-      }
       this.projects = [];
       if (this.paginatorTop.pageIndex == 0) {
         this.getProjectList();
@@ -371,7 +370,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           "nuts3",
           this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
         ),
-        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
+        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort),
         [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
         [this.translateService.queryParams.projectCollection]: this.getFilterLabel("project_types", this.myForm.value.projectCollection),
         [this.translateService.queryParams.town]: this.myForm.value.town ? this.myForm.value.town.trim() : null
@@ -590,6 +589,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
         resetForm() {
           this.myForm.reset();
+          this.themeSelection = this.filters.thematic_objectives;
           this.semanticTerms = [];
         }
 
@@ -673,5 +673,17 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     //console.log("SDG",sdgValue);
   }
 
+  onOutsideClick() {
+    if (this.notOutside) {
+      this.notOutside = false;
+      return;
+    }
+    this.infoPopup = false;
 
+  }
+
+  toggleInfoBtn() {
+    this.notOutside = true;
+    this.infoPopup = !this.infoPopup;
+  }
 }

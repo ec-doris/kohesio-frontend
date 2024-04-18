@@ -21,7 +21,7 @@ export class NotificationService {
     getNotifications(seen?:boolean): Observable<Notification[]>{
       return this.http.post<any>(this.url,{
         seen:seen
-      }).pipe(
+      },{withCredentials:true}).pipe(
         map((data:Object[]) => {
           return plainToInstance(Notification, data);
         }),
@@ -33,7 +33,7 @@ export class NotificationService {
     }
 
   markAsRead(id:number): Observable<boolean>{
-    return this.http.get<any>(`${this.url}/mark-as-read/${id}`).pipe(
+    return this.http.get<any>(`${this.url}/mark-as-read/${id}`,{withCredentials:true}).pipe(
       map((data:Object) => {
         return true;
       }),

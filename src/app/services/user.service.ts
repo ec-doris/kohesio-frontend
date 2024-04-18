@@ -21,10 +21,7 @@ export class UserService {
   }
 
   getCurrentUser(): Observable<User> {
-      if (this.user && this.user.user_id){
-        return of(this.user);
-      }
-      return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`).pipe(
+      return this.http.get<any>(`${this.url}/currentUser?q=${Date.now()}`,{withCredentials:true}).pipe(
          map((data:Object) => {
             //console.log("GET USER DETAILS, DATA",data);
             if (Object.keys(data).length) {
@@ -42,7 +39,7 @@ export class UserService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<any>(this.url).pipe(
+    return this.http.get<any>(this.url,{withCredentials:true}).pipe(
       map((data:Object[]) => {
         return plainToInstance(User, data);
       }),
@@ -55,7 +52,7 @@ export class UserService {
 
   addUser(email:string, role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
     const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
-    return this.http.post(this.url,{email:email, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime}).pipe(
+    return this.http.post(this.url,{email:email, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime},{withCredentials:true}).pipe(
       map((data:Object) => {
         return plainToInstance(User, data);
       }),
@@ -73,7 +70,7 @@ export class UserService {
       role:role,
       active:active,
       allowed_cci_qids: allowed_cci_qids,
-      expiration_time: adjustedExpirationTime}).pipe(
+      expiration_time: adjustedExpirationTime},{withCredentials:true}).pipe(
       map((data:Object) => {
         return plainToInstance(User, data);
       }),
@@ -90,7 +87,7 @@ export class UserService {
       name:name,
       email:email,
       organization: organization
-    }).pipe(
+    },{withCredentials:true}).pipe(
       map((data:Object) => {
         return plainToInstance(User, data);
       }),
@@ -102,7 +99,7 @@ export class UserService {
   }
 
   deleteUser(userid:string): Observable<any> {
-    return this.http.delete(`${this.url}/${userid}`).pipe(
+    return this.http.delete(`${this.url}/${userid}`,{withCredentials:true}).pipe(
       map((data:Object) => {
         return data;
       }),
@@ -114,7 +111,7 @@ export class UserService {
   }
 
   impersonateUser(impersonateUserId:string): Observable<User> {
-    return this.http.get<any>(this.url+'/impersonateUser/'+impersonateUserId).pipe(
+    return this.http.get<any>(this.url+'/impersonateUser/'+impersonateUserId,{withCredentials:true}).pipe(
       map((data:Object) => {
         return plainToInstance(User, data);
       }),
@@ -130,7 +127,7 @@ export class UserService {
       email:email,
       role:role,
       allowed_cci_qids: allowed_cci_qids
-    }).pipe(
+    },{withCredentials:true}).pipe(
       map((data:any) => {
         return true;
       }),

@@ -1,4 +1,5 @@
 interface environmentVARS {
+  SESSION_TYPE: string;
   SESSION_SECRET: string;
   ENV: string;
   BASE_URL: string;
@@ -21,4 +22,6 @@ interface environmentVARS {
   REDIS_HOST:string;
   REDIS_PASSWORD:string;
   NODE_PORT:number;
+  CSP_FRAME_ANCESTOR:string;
+  LOG_LEVEL: string;
 }

@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {Logger, Injectable} from "@nestjs/common";
 import {firstValueFrom, map, throwError} from "rxjs";
 import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
@@ -17,15 +17,21 @@ import {
 export class MapService {
 
   private readonly baseUrl:string;
+  private readonly logger = new Logger(MapService.name);
 
   constructor(private readonly httpService: HttpService, private readonly configService:ConfigService<environmentVARS>) {
     this.baseUrl = configService.get<string>('BACKEND_QUERY_HOST');
   }
 
   async getMapRegions(params: MapSearchInDTO):Promise<MapSearchOutDTO>{
+
+
     return await firstValueFrom(
       this.httpService.get<MapSearchOutDTO>(`${this.baseUrl}/search/project/map`,{
-        params: params
+        params: params,
+        paramsSerializer: {
+          indexes: null
+        }
       }).pipe(
         map((result:any)=>{
           const data:Object = result.data;

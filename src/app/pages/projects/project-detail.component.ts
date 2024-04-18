@@ -121,7 +121,7 @@ export class ProjectDetailComponent implements AfterViewInit {
     public versions:any[] = [];
     public originalVersion:any = {
       id:0,
-      value:"--ORIGINAL VERSION--"
+      value:$localize `:@@page.edits.label.originalVersion:--ORIGINAL VERSION--`
     };
     public messageLanguageEditConflict?:string;
     public errorMessage?:string;
@@ -266,27 +266,21 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     getThemeURL(item: string): Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.theme]:item.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.theme]:item.split(' ').join('-')
       };
     }
 
     getInterventionFieldURL(item:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.interventionField]:item.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.interventionField]:item.split(' ').join('-')
       };
     }
 
     getProgramURL(countryLabel:string, programmeLabel:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
         [this.translateService.queryParams.country]: countryLabel,
-        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-')
       };
     }
 
@@ -388,7 +382,7 @@ export class ProjectDetailComponent implements AfterViewInit {
         let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
           disableClose: false,
           data:{
-            confirmMessage: "Do you want to discard the changes?"
+            confirmMessage: this.translateService.editManagement.messages.discardChanges
           }
         });
 
@@ -425,7 +419,7 @@ export class ProjectDetailComponent implements AfterViewInit {
       let dialogRef:MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
         disableClose: false,
         data:{
-          confirmMessage: "Do you want to delete this version?"
+          confirmMessage: this.translateService.editManagement.messages.confirmDeleteVersion
         }
       });
 
@@ -456,8 +450,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           data: {
             childComponent: SaveDraftComponent,
             title: title,
-            primaryActionLabel: "Save",
-            secondaryActionLabel: "Cancel"
+            primaryActionLabel: this.translateService.editManagement.buttons.actionSave,
+            secondaryActionLabel: this.translateService.editManagement.buttons.actionCancel
           }
         });
         dialogRef.afterClosed().subscribe(result => {
@@ -469,7 +463,7 @@ export class ProjectDetailComponent implements AfterViewInit {
           }
         });
       }else{
-        this.errorMessage = 'There is no change detected.'
+        this.errorMessage = this.translateService.editManagement.messages.noChangeDetected
       }
     }
 
@@ -487,8 +481,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         if (status == 'APPROVED' || status == 'SUBMITTED'){
           this.project.label = version.label;
           this.project.description = version.summary;
-          this.successMessage = status == 'APPROVED' ? 'The version was approved and will be published as soon as possible. Every week, we will inform you by email about the status of your edits.'
-            : 'The version was submitted and will be revised by a reviewer.'
+          this.successMessage = status == 'APPROVED' ?
+            this.translateService.editManagement.messages.approvedMessage
+            : this.translateService.editManagement.messages.submittedMessage
           this.finishEditMode();
         }else{
           this._router.navigate([], {

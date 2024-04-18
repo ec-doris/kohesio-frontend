@@ -36,6 +36,7 @@ import {KohesioEclDropDownButtonModule} from "../../components/ecl/dropdown-butt
 import {KohesioEclMessageModule} from "../../components/ecl/message/message.ecl.module";
 import {OverlayModule} from "@angular/cdk/overlay";
 import {KohesioMultiAutoCompleteModule} from "../../components/kohesio/multi-auto-complete/multi-auto-complete.module";
+import {TruncateHtmlPipe} from "../../pipes/truncate-html.pipe";
 
 
 @NgModule({
@@ -77,7 +78,8 @@ import {KohesioMultiAutoCompleteModule} from "../../components/kohesio/multi-aut
   ],
     declarations: [
         ProjectsComponent,
-        SaveDraftComponent
+        SaveDraftComponent,
+        TruncateHtmlPipe
     ],
     exports: [
     ],

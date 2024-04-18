@@ -2,7 +2,7 @@
     <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     <form [formGroup]="myForm">
         <kohesio-ecl-form-group>
-            <kohesio-ecl-form-label>Latest Status:</kohesio-ecl-form-label>
+            <kohesio-ecl-form-label i18n="@@page.users.edit-filter.label.latestStatus">Latest Status:</kohesio-ecl-form-label>
             <mat-form-field>
                 <mat-select formControlName="latest_status" multiple>
                     <mat-select-trigger>

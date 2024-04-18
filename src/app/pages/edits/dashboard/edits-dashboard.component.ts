@@ -5,7 +5,6 @@ import {UserService} from "../../../services/user.service";
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {EditFilterDialogComponent} from "../filter-dialog/edit-filter-dialog.component";
 import {Edit, EditWrapper} from "../../../models/edit.model";
-import {environment} from "../../../../environments/environment";
 import {forkJoin} from "rxjs";
 import {FilterService} from "../../../services/filter.service";
 import {ProjectService} from "../../../services/project.service";
@@ -57,7 +56,7 @@ export class EditsDashboardComponent implements AfterViewInit {
         if (editData && editData.count) {
           const projectObservables: any[] = [];
           editData.data.forEach((edit: Edit) => {
-            projectObservables.push(this.projectService.getProjectDetail(edit.qid,'en'));
+            projectObservables.push(this.projectService.getProjectDetail(edit.qid));
           })
           forkJoin(projectObservables).subscribe((results: any) => {
             results.forEach((result: any, index: number) => {
@@ -80,7 +79,7 @@ export class EditsDashboardComponent implements AfterViewInit {
       let dialogRef: MatDialogRef<DialogEclComponent> = this.dialog.open(DialogEclComponent, {
         disableClose: false,
         data: {
-          confirmMessage: "Are you sure you want to delete this item?"
+          confirmMessage: this.translateService.editManagement.messages.confirmDeleteItem
         }
       });
 
@@ -103,9 +102,9 @@ export class EditsDashboardComponent implements AfterViewInit {
         autoFocus: false,
         data:{
           childComponent: EditFilterDialogComponent,
-          title: "Filters",
-          primaryActionLabel: "Apply",
-          secondaryActionLabel: "Cancel",
+          title: this.translateService.editManagement.labels.dialogTitleFilters,
+          primaryActionLabel: this.translateService.editManagement.buttons.actionApply,
+          secondaryActionLabel: this.translateService.editManagement.buttons.actionCancel,
           data:{
             filters:this.filters
           }
@@ -137,7 +136,4 @@ export class EditsDashboardComponent implements AfterViewInit {
       this.getEditsList();
     }
 
-    async getLabel(locale:string, label:string) {
-      return await this.translateService.getLocaleLabel(locale, label);
-    }
 }

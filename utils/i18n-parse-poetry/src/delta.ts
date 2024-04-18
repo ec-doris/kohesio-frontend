@@ -1,6 +1,6 @@
 const fs = require('fs');
 import messages_new from '../../../src/locale/messages.json';
-import messages_old from '../messages_old.json';
+import messages_old from '../messages_old_commit_04_10_2023.json';
 
 export class Delta {
 

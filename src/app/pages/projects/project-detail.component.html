@@ -248,11 +248,12 @@
                         <div class="kohesio-article-post-content">
                                 <ng-container *ngIf="editMode">
                                     <kohesio-ecl-form-group>
-                                        <kohesio-ecl-form-text-area formControlName="description" extraClass="ecl-u-type-paragraph"></kohesio-ecl-form-text-area>
+<!--                                        <kohesio-ecl-form-text-area formControlName="description" extraClass="ecl-u-type-paragraph"></kohesio-ecl-form-text-area>-->
+                                        <quill-editor formControlName="description"></quill-editor>
                                     </kohesio-ecl-form-group>
                                 </ng-container>
                                 <ng-container *ngIf="!editMode">
-                                    <p class="ecl-u-type-paragraph">{{project.description}}</p>
+                                    <p class="ecl-u-type-paragraph ng-star-inserted" [innerHTML]="project.description"></p>
                                 </ng-container>
 
                                 <ng-container *ngIf="!project.description">
@@ -274,7 +275,7 @@
             </div>
             <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
                 <h2 class="title ecl-u-type-heading-5">
-                    <img class="flag" [alt]="'Flag of ' + project.countryLabel" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}">
+                    <img class="flag" [alt]="'Flag of ' + project.countryLabel" src="{{'assets/images/flags/' + (project.countryCode ? project.countryCode.toLowerCase() : '') + '.png'}}">
                     <ng-container>&nbsp;</ng-container>
                     <ng-container *ngIf="project?.regionText">
                         {{project.regionText}}

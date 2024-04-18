@@ -1,6 +1,7 @@
 import {Component, Input} from "@angular/core";
 import {FormControl, UntypedFormBuilder, UntypedFormGroup} from "@angular/forms";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
   selector: 'user-save-dialog',
@@ -15,21 +16,21 @@ export class EditFilterDialogComponent implements DialogChildInterface{
   @Input('data') data: any;
   public statuses:any[] = [{
     id: "DRAFT",
-    value: "DRAFT"
+    value: this.translateService.editManagement.status.draft
   },{
     id: "SUBMITTED",
-    value: "SUBMITTED"
+    value: this.translateService.editManagement.status.submitted
   },{
     id: "APPROVED",
-    value: "APPROVED"
+    value: this.translateService.editManagement.status.approved
   },{
     id: "PUBLISHED",
-    value: "PUBLISHED"
+    value: this.translateService.editManagement.status.published
   }];
-  public editMode:boolean = false;
 
   constructor(
-    private formBuilder: UntypedFormBuilder
+    private formBuilder: UntypedFormBuilder,
+    private translateService: TranslateService
   ) {}
 
   ngOnInit(): void {

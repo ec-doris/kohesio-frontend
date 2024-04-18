@@ -9,11 +9,17 @@ const routes: Routes = [
   {
     path: '',
     component: UserDashboardComponent,
-    canActivate: [ReviewerGuard]
+    canActivate: [ReviewerGuard],
+    data: {
+      title: $localize`:@@page.users.dashboard.title:Users`
+    }
   },{
     path: 'profile',
     component: UserProfileComponent,
-    canActivate: [LoggedinGuard]
+    canActivate: [LoggedinGuard],
+    data: {
+      title: $localize`:@@page.users.profile.title:My Profile`
+    }
   }
 ];
 

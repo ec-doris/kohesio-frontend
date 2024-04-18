@@ -2,12 +2,17 @@
     <div class="ecl-container ecl-footer-harmonised__container">
         <div class="ecl-footer-harmonised__row">
             <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section">
+                <div class="ecl-footer-harmonised__section ecl-site-footer__section ecl-site-footer__section--site-info">
                     <h2 class="ecl-footer-harmonised__title"><a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__title-link">Kohesio</a></h2>
                     <!--<a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__logo-link" aria-label="Kohesio">
                         <img alt="Kohesio logo" title="Kohesio" class="ecl-footer-harmonised__logo-image-desktop" src="assets/images/logos/kohesio-logo-white-small.png" height="72" />
                     </a>-->
-                    <div class="ecl-footer-harmonised__description" i18n="@@comp.footer.label.managedBy">This site is managed by the Directorate-General for Regional and Urban Policy</div>
+                    <div class="ecl-footer-harmonised__description ecl-site-footer__description" i18n="@@comp.footer.label.managedBy">This site is managed by the Directorate-General for Regional and Urban Policy</div>
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item">
+                            <a [routerLink]="['/'+translateService.routes.accessibility]" i18n="@@comp.footer.link.accessibility" class="ecl-link ecl-link--standalone ecl-site-footer__link">Accessibility</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="ecl-footer-harmonised__column">

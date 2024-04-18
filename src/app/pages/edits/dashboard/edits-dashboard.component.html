@@ -8,25 +8,25 @@
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link">Edits Dashboard</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.edits.breadcrumb.dashboard">Edits Dashboard</span>
         </li>
     </ol>
 </nav>
 <div class="ecl-container">
     <div class="page-header">
-        <h1>Edits</h1>
-        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()">Filters</kohesio-ecl-button>
+        <h1 i18n="@@page.edits.dashboard.title">Edits</h1>
+        <kohesio-ecl-button variant="secondary" type="button" [matBadge]="filtersCount" matBadgePosition="before" (click)="openFilterDialog()" i18n="@@page.edits.dashboard.button.filters">Filters</kohesio-ecl-button>
     </div>
     <div class="users-table" *ngIf="editsList">
         <div class="ecl-table-responsive">
             <table class="ecl-table ecl-table--zebra">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
-                    <th class="ecl-table__header">Project</th>
-                    <th class="ecl-table__header">CCI</th>
-                    <th class="ecl-table__header">Latest Status</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.project">Project</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.cci">CCI</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.latestStatus">Latest Status</th>
                     <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
-                        Created
+                        <ng-container i18n="@@page.edit.dashboard.label.created">Created</ng-container>
                         <button class="ecl-table__arrow">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
                                 <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
@@ -34,7 +34,7 @@
                                 <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
                         </button>
                     </th>
-                    <th class="ecl-table__header">History</th>
+                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.history">History</th>
                 </tr>
                 </thead>
                 <tbody class="ecl-table__body">
@@ -59,13 +59,13 @@
                             <button type="button" class="ecl-tag ecl-tag--removable" style="white-space: normal;text-align: center;font-size: 12px;">{{edit.cci_label}}</button>
                         </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
-                            <div class="ecl-tag" style="text-decoration: none;">{{edit.latest_status}}</div>
+                            <div class="ecl-tag" style="text-decoration: none;">{{translateService.editManagement.status?.[edit.latest_status.toLowerCase()]}}</div>
                         </td>
                         <td class="ecl-table__cell" data-ecl-table-header="Created" style="font-size: 14px;">
                             {{edit.creation_time?.toLocaleString()}}
                         </td>
                         <td class="ecl-table__cell action" data-ecl-table-header="History">
-                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)">More</kohesio-ecl-button>
+                            <kohesio-ecl-button variant="secondary" type="button" matBadgePosition="before" (click)="showEditVersion(edit)" i18n="@@comp.button.more">More</kohesio-ecl-button>
                         </td>
                     </tr>
                     <tr class="ecl-table__inner-row" *ngIf="edit.showHistory">
@@ -74,7 +74,8 @@
                                 <table class="ecl-table ecl-table--zebra">
                                     <thead class="ecl-table__head">
                                     <tr class="ecl-table__row">
-                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">Created
+                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">
+                                            <ng-container i18n="@@page.edit.dashboard.label.historyCreated">Created</ng-container>
                                             <button class="ecl-table__arrow">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
                                                     <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
@@ -82,9 +83,9 @@
                                                     <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
                                             </button>
                                         </th>
-                                        <th class="ecl-table__header">Status</th>
-                                        <th class="ecl-table__header">Comment</th>
-                                        <th class="ecl-table__header">User</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyStatus">Status</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyComment">Comment</th>
+                                        <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyUser">User</th>
                                     </tr>
                                     </thead>
                                     <tbody class="ecl-table__body">
@@ -92,7 +93,7 @@
                                             <tr class="ecl-table__row">
                                                 <td class="ecl-table__cell" data-ecl-table-header="Created">{{version.creation_time?.toLocaleString()}}</td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Status">
-                                                    <div class="ecl-tag" style="text-decoration: none;">{{version.status}}</div>
+                                                    <div class="ecl-tag" style="text-decoration: none;">{{version.status ? translateService.editManagement.status?.[version.status.toLowerCase()] : undefined}}</div>
                                                 </td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="Comment" style="white-space: pre-line;font-size: 12px;">{{version.version_comment}}</td>
                                                 <td class="ecl-table__cell" data-ecl-table-header="User">{{version.user_name}}</td>

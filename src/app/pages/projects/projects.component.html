@@ -25,7 +25,7 @@
     </span>
 </button>
 <ng-template cdkConnectedOverlay
-             (overlayOutsideClick)="infoPopup = false;"
+             (overlayOutsideClick)="onOutsideClick()"
               [cdkConnectedOverlayOrigin]="infoPopupTrigger"
               [cdkConnectedOverlayOpen]="infoPopup">
     <div style="background-color: white;color: black;border: 0;max-width: 600px;
@@ -54,7 +54,7 @@
                 <kohesio-ecl-form-label>
                     <div class="label">
                         <ng-container i18n="@@page.projects.label.keywords">KEYWORDS</ng-container>
-                        <div class="infoButton" (click)="infoPopup = !infoPopup" cdkOverlayOrigin #infoPopupTrigger="cdkOverlayOrigin" style="cursor:pointer;">
+                        <div class="infoButton" (click)="toggleInfoBtn()" cdkOverlayOrigin #infoPopupTrigger="cdkOverlayOrigin" style="cursor:pointer;">
                             <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                             </svg>
@@ -272,7 +272,7 @@
                                     </li>
                                     <li class="article--post__amount">
                                         <div class="article--post__amount--inner">
-                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + project.countryCode.toLowerCase() + '.png'}}"></span>
+                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + (project.countryCode ? project.countryCode.toLowerCase() + '.png': '')}}"></span>
                                             <span class="amount">
                                                 {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
                                                 <span *ngIf="!project.totalBudget">n/a</span>
@@ -298,8 +298,7 @@
                                 </ul>
                             </footer>
                             <div class="article--post__content">
-                                <p class="article--post__teaser" [innerHTML]="project.description">
-                                </p>
+                                <p class="article--post__teaser">{{project.description | truncateHtml}}</p>
                             </div>
                         </div>
                     </article>

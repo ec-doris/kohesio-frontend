@@ -9,6 +9,7 @@ import { ThemesComponent } from './pages/static/themes/themes.component';
 import {MapPageComponent} from "./pages/map/map-page.component";
 import {MapPageResolve} from "./pages/map/map-page.resolve";
 import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
+import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 
 const routes: Routes = [
       {
@@ -39,6 +40,13 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           title: $localize`:@@page.services.title:Services`
+        }
+      },{
+        path: $localize`:@@translate.routes.accessibility:accessibility`,
+        component: AccessibilityPageComponent,
+        pathMatch: 'full',
+        data: {
+          title: $localize`:@@page.accessibility.title:Accessibility statement`
         }
       },{
         path: $localize`:@@translate.routes.themes:themes`,

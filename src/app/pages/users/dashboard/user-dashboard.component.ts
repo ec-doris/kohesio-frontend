@@ -6,6 +6,7 @@ import {UserSaveDialogComponent} from "../save-dialog/user-save-dialog.component
 import {DialogEclComponent} from "../../../components/ecl/dialog/dialog.ecl.component";
 import {Router} from "@angular/router";
 import {UserInviteDialogComponent} from "../invite-dialog/user-invite-dialog.component";
+import {TranslateService} from "../../../services/translate.service";
 
 @Component({
     templateUrl: './user-dashboard.component.html',
@@ -18,6 +19,7 @@ export class UserDashboardComponent implements AfterViewInit {
     messages:any[] = [];
 
     constructor(public userService: UserService,
+                public translateService: TranslateService,
                 public dialog: MatDialog,
                 private router: Router){
     }
@@ -35,19 +37,20 @@ export class UserDashboardComponent implements AfterViewInit {
         autoFocus: false,
         data:{
           childComponent: UserSaveDialogComponent,
-          title: user ? "Edit user" : "Add user",
-          primaryActionLabel: "Save",
-          secondaryActionLabel: "Cancel",
+          title: user ? this.translateService.userManagement.labels.dialogTitleEditUser :
+            this.translateService.userManagement.labels.dialogTitleAddUser,
+          primaryActionLabel: this.translateService.userManagement.buttons.actionSave,
+          secondaryActionLabel: this.translateService.userManagement.buttons.actionCancel,
           data: user
         }
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action=="primary" && result.data) {
           if (result.data.formType == 'invitation'){
-            this.addMessage("success","The user was invited");
+            this.addMessage("success",this.translateService.userManagement.messages.invitedUser);
           }else {
             this.getListUsers();
-            this.addMessage("success", "The user was updated with success");
+            this.addMessage("success", this.translateService.userManagement.messages.updatedUser);
           }
         }
       });
@@ -59,15 +62,15 @@ export class UserDashboardComponent implements AfterViewInit {
         autoFocus: false,
         data:{
           childComponent: UserInviteDialogComponent,
-          title: "Invite user",
-          primaryActionLabel: "Send invitation",
-          secondaryActionLabel: "Cancel"
+          title: this.translateService.userManagement.labels.dialogTitleInviteUser,
+          primaryActionLabel: this.translateService.userManagement.buttons.sendInvitation,
+          secondaryActionLabel: this.translateService.userManagement.buttons.actionCancel
         }
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action=="primary" && result.data) {
           this.getListUsers();
-          this.addMessage("success","The user was invited");
+          this.addMessage("success",this.translateService.userManagement.messages.invitedUser);
         }
       });
     }
@@ -76,14 +79,14 @@ export class UserDashboardComponent implements AfterViewInit {
       const dialogRef = this.dialog.open(DialogEclComponent, {
         disableClose: false,
         data:{
-          confirmMessage: "Are you sure you want to delete?"
+          confirmMessage: this.translateService.userManagement.messages.confirmDelete
         }
       });
       dialogRef.afterClosed().subscribe(result => {
         if(result && result.action=="primary") {
           this.userService.deleteUser(user.user_id).subscribe(result=>{
             this.getListUsers();
-            this.addMessage("success","The user was deleted with success");
+            this.addMessage("success",this.translateService.userManagement.messages.deletedUser);
           });
         }
       });
@@ -109,7 +112,6 @@ export class UserDashboardComponent implements AfterViewInit {
 
   impersonateUser(user: User){
     this.userService.impersonateUser(user.user_id).subscribe((user:User)=>{
-      console.log("impersonateUser");
       this.router.navigate(['/'])
         .then(() => {
           window.location.reload();
