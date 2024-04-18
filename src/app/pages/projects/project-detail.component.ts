@@ -266,27 +266,21 @@ export class ProjectDetailComponent implements AfterViewInit {
     }
 
     getThemeURL(item: string): Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.theme]:item.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.theme]:item.split(' ').join('-')
       };
     }
 
     getInterventionFieldURL(item:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.interventionField]:item.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.interventionField]:item.split(' ').join('-')
       };
     }
 
     getProgramURL(countryLabel:string, programmeLabel:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
         [this.translateService.queryParams.country]: countryLabel,
-        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.programme]: programmeLabel.split(' ').join('-')
       };
     }
 
