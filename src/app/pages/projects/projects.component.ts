@@ -299,11 +299,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     }
 
     onSubmit() {
-      if (!this.myForm.value.sort) {
-        this.myForm.patchValue({
-          sort: "orderTotalBudget-false"
-        });
-      }
       this.projects = [];
       if (this.paginatorTop.pageIndex == 0) {
         this.getProjectList();
@@ -375,7 +370,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           "nuts3",
           this.myForm.value.nuts3 ? this.myForm.value.nuts3.id : null
         ),
-        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort ? this.myForm.value.sort : "orderTotalBudget-false"),
+        [this.translateService.queryParams.sort]: this.getFilterLabel("sort", this.myForm.value.sort),
         [this.translateService.queryParams.priorityAxis]: this.getFilterLabel("priority_axis", this.myForm.value.priority_axis),
         [this.translateService.queryParams.projectCollection]: this.getFilterLabel("project_types", this.myForm.value.projectCollection),
         [this.translateService.queryParams.town]: this.myForm.value.town ? this.myForm.value.town.trim() : null
