@@ -51,10 +51,8 @@ export class ThemesComponent implements OnInit {
   }
 
   getQueryParams(theme: Theme): any {
-    const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
     return {
       [this.translateService.queryParams.theme]: theme.instanceLabel.split(' ').join('-'),
-      [this.translateService.queryParams.sort]: sort,
       [this.translateService.queryParams.policyObjective]: this.policyObjectives[this.themeColors[theme.id].pId]?.instanceLabel.split(' ').join('-')
 
     };

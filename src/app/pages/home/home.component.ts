@@ -93,19 +93,15 @@ export class HomePageComponent implements AfterViewInit {
     }
 
     getThemeURL(theme:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
         [this.translateService.queryParams.theme]: theme.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort,
         [this.translateService.queryParams.policyObjective]: this.policyObjective.instanceLabel.split(' ').join('-')
       };
     }
 
     getPolicyURL(policy:string):Params{
-      const sort = $localize`:@@translate.filter.sortBeneficiaries.totalBudgetDesc:Total Budget (descending)`.split(' ').join('-');
       return {
-        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-'),
-        [this.translateService.queryParams.sort]: sort
+        [this.translateService.queryParams.policyObjective]: policy.split(' ').join('-')
       };
     }
 
