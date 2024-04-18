@@ -23,4 +23,5 @@ interface environmentVARS {
   REDIS_PASSWORD:string;
   NODE_PORT:number;
   CSP_FRAME_ANCESTOR:string;
+  LOG_LEVEL: string;
 }

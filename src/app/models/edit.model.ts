@@ -37,7 +37,7 @@ export class EditVersion {
   user_id?: string;
   user_name?: string;
   version_comment?: string;
-  status?: string;
+  status!: string;
   label?: string;
   language?:string;
   summary?: string;

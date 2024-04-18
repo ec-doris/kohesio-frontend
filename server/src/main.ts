@@ -9,7 +9,7 @@ import helmet from 'helmet';
 import RedisStore from "connect-redis"
 import {createClient} from "redis";
 import * as cookieParser from 'cookie-parser';
-import {Logger, RequestMethod} from "@nestjs/common";
+import {Logger, LogLevel, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
 import {HttpService} from "@nestjs/axios";
@@ -20,24 +20,40 @@ const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
-
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
+  const logger = new Logger(AppModule.name);
+
+  const LOG_LEVEL:LogLevel[] | undefined=
+    configService.get<string>('LOG_LEVEL') ?
+      configService.get<string>('LOG_LEVEL').split(",") as LogLevel[]: undefined;
+  if (LOG_LEVEL) {
+    console.log("LOG_LEVEL="+configService.get<string>('LOG_LEVEL'));
+    app.useLogger(LOG_LEVEL);
+  }
   const environment = configService.get<string>('ENV');
   const baseUrl = configService.get<string>('BASE_URL');
-  console.log("ENV=",environment);
+  console.log("ENVIRONMENT="+environment);
   app.use(cookieParser());
+
+  if(LOG_LEVEL.includes("debug")) {
+    const httpService: HttpService = app.get(HttpService);
+    httpService.axiosRef.interceptors.request.use(config => {
+      if (!config.url.includes('notifications/count-unseen')) {
+        let logString: string = config.method.toUpperCase() + "-" + config.url;
+        if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
+          logString += ",PARAMS=" + JSON.stringify(config.params);
+        }
+        logger.debug(logString);
+      }
+      return config;
+    })
+  }
 
   if (environment == 'local') {
     app.enableCors({
       origin: baseUrl,
       credentials: true
     });
-    const httpService: HttpService = app.get(HttpService);
-    const logger = new Logger(HttpService.name);
-    httpService.axiosRef.interceptors.request.use(config => {
-      logger.debug(config.url);
-      return config;
-    })
   }else{
     app.enableCors({
       origin: /\.europa\.eu$/
@@ -48,7 +64,7 @@ async function bootstrap() {
 
   let sessionConfig:any = undefined;
   const sessionType = configService.get<string>('SESSION_TYPE')
-  console.log("SESSION_TYPE", sessionType);
+
   if (sessionType == 'express'){
     const sessionConfig = {
       secret: configService.get<string>('SESSION_SECRET'),
