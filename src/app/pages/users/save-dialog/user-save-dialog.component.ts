@@ -150,7 +150,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   addAllCCI(){
     this.myForm.controls['ccis'].reset();
     this.ccis_list = this.ccis.map(x => ({ cci: x.id, label: x.value }));
-    this.myForm.patchValue({ ccis: this.ccis.map(y => y.cci) });
+    this.myForm.patchValue({ ccis: this.ccis.map(y => y.id) });
   }
 
   addCCI(){
