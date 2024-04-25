@@ -26,7 +26,7 @@
 </button>
 
 <ng-template cdkConnectedOverlay
-             (overlayOutsideClick)="infoPopupLabelType = false;"
+             (overlayOutsideClick)="onOutsideClick()"
              [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"
              [cdkConnectedOverlayOpen]="infoPopupLabelType">
     <div style="background-color: white;color: black;border: 0;max-width: 600px;
@@ -89,7 +89,7 @@
                     <kohesio-ecl-form-label>
                         <div class="label">
                             <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
-                            <div (click)="infoPopupLabelType = !infoPopupLabelType" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
+                            <div (click)="toggleInfoBtn()" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
                                 <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                                 </svg>

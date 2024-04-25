@@ -46,6 +46,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     private destroyed = new Subject<void>();
     public pageSize = 15;
     public infoPopupLabelType:boolean = false;
+    private notOutside = false;
 
     constructor(private beneficaryService: BeneficiaryService,
         private filterService: FilterService,
@@ -284,4 +285,16 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     return isPlatformServer(this.platformId);
   }
 
+  onOutsideClick() {
+    if (this.notOutside) {
+      this.notOutside = false;
+      return;
+    }
+    this.infoPopupLabelType = false;
+
+  }
+  toggleInfoBtn() {
+    this.notOutside = true;
+    this.infoPopupLabelType = !this.infoPopupLabelType;
+  }
 }
