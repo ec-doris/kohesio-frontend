@@ -60,14 +60,6 @@ export class TransferStateService {
 
   set<T extends any>(key: string, value: T): void {
     if (isPlatformServer(this.platformId)) {
-      if (this.has(key)) {
-        console.warn(
-          `Setting existing value into TransferState using key: '${key}'`
-        );
-      }
-      if (!environment.production) {
-        console.log(`Storing TransferState for: '${key}'`);
-      }
       if (this.keys.has(key)) {
         this.transferState.set<T>(
           this.getStateKey(key),
