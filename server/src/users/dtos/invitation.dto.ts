@@ -1,5 +1,5 @@
 export class InvitationInDTO {
-  email: string;
+  email: string | string[];
   role: string;
   allowed_cci_qids: string[];
 }
