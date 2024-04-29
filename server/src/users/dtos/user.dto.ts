@@ -1,8 +1,8 @@
-import {Exclude, Expose} from "class-transformer";
-import {Role} from "./user.in.dto";
+import { Expose } from 'class-transformer';
+import { Role } from './user.in.dto';
 
-export class UserDTO{
-  @Expose({name:"user_id"})
+export class UserDTO {
+  @Expose({ name: 'user_id' })
   user_id: string;
   @Expose()
   role: Role;
@@ -11,14 +11,14 @@ export class UserDTO{
   @Expose()
   allowed_cci_qids: string[];
   @Expose()
-  name:string;
+  name: string;
   @Expose()
-  organization:string;
+  organization: string;
   @Expose()
-  email:string;
+  email: string | string[];
   @Expose()
-  expiration_time:string;
+  expiration_time: string;
   @Expose()
-  notifications_count:number;
+  notifications_count: number;
 
 }

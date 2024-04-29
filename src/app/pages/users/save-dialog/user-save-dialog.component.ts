@@ -2,7 +2,7 @@ import {Component, Inject, Input} from "@angular/core";
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
-import {catchError} from "rxjs/operators";
+import { catchError, map } from 'rxjs/operators';
 import {EMPTY, forkJoin, Observable, Subscriber} from "rxjs";
 import {User} from "../../../models/user.model";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
@@ -87,7 +87,11 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.editMode = true;
       this.myForm.get('userid')?.disable();
     }
+  }
 
+  getEmailValue(): string[] {
+    const emailValue = this.myForm.value.email;
+    return emailValue.split(/[ ,]+/).length > 1 ? emailValue.split(/[ ,]+/).filter((address: string) => address.trim() !== '') : emailValue;
   }
 
   beforeSave():Observable<boolean>{
@@ -96,7 +100,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
         this.errorMessage = this.translateService.userManagement.messages.emailMandatory;
       }else {
         if (this.myForm.value.formType == 'invitation'){
-          this.userService.inviteUser(this.myForm.value.email,
+          this.userService.inviteUser(this.getEmailValue(),
             this.myForm.value.role,
             this.myForm.value.ccis).subscribe(result=>{
             observer.next(true);
@@ -112,7 +116,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
             })
           } else {
             this.userService.addUser(
-              this.myForm.value.email,
+              this.getEmailValue(),
               this.myForm.value.role,
               this.myForm.value.active,
               this.myForm.value.ccis,
