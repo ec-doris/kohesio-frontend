@@ -98,7 +98,10 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
       if(!this.myForm.value.email) {
         this.errorMessage = this.translateService.userManagement.messages.emailMandatory;
-      }else {
+      } else if (['EDITOR', 'REVIEWER'].includes(this.myForm.value.role) && !this.myForm.value.ccis.length) {
+        this.errorMessage = this.translateService.userManagement.messages.CCIMandatory;
+      }
+      else {
         if (this.myForm.value.formType == 'invitation'){
           this.userService.inviteUser(this.getEmailValue(),
             this.myForm.value.role,

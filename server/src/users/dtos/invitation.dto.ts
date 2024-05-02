@@ -1,7 +1,7 @@
 export class InvitationInDTO {
   email: string | string[];
   role: string;
-  allowed_cci_qids: string[];
+  allowed_cci_qids?: string[];
 }
 
 export class InvitationOutDTO {

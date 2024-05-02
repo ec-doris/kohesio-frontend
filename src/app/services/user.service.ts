@@ -52,15 +52,11 @@ export class UserService {
 
   addUser(email: string | string[], role:string, active: boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {
     const adjustedExpirationTime = expiration_time ? new Date(expiration_time.getTime() - expiration_time.getTimezoneOffset() * 60000) : null;
-    return this.http.post(this.url,{email:email, role:role, active: active, allowed_cci_qids: allowed_cci_qids, expiration_time: adjustedExpirationTime},{withCredentials:true}).pipe(
-      map((data:Object) => {
-        return plainToInstance(User, data);
-      }),
-      catchError(err => {
-        //console.error("ERR",err);
-        return throwError(err.error);
-      })
-    )
+    return this.http.post(this.url,{email, role, active, allowed_cci_qids, expiration_time: adjustedExpirationTime},{withCredentials:true})
+      .pipe(
+        map((data: Object) => plainToInstance(User, data)),
+        catchError(err => throwError(err.error))
+      )
   }
 
   editUser(userid:string, role:string, active:boolean, allowed_cci_qids: string[], expiration_time:Date): Observable<User> {

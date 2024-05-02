@@ -119,6 +119,7 @@ export class TranslateService {
       "confirmDelete": $localize `:@@page.users.message.confirmDelete:Are you sure you want to delete?`,
       "deletedUser": $localize `:@@page.users.message.deleted:The user was deleted with success`,
       "emailMandatory": $localize `:@@page.users.message.emailMandatory:Email is mandatory.`,
+      "CCIMandatory": $localize `:@@page.users.message.CCIMandatory:CCI is mandatory.`,
       "updatedProfile": $localize `:@@page.users.message.updatedProfile:Your profile was updated.`,
       "pleaseUpdatedProfile": $localize `:@@page.users.message.pleaseUpdatedProfile:Please, update your profile data.`,
     },
