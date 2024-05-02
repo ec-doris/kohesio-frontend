@@ -1,5 +1,4 @@
 import {Component, Inject, Input} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
 import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
 import {UserService} from "../../../services/user.service";
 import { catchError, map } from 'rxjs/operators';
@@ -9,7 +8,7 @@ import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.
 import {FilterService} from "../../../services/filter.service";
 import {environment} from "../../../../environments/environment";
 import {TranslateService} from "../../../services/translate.service";
-
+type roles = { id: string; value: string }
 @Component({
   selector: 'user-save-dialog',
   templateUrl: 'user-save-dialog.component.html',
@@ -19,22 +18,14 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   public myForm!: UntypedFormGroup;
   public errorMessage?:string;
-
   @Input('data') data: any;
-  public readonly roles:any[] = [{
-    id: "USER",
-    value: "USER"
-  },{
-    id: "REVIEWER",
-    value: "REVIEWER"
-  },{
-    id: "EDITOR",
-    value: "EDITOR"
-  },{
-    id: "ADMIN",
-    value: "ADMIN"
-  }];
-
+  readonly allRoles: roles[] = [
+    { id: 'USER', value: 'USER' },
+    { id: 'REVIEWER', value: 'REVIEWER' },
+    { id: 'EDITOR', value: 'EDITOR' },
+    { id: 'ADMIN', value: 'ADMIN' }
+  ];
+  readonly roles: roles[] = environment.production ? this.allRoles.filter(role => role.id !== 'USER') : this.allRoles;
   public countries:any[] = [];
   public ccis:any[] = [];
   public ccis_list:any[] = [];
