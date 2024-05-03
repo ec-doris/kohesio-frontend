@@ -87,7 +87,7 @@ export class ProjectOutDto {
   regionUpper1: string;
   categoryIDs: string[];
   countryCode: string[];
-  startTime: string;
+  startTime: Date;
   euBudget: string;
   funds: ProjectFund[];
   regionText: string;
@@ -106,7 +106,7 @@ export class ProjectOutDto {
   fundLabel: string;
   categoryLabels: string[];
   themeIds: string[];
-  endTime: string;
+  endTime: Date;
   region: string;
   keepUrl: string;
   hasSubmitted:boolean;
@@ -129,8 +129,8 @@ export class ProjectSearchOutDto {
   snippet: string[];
   labels: string[];
   descriptions: string[];
-  startTimes: string[];
-  endTimes: string[];
+  startTimes: Date[];
+  endTimes: Date[];
   euBudgets: string[];
   totalBudgets: string[];
   images: string[];

@@ -53,7 +53,7 @@ export class UserController extends BaseController{
     type:[UserDTO]
   })
   @Get('')
-  async users(@Req() req) : Promise<UserDTO[] | void>{
+  async users(@Req() req): Promise<UserDTO[] | void> {
     return await this.userService.getUsersList(req.user.user_id).catch(this.errorHandler);
   }
 
