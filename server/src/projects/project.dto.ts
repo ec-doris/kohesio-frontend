@@ -13,12 +13,12 @@ export class ProjectSearchInDto extends BasicDTO{
   budgetSmallerThan?:number;
   budgetEUBiggerThan?:number;
   budgetEUSmallerThan?:number;
-  startDateBefore?:number;
-  startDateAfter?:number;
-  endDateBefore?:number;
-  endDateAfter?:number;
-  orderStartDate?:boolean;
-  orderEndDate?:boolean;
+  startDateBefore?: Date;
+  startDateAfter?: Date;
+  endDateBefore?: Date;
+  endDateAfter?: Date;
+  orderStartDate?: Date;
+  orderEndDate?: Date;
   orderEuBudget?:boolean;
   orderTotalBudget?:boolean;
   latitude?:string;
