@@ -118,7 +118,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
 
   getEmailValue(): string[] {
     const emailValue = this.myForm.value.email;
-    return emailValue.split(/[ ,]+/).length > 1 ? emailValue.split(/[ ,]+/).filter((address: string) => address.trim() !== '') : emailValue;
+    return emailValue.length == 1 ? emailValue[0] : emailValue;
   }
 
   beforeSave():Observable<boolean>{
