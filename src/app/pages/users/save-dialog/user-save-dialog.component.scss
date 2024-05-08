@@ -30,3 +30,32 @@
   }
 }
 
+input.ecl-text-input {
+  height: 44px;
+  -webkit-appearance: none ;
+  appearance: none;
+  background-color: #fff;
+  border: 1px solid #707070;
+  border-radius: 0;
+  box-shadow: none;
+  box-sizing: border-box;
+  color: #404040;
+  display: block;
+  font: normal normal 400 1rem / 1.25rem arial, sans-serif;
+  margin: 0;
+  margin-top: 12px;
+
+  max-width: 100%;
+  padding: calc(.75rem - 1px);
+}
+
+.chip-grid {
+  flex-direction: row;
+  width: 500px;
+
+  input {
+    margin-left: 10px;
+    margin-top: 0;
+  }
+;
+}

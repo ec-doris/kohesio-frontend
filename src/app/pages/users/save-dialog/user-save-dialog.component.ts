@@ -1,5 +1,15 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {Component, Inject, Input} from "@angular/core";
-import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {UserService} from "../../../services/user.service";
 import { catchError, map } from 'rxjs/operators';
 import {EMPTY, forkJoin, Observable, Subscriber} from "rxjs";
@@ -9,13 +19,38 @@ import {FilterService} from "../../../services/filter.service";
 import {environment} from "../../../../environments/environment";
 import {TranslateService} from "../../../services/translate.service";
 type roles = { id: string; value: string }
+
+export function emailArrayValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!Array.isArray(control.value)) {
+      return { emailArray: true };
+    }
+
+    for (const email of control.value) {
+      const innerControl = new FormControl(email, Validators.email);
+      if (innerControl.errors && innerControl.errors['email']) {
+        return { emailArray: true };
+      }
+    }
+
+    return null;
+  };
+}
+
+export function requiredArrayValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isPassed: boolean = Array.isArray(control.value) && control.value.length > 0;
+    return isPassed ? null : { required: true };
+  };
+}
+
 @Component({
   selector: 'user-save-dialog',
   templateUrl: 'user-save-dialog.component.html',
   styleUrls: ['./user-save-dialog.component.scss']
 })
 export class UserSaveDialogComponent implements DialogChildInterface{
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public myForm!: UntypedFormGroup;
   public errorMessage?:string;
   @Input('data') data: any;
@@ -43,7 +78,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     this.myForm = this.formBuilder.group({
       'formType': 'addUser',
       'userid': new FormControl(this.data ? this.data.user_id : ''),
-      'email': new FormControl(this.data ? this.data.email : ''),
+      email: new FormControl(this.data ? this.data.email : '', [requiredArrayValidator(), emailArrayValidator()]),
+      emailHelper: new FormControl(null, Validators.email),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
@@ -176,4 +212,33 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   }
 
 
+  removeEmailAddress(selectedEmail: string): void {
+    const formControl: any = this.myForm.get('email');
+    const value: string[] = formControl.value.filter((email: string) => email !== selectedEmail);
+    formControl.setValue(value);
+    formControl.updateValueAndValidity();
+  }
+
+  addEmailAddress(event: MatChipInputEvent): void {
+    const formControl: any = this.myForm.get('email');
+    const helperForm: any = this.myForm.get('emailHelper');
+    const input: HTMLInputElement = event.input;
+    const value: string = (event.value || '').trim();
+
+    helperForm.updateValueAndValidity();
+
+    if (helperForm.valid) {
+      if (value) {
+        formControl.setValue([...formControl.value, value]);
+      }
+
+      formControl.updateValueAndValidity();
+
+      if (input) {
+        input.value = '';
+      }
+    } else {
+      formControl.setErrors({ email: true });
+    }
+  }
 }
