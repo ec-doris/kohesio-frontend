@@ -36,6 +36,13 @@ export function emailArrayValidator(): ValidatorFn {
     return null;
   };
 }
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const valid = emailRegex.test(control.value);
+    return valid ? null : { 'invalidEmail': { value: control.value } };
+  };
+}
 
 export function requiredArrayValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -79,7 +86,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       'formType': 'addUser',
       'userid': new FormControl(this.data ? this.data.user_id : ''),
       email: new FormControl(this.data ? this.data.email : '', [requiredArrayValidator(), emailArrayValidator()]),
-      emailHelper: new FormControl(null, Validators.email),
+      emailHelper: new FormControl(null, emailValidator()),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
