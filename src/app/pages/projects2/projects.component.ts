@@ -145,7 +145,7 @@ export class ProjectsComponent implements OnDestroy {
               } else if (key === 'nuts3') {
                 params[key] = this.getFilterKey(this.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === 'projectStart' || key === 'projectEnd') {
-                params[key] = [this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]))];
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key])) ];
               } else {
                 params[key] = this.getFilterKey(this.paramMapping[key], this.translateService.queryParams[key]);
               }
@@ -363,12 +363,9 @@ export class ProjectsComponent implements OnDestroy {
         this._document.body.scrollTop = 0;
         this._document.documentElement.scrollTop = 0;
         if (this.selectedTabIndex == 2) {
-          this.mapIsLoaded = true;
-          setTimeout(
-            () => {
-              this.map?.loadMapRegion(this.lastFiltersSearch);
-            }, 0);
-
+          // this.mapIsLoaded = true;
+          setTimeout(() => this.mapIsLoaded = true, 0);
+          setTimeout(() => this.map?.loadMapRegion(this.lastFiltersSearch), 0);
         } else {
           this.mapIsLoaded = false;
         }

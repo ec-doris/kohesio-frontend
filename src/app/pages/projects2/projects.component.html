@@ -24,7 +24,7 @@
 </mat-chip-set>
 <mat-drawer-container class="filters-wrapper-container" autosize>
 
-    <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''" id="testNIki">
+    <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
             <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">

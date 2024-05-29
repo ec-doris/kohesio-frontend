@@ -1,6 +1,5 @@
-import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { TransferState } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, filter, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, switchMap, tap } from 'rxjs/operators';
@@ -8,7 +7,6 @@ import { environment } from '../../../../../../environments/environment';
 import { FiltersApi } from '../../../../../models/filters-api.model';
 import { FilterService } from '../../../../../services/filter.service';
 import { MetaService } from '../../../../../services/meta.service';
-import { TransferStateService } from '../../../../../services/transfer-state.service';
 import { TranslateService } from '../../../../../services/translate.service';
 
 @Component({
@@ -50,9 +48,6 @@ export class FiltersComponent implements OnInit {
               private translateService: TranslateService,
               private route: ActivatedRoute,
               public service: FilterService,
-              @Inject(PLATFORM_ID) private platformId: Object,
-              private transferState: TransferState,
-              private transferStateService: TransferStateService,
               private metaService: MetaService) {
   }
 
