@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
 
@@ -22,13 +23,18 @@ export class FiltersPipe implements PipeTransform {
     projectTypes: 'project_types',
     interreg: 'interreg',
     nuts3: 'nuts3',
+    startDateAfter: 'start_date_after',
+    endDateBefore: 'end_date_before',
   };
 
-  constructor(public service: FilterService) {
+  constructor(public service: FilterService, private datePipe: DatePipe) {
   }
 
   getFilterValue(item: { key: string, value: string }, key: string, value: any) {
-    const filterItem = this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value);
+    const filterItem = ['startDateAfter','endDateBefore'].includes(key)
+      ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
+      : this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value);
+
     return { key: item.key, value: filterItem?.value ?? filterItem?.label };
   }
 
@@ -37,8 +43,8 @@ export class FiltersPipe implements PipeTransform {
       return [];
     }
     return Object.keys(value)
-      .map(key => ({ key, value: typeof value[key] === 'object' ? value[key].id : value[key] }))
-      .filter(item => item.value && item.key != 'language')
+      .map(key => ({ key, value: typeof value[key] === 'object' ? value[key]?.id || value[key][0] : value[key] }))
+      .filter(item => item.value && item.key != 'language' && item.key != 'interventionField')
       .map(item => this.getFilterValue(item, item.key, item.value));
 
   }

@@ -264,16 +264,14 @@ export class FiltersComponent implements OnInit {
         return of('');
       }),
       concatMap(() => {
-        if (
-          queryParams.get(this.translateService.queryParams.region) ||
-          queryParams.get(this.translateService.queryParams.programme) ||
-          queryParams.get(this.translateService.queryParams.nuts3) ||
-          queryParams.get(this.translateService.queryParams.priorityAxis)
-        ) {
-          this.service.showResult.next(this.service.getFormFilters(this.form));
+        const projectStart = queryParams.get(this.translateService.queryParams.projectStart);
+        const projectEnd = queryParams.get(this.translateService.queryParams.projectEnd);
+        if (projectStart && projectEnd) {
+          this.form.patchValue({ projectStart: <any>this.getDate(projectStart) });
+          this.form.patchValue({ projectEnd: <any>this.getDate(projectEnd) });
         }
-        return of(null);
-      })
+        return of('');
+      }),
     );
   }
 

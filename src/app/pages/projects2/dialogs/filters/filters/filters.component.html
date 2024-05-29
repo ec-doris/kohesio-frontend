@@ -181,6 +181,6 @@
         <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">
             Reset Filters
         </button>
-        <kohesio-ecl-button type="submit" i18n="@@page.projects.button.showResults">Show Results</kohesio-ecl-button>
+        <kohesio-ecl-button type="submit" i18n="@@page.projects.button.showResults" [mat-dialog-close]="true" >Show Results</kohesio-ecl-button>
     </div>
 </form>
