@@ -1,0 +1,302 @@
+<nav *ngIf="!isModal" class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/'+translateService.routes.projects]"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.project-detail.breadcrumb.projects">Projects</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.project-detail.breadcrumb.projectDetails">Project Details</span>
+        </li>
+    </ol>
+</nav>
+
+<div class="kohesio-page-detail" [ngClass]="{'modal': isModal, 'no-modal': !isModal, 'editMode': editMode}">
+    <form [formGroup]="myForm">
+    <div class="message-container">
+        <kohesio-ecl-message type="info" [message]="messageLanguageEditConflict" *ngIf="messageLanguageEditConflict" (dismissMessage)="messageLanguageEditConflict = undefined"></kohesio-ecl-message>
+        <kohesio-ecl-message type="success" [message]="successMessage" *ngIf="successMessage" (dismissMessage)="successMessage = undefined"></kohesio-ecl-message>
+        <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
+    </div>
+    <div class="kohesio-page-detail-tools">
+        <div class="edit-tools" *ngIf="project.canEdit && editMode">
+            <kohesio-ecl-button (click)="cancelEdit()" variant="secondary">Exit Edit Mode</kohesio-ecl-button>
+            <div class="versions" *ngIf="versions.length">
+                <div class="text">Versions:</div>
+                <kohesio-ecl-form-group style="min-width:200px;">
+                    <kohesio-ecl-form-select
+                        [hasEmptyValue]="false"
+                        formControlName="versionId"
+                        [isDisabled]="myForm.value.status == 'SUBMITTED' && !project.canApprove"
+                        [items]="versions"
+                        (change)="onVersionSelect()">
+                    </kohesio-ecl-form-select>
+                </kohesio-ecl-form-group>
+                <kohesio-ecl-button *ngIf="myForm.value.status == 'DRAFT' || !myForm.value.status" (click)="saveVersion('DRAFT', 'Save as draft')" variant="secondary">Save</kohesio-ecl-button>
+                <kohesio-ecl-button (click)="onDeleteVersion()" *ngIf="myForm.value.versionId && myForm.value.status == 'DRAFT'" variant="secondary">Delete</kohesio-ecl-button>
+            </div>
+            <div class="edit-actions-buttons">
+                <kohesio-ecl-button [variant]="((project.canApprove && myForm.value.status != 'SUBMITTED') ||
+                                                (!project.canApprove)) ? 'call' : 'secondary'"
+                                    *ngIf="myForm.value.status == 'DRAFT' || !myForm.value.status"
+                                    (click)="saveVersion('SUBMITTED', 'Submit')">Submit</kohesio-ecl-button>
+                <kohesio-ecl-button variant="secondary" (click)="saveVersion('REJECT', 'Reject')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Reject</kohesio-ecl-button>
+                <kohesio-ecl-button variant="call" (click)="saveVersion('APPROVED', 'Approve')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Approve</kohesio-ecl-button>
+            </div>
+        </div>
+        <div class="buttons" *ngIf="!editMode">
+            <kohesio-ecl-button *ngIf="isModal" variant="secondary" (click)="openNewTab()" i18n="@@page.project-detail.button.open">Open</kohesio-ecl-button>
+            <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+                                i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
+                                matTooltip="Visualise as a network">Graph</kohesio-ecl-button>
+            <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                                i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
+                                matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>
+            <kohesio-ecl-button variant="call" (click)="editProject()" *ngIf="project.canEdit">Edit</kohesio-ecl-button>
+        </div>
+    </div>
+    <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
+    <div class="kohesio-page-detail-container">
+        <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
+                <div class="content">
+                    <span i18n="@@page.project-detail.label.startDate">Start date: </span>
+                    <span>
+                        <ng-container *ngIf="project?.startTime">
+                            {{project.startTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!project?.startTime" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                    </span>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.project-detail.label.endDate">End date: </span>
+                    <span>
+                        <ng-container *ngIf="project?.endTime">
+                            {{project.endTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!project?.endTime" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                    </span>
+                </div>
+
+                <div class="content" *ngIf="project?.projectWebsite">
+                    <span i18n="@@page.project-detail.label.projectWebsite">Project website: </span>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.projectWebsite" *ngIf="project?.projectWebsite" target="_blank" i18n="@@page.project-detail.link.link">link</a>
+                    <ng-container *ngIf="!project?.projectWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
+                <div class="content" *ngIf="project?.programWebsite">
+                    <span i18n="@@page.project-detail.label.programmeWebsite">Programme website: </span>
+                    <a class="ecl-link ecl-link--standalone" [href]="project.programWebsite" *ngIf="project?.programWebsite" target="_blank">link</a>
+                    <ng-container *ngIf="!project?.programWebsite" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
+                <div class="content" *ngIf="project?.infoRegioUrl" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.infoRegioUrl" *ngIf="project?.infoRegioUrl" target="_blank" i18n="@@page.project-detail.project.readFurther">Read further about the project</a>
+                    <ng-container *ngIf="!project?.infoRegioUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
+                <div class="content" *ngIf="project?.keepUrl" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.keepUrl" *ngIf="project?.keepUrl" target="_blank" i18n="@@page.project-detail.link.readFurtherKeepEU">Read more on keep.eu</a>
+                    <ng-container *ngIf="!project?.keepUrl" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.project-detail.label.funding">funding</span>
+                <div class="content">
+                    <span i18n="@@page.project-detail.label.fund">Fund: </span>
+                    <span>{{project.fundLabel}}</span>
+                    <span *ngIf="!project?.fundLabel" i18n="@@page.project-detail.label.na">n/a</span>
+                </div>
+
+
+
+                <div class="content">
+                    <span i18n="@@page.project-detail.label.totalBudget">Total budget: </span>
+                    <span>{{project.budget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span *ngIf="!project?.budget" i18n="@@page.project-detail.label.na">n/a</span>
+                </div>
+
+                <div class="content">
+                    <span i18n="@@page.project-detail.label.euContribution">EU contribution: </span>
+                    <span *ngIf="!project?.euBudget" i18n="@@page.project-detail.label.na">n/a</span>
+                    <span *ngIf="project?.euBudget">
+                        {{project.euBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
+                        <ng-container *ngIf="project?.cofinancingRate">
+                            ({{project.cofinancingRate | number:'1.0-3':'fr'}}%)
+                        </ng-container>
+                    </span>
+                </div>
+
+                <div class="content" *ngIf="project?.fundWebsite" style="margin-top: 10px;">
+                    <a class="ecl-link ecl-link--standalone" [href]="project.fundWebsite" *ngIf="project?.fundWebsite" target="_blank" i18n="@@page.project-detail.fundWebsite.readFurther">Read further about the fund</a>
+                </div>
+
+            </div>
+            <div class="kohesio-side-content-block" *ngIf="project.program && project.program.length">
+                <span class="title" i18n="@@page.project-detail.label.programmes">{project.program.length, plural, =0 {programme} =1 {programme} other {programmes}}</span>
+                <div class="programme-wrapper" *ngFor="let programme of project.program">
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.programmingPeriod">Programming period: </span>
+                        <span>{{programme.programmingPeriodLabel}}</span>
+                    </div>
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.programme">Programme: </span>
+                        <span>
+                            <ng-container *ngIf="programme.programLabel">
+                                <span class="no-bold">
+                                    <a class="ecl-link ecl-link--standalone" target="_blank"
+                                       [routerLink]="['/'+translateService.routes.projects+'/']"
+                                       [queryParams]="getProgramURL(project.countryLabel,programme.programFullLabel)">
+                                        {{programme.programLabel}}
+                                    </a>
+                                </span>
+                            </ng-container>
+                            <ng-container *ngIf="!programme.programLabel" i18n="@@page.project-detail.label.na">n/a</ng-container>
+                        </span>
+                    </div>
+                    <div class="content">
+                        <span i18n="@@page.project-detail.label.managingAuthority">Managing authority: </span>
+                        {{project.managingAuthorityLabel ? project.managingAuthorityLabel : "n/a"}}
+                    </div>
+                    <div class="content" *ngIf="programme.programInfoRegioUrl" style="margin-top: 10px;">
+                        <a class="ecl-link ecl-link--standalone" [href]="programme.programInfoRegioUrl" target="_blank" i18n="@@page.project-detail.programme.readFurther">Read further about the programme</a>
+                    </div>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.project-detail.label.theme">{project.themeLabels.length, plural, =0 {theme} =1 {theme} other {themes}}</span>
+                <div class="content  padding" *ngFor="let item of project?.themeLabels">
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/'+translateService.routes.projects+'/']" [queryParams]="getThemeURL(item)">{{item}}</a></span>
+                </div>
+                <div class="content" *ngIf="project.themeLabels.length == 0">
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.project-detail.label.interventionField">{project.categoryLabels.length, plural, =0 {intervention field} =1 {intervention field} other {intervention fields}}</span>
+                <div class="content padding" *ngFor="let item of project?.categoryLabels; let i = index">
+                    <span class="no-bold"><a class="ecl-link ecl-link--standalone" target="_blank" [routerLink]="['/'+translateService.routes.projects+'/']" [queryParams]="getInterventionFieldURL(project.categoryIDs[i])">{{item}}</a></span>
+                </div>
+                <div class="content" *ngIf="project.categoryLabels.length == 0">
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block" >
+                <span class="title" i18n="@@page.project-detail.label.beneficiary">{project.beneficiaries.length, plural, =0 {beneficiary} =1 {beneficiary} other {beneficiaries}}</span>
+                <div class="content" *ngFor="let beneficiary of project?.beneficiaries | sort: 'beneficiaryLabel'">
+                    <span class="no-bold" *ngIf="!beneficiary?.link">{{beneficiary.beneficiaryLabel}}</span>
+                    <a class="ecl-link ecl-link--standalone" *ngIf="beneficiary?.link" [target]="isModal ? '_blank': '_self'" [routerLink]="['/'+translateService.routes.beneficiaries + '/' + beneficiary.link.replace(entityURL, '')]">
+                        {{beneficiary.beneficiaryLabel}}
+                    </a>
+                    <span *ngIf="beneficiary.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
+                </div>
+                <div class="content" *ngIf="project.beneficiaries.length == 0">
+                    <span class="no-bold" i18n="@@page.project-detail.label.na">n/a</span>
+                </div>
+            </div>
+        </div>
+        <div class="kohesio-main-content">
+            <div class="kohesio-article-wrapper">
+                <article class="kohesio-article-post">
+                    <div class="project-theme-image">
+                        <ng-container *ngIf="project?.images && project.images.length">
+                            <div class="project-image-container hand-pointer"
+                            style="background-image: url('{{ project.images[0].image }}');"
+                            (click)="openImageOverlay(project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
+                        </ng-container>
+                        <ng-container>
+                            <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
+                                <ng-container *ngIf="project.themeIds.length == 1">
+                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
+                                </ng-container>
+                                <ng-container *ngIf="project.themeIds.length > 1">
+                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'">
+                                </ng-container>
+                            </div>
+                        </ng-container>
+                        <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
+                    </div>
+                    <div class="kohesio-article-post-inner">
+                        <div class="kohesio-article-post-inner-header">
+                            <div class="project-theme-image-mobile">
+                                <ng-container *ngIf="project?.images && project.images.length">
+                                    <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>
+                                </ng-container>
+                                <ng-container>
+                                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
+                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'">
+                                    </div>
+                                </ng-container>
+                                <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
+                            </div>
+                            <h1 class="ecl-u-type-heading-4" style="width: 100%;">
+                                <ng-container *ngIf="editMode">
+                                    <kohesio-ecl-form-group>
+                                        <kohesio-ecl-form-text-area formControlName="label" extraClass="ecl-u-type-heading-4"></kohesio-ecl-form-text-area>
+                                    </kohesio-ecl-form-group>
+                                </ng-container>
+                                <ng-container *ngIf="!editMode">
+                                    {{project.label}} <span *ngIf="project?.infoRegioUrl" style="color: #203F79;">★</span>
+                                </ng-container>
+                            </h1>
+                        </div>
+                        <div class="kohesio-article-post-content">
+                                <ng-container *ngIf="editMode">
+                                    <kohesio-ecl-form-group>
+<!--                                        <kohesio-ecl-form-text-area formControlName="description" extraClass="ecl-u-type-paragraph"></kohesio-ecl-form-text-area>-->
+                                        <quill-editor formControlName="description"></quill-editor>
+                                    </kohesio-ecl-form-group>
+                                </ng-container>
+                                <ng-container *ngIf="!editMode">
+                                    <p class="ecl-u-type-paragraph ng-star-inserted" [innerHTML]="project.description"></p>
+                                </ng-container>
+
+                                <ng-container *ngIf="!project.description">
+                                    <div class="ecl-message ecl-message--warning" data-ecl-message="" role="alert" data-ecl-auto-init="Message">
+                                        <svg class="ecl-icon ecl-icon--l ecl-message__icon" focusable="false" aria-hidden="true">
+                                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#warning"></use>
+                                        </svg>
+                                        <div class="ecl-message__content">
+                                            <div class="ecl-message__title" i18n="@@comp.message.warning.title">Warning message</div>
+                                            <div class="ecl-message__description" i18n="@@comp.message.noTranslationAvailable">There is no translation available</div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                        </div>
+
+                        <app-share-block [id]="project.item"></app-share-block>
+                    </div>
+                </article>
+            </div>
+            <div class="kohesio-map-wrapper" *ngIf="project?.coordinates">
+                <h2 class="title ecl-u-type-heading-5">
+                    <img class="flag" [alt]="'Flag of ' + project.countryLabel" src="{{'assets/images/flags/' + (project.countryCode ? project.countryCode.toLowerCase() : '') + '.png'}}">
+                    <ng-container>&nbsp;</ng-container>
+                    <ng-container *ngIf="project?.regionText">
+                        {{project.regionText}}
+                    </ng-container>
+                    <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
+                </h2>
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-details" [hideNavigation]="true"></app-map>
+            </div>
+            <div class="kohesio-audio-visual-wrapper">
+                <div class="kohesio-project-detail-video-wrapper">
+                    <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
+                        <iframe [src]="video" allowfullscreen=""></iframe>
+                    </div>
+                </div>
+                <div class="kohesio-project-detail-twitter-wrapper">
+                    <ng-container *ngFor="let tweet of project?.tweets">
+                        <div class="tweet" [innerHTML]="getTweetHTML(tweet)"></div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>

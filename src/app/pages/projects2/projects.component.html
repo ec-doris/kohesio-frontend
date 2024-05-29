@@ -1,0 +1,158 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.projects.breadcrumb.projects">Projects</span>
+        </li>
+    </ol>
+</nav>
+
+<button class="ecl-button ecl-button--secondary" type="button" (click)="openFlterDialog()">
+    <span class="ecl-button__container">
+        <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.projects.button.filters">Filters</span>
+    </span>
+
+</button>
+<mat-chip-set aria-label="Fish selection">
+    <mat-chip *ngFor="let filter of lastFiltersSearch | filters">{{ filter.key }}: {{filter.value}}</mat-chip>
+</mat-chip-set>
+<mat-drawer-container class="filters-wrapper-container" autosize>
+
+    <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''" id="testNIki">
+        <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">
+            <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
+                <div class="tools">
+                    <div class="left-table-tools">
+                        {{'count'+ count}}
+                        <app-download-button *ngIf="count && count <= 1000" type="projects" [filters]="lastFiltersSearch"></app-download-button>
+                    </div>
+                    <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">
+                        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
+                            <kohesio-ecl-form-group>
+                                <kohesio-ecl-form-select ariaLabel="sort" [hasEmptyValue]="false" formControlName="sort" [items]="this.filters.sort" (change)="onSortChange()"></kohesio-ecl-form-select>
+                            </kohesio-ecl-form-group>
+                        </form>
+                        <mat-paginator #paginatorTop
+                                       [length]="count"
+                                       [pageIndex]="initialPageIndex"
+                                       [pageSize]="pageSize"
+                                       [hidePageSize]="true"
+                                       (page)="onPaginate($event)">
+                        </mat-paginator>
+                    </div>
+                </div>
+                <div class="no-results" *ngIf="projects && projects.length === 0 && !isLoading">No results</div>
+                <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
+                <div class="article--post__wrapper" *ngIf="projects && projects.length !== 0">
+                    <article class="article--post" *ngFor="let project of projects">
+                        <header>
+                            <div class="article--post__image">
+                                <figure role="presentation" class="prj-image">
+                                    <div class="prj-image--wrapper">
+                                        <ng-container *ngIf="project.images && project.images.length">
+                                            <a (click)="openImageOverlay(project.images[0], project.title, project.copyrightImages)">
+                                                <img [alt]="'Image represent the project ' + project.title" class="prj-image--image" [src]="project.images[0]" *ngIf="!mobileQuery"/>
+                                            </a>
+                                        </ng-container>
+                                        <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
+                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}">
+                                        </div>
+                                    </div>
+                                </figure>
+                            </div>
+                        </header>
+                        <div class="article--post__inner">
+                            <h1 class="ecl-u-type-heading-5">
+                                <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
+                                    <b>Highlighted project</b>
+                                </ux-popover> -->
+                                <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/'+translateService.routes.projects+'/'+ project.item]">{{project.title}}</a>
+                                <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
+                                <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
+                            </h1>
+                            <footer class="article--post__footer">
+                                <ul class="nowrap">
+                                    <li class="article--post__theme">
+                                        <span class="icon">
+                                            <img *ngIf="project.objectiveId" [alt]="'Topic image of ' + project.objectiveId" class="topic" src="{{'assets/images/topics/' + project.objectiveId + '.png'}}">
+                                        </span>
+                                        {{filterService.getThemeLabel(project.objectiveId)}}
+                                        <ng-container *ngIf="!project.objectiveId">Intervention field not available</ng-container>
+                                    </li>
+                                    <li class="article--post__amount">
+                                        <div class="article--post__amount--inner">
+                                            <span class="flag"><img [alt]="'Flag of ' + project.countryCode" class="flag" src="{{'assets/images/flags/' + (project.countryCode ? project.countryCode.toLowerCase() + '.png': '')}}"></span>
+                                            <span class="amount">
+                                                {{ project.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}
+                                                <span *ngIf="!project.totalBudget">n/a</span>
+                                                <span class="support">Total budget</span>
+                                            </span>
+                                        </div>
+                                    </li>
+                                    <li class="article--post__years">
+                                        <span class="icons">
+                                            <!-- Clock icon here -->
+                                        </span>
+                                        <span class="time-start-end">
+                                            <ng-container *ngIf="project.startTime || project.endTime">
+                                                {{ project.startTime | date: 'MMM YYYY' }}
+                                                <span *ngIf="!project.startTime">n/a</span>
+                                                -
+                                                {{ project.endTime | date: 'MMM YYYY' }}
+                                                <span *ngIf="!project.endTime">n/a</span>
+                                            </ng-container>
+                                            <ng-container *ngIf="!project.startTime && !project.endTime">n/a</ng-container>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </footer>
+                            <div class="article--post__content">
+                                <p class="article--post__teaser">{{project.description | truncateHtml}}</p>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <mat-paginator #paginatorDown
+                    [length]="count"
+                    [pageSize]="pageSize"
+                    [pageIndex]="initialPageIndex"
+                    [hidePageSize]="true"
+                    (page)="onPaginate($event)"
+                    [hidden]="(projects && projects.length === 0) || isMapTab">
+                </mat-paginator>
+            </mat-tab>
+            <mat-tab label="Audiovisual" i18n-label="Audiovisual|@@page.projects.tab.audiovisual">
+                <mat-paginator #paginatorAssets
+                                [length]="assetsCount"
+                                [pageSize]="pageSize"
+                                [hidePageSize]="true"
+                                (page)="onPaginateAssets($event)"
+                                [hidden]="(projects && projects.length === 0) || isMapTab || isResultsTab">
+                </mat-paginator>
+                <div class="no-results" *ngIf="assets && assets.length === 0 && !isLoading">No audiovisual material available</div>
+                <kohesio-ecl-spinner *ngIf="isLoading"></kohesio-ecl-spinner>
+                <div class="audio-visual-container">
+                    <ng-container *ngFor="let asset of assets">
+                        <a [routerLink]="['/'+translateService.routes.projects+'/' + asset.item.replace(entityURL, '')]">
+                            <div class="container">
+                                <img [src]="asset.image">
+                                <div class="title">{{asset.title}}</div>
+                            </div>
+                        </a>
+                    </ng-container>
+                </div>
+            </mat-tab>
+            <mat-tab label="Map" i18n-label="Map|@@page.projects.tab.map">
+                <app-map *ngIf="mapIsLoaded" [hideProjectsNearBy]="true" [heatScale]="true"></app-map>
+            </mat-tab>
+        </mat-tab-group>
+
+    </mat-drawer-content>
+</mat-drawer-container>
+

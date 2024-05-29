@@ -28,7 +28,7 @@ export class Filters implements Deserializable{
     public orderReadabilityBudget: boolean | undefined;
     public beneficiaryType: string | undefined;
     public interreg: string | undefined;
-    public nuts3: string | undefined;
+    public nuts3: any;
     public cci: string | undefined;
     public ccis!: [];
     public priority_axis: string | undefined;
