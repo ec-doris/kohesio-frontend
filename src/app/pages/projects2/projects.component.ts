@@ -51,7 +51,7 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  paramMapping: any = {  };
+  paramMapping: any = {};
   private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
@@ -152,6 +152,9 @@ export class ProjectsComponent implements OnDestroy {
               }
             }
           });
+          const reverseMap = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]));
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+
           this.lastFiltersSearch = new Filters().deserialize(params);
           this.getProjectList();
 
@@ -165,6 +168,18 @@ export class ProjectsComponent implements OnDestroy {
     }
 
   }
+
+  translateKeys = (obj: { [key: string]: any }, translationMap: { [key: string]: string }) => {
+    const reverseMap = Object.fromEntries(Object.entries(translationMap).map(([ key, value ]) => [ value, key ]));
+
+    return Object.entries(obj).reduce((acc, [ key, value ]) => {
+      const translatedKey = reverseMap[key];
+      if (translatedKey) {
+        acc[translatedKey] = value;
+      }
+      return acc;
+    }, {} as { [key: string]: any });
+  };
 
   onSubmit() {
     this.projects = [];
