@@ -51,28 +51,7 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  readonly paramMapping: any = {
-    keywords: 'keywords',
-    town: 'town',
-    country: 'countries',
-    region: 'regions',
-    policyObjective: 'policy_objectives',
-    theme: 'thematic_objectives',
-    programPeriod: 'programmingPeriods',
-    fund: 'funds',
-    programme: 'programs',
-    totalProjectBudget: 'totalProjectBudget',
-    amountEUSupport: 'amountEUSupport',
-    projectStart: 'projectStart',
-    projectEnd: 'projectEnd',
-    interreg: 'interreg',
-    nuts3: 'nuts3',
-    sort: 'sort',
-    priorityAxis: 'priority_axis',
-    projectCollection: 'project_types',
-    interventionField: 'categoriesOfIntervention',
-    sdg: 'sdg'
-  };
+  paramMapping: any = {  };
   private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
@@ -115,6 +94,28 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   ngOnInit() {
+    this.paramMapping = {
+      [this.translateService.queryParams.keywords]: 'keywords',
+      [this.translateService.queryParams.town]: 'town',
+      [this.translateService.queryParams.country]: 'countries',
+      [this.translateService.queryParams.region]: 'regions',
+      [this.translateService.queryParams.policyObjective]: 'policy_objectives',
+      [this.translateService.queryParams.theme]: 'thematic_objectives',
+      [this.translateService.queryParams.programPeriod]: 'programmingPeriods',
+      [this.translateService.queryParams.fund]: 'funds',
+      [this.translateService.queryParams.programme]: 'programs',
+      [this.translateService.queryParams.totalProjectBudget]: 'totalProjectBudget',
+      [this.translateService.queryParams.amountEUSupport]: 'amountEUSupport',
+      [this.translateService.queryParams.projectStart]: 'projectStart',
+      [this.translateService.queryParams.projectEnd]: 'projectEnd',
+      [this.translateService.queryParams.interreg]: 'interreg',
+      [this.translateService.queryParams.nuts3]: 'nuts3',
+      [this.translateService.queryParams.sort]: 'sort',
+      [this.translateService.queryParams.priorityAxis]: 'priority_axis',
+      [this.translateService.queryParams.projectCollection]: 'project_types',
+      [this.translateService.queryParams.interventionField]: 'categoriesOfIntervention',
+      [this.translateService.queryParams.sdg]: 'sdg'
+    };
     this.filterService.showResult.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
       this.projects = [];
