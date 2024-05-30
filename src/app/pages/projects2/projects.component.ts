@@ -152,12 +152,9 @@ export class ProjectsComponent implements OnDestroy {
               }
             }
           });
-          const reverseMap = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]));
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
-
-          this.lastFiltersSearch = new Filters().deserialize(params);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
           this.getProjectList();
-
         });
     }
 
