@@ -415,6 +415,7 @@
     "translate.queryParams.projectCollection": "projectCollection",
     "translate.queryParams.projectStart": "projectStart",
     "translate.queryParams.projectEnd": "projectEnd",
+    "translate.queryParams.sdg": "sdg",
     "translate.queryParams.sort": "sort",
     "translate.queryParams.name": "name",
     "translate.queryParams.beneficiaryType": "beneficiaryType",

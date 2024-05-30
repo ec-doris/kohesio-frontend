@@ -71,7 +71,7 @@ export class ProjectsComponent implements OnDestroy {
     priorityAxis: 'priority_axis',
     projectCollection: 'project_types',
     interventionField: 'categoriesOfIntervention',
-    sdg: 'sdgs'
+    sdg: 'sdg'
   };
   private destroyed = new Subject<void>();
 
@@ -231,6 +231,7 @@ export class ProjectsComponent implements OnDestroy {
       [this.translateService.queryParams.amountEUSupport]: this.getFilterLabel('amountEUSupport', this.lastFiltersSearch.budgetEUBiggerThan + '-' + this.lastFiltersSearch.budgetEUSmallerThan),
       [this.translateService.queryParams.projectStart]: this.lastFiltersSearch.startDateAfter ? this.datePipe.transform(this.lastFiltersSearch.startDateAfter, 'dd-MM-yyyy') : null,
       [this.translateService.queryParams.projectEnd]: this.lastFiltersSearch.endDateBefore ? this.datePipe.transform(this.lastFiltersSearch.endDateBefore, 'dd-MM-yyyy') : null,
+      [this.translateService.queryParams.sdg]: this.getFilterLabel('sdg', this.lastFiltersSearch.sdg),
       [this.translateService.queryParams.interreg]: this.getFilterLabel('interreg', this.lastFiltersSearch.interreg),
       [this.translateService.queryParams.nuts3]: this.getFilterLabel('nuts3', this.lastFiltersSearch.nuts3 || ''),
       [this.translateService.queryParams.sort]: this.getFilterLabel('sort', this.lastFiltersSearch.sort),
@@ -346,6 +347,7 @@ export class ProjectsComponent implements OnDestroy {
     }
     this.isLoading = true;
     let offset = this.initialPageIndex * this.pageSize;
+    // const { sdg, ...filteredSearch } = this.lastFiltersSearch;
     this.projectService.getProjects(this.lastFiltersSearch, offset).subscribe((result: ProjectList) => {
       if (result.numberResults <= offset && this.route.snapshot.queryParamMap.has(this.translateService.queryParams.page)) {
         this._router.navigate([], { queryParams: { [this.translateService.queryParams.page]: null }, queryParamsHandling: 'merge' });

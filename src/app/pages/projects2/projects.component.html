@@ -29,7 +29,6 @@
             <mat-tab label="Results" i18n-label="Results|@@page.projects.tab.results">
                 <div class="tools">
                     <div class="left-table-tools">
-                        {{'count'+ count}}
                         <app-download-button *ngIf="count && count <= 1000" type="projects" [filters]="lastFiltersSearch"></app-download-button>
                     </div>
                     <div class="right-table-tools" [hidden]="(projects && projects.length === 0) || isMapTab || isAudioVisualTab">

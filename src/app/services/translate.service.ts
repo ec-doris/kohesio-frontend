@@ -48,6 +48,7 @@ export class TranslateService {
     "projectCollection": $localize`:@@translate.queryParams.projectCollection:projectCollection`,
     "projectStart": $localize`:@@translate.queryParams.projectStart:projectStart`,
     "projectEnd": $localize`:@@translate.queryParams.projectEnd:projectEnd`,
+    "sdg": $localize`:@@translate.queryParams.sdg:sdg`,
     "sort": $localize`:@@translate.queryParams.sort:sort`,
     "name": $localize`:@@translate.queryParams.name:name`,
     "beneficiaryType": $localize`:@@translate.queryParams.beneficiaryType:beneficiaryType`,

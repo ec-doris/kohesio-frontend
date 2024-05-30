@@ -25,6 +25,7 @@ export class FiltersPipe implements PipeTransform {
     nuts3: 'nuts3',
     startDateAfter: 'start_date_after',
     endDateBefore: 'end_date_before',
+    sdg: 'sdg',
   };
 
   constructor(public service: FilterService, private datePipe: DatePipe) {
