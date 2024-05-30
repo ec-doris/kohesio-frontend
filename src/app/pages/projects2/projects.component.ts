@@ -128,7 +128,7 @@ export class ProjectsComponent implements OnDestroy {
     });
     if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
       const queryParams: any = this.route.snapshot.queryParamMap;
-      const cntr = this.filters.countries?.find(x => x.value == queryParams.params.country).id;
+      const cntr = this.filters.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country]).id;
 
       of(queryParams).pipe(
         concatMap(() => this.filterService.getRegions(cntr)),
