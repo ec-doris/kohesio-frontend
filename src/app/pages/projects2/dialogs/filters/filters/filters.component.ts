@@ -277,7 +277,7 @@ export class FiltersComponent implements OnInit {
   }
 
   private getFilterKey(type: string, queryParam: string) {
-    return this.service.getFilterKey(type, this.route.snapshot.queryParamMap.get(queryParam));
+    return this.service.getFilterKey(type, this.route.snapshot.queryParamMap.get(this.translateService.queryParams[queryParam]));
   }
 
 }
