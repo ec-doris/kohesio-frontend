@@ -41,6 +41,8 @@ export class FiltersPipe implements PipeTransform {
   }
 
   transform(value: any): { key: string, value: any }[] {
+    value.projectEnd = value.endDateBefore;
+    value.projectStart = value.startDateAfter;
     if (!value || typeof value !== 'object') {
       return [];
     }
