@@ -33,7 +33,7 @@ export class FiltersPipe implements PipeTransform {
   }
 
   getFilterValue(item: { key: string, value: string }, key: string, value: any) {
-    const filterItem = [ 'startDateAfter', 'endDateBefore' ].includes(key)
+    const filterItem = [ 'projectStart', 'projectEnd' ].includes(key)
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
       : this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value);
 
@@ -41,11 +41,15 @@ export class FiltersPipe implements PipeTransform {
   }
 
   transform(value: any): { key: string, value: any }[] {
-    value.projectEnd = value.endDateBefore;
-    value.projectStart = value.startDateAfter;
     if (!value || typeof value !== 'object') {
       return [];
     }
+
+    value.projectEnd = value.endDateBefore;
+    delete value.endDateBefore;
+    value.projectStart = value.startDateAfter;
+    delete value.startDateAfter;
+
     return Object.keys(value)
       .map(key => ({ key, value: typeof value[key] === 'object' ? value[key]?.id || value[key][0] : value[key] }))
       .filter(item => item.value && item.key != 'language' && item.key != 'interventionField')
