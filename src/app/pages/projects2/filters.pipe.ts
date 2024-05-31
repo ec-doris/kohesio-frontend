@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Pipe, PipeTransform } from '@angular/core';
 import { FilterService } from '../../services/filter.service';
+import { TranslateService } from '../../services/translate.service';
 
 @Pipe({
   name: 'filters'
@@ -28,7 +29,7 @@ export class FiltersPipe implements PipeTransform {
     sdg: 'sdg',
   };
 
-  constructor(public service: FilterService, private datePipe: DatePipe) {
+  constructor(public service: FilterService, private datePipe: DatePipe, private translateService: TranslateService) {
   }
 
   getFilterValue(item: { key: string, value: string }, key: string, value: any) {
@@ -36,7 +37,7 @@ export class FiltersPipe implements PipeTransform {
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
       : this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value);
 
-    return { key: item.key, value: filterItem?.value ?? filterItem?.label };
+    return { key: this.translateService.queryParams[item.key].toUpperCase(), value: filterItem?.value ?? filterItem?.label };
   }
 
   transform(value: any): { key: string, value: any }[] {
