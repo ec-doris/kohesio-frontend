@@ -146,7 +146,7 @@ export class ProjectsComponent implements OnDestroy {
               } else if (key === this.translateService.queryParams.nuts3) {
                 params[key] = this.getFilterKey(this.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
-                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key])) ];
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.paramMapping[key]])) ];
               } else {
                 params[key] = this.getFilterKey(this.paramMapping[key], key);
               }
