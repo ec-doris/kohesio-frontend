@@ -141,11 +141,11 @@ export class ProjectsComponent implements OnDestroy {
           const params: any = {};
           Object.keys(queryParams.params).forEach(key => {
             if (this.paramMapping[key]) {
-              if (key === 'keywords' || key === 'town') {
+              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
                 params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
-              } else if (key === 'nuts3') {
+              } else if (key === this.translateService.queryParams.nuts3) {
                 params[key] = this.getFilterKey(this.paramMapping[key], this.translateService.queryParams[key]).id;
-              } else if (key === 'projectStart' || key === 'projectEnd') {
+              } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
                 params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key])) ];
               } else {
                 params[key] = this.getFilterKey(this.paramMapping[key], key);

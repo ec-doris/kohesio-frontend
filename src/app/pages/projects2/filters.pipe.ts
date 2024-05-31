@@ -33,11 +33,11 @@ export class FiltersPipe implements PipeTransform {
   }
 
   getFilterValue(item: { key: string, value: string }, key: string, value: any) {
-    const filterItem = ['startDateAfter','endDateBefore'].includes(key)
+    const filterItem = [ 'startDateAfter', 'endDateBefore' ].includes(key)
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
       : this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value);
 
-    return { key: this.translateService.queryParams[item.key].toUpperCase(), value: filterItem?.value ?? filterItem?.label };
+    return { key: (this.translateService.queryParams[item.key] ?? item.key).toUpperCase(), value: filterItem?.value ?? filterItem?.label };
   }
 
   transform(value: any): { key: string, value: any }[] {
