@@ -156,11 +156,7 @@ export class ProjectsComponent implements OnDestroy {
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
           this.getProjectList();
         });
-    }
-
-    if (!this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
-      !this.route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) &&
-      !this.route.snapshot.queryParamMap.get(this.translateService.queryParams.nuts3)) {
+    } else {
       this.getProjectList();
     }
 
