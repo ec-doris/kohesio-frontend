@@ -1,7 +1,7 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {map} from 'rxjs/operators';
-import {Observable, throwError} from 'rxjs';
+import { filter, Observable, of, throwError } from 'rxjs';
 import {Filters} from "../models/filters.model";
 import {environment} from "../../environments/environment";
 import {ProjectDetail} from "../models/project-detail.model";
@@ -16,18 +16,11 @@ export class ProjectService {
     constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
     }
 
-    getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList | null>{
+    getProjects(filters:Filters, offset: number = 0, limit: number = 15): Observable<ProjectList>{
         const url = environment.api + '/projects';
         const params = this.generateParameters(filters.getProjectsFilters(), offset, limit);
-        return this.http.get<any>(url,{ params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    return null;
-                }else {
-                    return new ProjectList().deserialize(data);
-                }
-            })
-        );
+        return this.http.get<any>(url, { params })
+          .pipe(filter(x => !!x), map(data => new ProjectList().deserialize(data)));
     }
 
     getAssets(filters: Filters,offset: number = 0, limit: number = 15): Observable<any>{

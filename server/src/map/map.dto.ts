@@ -13,10 +13,10 @@ export class MapSearchInDTO extends BasicDTO{
   budgetSmallerThan?:number;
   budgetEUBiggerThan?:number;
   budgetEUSmallerThan?:number;
-  startDateBefore?:number;
-  startDateAfter?:number;
-  endDateBefore?:number;
-  endDateAfter?:number;
+  startDateBefore?: Date;
+  startDateAfter?: Date;
+  endDateBefore?: Date;
+  endDateAfter?: Date;
   latitude?:string;
   longitude?:string;
   region?:string;

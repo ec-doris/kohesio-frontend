@@ -1,14 +1,55 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import {Component, Inject, Input} from "@angular/core";
-import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {FormControl, UntypedFormBuilder, UntypedFormGroup, Validators} from "@angular/forms";
+import {
+  AbstractControl,
+  FormControl,
+  UntypedFormBuilder,
+  UntypedFormGroup,
+  ValidationErrors,
+  ValidatorFn,
+  Validators
+} from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material/chips';
 import {UserService} from "../../../services/user.service";
-import {catchError} from "rxjs/operators";
+import { catchError, map } from 'rxjs/operators';
 import {EMPTY, forkJoin, Observable, Subscriber} from "rxjs";
 import {User} from "../../../models/user.model";
 import {DialogChildInterface} from "../../../components/ecl/dialog/dialog.child.interface";
 import {FilterService} from "../../../services/filter.service";
 import {environment} from "../../../../environments/environment";
 import {TranslateService} from "../../../services/translate.service";
+type roles = { id: string; value: string }
+
+export function emailArrayValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if (!Array.isArray(control.value)) {
+      return { emailArray: true };
+    }
+
+    for (const email of control.value) {
+      const innerControl = new FormControl(email, Validators.email);
+      if (innerControl.errors && innerControl.errors['email']) {
+        return { emailArray: true };
+      }
+    }
+
+    return null;
+  };
+}
+export function emailValidator(): ValidatorFn {
+  return (control: AbstractControl): { [key: string]: any } | null => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const valid = emailRegex.test(control.value);
+    return valid ? null : { 'invalidEmail': { value: control.value } };
+  };
+}
+
+export function requiredArrayValidator(): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    const isPassed: boolean = Array.isArray(control.value) && control.value.length > 0;
+    return isPassed ? null : { required: true };
+  };
+}
 
 @Component({
   selector: 'user-save-dialog',
@@ -16,25 +57,17 @@ import {TranslateService} from "../../../services/translate.service";
   styleUrls: ['./user-save-dialog.component.scss']
 })
 export class UserSaveDialogComponent implements DialogChildInterface{
-
+  readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public myForm!: UntypedFormGroup;
   public errorMessage?:string;
-
   @Input('data') data: any;
-  public readonly roles:any[] = [{
-    id: "USER",
-    value: "USER"
-  },{
-    id: "REVIEWER",
-    value: "REVIEWER"
-  },{
-    id: "EDITOR",
-    value: "EDITOR"
-  },{
-    id: "ADMIN",
-    value: "ADMIN"
-  }];
-
+  readonly allRoles: roles[] = [
+    { id: 'USER', value: 'USER' },
+    { id: 'REVIEWER', value: 'REVIEWER' },
+    { id: 'EDITOR', value: 'EDITOR' },
+    { id: 'ADMIN', value: 'ADMIN' }
+  ];
+  readonly roles: roles[] = environment.production ? this.allRoles.filter(role => role.id !== 'USER') : this.allRoles;
   public countries:any[] = [];
   public ccis:any[] = [];
   public ccis_list:any[] = [];
@@ -52,7 +85,8 @@ export class UserSaveDialogComponent implements DialogChildInterface{
     this.myForm = this.formBuilder.group({
       'formType': 'addUser',
       'userid': new FormControl(this.data ? this.data.user_id : ''),
-      'email': new FormControl(this.data ? this.data.email : ''),
+      email: new FormControl(this.data ? this.data.email : '', [requiredArrayValidator(), emailArrayValidator()]),
+      emailHelper: new FormControl(null, emailValidator()),
       'role': this.data ? this.data.role : 'USER',
       'active': this.data ? this.data.active : true,
       'country': '',
@@ -87,16 +121,23 @@ export class UserSaveDialogComponent implements DialogChildInterface{
       this.editMode = true;
       this.myForm.get('userid')?.disable();
     }
+  }
 
+  getEmailValue(): string[] {
+    const emailValue = this.myForm.value.email;
+    return emailValue.length == 1 ? emailValue[0] : emailValue;
   }
 
   beforeSave():Observable<boolean>{
     return new Observable<boolean>((observer:Subscriber<boolean>)=>{
       if(!this.myForm.value.email) {
         this.errorMessage = this.translateService.userManagement.messages.emailMandatory;
-      }else {
+      } else if (['EDITOR', 'REVIEWER'].includes(this.myForm.value.role) && !this.myForm.value.ccis.length) {
+        this.errorMessage = this.translateService.userManagement.messages.CCIMandatory;
+      }
+      else {
         if (this.myForm.value.formType == 'invitation'){
-          this.userService.inviteUser(this.myForm.value.email,
+          this.userService.inviteUser(this.getEmailValue(),
             this.myForm.value.role,
             this.myForm.value.ccis).subscribe(result=>{
             observer.next(true);
@@ -112,7 +153,7 @@ export class UserSaveDialogComponent implements DialogChildInterface{
             })
           } else {
             this.userService.addUser(
-              this.myForm.value.email,
+              this.getEmailValue(),
               this.myForm.value.role,
               this.myForm.value.active,
               this.myForm.value.ccis,
@@ -178,4 +219,33 @@ export class UserSaveDialogComponent implements DialogChildInterface{
   }
 
 
+  removeEmailAddress(selectedEmail: string): void {
+    const formControl: any = this.myForm.get('email');
+    const value: string[] = formControl.value.filter((email: string) => email !== selectedEmail);
+    formControl.setValue(value);
+    formControl.updateValueAndValidity();
+  }
+
+  addEmailAddress(event: MatChipInputEvent): void {
+    const formControl: any = this.myForm.get('email');
+    const helperForm: any = this.myForm.get('emailHelper');
+    const input: HTMLInputElement = event.input;
+    const value: string = (event.value || '').trim();
+
+    helperForm.updateValueAndValidity();
+
+    if (helperForm.valid) {
+      if (value) {
+        formControl.setValue([...formControl.value, value]);
+      }
+
+      formControl.updateValueAndValidity();
+
+      if (input) {
+        input.value = '';
+      }
+    } else {
+      formControl.setErrors({ email: true });
+    }
+  }
 }

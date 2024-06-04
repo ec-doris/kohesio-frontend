@@ -1,5 +1,7 @@
 import {NgModule} from "@angular/core";
 import {CommonModule} from "@angular/common";
+import {MatChipsModule} from "@angular/material/chips";
+import { MatIconModule } from '@angular/material/icon';
 import {RouterModule} from "@angular/router";
 import {UserDashboardComponent} from "./dashboard/user-dashboard.component";
 import {UsersRoutingModule} from "./users-routing.module";
@@ -24,29 +26,31 @@ import {KohesioEclFormRadioModule} from "../../components/ecl/forms/radio/form-r
 import {KohesioEclSpinnerModule} from "../../components/ecl/spinner/spinner.ecl.module";
 
 @NgModule({
-    imports: [
-        CommonModule,
-        RouterModule,
-        FormsModule,
-        ReactiveFormsModule,
-        KohesioEclButtonModule,
-        KohesioEclFormModule,
-        KohesioEclFormGroupModule,
-        KohesioEclFormLabelModule,
-        KohesioEclFormTextInputModule,
-        KohesioEclFormSelectModule,
-        KohesioEclFormCheckboxModule,
-        KohesioEclFormRadioModule,
-        KohesioEclMessageModule,
-        UsersRoutingModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatFormFieldModule,
-        MatNativeDateModule,
-        MatInputModule,
-        KohesioEclFormRadioModule,
-        KohesioEclSpinnerModule
-    ],
+  imports: [
+    CommonModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
+    KohesioEclButtonModule,
+    KohesioEclFormModule,
+    KohesioEclFormGroupModule,
+    KohesioEclFormLabelModule,
+    KohesioEclFormTextInputModule,
+    KohesioEclFormSelectModule,
+    KohesioEclFormCheckboxModule,
+    KohesioEclFormRadioModule,
+    KohesioEclMessageModule,
+    UsersRoutingModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatInputModule,
+    KohesioEclFormRadioModule,
+    KohesioEclSpinnerModule,
+    MatChipsModule,
+    MatIconModule
+  ],
   declarations: [
     UserDashboardComponent,
     UserSaveDialogComponent,

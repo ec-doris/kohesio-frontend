@@ -1,21 +1,22 @@
-import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
-import {map} from 'rxjs/operators';
-import {Observable, Observer, of} from 'rxjs';
-import {forkJoin} from 'rxjs';
-import { zip } from "rxjs";
-import {environment} from "../../environments/environment";
-import {FiltersApi} from "../models/filters-api.model";
+import { DatePipe } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
+import { Inject, Injectable, LOCALE_ID } from '@angular/core';
+import { forkJoin, Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
+import { AutoCompleteItem } from '../components/kohesio/auto-complete/item.model';
+import { FiltersApi } from '../models/filters-api.model';
+import { Filters } from '../models/filters.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FilterService {
-
+    showResult:Subject<any> = new Subject();
     public filters:any;
     private countryGeoJson: any;
 
-    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
+    constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string, private datePipe: DatePipe) { }
 
 
     getProjectsFilters(): Observable<FiltersApi>{
@@ -282,6 +283,20 @@ export class FilterService {
         }
       })
     );
+  }
+  getFormFilters(form: any){
+    const formValues = { ...form.value }; // Use spread operator for shallow copy
+
+    if (formValues.interventionField?.length) {
+      formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item.id);
+    }
+
+    formValues.nuts3 = formValues.nuts3?.id || undefined;
+    formValues.projectStart = formValues.projectStart ? this.datePipe.transform(formValues.projectStart, 'yyyy-MM-dd') : undefined;
+    formValues.projectEnd = formValues.projectEnd ? this.datePipe.transform(formValues.projectEnd, 'yyyy-MM-dd') : undefined;
+
+
+    return new Filters().deserialize(formValues);
   }
 
 }
