@@ -1,6 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DatePipe, DOCUMENT, isPlatformServer } from '@angular/common';
 import { Component, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -52,6 +53,8 @@ export class ProjectsComponent implements OnDestroy {
   semanticTerms: String[] = [];
   mobileQuery: boolean;
   paramMapping: any = {};
+  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
+
   private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
@@ -116,7 +119,7 @@ export class ProjectsComponent implements OnDestroy {
       [this.translateService.queryParams.interventionField]: 'categoriesOfIntervention',
       [this.translateService.queryParams.sdg]: 'sdg'
     };
-    this.filterService.showResult.subscribe((formVal) => {
+    this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
       this.projects = [];
       this.paginatorTop.pageIndex == 0 ? this.getProjectList() : this.goFirstPage();
@@ -374,7 +377,6 @@ export class ProjectsComponent implements OnDestroy {
         this._document.body.scrollTop = 0;
         this._document.documentElement.scrollTop = 0;
         if (this.selectedTabIndex == 2) {
-          // this.mapIsLoaded = true;
           setTimeout(() => this.mapIsLoaded = true, 0);
           setTimeout(() => this.map?.loadMapRegion(this.lastFiltersSearch), 0);
         } else {

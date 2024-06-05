@@ -17,7 +17,7 @@ import { TranslateService } from '../../../../../services/translate.service';
 export class FiltersComponent implements OnInit {
   interventionField: any = [];
   filters: FiltersApi = new FiltersApi();
-  themeSelection = [];
+  themeSelection = this.service.filters.thematic_objectives;
   advancedFilterIsExpanded = false;
   form = this.formBuilder.group({
     keywords: this.route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords),
@@ -143,7 +143,7 @@ export class FiltersComponent implements OnInit {
     return this.service.getFilter('policy_objectives', params).pipe(tap(policies => {
       policies?.policy_objectives?.length
         ? this.form.patchValue({ policyObjective: policies.policy_objectives[0].id }, { emitEvent: false })
-        : this.form.patchValue({ policyObjective: null });
+        : this.form.patchValue({ policyObjective: null },{ emitEvent: false });
     }));
   }
 
