@@ -13,7 +13,8 @@
     </ol>
 </nav>
 
-<button class="ecl-button ecl-button--secondary" type="button" (click)="openFlterDialog()">
+<button class="ecl-button ecl-button--secondary" type="button" (click)="openFlterDialog()"  [matTooltip]="filterTooltip">
+
     <span class="ecl-button__container">
         <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.projects.button.filters">Filters</span>
     </span>

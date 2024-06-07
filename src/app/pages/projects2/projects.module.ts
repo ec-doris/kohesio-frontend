@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MaterialModule } from '../../material/material.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './projects.component';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
@@ -79,7 +80,8 @@ import { FiltersPipe } from './filters.pipe';
     KohesioEclMessageModule,
     OverlayModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MaterialModule
   ],
     declarations: [
         ProjectsComponent,
