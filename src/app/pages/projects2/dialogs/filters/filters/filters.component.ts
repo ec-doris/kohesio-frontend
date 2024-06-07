@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { EMPTY, filter, forkJoin, Observable, of } from 'rxjs';
 import { concatMap, switchMap, tap } from 'rxjs/operators';
@@ -15,6 +16,7 @@ import { TranslateService } from '../../../../../services/translate.service';
   styleUrls: [ './filters.component.scss' ]
 })
 export class FiltersComponent implements OnInit {
+  title= this.translateService.editManagement.labels.dialogTitleFilters
   interventionField: any = [];
   filters: FiltersApi = new FiltersApi();
   themeSelection = this.service.filters.thematic_objectives;
@@ -45,6 +47,7 @@ export class FiltersComponent implements OnInit {
   private notOutside = false;
 
   constructor(private formBuilder: FormBuilder,
+              public dialogRef: MatDialogRef<FiltersComponent>,
               private translateService: TranslateService,
               private route: ActivatedRoute,
               public service: FilterService,
@@ -280,4 +283,7 @@ export class FiltersComponent implements OnInit {
     return this.service.getFilterKey(type, this.route.snapshot.queryParamMap.get(this.translateService.queryParams[queryParam]));
   }
 
+  onActionClick() {
+    this.dialogRef.close();
+  }
 }

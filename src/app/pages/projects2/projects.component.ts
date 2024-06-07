@@ -337,7 +337,7 @@ export class ProjectsComponent implements OnDestroy {
   openFlterDialog() {
     this.dialog.open(FiltersComponent, {
       width: '46rem',
-      height: '100%',
+      height: '50rem',
       panelClass: 'filter-dialog'
     });
   }
