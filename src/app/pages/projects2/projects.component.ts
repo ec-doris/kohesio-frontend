@@ -97,28 +97,6 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    // this.paramMapping = {
-    //   [this.translateService.queryParams.keywords]: 'keywords',
-    //   [this.translateService.queryParams.town]: 'town',
-    //   [this.translateService.queryParams.country]: 'countries',
-    //   [this.translateService.queryParams.region]: 'regions',
-    //   [this.translateService.queryParams.policyObjective]: 'policy_objectives',
-    //   [this.translateService.queryParams.theme]: 'thematic_objectives',
-    //   [this.translateService.queryParams.programPeriod]: 'programmingPeriods',
-    //   [this.translateService.queryParams.fund]: 'funds',
-    //   [this.translateService.queryParams.programme]: 'programs',
-    //   [this.translateService.queryParams.totalProjectBudget]: 'totalProjectBudget',
-    //   [this.translateService.queryParams.amountEUSupport]: 'amountEUSupport',
-    //   [this.translateService.queryParams.projectStart]: 'projectStart',
-    //   [this.translateService.queryParams.projectEnd]: 'projectEnd',
-    //   [this.translateService.queryParams.interreg]: 'interreg',
-    //   [this.translateService.queryParams.nuts3]: 'nuts3',
-    //   [this.translateService.queryParams.sort]: 'sort',
-    //   [this.translateService.queryParams.priorityAxis]: 'priority_axis',
-    //   [this.translateService.queryParams.projectCollection]: 'project_types',
-    //   [this.translateService.queryParams.interventionField]: 'categoriesOfIntervention',
-    //   [this.translateService.queryParams.sdg]: 'sdg'
-    // };
     this.filterResult$$.subscribe((formVal) => {
 
       this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
@@ -334,7 +312,7 @@ export class ProjectsComponent implements OnDestroy {
     return isPlatformServer(this.platformId);
   }
 
-  openFlterDialog() {
+  openFilterDialog() {
     this.dialog.open(FiltersComponent, {
       width: '46rem',
       height: '50rem',
