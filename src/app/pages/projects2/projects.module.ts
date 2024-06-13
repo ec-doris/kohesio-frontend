@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MaterialModule } from '../../material/material.module';
@@ -81,7 +82,8 @@ import { FiltersPipe } from './filters.pipe';
     OverlayModule,
     MatChipsModule,
     MatDialogModule,
-    MaterialModule
+    MaterialModule,
+    MatBadgeModule
   ],
     declarations: [
         ProjectsComponent,
