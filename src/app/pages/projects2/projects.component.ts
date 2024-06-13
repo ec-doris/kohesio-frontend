@@ -390,8 +390,9 @@ export class ProjectsComponent implements OnDestroy {
     if (filter.key.toLowerCase() == 'theme') {
       this.lastFiltersSearch.policyObjective = undefined;
     }
-    if (filter.key.toLowerCase() == 'policyObjective') {
+    if (filter.key.toLowerCase() == 'policy objective') {
       this.lastFiltersSearch.theme = undefined;
+      this.lastFiltersSearch.policyObjective = undefined;
     }
     if (filter.key.toLowerCase() == 'program') {
       this.lastFiltersSearch.priority_axis = undefined;
