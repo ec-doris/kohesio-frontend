@@ -523,11 +523,8 @@ export class MapComponent implements AfterViewInit {
       if ((filters.country || filters.region)) {
         granularityRegion = environment.entityURL +
           (filters.region ? filters.region : filters.country);
-        let label = filters.region ? this.filterService.getFilterLabel('regions', filters.region) :
+        const label = filters.region ? this.filterService.getFilterLabel('regions', filters.region) :
           this.filterService.getFilterLabel('countries', filters.country);
-        if (euroLabel) {
-          label = $localize`:@@comp.map.europe:Europe`;
-        }
         this.mapRegions.push({
           label: label,
           region: granularityRegion
