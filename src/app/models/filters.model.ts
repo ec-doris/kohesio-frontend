@@ -75,6 +75,7 @@ export class Filters implements Deserializable{
             nuts3: input.nuts3 ? input.nuts3 : undefined,
             cci: input.cci ? input.cci : undefined,
             sdg: input?.sdg || undefined,
+            sort: input?.sort || undefined,
             ccis: input?.ccis,
             priority_axis: input.priority_axis ? input.priority_axis : undefined,
             projectTypes: input.projectCollection ? input.projectCollection : undefined,

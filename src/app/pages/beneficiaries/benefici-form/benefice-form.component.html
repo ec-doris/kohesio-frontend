@@ -1,0 +1,98 @@
+<ng-template cdkConnectedOverlay
+             (overlayOutsideClick)="onOutsideClick()"
+             [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"
+             [cdkConnectedOverlayOpen]="infoPopupLabelType">
+    <div style="background-color: white;color: black;border: 0;max-width: 600px;
+    box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 5px 8px 0 rgba(0, 0, 0, 0.14), 0 1px 14px 0 rgba(0, 0, 0, 0.12);
+    z-index: 999;border-radius: 3px;padding: 10px;">
+        <div style="display: flex; flex-direction: row; justify-content: space-between;">
+            <h5 class="ecl-u-type-heading-5 ecl-u-mv-none" i18n="@@page.beneficiaries.label.type">TYPE</h5>
+            <svg (click)="infoPopupLabelType = false;" class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true" style="cursor: pointer;">
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+            </svg>
+        </div>
+        <hr>
+        <p class="ecl-u-type-paragraph" i18n="@@page.beneficiaries.labelInfo.type">The type of beneficiary is guessed by an algorithm and is therefore not 100% accurate. Only a subset of beneficiaries is currently tagged with this information.</p>
+    </div>
+</ng-template>
+
+<header class="ecl-modal__header">
+    <div class="ecl-modal__header-content">{{title}}</div>
+    <button class="ecl-button ecl-button--ghost ecl-modal__close" type="button" data-ecl-modal-close (click)="onActionClick()">
+        <span class="ecl-button__container"><span class="ecl-u-sr-only" data-ecl-label="true">Close</span>
+            <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+            </svg>
+        </span>
+    </button>
+</header>
+<form [formGroup]="form">
+    <kohesio-ecl-form-group>
+        <kohesio-ecl-form-label>
+            <div i18n="@@page.beneficiaries.label.beneficiaryName" class="label">BENEFICIARY NAME</div>
+            <kohesio-ecl-form-text-input formControlName="name"></kohesio-ecl-form-text-input>
+        </kohesio-ecl-form-label>
+    </kohesio-ecl-form-group>
+    <kohesio-ecl-form-group>
+        <kohesio-ecl-form-label>
+            <div i18n="@@page.beneficiaries.label.country" class="label">COUNTRY</div>
+            <kohesio-ecl-form-select formControlName="country" [items]="service.filters.countries"></kohesio-ecl-form-select>
+        </kohesio-ecl-form-label>
+    </kohesio-ecl-form-group>
+    <kohesio-ecl-form-group>
+        <kohesio-ecl-form-label>
+            <div i18n="@@page.beneficiaries.label.region" class="label">REGION</div>
+            <kohesio-ecl-form-select formControlName="region" [items]="service.filters.regions"
+                                     [isDisabled]="!form.value.country"
+                                     i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
+                                     placeholder="Select a country"></kohesio-ecl-form-select>
+        </kohesio-ecl-form-label>
+    </kohesio-ecl-form-group>
+    <br/>
+    <kohesio-ecl-accordion i18n-title="ADVANCED FILTERS|@@page.beneficiaries.label.advancedFilters" title="ADVANCED FILTERS" [collapsed]="!advancedFilterIsExpanded" (onChange)="onToggleAdvancedFilters($event)">
+        <kohesio-ecl-form-group>
+            <kohesio-ecl-form-label>
+                <div i18n="@@page.beneficiaries.label.fund" class="label">FUND</div>
+                <kohesio-ecl-form-select formControlName="fund" [items]="service.filters.funds"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-label>
+        </kohesio-ecl-form-group>
+        <kohesio-ecl-form-group>
+            <kohesio-ecl-form-label>
+                <div i18n="@@page.beneficiaries.label.programme" class="label">PROGRAMME</div>
+                <kohesio-ecl-form-select formControlName="program" [items]="service.filters.programs"
+                                         [isDisabled]="!form.value.country"
+                                         placeholder="Select a country"
+                                         i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.program"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-label>
+        </kohesio-ecl-form-group>
+        <kohesio-ecl-form-group>
+            <kohesio-ecl-form-label>
+                <div class="label">
+                    <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
+                    <div (click)="toggleInfoBtn()" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton">
+                        <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
+                        </svg>
+                    </div>
+                </div>
+                <kohesio-ecl-form-select formControlName="beneficiaryType" [items]="service.filters.beneficiaryType"></kohesio-ecl-form-select>
+            </kohesio-ecl-form-label>
+        </kohesio-ecl-form-group>
+    </kohesio-ecl-accordion>
+    <br/>
+    <!--<div class="search-buttons">
+        <button type="button" (click)="resetForm()"
+                class="ecl-button ecl-button&#45;&#45;secondary"
+                i18n="@@page.beneficiaries.button.resetFilters">Reset Filters
+        </button>
+        <kohesio-ecl-button (click)="onSubmit()" i18n="@@page.beneficiaries.button.showResults">Show Results</kohesio-ecl-button>
+    </div>-->
+</form>
+<footer class="ecl-modal__footer">
+    <div class="ecl-modal__footer-content search-buttons">
+        <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">
+            Reset Filters
+        </button>
+        <kohesio-ecl-button (click)="onSubmit()" i18n="@@page.projects.button.showResults" [mat-dialog-close]="true" >Show Results</kohesio-ecl-button>
+    </div>
+</footer>
