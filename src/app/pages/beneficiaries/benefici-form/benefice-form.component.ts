@@ -91,7 +91,7 @@ export class BeneficeFormComponent implements OnInit {
   }
 
   private getFilterKey(type: string, queryParam: string) {
-    return this.filterService.getFilterKey(type, this.route.snapshot.queryParamMap.get(queryParam));
+    return this.filterService.getFilterKey(type, this.route.snapshot.queryParamMap.get(this.translateService.queryParams[queryParam]));
   }
 
   private handleRouterParamsSequentially() {
