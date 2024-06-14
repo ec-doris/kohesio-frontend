@@ -100,7 +100,7 @@ export class ProjectsComponent implements OnDestroy {
     this.filterResult$$.subscribe((formVal) => {
       this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
-      this.filtersCount = Object.entries(this.lastFiltersSearch ).filter(([key, value]) => value !== undefined && key!='language' && (value as [])?.length).length
+      this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
       this.projects = [];
       this.paginatorTop.pageIndex == 0 ? this.getProjectList() : this.goFirstPage();
@@ -138,7 +138,7 @@ export class ProjectsComponent implements OnDestroy {
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-          this.filtersCount = Object.entries(this.lastFiltersSearch ).filter(([key, value]) => value !== undefined && key!='language').length
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
 
           this.getProjectList();
         });
@@ -323,6 +323,10 @@ export class ProjectsComponent implements OnDestroy {
     });
   }
 
+  removeFilter(filter: { key: string; value: any }) {
+    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
+  }
+
   private getFilterKey(type: string, queryParam: string) {
     return this.filterService.getFilterKey(type, this.route.snapshot.queryParamMap.get(queryParam));
   }
@@ -373,52 +377,5 @@ export class ProjectsComponent implements OnDestroy {
       this.assets = result.list;
       this.assetsCount = result.numberResults;
     });
-  }
-
-  removeFilter(filter: { key: string; value: any }) {
-    this.lastFiltersSearch[filter.key.toLowerCase()] = undefined;
-    if (filter.key.toLowerCase() == 'country') {
-      this.lastFiltersSearch.region = undefined;
-      this.lastFiltersSearch.nuts3 = undefined;
-      this.lastFiltersSearch.program = undefined;
-      this.lastFiltersSearch.priority_axis = undefined;
-    }
-    if (filter.key.toLowerCase() == 'region') {
-      this.lastFiltersSearch.nuts3 = undefined;
-      this.lastFiltersSearch.program = undefined;
-    }
-    if (filter.key.toLowerCase() == 'theme') {
-      this.lastFiltersSearch.policyObjective = undefined;
-    }
-    if (filter.key.toLowerCase() == 'policy objective') {
-      this.lastFiltersSearch.theme = undefined;
-      this.lastFiltersSearch.policyObjective = undefined;
-    }
-    if (filter.key.toLowerCase() == 'program') {
-      this.lastFiltersSearch.priority_axis = undefined;
-    }
-    if (filter.key.toLowerCase() == 'interventionField') {
-      this.lastFiltersSearch.interventionField = [];
-    }
-    if (filter.key.toLowerCase() == 'totalProjectBudget') {
-      this.lastFiltersSearch.budgetBiggerThan = undefined;
-      this.lastFiltersSearch.budgetSmallerThan = undefined;
-    }
-    if (filter.key.toLowerCase() == 'amountEUSupport') {
-      this.lastFiltersSearch.budgetEUBiggerThan = undefined;
-      this.lastFiltersSearch.budgetEUSmallerThan = undefined;
-    }
-    if (filter.key.toLowerCase() == 'projectStart') {
-      this.lastFiltersSearch.startDateAfter = undefined;
-    }
-    if (filter.key.toLowerCase() == 'projectEnd') {
-          this.lastFiltersSearch.endDateBefore = undefined;
-        }
-    if (filter.key == 'sort') {}
-
-
-    this.filterService.showResult.next(new Filters().deserialize(this.lastFiltersSearch))
-    this.onSubmit();
-
   }
 }

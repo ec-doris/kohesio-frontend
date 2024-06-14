@@ -12,9 +12,9 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class FilterService {
-    showResult:Subject<any> = new Subject();
-    public filters:any;
-    private countryGeoJson: any;
+  showResult: Subject<any> = new Subject();
+  public filters: any;
+  private countryGeoJson: any;
 
     constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string, private datePipe: DatePipe) { }
 
@@ -297,6 +297,48 @@ export class FilterService {
 
 
     return new Filters().deserialize(formValues);
+  }
+
+  removeFilter(filterKey: string, lastFiltersSearch: any): any {
+    const actions:any = {
+      country: () => {
+        lastFiltersSearch.region = undefined;
+        lastFiltersSearch.nuts3 = undefined;
+        lastFiltersSearch.program = undefined;
+        lastFiltersSearch.priority_axis = undefined;
+      },
+      region: () => {
+        lastFiltersSearch.nuts3 = undefined;
+        lastFiltersSearch.program = undefined;
+      },
+      theme: () => lastFiltersSearch.policyObjective = undefined,
+      'policy objective': () => {
+        lastFiltersSearch.theme = undefined;
+        lastFiltersSearch.policyObjective = undefined;
+      },
+      fund: () => lastFiltersSearch.program= undefined,
+      interreg: () => lastFiltersSearch.program = undefined,
+      program: () => lastFiltersSearch.priority_axis = undefined,
+      sdg: () => lastFiltersSearch.interventionField = undefined,
+      interventionField: () => lastFiltersSearch.interventionField = [],
+      totalProjectBudget: () => {
+        lastFiltersSearch.budgetBiggerThan = undefined;
+        lastFiltersSearch.budgetSmallerThan = undefined;
+      },
+      amountEUSupport: () => {
+        lastFiltersSearch.budgetEUBiggerThan = undefined;
+        lastFiltersSearch.budgetEUSmallerThan = undefined;
+      },
+      projectStart: () => lastFiltersSearch.startDateAfter = undefined,
+      projectEnd: () => lastFiltersSearch.endDateBefore = undefined
+    };
+
+    if (actions[filterKey.toLowerCase()]) {
+      actions[filterKey.toLowerCase()]();
+    }
+
+    lastFiltersSearch[filterKey.toLowerCase()] = undefined;
+    this.showResult.next(new Filters().deserialize(lastFiltersSearch));
   }
 
 }
