@@ -26,6 +26,7 @@ declare let L: any;
 })
 export class MapComponent implements AfterViewInit {
   filtersApi: FiltersApi;
+  filtersCount = 0;
   public filters: Filters = new Filters();
   public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
   public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
@@ -225,6 +226,7 @@ export class MapComponent implements AfterViewInit {
   ngAfterViewInit(): void {
     this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
+      this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       this.loadMapRegion(this.lastFiltersSearch, undefined, true);
       this._router.navigate([], { relativeTo: this.route, queryParams: this.generateQueryParams() });
       // this.map.refreshView();
@@ -259,6 +261,7 @@ export class MapComponent implements AfterViewInit {
             });
             const translatedParams = this.translateKeys(params, this.translateService.queryParams);
             this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+            this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
             this.loadMapRegion(this.lastFiltersSearch);
           });
       } else {
