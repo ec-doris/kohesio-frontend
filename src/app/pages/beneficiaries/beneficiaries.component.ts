@@ -28,6 +28,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
   filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
   filterTooltip = 'No filters applied';
   lastFiltersSearch: any = new Filters();
+  filtersCount = 0;
   public filters!: FiltersApi;
   public dataSource!: MatTableDataSource<Beneficiary>;
   public isLoading = false;
@@ -86,6 +87,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     this.filterResult$$.subscribe((formVal) => {
       this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
+      this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
+
       this.dataSource = new MatTableDataSource<Beneficiary>([]);
       if (this.paginators.toArray()[0].pageIndex == 0) {
         this.performSearch();
@@ -114,6 +117,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+
           if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
             this.route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
             this.performSearch();
@@ -147,7 +152,9 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       }
     }
   }
-
+  removeFilter(filter: { key: string; value: any }) {
+    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
+  }
   onSubmit() {
     this.dataSource = new MatTableDataSource<Beneficiary>([]);
 

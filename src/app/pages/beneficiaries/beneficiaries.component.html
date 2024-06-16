@@ -14,14 +14,20 @@
 </nav>
 
 <div style="display: flex; justify-content: end;padding-bottom: 10px">
-    <a class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe" (click)="openFilterDialog()" [matTooltip]="filterTooltip">
+    <a class="ecl-link ecl-link--cta ecl-link--icon ecl-link--icon-after ecl-page-banner__link-cta" aria-label="Subscribe" (click)="openFilterDialog()" [matTooltip]="filterTooltip" [matBadge]="filtersCount" [matBadgeHidden]="!filtersCount" matBadgePosition="before">
         <span class="ecl-button__label" i18n="@@page.projects.button.filters">Filters</span>
         <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-link__icon" focusable="false" aria-hidden="true">
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
     </a>
 </div>
-
+<mat-chip-set aria-label="Fish selection">
+    <mat-chip *ngFor="let filter of lastFiltersSearch | filters" (removed)="removeFilter(filter)">
+        {{ filter.key }}: {{filter.value}}
+        <button matChipRemove aria-label="'remove ' + keyword">
+            <mat-icon>cancel</mat-icon>
+        </button></mat-chip>
+</mat-chip-set>
 <!--<ng-template cdkConnectedOverlay-->
 <!--             (overlayOutsideClick)="onOutsideClick()"-->
 <!--             [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"-->

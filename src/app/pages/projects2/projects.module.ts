@@ -92,8 +92,9 @@ import { FiltersPipe } from './filters.pipe';
         FiltersComponent,
         FiltersPipe
     ],
-    exports: [
-    ],
+  exports: [
+    FiltersPipe
+  ],
     providers: [
         { provide: MatPaginatorIntl, useClass: MatPaginatorKohesio},
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
