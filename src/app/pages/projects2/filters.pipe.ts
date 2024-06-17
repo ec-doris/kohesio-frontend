@@ -11,7 +11,7 @@ export class FiltersPipe implements PipeTransform {
     country: 'countries',
     thematic: 'thematic_objectives',
     fund: 'funds',
-    programme: 'programmes',
+    programme: 'programs',
     status: 'statuses',
     language: 'languages',
     type: 'types',
