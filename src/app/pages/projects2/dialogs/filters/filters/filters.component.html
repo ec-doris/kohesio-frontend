@@ -28,7 +28,17 @@
             wildcard: <b>govern</b>* will match government, governing, governors, etc. (minimum 3 characters before the *).</p>
     </div>
 </ng-template>
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
+<header class="ecl-modal__header">
+    <div class="ecl-modal__header-content">{{title}}</div>
+    <button class="ecl-button ecl-button--ghost ecl-modal__close" type="button" data-ecl-modal-close (click)="onActionClick()">
+        <span class="ecl-button__container"><span class="ecl-u-sr-only" data-ecl-label="true">Close</span>
+            <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon>
+                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+            </svg>
+        </span>
+    </button>
+</header>
+<form [formGroup]="form" style="overflow: auto; height: 27rem">
     <kohesio-ecl-form-group>
         <kohesio-ecl-form-label>
             <div class="label">
@@ -176,11 +186,13 @@
         </kohesio-ecl-form-group>
 
     </kohesio-ecl-accordion>
-    <br/>
-    <div class="search-buttons">
+
+</form>
+<footer class="ecl-modal__footer">
+    <div class="ecl-modal__footer-content search-buttons">
         <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">
             Reset Filters
         </button>
-        <kohesio-ecl-button type="submit" i18n="@@page.projects.button.showResults" [mat-dialog-close]="true" >Show Results</kohesio-ecl-button>
+        <kohesio-ecl-button (click)="onSubmit()" i18n="@@page.projects.button.showResults" [mat-dialog-close]="true" >Show Results</kohesio-ecl-button>
     </div>
-</form>
+</footer>

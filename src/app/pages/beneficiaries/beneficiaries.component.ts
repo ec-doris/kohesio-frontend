@@ -1,300 +1,261 @@
-import {
-  AfterViewInit,
-  Component,
-  ViewChild,
-  ChangeDetectorRef,
-  OnDestroy,
-  QueryList,
-  ViewChildren,
-  Inject, PLATFORM_ID
-} from '@angular/core';
-import { BeneficiaryService } from "../../services/beneficiary.service";
-import { UntypedFormBuilder, UntypedFormGroup } from "@angular/forms";
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { Filters } from "../../models/filters.model";
+import { BreakpointObserver } from '@angular/cdk/layout';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Beneficiary } from "../../models/beneficiary.model";
-import { FilterService } from "../../services/filter.service";
-import { FiltersApi } from "../../models/filters-api.model";
-import { environment } from "../../../environments/environment";
-import { BeneficiaryList } from "../../models/beneficiary-list.model";
-import { startWith, map, delay, takeUntil } from 'rxjs/operators';
-import { BreakpointObserver, Breakpoints, MediaMatcher} from '@angular/cdk/layout';
-import { Subject } from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
-import {TranslateService} from "../../services/translate.service";
-import { isPlatformBrowser, isPlatformServer } from "@angular/common";
+import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute, Router } from '@angular/router';
+import { of, Subject } from 'rxjs';
+import { concatMap, takeUntil } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { BeneficiaryList } from '../../models/beneficiary-list.model';
+import { Beneficiary } from '../../models/beneficiary.model';
+import { FiltersApi } from '../../models/filters-api.model';
+import { Filters } from '../../models/filters.model';
+import { BeneficiaryService } from '../../services/beneficiary.service';
+import { FilterService } from '../../services/filter.service';
+import { TranslateService } from '../../services/translate.service';
+import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
 
 @Component({
-    templateUrl: './beneficiaries.component.html',
-    styleUrls: ['./beneficiaries.component.scss']
+  templateUrl: './beneficiaries.component.html',
+  styleUrls: [ './beneficiaries.component.scss' ]
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
+  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
+  filterTooltip = 'No filters applied';
+  lastFiltersSearch: any = new Filters();
+  filtersCount = 0;
+  public filters!: FiltersApi;
+  public dataSource!: MatTableDataSource<Beneficiary>;
+  public isLoading = false;
+  public count = 0;
+  @ViewChildren(MatPaginator) paginators!: QueryList<MatPaginator>;
+  @ViewChild('sidenav') sidenav!: MatDrawer;
+  displayedColumns: string[] = [ 'name', 'budget', 'euBudget', 'numberProjects' ];
+  public advancedFilterIsExpanded: boolean = false;
+  public mobileQuery: boolean;
+  public sidenavOpened: boolean;
+  public pageSize = 15;
+  private destroyed = new Subject<void>();
+  sort = new FormControl( [ this.getFilterKey('sortBeneficiaries', this.translateService.queryParams.sort) ])
 
-    public myForm!: UntypedFormGroup;
-    public filters!: FiltersApi;
-    public dataSource!: MatTableDataSource<Beneficiary>;
-    public isLoading = false;
-    public count = 0;
-    @ViewChildren(MatPaginator) paginators!:QueryList<MatPaginator>;
-    @ViewChild("sidenav") sidenav!: MatDrawer;
-    displayedColumns: string[] = ['name', 'budget', 'euBudget', 'numberProjects'];
-    public advancedFilterIsExpanded: boolean = false;
-    public mobileQuery: boolean;
-    public sidenavOpened: boolean;
-    private destroyed = new Subject<void>();
-    public pageSize = 15;
-    public infoPopupLabelType:boolean = false;
-    private notOutside = false;
+  constructor(private beneficaryService: BeneficiaryService,
+              public dialog: MatDialog,
+              private filterService: FilterService,
+              private formBuilder: UntypedFormBuilder,
+              private route: ActivatedRoute,
+              private _router: Router,
+              breakpointObserver: BreakpointObserver,
+              public translateService: TranslateService,
+              @Inject(PLATFORM_ID) private platformId: Object) {
 
-    constructor(private beneficaryService: BeneficiaryService,
-        private filterService: FilterService,
-        private formBuilder: UntypedFormBuilder,
-        private _route: ActivatedRoute,
-        private _router: Router,
-        breakpointObserver: BreakpointObserver,
-        public translateService: TranslateService,
-        @Inject(PLATFORM_ID) private platformId: Object) {
+    this.mobileQuery = breakpointObserver.isMatched('(max-width: 820px)');
+    this.sidenavOpened = !this.mobileQuery;
 
-            this.mobileQuery = breakpointObserver.isMatched('(max-width: 820px)');
-            this.sidenavOpened = !this.mobileQuery;
-
-            breakpointObserver
-            .observe([
-                "(max-width: 820px)"
-            ])
-            .pipe(takeUntil(this.destroyed))
-            .subscribe(result => {
-                for (const query of Object.keys(result.breakpoints)) {
-                    this.mobileQuery = result.breakpoints[query];
-                    this.sidenavOpened = !this.mobileQuery;
-                }
-            });
-
-            this.filters = this._route.snapshot.data['filters'];
-
-        this.myForm = this.formBuilder.group({
-            name: [this._route.snapshot.queryParamMap.get(this.translateService.queryParams.name)],
-            country: [this.getFilterKey("countries", this.translateService.queryParams.country)],
-            region: [],
-            fund: [this.getFilterKey("funds", this.translateService.queryParams.fund)],
-            program: [],
-            beneficiaryType: [this.getFilterKey("beneficiaryType", this.translateService.queryParams.beneficiaryType)],
-            sort: [this.getFilterKey("sortBeneficiaries", this.translateService.queryParams.sort)]
-        });
-
-        if (this.myForm.value.fund ||
-                this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme) ||
-                this.myForm.value.beneficiaryType){
-            this.advancedFilterIsExpanded = true;
+    breakpointObserver
+      .observe([
+        '(max-width: 820px)'
+      ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+        for (const query of Object.keys(result.breakpoints)) {
+          this.mobileQuery = result.breakpoints[query];
+          this.sidenavOpened = !this.mobileQuery;
         }
-    }
+      });
 
-    ngOnInit() {
+    this.filters = this.route.snapshot.data['filters'];
 
-        if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-            Promise.all([this.getRegions(), this.getPrograms()]).then(results => {
-                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region)) {
-                    this.myForm.patchValue({
-                        region: this.getFilterKey("regions", this.translateService.queryParams.region)
-                    });
-                }
-                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
-                    this.myForm.patchValue({
-                        program: this.getFilterKey("programs", this.translateService.queryParams.programme)
-                    });
-                }
-                if (this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
-                    this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
-                    this.performSearch();
-                }
-            });
-        }
-
-        if (!this._route.snapshot.queryParamMap.get(this.translateService.queryParams.region) &&
-            !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
-            this.performSearch();
-        }
-    }
-
-    private getFilterKey(type: string, queryParam: string) {
-        return this.filterService.getFilterKey(type, this._route.snapshot.queryParamMap.get(queryParam))
-    }
-
-    private getFilterLabel(type: string, label: string) {
-        return this.filterService.getFilterLabel(type, label)
-    }
-
-    ngAfterViewInit(): void {
-        if (this._route.snapshot.queryParamMap.has('page')){
-            const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
-            if (pageParam){
-                this.paginators.forEach(paginator=>{
-                    paginator.pageIndex = parseInt(pageParam) - 1;
-                });
-            }
-        }
-    }
-
-    onSubmit() {
-        this.dataSource = new MatTableDataSource<Beneficiary>([]);;
-
-        if (this.paginators.toArray()[0].pageIndex == 0) {
-            this.performSearch();
-        } else {
-            this.paginators.toArray()[0].firstPage();
-        }
-
-        this._router.navigate([], {
-            relativeTo: this._route,
-            queryParams: this.getFormValues(),
-            queryParamsHandling: 'merge'
-        });
-    }
-
-    performSearch() {
-        const filters = new Filters().deserialize(this.myForm.value);
-
-        if (this.mobileQuery && this.sidenav){
-            this.sidenavOpened = false;
-            this.sidenav.close();
-        }
-
-        let initialPageIndex = this.paginators && this.paginators.toArray().length ? this.paginators.toArray()[0].pageIndex : 0;
-        if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page) && !this.paginators){
-            const pageParam:string | null= this._route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
-            if (pageParam){
-                const pageIndex = parseInt(pageParam) - 1;
-                initialPageIndex = pageIndex;
-            }
-        }
-        this.isLoading = true;
-        let offset = initialPageIndex * this.pageSize;
-
-        this.beneficaryService.getBeneficiaries(filters, offset).subscribe((result: BeneficiaryList | null) => {
-            if (result){
-                if (result.numberResults <= offset && this._route.snapshot.queryParamMap.has(this.translateService.queryParams.page)){
-                    this._router.navigate([], {
-                        queryParams: {
-                          [this.translateService.queryParams.page]: null,
-                        },
-                        queryParamsHandling: 'merge'
-                      });
-                      if (this.paginators.toArray()[0]){
-                        this.paginators.forEach(paginator=>{
-                            paginator.pageIndex = 0;
-                        });
-                      }
-                      this.performSearch();
-                }else{
-                    this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
-                    this.count = result.numberResults;
-                    this.isLoading = false;
-                }
-            }
-        });
-    }
-
-    getFilters(): Filters{
-      const filters:Filters = new Filters().deserialize(this.myForm.value)
-      return filters;
-    }
-
-    getFormValues() {
-        return {
-            [this.translateService.queryParams.name]: this.myForm.value.name ? this.myForm.value.name : null,
-            [this.translateService.queryParams.country]: this.getFilterLabel("countries", this.myForm.value.country),
-            [this.translateService.queryParams.region]: this.getFilterLabel("regions", this.myForm.value.region),
-            [this.translateService.queryParams.fund]: this.getFilterLabel("funds", this.myForm.value.fund),
-            [this.translateService.queryParams.programme]: this.getFilterLabel("programs", this.myForm.value.program),
-            [this.translateService.queryParams.sort]: this.getFilterLabel("sortBeneficiaries", this.myForm.value.sort),
-            [this.translateService.queryParams.beneficiaryType]: this.getFilterLabel("beneficiaryType", this.myForm.value.beneficiaryType),
-        }
-    }
-
-    getRegions(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            this.filterService.getRegions(this.myForm.value.country).subscribe(regions => {
-                resolve(true);
-            });
-        });
-    }
-
-    getPrograms(): Promise<any> {
-        return new Promise((resolve, reject) => {
-            const country = environment.entityURL + this.myForm.value.country;
-            this.filterService.getFilter("programs", { country: country }).subscribe(result => {
-                this.filterService.filters.programs = result.programs;
-                this.filters.programs = result.programs;
-                resolve(true);
-            });
-        });
-    }
-
-    onCountryChange() {
-        if (this.myForm.value.country != null) {
-            this.getRegions().then();
-            this.getPrograms().then();
-        }
-        this.myForm.patchValue({
-            region: null,
-            program: null
-        });
-    }
-
-    resetForm() {
-        this.myForm.reset();
-    }
-
-    onPaginate(event:any) {
-
-        this.paginators.forEach(paginator=>{
-            paginator.pageIndex = event.pageIndex;
-        })
-
-        this.performSearch();
-
-        this._router.navigate([], {
-            relativeTo: this._route,
-            queryParams: {
-                [this.translateService.queryParams.page]: event.pageIndex != 0 ? event.pageIndex + 1 : null,
-            },
-            queryParamsHandling: 'merge',
-        });
-    }
-
-    onSortChange() {
-        this.onSubmit();
-    }
-
-    onToggleAdvancedFilters(collapse:boolean){
-        this.advancedFilterIsExpanded = !collapse;
-    }
-
-    ngOnDestroy() {
-        this.destroyed.next();
-        this.destroyed.complete();
-    }
-
-  isPlatformBrowser(){
-    return isPlatformBrowser(this.platformId);
   }
 
-  isPlatformServer(){
+  ngOnInit() {
+    this.sort.setValue(null );
+    this.sort.valueChanges.subscribe(value => {
+      this.lastFiltersSearch = new Filters().deserialize({ ...this.lastFiltersSearch, sort: value });
+      this._router.navigate([], {
+        relativeTo: this.route,
+        queryParams: this.getFormValues(),
+        queryParamsHandling: 'merge'
+      });
+      this.performSearch();
+    });
+
+    this.filterResult$$.subscribe((formVal) => {
+      this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
+      this.lastFiltersSearch = formVal;
+      this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
+
+      this.dataSource = new MatTableDataSource<Beneficiary>([]);
+      if (this.paginators.toArray()[0].pageIndex == 0) {
+        this.performSearch();
+      } else {
+        this.paginators.toArray()[0].firstPage();
+      }
+
+      this._router.navigate([], {
+        relativeTo: this.route,
+        queryParams: this.getFormValues(),
+        queryParamsHandling: 'merge'
+      });
+
+    });
+    if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
+      const queryParams: any = this.route.snapshot.queryParamMap;
+      const cntr = this.filters.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country]).id;
+      of(queryParams).pipe(takeUntil(this.destroyed)).subscribe(() => {
+        of(queryParams).pipe(
+          concatMap(() => this.filterService.getRegions(cntr)),
+          concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr }))
+        ).subscribe(() => {
+          const params: any = {};
+          Object.keys(queryParams.params).forEach((key: any) => {
+            params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
+          });
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+
+          if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region) ||
+            this.route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
+            this.performSearch();
+          }
+        });
+      });
+    } else {
+      this.performSearch();
+    }
+  }
+
+  translateKeys = (obj: { [key: string]: any }, translationMap: { [key: string]: string }) => {
+    const reverseMap = Object.fromEntries(Object.entries(translationMap).map(([ key, value ]) => [ value, key ]));
+
+    return Object.entries(obj).reduce((acc, [ key, value ]) => {
+      const translatedKey = reverseMap[key];
+      if (translatedKey) {
+        acc[translatedKey] = value;
+      }
+      return acc;
+    }, {} as { [key: string]: any });
+  };
+
+  ngAfterViewInit(): void {
+    if (this.route.snapshot.queryParamMap.has('page')) {
+      const pageParam: string | null = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
+      if (pageParam) {
+        this.paginators.forEach(paginator => {
+          paginator.pageIndex = parseInt(pageParam) - 1;
+        });
+      }
+    }
+  }
+  removeFilter(filter: { key: string; value: any }) {
+    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
+  }
+  onSubmit() {
+    this.dataSource = new MatTableDataSource<Beneficiary>([]);
+
+    if (this.paginators.toArray()[0].pageIndex == 0) {
+      this.performSearch();
+    } else {
+      this.paginators.toArray()[0].firstPage();
+    }
+
+    this._router.navigate([], {
+      relativeTo: this.route,
+      queryParams: this.getFormValues(),
+      queryParamsHandling: 'merge'
+    });
+  }
+
+  performSearch() {
+    let initialPageIndex = this.paginators && this.paginators.toArray().length ? this.paginators.toArray()[0].pageIndex : 0;
+    if (this.route.snapshot.queryParamMap.has(this.translateService.queryParams.page) && !this.paginators) {
+      const pageParam: string | null = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.page);
+      if (pageParam) {
+        const pageIndex = parseInt(pageParam) - 1;
+        initialPageIndex = pageIndex;
+      }
+    }
+    this.isLoading = true;
+    let offset = initialPageIndex * this.pageSize;
+
+    this.beneficaryService.getBeneficiaries(this.lastFiltersSearch, offset).subscribe((result: BeneficiaryList) => {
+      if (result.numberResults <= offset && this.route.snapshot.queryParamMap.has(this.translateService.queryParams.page)) {
+        this._router.navigate([], {
+          queryParams: {
+            [this.translateService.queryParams.page]: null,
+          },
+          queryParamsHandling: 'merge'
+        });
+        if (this.paginators.toArray()[0]) {
+          this.paginators.forEach(paginator => {
+            paginator.pageIndex = 0;
+          });
+        }
+        this.performSearch();
+      } else {
+        this.dataSource = new MatTableDataSource<Beneficiary>(result.list);
+        this.count = result.numberResults;
+        this.isLoading = false;
+      }
+    });
+  }
+
+  getFormValues() {
+    return {
+      [this.translateService.queryParams.name]:  this.lastFiltersSearch.name,
+      [this.translateService.queryParams.country]: this.getFilterLabel('countries', this.lastFiltersSearch.country),
+      [this.translateService.queryParams.region]: this.getFilterLabel('regions', this.lastFiltersSearch.region),
+      [this.translateService.queryParams.fund]: this.getFilterLabel('funds', this.lastFiltersSearch.fund),
+      [this.translateService.queryParams.programme]: this.getFilterLabel('programs', this.lastFiltersSearch.program),
+      [this.translateService.queryParams.sort]: this.getFilterLabel('sortBeneficiaries', this.lastFiltersSearch.sort),
+      [this.translateService.queryParams.beneficiaryType]: this.getFilterLabel('beneficiaryType', this.lastFiltersSearch.beneficiaryType),
+    };
+  }
+
+  onPaginate(event: any) {
+
+    this.paginators.forEach(paginator => {
+      paginator.pageIndex = event.pageIndex;
+    });
+
+    this.performSearch();
+
+    this._router.navigate([], {
+      relativeTo: this.route,
+      queryParams: {
+        [this.translateService.queryParams.page]: event.pageIndex != 0 ? event.pageIndex + 1 : null,
+      },
+      queryParamsHandling: 'merge',
+    });
+  }
+
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
+  }
+
+  isPlatformServer() {
     return isPlatformServer(this.platformId);
   }
 
-  onOutsideClick() {
-    if (this.notOutside) {
-      this.notOutside = false;
-      return;
-    }
-    this.infoPopupLabelType = false;
-
+  openFilterDialog() {
+    this.dialog.open(BeneficeFormComponent, {
+      width: '46rem',
+      height: '50rem',
+      panelClass: 'filter-dialog'
+    });
   }
-  toggleInfoBtn() {
-    this.notOutside = true;
-    this.infoPopupLabelType = !this.infoPopupLabelType;
+
+  private getFilterKey(type: string, queryParam: string) {
+    return this.filterService.getFilterKey(type, this.route.snapshot.queryParamMap.get(queryParam));
+  }
+
+  private getFilterLabel(type: string, label: string) {
+    return this.filterService.getFilterLabel(type, label);
   }
 }

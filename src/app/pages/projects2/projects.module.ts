@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
+import { MatBadgeModule } from '@angular/material/badge';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MaterialModule } from '../../material/material.module';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './projects.component';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
@@ -79,7 +81,9 @@ import { FiltersPipe } from './filters.pipe';
     KohesioEclMessageModule,
     OverlayModule,
     MatChipsModule,
-    MatDialogModule
+    MatDialogModule,
+    MaterialModule,
+    MatBadgeModule
   ],
     declarations: [
         ProjectsComponent,
@@ -88,8 +92,9 @@ import { FiltersPipe } from './filters.pipe';
         FiltersComponent,
         FiltersPipe
     ],
-    exports: [
-    ],
+  exports: [
+    FiltersPipe
+  ],
     providers: [
         { provide: MatPaginatorIntl, useClass: MatPaginatorKohesio},
         { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }

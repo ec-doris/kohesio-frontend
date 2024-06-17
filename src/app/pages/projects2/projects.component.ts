@@ -1,6 +1,7 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DatePipe, DOCUMENT, isPlatformServer } from '@angular/common';
 import { Component, Inject, OnDestroy, PLATFORM_ID, ViewChild } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
@@ -51,7 +52,9 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  paramMapping: any = {};
+  filterTooltip = 'No filters applied';
+  filtersCount = 0;
+  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
   private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
@@ -94,30 +97,11 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.paramMapping = {
-      [this.translateService.queryParams.keywords]: 'keywords',
-      [this.translateService.queryParams.town]: 'town',
-      [this.translateService.queryParams.country]: 'countries',
-      [this.translateService.queryParams.region]: 'regions',
-      [this.translateService.queryParams.policyObjective]: 'policy_objectives',
-      [this.translateService.queryParams.theme]: 'thematic_objectives',
-      [this.translateService.queryParams.programPeriod]: 'programmingPeriods',
-      [this.translateService.queryParams.fund]: 'funds',
-      [this.translateService.queryParams.programme]: 'programs',
-      [this.translateService.queryParams.totalProjectBudget]: 'totalProjectBudget',
-      [this.translateService.queryParams.amountEUSupport]: 'amountEUSupport',
-      [this.translateService.queryParams.projectStart]: 'projectStart',
-      [this.translateService.queryParams.projectEnd]: 'projectEnd',
-      [this.translateService.queryParams.interreg]: 'interreg',
-      [this.translateService.queryParams.nuts3]: 'nuts3',
-      [this.translateService.queryParams.sort]: 'sort',
-      [this.translateService.queryParams.priorityAxis]: 'priority_axis',
-      [this.translateService.queryParams.projectCollection]: 'project_types',
-      [this.translateService.queryParams.interventionField]: 'categoriesOfIntervention',
-      [this.translateService.queryParams.sdg]: 'sdg'
-    };
-    this.filterService.showResult.subscribe((formVal) => {
+    this.filterResult$$.subscribe((formVal) => {
+      this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
+      this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
+
       this.projects = [];
       this.paginatorTop.pageIndex == 0 ? this.getProjectList() : this.goFirstPage();
 
@@ -139,21 +123,23 @@ export class ProjectsComponent implements OnDestroy {
         takeUntil(this.destroyed))
         .subscribe(_ => {
           const params: any = {};
-          Object.keys(queryParams.params).forEach(key => {
-            if (this.paramMapping[key]) {
+          Object.keys(queryParams.params).forEach((key: any) => {
+            if (this.translateService.paramMapping[key]) {
               if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
                 params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
               } else if (key === this.translateService.queryParams.nuts3) {
-                params[key] = this.getFilterKey(this.paramMapping[key], this.translateService.queryParams[key]).id;
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
-                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.paramMapping[key]])) ];
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
               } else {
-                params[key] = this.getFilterKey(this.paramMapping[key], key);
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
               }
             }
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+
           this.getProjectList();
         });
     } else {
@@ -173,6 +159,7 @@ export class ProjectsComponent implements OnDestroy {
       return acc;
     }, {} as { [key: string]: any });
   };
+
 
   onSubmit() {
     this.projects = [];
@@ -328,12 +315,16 @@ export class ProjectsComponent implements OnDestroy {
     return isPlatformServer(this.platformId);
   }
 
-  openFlterDialog() {
+  openFilterDialog() {
     this.dialog.open(FiltersComponent, {
-      width: '100%',
-      height: '100%',
+      width: '46rem',
+      height: '50rem',
       panelClass: 'filter-dialog'
     });
+  }
+
+  removeFilter(filter: { key: string; value: any }) {
+    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
   }
 
   private getFilterKey(type: string, queryParam: string) {
@@ -374,7 +365,6 @@ export class ProjectsComponent implements OnDestroy {
         this._document.body.scrollTop = 0;
         this._document.documentElement.scrollTop = 0;
         if (this.selectedTabIndex == 2) {
-          // this.mapIsLoaded = true;
           setTimeout(() => this.mapIsLoaded = true, 0);
           setTimeout(() => this.map?.loadMapRegion(this.lastFiltersSearch), 0);
         } else {
@@ -388,5 +378,4 @@ export class ProjectsComponent implements OnDestroy {
       this.assetsCount = result.numberResults;
     });
   }
-
 }
