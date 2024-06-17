@@ -312,7 +312,7 @@ export class FilterService {
         lastFiltersSearch.program = undefined;
       },
       theme: () => lastFiltersSearch.policyObjective = undefined,
-      'policy objective': () => {
+      policyobjective: () => {
         lastFiltersSearch.theme = undefined;
         lastFiltersSearch.policyObjective = undefined;
       },
