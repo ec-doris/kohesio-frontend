@@ -52,7 +52,6 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  // filterTooltip = 'No filters applied';
   filtersCount = 0;
   filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
   private destroyed = new Subject<void>();
@@ -98,7 +97,6 @@ export class ProjectsComponent implements OnDestroy {
 
   ngOnInit() {
     this.filterResult$$.subscribe((formVal) => {
-      // this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
@@ -143,7 +141,27 @@ export class ProjectsComponent implements OnDestroy {
           this.getProjectList();
         });
     } else {
-      this.getProjectList();
+      const queryParams: any = this.route.snapshot.queryParamMap;
+      of(queryParams).subscribe(() => {
+          const params: any = {};
+          Object.keys(queryParams.params).forEach((key: any) => {
+            if (this.translateService.paramMapping[key]) {
+              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+              } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
+              } else {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
+              }
+            }
+          });
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+
+          this.getProjectList();
+        }
+      );
     }
 
   }
