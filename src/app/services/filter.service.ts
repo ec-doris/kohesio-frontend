@@ -312,13 +312,16 @@ export class FilterService {
         lastFiltersSearch.program = undefined;
       },
       theme: () => lastFiltersSearch.policyObjective = undefined,
-      'policy objective': () => {
+      policyobjective: () => {
         lastFiltersSearch.theme = undefined;
         lastFiltersSearch.policyObjective = undefined;
       },
       fund: () => lastFiltersSearch.program= undefined,
       interreg: () => lastFiltersSearch.program = undefined,
-      program: () => lastFiltersSearch.priority_axis = undefined,
+      programme: () => {
+        lastFiltersSearch.priority_axis = undefined;
+        lastFiltersSearch.program = undefined;
+      },
       sdg: () => lastFiltersSearch.interventionField = undefined,
       interventionField: () => lastFiltersSearch.interventionField = [],
       totalProjectBudget: () => {

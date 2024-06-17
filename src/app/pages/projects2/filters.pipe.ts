@@ -11,7 +11,7 @@ export class FiltersPipe implements PipeTransform {
     country: 'countries',
     thematic: 'thematic_objectives',
     fund: 'funds',
-    programme: 'programmes',
+    programme: 'programs',
     status: 'statuses',
     language: 'languages',
     type: 'types',
@@ -35,9 +35,9 @@ export class FiltersPipe implements PipeTransform {
   getFilterValue(item: { key: string, value: string }, key: string, value: any) {
     const filterItem = [ 'projectStart', 'projectEnd' ].includes(key)
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
-      : this.service.filters[this.filterMap[key]]?.find((c: any) => c.id === value) ||  {value: value};
+      : this.service.filters[this.filterMap[key=='program'?'programme':key]]?.find((c: any) => c.id === value) ||  {value: value};
 
-    return { key: (this.translateService.queryParams[item.key] ?? item.key).replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase(), value: filterItem?.value ?? filterItem?.label };
+    return { key: (this.translateService.queryParams[item.key == 'program' ? 'programme' : item.key] ?? item.key).replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase(), value: filterItem?.value ?? filterItem?.label };
   }
 
   transform(value: any): { key: string, value: any }[] {

@@ -1,8 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { AfterViewInit, Component, Inject, OnDestroy, PLATFORM_ID, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormControl, UntypedFormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -40,8 +40,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
   public mobileQuery: boolean;
   public sidenavOpened: boolean;
   public pageSize = 15;
+  sort = new FormControl([ this.getFilterKey('sortBeneficiaries', this.translateService.queryParams.sort) ]);
   private destroyed = new Subject<void>();
-  sort = new FormControl( [ this.getFilterKey('sortBeneficiaries', this.translateService.queryParams.sort) ])
 
   constructor(private beneficaryService: BeneficiaryService,
               public dialog: MatDialog,
@@ -73,7 +73,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.sort.setValue(null );
+    this.sort.setValue(null);
     this.sort.valueChanges.subscribe(value => {
       this.lastFiltersSearch = new Filters().deserialize({ ...this.lastFiltersSearch, sort: value });
       this._router.navigate([], {
@@ -152,9 +152,18 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       }
     }
   }
+
   removeFilter(filter: { key: string; value: any }) {
-    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
+    const words = filter.key.toLowerCase().split(' ');
+    let key = words[0];
+    if (words.length === 2) {
+      key = words[0] + words[1].charAt(0).toUpperCase() + words[1].slice(1);
+    }
+    const translatedKey = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]))[key];
+
+    this.filterService.removeFilter(translatedKey == 'programme' ? 'program' : translatedKey, this.lastFiltersSearch);
   }
+
   onSubmit() {
     this.dataSource = new MatTableDataSource<Beneficiary>([]);
 
@@ -207,7 +216,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
   getFormValues() {
     return {
-      [this.translateService.queryParams.name]:  this.lastFiltersSearch.name,
+      [this.translateService.queryParams.name]: this.lastFiltersSearch.name,
       [this.translateService.queryParams.country]: this.getFilterLabel('countries', this.lastFiltersSearch.country),
       [this.translateService.queryParams.region]: this.getFilterLabel('regions', this.lastFiltersSearch.region),
       [this.translateService.queryParams.fund]: this.getFilterLabel('funds', this.lastFiltersSearch.fund),
