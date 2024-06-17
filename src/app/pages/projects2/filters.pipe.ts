@@ -37,7 +37,7 @@ export class FiltersPipe implements PipeTransform {
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
       : this.service.filters[this.filterMap[key=='program'?'programme':key]]?.find((c: any) => c.id === value) ||  {value: value};
 
-    return { key: (this.translateService.queryParams[item.key] ?? item.key).replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase(), value: filterItem?.value ?? filterItem?.label };
+    return { key: (this.translateService.queryParams[item.key == 'program' ? 'programme' : item.key] ?? item.key).replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase(), value: filterItem?.value ?? filterItem?.label };
   }
 
   transform(value: any): { key: string, value: any }[] {
