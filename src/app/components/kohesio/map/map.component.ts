@@ -1,6 +1,16 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { DatePipe, DecimalPipe } from '@angular/common';
-import { AfterViewInit, Component, ComponentFactoryResolver, Inject, Injector, Input, LOCALE_ID, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ComponentFactoryResolver,
+  ElementRef,
+  Inject,
+  Injector,
+  Input,
+  LOCALE_ID,
+  ViewChild
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -27,6 +37,8 @@ declare let L: any;
 export class MapComponent implements AfterViewInit {
   filtersApi: FiltersApi;
   filtersCount = 0;
+  @ViewChild('projectNear') projectNear!: ElementRef;
+  projectNearButtonWidth: number = 0;
   public filters: Filters = new Filters();
   public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
   public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
@@ -224,6 +236,9 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.projectNearButtonWidth = this.projectNear.nativeElement.offsetWidth + 10;
+    });
     this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
