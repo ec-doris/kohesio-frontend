@@ -52,7 +52,7 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  filterTooltip = 'No filters applied';
+  // filterTooltip = 'No filters applied';
   filtersCount = 0;
   filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
   private destroyed = new Subject<void>();
@@ -98,7 +98,7 @@ export class ProjectsComponent implements OnDestroy {
 
   ngOnInit() {
     this.filterResult$$.subscribe((formVal) => {
-      this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
+      // this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
