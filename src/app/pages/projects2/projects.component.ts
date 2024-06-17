@@ -324,7 +324,8 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   removeFilter(filter: { key: string; value: any }) {
-    this.filterService.removeFilter(filter.key, this.lastFiltersSearch);
+    this.filterService.removeFilter(Object.fromEntries(Object.entries(this.translateService.queryParams)
+      .map(([ key, value ]) => [ value, key ]))[filter.key.toLowerCase()], this.lastFiltersSearch);
   }
 
   private getFilterKey(type: string, queryParam: string) {
