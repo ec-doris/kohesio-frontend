@@ -26,7 +26,7 @@ import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
   filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
-  filterTooltip = 'No filters applied';
+  // filterTooltip = 'No filters applied';
   lastFiltersSearch: any = new Filters();
   filtersCount = 0;
   public filters!: FiltersApi;
@@ -85,7 +85,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
     });
 
     this.filterResult$$.subscribe((formVal) => {
-      this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
+      // this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
