@@ -47,16 +47,15 @@
                     </span>
                 </button>
             </div>
-            <div class="filters" (click)="openFilterDialog()" *ngIf="showFilters">
+            <div class="filters" (click)="openFilterDialog()" *ngIf="showFilters" [ngStyle]="{'right.px': projectNearButtonWidth }">
                 <button class="ecl-button ecl-button--secondary" type="button"  [matBadge]="filtersCount" [matBadgeHidden]="!filtersCount" matBadgePosition="before" >
                         <span class="ecl-button__container">
                             <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.projects.button.filters">Filters</span>
                         </span>
-
                 </button>
             </div>
             <div class="right" *ngIf="!hideProjectsNearBy">
-                <button type="button" (click)="onProjectsNearByClick()" class="ecl-button ecl-button--primary" type="button">
+                <button type="button" (click)="onProjectsNearByClick()" class="ecl-button ecl-button--primary" type="button" #projectNear>
                     <span class="ecl-button__container">
                         <svg class="ecl-icon ecl-icon--m" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#location"></use>
