@@ -262,6 +262,14 @@ export class FiltersComponent implements OnInit {
         return of('');
       }),
       concatMap(() => {
+        const sdg = queryParams.get(this.translateService.queryParams.sdg);
+        if (sdg) {
+          // @ts-ignore
+          this.form.patchValue({ sdg: parseInt(sdg.match(/^\d+/)[0], 10) });
+        }
+        return of('');
+      }),
+      concatMap(() => {
         const projectStart = queryParams.get(this.translateService.queryParams.projectStart);
         const projectEnd = queryParams.get(this.translateService.queryParams.projectEnd);
         if (projectStart && projectEnd) {
