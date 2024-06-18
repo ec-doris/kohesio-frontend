@@ -123,8 +123,10 @@ export class ProjectsComponent implements OnDestroy {
           const params: any = {};
           Object.keys(queryParams.params).forEach((key: any) => {
             if (this.translateService.paramMapping[key]) {
-              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.paramMapping[key]);
+              if (key === this.translateService.queryParams.keywords) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords);
+              } else if (key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.town);
               } else if (key === this.translateService.queryParams.nuts3) {
                 params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
@@ -146,8 +148,10 @@ export class ProjectsComponent implements OnDestroy {
           const params: any = {};
           Object.keys(queryParams.params).forEach((key: any) => {
             if (this.translateService.paramMapping[key]) {
-              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.paramMapping[key]);
+              if (key === this.translateService.queryParams.keywords) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords);
+              } else if (key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.town);
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
                 params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
               } else {
@@ -348,7 +352,7 @@ export class ProjectsComponent implements OnDestroy {
       key = words[0] + words[1].charAt(0).toUpperCase() + words[1].slice(1);
     }
     let translatedKey = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]))[key == 'projectTypes' ? 'projectCollection' : key];
-    translatedKey = translatedKey == 'projectTypes' ? 'projectCollection' : translatedKey
+    translatedKey = translatedKey == 'projectTypes' ? 'projectCollection' : translatedKey;
     this.filterService.removeFilter(translatedKey == 'program' ? 'programme' : translatedKey, this.lastFiltersSearch);
   }
 
