@@ -346,12 +346,10 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   removeFilter(filter: { key: string; value: any }) {
-    const words = filter.key.toLowerCase().split(' ');
-    let key = words[0];
-    if (words.length === 2) {
-      key = words[0] + words[1].charAt(0).toUpperCase() + words[1].slice(1);
-    }
-    let translatedKey = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]))[key == 'projectTypes' ? 'projectCollection' : key];
+    const word = filter.key.toLowerCase().split(' ').join('');
+
+    const translatedObject = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ (value as string).replace(/\s+/g, '').toLowerCase(), key ]));
+    let translatedKey = translatedObject[word];
     translatedKey = translatedKey == 'projectTypes' ? 'projectCollection' : translatedKey;
     this.filterService.removeFilter(translatedKey == 'program' ? 'programme' : translatedKey, this.lastFiltersSearch);
   }
