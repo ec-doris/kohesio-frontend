@@ -124,7 +124,7 @@ export class ProjectsComponent implements OnDestroy {
           Object.keys(queryParams.params).forEach((key: any) => {
             if (this.translateService.paramMapping[key]) {
               if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.paramMapping[key]);
               } else if (key === this.translateService.queryParams.nuts3) {
                 params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
@@ -147,7 +147,7 @@ export class ProjectsComponent implements OnDestroy {
           Object.keys(queryParams.params).forEach((key: any) => {
             if (this.translateService.paramMapping[key]) {
               if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.paramMapping[key]);
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
                 params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
               } else {
