@@ -227,8 +227,8 @@ export class FiltersComponent implements OnInit {
           .pipe(switchMap(_ => this.onCountryChange(this.getFilterKey('countries', 'country')))) : of('');
       }),
       concatMap(() => {
-        return this.patchFormValue('region', 'regions', 'region')
-          .pipe(filter(()=>!!this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region)),switchMap(_ => this.onRegionChange()));
+        return this.route.snapshot.queryParamMap.has(this.translateService.queryParams.region) ? this.patchFormValue('region', 'regions', 'region')
+          .pipe(filter(() => !!this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region)), switchMap(_ => this.onRegionChange())) : of('');
       }),
       concatMap(() => {
         const policy = this.route.snapshot.queryParamMap.has(this.translateService.queryParams.policyObjective);
