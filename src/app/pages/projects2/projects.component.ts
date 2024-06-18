@@ -346,8 +346,10 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   removeFilter(filter: { key: string; value: any }) {
-    const word = filter.key.toLowerCase().split(' ').join('');
-
+    let word = filter.key.toLowerCase().split(' ').join('');
+    if ([ 'budgeteusmallerthan', 'budgeteubiggerthan', 'budgetsmallerthan', 'budgetbiggerthan' ].includes(word)) {
+      word = 'totalprojectbudget';
+    }
     const translatedObject = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ (value as string).replace(/\s+/g, '').toLowerCase(), key ]));
     let translatedKey = translatedObject[word];
     translatedKey = translatedKey == 'projectTypes' ? 'projectCollection' : translatedKey;
