@@ -52,7 +52,6 @@ export class ProjectsComponent implements OnDestroy {
   initialPageIndex: number = 0;
   semanticTerms: String[] = [];
   mobileQuery: boolean;
-  // filterTooltip = 'No filters applied';
   filtersCount = 0;
   filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
   private destroyed = new Subject<void>();
@@ -98,7 +97,6 @@ export class ProjectsComponent implements OnDestroy {
 
   ngOnInit() {
     this.filterResult$$.subscribe((formVal) => {
-      // this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
@@ -125,8 +123,10 @@ export class ProjectsComponent implements OnDestroy {
           const params: any = {};
           Object.keys(queryParams.params).forEach((key: any) => {
             if (this.translateService.paramMapping[key]) {
-              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+              if (key === this.translateService.queryParams.keywords) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords);
+              } else if (key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.town);
               } else if (key === this.translateService.queryParams.nuts3) {
                 params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
               } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
@@ -138,12 +138,34 @@ export class ProjectsComponent implements OnDestroy {
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
           this.getProjectList();
         });
     } else {
-      this.getProjectList();
+      const queryParams: any = this.route.snapshot.queryParamMap;
+      of(queryParams).subscribe(() => {
+          const params: any = {};
+          Object.keys(queryParams.params).forEach((key: any) => {
+            if (this.translateService.paramMapping[key]) {
+              if (key === this.translateService.queryParams.keywords) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.keywords);
+              } else if (key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams.town);
+              } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
+              } else {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
+              }
+            }
+          });
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
+
+          this.getProjectList();
+        }
+      );
     }
 
   }
@@ -324,13 +346,13 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   removeFilter(filter: { key: string; value: any }) {
-    const words = filter.key.toLowerCase().split(' ');
-    let key = words[0];
-    if (words.length === 2) {
-      key = words[0] + words[1].charAt(0).toUpperCase() + words[1].slice(1);
+    let word = filter.key.toLowerCase().split(' ').join('');
+    if ([ 'budgeteusmallerthan', 'budgeteubiggerthan', 'budgetsmallerthan', 'budgetbiggerthan' ].includes(word)) {
+      word = 'totalprojectbudget';
     }
-    const translatedKey = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ value, key ]))[key];
-
+    const translatedObject = Object.fromEntries(Object.entries(this.translateService.queryParams).map(([ key, value ]) => [ (value as string).replace(/\s+/g, '').toLowerCase(), key ]));
+    let translatedKey = translatedObject[word];
+    translatedKey = translatedKey == 'projectTypes' ? 'projectCollection' : translatedKey;
     this.filterService.removeFilter(translatedKey == 'program' ? 'programme' : translatedKey, this.lastFiltersSearch);
   }
 

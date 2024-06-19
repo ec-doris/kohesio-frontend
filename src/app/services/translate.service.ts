@@ -45,7 +45,7 @@ export class TranslateService {
     "interventionField": $localize`:@@translate.queryParams.interventionField:interventionField`,
     "nuts3": $localize`:@@translate.queryParams.nuts3:nuts3`,
     "priorityAxis": $localize`:@@translate.queryParams.priorityAxis:priorityAxis`,
-    "projectCollection": $localize`:@@translate.queryParams.projectCollection:projectCollection`,
+    "projectCollection": $localize`:@@page.projects.label.projectCollection:projectCollection`,
     "projectStart": $localize`:@@translate.queryParams.projectStart:projectStart`,
     "projectEnd": $localize`:@@translate.queryParams.projectEnd:projectEnd`,
     "sdg": $localize`:@@translate.queryParams.sdg:sdg`,

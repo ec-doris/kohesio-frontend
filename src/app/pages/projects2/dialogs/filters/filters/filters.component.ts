@@ -16,7 +16,7 @@ import { TranslateService } from '../../../../../services/translate.service';
   styleUrls: [ './filters.component.scss' ]
 })
 export class FiltersComponent implements OnInit {
-  title= this.translateService.editManagement.labels.dialogTitleFilters
+  title = this.translateService.editManagement.labels.dialogTitleFilters;
   interventionField: any = [];
   filters: FiltersApi = new FiltersApi();
   themeSelection = this.service.filters.thematic_objectives;
@@ -146,7 +146,7 @@ export class FiltersComponent implements OnInit {
     return this.service.getFilter('policy_objectives', params).pipe(tap(policies => {
       policies?.policy_objectives?.length
         ? this.form.patchValue({ policyObjective: policies.policy_objectives[0].id }, { emitEvent: false })
-        : this.form.patchValue({ policyObjective: null },{ emitEvent: false });
+        : this.form.patchValue({ policyObjective: null }, { emitEvent: false });
     }));
   }
 
@@ -216,6 +216,10 @@ export class FiltersComponent implements OnInit {
     }
   }
 
+  onActionClick() {
+    this.dialogRef.close();
+  }
+
   private handleRouterParamsSequentially() {
     if (!this.route.snapshot.queryParamMap.keys.length) return EMPTY;
 
@@ -227,8 +231,8 @@ export class FiltersComponent implements OnInit {
           .pipe(switchMap(_ => this.onCountryChange(this.getFilterKey('countries', 'country')))) : of('');
       }),
       concatMap(() => {
-        return this.patchFormValue('region', 'regions', 'region')
-          .pipe(filter(()=>!!this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region)),switchMap(_ => this.onRegionChange()));
+        return this.route.snapshot.queryParamMap.has(this.translateService.queryParams.region) ? this.patchFormValue('region', 'regions', 'region')
+          .pipe(filter(() => !!this.route.snapshot.queryParamMap.get(this.translateService.queryParams.region)), switchMap(_ => this.onRegionChange())) : of('');
       }),
       concatMap(() => {
         const policy = this.route.snapshot.queryParamMap.has(this.translateService.queryParams.policyObjective);
@@ -262,6 +266,14 @@ export class FiltersComponent implements OnInit {
         return of('');
       }),
       concatMap(() => {
+        const sdg = queryParams.get(this.translateService.queryParams.sdg);
+        if (sdg) {
+          // @ts-ignore
+          this.form.patchValue({ sdg: parseInt(sdg.match(/^\d+/)[0], 10) });
+        }
+        return of('');
+      }),
+      concatMap(() => {
         const projectStart = queryParams.get(this.translateService.queryParams.projectStart);
         const projectEnd = queryParams.get(this.translateService.queryParams.projectEnd);
         if (projectStart && projectEnd) {
@@ -281,9 +293,5 @@ export class FiltersComponent implements OnInit {
 
   private getFilterKey(type: string, queryParam: string) {
     return this.service.getFilterKey(type, this.route.snapshot.queryParamMap.get(this.translateService.queryParams[queryParam]));
-  }
-
-  onActionClick() {
-    this.dialogRef.close();
   }
 }
