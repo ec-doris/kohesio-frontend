@@ -138,7 +138,7 @@ export class ProjectsComponent implements OnDestroy {
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
           this.getProjectList();
         });
@@ -161,7 +161,7 @@ export class ProjectsComponent implements OnDestroy {
           });
           const translatedParams = this.translateKeys(params, this.translateService.queryParams);
           this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 
           this.getProjectList();
         }

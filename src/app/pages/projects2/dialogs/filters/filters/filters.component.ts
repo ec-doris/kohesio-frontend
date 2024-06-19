@@ -16,7 +16,7 @@ import { TranslateService } from '../../../../../services/translate.service';
   styleUrls: [ './filters.component.scss' ]
 })
 export class FiltersComponent implements OnInit {
-  title= this.translateService.editManagement.labels.dialogTitleFilters
+  title = this.translateService.editManagement.labels.dialogTitleFilters;
   interventionField: any = [];
   filters: FiltersApi = new FiltersApi();
   themeSelection = this.service.filters.thematic_objectives;
@@ -146,7 +146,7 @@ export class FiltersComponent implements OnInit {
     return this.service.getFilter('policy_objectives', params).pipe(tap(policies => {
       policies?.policy_objectives?.length
         ? this.form.patchValue({ policyObjective: policies.policy_objectives[0].id }, { emitEvent: false })
-        : this.form.patchValue({ policyObjective: null },{ emitEvent: false });
+        : this.form.patchValue({ policyObjective: null }, { emitEvent: false });
     }));
   }
 
@@ -214,6 +214,10 @@ export class FiltersComponent implements OnInit {
       this.semanticTerms = [];
       this.onSubmit();
     }
+  }
+
+  onActionClick() {
+    this.dialogRef.close();
   }
 
   private handleRouterParamsSequentially() {
@@ -289,9 +293,5 @@ export class FiltersComponent implements OnInit {
 
   private getFilterKey(type: string, queryParam: string) {
     return this.service.getFilterKey(type, this.route.snapshot.queryParamMap.get(this.translateService.queryParams[queryParam]));
-  }
-
-  onActionClick() {
-    this.dialogRef.close();
   }
 }
