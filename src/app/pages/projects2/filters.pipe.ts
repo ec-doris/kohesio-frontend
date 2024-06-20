@@ -32,7 +32,11 @@ export class FiltersPipe implements PipeTransform {
   constructor(public service: FilterService, private datePipe: DatePipe, private translateService: TranslateService) {
   }
 
-  getFilterValue(item: { key: string, value: string }, key: string, value: any) {
+  getFilterValue(item: { key: string, value: string | [] }, key: string, value: any) {
+    let interventions = [];
+    if (item.key == 'interventionField') {
+      interventions = (item.value as any).map((inter: any) => this.service.getFilterLabel('categoriesOfIntervention', inter));
+    }
     const filterItem = [ 'projectStart', 'projectEnd' ].includes(key)
       ? { key, value: this.datePipe.transform(value, 'yyyy-MM-dd') }
       : this.service.filters[this.filterMap[key == 'program' ? 'programme' : key]]?.find((c: any) => c.id === value) || { value: value };
@@ -40,7 +44,7 @@ export class FiltersPipe implements PipeTransform {
     item.key = item.key == 'program' ? 'programme' : item.key;
     return {
       key: (this.translateService.queryParams[item.key] ?? item.key).replace(/([a-z])([A-Z])/g, '$1 $2').toUpperCase(),
-      value: filterItem?.value ?? filterItem?.label
+      value: item.key == 'interventionField' ? interventions : filterItem?.value ?? filterItem?.label
     };
   }
 
@@ -55,8 +59,11 @@ export class FiltersPipe implements PipeTransform {
     delete value.startDateAfter;
 
     return Object.keys(value)
-      .map(key => ({ key, value: typeof value[key] === 'object' ? value[key]?.id || value[key][0] : value[key] }))
-      .filter(item => item.value && item.key != 'language' && item.key != 'interventionField')
+      .map(key => ({
+        key,
+        value: key === 'interventionField' ? value[key] : (typeof value[key] === 'object' ? value[key]?.id || value[key][0] : value[key])
+      }))
+      .filter(item => item.value && item.key != 'language')
       .map(item => this.getFilterValue(item, item.key, item.value));
 
   }
