@@ -322,18 +322,30 @@ export class FilterService {
         lastFiltersSearch.priority_axis = undefined;
         lastFiltersSearch.program = undefined;
       },
-      sdg: () => lastFiltersSearch.interventionField = undefined,
-      interventionField: () => lastFiltersSearch.interventionField = [],
-      totalProjectBudget: () => {
+      sdg: () => {
+        lastFiltersSearch.interventionField = undefined;
+        lastFiltersSearch.sdg = undefined;
+      },
+      interventionfield: () => {
+        lastFiltersSearch.interventionField = undefined;
+        lastFiltersSearch.sdg = undefined;
+      },
+      totalprojectbudget: () => {
         lastFiltersSearch.budgetBiggerThan = undefined;
         lastFiltersSearch.budgetSmallerThan = undefined;
       },
-      amountEUSupport: () => {
+      amounteusupport: () => {
         lastFiltersSearch.budgetEUBiggerThan = undefined;
         lastFiltersSearch.budgetEUSmallerThan = undefined;
       },
-      projectStart: () => lastFiltersSearch.startDateAfter = undefined,
-      projectEnd: () => lastFiltersSearch.endDateBefore = undefined
+      projectstart: () => {
+        lastFiltersSearch.projectStart = undefined;
+        lastFiltersSearch.projectEnd = undefined
+      },
+      projectend: () => {
+        lastFiltersSearch.projectStart = undefined;
+        lastFiltersSearch.projectEnd = undefined
+      }
     };
 
     if (actions[filterKey.toLowerCase()]) {
