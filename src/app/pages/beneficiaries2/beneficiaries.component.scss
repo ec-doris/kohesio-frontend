@@ -1,0 +1,185 @@
+@import 'src/assets/styles/_include-media.scss';
+
+
+@include media("<=small") {
+    mat-row {
+        padding: 5px;
+        flex-direction: column;
+    }
+
+    mat-header-row {
+        display: none;
+    }
+
+    mat-row,
+    mat-header-row,
+    mat-footer-row {
+        align-items: flex-start;
+        min-height: 1.5rem;
+    }
+
+    mat-cell:first-of-type,
+    mat-header-cell:first-of-type,
+    mat-footer-cell:first-of-type {
+        padding-left: 3px;
+    }
+
+    .mobile-header {
+        color: rgba(0, 0, 0, 0.54);
+        font-size: 11px;
+        font-weight: 500;
+        align-items: center;
+    }
+
+    mat-row::after,
+    mat-header-row::after,
+    mat-footer-row::after {
+        display: none;
+    }
+
+    .mat-column-numberProjects {
+        padding: 0 0 0 3px;
+    }
+
+}
+
+@include media(">small") {
+    mat-header-row {
+        display: flex;
+    }
+
+    .mobile-header {
+        display: none;
+    }
+}
+
+mat-cell,
+mat-header-cell {
+    justify-content: center;
+}
+
+mat-header-cell.mat-column-name,
+mat-header-cell.mat-column-label,
+mat-cell.mat-column-name,
+mat-cell.mat-column-label{
+    flex: 3;
+    justify-content: flex-start;
+
+    img {
+        width: 42px;
+        height: 42px;
+        margin-right: 10px;
+    }
+    span {
+        flex: 1;
+    }
+}
+
+mat-cell.mat-column-budget {
+    padding: 0 3px;
+}
+
+mat-cell.mat-column-euBudget {
+    padding: 0 0 0 3px;
+
+    @include media(">small") {
+        padding: 0 0 0 15px;
+    }
+}
+
+mat-cell:last-of-type,
+mat-footer-cell:last-of-type,
+mat-header-cell:last-of-type {
+    padding-right: 5px;
+}
+
+.search-buttons {
+    display: flex;
+    justify-content: space-between;
+    ux-button {
+        flex: 1;
+    }
+
+    ux-button:first-child {
+        margin-right: 10px;
+    }
+}
+
+.tools {
+    display: flex;
+    justify-content: space-between;
+    margin: 10px 0;
+}
+
+.right-table-tools {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 63%;
+
+    @include media("<=small") {
+        flex-direction: column-reverse;
+        align-items: flex-end;
+        margin-bottom: 15px;
+    }
+
+    form{
+        min-width: 300px;
+    }
+
+    mat-paginator {
+        min-width: 220px;
+        width: 100%;
+
+        @include media('>small') {
+          width: 50%;
+        }
+
+        ::ng-deep {
+          .mat-mdc-paginator-container {
+            padding: 0;
+
+            .mat-mdc-paginator-range-actions {
+              width: 100%;
+              justify-content: flex-end;
+
+              .mat-mdc-paginator-range-label {
+                padding-left: 5px;
+                margin: 0;
+                margin-right: auto;
+
+                @include media('>small') {
+                  margin-left: auto;
+                  margin-right: 0;
+                }
+              }
+            }
+          }
+        }
+      }
+}
+
+.muted-text {
+    color: black;
+}
+
+.kohesio-mat-drawer-container{
+    min-height: 370px;
+}
+.kohesio-mat-drawer-container-expanded{
+    min-height: 600px;
+}
+
+.beneficiary-image-container {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  border-radius: 12px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+}
+
+a:visited {
+    color: #004494;
+}

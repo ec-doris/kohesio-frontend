@@ -1,5 +1,5 @@
 import { inject, NgModule } from '@angular/core';
-import { ActivatedRouteSnapshot, RouterModule, Routes } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './components/kohesio/notfound/notfound.component';
 import { HomePageComponent } from './pages/home/home.component';
 import { AboutComponent } from './pages/static/about/about.component';
@@ -72,7 +72,7 @@ const routes: Routes = [
         }
       },{
         path: $localize`:@@translate.routes.projects:projects`,
-        loadChildren: () => import('./pages/projects2/projects.module').then(m => m.ProjectsModule)
+        loadChildren: () => import('./pages/projects/projects.module').then(m => m.ProjectsModule)
       },{
         path: $localize`:@@translate.routes.beneficiaries:beneficiaries`,
         loadChildren: () => import('./pages/beneficiaries/beneficiaries.module').then(m => m.BeneficiariesModule),
