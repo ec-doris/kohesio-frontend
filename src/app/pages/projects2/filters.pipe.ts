@@ -63,7 +63,7 @@ export class FiltersPipe implements PipeTransform {
         key,
         value: key === 'interventionField' ? value[key] : (typeof value[key] === 'object' ? value[key]?.id || value[key][0] : value[key])
       }))
-      .filter(item => item.value && item.key != 'language')
+      .filter(item => item.value && item.value.length !== 0 && item.key != 'language')
       .map(item => this.getFilterValue(item, item.key, item.value));
 
   }

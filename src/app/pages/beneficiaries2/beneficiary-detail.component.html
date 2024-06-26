@@ -1,0 +1,163 @@
+<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb-harmonised__container">
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <a [routerLink]="['/'+translateService.routes.beneficiaries]"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.beneficiary-detail.breadcrumb.beneficiaries">Beneficiaries</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+            <span
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.beneficiary-detail.breadcrumb.beneficiaryDetails">Beneficiary Details</span>
+        </li>
+    </ol>
+</nav>
+<div class="kohesio-page-detail">
+    <div class="kohesio-page-detail-tools">
+        <kohesio-ecl-button variant="secondary" (click)="openGraph($event)" i18n="@@comp.button.graph"
+                            i18n-matTooltip="Visualise as a network|@@comp.button.graph.tooltip"
+                            matTooltip="Visualise as a network">Graph</kohesio-ecl-button>&nbsp;
+        <kohesio-ecl-button variant="secondary" (click)="openWiki($event)" i18n="@@comp.button.more"
+                            i18n-matTooltip="Open in the EU Knowledge Graph|@@comp.button.more.tooltip"
+                            matTooltip="Open in the EU Knowledge Graph">More</kohesio-ecl-button>&nbsp;
+    </div>
+    <div class="kohesio-page-detail-container">
+        <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.beneficiary-detail.label.moreInfo">more info</span>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.startDate">Start date: </span>
+                    <span>
+                        <ng-container *ngIf="beneficiary?.minStartTime">
+                            {{beneficiary.minStartTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!beneficiary?.minStartTime" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
+                    </span>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.endDate">End date: </span>
+                    <span>
+                        <ng-container *ngIf="beneficiary?.maxEndTime">
+                            {{beneficiary.maxEndTime | date:'d MMMM yyyy'}}
+                        </ng-container>
+                        <ng-container *ngIf="!beneficiary?.maxEndTime" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
+                    </span>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.numberProjects">Number of projects: </span>
+                    {{beneficiary.numberProjects}}
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.totalBudget">Total budget: </span>
+                    <span>{{beneficiary.totalBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.euContribution">EU contribution: </span>
+                    <span *ngIf="beneficiary?.totalEuBudget!=0">{{beneficiary.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span *ngIf="beneficiary?.totalEuBudget==0" i18n="@@page.beneficiary-detail.label.na">n/a</span>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.website">Website: </span>
+                    <a class="ecl-link ecl-link--standalone" [href]="beneficiary.website" *ngIf="beneficiary?.website" target="_blank">link</a>
+                    <ng-container *ngIf="!beneficiary?.website" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
+                </div>
+                <div class="content">
+                    <span i18n="@@page.beneficiary-detail.label.country">Country: </span>
+                    <!-- <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
+                    </ux-popover> -->
+                    <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block" *ngIf="beneficiary.budgetsPerFund && beneficiary.budgetsPerFund.length">
+                <span class="title" i18n="@@page.beneficiary-detail.label.funds">funds</span>
+                <div class="content" *ngFor="let fund of beneficiary.budgetsPerFund">
+                    <span>{{fund.fundLabel}}: </span>
+                    <span *ngIf="fund?.totalEuBudget!=0">{{fund.totalEuBudget | currency:'EUR':'symbol':'1.2-2':'fr'}}</span>
+                    <span *ngIf="fund?.totalEuBudget==0" i18n="@@page.beneficiary-detail.label.na">n/a</span>
+                </div>
+            </div>
+        </div>
+        <div class="kohesio-main-content">
+            <div class="kohesio-article-wrapper">
+                <article class="kohesio-article-post">
+                    <ng-container *ngIf="!mobileQuery">
+                        <div
+                        class="beneficiary-image-container hand-pointer"
+                        *ngIf="beneficiary?.images && beneficiary.images.length"
+                        style="background-image: url('{{ beneficiary.images[0] }}')"
+                        (click)="openImageOverlay(beneficiary.images[0], beneficiary.beneficiaryLabel, null)">
+                        </div>
+                    </ng-container>
+                    <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->
+                    <div class="kohesio-article-post-inner">
+                        <div class="kohesio-article-post-inner-header">
+                            <!-- <img [src]="beneficiary.images[0]" *ngIf="beneficiary?.images && beneficiary.images.length" > -->
+                            <ng-container *ngIf="mobileQuery">
+                                <div class="beneficiary-image-container" *ngIf="beneficiary?.images && beneficiary.images.length" style="background-image: url('{{ beneficiary.images[0] }}')">
+                                </div>
+                            </ng-container>
+                            <h1 class="ecl-u-type-heading-4">
+                                {{beneficiary.beneficiaryLabel}} <span *ngIf="beneficiary?.transliteration" class="muted-text"> ({{beneficiary.transliteration}})</span>
+                            </h1>
+                        </div>
+                        <div class="kohesio-article-post-content">
+                            <p class="ecl-u-type-paragraph">{{beneficiary.description}}</p>
+                        </div>
+                        <app-share-block [id]="beneficiary.item"></app-share-block>
+                    </div>
+                </article>
+            </div>
+
+            <div class="kohesio-map-wrapper" *ngIf="beneficiary?.coordinates">
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-beneficiary-details" [hideNavigation]="true"></app-map>
+            </div>
+            <kohesio-ecl-accordion class="kohesio-beneficiary-projects-block"
+                i18n-title="PROJECTS|@@page.beneficiary-detail.accordion.projects"
+                title="PROJECTS" [collapsed]="mobileQuery">
+
+                <div class="right-table-tools">
+                    <mat-paginator [pageSize]="15"
+                                    [length]="beneficiary.numberProjects"
+                                    [hidePageSize]="true"
+                                    (page)="onPaginate($event)">
+                    </mat-paginator>
+                </div>
+                <mat-table [dataSource]="beneficiaryProjects">
+                    <ng-container matColumnDef="label">
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.project">PROJECT</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            <span>
+                                <a class="ecl-link ecl-link--standalone" [routerLink]="['/'+translateService.routes.projects + '/' + row.id]">{{row.label}}</a>
+                            </span>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="budget">
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.totalBudget">TOTAL BUDGET</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{ row.budget ? (row.budget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="euBudget">
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.euContribution">EU CONTRIBUTION</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.euBudget ? (row.euBudget | currency:'EUR':'symbol':'1.2-2':'fr') : 'n/a'}}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="fundLabel">
+                        <mat-header-cell *matHeaderCellDef i18n="@@page.beneficiary-detail.table.header.fund">FUND</mat-header-cell>
+                        <mat-cell *matCellDef="let row">
+                            {{row.fundLabel ? row.fundLabel : 'n/a'}}
+                        </mat-cell>
+                    </ng-container>
+                    <mat-header-row *matHeaderRowDef="displayedColumns" [hidden]="beneficiary.projects && beneficiary.projects.length === 0"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+                </mat-table>
+            </kohesio-ecl-accordion>
+        </div>
+    </div>
+</div>

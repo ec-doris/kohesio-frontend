@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from '../../material/material.module';
-import { ProjectsModule } from '../projects2/projects.module';
+import { ProjectsModule } from '../projects/projects.module';
 import { BeneficiariesRoutingModule } from './beneficiaries-routing.module';
 import { BeneficiariesComponent } from './beneficiaries.component';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
