@@ -1,9 +1,7 @@
-import {Component, ComponentRef, Inject, Input, ViewChild} from '@angular/core';
+import {Component, ComponentRef, Inject, ViewChild} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
-import {Observable} from "rxjs";
 import {AdDirective} from "./ad.directive";
 import {DialogChildInterface} from "./dialog.child.interface";
-import {SaveDraftComponent} from "../../../pages/projects/dialogs/save-draft.component";
 
 @Component({
     selector: 'app-ecl-dialog',

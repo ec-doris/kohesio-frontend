@@ -1,7 +1,7 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import {Filters} from "../models/filters.model";
-import {Observable, throwError} from "rxjs";
+import { filter, Observable, throwError } from 'rxjs';
 import {environment} from "../../environments/environment";
 import {map} from "rxjs/operators";
 import {BeneficiaryList} from "../models/beneficiary-list.model";
@@ -15,19 +15,15 @@ export class BeneficiaryService {
 
     constructor(private http: HttpClient,@Inject(LOCALE_ID) public locale: string) { }
 
-    getBeneficiaries(filters:Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList | null>  {
-        const url = environment.api + "/beneficiaries";
-        const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
-        return this.http.get<any>(url,{ params: <any>params }).pipe(
-            map(data => {
-                if (!data){
-                    return null;
-                }else {
-                    return new BeneficiaryList().deserialize(data);
-                }
-            })
-        );
-    }
+  getBeneficiaries(filters: Filters, offset: number = 0, limit: number = 15): Observable<BeneficiaryList> {
+    const url = environment.api + '/beneficiaries';
+    const params = this.generateParameters(filters.getBeneficiariesFilters(), offset, limit);
+    return this.http.get<any>(url, { params: <any>params }).pipe(filter(x => !!x),
+      map(data => {
+        return new BeneficiaryList().deserialize(data);
+      })
+    );
+  }
 
     generateParameters(filters:any, offset: number = 0, limit: number = 15){
         let params = {};

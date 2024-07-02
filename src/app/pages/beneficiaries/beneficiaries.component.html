@@ -1,9 +1,9 @@
 <nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
-    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
+     data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
     <ol class="ecl-breadcrumb-harmonised__container">
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+               class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
         <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
@@ -26,7 +26,7 @@
 </button>
 
 <ng-template cdkConnectedOverlay
-             (overlayOutsideClick)="infoPopupLabelType = false;"
+             (overlayOutsideClick)="onOutsideClick()"
              [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"
              [cdkConnectedOverlayOpen]="infoPopupLabelType">
     <div style="background-color: white;color: black;border: 0;max-width: 600px;
@@ -56,16 +56,16 @@
                 <kohesio-ecl-form-label>
                     <div  i18n="@@page.beneficiaries.label.country" class="label">COUNTRY</div>
                     <kohesio-ecl-form-select formControlName="country" [items]="this.filters.countries"
-                         (change)="onCountryChange()"></kohesio-ecl-form-select>
+                                             (change)="onCountryChange()"></kohesio-ecl-form-select>
                 </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>
                     <div  i18n="@@page.beneficiaries.label.region" class="label">REGION</div>
                     <kohesio-ecl-form-select formControlName="region" [items]="this.filters.regions"
-                         [isDisabled]="!this.myForm.value.country"
-                         i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
-                         placeholder="Select a country" ></kohesio-ecl-form-select>
+                                             [isDisabled]="!this.myForm.value.country"
+                                             i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.region"
+                                             placeholder="Select a country" ></kohesio-ecl-form-select>
                 </kohesio-ecl-form-label>
             </kohesio-ecl-form-group>
             <br/>
@@ -80,16 +80,16 @@
                     <kohesio-ecl-form-label>
                         <div  i18n="@@page.beneficiaries.label.programme" class="label">PROGRAMME</div>
                         <kohesio-ecl-form-select formControlName="program" [items]="this.filters.programs"
-                             [isDisabled]="!this.myForm.value.country"
-                             placeholder="Select a country"
-                             i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.program" ></kohesio-ecl-form-select>
+                                                 [isDisabled]="!this.myForm.value.country"
+                                                 placeholder="Select a country"
+                                                 i18n-placeholder="Select a country|@@page.beneficiaries.placeholder.program" ></kohesio-ecl-form-select>
                     </kohesio-ecl-form-label>
                 </kohesio-ecl-form-group>
                 <kohesio-ecl-form-group>
                     <kohesio-ecl-form-label>
                         <div class="label">
                             <ng-container i18n="@@page.beneficiaries.label.type">TYPE</ng-container>
-                            <div (click)="infoPopupLabelType = !infoPopupLabelType" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
+                            <div (click)="toggleInfoBtn()" cdkOverlayOrigin #infoPopupLabelTypeTrigger="cdkOverlayOrigin" style="cursor:pointer;" class="infoButton" >
                                 <svg class="ecl-icon ecl-icon--s" focusable="true" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons.a892a63d.svg#information"></use>
                                 </svg>
@@ -102,9 +102,9 @@
             <br />
             <div class="search-buttons">
                 <button type="button" (click)="resetForm()"
-                    class="ecl-button ecl-button--secondary"
-                    type="button"
-                    i18n="@@page.beneficiaries.button.resetFilters">Reset Filters</button>
+                        class="ecl-button ecl-button--secondary"
+                        type="button"
+                        i18n="@@page.beneficiaries.button.resetFilters">Reset Filters</button>
                 <kohesio-ecl-button type="submit" i18n="@@page.beneficiaries.button.showResults">Show Results</kohesio-ecl-button>
             </div>
         </form>
@@ -119,7 +119,7 @@
                 <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
                     <kohesio-ecl-form-group>
                         <kohesio-ecl-form-select ariaLabel="sort" [hasEmptyValue]="false" formControlName="sort"
-                            [items]="this.filters.sortBeneficiaries" (change)="onSortChange()">
+                                                 [items]="this.filters.sortBeneficiaries" (change)="onSortChange()">
                         </kohesio-ecl-form-select>
                     </kohesio-ecl-form-group>
                 </form>

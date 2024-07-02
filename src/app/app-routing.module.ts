@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { inject, NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { NotFoundComponent } from './components/kohesio/notfound/notfound.component';
 import { HomePageComponent } from './pages/home/home.component';
@@ -10,12 +10,14 @@ import {MapPageComponent} from "./pages/map/map-page.component";
 import {MapPageResolve} from "./pages/map/map-page.resolve";
 import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
+import { FilterService } from './services/filter.service';
 
 const routes: Routes = [
       {
         path: '',
         component: HomePageComponent,
         pathMatch: 'full',
+        resolve: { data: () => inject(FilterService).getProjectsFilters() },
         data: {
           title: $localize `:@@comp.header.label.siteHeader:Kohesio: discover EU projects in your region`,
           description: $localize `:@@page.metadata.home.description:Data about projects funded by the European Union`

@@ -51,12 +51,13 @@ export class UserService {
     );
   }
 
-  async addUser(currentUser:string, userDetails: UserInDto):Promise<UserDTO>{
+  async addUser(currentUser: string, userDetails: UserInDto | UserInDto[]): Promise<UserDTO> {
     //console.log("CURRENT_USER",currentUser);
     //console.log("USER_DETAILS",userDetails);
+    const user = Array.isArray(userDetails) ? userDetails.map(user => plainToInstance(UserInternalInDto, user)) : plainToInstance(UserInternalInDto,userDetails);
     return await firstValueFrom(
       this.httpService.post<UserDTO>(`${this.baseUrl}/users`,
-        plainToInstance(UserInternalInDto,userDetails),
+        user,
         {headers:{"user-id":currentUser}} as any).pipe(
         map((result:any)=>{
           const data:Object = result.data;
@@ -99,22 +100,22 @@ export class UserService {
     );
   }
 
-  async inviteUser(currentUser:string, invitation: InvitationInDTO):Promise<InvitationOutDTO>{
+  async inviteUser(currentUser: string, invitation: InvitationInDTO): Promise<InvitationOutDTO> {
     return await firstValueFrom(
       this.httpService.post<InvitationOutDTO>(`${this.baseUrl}/invitations/send`,
         {
-          email:invitation.email,
+          email: invitation.email,
           role: invitation.role,
           cci_scope: invitation.allowed_cci_qids,
           base_url: `${this.configService.get("BASE_URL")}/api/invitation/`
         },
-        {headers:{"user-id":currentUser}} as any).pipe(
-        map((result:any)=>{
-          const data:Object = result.data;
-          return plainToInstance(InvitationOutDTO,data);
+        { headers: { 'user-id': currentUser } } as any).pipe(
+        map((result: any) => {
+          const data: Object = result.data;
+          return plainToInstance(InvitationOutDTO, data);
         }),
         catchError(err => {
-          return this.handlingCatchError(err)
+          return this.handlingCatchError(err);
         })
       )
     );

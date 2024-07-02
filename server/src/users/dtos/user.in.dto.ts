@@ -8,8 +8,7 @@ export class UserInDto {
   role: Role;
   active: boolean;
   allowed_cci_qids: string[];
-  email:string;
-
+  email: string | string[];
 }
 
 export class UserInternalInDto {

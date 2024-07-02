@@ -1,4 +1,7 @@
 import { NgModule } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../material/material.module';
+import { ProjectsModule } from '../projects/projects.module';
 import { BeneficiariesRoutingModule } from './beneficiaries-routing.module';
 import { BeneficiariesComponent } from './beneficiaries.component';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
@@ -19,30 +22,35 @@ import { ImageOverlayModule } from 'src/app/components/kohesio/image-overlay/ima
 import {ShareBlockModule} from "../../components/kohesio/share-block/share-block.module";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import {OverlayModule} from "@angular/cdk/overlay";
+import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
 
 @NgModule({
-    imports: [
-        RouterModule,
-        BeneficiariesRoutingModule,
-        MatPaginatorModule,
-        MatTableModule,
-        CommonModule,
-        MapComponentModule,
-        MatSidenavModule,
-        ReactiveFormsModule,
-        KohesioEclFormModule,
-        KohesioEclButtonModule,
-        KohesioEclAccordionModule,
-        DownloadButtonModule,
-        KohesioEclSpinnerModule,
-        ImageOverlayModule,
-        ShareBlockModule,
-        MatTooltipModule,
-        OverlayModule
-    ],
+  imports: [
+    MaterialModule,
+    RouterModule,
+    BeneficiariesRoutingModule,
+    MatPaginatorModule,
+    MatTableModule,
+    CommonModule,
+    MapComponentModule,
+    MatSidenavModule,
+    ReactiveFormsModule,
+    KohesioEclFormModule,
+    KohesioEclButtonModule,
+    KohesioEclAccordionModule,
+    DownloadButtonModule,
+    KohesioEclSpinnerModule,
+    ImageOverlayModule,
+    ShareBlockModule,
+    MatTooltipModule,
+    OverlayModule,
+    MatIconModule,
+    ProjectsModule
+  ],
     declarations: [
         BeneficiariesComponent,
-        BeneficiaryDetailComponent
+        BeneficiaryDetailComponent,
+        BeneficeFormComponent
     ],
     providers: [
         { provide: MatPaginatorIntl, useClass: MatPaginatorKohesio}

@@ -53,7 +53,7 @@ export class UserController extends BaseController{
     type:[UserDTO]
   })
   @Get('')
-  async users(@Req() req) : Promise<UserDTO[] | void>{
+  async users(@Req() req): Promise<UserDTO[] | void> {
     return await this.userService.getUsersList(req.user.user_id).catch(this.errorHandler);
   }
 
@@ -66,7 +66,7 @@ export class UserController extends BaseController{
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   @ApiForbiddenResponse({description: "You don't have access to this operation"})
   @Post('')
-  async addUser(@Req() req, @Body() userDTO: UserInDto): Promise<UserDTO | void>{
+  async addUser(@Req() req, @Body() userDTO: UserInDto | UserInDto[]): Promise<UserDTO | void> {
     return await this.userService.addUser(req.user.user_id,userDTO).catch(this.errorHandler);
   }
 

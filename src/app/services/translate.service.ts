@@ -45,9 +45,10 @@ export class TranslateService {
     "interventionField": $localize`:@@translate.queryParams.interventionField:interventionField`,
     "nuts3": $localize`:@@translate.queryParams.nuts3:nuts3`,
     "priorityAxis": $localize`:@@translate.queryParams.priorityAxis:priorityAxis`,
-    "projectCollection": $localize`:@@translate.queryParams.projectCollection:projectCollection`,
+    "projectCollection": $localize`:@@page.projects.label.projectCollection:projectCollection`,
     "projectStart": $localize`:@@translate.queryParams.projectStart:projectStart`,
     "projectEnd": $localize`:@@translate.queryParams.projectEnd:projectEnd`,
+    "sdg": $localize`:@@translate.queryParams.sdg:sdg`,
     "sort": $localize`:@@translate.queryParams.sort:sort`,
     "name": $localize`:@@translate.queryParams.name:name`,
     "beneficiaryType": $localize`:@@translate.queryParams.beneficiaryType:beneficiaryType`,
@@ -119,6 +120,7 @@ export class TranslateService {
       "confirmDelete": $localize `:@@page.users.message.confirmDelete:Are you sure you want to delete?`,
       "deletedUser": $localize `:@@page.users.message.deleted:The user was deleted with success`,
       "emailMandatory": $localize `:@@page.users.message.emailMandatory:Email is mandatory.`,
+      "CCIMandatory": $localize `:@@page.users.message.CCIMandatory:CCI is mandatory.`,
       "updatedProfile": $localize `:@@page.users.message.updatedProfile:Your profile was updated.`,
       "pleaseUpdatedProfile": $localize `:@@page.users.message.pleaseUpdatedProfile:Please, update your profile data.`,
     },
@@ -160,7 +162,28 @@ export class TranslateService {
       "published": $localize `:@@page.edits.label.status.published:PUBLISHED`
     }
   }
-
+  paramMapping = {
+    [this.queryParams.keywords]: 'keywords',
+    [this.queryParams.town]: 'town',
+    [this.queryParams.country]: 'countries',
+    [this.queryParams.region]: 'regions',
+    [this.queryParams.policyObjective]: 'policy_objectives',
+    [this.queryParams.theme]: 'thematic_objectives',
+    [this.queryParams.programPeriod]: 'programmingPeriods',
+    [this.queryParams.fund]: 'funds',
+    [this.queryParams.programme]: 'programs',
+    [this.queryParams.totalProjectBudget]: 'totalProjectBudget',
+    [this.queryParams.amountEUSupport]: 'amountEUSupport',
+    [this.queryParams.projectStart]: 'projectStart',
+    [this.queryParams.projectEnd]: 'projectEnd',
+    [this.queryParams.interreg]: 'interreg',
+    [this.queryParams.nuts3]: 'nuts3',
+    [this.queryParams.sort]: 'sort',
+    [this.queryParams.priorityAxis]: 'priority_axis',
+    [this.queryParams.projectCollection]: 'project_types',
+    [this.queryParams.interventionField]: 'categoriesOfIntervention',
+    [this.queryParams.sdg]: 'sdg'
+  }
   public translations: any = {};
 
   constructor(private http: HttpClient,
