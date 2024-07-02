@@ -19,7 +19,15 @@ mat-drawer, mat-sidenav {
 .mat-mdc-paginator{
     background: transparent;
 }
-
+.full-screen-dialog .mat-dialog-container {
+  padding: 0 !important;
+  margin: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: 100vw !important;
+  max-height: 100vh !important;
+  border-radius: 0 !important;
+}
 .infoButton {
   display: inline-block;
   transform: translateY(12%);
