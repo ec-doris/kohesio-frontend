@@ -122,6 +122,7 @@ export class MapComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroyed))
       .subscribe(result => {
         for (const query of Object.keys(result.breakpoints)) {
+          this.projectNearButtonWidth = this.projectNear.nativeElement.offsetWidth + 10;
           this.mobileQuery = result.breakpoints[query];
         }
       });
