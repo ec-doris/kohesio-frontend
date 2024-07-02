@@ -64,6 +64,7 @@ export class MapComponent implements AfterViewInit {
   } ];
   @Input() showFilters = false;
   filterResult$$ = this.filterService.showResult.pipe(filter(_ => this.showFilters), takeUntilDestroyed());
+  // projectNearButtonWidth = 229;
   @Input()
   public mapId = 'map';
   @Input()
@@ -121,6 +122,7 @@ export class MapComponent implements AfterViewInit {
       .pipe(takeUntil(this.destroyed))
       .subscribe(result => {
         for (const query of Object.keys(result.breakpoints)) {
+          this.projectNearButtonWidth = this.projectNear.nativeElement.offsetWidth + 10;
           this.mobileQuery = result.breakpoints[query];
         }
       });
@@ -858,11 +860,18 @@ export class MapComponent implements AfterViewInit {
   }
 
   openFilterDialog() {
-    this.dialog.open(FiltersComponent, {
+    const config = this.mobileQuery ? {
+      width: '100vw',
+      height: '100vh',
+      maxWidth: '100vw',
+      maxHeight: '100vh',
+      panelClass: 'full-screen-dialog'
+    } : {
       width: '50%',
       height: '100%',
       panelClass: 'filter-dialog'
-    });
+    };
+    this.dialog.open(FiltersComponent, config);
   }
 
   private getFilterLabel(type: string, label: string) {
