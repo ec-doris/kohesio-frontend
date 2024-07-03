@@ -108,6 +108,6 @@ mat-tab-body{
   margin-top: 100px !important;
 }
 /* fix for small resolution */
-.filter-dialog .mat-dialog-container {
+.filter-dialog mat-dialog-container {
   max-height: 80vh;
 }
