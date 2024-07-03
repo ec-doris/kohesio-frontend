@@ -1,4 +1,4 @@
-import { BreakpointObserver } from '@angular/cdk/layout';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
   AfterViewInit,
@@ -39,6 +39,7 @@ export class MapComponent implements AfterViewInit {
   filtersCount = 0;
   @ViewChild('projectNear') projectNear!: ElementRef;
   projectNearButtonWidth: number = 0;
+  mobileFilters = false;
   public filters: Filters = new Filters();
   public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
   public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
@@ -98,6 +99,7 @@ export class MapComponent implements AfterViewInit {
   private destroyed = new Subject<void>();
   private lastFiltersSearch: any;
 
+
   constructor(private mapService: MapService,
               private filterService: FilterService,
               private _decimalPipe: DecimalPipe,
@@ -126,7 +128,13 @@ export class MapComponent implements AfterViewInit {
           this.mobileQuery = result.breakpoints[query];
         }
       });
-
+    breakpointObserver.observe([ Breakpoints.Handset, Breakpoints.Tablet ])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(result => {
+        if (result.matches) {
+          this.mobileFilters = true;
+        }
+      });
     if (this.mobileQuery) {
       this.europe.bounds = this.europeBoundsMobile;
     }
@@ -860,7 +868,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   openFilterDialog() {
-    const config = this.mobileQuery ? {
+    const config = this.mobileFilters ? {
       width: '100vw',
       height: '100vh',
       maxWidth: '100vw',
