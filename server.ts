@@ -18,7 +18,8 @@ export function app(): express.Express {
   // @ts-ignore
   const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
   // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-  const distFolder = join(dir ? dir : process.cwd(), `dist/kohesio-frontend/browser/${lang}`);
+  const distFolder =  `${dir}${lang}`;
+  // console.log('distFolder',distFolder);
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? join(distFolder, 'index.original.html')
     : join(distFolder, 'index.html');
