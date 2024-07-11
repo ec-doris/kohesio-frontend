@@ -14,7 +14,8 @@ import { LOCALE_ID } from '@angular/core';
 export function app(): express.Express {
   const server = express();
   // @ts-ignore
-  const lang = process.env.LANG || 'pl';
+  const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
+
   // @ts-ignore
   const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
   // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
