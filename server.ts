@@ -11,10 +11,11 @@ import { REQUEST, RESPONSE } from './src/express.tokens';
 import { LOCALE_ID } from '@angular/core';
 
 // The Express app is exported so that it can be used by serverless Functions.
+// @ts-ignore
 export function app(): express.Express {
   const server = express();
   // @ts-ignore
-  const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
+  const lang =  'en';
 
   // @ts-ignore
   const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
