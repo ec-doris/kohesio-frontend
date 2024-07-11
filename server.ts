@@ -8,14 +8,16 @@ import { existsSync } from 'node:fs';
 import { join } from 'node:path';
 import {  AppServerModule as bootstrap } from './src/main.server';
 import { REQUEST, RESPONSE } from './src/express.tokens';
+import { LOCALE_ID } from '@angular/core';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-    ? join(distFolder, 'index.original.html')
-    : join(distFolder, 'index.html');
+  // const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+  //   ? join(distFolder, 'index.original.html')
+  //   : join(distFolder, 'index.html');
+  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const commonEngine = new CommonEngine();
 
@@ -32,6 +34,7 @@ export function app(): express.Express {
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
+    const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
 
     commonEngine
       .render({
@@ -42,7 +45,8 @@ export function app(): express.Express {
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
-          { provide: REQUEST, useValue: req }
+          { provide: REQUEST, useValue: req },
+          { provide: LOCALE_ID, useValue: lang }
 ],
       })
       .then((html) => res.send(html))
