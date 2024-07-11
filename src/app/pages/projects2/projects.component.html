@@ -29,7 +29,7 @@
             <mat-icon>cancel</mat-icon>
         </button></mat-chip>
 </mat-chip-set>
-<mat-drawer-container class="filters-wrapper-container" autosize>
+<mat-drawer-container class="filters-wrapper-container" autosize style="max-width: 350px">
 
     <mat-drawer-content [ngClass]="getClassMatDrawerContent()" [style]="isPlatformServer() ? 'margin-left:350px;' : ''">
         <mat-tab-group (selectedIndexChange)="onTabSelected($event)" [selectedIndex]="selectedTabIndex">

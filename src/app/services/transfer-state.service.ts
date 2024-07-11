@@ -1,5 +1,5 @@
-import {Inject, Injectable, PLATFORM_ID} from "@angular/core";
-import {makeStateKey, StateKey, TransferState} from "@angular/platform-browser";
+import { Inject, Injectable, PLATFORM_ID, makeStateKey, StateKey, TransferState } from "@angular/core";
+
 import {Observable, of, tap} from "rxjs";
 import {isPlatformServer} from "@angular/common";
 import {environment} from "../../environments/environment";

@@ -1,18 +1,17 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { existsSync } from 'fs';
-import {ConfigService} from "@nestjs/config";
+import { ConfigService } from '@nestjs/config';
 import * as sessionActive from 'express-session';
 import * as sessionInactive from 'express-session';
-import * as passport from "passport";
+import * as passport from 'passport';
 import helmet from 'helmet';
-import RedisStore from "connect-redis"
-import {createClient} from "redis";
+import RedisStore from 'connect-redis';
+import { createClient } from 'redis';
 import * as cookieParser from 'cookie-parser';
-import {Logger, LogLevel, RequestMethod} from "@nestjs/common";
-import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
+import { Logger, LogLevel, RequestMethod } from '@nestjs/common';
+import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import * as session from 'express-session';
-import {HttpService} from "@nestjs/axios";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -35,19 +34,19 @@ async function bootstrap() {
   console.log("ENVIRONMENT="+environment);
   app.use(cookieParser());
 
-  if(LOG_LEVEL.includes("debug")) {
-    const httpService: HttpService = app.get(HttpService);
-    httpService.axiosRef.interceptors.request.use(config => {
-      if (!config.url.includes('notifications/count-unseen')) {
-        let logString: string = config.method.toUpperCase() + "-" + config.url;
-        if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
-          logString += ",PARAMS=" + JSON.stringify(config.params);
-        }
-        logger.debug(logString);
-      }
-      return config;
-    })
-  }
+  // if(LOG_LEVEL.includes("debug")) {
+  //   const httpService: HttpService = app.get(HttpService);
+  //   httpService.axiosRef.interceptors.request.use(config => {
+  //     if (!config.url.includes('notifications/count-unseen')) {
+  //       let logString: string = config.method.toUpperCase() + "-" + config.url;
+  //       if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
+  //         logString += ",PARAMS=" + JSON.stringify(config.params);
+  //       }
+  //       logger.debug(logString);
+  //     }
+  //     return config;
+  //   })
+  // }
 
   if (environment == 'local') {
     app.enableCors({
@@ -96,7 +95,7 @@ async function bootstrap() {
       resave: false,
       rolling: true,
       saveUninitialized: true,
-      name: "kohesio.sid",
+      name: 'kohesio.sid',
       cookie: {
         secure: true,
         maxAge: (60000 * 60) * 2 //2 hours
@@ -114,7 +113,7 @@ async function bootstrap() {
   app.use((req, res, next) => {
     if (req.path === '/api/user') {
       sessionObj.inactive(req, res, next);
-    }else{
+    } else {
       sessionObj.active(req, res, next);
     }
   });
@@ -138,8 +137,8 @@ async function bootstrap() {
     });
   }
 
-  if (environment != "local") {
-    for (let lang of languages) {
+  if (environment != 'local') {
+    for (const lang of languages) {
       const subApp = await getTranslatedServer(lang);
       if (subApp) {
         //console.log("LANG=",lang);
