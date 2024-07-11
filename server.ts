@@ -14,10 +14,10 @@ import { LOCALE_ID } from '@angular/core';
 export function app(): express.Express {
   const server = express();
   const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-  // const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-  //   ? join(distFolder, 'index.original.html')
-  //   : join(distFolder, 'index.html');
-  const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+    ? join(distFolder, 'index.original.html')
+    : join(distFolder, 'index.html');
+  // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const commonEngine = new CommonEngine();
 
