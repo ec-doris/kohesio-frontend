@@ -44,7 +44,7 @@ export function app(): express.Express {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
     console.log('lang',lang);
-    console.log('Niki',req.headers['accept-language']);
+    console.log('NikReq',req);
     console.log('indexHtml',indexHtml);
     commonEngine
       .render({
