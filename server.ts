@@ -13,12 +13,13 @@ import { LOCALE_ID } from '@angular/core';
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const lang = 'en';
+  // const lang = 'en';
 
   // @ts-ignore
-  const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
+  // const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
   // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-  const distFolder = join(dir ? dir : process.cwd(), `${lang}`);
+  // const distFolder = join(dir ? dir : process.cwd(), `${lang}`);
+  const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
 
   // const indexHtml = existsSync(join(distFolder, 'index.original.html'))
   //   ? join(distFolder, 'index.original.html')
