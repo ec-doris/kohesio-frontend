@@ -42,7 +42,7 @@ export function app(): express.Express {
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
-    const indexHtmlPath = join(distFolder, `${lang}/index.html`);
+    const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
     const indexHtml = existsSync(indexHtmlPath)
       ? indexHtmlPath
       : join(distFolder, 'en/index.html');
