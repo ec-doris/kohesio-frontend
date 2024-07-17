@@ -49,9 +49,11 @@ export function app(): express.Express {
     console.log('lang',lang);
     console.log('baseUrl',baseUrl);
     console.log('indexHtml',indexHtml);
+    console.log('distFolder',distFolder);
     console.log('REQUEST', REQUEST);
     console.log('RESPONSE', RESPONSE);
     console.log('LOCALE_ID', LOCALE_ID);
+    console.log('url', `${protocol}://${headers.host}${originalUrl}`);
 
     commonEngine
       .render({
