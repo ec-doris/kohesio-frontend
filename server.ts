@@ -50,9 +50,9 @@ export function app(): express.Express {
     console.log('baseUrl',baseUrl);
     console.log('indexHtml',indexHtml);
     console.log('distFolder',distFolder);
-    console.log('REQUEST', REQUEST);
-    console.log('RESPONSE', RESPONSE);
-    console.log('LOCALE_ID', LOCALE_ID);
+    // console.log('REQUEST', REQUEST);
+    // console.log('RESPONSE', RESPONSE);
+    // console.log('LOCALE_ID', LOCALE_ID);
     console.log('url', `${protocol}://${headers.host}${originalUrl}`);
 
     commonEngine
@@ -60,7 +60,7 @@ export function app(): express.Express {
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: join(distFolder, `${baseUrl.slice(1)}`),
+        publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
