@@ -54,13 +54,14 @@ export function app(): express.Express {
     // console.log('RESPONSE', RESPONSE);
     // console.log('LOCALE_ID', LOCALE_ID);
     console.log('url', `${protocol}://${headers.host}${originalUrl}`);
+    // publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
 
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
+        publicPath: distFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
