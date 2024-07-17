@@ -20,9 +20,9 @@ export function app(): express.Express {
   // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
   const distFolder = join(dir ? dir : process.cwd(), `${lang}`);
 
-  const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-    ? join(distFolder, 'index.original.html')
-    : join(distFolder, 'index.html');
+  // const indexHtml = existsSync(join(distFolder, 'index.original.html'))
+  //   ? join(distFolder, 'index.original.html')
+  //   : join(distFolder, 'index.html');
   // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const commonEngine = new CommonEngine();
@@ -41,12 +41,17 @@ export function app(): express.Express {
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
+    const indexHtmlPath = join(distFolder, `${lang}/index.html`);
+    const indexHtml = existsSync(indexHtmlPath)
+      ? indexHtmlPath
+      : join(distFolder, 'en/index.html');
     console.log('lang',lang);
     console.log('baseUrl',baseUrl);
     console.log('indexHtml',indexHtml);
     console.log('REQUEST', REQUEST);
     console.log('RESPONSE', RESPONSE);
     console.log('LOCALE_ID', LOCALE_ID);
+
     commonEngine
       .render({
         bootstrap,
