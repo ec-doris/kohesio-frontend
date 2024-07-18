@@ -42,9 +42,7 @@ export function app(): express.Express {
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
-    // const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
-    const indexHtmlPath = join(distFolder, `${lang}/index.html`);
-
+    const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
     const indexHtml = existsSync(indexHtmlPath)
       ? indexHtmlPath
       : join(distFolder, 'en/index.html');
@@ -63,7 +61,7 @@ export function app(): express.Express {
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: distFolder,
+        publicPath: join(distFolder, `${baseUrl.slice(1)}`),
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
@@ -71,7 +69,10 @@ export function app(): express.Express {
           { provide: LOCALE_ID, useValue: lang }
         ],
       })
-      .then((html) => res.send(html))
+      .then((html) => {
+        console.log('html',html);
+        return res.send(html);
+      })
       .catch((err) => next(err));
   });
 
