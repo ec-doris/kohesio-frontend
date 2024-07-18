@@ -161,7 +161,8 @@ async function getTranslatedServer(lang) {
   if (existsSync(file)) {
     const server = await import(file);
     const serverApp = server.app(lang,'/app/');
-    //console.log("SERVERAPP",serverApp);
+    console.log("SERVERAPP",serverApp);
+    console.log("SERVERAPPlang",lang);
     return serverApp;
   }
 };
