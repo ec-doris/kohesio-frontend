@@ -52,7 +52,7 @@ export function app(): express.Express {
     console.log('distFolder',distFolder);
     // console.log('REQUEST', REQUEST);
     // console.log('RESPONSE', RESPONSE);
-    console.log( 'publicPath', baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`));
+    console.log( 'publicPath',  join(distFolder, `${baseUrl.slice(1)}`));
     console.log('url', `${protocol}://${headers.host}${originalUrl}`);
     // publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
 
