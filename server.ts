@@ -52,7 +52,7 @@ export function app(): express.Express {
     console.log('distFolder',distFolder);
     // console.log('REQUEST', REQUEST);
     // console.log('RESPONSE', RESPONSE);
-    // console.log('LOCALE_ID', LOCALE_ID);
+    console.log( 'publicPath', baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`));
     console.log('url', `${protocol}://${headers.host}${originalUrl}`);
     // publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
 
@@ -61,7 +61,7 @@ export function app(): express.Express {
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
+        publicPath:  distFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
