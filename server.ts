@@ -42,26 +42,23 @@ export function app(): express.Express {
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
-    const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
+    const indexHtmlPath = join(distFolder, `${lang}/index.html`);
     const indexHtml = existsSync(indexHtmlPath)
       ? indexHtmlPath
       : join(distFolder, 'en/index.html');
     console.log('lang',lang);
     console.log('baseUrl',baseUrl);
     console.log('indexHtml',indexHtml);
-    console.log('distFolder',distFolder);
     // console.log('REQUEST', REQUEST);
     // console.log('RESPONSE', RESPONSE);
-    console.log( 'publicPath',  join(distFolder, `${baseUrl.slice(1)}`));
-    console.log('url', `${protocol}://${headers.host}${originalUrl}`);
-    // publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
+    // console.log('LOCALE_ID', LOCALE_ID);
 
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: join(distFolder, `${baseUrl.slice(1)}`),
+        publicPath: distFolder,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
@@ -69,10 +66,7 @@ export function app(): express.Express {
           { provide: LOCALE_ID, useValue: lang }
         ],
       })
-      .then((html) => {
-        console.log('html',html);
-        return res.send(html);
-      })
+      .then((html) => res.send(html))
       .catch((err) => next(err));
   });
 
