@@ -1,4 +1,4 @@
-import {Injectable} from "@nestjs/common";
+import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
 import {firstValueFrom, map, throwError} from "rxjs";
 import {HttpService} from "@nestjs/axios";
 import {ConfigService} from "@nestjs/config";
@@ -11,6 +11,7 @@ import {
   ProjectSearchWrapperOutDto
 } from "./project.dto";
 import {UserDTO} from "../users/dtos/user.dto";
+import axios, { AxiosResponse } from 'axios';
 
 
 
@@ -61,13 +62,20 @@ export class ProjectService {
     );
   }
 
+  async getFileCsv(type: string, params: ProjectSearchInDto): Promise<AxiosResponse> {
+    const url = `${this.baseUrl}/search/project/${type}`;
+    try {
+      return await axios({ url, method: 'GET', params, responseType: 'stream' });
+    } catch (error) {
+      throw new HttpException('Error downloading the file', HttpStatus.SERVICE_UNAVAILABLE);
+    }
+  }
   async getFile(type: string, params: ProjectSearchInDto):Promise<any>{
     return this.httpService.axiosRef.get(`${this.baseUrl}/search/project/${type}`, {
       params: params,
       responseType: 'stream'
     });
   }
-
   async project(params: ProjectInDto):Promise<ProjectOutDto>{
     return await firstValueFrom(
       this.httpService.get<ProjectOutDto>(`${this.baseUrl}/project`,{
