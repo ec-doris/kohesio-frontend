@@ -1,18 +1,18 @@
-import {HttpException, HttpStatus, Injectable} from "@nestjs/common";
-import {firstValueFrom, map, throwError} from "rxjs";
-import {HttpService} from "@nestjs/axios";
-import {ConfigService} from "@nestjs/config";
-import {plainToInstance} from "class-transformer";
-import {catchError} from "rxjs/operators";
+import { HttpService } from '@nestjs/axios';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
+import axios, { AxiosResponse } from 'axios';
+import { plainToInstance } from 'class-transformer';
+import { firstValueFrom, map, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { UserDTO } from '../users/dtos/user.dto';
 import {
-  ProjectImageSearchWrapperOutDto, ProjectInDto,
+  ProjectImageSearchWrapperOutDto,
+  ProjectInDto,
   ProjectOutDto,
   ProjectSearchInDto,
   ProjectSearchWrapperOutDto
-} from "./project.dto";
-import {UserDTO} from "../users/dtos/user.dto";
-import axios, { AxiosResponse } from 'axios';
-
+} from './project.dto';
 
 
 @Injectable()
@@ -62,18 +62,22 @@ export class ProjectService {
     );
   }
 
-  async getFileCsv(type: string, params: ProjectSearchInDto): Promise<AxiosResponse> {
+  async getFile(type: string, params: ProjectSearchInDto): Promise<any> {
     const url = `${this.baseUrl}/search/project/${type}`;
-    try {
-      return await axios({ url, method: 'GET', params, responseType: 'stream' });
-    } catch (error) {
-      throw new HttpException('Error downloading the file', HttpStatus.SERVICE_UNAVAILABLE);
-    }
-  }
-  async getFile(type: string, params: ProjectSearchInDto):Promise<any>{
-    return this.httpService.axiosRef.get(`${this.baseUrl}/search/project/${type}`, {
-      params: params,
-      responseType: 'stream'
+    const result: AxiosResponse = await axios({ url, method: 'GET', params, responseType: 'stream' });
+
+    return new Promise<Buffer>((resolve, reject) => {
+      const chunks: Buffer[] = [];
+      result.data.on('data', (chunk: Buffer) => chunks.push(chunk));
+
+      result.data.on('end', () => {
+        const buffer = Buffer.concat(chunks);
+        resolve(buffer);
+      });
+
+      result.data.on('error', (err) => {
+        reject(err);
+      });
     });
   }
   async project(params: ProjectInDto):Promise<ProjectOutDto>{

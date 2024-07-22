@@ -21,7 +21,7 @@ export class ProjectController {
 
   @Get('')
   @ApiOkResponse({
-    type:ProjectSearchWrapperOutDto
+    type: ProjectSearchWrapperOutDto
   })
   @ApiBadRequestResponse({ description: 'Project not found' })
   @ApiServiceUnavailableResponse({ description: 'Service is unavailable' })
@@ -51,20 +51,10 @@ export class ProjectController {
   @ApiProduces('text/csv')
   async getCsvFile(@Query() queryParam: ProjectSearchInDto, @Res() response: Response) {
     try {
-      const result: AxiosResponse = await this.projectService.getFileCsv('csv', queryParam);
-
-      const chunks = [];
-      result.data.on('data', chunk => chunks.push(chunk));
-      result.data.on('end', () => {
-        const buffer = Buffer.concat(chunks);
-        response.setHeader('Content-Type', 'text/csv');
-        response.setHeader('Content-Disposition', 'attachment; filename="projects.csv"');
-        response.send(buffer);
-      });
-      result.data.on('error', (err) => {
-        console.error('Stream error:', err);
-        response.status(HttpStatus.INTERNAL_SERVER_ERROR).send('Error downloading file');
-      });
+      const result: AxiosResponse = await this.projectService.getFile('csv', queryParam);
+      response.setHeader('Content-Type', 'text/csv');
+      response.setHeader('Content-Disposition', 'attachment; filename="projects.csv"');
+      response.send(result);
     } catch (error) {
       console.error('Error:', error);
       response.status(HttpStatus.SERVICE_UNAVAILABLE).send('Service is unavailable');
@@ -78,14 +68,19 @@ export class ProjectController {
       format: 'binary',
     },
   })
-  @ApiBadRequestResponse({description: "File not found"})
-  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  @ApiBadRequestResponse({ description: 'File not found' })
+  @ApiServiceUnavailableResponse({ description: 'Service is unavailable' })
   @ApiProduces('application/vnd.ms-excel')
-  async getExcelFile(@Query() queryParam: ProjectSearchInDto, @Res({ passthrough: true }) response: Response){
-    const result:AxiosResponse = await this.projectService.getFile("excel",queryParam).catch(this.errorHandler);
-    response.contentType('application/vnd.ms-excel');
-    response.set("Content-Disposition", 'attachment; filename="projects.xlsx"');
-    result.data.pipe(response)
+  async getExcelFile(@Query() queryParam: ProjectSearchInDto, @Res({ passthrough: true }) response: Response) {
+    try {
+      const result: AxiosResponse = await this.projectService.getFile('excel', queryParam).catch(this.errorHandler);
+      response.contentType('application/vnd.ms-excel');
+      response.set('Content-Disposition', 'attachment; filename="projects.xlsx"');
+      response.send(result);
+    } catch (error) {
+      console.error('Error:', error);
+      response.status(HttpStatus.SERVICE_UNAVAILABLE).send('Service is unavailable');
+    }
   }
 
   @Get(':id')
