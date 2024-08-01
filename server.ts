@@ -11,12 +11,12 @@ import { REQUEST, RESPONSE } from './src/express.tokens';
 import { LOCALE_ID } from '@angular/core';
 
 // The Express app is exported so that it can be used by serverless Functions.
-export function app(): express.Express {
+export function app(lang: string = 'en'): express.Express {
   const server = express();
   // const lang = 'en';
 
   // @ts-ignore
-  // const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
+  const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
   // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
   // const distFolder = join(dir ? dir : process.cwd(), `${lang}`);
   const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
@@ -25,46 +25,48 @@ export function app(): express.Express {
   //   ? join(distFolder, 'index.original.html')
   //   : join(distFolder, 'index.html');
   // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
+  // const distFolder =  `/home/niki/IdeaProjects/kohesio-frontend/dist/kohesio-frontend/browser/`;
+  // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
 
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
 
-  // Example Express Rest API endpoints
-  // server.get('/api/**', (req, res) => { });
-  // Serve static files from /browser
   server.get('*.*', express.static(distFolder, {
-    maxAge: '1y'
+    maxAge: '1y',
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      } else if (path.endsWith('.css')) {
+        res.setHeader('Content-Type', 'text/css');
+      } else if (path.endsWith('.html')) {
+        res.setHeader('Content-Type', 'text/html');
+      }
+    }
   }));
 
   // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
-    const lang = req.headers['accept-language'] ? req.headers['accept-language'].split(',')[0] : 'en';
+    const lang = baseUrl.split('/')[1] || 'en';
+    // console.log('lang',lang);
     const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
     const indexHtml = existsSync(indexHtmlPath)
       ? indexHtmlPath
       : join(distFolder, 'en/index.html');
-    console.log('lang',lang);
-    console.log('baseUrl',baseUrl);
-    console.log('indexHtml',indexHtml);
-    console.log('distFolder',distFolder);
-    console.log( 'publicPath',  join(distFolder, `${baseUrl.slice(1)}`));
-    console.log('url', `${protocol}://${headers.host}${originalUrl}`);
-    // publicPath: baseUrl == '/en' ? distFolder : join(distFolder, `${baseUrl.slice(1)}`),
 
     commonEngine
       .render({
         bootstrap,
         documentFilePath: indexHtml,
         url: `${protocol}://${headers.host}${originalUrl}`,
-        publicPath: join(distFolder, `${baseUrl.slice(1)}`),
+        publicPath: join(distFolder, `${lang}`),
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
           { provide: REQUEST, useValue: req },
-          { provide: LOCALE_ID, useValue: lang }
+          { provide: LOCALE_ID, useValue: lang },
         ],
       })
       .then((html) => res.send(html))

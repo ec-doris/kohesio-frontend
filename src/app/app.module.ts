@@ -4,7 +4,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
 
 import { registerLocaleData } from '@angular/common';
@@ -63,6 +63,7 @@ registerLocaleData(LocaleEnglish);
   providers: [
     DecimalPipe,
     DatePipe,
+    provideHttpClient(withFetch()),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppCustomLogic,
