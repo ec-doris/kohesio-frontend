@@ -98,6 +98,8 @@ export class MapComponent implements AfterViewInit {
   private layers: any[] = [];
   private destroyed = new Subject<void>();
   private lastFiltersSearch: any;
+  private hoveredLayer: any;
+  private wheelTimeout: any;
 
 
   constructor(private mapService: MapService,
@@ -252,7 +254,7 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      this.loadMapRegion(this.lastFiltersSearch, undefined, true);
+      this.loadMapRegion(this.lastFiltersSearch, undefined);
       this._router.navigate([], { relativeTo: this.route, queryParams: this.generateQueryParams() });
       // this.map.refreshView();
       // this.map.isLoading = true;
@@ -318,6 +320,7 @@ export class MapComponent implements AfterViewInit {
       iconUrl: 'assets/images/map/marker-icon-2x.png',
       shadowUrl: 'assets/images/map/marker-shadow.png'
     };
+    this.setUpZoomListener();
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
@@ -533,8 +536,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string, euroLabel = false) {
-    //this.isLoading = true;
+  loadMapRegion(filters: Filters, granularityRegion?: string) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
@@ -777,6 +779,7 @@ export class MapComponent implements AfterViewInit {
         mouseover: (e: any) => {
           const layer = e.target;
           if (layer.feature.properties) {
+            this.hoveredLayer = layer;
             layer.setStyle({
               fillOpacity: 1
             });
@@ -880,6 +883,20 @@ export class MapComponent implements AfterViewInit {
       panelClass: 'filter-dialog'
     };
     this.dialog.open(FiltersComponent, config);
+  }
+
+  private setUpZoomListener(): void {
+    this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
+      if (this.wheelTimeout) {
+        clearTimeout(this.wheelTimeout);
+      }
+      this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.in() : this.hoveredLayer.fire('click'), 100);
+    });
+  }
+
+  private in() {
+    const mapRegion = this.mapRegions.length == 1 ? this.mapRegions[0].region : this.mapRegions[this.mapRegions.length - 2].region;
+    this.loadMapRegion(this.filters, mapRegion);
   }
 
   private getFilterLabel(type: string, label: string) {
