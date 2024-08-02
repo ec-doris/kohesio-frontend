@@ -1,66 +1,36 @@
-
 import 'zone.js/node';
 
 import { APP_BASE_HREF } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 import { CommonEngine } from '@angular/ssr';
 import * as express from 'express';
 import { existsSync } from 'node:fs';
 import { join } from 'node:path';
-import {  AppServerModule as bootstrap } from './src/main.server';
 import { REQUEST, RESPONSE } from './src/express.tokens';
-import { LOCALE_ID } from '@angular/core';
+import { AppServerModule as bootstrap } from './src/main.server';
 
-// The Express app is exported so that it can be used by serverless Functions.
-export function app(lang: string = 'en'): express.Express {
+
+export function app(): express.Express {
   const server = express();
-  // const lang = 'en';
-
   // @ts-ignore
-  const dir = process.env.DIST_DIR || join(process.cwd(), 'dist/kohesio-frontend/browser');
-  // const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-  // const distFolder = join(dir ? dir : process.cwd(), `${lang}`);
+  // const distFolder = process.env.DIST_DIR || join(process.cwd(), '../dist/kohesio-frontend/browser');
+  // const commonEngine = new CommonEngine();
+
   const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
-
-  // const indexHtml = existsSync(join(distFolder, 'index.original.html'))
-  //   ? join(distFolder, 'index.original.html')
-  //   : join(distFolder, 'index.html');
-  // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
-  // const distFolder =  `/home/niki/IdeaProjects/kohesio-frontend/dist/kohesio-frontend/browser/`;
-  // const indexHtml = existsSync(join(distFolder, 'index.original.html')) ? 'index.original.html' : 'index';
-
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
-
-  server.get('*.*', express.static(distFolder, {
-    maxAge: '1y',
-    setHeaders: (res, path) => {
-      if (path.endsWith('.js')) {
-        res.setHeader('Content-Type', 'application/javascript');
-      } else if (path.endsWith('.css')) {
-        res.setHeader('Content-Type', 'text/css');
-      } else if (path.endsWith('.html')) {
-        res.setHeader('Content-Type', 'text/html');
-      }
-    }
-  }));
-
-  // All regular routes use the Angular engine
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
-    const lang = baseUrl.split('/')[1] || 'en';
-    // console.log('lang',lang);
-    const indexHtmlPath = join(distFolder, `${baseUrl.slice(1)}/index.html`);
-    const indexHtml = existsSync(indexHtmlPath)
-      ? indexHtmlPath
-      : join(distFolder, 'en/index.html');
-
+    const url = `${protocol}://${headers.host}${originalUrl}`;
+    const lang = originalUrl.split('/')[1] || 'en';
+    const indexHtml = existsSync(join(distFolder, `${lang}/index.html`)) ? `${lang}/index.html` : 'en/index.html';
     commonEngine
       .render({
         bootstrap,
-        documentFilePath: indexHtml,
-        url: `${protocol}://${headers.host}${originalUrl}`,
+        documentFilePath: join(distFolder, indexHtml),
+        url,
         publicPath: join(distFolder, `${lang}`),
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
@@ -78,8 +48,6 @@ export function app(lang: string = 'en'): express.Express {
 
 function run(): void {
   const port = process.env['PORT'] || 4000;
-
-  // Start up the Node server
   const server = app();
   server.listen(port, () => {
     console.log(`Node Express server listening on http://localhost:${port}`);
