@@ -890,11 +890,18 @@ export class MapComponent implements AfterViewInit {
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
-      this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.in() : this.hoveredLayer.fire('click'), 100);
+      this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.out() : this.in(), 100);
     });
   }
 
   private in() {
+    if (this.mapRegions[this.mapRegions.length-1].label ===  this.hoveredLayer?.feature?.properties?.regionLabel) {
+      return;
+    }
+    this.hoveredLayer.fire('click');
+  }
+
+  private out() {
     const mapRegion = this.mapRegions.length == 1 ? this.mapRegions[0].region : this.mapRegions[this.mapRegions.length - 2].region;
     this.loadMapRegion(this.filters, mapRegion);
   }
