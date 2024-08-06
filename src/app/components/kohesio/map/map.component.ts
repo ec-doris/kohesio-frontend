@@ -887,6 +887,7 @@ export class MapComponent implements AfterViewInit {
 
   private setUpZoomListener(): void {
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
+      if (!event.ctrlKey) return;
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
