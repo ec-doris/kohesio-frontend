@@ -10,33 +10,38 @@ import { REQUEST, RESPONSE } from './src/express.tokens';
 import { AppServerModule as bootstrap } from './src/main.server';
 
 
-export function app(): express.Express {
+export function app(language:string='en'): express.Express {
   const server = express();
   // @ts-ignore
   // const distFolder = process.env.DIST_DIR || join(process.cwd(), '../dist/kohesio-frontend/browser');
   // const commonEngine = new CommonEngine();
 
   const distFolder = join(process.cwd(), 'dist/kohesio-frontend/browser');
+  //const distFolder = `/app/dist/kohesio-frontend/browser`;
+  const distFolderLanguage = `${distFolder}/${language}`;
+  const indexHtml = `${distFolderLanguage}/index.html`;
   const commonEngine = new CommonEngine();
 
   server.set('view engine', 'html');
   server.set('views', distFolder);
+  server.get('*.*', express.static(distFolderLanguage, {
+    maxAge: '1y'
+  }));
   server.get('*', (req, res, next) => {
     const { protocol, originalUrl, baseUrl, headers } = req;
     const url = `${protocol}://${headers.host}${originalUrl}`;
-    const lang = originalUrl.split('/')[1] || 'en';
-    const indexHtml = existsSync(join(distFolder, `${lang}/index.html`)) ? `${lang}/index.html` : 'en/index.html';
+    //const indexHtml = existsSync(join(distFolder, `${lang}/index.html`)) ? `${lang}/index.html` : 'en/index.html';
     commonEngine
       .render({
         bootstrap,
-        documentFilePath: join(distFolder, indexHtml),
+        documentFilePath: indexHtml,
         url,
-        publicPath: join(distFolder, `${lang}`),
+        publicPath: distFolderLanguage,
         providers: [
           { provide: APP_BASE_HREF, useValue: baseUrl },
           { provide: RESPONSE, useValue: res },
           { provide: REQUEST, useValue: req },
-          { provide: LOCALE_ID, useValue: lang },
+          { provide: LOCALE_ID, useValue: language },
         ],
       })
       .then((html) => res.send(html))
@@ -46,7 +51,7 @@ export function app(): express.Express {
   return server;
 }
 
-function run(): void {
+/*function run(): void {
   const port = process.env['PORT'] || 4000;
   const server = app();
   server.listen(port, () => {
@@ -62,6 +67,6 @@ const mainModule = __non_webpack_require__.main;
 const moduleFilename = mainModule && mainModule.filename || '';
 if (moduleFilename === __filename || moduleFilename.includes('iisnode')) {
   run();
-}
+}*/
 
 export default bootstrap;
