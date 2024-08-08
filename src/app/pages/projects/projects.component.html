@@ -253,14 +253,14 @@
                             </div>
                         </header>
                         <div class="article--post__inner">
-                            <h1 class="ecl-u-type-heading-5">
+                            <h4 class="ecl-u-type-heading-4">
                                 <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                     <b>Highlighted project</b>
                                 </ux-popover> -->
                                 <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/'+translateService.routes.projects+'/'+ project.item]">{{project.title}}</a>
                                 <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
                                 <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
-                            </h1>
+                            </h4>
                             <footer class="article--post__footer">
                                 <ul class="nowrap">
                                     <li class="article--post__theme">
