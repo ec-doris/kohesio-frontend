@@ -129,7 +129,9 @@ export class TranslateService {
       "dialogTitleEditUser": $localize `:@@page.users.label.dialogTitleEditUser:Edit user`,
       "dialogTitleInviteUser": $localize `:@@page.users.label.dialogTitleInviteUser:Invite user`,
       "activeYES": $localize `:@@page.users.label.activeYES:YES`,
-      "activeNO": $localize `:@@page.users.label.activeNO:NO`
+      "activeNO": $localize `:@@page.users.label.activeNO:NO`,
+      "never": $localize `:@@page.users.label.never:Never`,
+      'AllCCIs': $localize `:@@page.users.label.AllCCIs:All CCIs`,
     },
     buttons:{
       "actionSave": $localize `:@@page.users.button.action.save:Save`,
