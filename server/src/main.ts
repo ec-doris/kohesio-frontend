@@ -16,6 +16,7 @@ import {HttpService} from "@nestjs/axios";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
+const defaultLanguage = "en";
 
 async function bootstrap() {
 
@@ -137,6 +138,18 @@ async function bootstrap() {
       }
     });
   }
+
+  app.use((req, res, next) => {
+    if (!req.path.includes('currentUser')) {
+      const pathParts = req.path.split('/');
+      const firstPart = pathParts[1];
+      if (!languages.includes(firstPart) && firstPart != 'api') {
+        const newPath = `/${defaultLanguage}${req.path}`;
+        return res.redirect(newPath);
+      }
+    }
+    next();
+  });
 
   if (environment != "local") {
     for (let lang of languages) {
