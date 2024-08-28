@@ -13,6 +13,7 @@ import {Logger, LogLevel, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
 import {HttpService} from "@nestjs/axios";
+import { join } from 'path';
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -145,6 +146,11 @@ async function bootstrap() {
       const firstPart = pathParts[1];
       if (!languages.includes(firstPart) && firstPart != 'api') {
         const newPath = `/${defaultLanguage}${req.path}`;
+        const newPathFull = join(__dirname, 'public', newPath);
+
+        if (!existsSync(newPathFull)) {
+          return res.redirect('/en');
+        }
         return res.redirect(newPath);
       }
     }
