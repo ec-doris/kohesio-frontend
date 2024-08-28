@@ -249,7 +249,7 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.projectNearButtonWidth = this.projectNear.nativeElement.offsetWidth + 10;
+      this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10;
     });
     this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
