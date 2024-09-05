@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, of, Subject } from 'rxjs';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { concatMap, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -29,6 +29,17 @@ import { MapPopupComponent } from './map-popup.component';
 
 declare let L: any;
 
+const boundingBox = {
+  _southWest: { lat: 42.529808314926164, lng: 23.461303710937504 },
+  _northEast: { lat: 43.25920592943639, lng: 24.982910156250004 }
+};
+
+const coordinates = { lat: 46.4977648, lng: 27.803085484685 };
+
+const isWithinBounds = (coords: { lat: number, lng: number }, bounds: { _southWest: { lat: number, lng: number }, _northEast: { lat: number, lng: number } }) => {
+  return coords.lat >= bounds._southWest.lat && coords.lat <= bounds._northEast.lat &&
+    coords.lng >= bounds._southWest.lng && coords.lng <= bounds._northEast.lng;
+};
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -92,6 +103,7 @@ export class MapComponent implements AfterViewInit {
   public onlyOnceParamsApply: boolean = true;
   public queryParamMapRegionName = 'mapRegion';
   public queryParamParentLocation = 'parentLocation';
+  zoomLevelSubject = new Subject<number>();
   private map: any;
   private markersGroup: any;
   //private labelsRegionsGroup;
@@ -100,6 +112,8 @@ export class MapComponent implements AfterViewInit {
   private lastFiltersSearch: any;
   private hoveredLayer: any;
   private wheelTimeout: any;
+  zoomLevel: any;
+  private destroyWheelBounds$ = new Subject<void>();
 
 
   constructor(private mapService: MapService,
@@ -359,10 +373,6 @@ export class MapComponent implements AfterViewInit {
 
       return marker;
     }
-  }
-
-  public goToProject(item: any) {
-    console.log('goToProject=' + item);
   }
 
   public addCircleMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: any = undefined) {
@@ -886,15 +896,101 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setUpZoomListener(): void {
+    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 6)).subscribe((zoomLevel) => {
+      // this.zoomLevel = this.map.getZoom();
+      console.log('inside');
+      this.collectVisibleCountries();
+    });
+
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
       if (!event.ctrlKey) return;
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
-      this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.out() : this.in(), 100);
+      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject.next(15), 100);
+    });
+
+    this.map.on('zoomend', () => {
+      console.log('Map zoom level:', this.map.getZoom());
+      this.zoomLevel = this.map.getZoom();
+    });
+    this.map.on('dragend', (event: any) => {
+      console.log('Map is being dragged', event);
     });
   }
 
+  private collectVisibleCountries(): void {
+    this.cancelPreviousRequest();
+    const mapBounds = this.map.getBounds();
+    console.log('Map Bounds:', mapBounds);
+    this.mapService.getMapInfoByRegion(mapBounds).pipe(
+      takeUntil(this.destroyWheelBounds$),
+      tap(data=>{
+
+
+
+      if (data.list && data.list.length) {
+        //Draw markers to each coordinate
+        this.uiMessageBoxHelper.close();
+        this.hideScale = true;
+        if (data.geoJson) {
+          this.drawPolygonsForRegion(data.geoJson, null);
+          this.fitToGeoJson(data.geoJson);
+        }
+        data.list.slice().reverse().forEach((point: any) => {
+          const coordinates = point.coordinates.split(',');
+          const popupContent = {
+            type: 'async',
+            filters: [],
+            coordinates: point.coordinates,
+            isHighlighted: point.isHighlighted,
+          };
+          const marker = this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+          this.hideOuterMostRegions = true;
+          if (this._route.snapshot.queryParamMap.has('coords')) {
+            const queryParamsCoords = this._route.snapshot.queryParamMap.get('coords');
+            if (point.coordinates == queryParamsCoords) {
+              marker.fire('click');
+            }
+          }
+        });
+      }
+    })).subscribe()
+    // const visibleCountries = this.layers.filter((layer: any) => {
+    //   const countryBounds = layer.getBounds();
+    //   return mapBounds.intersects(countryBounds);
+    // });
+    // // const visibleCountries = this.outermostRegions.filter((region: any) => {
+    // //   const countryBounds = this.getCountryBounds(region.country);
+    // //   return countryBounds && mapBounds.intersects(countryBounds);
+    // // });
+    //
+    // console.log('Visible Countries:', visibleCountries);
+    // const regions = visibleCountries.map((layer: any) => {
+    //   const properties = layer.getLayers()[0].feature.properties;
+    //   return { label: properties.regionLabel, value: properties.region };
+    // });
+    // console.log('Regions:', regions);
+  }
+
+  // private getCountryBounds(countryId: string): any {
+  //   const country = this.overrideBounds.find((c: any) => c.id === countryId);
+  //   return country ? country.bounds : null;
+  // }
+
+  // private setUpZoomListener(): void {
+  //   this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
+  //     if (!event.ctrlKey) return;
+  //     if (this.wheelTimeout) {
+  //       clearTimeout(this.wheelTimeout);
+  //     }
+  //     this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.out() : this.in(), 100);
+  //   });
+  // }
+
+  private cancelPreviousRequest(): void {
+    this.destroyWheelBounds$.next();
+  }
   private in() {
     if (this.mapRegions[this.mapRegions.length-1].label ===  this.hoveredLayer?.feature?.properties?.regionLabel) {
       return;
