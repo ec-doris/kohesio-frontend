@@ -903,7 +903,11 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
-      if (!event.ctrlKey) return;
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+
+      if (!isMobile && ((isMac && !event.metaKey) || (!isMac && !event.ctrlKey))) return;
+      // if (!event.ctrlKey) return;
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
