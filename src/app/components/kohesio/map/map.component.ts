@@ -103,7 +103,7 @@ export class MapComponent implements AfterViewInit {
   public onlyOnceParamsApply: boolean = true;
   public queryParamMapRegionName = 'mapRegion';
   public queryParamParentLocation = 'parentLocation';
-  zoomLevelSubject = new Subject<number>();
+  zoomLevelSubject = new Subject<boolean>();
   private map: any;
   private markersGroup: any;
   //private labelsRegionsGroup;
@@ -904,14 +904,14 @@ export class MapComponent implements AfterViewInit {
 
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-      const isMobile = /Mobi|Android/i.test(navigator.userAgent);
+      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
 
       if (!isMobile && ((isMac && !event.metaKey) || (!isMac && !event.ctrlKey))) return;
       // if (!event.ctrlKey) return;
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
-      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject.next(15), 100);
+      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject.next(true), 100);
     });
 
     this.map.on('zoomend', () => {
@@ -919,7 +919,8 @@ export class MapComponent implements AfterViewInit {
       this.zoomLevel = this.map.getZoom();
     });
     this.map.on('dragend', (event: any) => {
-      console.log('Map is being dragged', event);
+      this.zoomLevelSubject.next(true);
+      // console.log('Map is being dragged', event);
     });
   }
 
@@ -927,6 +928,7 @@ export class MapComponent implements AfterViewInit {
     this.cancelPreviousRequest();
     const mapBounds = this.map.getBounds();
     console.log('Map Bounds:', mapBounds);
+    this.cleanMap()
     this.mapService.getMapInfoByRegion(mapBounds).pipe(
       takeUntil(this.destroyWheelBounds$),
       tap(data=>{
@@ -937,15 +939,15 @@ export class MapComponent implements AfterViewInit {
         //Draw markers to each coordinate
         this.uiMessageBoxHelper.close();
         this.hideScale = true;
-        if (data.geoJson) {
-          this.drawPolygonsForRegion(data.geoJson, null);
-          this.fitToGeoJson(data.geoJson);
-        }
+        // if (data.geoJson) {
+        //   this.drawPolygonsForRegion(data.geoJson, null);
+        //   this.fitToGeoJson(data.geoJson);
+        // }
         data.list.slice().reverse().forEach((point: any) => {
           const coordinates = point.coordinates.split(',');
           const popupContent = {
             type: 'async',
-            filters: [],
+            filters: this.filters,
             coordinates: point.coordinates,
             isHighlighted: point.isHighlighted,
           };
