@@ -114,6 +114,7 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   zoomLevel: any;
   private destroyWheelBounds$ = new Subject<void>();
+  private focusNavigation = false;
 
 
   constructor(private mapService: MapService,
@@ -579,6 +580,7 @@ export class MapComponent implements AfterViewInit {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
+    this.focusNavigation = this.mapRegions.length > 1;
     this.loadMapVisualization(filters, granularityRegion);
   }
 
@@ -769,6 +771,7 @@ export class MapComponent implements AfterViewInit {
       }*/
       layer.on({
         click: (e: any) => {
+          this.focusNavigation = true;
           if (e.target.feature.properties) {
             //this.isLoading = true;
             const region = e.target.feature.properties.region;
@@ -896,7 +899,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setUpZoomListener(): void {
-    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 6)).subscribe((zoomLevel) => {
+    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 6 && !this.focusNavigation)).subscribe((zoomLevel) => {
       // this.zoomLevel = this.map.getZoom();
       console.log('inside');
       this.collectVisibleCountries();
