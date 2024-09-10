@@ -899,7 +899,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setUpZoomListener(): void {
-    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 6 && !this.focusNavigation)).subscribe((zoomLevel) => {
+    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && !this.focusNavigation)).subscribe((zoomLevel) => {
       // this.zoomLevel = this.map.getZoom();
       console.log('inside');
       this.collectVisibleCountries();
