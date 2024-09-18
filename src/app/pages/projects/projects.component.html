@@ -246,7 +246,7 @@
                                             </a>
                                         </ng-container>
                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
-                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}">
+                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}"  alt="European Commission Topic">
                                         </div>
                                     </div>
                                 </figure>
@@ -326,7 +326,7 @@
                     <ng-container *ngFor="let asset of assets">
                         <a [routerLink]="['/'+translateService.routes.projects+'/' + asset.item.replace(entityURL, '')]">
                             <div class="container">
-                                <img [src]="asset.image">
+                                <img [src]="asset.image"  alt="European Commission Image">
                                 <div class="title">{{asset.title}}</div>
                             </div>
                         </a>

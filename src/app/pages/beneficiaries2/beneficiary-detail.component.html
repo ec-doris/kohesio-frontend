@@ -70,7 +70,7 @@
                     <span i18n="@@page.beneficiary-detail.label.country">Country: </span>
                     <!-- <ux-popover #popover title="{{beneficiary.countryName ? beneficiary.countryName : beneficiary.countryCode}}" [showCloseIcon]="false" size="small" [hasNoContentPadding]="true">
                     </ux-popover> -->
-                    <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}"></span>
+                    <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}" alt="European Commission Flag"></span>
                 </div>
             </div>
             <div class="kohesio-side-content-block" *ngIf="beneficiary.budgetsPerFund && beneficiary.budgetsPerFund.length">
