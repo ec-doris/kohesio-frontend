@@ -10,7 +10,7 @@ import {FilterService} from "../../../services/filter.service";
 import {ProjectService} from "../../../services/project.service";
 import {MatPaginator} from "@angular/material/paginator";
 import {TranslateService} from "../../../services/translate.service";
-
+declare const ECL: any;
 @Component({
     templateUrl: './edits-dashboard.component.html',
     styleUrls: ['./edits-dashboard.component.scss']
@@ -49,6 +49,12 @@ export class EditsDashboardComponent implements AfterViewInit {
     ngAfterViewInit(): void {
     }
 
+    initializeECLTable() {
+      if (ECL?.autoInit) {
+        ECL.autoInit();
+      }
+    }
+
     getEditsList(){
       this.isLoading = true;
       this.editsList = [];
@@ -68,6 +74,7 @@ export class EditsDashboardComponent implements AfterViewInit {
             this.editsList = editData.data;
             this.editCount = editData.count;
             this.isLoading = false;
+            setTimeout(() => this.initializeECLTable(), 0);
           })
         }else{
           this.isLoading = false;

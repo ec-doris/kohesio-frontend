@@ -1,5 +1,5 @@
 <nav class="ecl-breadcrumb ecl-page-header__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
-    data-ecl-breadcrumb="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    data-ecl-breadcrumb="true" data-ecl-auto-init="Breadcrumb">
     <ol class="ecl-breadcrumb__container">
         <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
             <a [routerLink]="['/']"
@@ -19,20 +19,29 @@
     </div>
     <div class="users-table" *ngIf="editsList">
         <div class="ecl-table-responsive">
-            <table class="ecl-table ecl-table--zebra">
+            <table class="ecl-table ecl-table--zebra" id="table-id" data-ecl-auto-init="Table" data-ecl-table-sort-label="Sort table">
                 <thead class="ecl-table__head">
                 <tr class="ecl-table__row">
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.project">Project</th>
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.cci">CCI</th>
-                    <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.latestStatus">Latest Status</th>
-                    <th data-ecl-table-sort-toggle aria-sort="ascending" class="ecl-table__header">
+                    <th id="table-id-header-status" class="ecl-table__header" scope="col" data-ecl-table-sort-toggle>
+                        Latest Status
+                        <!--                        <ng-container i18n="@@page.edit.dashboard.label.latestStatus">Latest Status</ng-container>-->
+                        <!--                        <button class="ecl-table__arrow">-->
+                        <!--                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-up">-->
+                        <!--                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+                        <!--                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-down">-->
+                        <!--                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+                        <!--                        </button>-->
+                    </th>
+                    <th id="table-id-header-created" data-ecl-table-sort-toggle class="ecl-table__header">
                         <ng-container i18n="@@page.edit.dashboard.label.created">Created</ng-container>
-                        <button class="ecl-table__arrow">
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
-                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-down">
-                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
-                        </button>
+<!--                        <button class="ecl-table__arrow">-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-up">-->
+<!--                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+<!--                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-down">-->
+<!--                                <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+<!--                        </button>-->
                     </th>
                     <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.history">History</th>
                 </tr>
@@ -58,10 +67,10 @@
                         <td class="ecl-table__cell" data-ecl-table-header="CCI" style="max-width: 200px;">
                             <button type="button" class="ecl-tag ecl-tag--removable" style="white-space: normal;text-align: center;font-size: 12px;">{{edit.cci_label}}</button>
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="Latest Status">
+                        <td class="ecl-table__cell" data-ecl-table-header="Latest Status" headers="table-id-header-status" >
                             <div class="ecl-tag" style="text-decoration: none;">{{translateService.editManagement.status?.[edit.latest_status.toLowerCase()]}}</div>
                         </td>
-                        <td class="ecl-table__cell" data-ecl-table-header="Created" style="font-size: 14px;">
+                        <td class="ecl-table__cell" data-ecl-table-header="Created" headers="table-id-header-created" style="font-size: 14px;">
                             {{edit.creation_time?.toLocaleString()}}
                         </td>
                         <td class="ecl-table__cell action" data-ecl-table-header="History">
@@ -74,14 +83,14 @@
                                 <table class="ecl-table ecl-table--zebra">
                                     <thead class="ecl-table__head">
                                     <tr class="ecl-table__row">
-                                        <th class="ecl-table__header" data-ecl-table-sort-toggle aria-sort="ascending">
+                                        <th class="ecl-table__header" data-ecl-table-sort-toggle >
                                             <ng-container i18n="@@page.edit.dashboard.label.historyCreated">Created</ng-container>
-                                            <button class="ecl-table__arrow">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-up">
-                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon--l ecl-table__icon-down">
-                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>
-                                            </button>
+<!--                                            <button class="ecl-table__arrow">-->
+<!--                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-up">-->
+<!--                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+<!--                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" focusable="false" aria-hidden="true" class="ecl-table__icon ecl-icon ecl-icon&#45;&#45;l ecl-table__icon-down">-->
+<!--                                                    <path d="m32 30.5-8-13-8 13h16Z" fill-rule="evenodd"></path></svg>-->
+<!--                                            </button>-->
                                         </th>
                                         <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyStatus">Status</th>
                                         <th class="ecl-table__header" i18n="@@page.edit.dashboard.label.historyComment">Comment</th>
