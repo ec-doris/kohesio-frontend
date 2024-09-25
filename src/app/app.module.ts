@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, Inject, NgModule, PLATFORM_ID} from '@angular/core';
+import {APP_INITIALIZER, Inject, LOCALE_ID, NgModule, PLATFORM_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -64,6 +64,7 @@ registerLocaleData(LocaleEnglish);
     DecimalPipe,
     DatePipe,
     provideHttpClient(withFetch()),
+    { provide: LOCALE_ID, useValue: 'en' },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppCustomLogic,
