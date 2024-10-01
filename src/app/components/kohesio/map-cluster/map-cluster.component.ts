@@ -13,6 +13,9 @@ export class MapClusterComponent implements AfterViewInit {
   private map: any;
   private markers:any;
   public zoomLevel:number = 4;
+  public isLoading:boolean = false;
+  public toggleDisclaimer:boolean = false;
+  public hideNavigation:boolean = false;
   @Input()
   public mapId = 'mapClusterId';
 
@@ -32,7 +35,9 @@ export class MapClusterComponent implements AfterViewInit {
     tiles.addTo(this.map);
 
     this.markers = L.geoJson(null, {
-      pointToLayer: this.createClusterIcon
+      pointToLayer: (feature:any, latlng:any)=>{
+        return this.createClusterIcon(feature, latlng);
+      }
     }).addTo(this.map);
 
     this.map.on('moveend', () => {
@@ -62,18 +67,45 @@ export class MapClusterComponent implements AfterViewInit {
   }
 
   createClusterIcon(feature:any, latlng:any) {
+    const count = feature.properties.point_count ? feature.properties.point_count : 1;
+    if (!feature.properties.cluster) {
 
-    const count = feature.properties.point_count;
-    const size =
-      count < 100 ? 'small' :
-        count < 10000 ? 'medium' : 'large';
-    const icon = L.divIcon({
-      html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
-      className: `marker-cluster marker-cluster-${size}`,
-      iconSize: L.point(40, 40)
-    });
+      const placeIcon = L.icon({
+        iconUrl: 'assets/images/map/marker-icon.png',
+        shadowUrl: 'assets/images/map/marker-shadow.png',
+        //iconSize: [28, 45], // size of the icon
+      });
+      let singleMarker = L.marker(latlng, { icon: placeIcon }).bindPopup(`${count} projects`);
+      /*singleMarker.on('mouseover', function (e) {
+        this.openPopup();
+      });
+      singleMarker.on('mouseout', function (e) {
+        this.closePopup();
+      });*/
+      return singleMarker
+    }else{
+      const size =
+        count < 100 ? 'small' :
+          count < 10000 ? 'medium' : 'large';
+      const icon = L.divIcon({
+        html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
+        className: `marker-cluster marker-cluster-${size}`,
+        iconSize: L.point(40, 40)
+      });
+      let clusterMarker = L.marker(latlng, { icon });
+      clusterMarker.on('click', (e:any) => {
+        this.clusterMarkerClick(e);
+      });
+      return clusterMarker
+    }
+  }
 
-    return L.marker(latlng, { icon });
+  clusterMarkerClick(e:any){
+    this.map.setView(e.latlng, this.map.getZoom()+2);
+  }
+
+  loadEurope(){
+    this.map.setView([ 56, 20 ], 4);
   }
 
 }

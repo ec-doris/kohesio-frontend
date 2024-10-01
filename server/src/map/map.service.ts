@@ -84,7 +84,21 @@ export class MapService {
           await this.cacheManager.set('europeClusters_' + params.zoom, clusters, 0);
         }
       }
-      return clusters
+      if (params.zoom >= 8) {
+        clusters.map(cluster => {
+          delete cluster.properties.coordinates;
+          if (cluster.properties.coordsAll == false){
+            delete cluster.properties.coords;
+          }else{
+            cluster.geometry.coordinates = cluster.properties.coords.split(",");
+            delete cluster.properties.cluster;
+            delete cluster.properties.cluster_id;
+            delete cluster.properties.coords;
+          }
+          delete cluster.properties.coordsAll;
+        })
+      }
+      return clusters;
     }
   }
 
@@ -106,12 +120,39 @@ export class MapService {
           map(async (result:any)=>{
             const data:Object[] = result.data;
             this.logger.debug(`POINTS from SERVER = ${data.length}`)
-            const supercluster = new Supercluster({
-              log: false,
-              radius: 150,
-              minPoints:2,
-              maxZoom: 17
-            });
+            let supercluster = null;
+            if (params.zoom>=8){
+              supercluster = new Supercluster({
+                log: false,
+                radius: 150,
+                minPoints:2,
+                maxZoom: 20,
+                map: (props) => {
+                  return {coords: props.coords}
+                },
+                reduce: (accumulated, props) => {
+                  try {
+                    accumulated.coordsAll = false
+                    if(accumulated.coordinates) {
+                      accumulated.coordinates = accumulated.coordinates.replaceAll(props.coords+'-', '');
+                      if (accumulated.coordinates == ''){
+                        accumulated.coordsAll = true
+                      }
+                    }
+                    accumulated.coordinates = (accumulated.coordinates ? accumulated.coordinates : '') + props.coords + "-";
+                  }catch(e){
+                    console.log("ERROR", e);
+                  }
+                }
+              });
+            }else{
+              supercluster = new Supercluster({
+                log: false,
+                radius: 150,
+                minPoints:2,
+                maxZoom: 20
+              });
+            }
             let geoJson = new Array<any>();
             data.map((point:string) => {
               const qid = point[0];
@@ -124,7 +165,8 @@ export class MapService {
                   "coordinates": [x, y]
                 },
                 "properties": {
-                  "name": qid
+                  "qid": qid,
+                  "coords": `${x},${y}`
                 }
               })
             })
