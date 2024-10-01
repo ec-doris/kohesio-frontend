@@ -30,6 +30,7 @@ import {User} from "./models/user.model";
 import {MatDialogModule} from "@angular/material/dialog";
 import {SurveyDialogModule} from "./components/kohesio/survey-dialog/survey-dialog.module";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
+import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cluster.module";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -53,6 +54,7 @@ registerLocaleData(LocaleEnglish);
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MapComponentModule,
+    MapClusterComponentModule,
     CarouselEclModule,
     SiteHeaderEclModule,
     FooterEclModule,

@@ -95,4 +95,17 @@ export class MapService {
     );
   }
 
+  public getMapCluster(bbox:string, zoom:number): Observable<any> {
+    const url = environment.api + '/map/searchCluster';
+    let params: any = {
+      boundingBox: JSON.stringify(bbox),
+      zoom: zoom
+    };
+    return this.http.get<any>(url, { params: <any>params }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
 }

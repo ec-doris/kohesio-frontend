@@ -28,7 +28,19 @@ export class MapController {
   @ApiBadRequestResponse({description: "Project not found"})
   @ApiServiceUnavailableResponse({description: "Service is unavailable"})
   async search(@Query() queryParam: MapSearchInDTO): Promise<MapSearchOutDTO | void>{
+    //console.log("boundingBox",JSON.parse(queryParam.boundingBox));
+    //return await this.mapService.getMapRegions(queryParam).catch(this.errorHandler);
     return await this.mapService.getMapRegions(queryParam).catch(this.errorHandler);
+  }
+
+  @Get('searchCluster')
+  @ApiOkResponse({
+    type:MapSearchOutDTO
+  })
+  @ApiBadRequestResponse({description: "Project not found"})
+  @ApiServiceUnavailableResponse({description: "Service is unavailable"})
+  async searchCluster(@Query() queryParam: MapSearchInDTO): Promise<MapSearchOutDTO | void>{
+    return await this.mapService.getClusters(queryParam).catch(this.errorHandler);
   }
 
   @Get('point')
