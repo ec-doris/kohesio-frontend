@@ -16,6 +16,7 @@ export class MapClusterComponent implements AfterViewInit {
   public isLoading:boolean = false;
   public toggleDisclaimer:boolean = false;
   public hideNavigation:boolean = false;
+  private dataRetrieved:boolean = false;
   @Input()
   public mapId = 'mapClusterId';
 
@@ -55,14 +56,13 @@ export class MapClusterComponent implements AfterViewInit {
   }
 
   update() {
-    //const before:Date = new Date();
+    this.activeLoadingAfter1Second();
+    this.dataRetrieved = false;
     this.mapService.getMapCluster(this.map.getBounds(),this.map.getZoom()).subscribe(geojson=>{
+      this.dataRetrieved = true;
       this.markers.clearLayers();
       this.markers.addData(geojson);
-
-      //const now:Date = new Date();
-      //const diff = now - before;
-      //console.log("Took", diff);
+      this.isLoading = false;
     });
   }
 
@@ -106,6 +106,15 @@ export class MapClusterComponent implements AfterViewInit {
 
   loadEurope(){
     this.map.setView([ 56, 20 ], 4);
+  }
+
+  activeLoadingAfter1Second() {
+    setTimeout(
+      () => {
+        if (!this.dataRetrieved) {
+          this.isLoading = true;
+        }
+      }, 1000);
   }
 
 }
