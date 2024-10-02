@@ -4,7 +4,16 @@
 
     <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
     <app-map *ngIf="isPlatformBrowser()" [showFilters]="true"></app-map>
-    <!--<app-map-cluster></app-map-cluster>-->
+
+    <app-map-cluster ></app-map-cluster>
+<!--    <mat-tab-group>-->
+<!--        <mat-tab label="Existing" #readyTab >-->
+<!--            <app-map  [showFilters]="true"></app-map>-->
+<!--        </mat-tab>-->
+<!--        <mat-tab label="Different">-->
+<!--            <app-map-cluster *ngIf="isPlatformBrowser()"></app-map-cluster>-->
+<!--        </mat-tab>-->
+<!--    </mat-tab-group>-->
 </div>
 <section [id]="translateService.sections.themes">
   <h2 class="ecl-u-type-heading-2" style="margin-top:0;margin-bottom:1rem;" i18n="@@page.home.themes">THEMES</h2>

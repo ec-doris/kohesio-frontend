@@ -105,6 +105,7 @@ export class MapComponent implements AfterViewInit {
   public queryParamParentLocation = 'parentLocation';
   zoomLevelSubject = new Subject<boolean>();
   private map: any;
+  private markers: any;
   private markersGroup: any;
   //private labelsRegionsGroup;
   private layers: any[] = [];
@@ -325,7 +326,9 @@ export class MapComponent implements AfterViewInit {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });*/
     tiles.addTo(this.map);
-
+    this.markers = L.geoJson(null, {
+      pointToLayer: this.createClusterIcon
+    }).addTo(this.map);
     // Layer with countries name
     /*const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
     tilesName.addTo(this.map);*/
@@ -897,7 +900,20 @@ export class MapComponent implements AfterViewInit {
     };
     this.dialog.open(FiltersComponent, config);
   }
+  createClusterIcon(feature:any, latlng:any) {
 
+    const count = feature.properties.point_count;
+    const size =
+      count < 100 ? 'small' :
+        count < 10000 ? 'medium' : 'large';
+    const icon = L.divIcon({
+      html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
+      className: `marker-cluster marker-cluster-${size}`,
+      iconSize: L.point(40, 40)
+    });
+
+    return L.marker(latlng, { icon });
+  }
   private setUpZoomListener(): void {
     this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && !this.focusNavigation)).subscribe((zoomLevel) => {
       // this.zoomLevel = this.map.getZoom();
@@ -937,6 +953,7 @@ export class MapComponent implements AfterViewInit {
       tap(data=>{
 
 
+        this.markers.clearLayers();
 
       if (data.list && data.list.length) {
         //Draw markers to each coordinate
@@ -963,8 +980,28 @@ export class MapComponent implements AfterViewInit {
             }
           }
         });
+      } else {
+        if (data.subregions) {
+          this.markers.clearLayers();
+          const geojson = data.subregions.map((subregion: any) => {
+            const coordinates = subregion.coordinates.split(',').map(Number);
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [coordinates[0], coordinates[1]]
+              },
+              properties: {
+                count: subregion.count,
+                point_count_abbreviated: subregion.count
+              }
+            };
+          });
+          this.markers.addData(geojson);
+        }
+        // this.markers.addData(data.subregions);
       }
-    })).subscribe()
+      })).subscribe()
     // const visibleCountries = this.layers.filter((layer: any) => {
     //   const countryBounds = layer.getBounds();
     //   return mapBounds.intersects(countryBounds);

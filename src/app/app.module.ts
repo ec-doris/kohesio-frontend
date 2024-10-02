@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material/material.module';
 import { HomePageComponent } from './pages/home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
@@ -60,7 +61,8 @@ registerLocaleData(LocaleEnglish);
     FooterEclModule,
     ProjectDetailModalModule,
     MatDialogModule,
-    SurveyDialogModule
+    SurveyDialogModule,
+    MaterialModule
   ],
   providers: [
     DecimalPipe,
