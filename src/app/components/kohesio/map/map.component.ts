@@ -902,7 +902,7 @@ export class MapComponent implements AfterViewInit {
   }
   createClusterIcon(feature:any, latlng:any) {
 
-    const count = feature.properties.point_count;
+    const count = feature.properties.count;
     const size =
       count < 100 ? 'small' :
         count < 10000 ? 'medium' : 'large';
