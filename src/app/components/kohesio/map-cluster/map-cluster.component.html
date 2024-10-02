@@ -1,2 +1,45 @@
-<div [id]="mapId" style="margin-top:10px"></div>
-<div class="info">zoomLevel: {{zoomLevel}}</div>
+<div class="ux-block-content" [class.ux-is-active]="isLoading">
+    <div class="map-container" style="max-width: 1108px;z-index:1;">
+        <div class="eu-disclaimer-wrapper" *ngIf="toggleDisclaimer">
+            <div class="eu-disclaimer-box">
+                <div class="header">
+                    <span i18n="@@comp.map.disclaimer">Disclaimer</span>
+                    <svg class="ecl-icon ecl-icon--l hand-pointer close-button" focusable="false" aria-hidden="true" (click)="toggleDisclaimer = !toggleDisclaimer">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close"></use>
+                    </svg>
+                </div>
+                <div class="content">
+                    <div class="eu-disclaimer" i18n="@@comp.map.euDisclaimer">The boundaries and names shown and the designations used on
+                        this map do not imply official endorsement or acceptance by the European Union.
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="map-attribution">
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" tabindex="-1">&copy; OpenStreetMap</a> |
+            <a href="https://ec.europa.eu/eurostat/web/gisco" target="_blank" tabindex="-1">&copy; GISCO</a> |
+            <a href="https://www.maxmind.com/en/home" target="_blank" tabindex="-1">&copy; MaxMind</a> |
+            <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer" tabindex="-1">Disclaimer</a>
+        </div>
+        <div class="map-frame">
+            <div [id]="mapId"></div>
+        </div>
+        <ng-container *ngIf="!hideNavigation">
+            <div class="loading" *ngIf="isLoading">
+                <kohesio-ecl-spinner></kohesio-ecl-spinner>
+            </div>
+            <div class="map-regions-wrapper">
+                <ng-container>
+                    <button type="button" (click)="loadEurope()" class="ecl-button ecl-button--secondary" type="button">Europe</button>
+                </ng-container>
+                <div>zoomLevel {{zoomLevel}}</div>
+            </div>
+        </ng-container>
+
+        <div class="map-results">
+            <ng-template #mobileListProjects>
+            </ng-template>
+
+        </div>
+    </div>
+</div>
