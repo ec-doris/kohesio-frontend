@@ -1,5 +1,5 @@
 #Build image for DEV and TEST
-FROM node:18.13.0-alpine As builder
+FROM node:18.18.0-alpine As builder
 WORKDIR /usr/src/app
 COPY package*.json ./
 RUN npm install
@@ -13,7 +13,7 @@ RUN npm install
 RUN npm run build
 
 #Final image for DEV and TEST
-FROM node:18.13.0-alpine
+FROM node:18.18.0-alpine
 RUN npm install -g pm2@latest
 WORKDIR /app
 COPY --from=builder /usr/src/app/dist/ /app/dist/

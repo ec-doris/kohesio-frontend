@@ -1,14 +1,14 @@
-<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
-    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
-    <ol class="ecl-breadcrumb-harmonised__container">
-        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+<nav class="ecl-breadcrumb ecl-page-header__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb__container">
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
-        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.search.breadcrumb.search">Search</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@page.search.breadcrumb.search">Search</span>
         </li>
     </ol>
 </nav>
@@ -58,7 +58,7 @@
             <div class="ecl-content-block__list-container">
                 <dl class="ecl-description-list ecl-content-block__list">
                     <li class="ecl-content-block__secondary-meta-item" *ngIf="item.countryCode">
-                        <img class="flag" src="{{'assets/images/flags/'+ item.countryCode.toLowerCase() + '.png'}}">
+                        <img class="flag" src="{{'assets/images/flags/'+ item.countryCode.toLowerCase() + '.png'}}"  alt="European Commission Image">
                         <span class="ecl-content-block__secondary-meta-label">{{item.countryLabel}}</span>
                     </li>
                 </dl>

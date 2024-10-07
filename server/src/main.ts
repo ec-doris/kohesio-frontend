@@ -13,14 +13,18 @@ import {Logger, LogLevel, RequestMethod} from "@nestjs/common";
 import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
 import {HttpService} from "@nestjs/axios";
+import { join } from 'path';
+// import {MapService} from "./map/map.service";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
+const defaultLanguage = "en";
 
 async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
+  // const mapService:MapService = app.get(MapService);
   const logger = new Logger(AppModule.name);
 
   const LOG_LEVEL:LogLevel[] | undefined=
@@ -138,6 +142,23 @@ async function bootstrap() {
     });
   }
 
+  app.use((req, res, next) => {
+    if (!req.path.includes('currentUser')) {
+      const pathParts = req.path.split('/');
+      const firstPart = pathParts[1];
+      if (!languages.includes(firstPart) && firstPart != 'api') {
+        const newPath = `/${defaultLanguage}${req.path}`;
+        const newPathFull = join(__dirname, 'public', newPath);
+
+        if (!existsSync(newPathFull)) {
+          return res.redirect('/en');
+        }
+        return res.redirect(newPath);
+      }
+    }
+    next();
+  });
+
   if (environment != "local") {
     for (let lang of languages) {
       const subApp = await getTranslatedServer(lang);
@@ -151,9 +172,14 @@ async function bootstrap() {
     exclude: [{ path: '', method: RequestMethod.GET }],
   });
 
+  /*Building map cache*/
+  // await mapService.getClusters({ zoom:4 },true);
+
   setupSwagger(app);
   const port = configService.get<number>('NODE_PORT');
   await app.listen(port);
+
+
 }
 
 async function getTranslatedServer(lang) {
@@ -161,7 +187,8 @@ async function getTranslatedServer(lang) {
   if (existsSync(file)) {
     const server = await import(file);
     const serverApp = server.app(lang,'/app/');
-    //console.log("SERVERAPP",serverApp);
+    // console.log("SERVERAPP",serverApp);
+    console.log("SERVERAPPlang",lang);
     return serverApp;
   }
 };

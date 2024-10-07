@@ -8,6 +8,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatDivider } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
@@ -38,7 +39,8 @@ const materialModules = [
   MatTableModule,
   MatIconModule,
   MatButtonModule,
-  MatChipsModule
+  MatChipsModule,
+  MatDivider
 ];
 @NgModule({
   imports: materialModules,

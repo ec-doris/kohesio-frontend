@@ -1,14 +1,14 @@
-<nav class="ecl-breadcrumb-harmonised ecl-page-header-harmonised__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
-    data-ecl-breadcrumb-harmonised="true" data-ecl-auto-init="BreadcrumbHarmonised">
-    <ol class="ecl-breadcrumb-harmonised__container">
-        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+<nav class="ecl-breadcrumb ecl-page-header__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb__container">
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
             <a [routerLink]="['/']"
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@comp.breadcrumb.home">Home</a>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@comp.breadcrumb.home">Home</a>
             <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
         </li>
-        <li class="ecl-breadcrumb-harmonised__segment" data-ecl-breadcrumb-harmonised-item="expandable">
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
             <span
-                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb-harmonised__link" i18n="@@page.projects.breadcrumb.projects">Projects</span>
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@page.projects.breadcrumb.projects">Projects</span>
         </li>
     </ol>
 </nav>
@@ -48,7 +48,7 @@
 </ng-template>
 
 <mat-drawer-container class="filters-wrapper-container" autosize>
-    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
+    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false" style="max-width: 350px">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>
@@ -246,21 +246,21 @@
                                             </a>
                                         </ng-container>
                                         <div class="default-theme-image" *ngIf="!project.images || !project.images.length" style="background-color: white;">
-                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}">
+                                            <img class="topic" src="{{'assets/images/topics/' + (project?.objectiveId || 'question_mark') + '.png'}}"  alt="European Commission Topic">
                                         </div>
                                     </div>
                                 </figure>
                             </div>
                         </header>
                         <div class="article--post__inner">
-                            <h1 class="ecl-u-type-heading-5">
+                            <h4 class="ecl-u-type-heading-4">
                                 <!-- <ux-popover #highlightedPopover [showCloseIcon]="false" size="small" [hasNoContentPadding]="false">
                                     <b>Highlighted project</b>
                                 </ux-popover> -->
                                 <a class="ecl-link ecl-link--standalone ecl-link--no-visited" [routerLink]="['/'+translateService.routes.projects+'/'+ project.item]">{{project.title}}</a>
                                 <!-- <span *ngIf="project?.images[0]" style="color: #203F79;" (mouseover)="highlightedPopover.show($event)" (mouseout)="highlightedPopover.hide($event)"> ★</span> -->
                                 <span *ngIf="project.images && project.images.length && project.images[0]" style="color: #203F79;"> ★</span>
-                            </h1>
+                            </h4>
                             <footer class="article--post__footer">
                                 <ul class="nowrap">
                                     <li class="article--post__theme">
@@ -326,7 +326,7 @@
                     <ng-container *ngFor="let asset of assets">
                         <a [routerLink]="['/'+translateService.routes.projects+'/' + asset.item.replace(entityURL, '')]">
                             <div class="container">
-                                <img [src]="asset.image">
+                                <img [src]="asset.image"  alt="European Commission Image">
                                 <div class="title">{{asset.title}}</div>
                             </div>
                         </a>
