@@ -14,7 +14,7 @@ import {DocumentBuilder, SwaggerModule} from "@nestjs/swagger";
 import * as session from 'express-session';
 import {HttpService} from "@nestjs/axios";
 import { join } from 'path';
-import {MapService} from "./map/map.service";
+// import {MapService} from "./map/map.service";
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
@@ -24,7 +24,7 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule);
   const configService:ConfigService<environmentVARS> = app.get(ConfigService);
-  const mapService:MapService = app.get(MapService);
+  // const mapService:MapService = app.get(MapService);
   const logger = new Logger(AppModule.name);
 
   const LOG_LEVEL:LogLevel[] | undefined=
