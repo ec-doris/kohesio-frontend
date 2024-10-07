@@ -182,13 +182,13 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "kohesio-frontend:build:production"
+              "buildTarget": "kohesio-frontend:build:production"
             },
             "development": {
-              "browserTarget": "kohesio-frontend:build:development"
+              "buildTarget": "kohesio-frontend:build:development"
             },
             "local": {
-              "browserTarget": "kohesio-frontend:build:local"
+              "buildTarget": "kohesio-frontend:build:local"
             }
           },
           "defaultConfiguration": "local"
@@ -196,7 +196,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "kohesio-frontend:build"
+            "buildTarget": "kohesio-frontend:build"
           }
         },
         "test": {
@@ -261,7 +261,7 @@
           "defaultConfiguration": "production"
         },
         "serve-ssr": {
-          "builder": "@nguniversal/builders:ssr-dev-server",
+          "builder": "@angular-devkit/build-angular:ssr-dev-server",
           "configurations": {
             "development": {
               "browserTarget": "kohesio-frontend:build:development",
@@ -279,19 +279,19 @@
           "defaultConfiguration": "production"
         },
         "prerender": {
-          "builder": "@nguniversal/builders:prerender",
+          "builder": "@angular-devkit/build-angular:prerender",
           "configurations": {
             "development": {
               "browserTarget": "kohesio-frontend:build:development",
               "serverTarget": "kohesio-frontend:server:development",
               "routesFile": "build/prerender-routes",
-              "guessRoutes": false
+              "discoverRoutes": false
             },
             "production": {
               "browserTarget": "kohesio-frontend:build:production",
               "serverTarget": "kohesio-frontend:server:production",
               "routesFile": "build/prerender-routes",
-              "guessRoutes": false
+              "discoverRoutes": false
             }
           }
         }

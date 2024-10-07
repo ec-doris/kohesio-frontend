@@ -189,8 +189,8 @@
 
 </form>
 <footer class="ecl-modal__footer">
-    <div class="ecl-modal__footer-content search-buttons">
-        <button type="button" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">
+    <div class="ecl-modal__footer-content search-buttons" style="flex-direction: row">
+        <button type="button" style="width: 130px" (click)="resetForm()" class="ecl-button ecl-button--secondary" type="button" i18n="@@page.projects.button.resetFilters">
             Reset Filters
         </button>
         <kohesio-ecl-button (click)="onSubmit()" i18n="@@page.projects.button.showResults" [mat-dialog-close]="true" >Show Results</kohesio-ecl-button>

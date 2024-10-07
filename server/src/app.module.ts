@@ -10,6 +10,7 @@ import {BeneficiaryModule} from "./beneficiaries/beneficiary.module";
 import {ProjectModule} from "./projects/project.module";
 import {MapModule} from "./map/map.module";
 import {NotificationModule} from "./notifications/notification.module";
+import {CacheModule} from "@nestjs/cache-manager";
 
 @Module({
   imports: [
@@ -21,7 +22,10 @@ import {NotificationModule} from "./notifications/notification.module";
     BeneficiaryModule,
     ProjectModule,
     MapModule,
-    NotificationModule
+    NotificationModule,
+    CacheModule.register({
+      isGlobal: true
+    })
   ],
   controllers: [AppController],
   providers: [AppService],

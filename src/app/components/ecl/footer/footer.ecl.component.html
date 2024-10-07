@@ -1,71 +1,68 @@
-<footer class="ecl-footer-harmonised ecl-footer-harmonised--group1">
-    <div class="ecl-container ecl-footer-harmonised__container">
-        <div class="ecl-footer-harmonised__row">
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section ecl-site-footer__section ecl-site-footer__section--site-info">
-                    <h2 class="ecl-footer-harmonised__title"><a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__title-link">Kohesio</a></h2>
-                    <!--<a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-footer-harmonised__logo-link" aria-label="Kohesio">
-                        <img alt="Kohesio logo" title="Kohesio" class="ecl-footer-harmonised__logo-image-desktop" src="assets/images/logos/kohesio-logo-white-small.png" height="72" />
-                    </a>-->
-                    <div class="ecl-footer-harmonised__description ecl-site-footer__description" i18n="@@comp.footer.label.managedBy">This site is managed by the Directorate-General for Regional and Urban Policy</div>
+<footer class="ecl-site-footer">
+    <div class="ecl-site-footer__container ecl-container">
+        <div class="ecl-site-footer__row">
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section ecl-site-footer__section--site-info">
+                    <div class="ecl-site-footer__title"><a [routerLink]="['/']" class="ecl-link ecl-link--standalone ecl-site-footer__title-link">Kohesio</a></div>
+                    <div class="ecl-site-footer__description" i18n="@@comp.footer.label.managedBy">This site is managed by the Directorate-General for Regional and Urban Policy</div>
                     <ul class="ecl-site-footer__list">
                         <li class="ecl-site-footer__list-item">
-                            <a [routerLink]="['/'+translateService.routes.accessibility]" i18n="@@comp.footer.link.accessibility" class="ecl-link ecl-link--standalone ecl-site-footer__link">Accessibility</a>
+                            <a [routerLink]="['/'+translateService.routes.accessibility]" i18n="@@comp.footer.link.accessibility" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Accessibility</a>
                         </li>
                     </ul>
                 </div>
             </div>
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section">
-                    <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator" i18n="@@comp.footer.label.contactUs">Contact us</h2>
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item">
-                            <a href="mailto:REGIO-KOHESIO@ec.europa.eu?subject=Feedback" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link"
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section">
+                    <h2 class="ecl-site-footer__title" i18n="@@comp.footer.label.contactUs">Contact us</h2>
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item">
+                            <a href="mailto:REGIO-KOHESIO@ec.europa.eu?subject=Feedback" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link"
                             aria-label="Contact the Kohesio Team" target="blank" i18n="@@comp.footer.label.contactKohesio">Contact the Kohesio Team</a>
                         </li>
                     </ul>
                 </div>
-                <div class="ecl-footer-harmonised__section">
-                    <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator" i18n="@@comp.footer.label.followUs">Follow us on</h2>
-                    <ul class="ecl-footer-harmonised__list ecl-footer-harmonised__list--inline">
-                        <li class="ecl-footer-harmonised__list-item">
-                            <a href="https://www.facebook.com/EUinmyregion" target="blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Facebook">
-                                <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+                <div class="ecl-site-footer__section">
+                    <h2 class="ecl-site-footer__title" i18n="@@comp.footer.label.followUs">Follow us on</h2>
+                    <ul class="ecl-site-footer__list ecl-site-footer__list--inline">
+                        <li class="ecl-site-footer__list-item">
+                            <a href="https://www.facebook.com/EUinmyregion" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Facebook">
+                                <svg class="eecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#facebook-negative"></use>
                                 </svg>
                                 <span class="ecl-link__label" i18n="@@comp.footer.link.facebook">Facebook</span>
                             </a>
                         </li>
-                        <li class="ecl-footer-harmonised__list-item">
-                            <a href="https://twitter.com/EUinmyRegion" target="blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Twitter">
-                                <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+                        <li class="ecl-site-footer__list-item">
+                            <a href="https://twitter.com/EUinmyRegion" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="Twitter">
+                                <svg class="eecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-negative"></use>
                                 </svg>
                                 <span class="ecl-link__label" i18n="@@comp.footer.link.twitter">Twitter</span>
                             </a>
-                            - <a href="https://twitter.com/search?q=%23Kohesio&src=typed_query&f=live" target="blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="#Kohesio">
+                            - <a href="https://twitter.com/search?q=%23Kohesio&src=typed_query&f=live" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="#Kohesio">
                                 <span class="ecl-link__label">#Kohesio</span>
                             </a>
                         </li>
-                        <!--<li class="ecl-footer-harmonised__list-item">
-                            <a href="https://www.linkedin.com/feed/hashtag/euinmyregion/" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Linkedin">
-                                <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+                        <!--<li class="ecl-site-footer__list-item">
+                            <a href="https://www.linkedin.com/feed/hashtag/euinmyregion/" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Linkedin">
+                                <svg class="eecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#linkedin-negative"></use>
                                 </svg>
                                 <span class="ecl-link__label">Linkedin</span>
                             </a>
                         </li>-->
-                        <li class="ecl-footer-harmonised__list-item">
-                            <a href="https://www.instagram.com/euinmyregion/" target="blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Instagram">
-                                <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+                        <li class="ecl-site-footer__list-item">
+                            <a href="https://www.instagram.com/euinmyregion/" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Instagram">
+                                <svg class="eecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#instagram-negative"></use>
                                 </svg>
                                 <span class="ecl-link__label" i18n="@@comp.footer.link.instagram">Instagram</span>
                             </a>
                         </li>
-                        <li class="ecl-footer-harmonised__list-item">
-                            <a href="https://www.youtube.com/c/EUinmyRegion" target="blank" class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Youtube">
-                                <svg class="ecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
+                        <li class="ecl-site-footer__list-item">
+                            <a href="https://www.youtube.com/c/EUinmyRegion" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-link--icon ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Youtube">
+                                <svg class="eecl-icon ecl-icon--xs ecl-link__icon" focusable="false" aria-hidden="true">
                                     <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#youtube-negative"></use>
                                 </svg>
                                 <span class="ecl-link__label" i18n="@@comp.footer.link.youtube">Youtube</span>
@@ -74,66 +71,53 @@
                     </ul>
                 </div>
             </div>
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section">
-                    <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator" i18n="@@comp.footer.label.aboutUs">About us</h2>
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item"><a [routerLink]="['/'+translateService.routes.about]" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Information&#x20;about&#x20;Kohesio" i18n="@@comp.footer.link.aboutKohesio">About Kohesio</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a [href]="'https://ec.europa.eu/regional_policy/home_'+locale" target="blank" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="About EU Regional Policy" i18n="@@comp.footer.link.aboutEuRegionalPolicy">About EU Regional Policy</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a [routerLink]="['/'+translateService.routes.privacy]" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Privacy&#x20;statement" i18n="@@comp.footer.link.privacy">Privacy statement</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a [routerLink]="['/'+translateService.routes.faq]" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Frequently&#x20;asked&#x20;questions" i18n="@@comp.footer.link.faq">Frequently asked questions</a></li>
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section">
+                    <div class="ecl-site-footer__title">About us</div>
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item"><a [routerLink]="['/'+translateService.routes.about]" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Information&#x20;about&#x20;Kohesio" i18n="@@comp.footer.link.aboutKohesio">About Kohesio</a></li>
+                        <li class="ecl-site-footer__list-item"><a [href]="'https://ec.europa.eu/regional_policy/home_'+locale" target="blank" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link" aria-label="About EU Regional Policy" i18n="@@comp.footer.link.aboutEuRegionalPolicy">About EU Regional Policy</a></li>
+                        <li class="ecl-site-footer__list-item"><a [routerLink]="['/'+translateService.routes.privacy]" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Privacy&#x20;statement" i18n="@@comp.footer.link.privacy">Privacy statement</a></li>
+                        <li class="ecl-site-footer__list-item"><a [routerLink]="['/'+translateService.routes.faq]" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link" aria-label="Link&#x20;to&#x20;Frequently&#x20;asked&#x20;questions" i18n="@@comp.footer.link.faq">Frequently asked questions</a></li>
                     </ul>
                 </div>
-                <!--<div class="ecl-footer-harmonised__section">
+                <!--<div class="ecl-site-footer__section">
                     <h2 class="ecl-footer-harmonised__title ecl-footer-harmonised__title--separator"> Related sites </h2>
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;1">Related link 1</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;2">Related link 2</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;3">Related link 3</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;4">Related link 4</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;5">Related link 5</a></li>
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;1">Related link 1</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;2">Related link 2</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;3">Related link 3</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;4">Related link 4</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Related&#x20;link&#x20;5">Related link 5</a></li>
                     </ul>
                 </div>-->
             </div>
         </div>
-        <!--<div class="ecl-footer-harmonised__row">
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section ecl-footer-harmonised__section--condensed">
-                    <div class="ecl-footer-harmonised__content">More information on:</div>
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Class&#x20;name&#x20;1">Class name 1</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="/component-library/example" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Class&#x20;name&#x20;2">Class name 2</a></li>
+        <div class="ecl-site-footer__row">
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section"><a href="https://commission.europa.eu/index_en" class="ecl-link ecl-link--standalone ecl-site-footer__logo-link" aria-label="European Commission">
+                    <picture class="ecl-picture ecl-site-footer__picture" title="European Commission">
+                        <source [srcset]="'assets/images/ecl/negative/logo-ec--'+translateService.locale+'.svg'" media="(min-width: 996px)"><img class="ecl-site-footer__logo-image" [src]="'assets/images/ecl/negative/logo-ec--'+translateService.locale+'.svg'" alt="European Commission logo" style="width: 290px;height: 72px" />
+                    </picture>
+                </a></div>
+            </div>
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section ecl-site-footer__section--split-list">
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/about-european-commission/contact_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Contact the European Commission</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://european-union.europa.eu/contact-eu/social-media-channels_en#/search?page=0&institutions=european_commission" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Follow the European Commission on social media</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/resources-partners_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Resources for partners</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/legal-notice/vulnerability-disclosure-policy_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Report an IT vulnerability</a></li>
                     </ul>
                 </div>
             </div>
-        </div>-->
-        <div class="ecl-footer-harmonised__row">
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section">
-                    <!-- <a href="https://ec.europa.eu/info/index_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__logo-link" aria-label="European&#x20;Commission">
-                        <img alt="European Commission logo" title="European Commission" class="ecl-footer-harmonised__logo-image-desktop" src="assets/images/ecl/logo-ec--en.10f5072b.svg" />
-                    </a> -->
-                    <h2 class="ecl-footer-harmonised__title">
-                        <a href="https://ec.europa.eu/info/index_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__title-link" i18n="@@comp.footer.link.europeanCommission">European Commission</a>
-                    </h2>
-                </div>
-            </div>
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section ecl-footer-standardised__section--split-list">
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/about-european-commission/contact_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Contact&#x20;the&#x20;European&#x20;Commission" i18n="@@comp.footer.link.contactEU">Contact the European Commission</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://european-union.europa.eu/contact-eu/social-media-channels_en#/search?page=0&institutions=european_commission" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Follow&#x20;the&#x20;European&#x20;Commission&#x20;on&#x20;social&#x20;media" i18n="@@comp.footer.link.followEU">Follow the European Commission on social media</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/resources-partners_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" i18n="@@comp.footer.link.resources">Resources for partners</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="ecl-footer-harmonised__column">
-                <div class="ecl-footer-harmonised__section ecl-footer-standardised__section--split-list">
-                    <ul class="ecl-footer-harmonised__list">
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/languages-our-websites_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Language&#x20;policy" i18n="@@comp.footer.link.langPolicy">Language policy</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/cookies_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Cookies" i18n="@@comp.footer.link.cookies">Cookies</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/privacy-policy_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Privacy&#x20;policy" i18n="@@comp.footer.link.privacyPolicy">Privacy policy</a></li>
-                        <li class="ecl-footer-harmonised__list-item"><a href="https://ec.europa.eu/info/legal-notice_en" class="ecl-link ecl-link--standalone ecl-footer-harmonised__link" aria-label="Link&#x20;to&#x20;Legal&#x20;notice" i18n="@@comp.footer.link.legalNotice">Legal notice</a></li>
+            <div class="ecl-site-footer__column">
+                <div class="ecl-site-footer__section ecl-site-footer__section--split-list">
+                    <ul class="ecl-site-footer__list">
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/language-policy_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Languages on our websites</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/cookies_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Cookies</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/privacy-policy_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Privacy policy</a></li>
+                        <li class="ecl-site-footer__list-item"><a href="https://commission.europa.eu/legal-notice_en" class="ecl-link ecl-link--standalone ecl-link--inverted ecl-site-footer__link">Legal notice</a></li>
                     </ul>
                 </div>
             </div>

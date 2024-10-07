@@ -1,10 +1,11 @@
-import {APP_INITIALIZER, Inject, NgModule, PLATFORM_ID} from '@angular/core';
+import {APP_INITIALIZER, Inject, LOCALE_ID, NgModule, PLATFORM_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material/material.module';
 import { HomePageComponent } from './pages/home/home.component';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
 
 import { registerLocaleData } from '@angular/common';
@@ -30,6 +31,7 @@ import {User} from "./models/user.model";
 import {MatDialogModule} from "@angular/material/dialog";
 import {SurveyDialogModule} from "./components/kohesio/survey-dialog/survey-dialog.module";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
+import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cluster.module";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -53,16 +55,20 @@ registerLocaleData(LocaleEnglish);
     BrowserAnimationsModule,
     ReactiveFormsModule,
     MapComponentModule,
+    MapClusterComponentModule,
     CarouselEclModule,
     SiteHeaderEclModule,
     FooterEclModule,
     ProjectDetailModalModule,
     MatDialogModule,
-    SurveyDialogModule
+    SurveyDialogModule,
+    MaterialModule
   ],
   providers: [
     DecimalPipe,
     DatePipe,
+    provideHttpClient(withFetch()),
+    { provide: LOCALE_ID, useValue: 'en' },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppCustomLogic,

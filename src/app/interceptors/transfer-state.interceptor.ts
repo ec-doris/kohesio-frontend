@@ -3,7 +3,7 @@ import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from
 import {TransferStateService} from "../services/transfer-state.service";
 import {Observable, of} from "rxjs";
 import {tap} from "rxjs/operators";
-import {REQUEST} from "@nguniversal/express-engine/tokens";
+import {REQUEST} from "../../express.tokens";
 
 @Injectable()
 export class TransferStateInterceptor implements HttpInterceptor {

@@ -29,6 +29,8 @@ export class MapSearchInDTO extends BasicDTO{
   highlighted?:boolean;
   cci?: string[];
   timeout?:number;
+  boundingBox?:string;
+  zoom?:number;
 
 }
 

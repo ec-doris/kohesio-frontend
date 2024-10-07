@@ -59,6 +59,9 @@ export class ProjectService {
     getFile(filters: Filters, type: string):Observable<any>{
         const url = environment.api + "/projects/download/" + type;
         const params:any = filters.getProjectsFilters();
+        if (Array.isArray(params.categoryOfIntervention)) {
+          params.categoryOfIntervention = params.categoryOfIntervention.join(',');
+        }
         params.language = this.locale;
         return this.http.get(url,{
             responseType: 'arraybuffer',

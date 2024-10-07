@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, of, Subject } from 'rxjs';
-import { concatMap, takeUntil } from 'rxjs/operators';
+import { concatMap, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -29,6 +29,17 @@ import { MapPopupComponent } from './map-popup.component';
 
 declare let L: any;
 
+const boundingBox = {
+  _southWest: { lat: 42.529808314926164, lng: 23.461303710937504 },
+  _northEast: { lat: 43.25920592943639, lng: 24.982910156250004 }
+};
+
+const coordinates = { lat: 46.4977648, lng: 27.803085484685 };
+
+const isWithinBounds = (coords: { lat: number, lng: number }, bounds: { _southWest: { lat: number, lng: number }, _northEast: { lat: number, lng: number } }) => {
+  return coords.lat >= bounds._southWest.lat && coords.lat <= bounds._northEast.lat &&
+    coords.lng >= bounds._southWest.lng && coords.lng <= bounds._northEast.lng;
+};
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -92,12 +103,19 @@ export class MapComponent implements AfterViewInit {
   public onlyOnceParamsApply: boolean = true;
   public queryParamMapRegionName = 'mapRegion';
   public queryParamParentLocation = 'parentLocation';
+  zoomLevelSubject = new Subject<boolean>();
   private map: any;
+  private markers: any;
   private markersGroup: any;
   //private labelsRegionsGroup;
   private layers: any[] = [];
   private destroyed = new Subject<void>();
   private lastFiltersSearch: any;
+  private hoveredLayer: any;
+  private wheelTimeout: any;
+  zoomLevel: any;
+  private destroyWheelBounds$ = new Subject<void>();
+  private focusNavigation = false;
 
 
   constructor(private mapService: MapService,
@@ -247,12 +265,12 @@ export class MapComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     setTimeout(() => {
-      this.projectNearButtonWidth = this.projectNear.nativeElement.offsetWidth + 10;
+      this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10;
     });
     this.filterResult$$.subscribe((formVal) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      this.loadMapRegion(this.lastFiltersSearch, undefined, true);
+      this.loadMapRegion(this.lastFiltersSearch, undefined);
       this._router.navigate([], { relativeTo: this.route, queryParams: this.generateQueryParams() });
       // this.map.refreshView();
       // this.map.isLoading = true;
@@ -308,7 +326,9 @@ export class MapComponent implements AfterViewInit {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });*/
     tiles.addTo(this.map);
-
+    this.markers = L.geoJson(null, {
+      pointToLayer: this.createClusterIcon
+    }).addTo(this.map);
     // Layer with countries name
     /*const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
     tilesName.addTo(this.map);*/
@@ -318,6 +338,7 @@ export class MapComponent implements AfterViewInit {
       iconUrl: 'assets/images/map/marker-icon-2x.png',
       shadowUrl: 'assets/images/map/marker-shadow.png'
     };
+    // this.setUpZoomListener();
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
@@ -356,10 +377,6 @@ export class MapComponent implements AfterViewInit {
 
       return marker;
     }
-  }
-
-  public goToProject(item: any) {
-    console.log('goToProject=' + item);
   }
 
   public addCircleMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: any = undefined) {
@@ -533,8 +550,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string, euroLabel = false) {
-    //this.isLoading = true;
+  loadMapRegion(filters: Filters, granularityRegion?: string) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
@@ -567,6 +583,7 @@ export class MapComponent implements AfterViewInit {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
+    this.focusNavigation = this.mapRegions.length > 1;
     this.loadMapVisualization(filters, granularityRegion);
   }
 
@@ -757,6 +774,7 @@ export class MapComponent implements AfterViewInit {
       }*/
       layer.on({
         click: (e: any) => {
+          this.focusNavigation = true;
           if (e.target.feature.properties) {
             //this.isLoading = true;
             const region = e.target.feature.properties.region;
@@ -777,6 +795,7 @@ export class MapComponent implements AfterViewInit {
         mouseover: (e: any) => {
           const layer = e.target;
           if (layer.feature.properties) {
+            this.hoveredLayer = layer;
             layer.setStyle({
               fillOpacity: 1
             });
@@ -880,6 +899,155 @@ export class MapComponent implements AfterViewInit {
       panelClass: 'filter-dialog'
     };
     this.dialog.open(FiltersComponent, config);
+  }
+
+  createClusterIcon(feature:any, latlng:any) {
+
+    const count = feature.properties.count;
+    const size =
+      count < 100 ? 'small' :
+        count < 10000 ? 'medium' : 'large';
+    const icon = L.divIcon({
+      html: `<div><span>${feature.properties.point_count_abbreviated}</span></div>`,
+      className: `marker-cluster marker-cluster-${size}`,
+      iconSize: L.point(40, 40)
+    });
+
+    return L.marker(latlng, { icon });
+  }
+  private setUpZoomListener(): void {
+    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && !this.focusNavigation)).subscribe((zoomLevel) => {
+      // this.zoomLevel = this.map.getZoom();
+      // console.log('inside');
+      this.collectVisibleCountries();
+    });
+
+    this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const isMobile = /Mobi|Android|iPhone/i.test(navigator.userAgent);
+
+      if (!isMobile && ((isMac && !event.metaKey) || (!isMac && !event.ctrlKey))) return;
+      // if (!event.ctrlKey) return;
+      if (this.wheelTimeout) {
+        clearTimeout(this.wheelTimeout);
+      }
+      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject.next(true), 100);
+    });
+
+    this.map.on('zoomend', () => {
+      console.log('Map zoom level:', this.map.getZoom());
+      this.zoomLevel = this.map.getZoom();
+    });
+    this.map.on('dragend', (event: any) => {
+      this.zoomLevelSubject.next(true);
+      // console.log('Map is being dragged', event);
+    });
+  }
+
+  private collectVisibleCountries(): void {
+    this.cancelPreviousRequest();
+    const mapBounds = this.map.getBounds();
+    console.log('Map Bounds:', mapBounds);
+    this.cleanMap()
+    this.mapService.getMapInfoByRegion(mapBounds).pipe(
+      takeUntil(this.destroyWheelBounds$),
+      tap(data=>{
+
+
+        this.markers.clearLayers();
+
+      if (data.list && data.list.length) {
+        //Draw markers to each coordinate
+        this.uiMessageBoxHelper.close();
+        this.hideScale = true;
+        // if (data.geoJson) {
+        //   this.drawPolygonsForRegion(data.geoJson, null);
+        //   this.fitToGeoJson(data.geoJson);
+        // }
+        data.list.slice().reverse().forEach((point: any) => {
+          const coordinates = point.coordinates.split(',');
+          const popupContent = {
+            type: 'async',
+            filters: this.filters,
+            coordinates: point.coordinates,
+            isHighlighted: point.isHighlighted,
+          };
+          const marker = this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+          this.hideOuterMostRegions = true;
+          if (this._route.snapshot.queryParamMap.has('coords')) {
+            const queryParamsCoords = this._route.snapshot.queryParamMap.get('coords');
+            if (point.coordinates == queryParamsCoords) {
+              marker.fire('click');
+            }
+          }
+        });
+      } else {
+        if (data.subregions) {
+          // this.markers.clearLayers();
+          const geojson = data.subregions.map((subregion: any) => {
+            const coordinates = subregion.coordinates.split(',').map(Number);
+            return {
+              type: 'Feature',
+              geometry: {
+                type: 'Point',
+                coordinates: [coordinates[0], coordinates[1]]
+              },
+              properties: {
+                count: subregion.count,
+                point_count_abbreviated: subregion.count
+              }
+            };
+          });
+          this.markers.addData(geojson);
+        }
+        // this.markers.addData(data.subregions);
+      }
+      })).subscribe()
+    // const visibleCountries = this.layers.filter((layer: any) => {
+    //   const countryBounds = layer.getBounds();
+    //   return mapBounds.intersects(countryBounds);
+    // });
+    // // const visibleCountries = this.outermostRegions.filter((region: any) => {
+    // //   const countryBounds = this.getCountryBounds(region.country);
+    // //   return countryBounds && mapBounds.intersects(countryBounds);
+    // // });
+    //
+    // console.log('Visible Countries:', visibleCountries);
+    // const regions = visibleCountries.map((layer: any) => {
+    //   const properties = layer.getLayers()[0].feature.properties;
+    //   return { label: properties.regionLabel, value: properties.region };
+    // });
+    // console.log('Regions:', regions);
+  }
+
+  // private getCountryBounds(countryId: string): any {
+  //   const country = this.overrideBounds.find((c: any) => c.id === countryId);
+  //   return country ? country.bounds : null;
+  // }
+
+  // private setUpZoomListener(): void {
+  //   this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
+  //     if (!event.ctrlKey) return;
+  //     if (this.wheelTimeout) {
+  //       clearTimeout(this.wheelTimeout);
+  //     }
+  //     this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.out() : this.in(), 100);
+  //   });
+  // }
+
+  private cancelPreviousRequest(): void {
+    this.destroyWheelBounds$.next();
+  }
+  private in() {
+    if (this.mapRegions[this.mapRegions.length-1].label ===  this.hoveredLayer?.feature?.properties?.regionLabel) {
+      return;
+    }
+    this.hoveredLayer.fire('click');
+  }
+
+  private out() {
+    const mapRegion = this.mapRegions.length == 1 ? this.mapRegions[0].region : this.mapRegions[this.mapRegions.length - 2].region;
+    this.loadMapRegion(this.filters, mapRegion);
   }
 
   private getFilterLabel(type: string, label: string) {

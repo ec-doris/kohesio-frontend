@@ -28,7 +28,7 @@ export class UserProfileComponent implements AfterViewInit {
 
     constructor(public userService: UserService,
                 private filterService: FilterService,
-                private translateService: TranslateService,
+                public translateService: TranslateService,
                 private formBuilder: UntypedFormBuilder,
                 public dialog: MatDialog,
                 private router: Router,
