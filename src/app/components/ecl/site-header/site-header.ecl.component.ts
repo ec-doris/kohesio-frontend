@@ -31,7 +31,7 @@ export class SiteHeaderEclComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
-      setTimeout(() => this.initializeECLMenu(), 100);
+       this.initializeECLMenu();
     }
 
     initializeECLMenu() {
