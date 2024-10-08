@@ -2,7 +2,7 @@ import {AfterViewInit, Component, Inject} from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import {TranslateService} from "../../../services/translate.service";
 import {DOCUMENT} from "@angular/common";
-
+declare const ECL: any;
 @Component({
     selector: 'app-ecl-site-header',
     templateUrl: './site-header.ecl.component.html',
@@ -31,9 +31,14 @@ export class SiteHeaderEclComponent implements AfterViewInit {
     }
 
     ngAfterViewInit(): void {
+      setTimeout(() => this.initializeECLMenu(), 100);
     }
 
-
+    initializeECLMenu() {
+      if (ECL?.autoInit) {
+        ECL.autoInit();
+      }
+    }
     onClick(event: Event) {
         let element = this._doc.getElementById('closeMenu');
         if(element) element.click();
