@@ -18,6 +18,7 @@ import { join } from 'path';
 
 const languages = ["bg","cs","da","de","el","es","et","fi","fr","ga","hr",
   "hu","it","lt","lv","mt","nl","pl","pt","ro","sk","sl","sv","en"];
+//const languages = ["fr","en"];
 const defaultLanguage = "en";
 
 async function bootstrap() {
@@ -188,7 +189,7 @@ async function getTranslatedServer(lang) {
     const server = await import(file);
     const serverApp = server.app(lang,'/app/');
     // console.log("SERVERAPP",serverApp);
-    console.log("SERVERAPPlang",lang);
+    console.log("building server app,language="+lang);
     return serverApp;
   }
 };
@@ -212,6 +213,7 @@ function configureHelmet(configService:any):any{
   const CSP_FRAME_ANCESTOR = configService.get('CSP_FRAME_ANCESTOR') ?
     configService.get('CSP_FRAME_ANCESTOR').split(",") : [];
   return helmet({
+    referrerPolicy: false,
     contentSecurityPolicy:{
       directives:{
         defaultSrc: trusted,
