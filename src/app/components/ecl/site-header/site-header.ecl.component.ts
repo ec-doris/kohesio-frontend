@@ -1,7 +1,7 @@
-import {AfterViewInit, Component, Inject} from '@angular/core';
+import {AfterViewInit, Component, Inject, PLATFORM_ID} from '@angular/core';
 import { Router, ActivationEnd } from '@angular/router';
 import {TranslateService} from "../../../services/translate.service";
-import {DOCUMENT} from "@angular/common";
+import {DOCUMENT,isPlatformBrowser} from "@angular/common";
 declare const ECL: any;
 @Component({
     selector: 'app-ecl-site-header',
@@ -15,6 +15,7 @@ export class SiteHeaderEclComponent implements AfterViewInit {
 
     constructor(private router:Router,
                 public translateService: TranslateService,
+                @Inject(PLATFORM_ID) private platformId: Object,
                 @Inject(DOCUMENT) private _doc: Document) {
 
         this.router.events.subscribe(event => {
@@ -35,10 +36,15 @@ export class SiteHeaderEclComponent implements AfterViewInit {
     }
 
     initializeECLMenu() {
-      if (ECL?.autoInit) {
-        ECL.autoInit();
+      if (this.isPlatformBrowser()) {
+        if (ECL?.autoInit) {
+          ECL.autoInit();
+        }
       }
     }
+  isPlatformBrowser() {
+    return isPlatformBrowser(this.platformId);
+  }
     onClick(event: Event) {
         let element = this._doc.getElementById('closeMenu');
         if(element) element.click();

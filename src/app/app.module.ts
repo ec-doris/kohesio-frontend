@@ -36,8 +36,6 @@ import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cl
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
 
-import { LOCALE_ID } from '@angular/core';
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -70,7 +68,6 @@ import { LOCALE_ID } from '@angular/core';
     DecimalPipe,
     DatePipe,
     provideHttpClient(withFetch()),
-    { provide: LOCALE_ID, useValue: 'en' },
     {
       provide: APP_INITIALIZER,
       useFactory: initializeAppCustomLogic,
