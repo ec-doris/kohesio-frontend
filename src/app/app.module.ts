@@ -37,7 +37,6 @@ registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
 
 import { LOCALE_ID } from '@angular/core';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @NgModule({
   declarations: [
@@ -96,7 +95,3 @@ export function initializeAppCustomLogic(userService: UserService, platformId: O
     })
   }
 }
-
-platformBrowserDynamic().bootstrapModule(AppModule, {
-  providers: [{provide: LOCALE_ID, useValue: 'en' }]
-});
