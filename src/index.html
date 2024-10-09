@@ -11,16 +11,40 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="assets/styles/angular-material/css2.css" rel="stylesheet">
     <link href="assets/styles/angular-material/icon.css" rel="stylesheet">
+    <!-- To be IE compliant -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <script defer src="https://europa.eu/webtools/load.js?globan=1110" type="text/javascript"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
-    <!-- To be IE compliant -->
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+
     <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 </head>
 <body>
+  <div id="1110"><div>
   <app-root></app-root>
   <script src="assets/scripts/moment.min.js"></script>
+  <script type="application/json">
+      {
+          "utility": "cck",
+          "url": "https://kohesio.ec.europa.eu/{lang}/"
+      }
+  </script>
+<!--  <script type="application/json">-->
+<!--      {-->
+<!--          "service"      : "twitter",-->
+<!--          "type"         : "user",-->
+<!--          "screen_name"  : "EU_Commission",-->
+<!--          "include_rts"  : true-->
+<!--      }-->
+<!--  </script>-->
+<!--  <script type="application/json">-->
+<!--      {-->
+<!--          "service"      : "youtube",-->
+<!--          "type"         : "channel",-->
+<!--          "channel_id"   : "UC_x5XG1OV2P6uZZ5FSM9Ttw",-->
+<!--          "autoplay"     : true-->
+<!--      }-->
+<!--  </script>-->
   <script type="application/json">
     {
       "utility": "analytics",
