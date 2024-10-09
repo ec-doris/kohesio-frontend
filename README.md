@@ -113,15 +113,23 @@ For the map we are using pure leaflet version 1.6.0
 
 ## Run SSR-dev in local
 
-- build dev using:
-
-```shell
-npm run build-dev
-```
 - change environment.dev.cluster.ts
 
 ```ts
 api:'http://localhost:3000/api'
 ```
 
-- change .env and set ENV=development
+- change server/.env and set ENV=development
+- change server.ts and uncomment line 20
+- change devspace/kohesio.yaml and remove the /api and change the por to 3000
+
+- build dev using:
+
+```shell
+  npm run build-ssr:dev
+```
+
+- run the server normally with
+```shell
+  npm run start:dev
+```

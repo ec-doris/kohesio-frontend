@@ -1,4 +1,4 @@
-<header class="ecl-site-header" data-ecl-auto-init="SiteHeader">
+<header class="ecl-site-header ecl-site-header--has-menu" data-ecl-auto-init="SiteHeader" >
     <div class="ecl-site-header__header">
         <div class="ecl-site-header__container ecl-container">
             <div class="ecl-site-header__top" data-ecl-site-header-top="">
@@ -40,28 +40,43 @@
             <h1 class="ecl-site-header__site-name" i18n="@@comp.header.label.siteHeader">Kohesio: discover EU projects in your region</h1>
         </div>
     </div>
-    <nav class="ecl-menu ecl-menu--group1" data-ecl-menu="" data-ecl-auto-init="Menu" aria-expanded="false">
+    <nav class="ecl-menu ecl-menu--transition" data-ecl-menu="" data-ecl-auto-init="Menu" aria-expanded="false"
+          data-ecl-menu-label-open="Menu" data-ecl-menu-label-close="Close" role="navigation" aria-label="Main navigation" >
         <div class="ecl-menu__overlay" data-ecl-menu-overlay=""></div>
-        <div class="ecl-container ecl-menu__container"><a class="ecl-link ecl-link--standalone ecl-menu__open"
-                                                          href="/component-library/example" data-ecl-menu-open=""><svg class="ecl-icon ecl-icon--s" focusable="false"
-                                                                                                                       aria-hidden="true">
-            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#hamburger"></use>
-        </svg><ng-container i18n="@@comp.header.label.menu">Menu</ng-container></a>
+        <div class="ecl-container ecl-menu__container">
+            <button class="ecl-button ecl-button--tertiary ecl-menu__open ecl-button--icon-only" type="button" data-ecl-menu-open="" aria-expanded="false" style="padding: 1px">
+                <span class="ecl-button__container">
+                    <svg class="ecl-icon ecl-icon--m ecl-button__icon niki1" focusable="false" aria-hidden="true" data-ecl-icon="">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#hamburger" style=""></use>
+                    </svg>
+                    <svg class="ecl-icon ecl-icon--m ecl-button__icon niki" focusable="false" aria-hidden="true" data-ecl-icon="">
+                        <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                    </svg>
+                    <span class="ecl-button__label" data-ecl-label="true">Menu</span>
+                </span>
+            </button>
+
+<!--            <a class="ecl-link ecl-link&#45;&#45;standalone ecl-menu__open" href="/component-library/example" data-ecl-menu-open="">-->
+<!--                <svg class="ecl-icon ecl-icon&#45;&#45;s" focusable="false" aria-hidden="true">-->
+<!--                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#hamburger"></use>-->
+<!--                </svg>-->
+<!--                <ng-container i18n="@@comp.header.label.menu">Menu</ng-container>-->
+<!--            </a>-->
             <section class="ecl-menu__inner" data-ecl-menu-inner="">
                 <header class="ecl-menu__inner-header">
-                    <button class="ecl-menu__close ecl-button ecl-button--text" id="closeMenu" type="submit" data-ecl-menu-close="">
-            <span class="ecl-menu__close-container ecl-button__container">
-              <svg class="ecl-icon ecl-icon--s ecl-button__icon ecl-button__icon--before" focusable="false"
-                   aria-hidden="true" data-ecl-icon="">
-                <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
-              </svg>
-              <span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.header.label.close">Close</span>
-            </span>
-                    </button>
-                    <div class="ecl-menu__title" i18n="@@comp.header.label.menu">Menu</div><button data-ecl-menu-back="" type="submit"
-                                                                                                   class="ecl-menu__back ecl-button ecl-button--text"><span class="ecl-button__container"><svg
-                    class="ecl-icon ecl-icon--s ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--before"
-                    focusable="false" aria-hidden="true" data-ecl-icon="">
+                    <button class="ecl-button ecl-button--ghost ecl-menu__close ecl-button--icon-only" type="submit" data-ecl-menu-close="">
+                        <span class="ecl-button__container">
+                            <span class="ecl-button__label" data-ecl-label="true">Close</span>
+                                <svg class="ecl-icon ecl-icon--m ecl-button__icon" focusable="false" aria-hidden="true" data-ecl-icon="">
+                                    <use xlink:href="assets/images/ecl/icons.a892a63d.svg#close-filled"></use>
+                                </svg>
+                            <span class="ecl-button__label" data-ecl-label="true" i18n="@@comp.header.label.close">Close</span>
+                        </span>
+                        </button>
+                        <div class="ecl-menu__title" i18n="@@comp.header.label.menu">Menu</div>
+                    <button data-ecl-menu-back="" type="submit" class="ecl-menu__back ecl-button ecl-button--text">
+                    <span class="ecl-button__container">
+                        <svg class="ecl-icon ecl-icon--s ecl-icon--rotate-270 ecl-button__icon ecl-button__icon--before" focusable="false" aria-hidden="true" data-ecl-icon="">
                 <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
               </svg><span class="ecl-button__label" data-ecl-label="" i18n="@@comp.header.label.back">Back</span></span></button>
                 </header>
