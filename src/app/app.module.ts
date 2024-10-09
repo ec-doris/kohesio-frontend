@@ -1,4 +1,4 @@
-import {APP_INITIALIZER, Inject, LOCALE_ID, NgModule, PLATFORM_ID} from '@angular/core';
+import {APP_INITIALIZER, NgModule, PLATFORM_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -35,6 +35,9 @@ import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cl
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
+
+import { LOCALE_ID } from '@angular/core';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 
 @NgModule({
   declarations: [
@@ -93,3 +96,7 @@ export function initializeAppCustomLogic(userService: UserService, platformId: O
     })
   }
 }
+
+platformBrowserDynamic().bootstrapModule(AppModule, {
+  providers: [{provide: LOCALE_ID, useValue: 'en' }]
+});
