@@ -81,14 +81,16 @@ export class KohesioEclLanguageSelectorComponent {
     code: "sv",
     label:"svenska"
   }];
-
+  isPopupOpen = false;
   public localeLabel: string;
 
   constructor(@Inject(LOCALE_ID) public locale: string,
               public translateService: TranslateService){
     this.localeLabel = this.getLanguageLabel(locale);
   }
-
+  togglePopup() {
+    this.isPopupOpen = !this.isPopupOpen;
+  }
   changeLanguage(selectedLangCode:string){
      this.translateService.translateUrl(selectedLangCode).subscribe((url:string)=>{
        window.location.href = url;
