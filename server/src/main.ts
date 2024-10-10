@@ -44,13 +44,29 @@ async function bootstrap() {
     const httpService: HttpService = app.get(HttpService);
     httpService.axiosRef.interceptors.request.use(config => {
       if (!config.url.includes('notifications/count-unseen')) {
-        let logString: string = config.method.toUpperCase() + "-" + config.url;
-        if (config.params && !(config.params.lenght == 1 && config.params[0].language)) {
-          logString += ",PARAMS=" + JSON.stringify(config.params);
-        }
-        logger.debug(logString);
+        config['metadata'] = { startTime: new Date()}
       }
       return config;
+    },(error)=>{
+      logger.error(error);
+    })
+    httpService.axiosRef.interceptors.response.use(response=>{
+      if (!response.config.url.includes('notifications/count-unseen')) {
+        response.config['metadata'].endTime = new Date()
+        const duration = response.config['metadata'].endTime - response.config['metadata'].startTime;
+        let logString: string = response.config.method.toUpperCase() + "-" + response.config.url;
+        if (response.config.params && !(response.config.params.lenght == 1 && response.config.params[0].language)) {
+          logString += " ,PARAMS=" + JSON.stringify(response.config.params);
+        }
+        logString += ` ,DURATION=${duration}ms`
+        logger.debug(logString);
+      }
+      return response;
+    },(error)=>{
+      error.config['metadata'].endTime = new Date();
+      const duration = error.config['metadata'].endTime - error.config['metadata'].startTime;
+      logger.debug(`ERROR, ${error.config.url}, DURATION=${duration}ms`);
+      logger.error(error);
     })
   }
 
