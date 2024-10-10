@@ -43,6 +43,7 @@ export function app(language:string='en'): express.Express {
           { provide: REQUEST, useValue: req },
           { provide: LOCALE_ID, useValue: language },
         ],
+        inlineCriticalCss: false,
       })
       .then((html) => res.send(html))
       .catch((err) => next(err));
