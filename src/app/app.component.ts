@@ -1,4 +1,4 @@
-import {Component, HostListener, PLATFORM_ID} from '@angular/core';
+import {Component, PLATFORM_ID} from '@angular/core';
 import {NavigationEnd, Router} from '@angular/router';
 import { LOCALE_ID, Inject } from '@angular/core';
 import { Location } from '@angular/common';
@@ -23,24 +23,7 @@ export class AppComponent {
   count:number = 0;
   lastPage:string = "";
   url: string;
-  @HostListener('window:wtReady')
-  doAnalytics(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.router.events.subscribe(value => {
-        if (value instanceof NavigationEnd) {
-          if ($wt && $wt.analytics.isTrackable()) {
-            if (this.count > 0 && this.lastPage != value.url) {
-              $wt.trackPageView();
-            }
-            this.count++;
-            this.lastPage = value.url;
 
-          }
-        }
-      });
-    }
-
-  }
   //country = $localize`:@@page.projects.label.country:COUNTRY`;
 
   constructor(public router:Router,
@@ -57,20 +40,20 @@ export class AppComponent {
   }
 
   ngOnInit(){
-    // if (isPlatformBrowser(this.platformId)) {
-    //   this.router.events.subscribe(value => {
-    //     if (value instanceof NavigationEnd) {
-    //       if ($wt && $wt.analytics.isTrackable()) {
-    //         if (this.count > 0 && this.lastPage != value.url) {
-    //           $wt.trackPageView();
-    //         }
-    //         this.count++;
-    //         this.lastPage = value.url;
-    //
-    //       }
-    //     }
-    //   });
-    // }
+    if (isPlatformBrowser(this.platformId)) {
+      this.router.events.subscribe(value => {
+        if (value instanceof NavigationEnd) {
+          if ($wt && $wt.analytics.isTrackable()) {
+            if (this.count > 0 && this.lastPage != value.url) {
+              $wt.trackPageView();
+            }
+            this.count++;
+            this.lastPage = value.url;
+
+          }
+        }
+      });
+    }
     this.metaService.run();
   }
 
