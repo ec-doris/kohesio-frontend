@@ -34,3 +34,13 @@
     top: -7px;
   }
 }
+
+.hide-on-mobile {
+  display: none;
+}
+
+@media (min-width: 460px) {
+  .hide-on-mobile {
+    display: inline;
+  }
+}
