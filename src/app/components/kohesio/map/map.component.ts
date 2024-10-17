@@ -338,7 +338,7 @@ export class MapComponent implements AfterViewInit {
       iconUrl: 'assets/images/map/marker-icon-2x.png',
       shadowUrl: 'assets/images/map/marker-shadow.png'
     };
-    // this.setUpZoomListener();
+    this.setUpZoomListener();
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
@@ -983,7 +983,7 @@ export class MapComponent implements AfterViewInit {
         });
       } else {
         if (data.subregions) {
-          // this.markers.clearLayers();
+          this.markers.clearLayers();
           const geojson = data.subregions.map((subregion: any) => {
             const coordinates = subregion.coordinates.split(',').map(Number);
             return {
