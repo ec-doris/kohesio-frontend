@@ -72,11 +72,11 @@ export class BeneficeFormComponent implements OnInit {
 
   resetForm() {
     this.form.reset();
-    this.service.showResult.next(this.service.getFormFilters(this.form));
+    this.service.showResult$$.next(this.service.getFormFilters(this.form));
   }
 
   onSubmit() {
-    this.service.showResult.next(this.service.getFormFilters(this.form));
+    this.service.showResult$$.next(this.service.getFormFilters(this.form));
   }
 
   onActionClick() {

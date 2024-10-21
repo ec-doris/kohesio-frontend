@@ -75,7 +75,7 @@ export class MapComponent implements AfterViewInit {
     bounds: L.latLngBounds(L.latLng(36.8702042109, -9.5360565336), L.latLng(42.2278301749, -6.137649751))
   } ];
   @Input() showFilters = false;
-  filterResult$$ = this.filterService.showResult.pipe(filter(_ => this.showFilters), takeUntilDestroyed());
+  filterResult$$ = this.filterService.showResult$$.pipe(filter(_ => this.showFilters), takeUntilDestroyed());
   // projectNearButtonWidth = 229;
   @Input()
   public mapId = 'map';

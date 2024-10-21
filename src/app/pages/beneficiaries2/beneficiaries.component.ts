@@ -25,7 +25,7 @@ import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
   styleUrls: [ './beneficiaries.component.scss' ]
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
-  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
+  filterResult$$ = this.filterService.showResult$$.pipe(takeUntilDestroyed());
   // filterTooltip = 'No filters applied';
   lastFiltersSearch: any = new Filters();
   filtersCount = 0;
