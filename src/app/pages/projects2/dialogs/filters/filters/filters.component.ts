@@ -68,7 +68,7 @@ export class FiltersComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.showResult$$.next(this.service.getFormFilters(this.form));
+    this.service.showResult$$.next({ filters: this.service.getFormFilters(this.form), source: 'filters submit' });
     // this.service.pagination.emit()
   }
 
@@ -185,7 +185,7 @@ export class FiltersComponent implements OnInit {
     this.form.reset();
     this.themeSelection = this.filters.thematic_objectives;
     this.semanticTerms = [];
-    this.service.showResult$$.next(this.service.getFormFilters(this.form));
+    this.service.showResult$$.next({ filters: this.service.getFormFilters(this.form), source: 'filters reset' });
   }
 
   onOutsideClick() {

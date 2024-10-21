@@ -96,7 +96,7 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.filterResult$$.subscribe((formVal) => {
+    this.filterResult$$.subscribe(({ filters: formVal }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 

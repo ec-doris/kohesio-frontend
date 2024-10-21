@@ -12,7 +12,7 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class FilterService {
-  showResult$$: Subject<any> = new Subject();
+  showResult$$: Subject<{ filters: {}, source?: string }> = new Subject();
   public filters: any;
   private countryGeoJson: any;
 
@@ -353,7 +353,7 @@ export class FilterService {
     }
 
     lastFiltersSearch[filterKey.toLowerCase()] = undefined;
-    this.showResult$$.next(new Filters().deserialize(lastFiltersSearch));
+    this.showResult$$.next({ filters: new Filters().deserialize(lastFiltersSearch) });
   }
 
 }

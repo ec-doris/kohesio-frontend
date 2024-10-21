@@ -75,7 +75,10 @@ export class MapComponent implements AfterViewInit {
     bounds: L.latLngBounds(L.latLng(36.8702042109, -9.5360565336), L.latLng(42.2278301749, -6.137649751))
   } ];
   @Input() showFilters = false;
-  filterResult$$ = this.filterService.showResult$$.pipe(filter(_ => this.showFilters), takeUntilDestroyed());
+  filterResult$$ = this.filterService.showResult$$.pipe(
+    filter(_ => this.showFilters),
+    tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
+    takeUntilDestroyed());
   // projectNearButtonWidth = 229;
   @Input()
   public mapId = 'map';
@@ -103,7 +106,7 @@ export class MapComponent implements AfterViewInit {
   public onlyOnceParamsApply: boolean = true;
   public queryParamMapRegionName = 'mapRegion';
   public queryParamParentLocation = 'parentLocation';
-  zoomLevelSubject = new Subject<boolean>();
+  private zoomLevelSubject$$ = new Subject<boolean>();
   private map: any;
   private markers: any;
   private markersGroup: any;
@@ -115,7 +118,7 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   zoomLevel: any;
   private destroyWheelBounds$ = new Subject<void>();
-  private focusNavigation = false;
+  private allowZoomListener = false;
 
 
   constructor(private mapService: MapService,
@@ -267,7 +270,7 @@ export class MapComponent implements AfterViewInit {
     setTimeout(() => {
       this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10;
     });
-    this.filterResult$$.subscribe((formVal) => {
+    this.filterResult$$.subscribe(({ filters: formVal }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       this.loadMapRegion(this.lastFiltersSearch, undefined);
@@ -583,7 +586,7 @@ export class MapComponent implements AfterViewInit {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
-    this.focusNavigation = this.mapRegions.length > 1;
+    // this.allowZoomListener = this.mapRegions.length > 1;
     this.loadMapVisualization(filters, granularityRegion);
   }
 
@@ -774,7 +777,7 @@ export class MapComponent implements AfterViewInit {
       }*/
       layer.on({
         click: (e: any) => {
-          this.focusNavigation = true;
+          this.allowZoomListener = false;
           if (e.target.feature.properties) {
             //this.isLoading = true;
             const region = e.target.feature.properties.region;
@@ -916,9 +919,9 @@ export class MapComponent implements AfterViewInit {
     return L.marker(latlng, { icon });
   }
   private setUpZoomListener(): void {
-    this.zoomLevelSubject.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && !this.focusNavigation)).subscribe((zoomLevel) => {
+    this.zoomLevelSubject$$.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && this.allowZoomListener)).subscribe((zoomLevel) => {
       // this.zoomLevel = this.map.getZoom();
-      // console.log('inside');
+      console.log('inside');
       this.collectVisibleCountries();
     });
 
@@ -931,7 +934,7 @@ export class MapComponent implements AfterViewInit {
       if (this.wheelTimeout) {
         clearTimeout(this.wheelTimeout);
       }
-      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject.next(true), 100);
+      this.wheelTimeout = setTimeout(() => this.zoomLevelSubject$$.next(true), 100);
     });
 
     this.map.on('zoomend', () => {
@@ -939,7 +942,7 @@ export class MapComponent implements AfterViewInit {
       this.zoomLevel = this.map.getZoom();
     });
     this.map.on('dragend', (event: any) => {
-      this.zoomLevelSubject.next(true);
+      this.zoomLevelSubject$$.next(true);
       // console.log('Map is being dragged', event);
     });
   }
