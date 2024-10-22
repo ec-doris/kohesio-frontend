@@ -190,7 +190,7 @@ async function bootstrap() {
   });
 
   /*Building map cache*/
-  await mapService.getClusters({ zoom:4 },true);
+  //await mapService.getClusters({ zoom:4 },true);
 
   setupSwagger(app);
   const port = configService.get<number>('NODE_PORT');
