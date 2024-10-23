@@ -274,7 +274,8 @@ export class MapComponent implements AfterViewInit {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       this.loadMapRegion(this.lastFiltersSearch, undefined);
-      this._router.navigate([], { relativeTo: this.route, queryParams: this.generateQueryParams() });
+      const fragment = this.translateService.sections.myregion;
+      this._router.navigate([], { relativeTo: this.route, fragment, queryParams: this.generateQueryParams()  });
       // this.map.refreshView();
       // this.map.isLoading = true;
     });
