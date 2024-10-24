@@ -30,7 +30,7 @@ export class MapService {
     );
   }
 
-  getMapInfoByRegion(params: any): Observable<any> {
+  getMapInfoByRegion(params: any, zoomLevel: string): Observable<any> {
     const url = environment.api + '/map/search';
 
     const transformedParams = {
@@ -44,9 +44,7 @@ export class MapService {
       }
     };
 
-
-    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams));
-
+    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams)).set('zoom', zoomLevel);
     return this.http.get<any>(url, { params: httpParams });
   }
 

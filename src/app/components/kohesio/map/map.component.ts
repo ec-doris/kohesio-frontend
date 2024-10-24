@@ -922,7 +922,7 @@ export class MapComponent implements AfterViewInit {
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(filter(zoomLevel => this.map.getZoom() >= 5 && this.allowZoomListener)).subscribe((zoomLevel) => {
       // this.zoomLevel = this.map.getZoom();
-      console.log('inside');
+      // console.log('inside');
       this.collectVisibleCountries();
     });
 
@@ -953,7 +953,7 @@ export class MapComponent implements AfterViewInit {
     const mapBounds = this.map.getBounds();
     console.log('Map Bounds:', mapBounds);
     this.cleanMap()
-    this.mapService.getMapInfoByRegion(mapBounds).pipe(
+    this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString()).pipe(
       takeUntil(this.destroyWheelBounds$),
       tap(data=>{
 
