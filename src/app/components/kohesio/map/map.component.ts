@@ -118,7 +118,7 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   zoomLevel: any;
   private destroyWheelBounds$ = new Subject<void>();
-  private allowZoomListener = false;
+  private allowZoomListener = true;
 
 
   constructor(private mapService: MapService,

@@ -69,7 +69,6 @@ export class FiltersComponent implements OnInit {
 
   onSubmit() {
     this.service.showResult$$.next({ filters: this.service.getFormFilters(this.form), source: 'filters submit' });
-    // this.service.pagination.emit()
   }
 
   getDate(dateStringFormat: any) {
