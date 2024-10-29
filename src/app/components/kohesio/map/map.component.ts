@@ -29,17 +29,6 @@ import { MapPopupComponent } from './map-popup.component';
 
 declare let L: any;
 
-const boundingBox = {
-  _southWest: { lat: 42.529808314926164, lng: 23.461303710937504 },
-  _northEast: { lat: 43.25920592943639, lng: 24.982910156250004 }
-};
-
-const coordinates = { lat: 46.4977648, lng: 27.803085484685 };
-
-const isWithinBounds = (coords: { lat: number, lng: number }, bounds: { _southWest: { lat: number, lng: number }, _northEast: { lat: number, lng: number } }) => {
-  return coords.lat >= bounds._southWest.lat && coords.lat <= bounds._northEast.lat &&
-    coords.lng >= bounds._southWest.lng && coords.lng <= bounds._northEast.lng;
-};
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
@@ -922,14 +911,14 @@ export class MapComponent implements AfterViewInit {
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
       tap(x => {
+        this.hideOuterMostRegions = true;
         if (this.map.getZoom() < 5) {
+          this.hideOuterMostRegions = false;
           this.markers.clearLayers();
         }
       }),
-      filter(zoomLevel => this.map.getZoom() >= 5 && this.allowZoomListener))
-      .subscribe((zoomLevel) => {
-        this.collectVisibleCountries();
-      });
+      filter(() => this.map.getZoom() >= 5 && this.allowZoomListener))
+      .subscribe(() => this.collectVisibleCountries());
 
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
       const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
@@ -943,106 +932,38 @@ export class MapComponent implements AfterViewInit {
       this.wheelTimeout = setTimeout(() => this.zoomLevelSubject$$.next(true), 100);
     });
 
-    this.map.on('zoomend', () => {
-      console.log('Map zoom level:', this.map.getZoom());
-      this.zoomLevel = this.map.getZoom();
-    });
-    this.map.on('dragend', (event: any) => {
-      this.zoomLevelSubject$$.next(true);
-      // console.log('Map is being dragged', event);
-    });
+    this.map.on('zoomend', () => this.zoomLevel = this.map.getZoom());
+    this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
-
   private collectVisibleCountries(): void {
     this.cancelPreviousRequest();
-    const mapBounds = this.map.getBounds();
-    console.log('Map Bounds:', mapBounds);
     this.cleanMap();
+    const mapBounds = this.map.getBounds();
     this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString()).pipe(
       takeUntil(this.destroyWheelBounds$),
       tap(data => {
-
-
         this.markers.clearLayers();
-
-        if (data.list && data.list.length) {
-          //Draw markers to each coordinate
-          this.uiMessageBoxHelper.close();
-          this.hideScale = true;
-          // if (data.geoJson) {
-          //   this.drawPolygonsForRegion(data.geoJson, null);
-          //   this.fitToGeoJson(data.geoJson);
-          // }
-          data.list.slice().reverse().forEach((point: any) => {
-            const coordinates = point.coordinates.split(',');
-            const popupContent = {
-              type: 'async',
-              filters: this.filters,
-              coordinates: point.coordinates,
-              isHighlighted: point.isHighlighted,
-            };
-            const marker = this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
-            this.hideOuterMostRegions = true;
-            if (this._route.snapshot.queryParamMap.has('coords')) {
-              const queryParamsCoords = this._route.snapshot.queryParamMap.get('coords');
-              if (point.coordinates == queryParamsCoords) {
-                marker.fire('click');
-              }
-            }
-          });
-        } else {
-          if (data.subregions) {
-            this.markers.clearLayers();
-            const geojson = data.subregions.map((subregion: any) => {
-              const coordinates = subregion.coordinates.split(',').map(Number);
-              return {
-                type: 'Feature',
-                geometry: {
-                  type: 'Point',
-                  coordinates: [ coordinates[0], coordinates[1] ]
-                },
-                properties: {
-                  count: subregion.count,
-                  point_count_abbreviated: subregion.count
-                }
-              };
-            });
-            this.markers.addData(geojson);
-          }
-          // this.markers.addData(data.subregions);
-        }
-      })).subscribe();
-    // const visibleCountries = this.layers.filter((layer: any) => {
-    //   const countryBounds = layer.getBounds();
-    //   return mapBounds.intersects(countryBounds);
-    // });
-    // // const visibleCountries = this.outermostRegions.filter((region: any) => {
-    // //   const countryBounds = this.getCountryBounds(region.country);
-    // //   return countryBounds && mapBounds.intersects(countryBounds);
-    // // });
-    //
-    // console.log('Visible Countries:', visibleCountries);
-    // const regions = visibleCountries.map((layer: any) => {
-    //   const properties = layer.getLayers()[0].feature.properties;
-    //   return { label: properties.regionLabel, value: properties.region };
-    // });
-    // console.log('Regions:', regions);
+        const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
+        this.markers.addData(geojson);
+      })
+    ).subscribe();
   }
 
-  // private getCountryBounds(countryId: string): any {
-  //   const country = this.overrideBounds.find((c: any) => c.id === countryId);
-  //   return country ? country.bounds : null;
-  // }
-
-  // private setUpZoomListener(): void {
-  //   this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
-  //     if (!event.ctrlKey) return;
-  //     if (this.wheelTimeout) {
-  //       clearTimeout(this.wheelTimeout);
-  //     }
-  //     this.wheelTimeout = setTimeout(() => event.deltaY > 0 ? this.out() : this.in(), 100);
-  //   });
-  // }
+  private createGeoJsonFeature({ count, coordinates, isHighlighted }: any): any {
+    const [lat, lng] = coordinates.split(',').map(Number);
+    if (count === 1) {
+      const popupContent = { type: 'async', filters: this.filters, coordinates, isHighlighted };
+      this._router.navigate([], { relativeTo: this._route, fragment: this.translateService.sections.myregion, queryParamsHandling: 'merge', skipLocationChange: true });
+      // this.updateFragmentSilently(this.translateService.sections.myregion);
+      this.addCircleMarkerPopup(lng, lat, popupContent);
+      return;
+    }
+    return {
+      type: 'Feature',
+      geometry: { type: 'Point', coordinates: [ lat, lng ] },
+      properties: { count, point_count_abbreviated: count }
+    };
+  }
 
   private cancelPreviousRequest(): void {
     this.destroyWheelBounds$.next();
