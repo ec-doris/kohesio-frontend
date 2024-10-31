@@ -15,8 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, of, Subject } from 'rxjs';
-import { concatMap, takeUntil, tap } from 'rxjs/operators';
+import { filter, of, Subject, timer, merge } from 'rxjs';
+import { concatMap, finalize,  takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -40,6 +40,7 @@ export class MapComponent implements AfterViewInit {
   @ViewChild('projectNear') projectNear!: ElementRef;
   projectNearButtonWidth: number = 0;
   mobileFilters = false;
+  isLoadingZoom = false;
   public filters: Filters = new Filters();
   public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
   public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
@@ -935,26 +936,36 @@ export class MapComponent implements AfterViewInit {
     this.map.on('zoomend', () => this.zoomLevel = this.map.getZoom());
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
+
   private collectVisibleCountries(): void {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds = this.map.getBounds();
-    this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString()).pipe(
-      takeUntil(this.destroyWheelBounds$),
-      tap(data => {
-        this.markers.clearLayers();
-        const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
-        this.markers.addData(geojson);
-      })
+
+    merge(
+      timer(500).pipe(
+        tap(() => this.isLoadingZoom = true),
+        takeUntil(this.destroyWheelBounds$)
+      ),
+      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString()).pipe(
+        tap(data => {
+          this.markers.clearLayers();
+          const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
+          this.markers.addData(geojson);
+        }),
+        finalize(() => this.isLoadingZoom = false),
+        takeUntil(this.destroyWheelBounds$)
+      )
     ).subscribe();
+
+    const fragment = this.translateService.sections.myregion;
+    this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
   }
 
   private createGeoJsonFeature({ count, coordinates, isHighlighted }: any): any {
-    const [lat, lng] = coordinates.split(',').map(Number);
+    const [ lat, lng ] = coordinates.split(',').map(Number);
     if (count === 1) {
       const popupContent = { type: 'async', filters: this.filters, coordinates, isHighlighted };
-      this._router.navigate([], { relativeTo: this._route, fragment: this.translateService.sections.myregion, queryParamsHandling: 'merge', skipLocationChange: true });
-      // this.updateFragmentSilently(this.translateService.sections.myregion);
       this.addCircleMarkerPopup(lng, lat, popupContent);
       return;
     }

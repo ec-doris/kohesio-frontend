@@ -1,5 +1,12 @@
 @import 'src/assets/styles/_include-media.scss';
 
+.loading-corner {
+  position: absolute;
+  top: 70px;
+  right: 10px;
+  z-index: 1000;
+}
+
 #map{
     height: 725px;
     z-index: 0;
