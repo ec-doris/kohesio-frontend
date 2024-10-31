@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api:'/api',
+  api:'http://localhost:3000/api',
   entityURL: 'https://linkedopendata.eu/entity/',
   survey:{
     enabled: false,
