@@ -23,8 +23,8 @@
         </div>
         <app-map-message-box></app-map-message-box>
         <div class="loading-corner" *ngIf="isLoadingZoom">
-            <kohesio-ecl-spinner [hasLabel]="false"></kohesio-ecl-spinner>
-<!--            <mat-spinner diameter="30"></mat-spinner>-->
+            <mat-spinner diameter=150></mat-spinner>
+<!--            <kohesio-ecl-spinner [hasLabel]="false"></kohesio-ecl-spinner>-->
         </div>
         <div class="map-frame">
             <div [id]="mapId"></div>

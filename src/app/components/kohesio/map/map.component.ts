@@ -914,8 +914,8 @@ export class MapComponent implements AfterViewInit {
       tap(x => {
         this.hideOuterMostRegions = true;
         if (this.map.getZoom() < 5) {
-          this.hideOuterMostRegions = false;
           this.markers.clearLayers();
+          this.loadMapRegion(this.filters);
         }
       }),
       filter(() => this.map.getZoom() >= 5 && this.allowZoomListener))
