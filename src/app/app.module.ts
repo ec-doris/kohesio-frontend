@@ -32,6 +32,7 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {SurveyDialogModule} from "./components/kohesio/survey-dialog/survey-dialog.module";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cluster.module";
+import {DataPageComponent} from "./pages/static/data/data.component";
 
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
@@ -46,7 +47,8 @@ registerLocaleData(LocaleEnglish);
     ThemesComponent,
     NotFoundComponent,
     ForbiddenComponent,
-    ServicesPageComponent
+    ServicesPageComponent,
+    DataPageComponent
   ],
   imports: [
     AppRoutingModule,

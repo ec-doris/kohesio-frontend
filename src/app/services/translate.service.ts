@@ -18,6 +18,7 @@ export class TranslateService {
     about:  $localize`:@@translate.routes.about:about`,
     privacy: $localize`:@@translate.routes.privacy:privacy`,
     services: $localize`:@@translate.routes.services:services`,
+    data: $localize`:@@translate.routes.data:data`,
     themes: $localize`:@@translate.routes.themes:themes`,
     faq: $localize`:@@translate.routes.faq:faq`,
     accessibility: $localize`:@@translate.routes.accessibility:accessibility`

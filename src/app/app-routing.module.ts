@@ -11,6 +11,7 @@ import {MapPageResolve} from "./pages/map/map-page.resolve";
 import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 import { FilterService } from './services/filter.service';
+import {DataPageComponent} from "./pages/static/data/data.component";
 
 const routes: Routes = [
       {
@@ -42,6 +43,13 @@ const routes: Routes = [
         pathMatch: 'full',
         data: {
           title: $localize`:@@page.services.title:Services`
+        }
+      },{
+        path: $localize`:@@translate.routes.data:data`,
+        component: DataPageComponent,
+        pathMatch: 'full',
+        data: {
+          title: $localize`:@@page.data.title:Data`
         }
       },{
         path: $localize`:@@translate.routes.accessibility:accessibility`,
