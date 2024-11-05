@@ -11,7 +11,7 @@ import {MapPageResolve} from "./pages/map/map-page.resolve";
 import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.component";
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 import { FilterService } from './services/filter.service';
-import {DataPageComponent} from "./pages/static/data/data.component";
+
 
 const routes: Routes = [
       {
@@ -45,13 +45,6 @@ const routes: Routes = [
           title: $localize`:@@page.services.title:Services`
         }
       },{
-        path: $localize`:@@translate.routes.data:data`,
-        component: DataPageComponent,
-        pathMatch: 'full',
-        data: {
-          title: $localize`:@@page.data.title:Data`
-        }
-      },{
         path: $localize`:@@translate.routes.accessibility:accessibility`,
         component: AccessibilityPageComponent,
         pathMatch: 'full',
@@ -71,6 +64,12 @@ const routes: Routes = [
           title: $localize`:@@page.faq.title:Frequently asked questions`
         },
         loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule)
+      },{
+        path: $localize`:@@translate.routes.data:data`,
+        data: {
+          title: $localize`:@@page.data.title:Data`
+        },
+        loadChildren: () => import('./pages/data/data.module').then(m => m.DataModule)
       },{
         path: 'map',
         component: MapPageComponent,
