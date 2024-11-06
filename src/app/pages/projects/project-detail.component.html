@@ -26,7 +26,7 @@
         <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     </div>
     <div class="kohesio-page-detail-tools">
-        <div class="edit-tools" *ngIf="project.canEdit ">
+        <div class="edit-tools" *ngIf="project.canEdit && editMode">
             <kohesio-ecl-button (click)="cancelEdit()" variant="secondary">Exit Edit Mode</kohesio-ecl-button>
             <div class="versions" *ngIf="versions.length">
                 <div class="text">Versions:</div>
@@ -45,6 +45,7 @@
             <div class="edit-actions-buttons">
                 <kohesio-ecl-button [variant]="((project.canApprove && myForm.value.status != 'SUBMITTED') ||
                                                 (!project.canApprove)) ? 'call' : 'secondary'"
+                                    *ngIf="myForm.value.status == 'DRAFT' || !myForm.value.status"
                                     (click)="saveVersion('SUBMITTED', 'Submit')">Submit</kohesio-ecl-button>
                 <kohesio-ecl-button variant="secondary" (click)="saveVersion('REJECT', 'Reject')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Reject</kohesio-ecl-button>
                 <kohesio-ecl-button variant="call" (click)="saveVersion('APPROVED', 'Approve')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Approve</kohesio-ecl-button>
