@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SharedModule } from '../../../../shared/shared.module';
 import { TransformVideoUrlPipe } from '../../../pages/projects/transform-video-url.pipe';
 import { ProjectDetailModalComponent } from './project-detail-modal.component';
 import { ProjectDetailComponent } from 'src/app/pages/projects/project-detail.component';
@@ -51,7 +52,8 @@ import {QuillModule} from "ngx-quill";
           [ 'link' ]                         // link and image, video
         ]
       }
-    })
+    }),
+    SharedModule
   ],
     declarations: [
       ProjectDetailModalComponent,

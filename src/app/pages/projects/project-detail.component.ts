@@ -154,7 +154,14 @@ export class ProjectDetailComponent implements AfterViewInit {
           'status': new FormControl(),
           'label': new FormControl(this.project.label, { nonNullable: true }),
           'description': new FormControl(this.project.description, { nonNullable: true }),
-          'language': new FormControl(this.translateService.locale, {nonNullable: true})
+          'language': new FormControl(this.translateService.locale, {nonNullable: true}),
+          youtube_video_id: new FormControl(this.project.youtube_video_id),
+          twitter_username: new FormControl(this.project.twitter_username),
+          facebook_user_id: new FormControl(this.project.facebook_user_id),
+          instagram_username: new FormControl(this.project.instagram_username),
+          image_url: new FormControl(this.project.image_url),
+          image_description: new FormControl(this.project.image_description),
+          image_copyright: new FormControl(this.project.image_copyright)
         })
 
 
@@ -475,7 +482,14 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.label=this.myForm.value.label;
       edit.summary=this.myForm.value.description;
       edit.version_comment=version_comment;
-      edit.language=this.myForm.value.language;
+      edit.language = this.myForm.value.language;
+      edit.youtube_video_id = this.myForm.value.youtube_video_id;
+      edit.twitter_username = this.myForm.value.twitter_username;
+      edit.facebook_user_id = this.myForm.value.facebook_user_id;
+      edit.instagram_username = this.myForm.value.instagram_username;
+      edit.image_url = this.myForm.value.image_url;
+      edit.image_description = this.myForm.value.image_description;
+      edit.image_copyright = this.myForm.value.image_copyright;
       edit.status=status;
       this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
         if (status == 'APPROVED' || status == 'SUBMITTED'){

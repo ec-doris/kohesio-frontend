@@ -26,7 +26,7 @@
         <kohesio-ecl-message type="error" [message]="errorMessage" *ngIf="errorMessage" (dismissMessage)="errorMessage = undefined"></kohesio-ecl-message>
     </div>
     <div class="kohesio-page-detail-tools">
-        <div class="edit-tools" *ngIf="project.canEdit && editMode">
+        <div class="edit-tools" *ngIf="project.canEdit ">
             <kohesio-ecl-button (click)="cancelEdit()" variant="secondary">Exit Edit Mode</kohesio-ecl-button>
             <div class="versions" *ngIf="versions.length">
                 <div class="text">Versions:</div>
@@ -45,7 +45,6 @@
             <div class="edit-actions-buttons">
                 <kohesio-ecl-button [variant]="((project.canApprove && myForm.value.status != 'SUBMITTED') ||
                                                 (!project.canApprove)) ? 'call' : 'secondary'"
-                                    *ngIf="myForm.value.status == 'DRAFT' || !myForm.value.status"
                                     (click)="saveVersion('SUBMITTED', 'Submit')">Submit</kohesio-ecl-button>
                 <kohesio-ecl-button variant="secondary" (click)="saveVersion('REJECT', 'Reject')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Reject</kohesio-ecl-button>
                 <kohesio-ecl-button variant="call" (click)="saveVersion('APPROVED', 'Approve')" *ngIf="myForm.value.status == 'SUBMITTED' && project.canApprove">Approve</kohesio-ecl-button>
@@ -65,6 +64,37 @@
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block">
+                <span class="title" i18n="@@page.project-detail.label.projectInfo">Project Professional Space</span>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span>
+                    <input style="width: 100%" formControlName="youtube_video_id">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span>
+                    <input style="width: 100%" formControlName="twitter_username">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.facebook_user_id" style="white-space: nowrap">facebook user: </span>
+                    <input style="width: 100%" formControlName="facebook_user_id">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.instagram_username" style="white-space: nowrap">instagram username: </span>
+                    <input style="width: 100%" formControlName="instagram_username">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.image_url" style="white-space: nowrap">image url: </span>
+                    <input style="width: 100%" formControlName="image_url">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.image_description" style="white-space: nowrap">image description: </span>
+                    <input style="width: 100%" formControlName="image_description">
+                </div>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.image_copyright" style="white-space: nowrap">image copyright: </span>
+                    <input style="width: 100%" formControlName="image_copyright">
+                </div>
+            </div>
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
                 <div class="content">
