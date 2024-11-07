@@ -17,14 +17,15 @@
         <div class="ecl-col-l-3">
             <nav data-ecl-auto-init="InpageNavigation" class="ecl-inpage-navigation" data-ecl-inpage-navigation="true">
                 <div class="ecl-inpage-navigation__title" i18n="@@page.faq.pageContent.title">Page contents</div>
-                <div class="ecl-inpage-navigation__body"> <button type="button" class="ecl-inpage-navigation__trigger"
+                <div class="ecl-inpage-navigation__body">
+                    <button type="button" class="ecl-inpage-navigation__trigger"
                     id="ecl-inpage-navigation-trigger" data-ecl-inpage-navigation-trigger="true"
-                    aria-controls="ecl-inpage-navigation-list" aria-expanded="false"> <span
-                      class="ecl-inpage-navigation__trigger-current"
-                      data-ecl-inpage-navigation-trigger-current="true">&nbsp;</span><svg focusable="false" aria-hidden="true"
-                      class="ecl-inpage-navigation__trigger-icon ecl-icon ecl-icon--s ecl-icon--rotate-180">
+                    aria-controls="ecl-inpage-navigation-list" aria-expanded="false">
+                    <span class="ecl-inpage-navigation__trigger-current" data-ecl-inpage-navigation-trigger-current="true"></span>
+                    <svg focusable="false" aria-hidden="true" class="ecl-inpage-navigation__trigger-icon ecl-icon ecl-icon--s ecl-icon--rotate-180">
                       <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
-                    </svg> </button>
+                    </svg>
+                    </button>
                     <ul class="ecl-inpage-navigation__list" aria-labelledby="ecl-inpage-navigation-trigger"
                         data-ecl-inpage-navigation-list="true" id="ecl-inpage-navigation-list">
                         <li class="ecl-inpage-navigation__item"> <a data-ecl-inpage-navigation-link="true" [href]="translateService.routes.faq + '#' + translateService.sections.section + '-1'"
@@ -83,7 +84,7 @@
               <p class="ecl-u-type-paragraph">For more information, check the <a href="https://ec.europa.eu/info/legal-notice_en" target="blank">Legal Notice</a> and the <a [routerLink]="['/'+translateService.routes.privacy]">Privacy Statement</a>.</p>
             </ng-container>
             <kohesio-ecl-accordion class="kohesio-faq-projects-block"
-                                   i18n-title="@@page.faq.listsOfOperations.title" [collapsed]="true"
+                                   i18n-title="List of operations|@@page.faq.listsOfOperations.title" title="List of operations" [collapsed]="true"
                                     (onChange)="onChangeListOfOperations($event)">
                 <div class="ecl-table-responsive" style="background-color: white;">
                     <div class="loo_filters">
