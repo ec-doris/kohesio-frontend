@@ -470,6 +470,7 @@
     "page.edits.button.action.cancel": "Cancel",
     "page.users.save-dialog.label.addUser": "Add User",
     "page.users.save-dialog.label.inviteUser": "Invite User",
-    "page.users.save-dialog.label.active": "Active"
+    "page.users.save-dialog.label.active": "Active",
+    "page.faq.listsOfOperations.title": "List of operations"
   }
 }
