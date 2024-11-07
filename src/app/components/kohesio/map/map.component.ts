@@ -15,8 +15,8 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, of, Subject, timer, merge } from 'rxjs';
-import { concatMap, finalize,  takeUntil, tap } from 'rxjs/operators';
+import { filter, merge, of, Subject, timer } from 'rxjs';
+import { concatMap, finalize, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -909,6 +909,78 @@ export class MapComponent implements AfterViewInit {
     return L.marker(latlng, { icon });
   }
 
+  addCircleMarkerPopupColored(latitude: any, longitude: any, popupContent: any = undefined, count: number, centralize = true, zoomWhenCentralize = 15) {
+    const coords = [ latitude, longitude ];
+
+    if (!this.markersGroup) {
+      this.markersGroup = new L.FeatureGroup();
+      this.map.addLayer(this.markersGroup);
+    }
+    const small = '#6ecc3999';
+    const medium = '#f0c20c99';
+    const large = '#f1801799';
+
+    const size = count < 100 ? 'small' : count < 10000 ? 'medium' : 'large';
+    const marker = L.marker(coords, {
+      icon: L.divIcon({
+        html: `<div style="
+      width: 32px;
+      height: 32px;
+      background-color: ${size === 'small' ? small : size === 'medium' ? medium : large};
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: black;
+      font-size: 12px;
+      font-weight: 400;
+    ">
+      ${count}
+    </div>`,
+        className: `marker-cluster marker-cluster-${size}`,
+        iconSize: L.point(42, 42)
+      })
+    });
+    marker.on('click', () => {
+      this.mapService.getProjectsPerCoordinate(popupContent.geometry.coordinates.toString(), popupContent.filters).subscribe(projects => {
+        const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
+        component.instance.projects = projects;
+        component.instance.openProjectInner = this.openProjectInner;
+        marker.bindPopup(component.location.nativeElement, { maxWidth: 600 }).openPopup();
+        marker.getPopup().on('remove', () => this.updateCoordsQueryParam(undefined));
+        this.updateCoordsQueryParam(popupContent.coordinates);
+        const latLngs = [ marker.getLatLng() ];
+        const markerBounds = L.latLngBounds(latLngs);
+        this.map.fitBounds(markerBounds, {
+          paddingTopLeft: [ 0, 350 ],
+          maxZoom: this.map.getZoom()
+        });
+        if (this.mobileQuery) {
+          this.collapsedBreadCrumb = true;
+        }
+        component.changeDetectorRef.detectChanges();
+      });
+    });
+    marker.on('mouseout', () => {
+      setTimeout(() => {
+        this.map.dragging.enable();
+        this.map.scrollWheelZoom.enable();
+        if (this.map.tap) {
+          this.map.tap.enable();
+        }
+      });
+    });
+
+    this.markersGroup.addLayer(marker);
+
+    // if (centralize) {
+    //   this.map.setView(coords, zoomWhenCentralize);
+    // }
+    //
+    return marker;
+
+  }
+
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
       tap(x => {
@@ -969,11 +1041,12 @@ export class MapComponent implements AfterViewInit {
       this.addCircleMarkerPopup(lng, lat, popupContent);
       return;
     }
-    return {
+    const point = {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [ lat, lng ] },
       properties: { count, point_count_abbreviated: count }
     };
+    return this.addCircleMarkerPopupColored(lng, lat, point, count);
   }
 
   private cancelPreviousRequest(): void {
