@@ -982,6 +982,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setUpZoomListener(): void {
+    this.map.on('zoomend', () => {
+      this.zoomLevelSubject$$.next(true);
+    });
+
     this.zoomLevelSubject$$.pipe(
       tap(x => {
         this.hideOuterMostRegions = true;

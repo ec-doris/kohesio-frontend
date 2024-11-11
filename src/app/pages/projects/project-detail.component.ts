@@ -1,4 +1,6 @@
 import {AfterViewInit, Component, Inject, Input, PLATFORM_ID, Renderer2, ViewChild} from '@angular/core';
+import { filter } from 'rxjs';
+import { ImageEditFormComponent } from '../../components/kohesio/image-edit-form/image-edit-form.component';
 import {ProjectService} from "../../services/project.service";
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
@@ -126,6 +128,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     public messageLanguageEditConflict?:string;
     public errorMessage?:string;
     public successMessage?:string;
+    youTube!: string;
+    tweet!: string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -178,7 +182,8 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-
+        this.youTube = this.project.videos[0];
+        this.tweet = this.project.tweets[0];
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -532,4 +537,20 @@ export class ProjectDetailComponent implements AfterViewInit {
     return sanitizedUrls;
   }
 
+  openEditImg() {
+    const dialogRef = this.dialog.open(ImageEditFormComponent, {
+      data: {
+        image_url: this.myForm.value.image_url,
+        image_description: this.myForm.value.image_description,
+        image_copyright: this.myForm.value.image_copyright
+      }
+    });
+    dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+      this.myForm.patchValue({
+        image_url: result.image_url,
+        image_description: result.image_description,
+        image_copyright: result.image_copyright
+      });
+    });
+  }
 }

@@ -13,6 +13,14 @@ a:visited {
   }
 }
 
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  max-width: 100%;
+}
+
 .kohesio-project-detail-video{
   iframe{
     border:none;

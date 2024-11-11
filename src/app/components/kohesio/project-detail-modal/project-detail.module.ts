@@ -3,6 +3,7 @@ import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '../../../../shared/shared.module';
 import { TransformVideoUrlPipe } from '../../../pages/projects/transform-video-url.pipe';
+import { ImageEditFormComponent } from '../image-edit-form/image-edit-form.component';
 import { ProjectDetailModalComponent } from './project-detail-modal.component';
 import { ProjectDetailComponent } from 'src/app/pages/projects/project-detail.component';
 import { ArraySortPipe } from 'src/app/pipes/array-sort.pipe';
@@ -59,6 +60,7 @@ import {QuillModule} from "ngx-quill";
       ProjectDetailModalComponent,
       ProjectDetailComponent,
       ArraySortPipe,
+      ImageEditFormComponent,
       TransformVideoUrlPipe
     ],
     exports: [

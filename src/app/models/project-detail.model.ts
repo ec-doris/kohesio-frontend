@@ -103,7 +103,7 @@ export class ProjectDetail implements Deserializable{
             canEdit: input.canEdit || true,
             canApprove: input.canApprove,
             youtube_video_id: input.videos[0],
-            twitter_username: input.twitter_username,
+            twitter_username: input.tweets[0],
             facebook_user_id: input.facebook_user_id,
             instagram_username: input.instagram_username,
             image_url: input.image_url,

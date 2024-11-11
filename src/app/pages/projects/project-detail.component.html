@@ -66,35 +66,37 @@
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
             <div class="kohesio-side-content-block">
-                <span class="title" i18n="@@page.project-detail.label.projectInfo">Project Professional Space</span>
+                <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
                 <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span>
-                    <input style="width: 100%" formControlName="youtube_video_id">
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span> &nbsp;
+                    <ng-container *ngIf="youTube && !editMode"> <span class="ellipsis" [title]="youTube">{{ youTube }}</span></ng-container>
+                    <input *ngIf="editMode" style="width: 100%" formControlName="youtube_video_id">
                 </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span>
-                    <input style="width: 100%" formControlName="twitter_username">
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span> &nbsp;
+                    <ng-container *ngIf="tweet && !editMode"> <span class="ellipsis" [title]="tweet">{{ tweet }}</span></ng-container>
+                    <input *ngIf="editMode" style="width: 100%" formControlName="twitter_username">
                 </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.facebook_user_id" style="white-space: nowrap">facebook user: </span>
-                    <input style="width: 100%" formControlName="facebook_user_id">
-                </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.instagram_username" style="white-space: nowrap">instagram username: </span>
-                    <input style="width: 100%" formControlName="instagram_username">
-                </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.image_url" style="white-space: nowrap">image url: </span>
-                    <input style="width: 100%" formControlName="image_url">
-                </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.image_description" style="white-space: nowrap">image description: </span>
-                    <input style="width: 100%" formControlName="image_description">
-                </div>
-                <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.image_copyright" style="white-space: nowrap">image copyright: </span>
-                    <input style="width: 100%" formControlName="image_copyright">
-                </div>
+<!--                <div class="content" style="display: flex">-->
+<!--                    <span i18n="@@page.project-detail.label.facebook_user_id" style="white-space: nowrap">facebook user: </span>-->
+<!--                    <input style="width: 100%" formControlName="facebook_user_id">-->
+<!--                </div>-->
+<!--                <div class="content" style="display: flex">-->
+<!--                    <span i18n="@@page.project-detail.label.instagram_username" style="white-space: nowrap">instagram username: </span>-->
+<!--                    <input style="width: 100%" formControlName="instagram_username">-->
+<!--                </div>-->
+<!--                <div class="content" style="display: flex">-->
+<!--                    <span i18n="@@page.project-detail.label.image_url" style="white-space: nowrap">image url: </span>-->
+<!--                    <input style="width: 100%" formControlName="image_url">-->
+<!--                </div>-->
+<!--                <div class="content" style="display: flex">-->
+<!--                    <span i18n="@@page.project-detail.label.image_description" style="white-space: nowrap">image description: </span>-->
+<!--                    <input style="width: 100%" formControlName="image_description">-->
+<!--                </div>-->
+<!--                <div class="content" style="display: flex">-->
+<!--                    <span i18n="@@page.project-detail.label.image_copyright" style="white-space: nowrap">image copyright: </span>-->
+<!--                    <input style="width: 100%" formControlName="image_copyright">-->
+<!--                </div>-->
             </div>
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
@@ -250,7 +252,10 @@
                                 </ng-container>
                             </div>
                         </ng-container>
-                        <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
+                        <footer *ngIf="project?.images && project.images.length">
+                            {{project.images[0].imageCopyright}}
+                            <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()">image</button>
+                        </footer>
                     </div>
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
