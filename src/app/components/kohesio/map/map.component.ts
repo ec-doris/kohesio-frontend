@@ -1,7 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
-  AfterViewInit,
+  AfterViewInit, ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ElementRef,
@@ -123,6 +123,7 @@ export class MapComponent implements AfterViewInit {
               @Inject(LOCALE_ID) public locale: string,
               private _route: ActivatedRoute,
               private _router: Router,
+              private cdRef: ChangeDetectorRef,
               private translateService: TranslateService) {
     this.filtersApi = this.route.snapshot.data['data'];
     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
@@ -982,10 +983,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   private setUpZoomListener(): void {
-    this.map.on('zoomend', () => {
-      this.zoomLevelSubject$$.next(true);
-    });
-
     this.zoomLevelSubject$$.pipe(
       tap(x => {
         this.hideOuterMostRegions = true;
@@ -1009,7 +1006,10 @@ export class MapComponent implements AfterViewInit {
       this.wheelTimeout = setTimeout(() => this.zoomLevelSubject$$.next(true), 100);
     });
 
-    this.map.on('zoomend', () => this.zoomLevel = this.map.getZoom());
+    this.map.on('zoomend', () => {
+      this.zoomLevelSubject$$.next(true);
+      this.zoomLevel = this.map.getZoom();
+    });
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
 
@@ -1029,10 +1029,10 @@ export class MapComponent implements AfterViewInit {
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
           this.markers.addData(geojson);
         }),
-        finalize(() => this.isLoadingZoom = false),
+
         takeUntil(this.destroyWheelBounds$)
       )
-    ).subscribe();
+    ).pipe(finalize(() => this.isLoadingZoom = false)).subscribe();
 
     const fragment = this.translateService.sections.myregion;
     this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
