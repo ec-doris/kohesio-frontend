@@ -252,6 +252,7 @@
     "page.project-detail.label.facebook_user_id": "Facebook User: ",
     "page.project-detail.label.instagram_username": "Instagram Username: ",
     "page.project-detail.label.image_url": "Image Url: ",
+    "page.project-detail.label.editImg": "Edit Image",
     "page.project-detail.label.image_description": "Image Description: ",
     "page.project-detail.label.image_copyright": "Image Copyright: ",
     "page.project-detail.label.na": "n/a",

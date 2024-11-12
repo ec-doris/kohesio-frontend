@@ -243,7 +243,7 @@
                         </ng-container>
                         <footer>
                             <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>
-                            <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()">image</button>
+                            <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>
                         </footer>
                     </div>
                     <div class="kohesio-article-post-inner">
