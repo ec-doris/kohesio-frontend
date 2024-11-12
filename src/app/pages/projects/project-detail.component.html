@@ -241,8 +241,8 @@
                                 </ng-container>
                             </div>
                         </ng-container>
-                        <footer *ngIf="project?.images?.length">
-                            {{project.images[0].imageCopyright}}
+                        <footer>
+                            <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>
                             <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()">image</button>
                         </footer>
                     </div>
