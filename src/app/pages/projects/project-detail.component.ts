@@ -205,7 +205,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           } else {
             this.map.addCountryLayer(this.project.countryLabel);
           }
-          (<any>window).twttr.widgets.load();
+          // since <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> doesn't exist in index.html anymore
+          // (<any>window).twttr.widgets.load();
         }
 
     }
