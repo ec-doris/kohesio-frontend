@@ -546,7 +546,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string) {
+  loadMapRegion(filters: Filters, granularityRegion?: string, stopZoomCluster = false) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
@@ -580,7 +580,7 @@ export class MapComponent implements AfterViewInit {
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
     // this.allowZoomListener = this.mapRegions.length > 1;
-    this.loadMapVisualization(filters, granularityRegion);
+    this.loadMapVisualization(filters, granularityRegion, stopZoomCluster);
   }
 
   restartBreadCrumbNavigation() {
@@ -613,7 +613,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapVisualization(filters: Filters, granularityRegion?: string) {
+  loadMapVisualization(filters: Filters, granularityRegion?: string, stopZoomCluster = false) {
 
     this.cleanMap();
     this.dataRetrieved = false;
@@ -690,6 +690,7 @@ export class MapComponent implements AfterViewInit {
       }
 
       this.isLoading = false;
+      !stopZoomCluster && this.zoomLevelSubject$$.next(true);
     });
   }
 
@@ -993,7 +994,7 @@ export class MapComponent implements AfterViewInit {
           this.loadMapRegion(this.filters);
         }
       }),
-      filter(() => this.map.getZoom() >= 5 && this.allowZoomListener))
+      filter(() => this.map.getZoom() >= 4 && this.allowZoomListener))
       .subscribe(() => this.collectVisibleCountries());
 
     this.map.getContainer().addEventListener('wheel', (event: WheelEvent) => {
