@@ -1,7 +1,8 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import {
-  AfterViewInit, ChangeDetectorRef,
+  AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
   ElementRef,
@@ -109,6 +110,7 @@ export class MapComponent implements AfterViewInit {
     filter(_ => this.showFilters),
     tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
     takeUntilDestroyed());
+  private stopZoomClusterBecauseOfButton!: boolean;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -690,6 +692,10 @@ export class MapComponent implements AfterViewInit {
       }
 
       this.isLoading = false;
+      this.stopZoomClusterBecauseOfButton = stopZoomCluster;
+      if (stopZoomCluster) {
+        this.allowZoomListener = true;
+      }
       !stopZoomCluster && this.zoomLevelSubject$$.next(true);
     });
   }
@@ -1010,7 +1016,12 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('zoomend', () => {
-      this.zoomLevelSubject$$.next(true);
+      if (this.stopZoomClusterBecauseOfButton) {
+        this.stopZoomClusterBecauseOfButton = false;
+      } else {
+        this.zoomLevelSubject$$.next(true);
+
+      }
       this.zoomLevel = this.map.getZoom();
     });
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
