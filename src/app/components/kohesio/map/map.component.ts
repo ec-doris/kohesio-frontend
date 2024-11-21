@@ -106,6 +106,8 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   private destroyWheelBounds$ = new Subject<void>();
   private allowZoomListener = true;
+  private isFirstLoad = true;
+
   filterResult$$ = this.filterService.showResult$$.pipe(
     filter(_ => this.showFilters),
     tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
@@ -1047,9 +1049,11 @@ export class MapComponent implements AfterViewInit {
         takeUntil(this.destroyWheelBounds$)
       )
     ).pipe(finalize(() => this.isLoadingZoom = false)).subscribe();
-
-    const fragment = this.translateService.sections.myregion;
+    /* The fragment causes the page to scroll to the map instead of the top when the page first loads.
+    However, it should remain active when the user navigates between regions. */
+    const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
     this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
+    this.isFirstLoad = false;
   }
 
   private createGeoJsonFeature({ count, coordinates, isHighlighted }: any): any {
