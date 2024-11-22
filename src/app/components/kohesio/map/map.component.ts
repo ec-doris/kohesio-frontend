@@ -954,7 +954,7 @@ export class MapComponent implements AfterViewInit {
       })
     });
     marker.on('click', () => {
-      this.mapService.getProjectsPerCoordinate(popupContent.geometry.coordinates.toString(), popupContent.filters).subscribe(projects => {
+      this.mapService.getProjectsPerCoordinates(popupContent.geometry.coordinates.toString(), this.mapService.boundingBoxToString(this.map.getBounds()), this.map.getZoom().toString(), popupContent.filters).subscribe(projects => {
         const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
         component.instance.projects = projects;
         component.instance.openProjectInner = this.openProjectInner;
@@ -1032,7 +1032,7 @@ export class MapComponent implements AfterViewInit {
   private collectVisibleCountries(): void {
     this.cancelPreviousRequest();
     this.cleanMap();
-    const mapBounds = this.map.getBounds();
+    const mapBounds: string = this.map.getBounds();
 
     merge(
       timer(500).pipe(

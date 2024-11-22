@@ -30,6 +30,19 @@ export class MapService {
     );
   }
 
+  boundingBoxToString(bbox: any): string {
+    const transformedParams = {
+      _southWest: {
+        lat: bbox._southWest.lat,
+        lng: bbox._southWest.lng
+      },
+      _northEast: {
+        lat: bbox._northEast.lat,
+        lng: bbox._northEast.lng
+      }
+    };
+    return JSON.stringify(transformedParams);
+  }
   getMapInfoByRegion(params: any, zoomLevel: string): Observable<any> {
     const url = environment.api + '/map/search';
 
@@ -65,6 +78,23 @@ export class MapService {
     }
     params.coordinate = coordinates;
     params.language = this.locale;
+    return this.http.get<any>(url, { params: <any>params }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  getProjectsPerCoordinates(coordinates: string, bbox: string, zoom: string, filters?: Filters): Observable<any> {
+    const url = environment.api + '/map/point';
+    let params: any = {};
+    if (filters) {
+      params = Object.assign(filters.getProjectsFilters());
+    }
+    params.coordinate = coordinates;
+    params.language = this.locale;
+    params.boundingBox = bbox;
+    params.zoom = zoom;
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;
