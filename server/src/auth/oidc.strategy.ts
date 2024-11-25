@@ -96,11 +96,11 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         await this.authService.loginUser(userValidated['user-id']);
         return userDB;
       }else{
-        logger.error("USER UNAUTHORIZED",email);
+        this.logger.error("USER UNAUTHORIZED",email);
         throw new UnauthorizedException();
       }
     } catch (err) {
-      logger.error("ERROR, USER UNAUTHORIZED",email);
+      this.logger.error("ERROR, USER UNAUTHORIZED",email);
       throw new UnauthorizedException();
     }
   }
