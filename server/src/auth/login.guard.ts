@@ -22,6 +22,7 @@ export class LoginGuard extends AuthGuard('oidc') {
     }
     const result = (await super.canActivate(context)) as boolean;
     //console.log("LOGIN_GUARD_RESULT=",result);
+    this.logger.debug("LOGIN GUARD RESULT", result);
     const request = context.switchToHttp().getRequest();
     await super.logIn(request);
     return result;
@@ -31,6 +32,7 @@ export class LoginGuard extends AuthGuard('oidc') {
     // You can throw an exception based on either "info" or "err" arguments
     this.logger.debug("LOGIN GUARD", info);
     if (err || !user) {
+      this.logger.error("LOGIN GUARD", err);
       throw err || new UnauthorizedException();
     }
     return user;
