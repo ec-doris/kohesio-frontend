@@ -928,9 +928,9 @@ export class MapComponent implements AfterViewInit {
       this.markersGroup = new L.FeatureGroup();
       this.map.addLayer(this.markersGroup);
     }
-    const small = '#6ecc3999';
-    const medium = '#f0c20c99';
-    const large = '#f1801799';
+    const small = '#24A148';
+    const medium = '#FFBE5C';
+    const large = '#F39811';
 
     const size = count < 100 ? 'small' : count < 10000 ? 'medium' : 'large';
     const marker = L.marker(coords, {
