@@ -1,4 +1,4 @@
-import {ExecutionContext, Injectable, UnauthorizedException} from '@nestjs/common';
+import {ExecutionContext, Injectable, Logger, UnauthorizedException} from '@nestjs/common';
 import {AuthGuard} from '@nestjs/passport';
 import {ConfigService} from "@nestjs/config";
 
@@ -9,6 +9,8 @@ export const defaultOptions = {
 
 @Injectable()
 export class LoginGuard extends AuthGuard('oidc') {
+
+  private readonly logger = new Logger(LoginGuard.name);
 
   constructor(protected configService:ConfigService<environmentVARS>) {
     super();
@@ -27,6 +29,7 @@ export class LoginGuard extends AuthGuard('oidc') {
 
   handleRequest(err, user, info) {
     // You can throw an exception based on either "info" or "err" arguments
+    this.logger.debug("LOGIN GUARD", info);
     if (err || !user) {
       throw err || new UnauthorizedException();
     }

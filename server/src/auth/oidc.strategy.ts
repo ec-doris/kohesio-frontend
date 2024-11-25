@@ -41,12 +41,14 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   }
 
   async validate(req, tokenset: TokenSet): Promise<any> {
+
     //console.log(arguments);
     //console.log("STATE",req.query.state);
     const claims:IdTokenClaims = tokenset.claims();
     //console.log("CLAIMS",claims);
     //const useruid = claims.sub;
     const email: string = claims.email as string;
+    this.logger.debug("VALIDATE USER",email);
     /*const id_token = tokenset.id_token
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token*/
@@ -54,12 +56,12 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     try {
       if (req.query.state.startsWith("/api/invitation")) {
         invitation = true;
-        console.log("CHECKING THE INVITATION");
+        this.logger.log("CHECKING THE INVITATION");
         const token = req.query.state.replace("/api/invitation/", "");
         const email: string = claims.email as string;
         await this.userService.acceptInvitation(email, token).catch(error => {
           if (error.status == HttpStatus.NOT_FOUND) {
-            console.log("USER UNAUTHORIZED, NO INVITATION FOUNDED", email);
+            this.logger.error("USER UNAUTHORIZED, NO INVITATION FOUNDED", email);
             throw new UnauthorizedException();
           }
         });
