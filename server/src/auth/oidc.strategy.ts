@@ -6,7 +6,6 @@ import {ConfigService} from "@nestjs/config";
 import {UserInDto} from "../users/dtos/user.in.dto";
 import {UserService} from "../users/user.service";
 import {UserDTO} from "../users/dtos/user.dto";
-import {logger} from "browser-sync/dist/logger";
 
 export const buildOpenIdClient = async (configService: ConfigService) => {
   const TrustIssuer = await Issuer.discover(`${configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
