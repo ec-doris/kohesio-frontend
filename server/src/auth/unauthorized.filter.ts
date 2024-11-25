@@ -19,7 +19,7 @@ export class ViewAuthFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const status = exception.getStatus();
 
-    this.logger.error(exception.message);
+    this.logger.error(exception.stack);
     const environment:string = this.configService.get("ENV");
     if (environment != 'local' && environment != 'production') {
       response.sendStatus(status)

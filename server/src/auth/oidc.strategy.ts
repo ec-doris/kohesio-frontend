@@ -1,4 +1,4 @@
-import {HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
+import {HttpStatus, Injectable, Logger, UnauthorizedException} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {Strategy, Client, TokenSet, Issuer, IdTokenClaims, ClientAuthMethod} from 'openid-client';
 import { AuthService } from './auth.service';
@@ -6,6 +6,7 @@ import {ConfigService} from "@nestjs/config";
 import {UserInDto} from "../users/dtos/user.in.dto";
 import {UserService} from "../users/user.service";
 import {UserDTO} from "../users/dtos/user.dto";
+import {logger} from "browser-sync/dist/logger";
 
 export const buildOpenIdClient = async (configService: ConfigService) => {
   const TrustIssuer = await Issuer.discover(`${configService.get<string>('OAUTH2_CLIENT_PROVIDER_OIDC_ISSUER')}/.well-known/openid-configuration`);
@@ -20,6 +21,8 @@ export const buildOpenIdClient = async (configService: ConfigService) => {
 @Injectable()
 export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   client: Client;
+
+  private readonly logger = new Logger(OidcStrategy.name);
 
   constructor(client: Client,
               private readonly authService: AuthService,
@@ -93,11 +96,11 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         await this.authService.loginUser(userValidated['user-id']);
         return userDB;
       }else{
-        console.log("USER UNAUTHORIZED",email);
+        logger.error("USER UNAUTHORIZED",email);
         throw new UnauthorizedException();
       }
     } catch (err) {
-      console.log("ERROR, USER UNAUTHORIZED",email);
+      logger.error("ERROR, USER UNAUTHORIZED",email);
       throw new UnauthorizedException();
     }
   }
