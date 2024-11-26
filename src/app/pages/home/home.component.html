@@ -1,9 +1,13 @@
 <!--<h1 class="ecl-page-header-harmonised__title">Home</h1>-->
 <app-ecl-carousel></app-ecl-carousel>
 <div [id]="translateService.sections.myregion">
-    <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
+    <div style="display: flex">
+        <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
+        <app-filter-chips></app-filter-chips>
+    </div>
     <app-map *ngIf="isPlatformBrowser()" [showFilters]="true"></app-map>
     <br>
+
 <!--    <app-map-cluster></app-map-cluster>-->
     <!--    <mat-tab-group>-->
     <!--        <mat-tab label="Existing" #readyTab >-->

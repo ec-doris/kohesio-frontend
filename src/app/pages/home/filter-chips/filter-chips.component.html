@@ -1,0 +1,11 @@
+<mat-chip-set aria-label="Fruit selection">
+    @for (chip of chips | keyvalue; track chips ) {
+        <mat-chip (removed)="removeChip(chip)">
+            {{ chip.key }}: {{ chip.value }}
+            <button matChipRemove [attr.aria-label]="'remove ' + chip.key">
+                <mat-icon>cancel</mat-icon>
+            </button>
+        </mat-chip>
+    }
+</mat-chip-set>
+

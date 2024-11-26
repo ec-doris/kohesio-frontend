@@ -1,9 +1,10 @@
 import {APP_INITIALIZER, NgModule, PLATFORM_ID} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { SharedModule } from '../shared/shared.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { MaterialModule } from './material/material.module';
+import { FilterChipsComponent } from './pages/home/filter-chips/filter-chips.component';
 import { HomePageComponent } from './pages/home/home.component';
 import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
 import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
@@ -49,6 +50,7 @@ registerLocaleData(LocaleEnglish);
     ServicesPageComponent
   ],
   imports: [
+    FilterChipsComponent,
     AppRoutingModule,
     BrowserModule.withServerTransition({ appId: 'serverApp' }),
     HttpClientModule,
@@ -62,7 +64,7 @@ registerLocaleData(LocaleEnglish);
     ProjectDetailModalModule,
     MatDialogModule,
     SurveyDialogModule,
-    MaterialModule
+    SharedModule
   ],
   providers: [
     DecimalPipe,
