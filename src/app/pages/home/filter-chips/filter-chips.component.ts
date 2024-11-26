@@ -27,7 +27,7 @@ export class FilterChipsComponent implements OnInit {
         return Object.entries(x.filters)
           .filter(([ key, value ]) => key !== 'language' && value !== undefined && !(Array.isArray(value) && value.length === 0))
           .reduce((result: Record<string, any>, [ key, value ]) => {
-            result[key] = value;
+            result[this.translateService.queryParams[key]] = value;
             return result;
           }, {});
       }),
