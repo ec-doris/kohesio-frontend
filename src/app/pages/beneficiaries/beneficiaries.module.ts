@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MaterialModule } from '../../material/material.module';
+import { FilterChipsComponent } from '../home/filter-chips/filter-chips.component';
 import { ProjectsModule } from '../projects/projects.module';
 import { BeneficiariesRoutingModule } from './beneficiaries-routing.module';
 import { BeneficiariesComponent } from './beneficiaries.component';
@@ -45,7 +46,8 @@ import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
     MatTooltipModule,
     OverlayModule,
     MatIconModule,
-    ProjectsModule
+    ProjectsModule,
+    FilterChipsComponent
   ],
     declarations: [
         BeneficiariesComponent,

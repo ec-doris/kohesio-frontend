@@ -66,7 +66,7 @@ export class FilterChipsComponent implements OnInit {
       key = words[0] + words[1].charAt(0).toUpperCase() + words[1].slice(1);
     }
     const translatedKey = Object.fromEntries(Object.entries(this.translateService.queryParams)
-      .map(([ key, value ]: [ string, any ]) => [ value.toLowerCase(), key ]))[key];
+      .map(([ key, value ]: [ string, any ]) => [ value.toLowerCase(), key ]))[key.toLowerCase()];
 
     this.filterService.removeFilter(translatedKey == 'programme' ? 'program' : translatedKey, this.lastFiltersSearch);
   }

@@ -3,7 +3,7 @@
 <div [id]="translateService.sections.myregion">
     <div style="display: flex">
         <h2 class="ecl-u-type-heading-2" i18n="@@page.home.inMyRegion">IN MY REGION</h2>
-        <app-filter-chips></app-filter-chips>
+
     </div>
     <app-map *ngIf="isPlatformBrowser()" [showFilters]="true"></app-map>
     <br>
