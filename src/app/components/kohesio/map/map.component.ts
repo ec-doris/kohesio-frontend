@@ -106,12 +106,11 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   private destroyWheelBounds$ = new Subject<void>();
   private allowZoomListener = true;
-  private isFirstLoad = true;
-
   filterResult$$ = this.filterService.showResult$$.pipe(
     filter(_ => this.showFilters),
     tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
     takeUntilDestroyed());
+  private isFirstLoad = true;
   private stopZoomClusterBecauseOfButton!: boolean;
 
   constructor(private mapService: MapService,
@@ -954,24 +953,34 @@ export class MapComponent implements AfterViewInit {
       })
     });
     marker.on('click', () => {
-      this.mapService.getProjectsPerCoordinates(popupContent.geometry.coordinates.toString(), this.mapService.boundingBoxToString(this.map.getBounds()), this.map.getZoom().toString(), popupContent.filters).subscribe(projects => {
-        const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
-        component.instance.projects = projects;
-        component.instance.openProjectInner = this.openProjectInner;
-        marker.bindPopup(component.location.nativeElement, { maxWidth: 600 }).openPopup();
-        marker.getPopup().on('remove', () => this.updateCoordsQueryParam(undefined));
-        this.updateCoordsQueryParam(popupContent.coordinates);
-        const latLngs = [ marker.getLatLng() ];
-        const markerBounds = L.latLngBounds(latLngs);
-        this.map.fitBounds(markerBounds, {
-          paddingTopLeft: [ 0, 350 ],
-          maxZoom: this.map.getZoom()
-        });
-        if (this.mobileQuery) {
-          this.collapsedBreadCrumb = true;
-        }
-        component.changeDetectorRef.detectChanges();
-      });
+      if (popupContent.properties.cluster) {
+        this.mapService.getProjectsPerCoordinates(
+          popupContent.geometry.coordinates.toString(),
+          this.mapService.boundingBoxToString(this.map.getBounds()),
+          this.map.getZoom().toString(), popupContent.filters)
+          .subscribe(projects => {
+            const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
+            component.instance.projects = projects;
+            component.instance.openProjectInner = this.openProjectInner;
+            marker.bindPopup(component.location.nativeElement, { maxWidth: 600 }).openPopup();
+            marker.getPopup().on('remove', () => this.updateCoordsQueryParam(undefined));
+            this.updateCoordsQueryParam(popupContent.coordinates);
+            const latLngs = [ marker.getLatLng() ];
+            const markerBounds = L.latLngBounds(latLngs);
+            this.map.fitBounds(markerBounds, {
+              paddingTopLeft: [ 0, 350 ],
+              maxZoom: this.map.getZoom()
+            });
+            if (this.mobileQuery) {
+              this.collapsedBreadCrumb = true;
+            }
+            component.changeDetectorRef.detectChanges();
+          });
+      } else {
+        // this.map.setZoom(this.map.getZoom() + 1);
+        const latLng = marker.getLatLng();
+        this.map.setView(latLng, this.map.getZoom() + 1);
+      }
     });
     marker.on('mouseout', () => {
       setTimeout(() => {
@@ -1056,17 +1065,17 @@ export class MapComponent implements AfterViewInit {
     this.isFirstLoad = false;
   }
 
-  private createGeoJsonFeature({ count, coordinates, isHighlighted }: any): any {
+  private createGeoJsonFeature({ count, coordinates, isHighlighted, cluster }: any): any {
     const [ lat, lng ] = coordinates.split(',').map(Number);
     if (count === 1) {
-      const popupContent = { type: 'async', filters: this.filters, coordinates, isHighlighted };
+      const popupContent = { type: 'async', filters: this.filters, coordinates, isHighlighted, cluster };
       this.addCircleMarkerPopup(lng, lat, popupContent);
       return;
     }
     const point = {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [ lat, lng ] },
-      properties: { count, point_count_abbreviated: count }
+      properties: { count, point_count_abbreviated: count, cluster }
     };
     return this.addCircleMarkerPopupColored(lng, lat, point, count);
   }
