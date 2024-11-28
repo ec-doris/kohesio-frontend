@@ -620,7 +620,7 @@ export class MapComponent implements AfterViewInit {
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
 
-    this.mapService.getMapInfo(filters, granularityRegion, bbox).subscribe(data => {
+    this.mapService.getMapInfo(filters, granularityRegion, bbox, this.map.getZoom().toString()).subscribe(data => {
       this.dataRetrieved = true;
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
         this.mapRegions = [ this.europe ];
