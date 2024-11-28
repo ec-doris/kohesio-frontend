@@ -953,7 +953,7 @@ export class MapComponent implements AfterViewInit {
       })
     });
     marker.on('click', () => {
-      if (popupContent.properties.cluster) {
+      if (!popupContent.properties.cluster) {
         this.mapService.getProjectsPerCoordinates(
           popupContent.geometry.coordinates.toString(),
           this.mapService.boundingBoxToString(this.map.getBounds()),
