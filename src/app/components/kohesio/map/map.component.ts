@@ -931,7 +931,7 @@ export class MapComponent implements AfterViewInit {
     const small = '#24A148';
     const medium = '#FFBE5C';
     const large = '#F39811';
-
+    const formatCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
     const size = count < 100 ? 'small' : count < 10000 ? 'medium' : 'large';
     const marker = L.marker(coords, {
       icon: L.divIcon({
@@ -947,7 +947,7 @@ export class MapComponent implements AfterViewInit {
       font-size: 12px;
       font-weight: 400;
     ">
-      ${count}
+      ${formatCount}
     </div>`,
         className: `marker-cluster marker-cluster-${size}`,
         iconSize: L.point(42, 42)
