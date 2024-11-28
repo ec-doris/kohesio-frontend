@@ -13,7 +13,7 @@ export class MapService {
   constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
   }
 
-  public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any> {
+  public getMapInfo(filters?: Filters, granularityRegion?: string, bbox?: any): Observable<any> {
     const url = environment.api + '/map/search';
     let params: any = {};
     if (filters) {
@@ -23,6 +23,7 @@ export class MapService {
       params.granularityRegion = granularityRegion;
     }
     params.language = this.locale;
+    if (bbox) params.boundingBox = bbox;
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;

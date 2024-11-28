@@ -266,11 +266,10 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.subscribe(({ filters: formVal }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      this.loadMapRegion(this.lastFiltersSearch, undefined);
+      const bbox = this.map.getBounds().toBBoxString();
+      this.loadMapRegion(this.lastFiltersSearch, undefined, false, bbox);
       const fragment = this.translateService.sections.myregion;
       this._router.navigate([], { relativeTo: this.route, fragment, queryParams: this.generateQueryParams() });
-      // this.map.refreshView();
-      // this.map.isLoading = true;
     });
 
     if (this.showFilters && !this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName)) {
@@ -549,7 +548,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string, stopZoomCluster = false) {
+  loadMapRegion(filters: Filters, granularityRegion?: string, stopZoomCluster = false, bbox?: any) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
@@ -582,8 +581,7 @@ export class MapComponent implements AfterViewInit {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
-    // this.allowZoomListener = this.mapRegions.length > 1;
-    this.loadMapVisualization(filters, granularityRegion, stopZoomCluster);
+    this.loadMapVisualization(filters, granularityRegion, stopZoomCluster, bbox);
   }
 
   restartBreadCrumbNavigation() {
@@ -616,13 +614,13 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapVisualization(filters: Filters, granularityRegion?: string, stopZoomCluster = false) {
+  loadMapVisualization(filters: Filters, granularityRegion?: string, stopZoomCluster = false, bbox?: any) {
 
     this.cleanMap();
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
 
-    this.mapService.getMapInfo(filters, granularityRegion).subscribe(data => {
+    this.mapService.getMapInfo(filters, granularityRegion, bbox).subscribe(data => {
       this.dataRetrieved = true;
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
         this.mapRegions = [ this.europe ];
