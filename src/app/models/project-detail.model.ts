@@ -100,7 +100,7 @@ export class ProjectDetail implements Deserializable{
             program: input.program,
             fundWebsite: input.funds && input.funds.length ? input.funds[0].website : undefined,
             hasSubmitted: input.hasSubmitted,
-            canEdit: input.canEdit || true,
+            canEdit: input.canEdit,
             canApprove: input.canApprove,
             youtube_video_id: input.videos[0],
             twitter_username: input.tweets[0],
