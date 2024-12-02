@@ -420,6 +420,11 @@ export class ProjectDetailComponent implements AfterViewInit {
             versionId: version.edit_version_id,
             status: version.status,
             label: version.label,
+            youtube_video_id: version.youtube_video_id,
+            twitter_username: version.twitter_username,
+            image_url: version.image_url,
+            image_description: version.image_description,
+            image_copyright: version.image_copyright,
             description: version.summary
           });
           this.updateQueryParams("editVersion", version.edit_version_id);
