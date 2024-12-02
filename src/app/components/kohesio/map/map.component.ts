@@ -266,7 +266,7 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.subscribe(({ filters: formVal }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      const bbox = this.map.getBounds().toBBoxString();
+      const bbox = this.map.getBounds();
       this.loadMapRegion(this.lastFiltersSearch, undefined, false, bbox);
       const fragment = this.translateService.sections.myregion;
       this._router.navigate([], { relativeTo: this.route, fragment, queryParams: this.generateQueryParams() });
@@ -622,6 +622,19 @@ export class MapComponent implements AfterViewInit {
 
     this.mapService.getMapInfo(filters, granularityRegion, bbox, this.map.getZoom().toString()).subscribe(data => {
       this.dataRetrieved = true;
+      // try {
+      //   const parsedGeoJson = JSON.parse(data.geoJson.replace(/'/g, '"'));
+      //   const geoJsonLayer = L.geoJson(parsedGeoJson);
+      //   const bbox = geoJsonLayer.getBounds();
+      //
+      //   this.collectVisibleCountries(bbox);
+      //   // console.log(bbox); // Outputs the bounding box string
+      //   // this.drawPolygonsForRegion(parsedGeoJson, null);
+      //   // this.fitToGeoJson(parsedGeoJson);
+      // } catch (error) {
+      //   console.error('Invalid GeoJSON data:', error);
+      // }
+
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
         this.mapRegions = [ this.europe ];
         data.upperRegions.reverse().forEach((upperRegion: any) => {
@@ -1036,10 +1049,10 @@ export class MapComponent implements AfterViewInit {
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
 
-  private collectVisibleCountries(): void {
+  private collectVisibleCountries(bbox?:any): void {
     this.cancelPreviousRequest();
     this.cleanMap();
-    const mapBounds: string = this.map.getBounds();
+    const mapBounds: string = bbox || this.map.getBounds();
 
     merge(
       timer(500).pipe(

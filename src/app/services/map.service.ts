@@ -24,7 +24,7 @@ export class MapService {
     }
     params.language = this.locale;
     if (bbox) {
-      params.boundingBox = bbox;
+      params.boundingBox = this.boundingBoxToString(bbox);
       params.zoom = zoom;
     }
     return this.http.get<any>(url, { params: <any>params }).pipe(
