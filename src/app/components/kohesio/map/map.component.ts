@@ -702,7 +702,10 @@ export class MapComponent implements AfterViewInit {
         });
         this.hideOuterMostRegions = false;
       }
-
+      if (data.geoJson) {
+        this.drawPolygonsForRegion(data.geoJson, null);
+        this.fitToGeoJson(data.geoJson)
+      }
       this.isLoading = false;
       this.stopZoomClusterBecauseOfButton = stopZoomCluster;
       if (stopZoomCluster) {
