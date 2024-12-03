@@ -108,7 +108,7 @@ export class MapComponent implements AfterViewInit {
   private allowZoomListener = true;
   filterResult$$ = this.filterService.showResult$$.pipe(
     filter(_ => this.showFilters),
-    tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
+    // tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
     takeUntilDestroyed());
   private isFirstLoad = true;
   private stopZoomClusterBecauseOfButton!: boolean;
