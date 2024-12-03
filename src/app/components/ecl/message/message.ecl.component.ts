@@ -14,7 +14,7 @@ export class KohesioMessageEclComponent {
 
     title:string = 'Info message';
 
-    classType:string = 'ecl-message--info';
+    classType:string = 'ecl-notification--info';
 
     closed:boolean = false;
 
@@ -25,13 +25,13 @@ export class KohesioMessageEclComponent {
     ngOnInit(){
       if(this.type == 'error'){
         this.title = "Error message";
-        this.classType = 'ecl-message--error';
+        this.classType = 'ecl-notification--error';
       }else if(this.type == 'success'){
         this.title = "Success message";
-        this.classType = 'ecl-message--success';
+        this.classType = 'ecl-notification--success';
       }else if(this.type == 'warning'){
         this.title = "Warning message";
-        this.classType = 'ecl-message--warning';
+        this.classType = 'ecl-notification--warning';
       }
     }
 
