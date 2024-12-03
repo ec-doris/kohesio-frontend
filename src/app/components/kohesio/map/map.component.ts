@@ -705,6 +705,12 @@ export class MapComponent implements AfterViewInit {
       if (data.geoJson) {
         this.drawPolygonsForRegion(data.geoJson, null);
         this.fitToGeoJson(data.geoJson)
+
+      }
+      const filterLength = Object.entries(filters).filter(([ key, value ]) => key !== 'language' && value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)).length;
+      if (data.subregions && data.subregions[0].count && filterLength) {
+        const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
+        this.markers.addData(geojson);
       }
       this.isLoading = false;
       this.stopZoomClusterBecauseOfButton = stopZoomCluster;
