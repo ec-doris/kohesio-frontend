@@ -1,0 +1,36 @@
+<nav class="ecl-breadcrumb ecl-page-header__breadcrumb" aria-label="You&#x20;are&#x20;here&#x3A;"
+    data-ecl-breadcrumb="true" data-ecl-auto-init="BreadcrumbHarmonised">
+    <ol class="ecl-breadcrumb__container">
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
+            <a [routerLink]="['/']"
+                class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@comp.breadcrumb.home">Home</a>
+            <span style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+        </li>
+        <li class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
+            <span *ngIf="!url" class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@page.data.breadcrumb.data">Data</span>
+            <ng-container *ngIf="url">
+                <a [routerLink]="['/data']"
+                   class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link" i18n="@@page.data.breadcrumb.data">Data</a>
+                <span *ngIf="url" style="margin-right:10px; margin-left:10px; font-weight: bold;">></span>
+            </ng-container>
+        </li>
+        <li *ngIf="url" class="ecl-breadcrumb__segment" data-ecl-breadcrumb-item="expandable">
+            <span class="ecl-link ecl-link--standalone ecl-link--no-visited ecl-breadcrumb__link">{{url | titlecase}}</span>
+        </li>
+    </ol>
+</nav>
+<div class="ecl-container">
+    <div class="ecl-row ecl-u-pt-xs">
+        <div class="ecl-col-xl-12 ecl-u-pt-none">
+            <h1 class="ecl-u-type-heading-1" i18n="@@page.data.title">Data</h1>
+            <div *ngIf="!url" class="kohesio-list-wrapper">
+                <a [routerLink]="['/'+translateService.routes.data+'/projects']">Projects</a>
+                <a [routerLink]="['/'+translateService.routes.data+'/beneficiaries']">Beneficiaries</a>
+                <a [routerLink]="['/'+translateService.routes.data+'/nuts']">Nuts</a>
+            </div>
+            <div *ngIf="url" class="kohesio-list-wrapper">
+                <a *ngFor="let item of data" [href]="'/api/data/object?id='+item">{{item.split("/")[2]}}</a>
+            </div>
+        </div>
+    </div>
+ </div>

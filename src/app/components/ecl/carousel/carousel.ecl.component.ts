@@ -1,5 +1,5 @@
 import { DOCUMENT, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, Inject, PLATFORM_ID } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, PLATFORM_ID, QueryList, Renderer2, ViewChild, ViewChildren } from '@angular/core';
 import { TranslateService } from '../../../services/translate.service';
 
 declare let ECL: any;
@@ -11,11 +11,12 @@ declare let ECL: any;
 })
 
 export class CarouselEclComponent implements AfterViewInit {
-
+  @ViewChild('carouselSlider') carouselSlider!: ElementRef;
   public carousel: any;
 
   constructor(public translateService: TranslateService,
               @Inject(PLATFORM_ID) private platformId: Object,
+              private renderer: Renderer2,
               @Inject(DOCUMENT) private _doc: Document) {
   }
 
@@ -28,6 +29,14 @@ export class CarouselEclComponent implements AfterViewInit {
       this.carousel = new ECL.Carousel(elt);
 
       this.carousel.init();
+
+      // TODO: This is a one-time executable. Please remove it(the if block), if it's no longer compatible with the new ECL version.
+      if (this._doc.documentElement.clientWidth <= 768) {
+        const currentWidth = this._doc.defaultView?.getComputedStyle(this.carouselSlider.nativeElement).width;
+        const currentWidthValue = parseInt(currentWidth as string, 10);
+        const newWidthValue = currentWidthValue - 75;
+        this.renderer.setStyle(this.carouselSlider.nativeElement, 'width', `${newWidthValue}px`);
+      }
     }
   }
 

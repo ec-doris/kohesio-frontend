@@ -1,0 +1,17 @@
+<form [formGroup]="imageForm" (ngSubmit)="onSubmit()">
+	<kohesio-ecl-form-group>
+		<kohesio-ecl-form-label>
+			<div i18n="@@page.projects.label.image_url" class="label">image_url</div>
+			<kohesio-ecl-form-text-input formControlName="image_url"></kohesio-ecl-form-text-input>
+		</kohesio-ecl-form-label>
+		<kohesio-ecl-form-label>
+			<div i18n="@@page.projects.label.image_description" class="label">image_description</div>
+			<kohesio-ecl-form-text-input formControlName="image_description"></kohesio-ecl-form-text-input>
+		</kohesio-ecl-form-label>
+		<kohesio-ecl-form-label>
+			<div i18n="@@page.projects.label.image_copyright" class="label">image_copyright</div>
+			<kohesio-ecl-form-text-input formControlName="image_copyright"></kohesio-ecl-form-text-input>
+		</kohesio-ecl-form-label>
+	</kohesio-ecl-form-group>
+	<kohesio-ecl-button type="submit" i18n="@@page.users.profile.button.save">Save</kohesio-ecl-button>
+</form>

@@ -51,8 +51,16 @@ export class ProjectDetail implements Deserializable{
     hasSubmitted:boolean = false;
     canEdit:boolean = false;
     canApprove:boolean = false;
+    youtube_video_id!: string ;
+    twitter_username!: string;
+    facebook_user_id!: string;
+    instagram_username!: string;
+    image_url!: string;
+    image_description!: string;
+    image_copyright!: string;
 
     deserialize(input: any): this {
+      console.log(input.youtube_video_id);
         return Object.assign(this, {
             item: input.item,
             images: input.images,
@@ -93,7 +101,14 @@ export class ProjectDetail implements Deserializable{
             fundWebsite: input.funds && input.funds.length ? input.funds[0].website : undefined,
             hasSubmitted: input.hasSubmitted,
             canEdit: input.canEdit,
-            canApprove: input.canApprove
+            canApprove: input.canApprove,
+            youtube_video_id: input.videos[0],
+            twitter_username: input.tweets[0],
+            facebook_user_id: input.facebook_user_id,
+            instagram_username: input.instagram_username,
+            image_url: input.image_url,
+            image_description: input.image_description,
+            image_copyright: input.image_copyright
         });
     }
 

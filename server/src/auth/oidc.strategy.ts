@@ -1,4 +1,4 @@
-import {HttpStatus, Injectable, UnauthorizedException} from '@nestjs/common';
+import {HttpStatus, Injectable, Logger, UnauthorizedException} from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import {Strategy, Client, TokenSet, Issuer, IdTokenClaims, ClientAuthMethod} from 'openid-client';
 import { AuthService } from './auth.service';
@@ -21,6 +21,8 @@ export const buildOpenIdClient = async (configService: ConfigService) => {
 export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   client: Client;
 
+  private readonly logger = new Logger(OidcStrategy.name);
+
   constructor(client: Client,
               private readonly authService: AuthService,
               private readonly userService: UserService,
@@ -39,12 +41,14 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
   }
 
   async validate(req, tokenset: TokenSet): Promise<any> {
+
     //console.log(arguments);
     //console.log("STATE",req.query.state);
     const claims:IdTokenClaims = tokenset.claims();
     //console.log("CLAIMS",claims);
     //const useruid = claims.sub;
     const email: string = claims.email as string;
+    this.logger.debug("VALIDATE USER",email);
     /*const id_token = tokenset.id_token
     const access_token = tokenset.access_token
     const refresh_token = tokenset.refresh_token*/
@@ -52,19 +56,19 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
     try {
       if (req.query.state.startsWith("/api/invitation")) {
         invitation = true;
-        console.log("CHECKING THE INVITATION");
+        this.logger.log("CHECKING THE INVITATION");
         const token = req.query.state.replace("/api/invitation/", "");
         const email: string = claims.email as string;
         await this.userService.acceptInvitation(email, token).catch(error => {
           if (error.status == HttpStatus.NOT_FOUND) {
-            console.log("USER UNAUTHORIZED, NO INVITATION FOUNDED", email);
+            this.logger.error("USER UNAUTHORIZED, NO INVITATION FOUNDED", email);
             throw new UnauthorizedException();
           }
         });
         req.query.state = '/';
       }
       let userValidated: UserDTO = await this.authService.validateUser(email);
-      //console.log("USER",userValidated);
+      this.logger.log("USER",userValidated);
       if (userValidated && userValidated['user-id']) {
         let userDB: UserDTO = await this.userService.getUser(userValidated['user-id']);
         const department: string = claims['https://ecas.ec.europa.eu/claims/department_number'] as string;
@@ -93,11 +97,11 @@ export class OidcStrategy extends PassportStrategy(Strategy, 'oidc') {
         await this.authService.loginUser(userValidated['user-id']);
         return userDB;
       }else{
-        console.log("USER UNAUTHORIZED",email);
+        this.logger.error("USER UNAUTHORIZED",email);
         throw new UnauthorizedException();
       }
     } catch (err) {
-      console.log("ERROR, USER UNAUTHORIZED",email);
+      this.logger.error("ERROR, USER UNAUTHORIZED",email);
       throw new UnauthorizedException();
     }
   }

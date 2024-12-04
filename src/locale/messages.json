@@ -245,7 +245,16 @@
     "page.project-detail.breadcrumb.projectDetails": "Project Details",
     "page.project-detail.button.open": "Open",
     "page.project-detail.label.projectInfo": "project info",
+    "page.project-detail.label.socialMedia": "Social Media",
     "page.project-detail.label.startDate": "Start date: ",
+    "page.project-detail.label.youtube_video_id": "Youtube Video: ",
+    "page.project-detail.label.twitter_username": "Twitter Username: ",
+    "page.project-detail.label.facebook_user_id": "Facebook User: ",
+    "page.project-detail.label.instagram_username": "Instagram Username: ",
+    "page.project-detail.label.image_url": "Image Url: ",
+    "page.project-detail.label.editImg": "Edit Image",
+    "page.project-detail.label.image_description": "Image Description: ",
+    "page.project-detail.label.image_copyright": "Image Copyright: ",
     "page.project-detail.label.na": "n/a",
     "page.project-detail.label.endDate": "End date: ",
     "page.project-detail.label.projectWebsite": "Project website: ",
@@ -463,6 +472,7 @@
     "page.edits.button.action.cancel": "Cancel",
     "page.users.save-dialog.label.addUser": "Add User",
     "page.users.save-dialog.label.inviteUser": "Invite User",
-    "page.users.save-dialog.label.active": "Active"
+    "page.users.save-dialog.label.active": "Active",
+    "page.faq.listsOfOperations.title": "List of operations"
   }
 }

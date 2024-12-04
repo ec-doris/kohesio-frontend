@@ -53,7 +53,7 @@ export class ProjectsComponent implements OnDestroy {
   semanticTerms: String[] = [];
   mobileQuery: boolean;
   filtersCount = 0;
-  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
+  filterResult$$ = this.filterService.showResult$$.pipe(takeUntilDestroyed());
   private destroyed = new Subject<void>();
 
   constructor(private projectService: ProjectService,
@@ -96,7 +96,7 @@ export class ProjectsComponent implements OnDestroy {
   }
 
   ngOnInit() {
-    this.filterResult$$.subscribe((formVal) => {
+    this.filterResult$$.subscribe(({ filters: formVal }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
 

@@ -65,6 +65,28 @@
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube || tweet)">
+                <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
+                <div class="content" style="display: flex" *ngIf="youTube">
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span> &nbsp;
+                    <span class="ellipsis" [title]="youTube">{{ youTube }}</span>
+                </div>
+                <div class="content" style="display: flex;" *ngIf="tweet">
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span> &nbsp;
+                    <span class="ellipsis" [title]="tweet">{{ tweet }}</span>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block" *ngIf="editMode">
+                <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
+                <div class="content" style="display: flex">
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span> &nbsp;
+                    <input style="width: 100%" formControlName="youtube_video_id">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="twitter_username">
+                </div>
+            </div>
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
                 <div class="content">
@@ -219,7 +241,10 @@
                                 </ng-container>
                             </div>
                         </ng-container>
-                        <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
+                        <footer>
+                            <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>
+                            <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>
+                        </footer>
                     </div>
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
@@ -284,10 +309,10 @@
                 </h2>
                 <app-map *ngIf="isPlatformBrowser()" mapId="map-details" [hideNavigation]="true"></app-map>
             </div>
-            <div class="kohesio-audio-visual-wrapper">
+            <!--<div class="kohesio-audio-visual-wrapper">
                 <div class="kohesio-project-detail-video-wrapper">
                     <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
-                        <iframe [src]="video | transformVideoUrl" allowfullscreen=""></iframe>
+                        <iframe [src]="video" allowfullscreen=""></iframe>
                     </div>
                 </div>
                 <div class="kohesio-project-detail-twitter-wrapper">
@@ -295,7 +320,7 @@
                         <div class="tweet" [innerHTML]="getTweetHTML(tweet)"></div>
                     </ng-container>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     </form>

@@ -12,7 +12,7 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class FilterService {
-  showResult: Subject<any> = new Subject();
+  showResult$$: Subject<{ filters: {}, source?: string }> = new Subject();
   public filters: any;
   private countryGeoJson: any;
 
@@ -285,7 +285,7 @@ export class FilterService {
     );
   }
   getFormFilters(form: any){
-    const formValues = { ...form.value }; // Use spread operator for shallow copy
+    const formValues = { ...form.value || form }; // Use spread operator for shallow copy
 
     if (formValues.interventionField?.length) {
       formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item.id);
@@ -353,7 +353,7 @@ export class FilterService {
     }
 
     lastFiltersSearch[filterKey.toLowerCase()] = undefined;
-    this.showResult.next(new Filters().deserialize(lastFiltersSearch));
+    this.showResult$$.next({ filters: new Filters().deserialize(lastFiltersSearch) });
   }
 
 }

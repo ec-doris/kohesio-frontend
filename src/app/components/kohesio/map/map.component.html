@@ -22,6 +22,10 @@
             <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer" tabindex="-1">Disclaimer</a>
         </div>
         <app-map-message-box></app-map-message-box>
+        <div class="loading-corner" *ngIf="isLoadingZoom">
+            <mat-spinner diameter=150></mat-spinner>
+<!--            <kohesio-ecl-spinner [hasLabel]="false"></kohesio-ecl-spinner>-->
+        </div>
         <div class="map-frame">
             <div [id]="mapId"></div>
         </div>
@@ -32,7 +36,7 @@
             <div class="map-regions-wrapper">
                 <ng-container *ngIf="!collapsedBreadCrumb">
                     <ng-container *ngFor="let region of mapRegions">
-                        <button type="button" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
+                        <button type="button" (click)="loadMapRegion(filters, region.region, true)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
                         &nbsp;
                     </ng-container>
                 </ng-container>
@@ -46,7 +50,7 @@
                         </svg>
                     </span>
                 </button>
-<!--                <div>zoomLevel {{zoomLevel}}</div>-->
+                <div>zoomLevel {{zoomLevel}}</div>
             </div>
             <div class="filters" (click)="openFilterDialog()" *ngIf="showFilters" [ngStyle]="{'right.px': projectNearButtonWidth }">
                 <button class="ecl-button ecl-button--secondary" type="button"  [matBadge]="filtersCount" [matBadgeHidden]="!filtersCount" matBadgePosition="before" >

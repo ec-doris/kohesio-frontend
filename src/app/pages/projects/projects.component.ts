@@ -69,7 +69,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   public infoPopup:boolean = false;
   private notOutside = false;
 
-  constructor(private projectService: ProjectService,
+  constructor(
+    private projectService: ProjectService,
     public filterService: FilterService,
     public dialog: MatDialog,
     private formBuilder: UntypedFormBuilder,
@@ -197,7 +198,11 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       }
       this.onThemeChange();
       this.getThemes();
-
+      this.filterService.showResult$$.subscribe(result => {
+        this.myForm.patchValue(result.filters);
+        this.lastFiltersSearch = result.filters;
+        this.getProjectList();
+      })
     }
 
     private getFilterKey(type: string, queryParam: string) {
@@ -315,6 +320,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
         this.map.refreshView();
         this.map.isLoading = true;
       }
+      this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
     }
 
     onPaginate(event: any) {
@@ -591,6 +597,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
           this.myForm.reset();
           this.themeSelection = this.filters.thematic_objectives;
           this.semanticTerms = [];
+          this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
         }
 
         onSortChange() {

@@ -13,7 +13,7 @@ export class MapService {
   constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
   }
 
-  public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any> {
+  public getMapInfo(filters?: Filters, granularityRegion?: string, bbox?: any, zoom?: any): Observable<any> {
     const url = environment.api + '/map/search';
     let params: any = {};
     if (filters) {
@@ -23,6 +23,10 @@ export class MapService {
       params.granularityRegion = granularityRegion;
     }
     params.language = this.locale;
+    if (bbox) {
+      params.boundingBox = this.boundingBoxToString(bbox);
+      params.zoom = zoom;
+    }
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;
@@ -30,7 +34,21 @@ export class MapService {
     );
   }
 
-  getMapInfoByRegion(params: any): Observable<any> {
+  boundingBoxToString(bbox: any): string {
+    const transformedParams = {
+      _southWest: {
+        lat: bbox._southWest.lat,
+        lng: bbox._southWest.lng
+      },
+      _northEast: {
+        lat: bbox._northEast.lat,
+        lng: bbox._northEast.lng
+      }
+    };
+    return JSON.stringify(transformedParams);
+  }
+
+  getMapInfoByRegion(params: any, zoomLevel: string, filters: any): Observable<any> {
     const url = environment.api + '/map/search';
 
     const transformedParams = {
@@ -44,9 +62,12 @@ export class MapService {
       }
     };
 
-
-    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams));
-
+    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams)).set('zoom', zoomLevel);
+    Object.entries(filters).forEach(([ key, value ]: [ string, any ]) => {
+      if (value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)) {
+        httpParams = httpParams.set(key, value);
+      }
+    });
     return this.http.get<any>(url, { params: httpParams });
   }
 
@@ -67,6 +88,23 @@ export class MapService {
     }
     params.coordinate = coordinates;
     params.language = this.locale;
+    return this.http.get<any>(url, { params: <any>params }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  getProjectsPerCoordinates(coordinates: string, bbox: string, zoom: string, filters?: Filters): Observable<any> {
+    const url = environment.api + '/map/point';
+    let params: any = {};
+    if (filters) {
+      params = Object.assign(filters.getProjectsFilters());
+    }
+    params.coordinate = coordinates;
+    params.language = this.locale;
+    params.boundingBox = bbox;
+    params.zoom = zoom;
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;

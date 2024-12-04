@@ -32,7 +32,7 @@
                 </li>
                 <li class="ecl-unordered-list__item" i18n="@@page.services.dataExports">
                     <strong>Data exports</strong><br>
-                    Download <a href="/data">all the data</a> country by country in CSV or XLSX format.
+                    Download <a [routerLink]="['/'+translateService.routes.data]">all the data</a> country by country in CSV or XLSX format.
                 </li>
             </ul>
             <p class="ecl-u-type-paragraph" i18n="@@page.services.datasetVisualisations">Datasets and visualisations on achievements of EU Cohesion Policy projects aggregated at programme, national, and fund level are also shared through the <a href="https://cohesiondata.ec.europa.eu/cohesion_overview/14-20" target="blank">Cohesion Data</a> open data platform.</p>

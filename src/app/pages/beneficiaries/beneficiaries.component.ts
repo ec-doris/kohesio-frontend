@@ -107,6 +107,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
       this.performSearch();
     }
+    this.filterService.showResult$$.subscribe(result => {
+      this.myForm.patchValue(result.filters);
+      this.performSearch();
+    })
   }
 
   ngAfterViewInit(): void {
@@ -135,6 +139,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       queryParams: this.getFormValues(),
       queryParamsHandling: 'merge'
     });
+    this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
+
   }
 
   performSearch() {
@@ -229,6 +235,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
   resetForm() {
     this.myForm.reset();
+    this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
+
   }
 
   onPaginate(event: any) {
