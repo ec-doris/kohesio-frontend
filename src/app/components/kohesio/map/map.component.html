@@ -36,7 +36,7 @@
             <div class="map-regions-wrapper">
                 <ng-container *ngIf="!collapsedBreadCrumb">
                     <ng-container *ngFor="let region of mapRegions">
-                        <button type="button" (click)="loadMapRegion(filters, region.region, true)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
+                        <button type="button" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
                         &nbsp;
                     </ng-container>
                 </ng-container>
