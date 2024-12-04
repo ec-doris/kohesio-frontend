@@ -705,12 +705,12 @@ export class MapComponent implements AfterViewInit {
       if (data.geoJson) {
         this.drawPolygonsForRegion(data.geoJson, null);
         this.fitToGeoJson(data.geoJson)
-
       }
       const filterLength = Object.entries(filters).filter(([ key, value ]) => key !== 'language' && value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)).length;
-      if (data.subregions && data.subregions[0].count && filterLength) {
+      if (data.subregions  && filterLength) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
+        this.allowZoomListener = !filterLength;
       }
       this.isLoading = false;
       this.stopZoomClusterBecauseOfButton = stopZoomCluster;
@@ -1047,6 +1047,7 @@ export class MapComponent implements AfterViewInit {
     });
 
     this.map.on('zoomend', () => {
+      this.allowZoomListener = true;
       if (this.stopZoomClusterBecauseOfButton) {
         this.stopZoomClusterBecauseOfButton = false;
       } else {
@@ -1068,7 +1069,7 @@ export class MapComponent implements AfterViewInit {
         tap(() => this.isLoadingZoom = true),
         takeUntil(this.destroyWheelBounds$)
       ),
-      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString()).pipe(
+      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString(), this.filters).pipe(
         tap(data => {
           this.markers.clearLayers();
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
