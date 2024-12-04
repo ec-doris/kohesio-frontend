@@ -285,7 +285,7 @@ export class FilterService {
     );
   }
   getFormFilters(form: any){
-    const formValues = { ...form.value }; // Use spread operator for shallow copy
+    const formValues = { ...form.value || form }; // Use spread operator for shallow copy
 
     if (formValues.interventionField?.length) {
       formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item.id);

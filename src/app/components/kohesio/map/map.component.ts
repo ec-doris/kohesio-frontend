@@ -620,7 +620,7 @@ export class MapComponent implements AfterViewInit {
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
 
-    this.mapService.getMapInfo(filters, granularityRegion, bbox, this.map.getZoom().toString()).subscribe(data => {
+    this.mapService.getMapInfo(filters, granularityRegion, this.map.getBounds(), this.map.getZoom().toString()).subscribe(data => {
       this.dataRetrieved = true;
       // try {
       //   const parsedGeoJson = JSON.parse(data.geoJson.replace(/'/g, '"'));
@@ -1063,13 +1063,15 @@ export class MapComponent implements AfterViewInit {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds: string = bbox || this.map.getBounds();
+    // this.service.getFormFilters(this.filters)
+    const transFormedFilters= this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
 
     merge(
       timer(500).pipe(
         tap(() => this.isLoadingZoom = true),
         takeUntil(this.destroyWheelBounds$)
       ),
-      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString(), this.filters).pipe(
+      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString(), transFormedFilters).pipe(
         tap(data => {
           this.markers.clearLayers();
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
