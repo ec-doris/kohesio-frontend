@@ -56,3 +56,16 @@ You can customize the map visualization using the following parameters:
 ```html
 <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&?heatScale=true&mapRegion=Q2556137"  width="800" height="800">
 ```
+## Filters
+The map supports the following filters:
+- keywords
+- town
+- country
+- region
+- projectCollection
+- theme
+- fund
+
+```html
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?country=Belgium"  width="800" height="800">
+```
