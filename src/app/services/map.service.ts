@@ -68,6 +68,12 @@ export class MapService {
         httpParams = httpParams.set(key, value);
       }
     });
+    if (httpParams.get('country') && !httpParams.get('region')) {
+      httpParams = httpParams.set('granularityRegion', httpParams.get('country') as any);
+    } else if (httpParams.get('region')) {
+      httpParams = httpParams.set('granularityRegion', httpParams.get('region') as any);
+    }
+
     return this.http.get<any>(url, { params: httpParams });
   }
 

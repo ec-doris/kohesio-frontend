@@ -1062,7 +1062,7 @@ export class MapComponent implements AfterViewInit {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds: string = bbox || this.map.getBounds();
-    // this.service.getFormFilters(this.filters)
+
     const transFormedFilters= this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
 
     merge(
