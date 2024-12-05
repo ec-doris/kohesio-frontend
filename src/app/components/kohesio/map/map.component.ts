@@ -708,7 +708,7 @@ export class MapComponent implements AfterViewInit {
         this.fitToGeoJson(data.geoJson)
       }
       const filterLength = Object.entries(filters).filter(([ key, value ]) => key !== 'language' && value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)).length;
-      if (data.subregions  && filterLength) {
+      if (data.subregions) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
         this.allowZoomListener = !filterLength;
