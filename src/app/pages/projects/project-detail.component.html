@@ -247,7 +247,7 @@
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
                     <div class="project-theme-image">
-                        <ng-container *ngIf="project?.images && project.images.length">
+                        <ng-container *ngIf="myForm.controls['image_url'].value || project?.images.length">
                             <div class="project-image-container hand-pointer"
                             style="background-image: url('{{ myForm.controls['image_url'].value || project.images[0].image }}');"
                             (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
