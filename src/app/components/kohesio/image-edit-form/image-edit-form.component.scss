@@ -39,6 +39,9 @@ form {
     background-color: #0056b3;
   }
 }
-
+.required-asterisk::after {
+  content: ' *';
+  color: red;
+}
 
 

@@ -255,7 +255,7 @@
                         <ng-container>
                             <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
                                 <ng-container *ngIf="project.themeIds.length == 1">
-                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">
+                                    <img *ngIf="project?.themeIds" class="topic" [src]="myForm.controls['image_url'].value || 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">
                                 </ng-container>
                                 <ng-container *ngIf="project.themeIds.length > 1">
                                     <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'" alt="European Commission Topic">
