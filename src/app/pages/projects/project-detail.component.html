@@ -250,10 +250,10 @@
                         <ng-container *ngIf="myForm.controls['image_url'].value || project?.images.length">
                             <div class="project-image-container hand-pointer"
                             style="background-image: url('{{ myForm.controls['image_url'].value || project.images[0].image }}');"
-                            (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
+                            (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label,  myForm.controls['image_copyright'].value || project.images[0].imageCopyright)"></div>
                         </ng-container>
                         <ng-container>
-                            <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
+                            <div class="default-theme-image" *ngIf="!(myForm.controls['image_url'].value || project?.images.length)">
                                 <ng-container *ngIf="project.themeIds.length == 1">
                                     <img *ngIf="project?.themeIds" class="topic" [src]="myForm.controls['image_url'].value || 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">
                                 </ng-container>
