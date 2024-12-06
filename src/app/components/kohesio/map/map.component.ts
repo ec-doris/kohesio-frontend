@@ -111,7 +111,7 @@ export class MapComponent implements AfterViewInit {
     // tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
     takeUntilDestroyed());
   private isFirstLoad = true;
-  private stopZoomClusterBecauseOfButton!: boolean;
+  private stopZoomClusterBecauseOfFilter!: boolean;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -267,7 +267,8 @@ export class MapComponent implements AfterViewInit {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       const bbox = this.map.getBounds();
-      this.loadMapRegion(this.lastFiltersSearch, undefined, false, bbox);
+      this.loadMapRegion(this.lastFiltersSearch, undefined, bbox);
+      this.stopZoomClusterBecauseOfFilter = true;
       const fragment = this.translateService.sections.myregion;
       this._router.navigate([], { relativeTo: this.route, fragment, queryParams: this.generateQueryParams() });
     });
@@ -548,7 +549,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string, stopZoomCluster = false, bbox?: any) {
+  loadMapRegion(filters: Filters, granularityRegion?: string, bbox?: any) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
@@ -581,7 +582,7 @@ export class MapComponent implements AfterViewInit {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
-    this.loadMapVisualization(filters, granularityRegion, stopZoomCluster, bbox);
+    this.loadMapVisualization(filters, granularityRegion, bbox);
   }
 
   restartBreadCrumbNavigation() {
@@ -614,7 +615,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapVisualization(filters: Filters, granularityRegion?: string, stopZoomCluster = false, bbox?: any) {
+  loadMapVisualization(filters: Filters, granularityRegion?: string, bbox?: any) {
 
     this.cleanMap();
     this.dataRetrieved = false;
@@ -707,17 +708,15 @@ export class MapComponent implements AfterViewInit {
         this.fitToGeoJson(data.geoJson)
       }
       const filterLength = Object.entries(filters).filter(([ key, value ]) => key !== 'language' && value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)).length;
-      if (data.subregions  && filterLength) {
+      if (data.subregions) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
         this.allowZoomListener = !filterLength;
       }
       this.isLoading = false;
-      this.stopZoomClusterBecauseOfButton = stopZoomCluster;
-      if (stopZoomCluster) {
-        this.allowZoomListener = true;
-      }
-      !stopZoomCluster && this.zoomLevelSubject$$.next(true);
+      // this.stopZoomClusterBecauseOfFilter = stopZoomCluster;
+
+      // this.zoomLevelSubject$$.next(true);
     });
   }
 
@@ -1048,14 +1047,14 @@ export class MapComponent implements AfterViewInit {
 
     this.map.on('zoomend', () => {
       this.allowZoomListener = true;
-      if (this.stopZoomClusterBecauseOfButton) {
-        this.stopZoomClusterBecauseOfButton = false;
+      if (this.stopZoomClusterBecauseOfFilter) {
+        this.stopZoomClusterBecauseOfFilter = false;
       } else {
         this.zoomLevelSubject$$.next(true);
-
       }
       this.zoomLevel = this.map.getZoom();
     });
+
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
 
@@ -1063,7 +1062,7 @@ export class MapComponent implements AfterViewInit {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds: string = bbox || this.map.getBounds();
-    // this.service.getFormFilters(this.filters)
+
     const transFormedFilters= this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
 
     merge(
