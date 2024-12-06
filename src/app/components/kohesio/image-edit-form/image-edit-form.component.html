@@ -13,5 +13,5 @@
 			<kohesio-ecl-form-text-input formControlName="image_copyright"></kohesio-ecl-form-text-input>
 		</kohesio-ecl-form-label>
 	</kohesio-ecl-form-group>
-	<kohesio-ecl-button type="submit" i18n="@@page.users.profile.button.save">Save</kohesio-ecl-button>
+	<kohesio-ecl-button type="submit" i18n="@@page.users.profile.button.save" [isDisabled]="!imageForm.valid" >Save</kohesio-ecl-button>
 </form>

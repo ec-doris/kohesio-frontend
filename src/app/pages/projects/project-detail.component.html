@@ -67,23 +67,44 @@
         <div class="kohesio-side-content">
             <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube || tweet)">
                 <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
-                <div class="content" style="display: flex" *ngIf="youTube">
-                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span> &nbsp;
-                    <span class="ellipsis" [title]="youTube">{{ youTube }}</span>
+                <div class="content" style="display: flex; align-items: flex-end" *ngIf="youTube">
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">Youtube ID: </span> &nbsp;
+<!--                    <span class="ellipsis" [title]="youTube">{{ youTube }}</span>-->
+                    <a
+                        [href]="youTube" target="_blank"
+                        i18n-matTooltip="Share on Twitter|@@comp.share-block.button.shareontwitter.tooltip"
+                        matTooltip="Share on Twitter"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#youtube-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Twitter</span>
+                    </a>
+
                 </div>
                 <div class="content" style="display: flex;" *ngIf="tweet">
-                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span> &nbsp;
-                    <span class="ellipsis" [title]="tweet">{{ tweet }}</span>
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;
+<!--                    <span class="ellipsis" [title]="tweet">{{ tweet }}</span>-->
+                    <a
+                        [href]="tweet" target="_blank"
+                        i18n-matTooltip="Share on Twitter|@@comp.share-block.button.shareontwitter.tooltip"
+                        matTooltip="Share on Twitter"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">X</span>
+                    </a>
                 </div>
             </div>
             <div class="kohesio-side-content-block" *ngIf="editMode">
                 <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
                 <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">youtube video: </span> &nbsp;
+                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">Youtube ID: </span> &nbsp;
                     <input style="width: 100%" formControlName="youtube_video_id">
                 </div>
                 <div class="content" style="display: flex;">
-                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">twitter username: </span> &nbsp;
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;
                     <input style="width: 100%" formControlName="twitter_username">
                 </div>
             </div>
