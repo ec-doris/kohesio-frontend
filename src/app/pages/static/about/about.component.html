@@ -16,7 +16,7 @@
     <div class="ecl-row ecl-u-pt-xs">
         <div class="ecl-col-xl-12 ecl-u-pt-none">
             <h1 class="ecl-u-type-heading-1" i18n="@@page.about.title">About Kohesio</h1>
-            <ng-container *ngIf="translateService.locale != 'hu'">
+
                 <ng-container i18n="@@page.about.description">
                   <p class="ecl-u-type-paragraph">Kohesio is a comprehensive knowledge database that offers easy and transparent access to up-to-date information on projects and beneficiaries co-funded by EU Cohesion policy, during the 2014-2020 programming period.</p>
                   <p class="ecl-u-type-paragraph"><a href="https://ec.europa.eu/regional_policy/home_en" target="blank">EU Cohesion Policy</a> supports hundreds of thousands of projects across regions and cities in the European Union. It aims to strengthen economic, social and territorial cohesion, by correcting imbalances between countries and regions. It also delivers on the Union's political priorities, especially the green and digital transitions.</p>
@@ -24,7 +24,7 @@
                   <p class="ecl-u-type-paragraph">We will progressively update Kohesio with new projects and beneficiaries for the 2021-2027 programming period in close cooperation with EU Members States and programme authorities.</p>
                   <p class="ecl-u-type-paragraph">Kohesio relies on semantic web <a href="https://www.w3.org/standards/semanticweb/" target="blank">W3C</a> open standards and open-source tools provided by <a href="https://wikimedia.de/" target="blank">Wikimedia Deutschland</a>. All the datasets are available both in CSV/XLSX and in RDF format (see <a [routerLink]="['/'+translateService.routes.services]">Services page</a>).</p>
                 </ng-container>
-
+            <ng-container *ngIf="translateService.locale != 'hu'">
                 <h2 class="ecl-u-type-heading-2" i18n="@@page.about.dataSourceTitle">Data source and limited warranty</h2>
                 <ng-container i18n="@@page.about.dataSourceDescrition">
                   <p class="ecl-u-type-paragraph">EU Member States and programme authorities publish lists of operations and related beneficiaries under their information and communication obligations (<a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=celex:32013R1303#d1160e32-438-1" target="blank">Regulation (EU) 1303/2013, Annex XII</a> and <a href="https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX%3A32021R1060&qid=1625497028274#d1e5598-159-1" target="blank">Regulation (EU) 2021/1060, article 49</a>).</p>
