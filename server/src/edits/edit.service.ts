@@ -84,6 +84,7 @@ export class EditService {
   }
 
   async saveEdit(currentUser:string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
+
     if (editDetails.edit_id){
       return this.updateEdit(currentUser,editDetails);
     }else {
@@ -92,6 +93,7 @@ export class EditService {
   }
 
   async addEdit(currentUser: string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
+    console.log("EDIT_ADD", editDetails)
     editDetails.user_id=currentUser;
     return await firstValueFrom(
       this.httpService.post<EditVersionDTO>(`${this.baseUrl}`,editDetails,
@@ -108,6 +110,7 @@ export class EditService {
   }
 
   async updateEdit(currentUser: string, editDetails: EditVersionInDTO):Promise<EditVersionDTO>{
+    console.log("EDIT_UPDATE", editDetails)
     editDetails.user_id=currentUser;
     return await firstValueFrom(
       this.httpService.put<EditVersionDTO>(`${this.baseUrl}/${editDetails.edit_id}`,editDetails,

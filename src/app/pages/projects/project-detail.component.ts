@@ -334,6 +334,11 @@ export class ProjectDetailComponent implements AfterViewInit {
                   status: edit.latest_version.status,
                   label: edit.latest_version.label,
                   description: edit.latest_version.summary,
+                  youtube_video_id: edit.latest_version.youtube_video_id,
+                  twitter_username: edit.latest_version.twitter_username,
+                  image_url: edit.latest_version.image_url,
+                  image_description: edit.latest_version.image_description,
+                  image_copyright: edit.latest_version.image_copyright,
                   language: edit.language
                 });
                 this.myForm.markAsPristine();
