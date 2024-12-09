@@ -971,6 +971,12 @@ export class MapComponent implements AfterViewInit {
         iconSize: L.point(42, 42)
       })
     });
+    if (popupContent.properties.regionLabel) {
+      marker.bindTooltip(popupContent.properties.regionLabel, {
+        permanent: false,
+        direction: 'top'
+      })
+    }
     marker.on('click', () => {
       if (!popupContent.properties.cluster) {
         this.mapService.getProjectsPerCoordinates(
@@ -998,7 +1004,7 @@ export class MapComponent implements AfterViewInit {
       } else {
         // this.map.setZoom(this.map.getZoom() + 1);
         const latLng = marker.getLatLng();
-        this.map.setView(latLng, this.map.getZoom() + 1);
+        this.map.setView(latLng, this.map.getZoom() + 2);
       }
     });
     marker.on('mouseout', () => {
@@ -1087,7 +1093,7 @@ export class MapComponent implements AfterViewInit {
     this.isFirstLoad = false;
   }
 
-  private createGeoJsonFeature({ count, coordinates, isHighlighted, cluster }: any): any {
+  private createGeoJsonFeature({ count, coordinates, isHighlighted, cluster, regionLabel }: any): any {
     const [ lat, lng ] = coordinates.split(',').map(Number);
     if (count === 1) {
       const popupContent = { type: 'async', filters: this.filters, coordinates, isHighlighted, cluster };
@@ -1097,9 +1103,9 @@ export class MapComponent implements AfterViewInit {
     const point = {
       type: 'Feature',
       geometry: { type: 'Point', coordinates: [ lat, lng ] },
-      properties: { count, point_count_abbreviated: count, cluster }
+      properties: { count, point_count_abbreviated: count, cluster, regionLabel }
     };
-    return this.addCircleMarkerPopupColored(lng, lat, point, count);
+    return this.addCircleMarkerPopupColored(lng, lat, point, count, regionLabel);
   }
 
   private cancelPreviousRequest(): void {
