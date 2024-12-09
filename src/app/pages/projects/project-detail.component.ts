@@ -182,7 +182,7 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-        this.youTube = this.sanitizeUrls(this.project.videos, 'YOUTUBE')[0].changingThisBreaksApplicationSecurity;
+        this.youTube = this.sanitizeUrls(this.project.videos, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
         this.tweet = this.project.tweets[0];
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
@@ -334,6 +334,11 @@ export class ProjectDetailComponent implements AfterViewInit {
                   status: edit.latest_version.status,
                   label: edit.latest_version.label,
                   description: edit.latest_version.summary,
+                  youtube_video_id: edit.latest_version.youtube_video_id,
+                  twitter_username: edit.latest_version.twitter_username,
+                  image_url: edit.latest_version.image_url,
+                  image_description: edit.latest_version.image_description,
+                  image_copyright: edit.latest_version.image_copyright,
                   language: edit.language
                 });
                 this.myForm.markAsPristine();
