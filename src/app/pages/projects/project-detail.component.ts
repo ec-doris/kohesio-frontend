@@ -182,7 +182,7 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-        this.youTube = this.sanitizeUrls(this.project.videos, 'YOUTUBE');;
+        this.youTube = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
         this.tweet = this.project.tweets[0];
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
