@@ -182,7 +182,9 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-        this.youTube = this.sanitizeUrls(this.project.videos, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
+        const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtube_video_id}`;
+        this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicati
+        // this.youTube = this.sanitizeUrls(this.project.youtube_video_id, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
         this.tweet = this.project.tweets[0];
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
