@@ -159,8 +159,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           'label': new FormControl(this.project.label, { nonNullable: true }),
           'description': new FormControl(this.project.description, { nonNullable: true }),
           'language': new FormControl(this.translateService.locale, {nonNullable: true}),
-          youtube_video_id: new FormControl(this.project.youtube_video_id),
-          twitter_username: new FormControl(this.project.twitter_username),
+          youtubeVideoId: new FormControl(this.project.youtubeVideoId),
+          twitterUsername: new FormControl(this.project.twitterUsername),
           facebook_user_id: new FormControl(this.project.facebook_user_id),
           instagram_username: new FormControl(this.project.instagram_username),
           image_url: new FormControl(this.project.image_url),
@@ -182,10 +182,10 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-        const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtube_video_id}`;
+        const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
         this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicati
         // this.youTube = this.sanitizeUrls(this.project.youtube_video_id, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
-        this.tweet = this.project.tweets[0];
+        this.tweet = this.project.twitterUsername;
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -336,8 +336,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                   status: edit.latest_version.status,
                   label: edit.latest_version.label,
                   description: edit.latest_version.summary,
-                  youtube_video_id: edit.latest_version.youtube_video_id,
-                  twitter_username: edit.latest_version.twitter_username,
+                  youtubeVideoId: edit.latest_version.youtubeVideoId,
+                  twitterUsername: edit.latest_version.twitterUsername,
                   image_url: edit.latest_version.image_url,
                   image_description: edit.latest_version.image_description,
                   image_copyright: edit.latest_version.image_copyright,
@@ -427,8 +427,8 @@ export class ProjectDetailComponent implements AfterViewInit {
             versionId: version.edit_version_id,
             status: version.status,
             label: version.label,
-            youtube_video_id: version.youtube_video_id,
-            twitter_username: version.twitter_username,
+            youtubeVideoId: version.youtubeVideoId,
+            twitterUsername: version.twitterUsername,
             image_url: version.image_url,
             image_description: version.image_description,
             image_copyright: version.image_copyright,
@@ -501,8 +501,8 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.summary=this.myForm.value.description;
       edit.version_comment=version_comment;
       edit.language = this.myForm.value.language;
-      edit.youtube_video_id = this.myForm.value.youtube_video_id;
-      edit.twitter_username = this.myForm.value.twitter_username;
+      edit.youtubeVideoId = this.myForm.value.youtubeVideoId;
+      edit.twitterUsername = this.myForm.value.twitterUsername;
       edit.facebook_user_id = this.myForm.value.facebook_user_id;
       edit.instagram_username = this.myForm.value.instagram_username;
       edit.image_url = this.myForm.value.image_url;
