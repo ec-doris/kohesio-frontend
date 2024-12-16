@@ -56,6 +56,13 @@ export class EditVersionDTO{
   status: string;
   label?: string;
   summary?: string;
+  twitterUsername?: string;
+  facebookUserId?: string;
+  instagramUsername?: string;
+  image_url?: string;
+  image_description?: string;
+  image_copyright?: string;
+  youtubeVideoId?: string;
 }
 export class EditOutDTO {
 
