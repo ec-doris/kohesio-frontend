@@ -183,7 +183,7 @@ export class ProjectDetailComponent implements AfterViewInit {
           }
         }
         const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
-        this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicati
+        this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity
         // this.youTube = this.sanitizeUrls(this.project.youtube_video_id, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
         this.tweet = this.project.twitterUsername;
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
