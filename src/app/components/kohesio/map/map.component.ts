@@ -699,7 +699,6 @@ export class MapComponent implements AfterViewInit {
       if (data.subregions) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
-        this.allowZoomListener = !filterLength;
       }
       this.isLoading = false;
       // this.stopZoomClusterBecauseOfFilter = stopZoomCluster;
