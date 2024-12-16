@@ -83,12 +83,12 @@
 
                 </div>
                 <div class="content" style="display: flex;" *ngIf="tweet">
-                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;
+<!--                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;-->
 <!--                    <span class="ellipsis" [title]="tweet">{{ tweet }}</span>-->
                     <a
                         [href]="tweet" target="_blank"
-                        i18n-matTooltip="Share on Twitter|@@comp.share-block.button.shareontwitter.tooltip"
-                        matTooltip="Share on Twitter"
+
+                        matTooltip="{{tweet}}"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-color"></use>
