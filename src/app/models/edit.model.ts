@@ -44,8 +44,8 @@ export class EditVersion {
   creation_time?: Date;
   youtubeVideoId!: string
   twitterUsername!: string
-  facebook_user_id!: string
-  instagram_username!: string
+  facebookUserId!: string
+  instagramUsername!: string
   image_url!: string
   image_description!: string
   image_copyright!: string

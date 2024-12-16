@@ -65,11 +65,9 @@
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
-            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube?.length || tweet)">
+            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube?.length || tweet || facebookUserid || instagramUsername)">
                 <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
                 <div class="content" style="display: flex; align-items: flex-end" *ngIf="youTube">
-<!--                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">Youtube ID: </span> &nbsp;-->
-<!--                    <span class="ellipsis" [title]="youTube">{{ youTube }}</span>-->
                     <a
                         [href]="youTube" target="_blank"
                         i18n-matTooltip="Share on Twitter|@@comp.footer.link.youtube"
@@ -83,8 +81,6 @@
 
                 </div>
                 <div class="content" style="display: flex;" *ngIf="tweet">
-<!--                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;-->
-<!--                    <span class="ellipsis" [title]="tweet">{{ tweet }}</span>-->
                     <a
                         [href]="tweet" target="_blank"
 
@@ -94,6 +90,30 @@
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-color"></use>
                         </svg>
                         <span class="ecl-link__label">X</span>
+                    </a>
+                </div>
+                <div class="content" style="display: flex;" *ngIf="facebookUserid">
+                    <a
+                        [href]="facebookUserid" target="_blank"
+
+                        matTooltip="{{facebookUserid}}"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#facebook-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Facebook</span>
+                    </a>
+                </div>
+                <div class="content" style="display: flex;" *ngIf="instagramUsername">
+                    <a
+                        [href]="instagramUsername" target="_blank"
+
+                        matTooltip="{{instagramUsername}}"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#instagram-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Instagram</span>
                     </a>
                 </div>
             </div>
@@ -106,6 +126,14 @@
                 <div class="content" style="display: flex;">
                     <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;
                     <input style="width: 100%" formControlName="twitterUsername">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.facebook_user_id" style="white-space: nowrap">Facebook Username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="facebookUserId">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.instagram_username" style="white-space: nowrap">Instagram Username Username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="instagramUsername">
                 </div>
             </div>
             <div class="kohesio-side-content-block">
