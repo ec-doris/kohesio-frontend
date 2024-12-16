@@ -130,6 +130,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     public successMessage?:string;
     youTube!: string;
     tweet!: string;
+    facebookUserid!: string;
+    instagramUsername!: string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -161,8 +163,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           'language': new FormControl(this.translateService.locale, {nonNullable: true}),
           youtubeVideoId: new FormControl(this.project.youtubeVideoId),
           twitterUsername: new FormControl(this.project.twitterUsername),
-          facebook_user_id: new FormControl(this.project.facebook_user_id),
-          instagram_username: new FormControl(this.project.instagram_username),
+          facebookUserId: new FormControl(this.project.facebookUserId),
+          instagramUsername: new FormControl(this.project.instagramUsername),
           image_url: new FormControl(this.project.image_url),
           image_description: new FormControl(this.project.image_description),
           image_copyright: new FormControl(this.project.image_copyright)
@@ -183,9 +185,10 @@ export class ProjectDetailComponent implements AfterViewInit {
           }
         }
         const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
-        this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity
-        // this.youTube = this.sanitizeUrls(this.project.youtube_video_id, 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
+        this.youTube = this.sanitizeUrls([youtubeUrl], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity;
         this.tweet = this.project.twitterUsername;
+        this.facebookUserid = this.project.facebookUserId;
+        this.instagramUsername = this.project.instagramUsername;
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -338,6 +341,8 @@ export class ProjectDetailComponent implements AfterViewInit {
                   description: edit.latest_version.summary,
                   youtubeVideoId: edit.latest_version.youtubeVideoId,
                   twitterUsername: edit.latest_version.twitterUsername,
+                  facebookUserId: edit.latest_version.facebookUserId,
+                  instagramUsername: edit.latest_version.instagramUsername,
                   image_url: edit.latest_version.image_url,
                   image_description: edit.latest_version.image_description,
                   image_copyright: edit.latest_version.image_copyright,
@@ -429,6 +434,8 @@ export class ProjectDetailComponent implements AfterViewInit {
             label: version.label,
             youtubeVideoId: version.youtubeVideoId,
             twitterUsername: version.twitterUsername,
+            facebookUserId: version.facebookUserId,
+            instagramUsername: version.instagramUsername,
             image_url: version.image_url,
             image_description: version.image_description,
             image_copyright: version.image_copyright,
@@ -503,8 +510,8 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.language = this.myForm.value.language;
       edit.youtubeVideoId = this.myForm.value.youtubeVideoId;
       edit.twitterUsername = this.myForm.value.twitterUsername;
-      edit.facebook_user_id = this.myForm.value.facebook_user_id;
-      edit.instagram_username = this.myForm.value.instagram_username;
+      edit.facebookUserId = this.myForm.value.facebookUserId;
+      edit.instagramUsername = this.myForm.value.instagramUsername;
       edit.image_url = this.myForm.value.image_url;
       edit.image_description = this.myForm.value.image_description;
       edit.image_copyright = this.myForm.value.image_copyright;

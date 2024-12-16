@@ -53,8 +53,8 @@ export class ProjectDetail implements Deserializable{
     canApprove:boolean = false;
     youtubeVideoId!: string ;
     twitterUsername!: string;
-    facebook_user_id!: string;
-    instagram_username!: string;
+    facebookUserId!: string;
+    instagramUsername!: string;
     image_url!: string;
     image_description!: string;
     image_copyright!: string;
@@ -104,8 +104,8 @@ export class ProjectDetail implements Deserializable{
             canApprove: input.canApprove,
             youtubeVideoId: input.youtubeVideoId,
             twitterUsername: input.twitterUsername,
-            facebook_user_id: input.facebook_user_id,
-            instagram_username: input.instagram_username,
+            facebookUserId: input.facebookUserid,
+            instagramUsername: input.instagramUsername,
             image_url: input.image_url,
             image_description: input.image_description,
             image_copyright: input.image_copyright
