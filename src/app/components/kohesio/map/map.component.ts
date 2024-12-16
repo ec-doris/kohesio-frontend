@@ -982,7 +982,7 @@ export class MapComponent implements AfterViewInit {
         this.mapService.getProjectsPerCoordinates(
           popupContent.geometry.coordinates.toString(),
           this.mapService.boundingBoxToString(this.map.getBounds()),
-          this.map.getZoom().toString(), popupContent.filters)
+          this.map.getZoom().toString(), popupContent.filters || this.filters)
           .subscribe(projects => {
             const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
             component.instance.projects = projects;
