@@ -578,7 +578,7 @@ export class MapComponent implements AfterViewInit {
       }
     }
     const index = this.mapRegions.findIndex((x: any) => x.region === granularityRegion);
-    if (this.mapRegions.length && this.mapRegions[index].bounds) {
+    if (this.mapRegions.length && this.mapRegions[index].bounds && !this.filtersCount) {
       this.fitBounds(this.mapRegions[index].bounds);
     }
     this.mapRegions = this.mapRegions.slice(0, index + 1);
@@ -623,18 +623,6 @@ export class MapComponent implements AfterViewInit {
 
     this.mapService.getMapInfo(filters, granularityRegion, this.map.getBounds(), this.map.getZoom().toString()).subscribe(data => {
       this.dataRetrieved = true;
-      // try {
-      //   const parsedGeoJson = JSON.parse(data.geoJson.replace(/'/g, '"'));
-      //   const geoJsonLayer = L.geoJson(parsedGeoJson);
-      //   const bbox = geoJsonLayer.getBounds();
-      //
-      //   this.collectVisibleCountries(bbox);
-      //   // console.log(bbox); // Outputs the bounding box string
-      //   // this.drawPolygonsForRegion(parsedGeoJson, null);
-      //   // this.fitToGeoJson(parsedGeoJson);
-      // } catch (error) {
-      //   console.error('Invalid GeoJSON data:', error);
-      // }
 
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
         this.mapRegions = [ this.europe ];
@@ -711,7 +699,6 @@ export class MapComponent implements AfterViewInit {
       if (data.subregions) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
-        this.allowZoomListener = !filterLength;
       }
       this.isLoading = false;
       // this.stopZoomClusterBecauseOfFilter = stopZoomCluster;
@@ -1068,7 +1055,9 @@ export class MapComponent implements AfterViewInit {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds: string = bbox || this.map.getBounds();
-
+    if (this.filters.projectTypes) {
+      (this.filters as any).projectCollection = this.filters.projectTypes;
+    }
     const transFormedFilters= this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
 
     merge(
@@ -1110,18 +1099,6 @@ export class MapComponent implements AfterViewInit {
 
   private cancelPreviousRequest(): void {
     this.destroyWheelBounds$.next();
-  }
-
-  private in() {
-    if (this.mapRegions[this.mapRegions.length - 1].label === this.hoveredLayer?.feature?.properties?.regionLabel) {
-      return;
-    }
-    this.hoveredLayer.fire('click');
-  }
-
-  private out() {
-    const mapRegion = this.mapRegions.length == 1 ? this.mapRegions[0].region : this.mapRegions[this.mapRegions.length - 2].region;
-    this.loadMapRegion(this.filters, mapRegion);
   }
 
   private getFilterLabel(type: string, label: string) {

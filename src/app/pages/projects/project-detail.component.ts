@@ -339,10 +339,10 @@ export class ProjectDetailComponent implements AfterViewInit {
                   status: edit.latest_version.status,
                   label: edit.latest_version.label,
                   description: edit.latest_version.summary,
-                  youtubeVideoId: edit.latest_version.youtubeVideoId,
-                  twitterUsername: edit.latest_version.twitterUsername,
-                  facebookUserId: edit.latest_version.facebookUserId,
-                  instagramUsername: edit.latest_version.instagramUsername,
+                  youtubeVideoId: edit.latest_version.youtube_video_id,
+                  twitterUsername: edit.latest_version.twitter_username,
+                  facebookUserId: edit.latest_version.facebook_user_id,
+                  instagramUsername: edit.latest_version.instagram_username,
                   image_url: edit.latest_version.image_url,
                   image_description: edit.latest_version.image_description,
                   image_copyright: edit.latest_version.image_copyright,
@@ -432,10 +432,10 @@ export class ProjectDetailComponent implements AfterViewInit {
             versionId: version.edit_version_id,
             status: version.status,
             label: version.label,
-            youtubeVideoId: version.youtubeVideoId,
-            twitterUsername: version.twitterUsername,
-            facebookUserId: version.facebookUserId,
-            instagramUsername: version.instagramUsername,
+            youtubeVideoId: version.youtube_video_id,
+            twitterUsername: version.twitter_username,
+            facebookUserId: version.facebook_user_id,
+            instagramUsername: version.instagram_username,
             image_url: version.image_url,
             image_description: version.image_description,
             image_copyright: version.image_copyright,
@@ -508,10 +508,10 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.summary=this.myForm.value.description;
       edit.version_comment=version_comment;
       edit.language = this.myForm.value.language;
-      edit.youtubeVideoId = this.myForm.value.youtubeVideoId;
-      edit.twitterUsername = this.myForm.value.twitterUsername;
-      edit.facebookUserId = this.myForm.value.facebookUserId;
-      edit.instagramUsername = this.myForm.value.instagramUsername;
+      edit.youtube_video_id = this.myForm.value.youtubeVideoId;
+      edit.twitter_username = this.myForm.value.twitterUsername;
+      edit.facebook_user_id = this.myForm.value.facebookUserId;
+      edit.instagram_username = this.myForm.value.instagramUsername;
       edit.image_url = this.myForm.value.image_url;
       edit.image_description = this.myForm.value.image_description;
       edit.image_copyright = this.myForm.value.image_copyright;
