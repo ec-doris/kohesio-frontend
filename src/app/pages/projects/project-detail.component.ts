@@ -187,9 +187,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
         this.youTube = this.project.youtubeVideoId ? this.sanitizeUrls([ youtubeUrl ], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity : '';
         // this.tweet = this.project.twitterUsername;
-        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([], 'TWITTER')[0]?.changingThisBreaksApplicationSecurity : '';
-        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([], 'FACEBOOK')[0]?.changingThisBreaksApplicationSecurity : '';
-        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([], 'INSTAGRAM')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([''], 'TWITTER')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([''], 'FACEBOOK')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([''], 'INSTAGRAM')[0]?.changingThisBreaksApplicationSecurity : '';
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
