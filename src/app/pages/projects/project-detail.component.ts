@@ -130,8 +130,8 @@ export class ProjectDetailComponent implements AfterViewInit {
     public successMessage?:string;
     youTube!: string;
     tweet!: string;
-    facebookUserid!: string;
-    instagramUsername!: string;
+    facebook!: string;
+    instagram!: string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -186,9 +186,10 @@ export class ProjectDetailComponent implements AfterViewInit {
         }
         const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
         this.youTube = this.project.youtubeVideoId ? this.sanitizeUrls([ youtubeUrl ], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity : '';
-        this.tweet = this.project.twitterUsername;
-        this.facebookUserid = this.project.facebookUserId;
-        this.instagramUsername = this.project.instagramUsername;
+        // this.tweet = this.project.twitterUsername;
+        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([], 'twitter')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([], 'facebook')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([], 'instagram')[0]?.changingThisBreaksApplicationSecurity : '';
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -553,6 +554,19 @@ export class ProjectDetailComponent implements AfterViewInit {
           "https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/" +
           this.project.youtube_parser(url)));
       }
+      if (type == 'twitter') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://twitter.com/'));
+      }
+      if (type == 'instagram') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://www.instagram.com/p/'));
+      }
+      if (type == 'facebook') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
+          'https://www.facebook.com/'));
+      }
+
     });
     return sanitizedUrls;
   }

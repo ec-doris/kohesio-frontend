@@ -65,7 +65,7 @@
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
-            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube?.length || tweet || facebookUserid || instagramUsername)">
+            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube?.length || tweet || facebook || instagram)">
                 <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
                 <div class="content" style="display: flex; align-items: flex-end" *ngIf="youTube">
                     <a
@@ -74,7 +74,7 @@
                         matTooltip="Share on Yotube"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
-                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#youtube-color"></use>
+                            <use xlink:href="assets/images/ecl/socialMedia/icons-social-media.svg#twitter-color"></use>
                         </svg>
                         <span class="ecl-link__label">Youtube</span>
                     </a>
@@ -84,7 +84,7 @@
                     <a
                         [href]="tweet" target="_blank"
 
-                        matTooltip="{{tweet}}"
+                        matTooltip="{{project.twitterUsername}}"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#twitter-color"></use>
@@ -92,11 +92,11 @@
                         <span class="ecl-link__label">X</span>
                     </a>
                 </div>
-                <div class="content" style="display: flex;" *ngIf="facebookUserid">
+                <div class="content" style="display: flex;" *ngIf="facebook">
                     <a
-                        [href]="facebookUserid" target="_blank"
+                        [href]="facebook" target="_blank"
 
-                        matTooltip="{{facebookUserid}}"
+                        matTooltip="{{project.facebookUserId}}"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#facebook-color"></use>
@@ -104,11 +104,11 @@
                         <span class="ecl-link__label">Facebook</span>
                     </a>
                 </div>
-                <div class="content" style="display: flex;" *ngIf="instagramUsername">
+                <div class="content" style="display: flex;" *ngIf="instagram">
                     <a
-                        [href]="instagramUsername" target="_blank"
+                        [href]="instagram" target="_blank"
 
-                        matTooltip="{{instagramUsername}}"
+                        matTooltip="{{project.instagramUsername}}"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#instagram-color"></use>
