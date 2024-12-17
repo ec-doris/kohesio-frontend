@@ -42,10 +42,10 @@ export class EditVersion {
   summary?: string;
   @Type(() => Date)
   creation_time?: Date;
-  youtubeVideoId!: string
-  twitterUsername!: string
-  facebookUserId!: string
-  instagramUsername!: string
+  youtube_video_id!: string
+  twitter_username!: string
+  facebook_user_id!: string
+  instagram_username!: string
   image_url!: string
   image_description!: string
   image_copyright!: string
