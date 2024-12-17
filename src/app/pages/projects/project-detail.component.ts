@@ -187,9 +187,9 @@ export class ProjectDetailComponent implements AfterViewInit {
         const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
         this.youTube = this.project.youtubeVideoId ? this.sanitizeUrls([ youtubeUrl ], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity : '';
         // this.tweet = this.project.twitterUsername;
-        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([], 'twitter')[0]?.changingThisBreaksApplicationSecurity : '';
-        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([], 'facebook')[0]?.changingThisBreaksApplicationSecurity : '';
-        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([], 'instagram')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([], 'TWITTER')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([], 'FACEBOOK')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([], 'INSTAGRAM')[0]?.changingThisBreaksApplicationSecurity : '';
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -548,25 +548,21 @@ export class ProjectDetailComponent implements AfterViewInit {
 
   sanitizeUrls(urls:any, type:string):any{
     const sanitizedUrls: string[] = [];
-    urls.forEach((url:string)=>{
-      if (type == 'YOUTUBE'){
+    urls.forEach((url: string) => {
+      if (type == 'YOUTUBE') {
         sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
-          "https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/" +
+          'https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/' +
           this.project.youtube_parser(url)));
       }
-      if (type == 'twitter') {
-        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://twitter.com/'));
+      if (type == 'TWITTER') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://twitter.com/'));
       }
-      if (type == 'instagram') {
-        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://www.instagram.com/p/'));
+      if (type == 'INSTAGRAM') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://www.instagram.com/p/'));
       }
-      if (type == 'facebook') {
-        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
-          'https://www.facebook.com/'));
+      if (type == 'FACEBOOK') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://www.facebook.com/'));
       }
-
     });
     return sanitizedUrls;
   }
