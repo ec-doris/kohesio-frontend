@@ -112,6 +112,7 @@ export class MapComponent implements AfterViewInit {
     takeUntilDestroyed());
   private isFirstLoad = true;
   private stopZoomClusterBecauseOfFilter!: boolean;
+  private countryJson = '';
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -208,12 +209,6 @@ export class MapComponent implements AfterViewInit {
   }
 
   generateQueryParams() {
-    // let interventionFieldQueryParam: string[] = [];
-    // if (this.lastFiltersSearch.interventionField && this.lastFiltersSearch.interventionField.length) {
-    //   this.lastFiltersSearch.interventionField.forEach((interventionFieldValue: AutoCompleteItem) => {
-    //     interventionFieldQueryParam.push(this.getFilterLabel('categoriesOfIntervention', interventionFieldValue as any));
-    //   });
-    // }
     return {
       [this.translateService.queryParams.keywords]: this.lastFiltersSearch.keywords ? this.lastFiltersSearch.keywords.trim() : null,
       [this.translateService.queryParams.country]: this.getFilterLabel('countries', this.lastFiltersSearch.country),
@@ -338,6 +333,11 @@ export class MapComponent implements AfterViewInit {
     if (this.showFilters) {
       this.setUpZoomListener();
     }
+
+    this.map.on('dragend', () => {
+        this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
+        // this.fitToGeoJson(this.countryJson);
+    });
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
@@ -623,7 +623,7 @@ export class MapComponent implements AfterViewInit {
 
     this.mapService.getMapInfo(filters, granularityRegion, this.map.getBounds(), this.map.getZoom().toString()).subscribe(data => {
       this.dataRetrieved = true;
-
+      this.countryJson = filters.country ? data.geoJson : '';
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
         this.mapRegions = [ this.europe ];
         data.upperRegions.reverse().forEach((upperRegion: any) => {
@@ -1058,7 +1058,7 @@ export class MapComponent implements AfterViewInit {
     if (this.filters.projectTypes) {
       (this.filters as any).projectCollection = this.filters.projectTypes;
     }
-    const transFormedFilters= this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
+    const transFormedFilters = this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
 
     merge(
       timer(500).pipe(
@@ -1071,7 +1071,6 @@ export class MapComponent implements AfterViewInit {
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
           this.markers.addData(geojson);
         }),
-
         takeUntil(this.destroyWheelBounds$)
       )
     ).pipe(finalize(() => this.isLoadingZoom = false)).subscribe();
@@ -1080,6 +1079,7 @@ export class MapComponent implements AfterViewInit {
     const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
     this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
     this.isFirstLoad = false;
+    this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
   }
 
   private createGeoJsonFeature({ count, coordinates, isHighlighted, cluster, regionLabel }: any): any {
