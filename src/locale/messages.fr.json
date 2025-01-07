@@ -118,7 +118,7 @@
 		"page.projects.labelinfo.keywords.p3": "Pour faire apparaître aussi les documents qui contiennent un mot ou l’autre, utilisez {$START_BOLD_TEXT}vert OR carbone{$CLOSE_BOLD_TEXT}.",
 		"page.projects.labelinfo.keywords.p4": "Pour exclure un terme des résultats, vous pouvez utiliser l’opérateur - (NOT): {$START_BOLD_TEXT}vert -carbone{$CLOSE_BOLD_TEXT} (projets contenant le terme «vert» mais pas le terme «carbone»).",
 		"page.projects.labelinfo.keywords.p5": "Vous pouvez également rechercher une expression exacte à l’aide de guillemets doubles: la recherche {$START_BOLD_TEXT}«intelligence artificielle»{$CLOSE_BOLD_TEXT} n’affiche que les résultats contenant les mots dans cet ordre.",
-		"page.projects.labelinfo.keywords.p6": "De plus, vous pouvez utiliser l’opérateur étoile comme caractère générique: une recherche portant sur le terme {$START_BOLD_TEXT}gouverner{$CLOSE_BOLD_TEXT}* correspondra à gouvernement, gouvernemental, gouverneurs, etc. (veillez à insérer au moins 3 caractères avant le caractère *).",
+		"page.projects.labelinfo.keywords.p6": "De plus, vous pouvez utiliser l’opérateur étoile comme caractère générique: une recherche portant sur le terme {$START_BOLD_TEXT}gouvern{$CLOSE_BOLD_TEXT}* correspondra à gouvernement, gouvernemental, gouverneurs, etc. (veillez à insérer au moins 3 caractères avant le caractère *).",
 		"page.projects.label.alsoMatching": "Autres correspondances:",
 		"page.projects.label.useMyKeywordsOnly": "Utiliser mes mots-clés uniquement",
 		"page.projects.label.country": "PAYS",
