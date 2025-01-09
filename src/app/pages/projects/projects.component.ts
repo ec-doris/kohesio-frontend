@@ -305,9 +305,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
 
     onSubmit() {
       this.projects = [];
-      if (this.paginatorTop.pageIndex == 0) {
-        this.getProjectList();
-      } else {
+      if (this.paginatorTop.pageIndex != 0) {
         this.goFirstPage();
       }
 

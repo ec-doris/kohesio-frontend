@@ -62,7 +62,7 @@ export class MapService {
       }
     };
 
-    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams)).set('zoom', zoomLevel);
+    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams)).set('zoom', zoomLevel).set('language', this.locale);
     Object.entries(filters).forEach(([ key, value ]: [ string, any ]) => {
       if (value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)) {
         httpParams = httpParams.set(key, value);

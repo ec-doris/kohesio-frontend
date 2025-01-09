@@ -12,7 +12,7 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class FilterService {
-  showResult$$: Subject<{ filters: {}, source?: string }> = new Subject();
+  showResult$$: Subject<{ filters: Filters, source?: string }> = new Subject();
   public filters: any;
   private countryGeoJson: any;
 
@@ -284,7 +284,7 @@ export class FilterService {
       })
     );
   }
-  getFormFilters(form: any){
+  getFormFilters(form: any) : Filters {
     const formValues = { ...form.value || form }; // Use spread operator for shallow copy
 
     if (formValues.interventionField?.length) {

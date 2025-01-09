@@ -72,6 +72,12 @@
                     </ux-popover> -->
                     <span><img class="flag" src="{{'assets/images/flags/'+ beneficiary.countryCode.toLowerCase() + '.png'}}" alt="European Commission Flag"></span>
                 </div>
+                <div class="content">
+                    <span i18n="@@page.home.exploreMore">Explore more: </span>
+
+                    <a class="ecl-link ecl-link--standalone" [href]="beneficiary.picNumber" *ngIf="beneficiary?.picNumber" target="_blank">link</a>
+                    <ng-container *ngIf="!beneficiary?.picNumber" i18n="@@page.beneficiary-detail.label.na">n/a</ng-container>
+                </div>
             </div>
             <div class="kohesio-side-content-block" *ngIf="beneficiary.budgetsPerFund && beneficiary.budgetsPerFund.length">
                 <span class="title" i18n="@@page.beneficiary-detail.label.funds">funds</span>
