@@ -110,6 +110,8 @@ export class MapComponent implements AfterViewInit {
   private stopZoomClusterBecauseOfFilter!: boolean;
   private countryJson = '';
   private destroyRef = inject(DestroyRef);
+  private isMapMovingOnClick!: boolean;
+  private clickedMarker: any;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -319,7 +321,6 @@ export class MapComponent implements AfterViewInit {
 
     this.map.on('dragend', () => {
         this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
-        // this.fitToGeoJson(this.countryJson);
     });
   }
 
@@ -377,6 +378,8 @@ export class MapComponent implements AfterViewInit {
         marker.bindPopup(popupContent);
       } else if (popupContent && popupContent.type == 'async') {
         marker.on('click', () => {
+          this.isMapMovingOnClick = true;
+          this.clickedMarker = marker;
           this.mapService.getProjectsPerCoordinate(popupContent.coordinates, popupContent.filters).subscribe(projects => {
             const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
             component.instance.projects = projects;
@@ -386,6 +389,7 @@ export class MapComponent implements AfterViewInit {
             }).openPopup();
             marker.getPopup().on('remove', () => {
               this.updateCoordsQueryParam(undefined);
+              this.clickedMarker = null;
             });
             this.updateCoordsQueryParam(popupContent.coordinates);
             const latLngs = [ marker.getLatLng() ];
@@ -420,7 +424,6 @@ export class MapComponent implements AfterViewInit {
       if (centralize) {
         this.map.setView(coords, zoomWhenCentralize);
       }
-
       return marker;
     }
   }
@@ -471,9 +474,17 @@ export class MapComponent implements AfterViewInit {
 
   public cleanMap() {
     this.cleanAllLayers();
-    this.removeAllMarkers();
+    this.removeAllMarkersExceptClicked();
   }
-
+  private removeAllMarkersExceptClicked() {
+    if (this.map && this.markersGroup) {
+      this.markersGroup.eachLayer((layer: any) => {
+        if (layer !== this.clickedMarker) {
+          this.markersGroup.removeLayer(layer);
+        }
+      });
+    }
+  }
   public cleanAllLayers() {
     this.layers.forEach(layer => {
       this.map.removeLayer(layer);
@@ -532,7 +543,7 @@ export class MapComponent implements AfterViewInit {
     });
   }
 
-  loadMapRegion(filters: Filters, granularityRegion?: string, reScale?:boolean) {
+  loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
     if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName)) {
@@ -676,15 +687,11 @@ export class MapComponent implements AfterViewInit {
         this.drawPolygonsForRegion(data.geoJson, null);
         this.fitToGeoJson(data.geoJson)
       }
-      const filterLength = Object.entries(filters).filter(([ key, value ]) => key !== 'language' && value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)).length;
       if (data.subregions) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
       }
       this.isLoading = false;
-      // this.stopZoomClusterBecauseOfFilter = stopZoomCluster;
-
-      // this.zoomLevelSubject$$.next(true);
     });
   }
 
@@ -942,8 +949,11 @@ export class MapComponent implements AfterViewInit {
         direction: 'top'
       })
     }
+    this.isMapMovingOnClick = false;
+
     marker.on('click', () => {
       if (!popupContent.properties.cluster) {
+        this.isMapMovingOnClick = true;
         this.mapService.getProjectsPerCoordinates(
           popupContent.geometry.coordinates.toString(),
           this.mapService.boundingBoxToString(this.map.getBounds()),
@@ -952,8 +962,12 @@ export class MapComponent implements AfterViewInit {
             const component = this.resolver.resolveComponentFactory(MapPopupComponent).create(this.injector);
             component.instance.projects = projects;
             component.instance.openProjectInner = this.openProjectInner;
+            this.clickedMarker = marker;
             marker.bindPopup(component.location.nativeElement, { maxWidth: 600 }).openPopup();
-            marker.getPopup().on('remove', () => this.updateCoordsQueryParam(undefined));
+            marker.getPopup().on('remove', () => {
+              this.updateCoordsQueryParam(undefined);
+              this.clickedMarker = null;
+            });
             this.updateCoordsQueryParam(popupContent.coordinates);
             const latLngs = [ marker.getLatLng() ];
             const markerBounds = L.latLngBounds(latLngs);
@@ -1025,7 +1039,13 @@ export class MapComponent implements AfterViewInit {
       }
       this.zoomLevel = this.map.getZoom();
     });
-
+    //On circle marker click the map is moving, and we need to wait for the moveend event to collect the markers/circles for the new bbox
+    this.map.on('moveend', () => {
+      if (this.isMapMovingOnClick) {
+        this.isMapMovingOnClick = false;
+        this.zoomLevelSubject$$.next(true);
+      }
+    });
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
 
