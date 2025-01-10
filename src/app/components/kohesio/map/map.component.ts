@@ -5,12 +5,14 @@ import {
   ChangeDetectorRef,
   Component,
   ComponentFactoryResolver,
+  DestroyRef,
   ElementRef,
   Inject,
   Injector,
   Input,
   LOCALE_ID,
-  ViewChild
+  ViewChild,
+  inject
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
@@ -42,6 +44,7 @@ export class MapComponent implements AfterViewInit {
   projectNearButtonWidth: number = 0;
   mobileFilters = false;
   isLoadingZoom = false;
+
   public filters: Filters = new Filters();
   public europeBounds = L.latLngBounds(L.latLng(69.77369797436554, 48.46330029192563), L.latLng(34.863924198120645, -8.13826220807438));
   public europeBoundsMobile = L.latLngBounds(L.latLng(59.77369797436554, 34.46330029192563), L.latLng(24.863924198120645, -12.13826220807438));
@@ -54,7 +57,6 @@ export class MapComponent implements AfterViewInit {
   public isLoading = true;
   public dataRetrieved = false;
   public outermostRegions = [];
-  // Format L.latLngBounds = southWest, northEast
   public overrideBounds = [ {
     id: 'Q20',
     bounds: L.latLngBounds(L.latLng(41.3403079293, -4.8450636176), L.latLng(51.2587688404, 9.7020364496))
@@ -66,7 +68,6 @@ export class MapComponent implements AfterViewInit {
     bounds: L.latLngBounds(L.latLng(36.8702042109, -9.5360565336), L.latLng(42.2278301749, -6.137649751))
   } ];
   @Input() showFilters = false;
-  // projectNearButtonWidth = 229;
   @Input()
   public mapId = 'map';
   @Input()
@@ -97,21 +98,18 @@ export class MapComponent implements AfterViewInit {
   private map: any;
   private markers: any;
   private markersGroup: any;
-  //private labelsRegionsGroup;
   private layers: any[] = [];
-  private destroyed = new Subject<void>();
   private lastFiltersSearch: any;
-  private hoveredLayer: any;
   private wheelTimeout: any;
   private destroyWheelBounds$ = new Subject<void>();
   private allowZoomListener = true;
   filterResult$$ = this.filterService.showResult$$.pipe(
     filter(_ => this.showFilters),
-    // tap(({ source }) => this.allowZoomListener = source === 'filters reset'),
     takeUntilDestroyed());
   private isFirstLoad = true;
   private stopZoomClusterBecauseOfFilter!: boolean;
   private countryJson = '';
+  private destroyRef = inject(DestroyRef);
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -132,45 +130,33 @@ export class MapComponent implements AfterViewInit {
     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
     breakpointObserver
-      .observe([
-        '(max-width: 768px)'
-      ])
-      .pipe(takeUntil(this.destroyed))
+      .observe([ '(max-width: 768px)' ])
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(result => {
         for (const query of Object.keys(result.breakpoints)) {
           this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10;
           this.mobileQuery = result.breakpoints[query];
         }
       });
+
     breakpointObserver.observe([ Breakpoints.Handset, Breakpoints.Tablet ])
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(result => {
-        if (result.matches) {
-          this.mobileFilters = true;
-        }
-      });
+      .pipe(filter(result => result.matches), takeUntilDestroyed(this.destroyRef))
+      .subscribe(result => this.mobileFilters = true);
+
     if (this.mobileQuery) {
       this.europe.bounds = this.europeBoundsMobile;
     }
 
-    this.mapService.getOutermostRegions().subscribe(data => {
-      this.outermostRegions = data;
-    });
+    this.mapService.getOutermostRegions().subscribe(data => this.outermostRegions = data);
 
     if (!this.isEmbeddedMap) {
       this.queryParamMapRegionName = this.translateService.queryParams.mapRegion;
     }
-
-    //this.createLogScale();
   }
 
-  //Starting the algorithm to create the log scale, dynamically
   createLogScale(data: any) {
-
     const values: number[] = [];
-    data.subregions.forEach((subregion: any) => {
-      values.push(subregion.count);
-    });
+    data.subregions.forEach((subregion: any) => values.push(subregion.count));
 
     const scaleNumber = values.length >= 7 ? 7 : values.length;
     const min = Math.min.apply(Math, values);
@@ -254,10 +240,8 @@ export class MapComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(() => {
-      this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10;
-    });
-    this.filterResult$$.subscribe(({ filters: formVal, source}) => {
+    setTimeout(() => this.projectNearButtonWidth = this.projectNear?.nativeElement.offsetWidth + 10);
+    this.filterResult$$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ filters: formVal, source }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       const rescale = !!(source === 'filters submit' && (formVal.region || formVal.country || formVal.town));
@@ -277,7 +261,7 @@ export class MapComponent implements AfterViewInit {
           concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr })),
           concatMap(() => this.filterService.getFilter('nuts3', { country: environment.entityURL + cntr })),
           concatMap(() => this.filterService.getFilter('priority_axis', { country: environment.entityURL + cntr })),
-          takeUntil(this.destroyed))
+          takeUntilDestroyed(this.destroyRef))
           .subscribe(_ => {
             const params: any = {};
             Object.keys(queryParams.params).forEach((key: any) => {
@@ -802,7 +786,6 @@ export class MapComponent implements AfterViewInit {
         mouseover: (e: any) => {
           const layer = e.target;
           if (layer.feature.properties) {
-            this.hoveredLayer = layer;
             layer.setStyle({
               fillOpacity: 1
             });
@@ -834,8 +817,6 @@ export class MapComponent implements AfterViewInit {
     if (obj) {
       obj.outerHTML = '';
     }
-    this.destroyed.next();
-    this.destroyed.complete();
   }
 
   sanitizeUrl(url: string) {
