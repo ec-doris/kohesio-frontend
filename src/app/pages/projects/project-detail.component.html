@@ -274,40 +274,43 @@
         <div class="kohesio-main-content">
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
-                    <div class="project-theme-image">
-                        <ng-container *ngIf="myForm.controls['image_url'].value || project?.images.length">
-                            <div class="project-image-container hand-pointer"
-                            style="background-image: url('{{ myForm.controls['image_url'].value || project.images[0].image }}');"
-                            (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label,  myForm.controls['image_copyright'].value || project.images[0].imageCopyright)"></div>
-                        </ng-container>
-                        <ng-container>
-                            <div class="default-theme-image" *ngIf="!(myForm.controls['image_url'].value || project?.images.length)">
-                                <ng-container *ngIf="project.themeIds.length == 1">
-                                    <img *ngIf="project?.themeIds" class="topic" [src]="myForm.controls['image_url'].value || 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">
-                                </ng-container>
-                                <ng-container *ngIf="project.themeIds.length > 1">
-                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'" alt="European Commission Topic">
-                                </ng-container>
-                            </div>
-                        </ng-container>
-                        <footer>
-                            <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>
-                            <button class="ecl-button ecl-button--secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>
-                        </footer>
-                    </div>
+<!--                    <div class="project-theme-image">-->
+<!--                        <ng-container *ngIf="myForm.controls['image_url'].value || project?.images.length">-->
+<!--                            <div class="project-image-container hand-pointer"-->
+<!--                            style="background-image: url('{{ myForm.controls['image_url'].value || project.images[0].image }}');"-->
+<!--                            (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label,  myForm.controls['image_copyright'].value || project.images[0].imageCopyright)"></div>-->
+<!--                        </ng-container>-->
+<!--                        <ng-container>-->
+<!--                            <div class="default-theme-image" *ngIf="!(myForm.controls['image_url'].value || project?.images.length)">-->
+<!--                                <ng-container *ngIf="project.themeIds.length == 1">-->
+<!--                                    <img *ngIf="project?.themeIds" class="topic" [src]="myForm.controls['image_url'].value || 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">-->
+<!--                                </ng-container>-->
+<!--                                <ng-container *ngIf="project.themeIds.length > 1">-->
+<!--                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'" alt="European Commission Topic">-->
+<!--                                </ng-container>-->
+<!--                            </div>-->
+<!--                        </ng-container>-->
+<!--                        <footer>-->
+<!--                            <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>-->
+<!--                            <button class="ecl-button ecl-button&#45;&#45;secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>-->
+<!--                        </footer>-->
+<!--                    </div>-->
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
-                            <div class="project-theme-image-mobile">
-                                <ng-container *ngIf="project?.images && project.images.length">
-                                    <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>
-                                </ng-container>
-                                <ng-container>
-                                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'"  alt="European Commission Topic">
-                                    </div>
-                                </ng-container>
-                                <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
-                            </div>
+<!--                            <div class="project-theme-image-mobile">-->
+<!--                                <ng-container *ngIf="project?.images && project.images.length">-->
+<!--                                    <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>-->
+<!--                                </ng-container>-->
+<!--                                <ng-container>-->
+<!--                                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">-->
+<!--                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'"  alt="European Commission Topic">-->
+<!--                                    </div>-->
+<!--                                </ng-container>-->
+<!--                                <footer *ngIf="project?.images && project.images.length">-->
+<!--                                    <span>{{project.images[0].imageCopyright}}</span>-->
+<!--                                    <button class="ecl-button ecl-button&#45;&#45;secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>-->
+<!--                                </footer>-->
+<!--                            </div>-->
                             <h1 class="ecl-u-type-heading-4" style="width: 100%;">
                                 <ng-container *ngIf="editMode">
                                     <kohesio-ecl-form-group>
