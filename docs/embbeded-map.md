@@ -32,6 +32,7 @@ You can customize the map visualization using the following parameters:
 - coords - To show a specific popup in a certain coordinate (default is empty), this parameter depends on the mapRegion parameter 
 - openProjectInner - To show the project detail inside the map window (default is false, it means the projects will open in a new tab window)
 - project - It will open the project directly in a popup (default is empty). This parameter depends on the openProjectInner set to true
+- clusterView - To show the projects in a cluster view (default is false) if not set, the projects will be shown in a region view
 - cci - "Common Identification Code". It will take priority over the others parameters and will show only the coordinates for this particular cci
 - fund - Fund this project was financed from (ex: https://linkedopendata.eu/entity/Q2504369)
 
