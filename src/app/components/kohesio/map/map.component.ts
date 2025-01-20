@@ -8,11 +8,11 @@ import {
   DestroyRef,
   ElementRef,
   Inject,
+  inject,
   Injector,
   Input,
   LOCALE_ID,
-  ViewChild,
-  inject
+  ViewChild
 } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatDialog } from '@angular/material/dialog';
@@ -68,6 +68,7 @@ export class MapComponent implements AfterViewInit {
     bounds: L.latLngBounds(L.latLng(36.8702042109, -9.5360565336), L.latLng(42.2278301749, -6.137649751))
   } ];
   @Input() showFilters = false;
+  @Input() clusterView = true;
   @Input()
   public mapId = 'map';
   @Input()
@@ -94,6 +95,9 @@ export class MapComponent implements AfterViewInit {
   public queryParamMapRegionName = 'mapRegion';
   public queryParamParentLocation = 'parentLocation';
   zoomLevel: any;
+  filterResult$$ = this.filterService.showResult$$.pipe(
+    filter(_ => this.showFilters),
+    takeUntilDestroyed());
   private zoomLevelSubject$$ = new Subject<boolean>();
   private map: any;
   private markers: any;
@@ -103,9 +107,6 @@ export class MapComponent implements AfterViewInit {
   private wheelTimeout: any;
   private destroyWheelBounds$ = new Subject<void>();
   private allowZoomListener = true;
-  filterResult$$ = this.filterService.showResult$$.pipe(
-    filter(_ => this.showFilters),
-    takeUntilDestroyed());
   private isFirstLoad = true;
   private stopZoomClusterBecauseOfFilter!: boolean;
   private countryJson = '';
@@ -303,9 +304,7 @@ export class MapComponent implements AfterViewInit {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     });*/
     tiles.addTo(this.map);
-    this.markers = L.geoJson(null, {
-      pointToLayer: this.createClusterIcon
-    }).addTo(this.map);
+    this.markers = L.geoJson(null, { pointToLayer: this.createClusterIcon }).addTo(this.map);
     // Layer with countries name
     /*const tilesName = L.tileLayer('https://europa.eu/webtools/maps/tiles/countrynames_europe/{z}/{x}/{y}');
     tilesName.addTo(this.map);*/
@@ -315,13 +314,14 @@ export class MapComponent implements AfterViewInit {
       iconUrl: 'assets/images/map/marker-icon-2x.png',
       shadowUrl: 'assets/images/map/marker-shadow.png'
     };
-    if (this.showFilters) {
+    if (this.clusterView) {
       this.setUpZoomListener();
     }
-
-    this.map.on('dragend', () => {
+    if (this.clusterView) {
+      this.map.on('dragend', () => {
         this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
-    });
+      });
+    }
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
@@ -476,15 +476,7 @@ export class MapComponent implements AfterViewInit {
     this.cleanAllLayers();
     this.removeAllMarkersExceptClicked();
   }
-  private removeAllMarkersExceptClicked() {
-    if (this.map && this.markersGroup) {
-      this.markersGroup.eachLayer((layer: any) => {
-        if (layer !== this.clickedMarker) {
-          this.markersGroup.removeLayer(layer);
-        }
-      });
-    }
-  }
+
   public cleanAllLayers() {
     this.layers.forEach(layer => {
       this.map.removeLayer(layer);
@@ -495,17 +487,6 @@ export class MapComponent implements AfterViewInit {
     setTimeout(() => {
       this.map.invalidateSize(true);
     }, 100);
-  }
-
-  public removeAllMarkers() {
-    if (this.map && this.markersGroup) {
-      this.map.removeLayer(this.markersGroup);
-      this.markersGroup = null;
-    }
-    /*if (this.map && this.labelsRegionsGroup) {
-        this.map.removeLayer(this.labelsRegionsGroup);
-        this.labelsRegionsGroup = null;
-    }*/
   }
 
   public fitBounds(bounds: any) {
@@ -546,7 +527,7 @@ export class MapComponent implements AfterViewInit {
   loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
-    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName)) {
+    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
       let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
       let regionsQueryParamArray = regionsQueryParam.split(',');
       granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
@@ -612,8 +593,14 @@ export class MapComponent implements AfterViewInit {
     this.cleanMap();
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
+    // this.mapService.getMapInfo(filters, granularityRegion).subscribe(data => {
 
-    this.mapService.getMapInfo(filters, granularityRegion, this.map.getBounds(), reScale ? -1 : this.map.getZoom().toString()).subscribe(data => {
+    this.mapService.getMapInfo(
+      filters,
+      granularityRegion,
+      this.clusterView ? this.map.getBounds() : undefined,
+      this.clusterView ? (reScale ? -1 : this.map.getZoom().toString()) : undefined
+    ).subscribe(data => {
       this.dataRetrieved = true;
       this.countryJson = filters.country ? data.geoJson : '';
       if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && data.upperRegions && this.hasQueryParams) {
@@ -683,11 +670,11 @@ export class MapComponent implements AfterViewInit {
         });
         this.hideOuterMostRegions = false;
       }
-      if (data.geoJson) {
+      if (data.geoJson && this.clusterView) {
         this.drawPolygonsForRegion(data.geoJson, null);
-        this.fitToGeoJson(data.geoJson)
+        this.fitToGeoJson(data.geoJson);
       }
-      if (data.subregions) {
+      if (data.subregions && this.clusterView) {
         const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
         this.markers.addData(geojson);
       }
@@ -947,7 +934,7 @@ export class MapComponent implements AfterViewInit {
       marker.bindTooltip(popupContent.properties.regionLabel, {
         permanent: false,
         direction: 'top'
-      })
+      });
     }
     this.isMapMovingOnClick = false;
 
@@ -1006,6 +993,27 @@ export class MapComponent implements AfterViewInit {
 
   }
 
+  private removeAllMarkersExceptClicked() {
+    if (this.clusterView) {
+      if (this.map && this.markersGroup) {
+        this.markersGroup.eachLayer((layer: any) => {
+          if (layer !== this.clickedMarker) {
+            this.markersGroup.removeLayer(layer);
+          }
+        });
+      }
+    } else {
+      this.removeAllMarkers();
+    }
+  }
+
+  private removeAllMarkers() {
+    if (this.map && this.markersGroup) {
+      this.map.removeLayer(this.markersGroup);
+      this.markersGroup = null;
+    }
+  }
+
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
       tap(x => {
@@ -1049,7 +1057,7 @@ export class MapComponent implements AfterViewInit {
     this.map.on('dragend', () => this.zoomLevelSubject$$.next(true));
   }
 
-  private collectVisibleCountries(bbox?:any): void {
+  private collectVisibleCountries(bbox?: any): void {
     this.cancelPreviousRequest();
     this.cleanMap();
     const mapBounds: string = bbox || this.map.getBounds();

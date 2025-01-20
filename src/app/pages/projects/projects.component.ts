@@ -7,7 +7,7 @@ import {
   OnDestroy,
   PLATFORM_ID
 } from '@angular/core';
-import { MapRegionComponent } from '../../components/kohesio/map-region/map-region.component';
+import { MapComponent } from '../../components/kohesio/map/map.component';
 import { ProjectService } from "../../services/project.service";
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
@@ -48,7 +48,8 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("paginatorDown") paginatorDown!: MatPaginator;
   @ViewChild("paginatorAssets") paginatorAssets!: MatPaginator;
   @ViewChild("sidenav") sidenav!: MatDrawer;
-  @ViewChild(MapRegionComponent) map!: MapRegionComponent;
+  @ViewChild(MapComponent) map!: MapComponent;
+
   public selectedTabIndex: number = 0;
   public selectedTab: string = this.translateService.projectPage.tabs.results;
   public modalImageUrl = "";
