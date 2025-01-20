@@ -15,6 +15,7 @@ export class MapPageComponent implements AfterViewInit {
   public heatScale: boolean = false;
   public openProjectInner: boolean = false;
   clusterView = false;
+  showFilters = true;
   public cci: [];
   public fund = '';
 
@@ -22,6 +23,7 @@ export class MapPageComponent implements AfterViewInit {
     this.hideProjectsNearBy = (this.actRoute.snapshot.queryParamMap.get('hideProjectsNearBy') == 'true');
     this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == 'true');
     this.openProjectInner = (this.actRoute.snapshot.queryParamMap.get('openProjectInner') == 'true');
+    this.showFilters = (this.actRoute.snapshot.queryParamMap.get('showFilters') == 'true');
     this.country = this.actRoute.snapshot.queryParamMap.get('country');
     this.clusterView = this.actRoute.snapshot.queryParamMap.get('clusterView') == 'true';
     this.cci = this.actRoute.snapshot.queryParamMap.get('cci')?.split(',') as [];
