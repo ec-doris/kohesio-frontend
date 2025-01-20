@@ -45,7 +45,13 @@ export class FilterService {
     getMapFilters(): Observable<FiltersApi>{
       return this.getFilters(
         forkJoin([
-          this.getFilter('countries')
+          this.getFilter('thematic_objectives'),
+          this.getFilter('policy_objectives'),
+          this.getFilter('funds'),
+          this.getFilter('categoriesOfIntervention'),
+          this.getFilter('countries'),
+          this.getFilter('nuts3'),
+          this.getFilter('project_types')
         ])
       );
     }
