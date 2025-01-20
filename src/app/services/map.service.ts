@@ -9,6 +9,7 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class MapService {
+  resetFilters = false;
 
   constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
   }
@@ -16,22 +17,29 @@ export class MapService {
   public getMapInfo(filters?: Filters, granularityRegion?: string, bbox?: any, zoom?: any): Observable<any> {
     const url = environment.api + '/map/search';
     let params: any = {};
-    if (filters) {
-      params = Object.assign(filters.getMapProjectsFilters());
+    // console.trace('getMapInfo');
+    if (this.resetFilters) {
+      params = {
+        zoom: 4,
+        boundingBox: '{"_southWest":{"lat":33.94335994657882,"lng":-28.564453125000004},"_northEast":{"lat":70.1403642720717,"lng":68.81835937500001}}',
+        language: 'en'
+      };
+      this.resetFilters = false;
+    } else {
+      if (filters) {
+        params = Object.assign(filters.getMapProjectsFilters());
+      }
+      if (granularityRegion) {
+        params.granularityRegion = granularityRegion;
+      }
+      params.language = this.locale;
+      if (bbox) {
+        params.boundingBox = this.boundingBoxToString(bbox);
+        params.zoom = zoom;
+      }
     }
-    if (granularityRegion) {
-      params.granularityRegion = granularityRegion;
-    }
-    params.language = this.locale;
-    if (bbox) {
-      params.boundingBox = this.boundingBoxToString(bbox);
-      params.zoom = zoom;
-    }
-    return this.http.get<any>(url, { params: <any>params }).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+    return this.http.get<any>(url, { params: <any>params }).pipe(map(data => data));
   }
 
   boundingBoxToString(bbox: any): string {

@@ -248,6 +248,10 @@ export class MapComponent implements AfterViewInit {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       const rescale = !!(source === 'filters submit' && (formVal.region || formVal.country || formVal.town));
+      if (source === 'filters reset') {
+        this.mapService.resetFilters = true;
+        // this.allowZoomListener = true;
+      }
       this.loadMapRegion(this.lastFiltersSearch, undefined, rescale);
       this.stopZoomClusterBecauseOfFilter = true;
       const fragment = this.translateService.sections.myregion;
