@@ -22,10 +22,6 @@
             <a href="javascript:void(0)" (click)="toggleDisclaimer = !toggleDisclaimer" i18n="@@comp.map.disclaimer" tabindex="-1">Disclaimer</a>
         </div>
         <app-map-message-box></app-map-message-box>
-        <div class="loading-corner" *ngIf="isLoadingZoom">
-            <mat-spinner diameter=150></mat-spinner>
-<!--            <kohesio-ecl-spinner [hasLabel]="false"></kohesio-ecl-spinner>-->
-        </div>
         <div class="map-frame">
             <div [id]="mapId"></div>
         </div>
@@ -50,15 +46,8 @@
                         </svg>
                     </span>
                 </button>
-<!--                <div>zoomLevel {{zoomLevel}}</div>-->
             </div>
-            <div class="filters" (click)="openFilterDialog()" *ngIf="showFilters" [ngStyle]="{'right.px': projectNearButtonWidth }">
-                <button class="ecl-button ecl-button--secondary" type="button"  [matBadge]="filtersCount" [matBadgeHidden]="!filtersCount" matBadgePosition="before" >
-                        <span class="ecl-button__container">
-                            <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.projects.button.filters">Filters</span>
-                        </span>
-                </button>
-            </div>
+
             <div class="right" *ngIf="!hideProjectsNearBy">
                 <button type="button" (click)="onProjectsNearByClick()" class="ecl-button ecl-button--primary" type="button" #projectNear>
                     <span class="ecl-button__container">

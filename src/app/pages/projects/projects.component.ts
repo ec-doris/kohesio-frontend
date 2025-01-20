@@ -4,10 +4,10 @@ import {
   Inject,
   Renderer2,
   ViewChild,
-  ChangeDetectorRef,
   OnDestroy,
   PLATFORM_ID
 } from '@angular/core';
+import { MapComponent } from '../../components/kohesio/map/map.component';
 import { ProjectService } from "../../services/project.service";
 import { UntypedFormGroup, UntypedFormBuilder } from '@angular/forms';
 import { Project } from "../../models/project.model";
@@ -19,7 +19,6 @@ import { FilterService } from "../../services/filter.service";
 import { ProjectList } from "../../models/project-list.model";
 import { FiltersApi } from "../../models/filters-api.model";
 import { environment } from "../../../environments/environment";
-import { MapComponent } from 'src/app/components/kohesio/map/map.component';
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { Subject, takeUntil} from 'rxjs';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -50,6 +49,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
   @ViewChild("paginatorAssets") paginatorAssets!: MatPaginator;
   @ViewChild("sidenav") sidenav!: MatDrawer;
   @ViewChild(MapComponent) map!: MapComponent;
+
   public selectedTabIndex: number = 0;
   public selectedTab: string = this.translateService.projectPage.tabs.results;
   public modalImageUrl = "";
