@@ -247,7 +247,7 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ filters: formVal, source }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      const rescale = !!(source === 'filters submit' && (formVal.region || formVal.country || formVal.town));
+      const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town));
       if (source === 'filters reset' || !this.filtersCount) {
         this.mapService.resetFilters = true;
         // this.allowZoomListener = true;
@@ -1070,13 +1070,13 @@ export class MapComponent implements AfterViewInit {
       (this.filters as any).projectCollection = this.filters.projectTypes;
     }
     const transFormedFilters = this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
-
+    let rescale = transFormedFilters.country || transFormedFilters.town;
     merge(
       timer(500).pipe(
         tap(() => this.isLoadingZoom = true),
         takeUntil(this.destroyWheelBounds$)
       ),
-      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString(), transFormedFilters).pipe(
+      this.mapService.getMapInfoByRegion(mapBounds, rescale ? -1 : this.map.getZoom().toString(), transFormedFilters).pipe(
         tap(data => {
           this.markers.clearLayers();
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
