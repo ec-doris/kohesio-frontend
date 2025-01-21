@@ -502,6 +502,7 @@ export class MapComponent implements AfterViewInit {
   public onProjectsNearByClick() {
     this.cleanMap();
     this.nearByView = true;
+    this.stopZoomClusterBecauseOfFilter = true;
     this.mapService.getPointsNearBy().subscribe(data => {
       data.list.slice().reverse().forEach((point: any) => {
         const coordinates = point.coordinates.split(',');
