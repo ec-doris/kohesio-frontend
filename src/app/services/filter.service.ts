@@ -294,7 +294,7 @@ export class FilterService {
     const formValues = { ...form.value || form }; // Use spread operator for shallow copy
 
     if (formValues.interventionField?.length) {
-      formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item.id);
+      formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item?.id || item);
     }
 
     formValues.nuts3 = formValues.nuts3?.id || undefined;
