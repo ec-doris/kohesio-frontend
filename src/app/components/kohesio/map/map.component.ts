@@ -144,7 +144,7 @@ export class MapComponent implements AfterViewInit {
 
     breakpointObserver.observe([ Breakpoints.Handset, Breakpoints.Tablet ])
       .pipe(filter(result => result.matches), takeUntilDestroyed(this.destroyRef))
-      .subscribe(result => this.mobileFilters = true);
+      .subscribe(() => this.mobileFilters = true);
 
     if (this.mobileQuery) {
       this.europe.bounds = this.europeBoundsMobile;
@@ -247,8 +247,8 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ filters: formVal, source }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      const rescale = !!(source === 'filters submit' && (formVal.region || formVal.country || formVal.town));
-      if (source === 'filters reset') {
+      const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town));
+      if (source === 'filters reset' || !this.filtersCount) {
         this.mapService.resetFilters = true;
         // this.allowZoomListener = true;
       }
@@ -502,6 +502,7 @@ export class MapComponent implements AfterViewInit {
   public onProjectsNearByClick() {
     this.cleanMap();
     this.nearByView = true;
+    this.stopZoomClusterBecauseOfFilter = true;
     this.mapService.getPointsNearBy().subscribe(data => {
       data.list.slice().reverse().forEach((point: any) => {
         const coordinates = point.coordinates.split(',');
@@ -902,7 +903,7 @@ export class MapComponent implements AfterViewInit {
     return L.marker(latlng, { icon });
   }
 
-  addCircleMarkerPopupColored(latitude: any, longitude: any, popupContent: any = undefined, count: number, centralize = true, zoomWhenCentralize = 15) {
+  addCircleMarkerPopupColored(latitude: any, longitude: any, popupContent: any = undefined, count: number) {
     const coords = [ latitude, longitude ];
 
     if (!this.markersGroup) {
@@ -1020,7 +1021,7 @@ export class MapComponent implements AfterViewInit {
 
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
-      tap(x => {
+      tap(() => {
         this.hideOuterMostRegions = true;
         if (this.map.getZoom() < 4) {
           this.markers.clearLayers();
@@ -1069,13 +1070,13 @@ export class MapComponent implements AfterViewInit {
       (this.filters as any).projectCollection = this.filters.projectTypes;
     }
     const transFormedFilters = this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
-
+    let rescale = transFormedFilters.country || transFormedFilters.town;
     merge(
       timer(500).pipe(
         tap(() => this.isLoadingZoom = true),
         takeUntil(this.destroyWheelBounds$)
       ),
-      this.mapService.getMapInfoByRegion(mapBounds, this.map.getZoom().toString(), transFormedFilters).pipe(
+      this.mapService.getMapInfoByRegion(mapBounds, rescale ? -1 : this.map.getZoom().toString(), transFormedFilters).pipe(
         tap(data => {
           this.markers.clearLayers();
           const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
@@ -1104,7 +1105,7 @@ export class MapComponent implements AfterViewInit {
       geometry: { type: 'Point', coordinates: [ lat, lng ] },
       properties: { count, point_count_abbreviated: count, cluster, regionLabel }
     };
-    return this.addCircleMarkerPopupColored(lng, lat, point, count, regionLabel);
+    return this.addCircleMarkerPopupColored(lng, lat, point, count);
   }
 
   private cancelPreviousRequest(): void {
@@ -1147,10 +1148,6 @@ export class MapComponent implements AfterViewInit {
       style.fillColor = '#AAAAAA';
     }
     return style;
-  }
-
-  private getBackgroundColor(properties: any) {
-
   }
 
   private defaultStyle() {
