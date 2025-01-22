@@ -70,8 +70,8 @@
                 <div class="content" style="display: flex; align-items: flex-end" *ngIf="youTube">
                     <a
                         [href]="youTube" target="_blank"
-                        i18n-matTooltip="Share on Twitter|@@comp.footer.link.youtube"
-                        matTooltip="Share on Yotube"
+                        i18n-matTooltip="Watch on Twitter|@@comp.footer.link.youtube"
+                        matTooltip="Watch on YouTube"
                         class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
                         <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
                             <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#youtube-color"></use>
@@ -120,7 +120,10 @@
             <div class="kohesio-side-content-block" *ngIf="editMode">
                 <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
                 <div class="content" style="display: flex">
-                    <span i18n="@@page.project-detail.label.youtube_video_id" style="white-space: nowrap">Youtube ID: </span> &nbsp;
+                    <span  style="white-space: nowrap">
+                      <ng-container i18n="@@comp.footer.link.youtube">Youtube</ng-container> &nbsp;
+                      <ng-container i18n="@@page.project-detail.link.link">link:</ng-container>
+                    </span>
                     <input style="width: 100%" formControlName="youtubeVideoId">
                 </div>
                 <div class="content" style="display: flex;">

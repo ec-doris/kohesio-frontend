@@ -161,7 +161,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           'label': new FormControl(this.project.label, { nonNullable: true }),
           'description': new FormControl(this.project.description, { nonNullable: true }),
           'language': new FormControl(this.translateService.locale, {nonNullable: true}),
-          youtubeVideoId: new FormControl(this.project.youtubeVideoId),
+          // youtubeVideoId: new FormControl(this.project.youtubeVideoId),
+          youtubeVideoId: new FormControl(`https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`),
           twitterUsername: new FormControl(this.project.twitterUsername),
           facebookUserId: new FormControl(this.project.facebookUserId),
           instagramUsername: new FormControl(this.project.instagramUsername),
@@ -509,7 +510,8 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.summary=this.myForm.value.description;
       edit.version_comment=version_comment;
       edit.language = this.myForm.value.language;
-      edit.youtube_video_id = this.myForm.value.youtubeVideoId;
+      // edit.youtube_video_id = this.myForm.value.youtubeVideoId;
+      edit.youtube_video_id = this.project.youtube_parser(this.myForm.value.youtubeVideoId) as string;
       edit.twitter_username = this.myForm.value.twitterUsername;
       edit.facebook_user_id = this.myForm.value.facebookUserId;
       edit.instagram_username = this.myForm.value.instagramUsername;
