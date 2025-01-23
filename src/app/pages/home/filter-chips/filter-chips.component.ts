@@ -28,34 +28,30 @@ export class FilterChipsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.filterService.showResult$$.pipe(
       tap(({ filters }) => this.lastFiltersSearch = filters),
+      map(({ filters }) => this.filterFilters(filters)),
       map(x => {
-        return Object.entries(x.filters)
-          .filter(([ key, value ]: [ string, any ]) => key !== 'language' && value !== undefined && !(Array.isArray(value) && value.length === 0))
-          .reduce((result: Record<string, any>, [ key, value ]: [ string, any ]) => {
-            const filterValue = this.filtersPipe.getFilterValue({ key, value }, key, value);
-            result[filterValue.key] = filterValue.value;
-            return result;
-          }, {});
+        return x.reduce((result: Record<string, any>, [ key, value ]: [ string, any ]) => {
+          const filterValue = this.filtersPipe.getFilterValue({ key, value }, key, value);
+          result[filterValue.key] = filterValue.value;
+          return result;
+        }, {});
       }),
       takeUntilDestroyed(this.destroyRef))
       .subscribe(chips => this.chips = chips);
 
     this.route.queryParams.pipe(
+      map((params) => this.filterFilters(params)),
       map(params => {
-        return Object.entries(params)
-          .filter(([ key, value ]) => key !== 'language' && value !== undefined && !(Array.isArray(value) && value.length === 0))
+        return params
           .reduce((result: Record<string, any>, [ key, value ]) => {
             result[this.translateService.queryParams[key]] = value;
             return result;
           }, {});
       }),
       take(1)
-    )
-      .subscribe(chips => this.chips = chips);
-
+    ).subscribe(chips => this.chips = chips);
   }
 
 
@@ -69,5 +65,18 @@ export class FilterChipsComponent implements OnInit {
       .map(([ key, value ]: [ string, any ]) => [ value.toLowerCase(), key ]))[key.toLowerCase()];
 
     this.filterService.removeFilter(translatedKey == 'programme' ? 'program' : translatedKey, this.lastFiltersSearch);
+  }
+
+  private filterFilters(params: any): [ string, any ][] {
+    return Object.entries(params)
+      .filter(([ key, value ]) =>
+        key !== 'language' &&
+        key !== 'sort' &&
+        key !== 'orderStartDate' &&
+        key !== 'orderEndDate' &&
+        key !== 'orderTotalBudget' &&
+        value !== undefined &&
+        !(Array.isArray(value) && value.length === 0)
+      );
   }
 }
