@@ -86,7 +86,7 @@ export class MapService {
   }
 
   public getPointsNearBy(): Observable<any> {
-    const url = environment.api + '/map/nearby';
+    const url = environment.api + `/map/nearby?useCluster=true&language=${this.locale}`;
     return this.http.get<any>(url).pipe(
       map(data => {
         return data;
