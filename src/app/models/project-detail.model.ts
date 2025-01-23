@@ -60,7 +60,6 @@ export class ProjectDetail implements Deserializable{
     image_copyright!: string;
 
     deserialize(input: any): this {
-      console.log(input.youtubeVideoId);
         return Object.assign(this, {
             item: input.item,
             images: input.images,
