@@ -287,6 +287,7 @@ export class MapComponent implements AfterViewInit {
             const translatedParams = this.translateKeys(params, this.translateService.queryParams);
             this.lastFiltersSearch = new Filters().deserialize(translatedParams);
             this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+            this.stopZoomClusterBecauseOfFilter = true;
             this.loadMapRegion(this.lastFiltersSearch);
           });
       } else {
