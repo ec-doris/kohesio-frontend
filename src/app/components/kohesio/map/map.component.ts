@@ -504,8 +504,8 @@ export class MapComponent implements AfterViewInit {
     this.cleanMap();
     this.nearByView = true;
     this.stopZoomClusterBecauseOfFilter = true;
-    this.mapService.getPointsNearBy().subscribe(data => {
-      data.list.slice().reverse().forEach((point: any) => {
+    this.mapService.getPointsNearBy(this.clusterView).subscribe(data => {
+      (this.clusterView ? data.subregions : data.list).reverse().forEach((point: any) => {
         const coordinates = point.coordinates.split(',');
         const popupContent = {
           type: 'async',
@@ -599,8 +599,6 @@ export class MapComponent implements AfterViewInit {
     this.cleanMap();
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
-    // this.mapService.getMapInfo(filters, granularityRegion).subscribe(data => {
-
     this.mapService.getMapInfo(
       filters,
       granularityRegion,
