@@ -505,16 +505,22 @@ export class MapComponent implements AfterViewInit {
     this.nearByView = true;
     this.stopZoomClusterBecauseOfFilter = true;
     this.mapService.getPointsNearBy(this.clusterView).subscribe(data => {
-      (this.clusterView ? data.subregions : data.list).reverse().forEach((point: any) => {
-        const coordinates = point.coordinates.split(',');
-        const popupContent = {
-          type: 'async',
-          filters: undefined,
-          coordinates: point.coordinates,
-          isHighlighted: point.isHighlighted
-        };
-        this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
-      });
+      if (this.clusterView) {
+        this.markers.clearLayers();
+        const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
+        this.markers.addData(geojson);
+      } else {
+        data.list.reverse().forEach((point: any) => {
+          const coordinates = point.coordinates.split(',');
+          const popupContent = {
+            type: 'async',
+            filters: undefined,
+            coordinates: point.coordinates,
+            isHighlighted: point.isHighlighted
+          };
+          this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+        });
+      }
       if (data.coordinates) {
         const c = data.coordinates.split(',');
         const coords = new L.LatLng(c[0], c[1], 5);
