@@ -1165,4 +1165,8 @@ export class MapComponent implements AfterViewInit {
       fillColor: '#ff7800',
     };
   }
+
+  onReset() {
+    this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
+  }
 }
