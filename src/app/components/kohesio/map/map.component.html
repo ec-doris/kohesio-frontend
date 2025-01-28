@@ -45,7 +45,7 @@
                         &nbsp;
                     </ng-container>
                 }
-                <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb">
+                <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb" *ngIf="!clusterView">
                     <span class="ecl-button__container">
                         <svg *ngIf="collapsedBreadCrumb" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
