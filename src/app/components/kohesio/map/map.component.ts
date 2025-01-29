@@ -584,6 +584,11 @@ export class MapComponent implements AfterViewInit {
   }
 
   loadOutermostRegion(filters: Filters, outermostRegion: any) {
+    if (this.clusterView) {
+      filters.country = outermostRegion.id;
+      this.filterService.showResult$$.next({ filters, source: 'filters submit' });
+      return;
+    }
     const granularityRegion = environment.entityURL + outermostRegion.id;
     this.loadMapVisualization(filters, granularityRegion);
     this.mapRegions = this.mapRegions.slice(0, 1);
@@ -1003,6 +1008,10 @@ export class MapComponent implements AfterViewInit {
 
   }
 
+  onReset() {
+    this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
+  }
+
   private removeAllMarkersExceptClicked() {
     if (this.clusterView) {
       if (this.map && this.markersGroup) {
@@ -1164,9 +1173,5 @@ export class MapComponent implements AfterViewInit {
       fillOpacity: 0.5,
       fillColor: '#ff7800',
     };
-  }
-
-  onReset() {
-    this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
 }
