@@ -539,12 +539,12 @@ export class MapComponent implements AfterViewInit {
   loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
-    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
-      let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
-      let regionsQueryParamArray = regionsQueryParam.split(',');
-      granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
-      this.hasQueryParams = true;
-    }
+    // if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
+    //   let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
+    //   let regionsQueryParamArray = regionsQueryParam.split(',');
+    //   granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
+    //   this.hasQueryParams = true;
+    // }
 
     if (!granularityRegion) {
       this.mapRegions = [];
@@ -584,12 +584,16 @@ export class MapComponent implements AfterViewInit {
   }
 
   loadOutermostRegion(filters: Filters, outermostRegion: any) {
+    const granularityRegion = environment.entityURL + outermostRegion.id;
     if (this.clusterView) {
-      filters.country = outermostRegion.id;
-      this.filterService.showResult$$.next({ filters, source: 'filters submit' });
+      filters.country = outermostRegion.country;
+      this.mapRegions.push({
+        label: outermostRegion.countryLabel,
+        region: granularityRegion
+      });
+      this.loadMapRegion(filters, granularityRegion);
       return;
     }
-    const granularityRegion = environment.entityURL + outermostRegion.id;
     this.loadMapVisualization(filters, granularityRegion);
     this.mapRegions = this.mapRegions.slice(0, 1);
 
@@ -1009,6 +1013,8 @@ export class MapComponent implements AfterViewInit {
   }
 
   onReset() {
+    this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
+    this.mapRegions = [this.europe];
     this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
 
