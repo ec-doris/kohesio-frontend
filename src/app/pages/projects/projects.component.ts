@@ -194,6 +194,9 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     this.onThemeChange();
     this.getThemes();
     this.filterResult$$.subscribe(result => {
+      if (!result.filters.sort) {
+        result.filters.sort = null;
+      }
       this.myForm.patchValue(result.filters);
       this.lastFiltersSearch = result.filters;
       this.getProjectList();

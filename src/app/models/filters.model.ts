@@ -34,6 +34,7 @@ export class Filters implements Deserializable{
     public priority_axis: string | undefined;
     public projectTypes: string | undefined;
     public town: string | undefined;
+    sort: string | undefined| null;
 
     deserialize(input: any): this {
 
