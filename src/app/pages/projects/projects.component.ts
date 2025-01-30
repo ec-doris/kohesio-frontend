@@ -12,6 +12,7 @@ import { ImageOverlayComponent } from 'src/app/components/kohesio/image-overlay/
 import { environment } from '../../../environments/environment';
 import { AutoCompleteItem } from '../../components/kohesio/auto-complete/item.model';
 import { MapComponent } from '../../components/kohesio/map/map.component';
+import { KohesioMultiAutoCompleteComponent } from '../../components/kohesio/multi-auto-complete/multi-auto-complete.component';
 import { FiltersApi } from '../../models/filters-api.model';
 import { Filters } from '../../models/filters.model';
 import { ProjectList } from '../../models/project-list.model';
@@ -26,6 +27,7 @@ import { TranslateService } from '../../services/translate.service';
   styleUrls: [ './projects.component.scss' ]
 })
 export class ProjectsComponent implements AfterViewInit, OnDestroy {
+  @ViewChild(KohesioMultiAutoCompleteComponent) kohesioMultiAutoCompleteComponent!: KohesioMultiAutoCompleteComponent;
 
   public projects!: Project[];
   public assets: any[] = [];
@@ -139,7 +141,6 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       this.myForm.value.nuts3 || this.myForm.value.priority_axis || this.myForm.value.projectCollection || this.myForm.value.town) {
       this.advancedFilterIsExpanded = true;
     }
-    ;
 
     if (this._route.snapshot.queryParamMap.has(this.translateService.queryParams.tab)) {
       const tabParam = this._route.snapshot.queryParamMap.get(this.translateService.queryParams.tab);
@@ -197,10 +198,19 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
       if (!result.filters.sort) {
         result.filters.sort = null;
       }
-      this.myForm.patchValue(result.filters);
+
+      const transformedFilters = this.filterService.getFormFilters(result.filters);
+      if (transformedFilters.interventionField) {
+        transformedFilters.interventionField = this.transformFiltersToAutoCompleteItems(transformedFilters.interventionField)  as any;
+      }
+      this.myForm.patchValue(transformedFilters);
       this.lastFiltersSearch = result.filters;
       this.getProjectList();
     });
+  }
+
+  transformFiltersToAutoCompleteItems(filters: any): AutoCompleteItem[] {
+    return Object.keys(filters).map(key => ({ id: filters[key], label: '', selected: false }));
   }
 
   ngAfterViewInit(): void {
