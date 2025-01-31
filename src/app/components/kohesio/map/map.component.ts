@@ -1106,7 +1106,9 @@ export class MapComponent implements AfterViewInit {
     ).pipe(finalize(() => this.isLoadingZoom = false)).subscribe();
     /* The fragment causes the page to scroll to the map instead of the top when the page first loads.
     However, it should remain active when the user navigates between regions. */
-    const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
+    // i am leaving this here for now, cuz not able to remember why i did it...but it should be removed if the fragment's check is not needed
+    // const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
+    const fragment = this.translateService.sections.myregion;
     this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
     this.isFirstLoad = false;
     this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
