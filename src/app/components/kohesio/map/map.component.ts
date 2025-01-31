@@ -924,17 +924,15 @@ export class MapComponent implements AfterViewInit {
       this.markersGroup = new L.FeatureGroup();
       this.map.addLayer(this.markersGroup);
     }
-    const small = '#24A148';
-    const medium = '#FFBE5C';
-    const large = '#F39811';
+
     const formatCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
-    const size = count < 100 ? 'small' : count < 10000 ? 'medium' : 'large';
     const marker = L.marker(coords, {
       icon: L.divIcon({
-        html: `<div style="
+        html: `<div class="NIKI" style="
       width: 32px;
       height: 32px;
-      background-color: ${size === 'small' ? small : size === 'medium' ? medium : large};
+      background-color: #369;
+      border: 2px solid #15487b;
       border-radius: 50%;
       display: flex;
       align-items: center;
@@ -945,7 +943,7 @@ export class MapComponent implements AfterViewInit {
     ">
       ${formatCount}
     </div>`,
-        className: `marker-cluster marker-cluster-${size}`,
+        className: `marker-cluster`,
         iconSize: L.point(42, 42)
       })
     });
