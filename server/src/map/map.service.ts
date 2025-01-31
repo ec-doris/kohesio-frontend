@@ -219,7 +219,8 @@ export class MapService {
     })
     return await firstValueFrom(
       this.httpService.get<MapSearchNearbyOutDTO>(`${this.baseUrl}/map/nearby`, {
-        headers:headers
+        headers: headers,
+        params: req.query.useCluster ? { useCluster: req.query.useCluster, language: req.query.language } : {}
       }).pipe(
         map((result:any)=>{
           const data:Object = result.data;

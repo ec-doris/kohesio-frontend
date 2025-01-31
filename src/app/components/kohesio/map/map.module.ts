@@ -7,7 +7,6 @@ import { SharedModule } from '../../../../shared/shared.module';
 import { MaterialModule } from '../../../material/material.module';
 import { MapPageComponent } from '../../../pages/map/map-page.component';
 import { KohesioEclSpinnerModule } from '../../ecl/spinner/spinner.ecl.module';
-import { MapRegionComponent } from '../map-region/map-region.component';
 import { MapMessageBoxComponent } from './map-message-box';
 import { MapPopupComponent } from './map-popup.component';
 import { MapComponent } from './map.component';
@@ -22,7 +21,6 @@ import { MapComponent } from './map.component';
     KohesioEclSpinnerModule
   ],
   declarations: [
-    MapRegionComponent,
     MapComponent,
     MapPopupComponent,
     OutermostRegionsPipe,
@@ -31,7 +29,6 @@ import { MapComponent } from './map.component';
   ],
   exports: [
     MapComponent,
-    MapRegionComponent,
     OutermostRegionsPipe
   ],
   providers: []

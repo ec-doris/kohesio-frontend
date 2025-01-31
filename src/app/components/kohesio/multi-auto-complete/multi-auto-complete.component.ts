@@ -53,11 +53,11 @@ export class KohesioMultiAutoCompleteComponent implements ControlValueAccessor, 
       this.inputValue = undefined;
       this.selectedItems = [];
     }
-    if (obj && obj.length){
-      obj.forEach((o:AutoCompleteItem)=>{
-        o.selected = true;
-        this.selectedItems.push(o)
-      })
+    if (obj && obj.length) {
+      obj.forEach((o: AutoCompleteItem) => {
+        // o.selected = true;
+        // this.selectedItems.push(o);
+      });
     }
     this.inputValue = obj;
   }
@@ -145,6 +145,10 @@ export class KohesioMultiAutoCompleteComponent implements ControlValueAccessor, 
   }
 
   public onOpen(){
+    if(!this.selectedItems.length) {
+      this.items.forEach((item: AutoCompleteItem) => item.subItems?.forEach(x=>x.selected = false));
+    }
+
     this.internalItems = of(this.items);
   }
 

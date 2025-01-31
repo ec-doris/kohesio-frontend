@@ -34,13 +34,18 @@
                 <kohesio-ecl-spinner></kohesio-ecl-spinner>
             </div>
             <div class="map-regions-wrapper">
-                <ng-container *ngIf="!collapsedBreadCrumb">
+                @if (clusterView) {
+                    <button type="button" (click)="onReset()" class="ecl-button ecl-button--secondary" type="button">
+                        {{ this.europe.label }}
+                    </button>
+                    &nbsp;
+                } @else {
                     <ng-container *ngFor="let region of mapRegions">
                         <button type="button" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
                         &nbsp;
                     </ng-container>
-                </ng-container>
-                <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb">
+                }
+                <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb" *ngIf="!clusterView">
                     <span class="ecl-button__container">
                         <svg *ngIf="collapsedBreadCrumb" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
                             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>

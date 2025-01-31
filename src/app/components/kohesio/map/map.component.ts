@@ -287,6 +287,7 @@ export class MapComponent implements AfterViewInit {
             const translatedParams = this.translateKeys(params, this.translateService.queryParams);
             this.lastFiltersSearch = new Filters().deserialize(translatedParams);
             this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+            this.stopZoomClusterBecauseOfFilter = true;
             this.loadMapRegion(this.lastFiltersSearch);
           });
       } else {
@@ -503,17 +504,23 @@ export class MapComponent implements AfterViewInit {
     this.cleanMap();
     this.nearByView = true;
     this.stopZoomClusterBecauseOfFilter = true;
-    this.mapService.getPointsNearBy().subscribe(data => {
-      data.list.slice().reverse().forEach((point: any) => {
-        const coordinates = point.coordinates.split(',');
-        const popupContent = {
-          type: 'async',
-          filters: undefined,
-          coordinates: point.coordinates,
-          isHighlighted: point.isHighlighted
-        };
-        this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
-      });
+    this.mapService.getPointsNearBy(this.clusterView).subscribe(data => {
+      if (this.clusterView) {
+        this.markers.clearLayers();
+        const geojson = data.subregions.map((subregion: any) => this.createGeoJsonFeature(subregion)).filter((feature: {}) => feature);
+        this.markers.addData(geojson);
+      } else {
+        data.list.reverse().forEach((point: any) => {
+          const coordinates = point.coordinates.split(',');
+          const popupContent = {
+            type: 'async',
+            filters: undefined,
+            coordinates: point.coordinates,
+            isHighlighted: point.isHighlighted
+          };
+          this.addCircleMarkerPopup(coordinates[1], coordinates[0], popupContent);
+        });
+      }
       if (data.coordinates) {
         const c = data.coordinates.split(',');
         const coords = new L.LatLng(c[0], c[1], 5);
@@ -532,12 +539,12 @@ export class MapComponent implements AfterViewInit {
   loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
-    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
-      let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
-      let regionsQueryParamArray = regionsQueryParam.split(',');
-      granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
-      this.hasQueryParams = true;
-    }
+    // if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
+    //   let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
+    //   let regionsQueryParamArray = regionsQueryParam.split(',');
+    //   granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
+    //   this.hasQueryParams = true;
+    // }
 
     if (!granularityRegion) {
       this.mapRegions = [];
@@ -578,6 +585,15 @@ export class MapComponent implements AfterViewInit {
 
   loadOutermostRegion(filters: Filters, outermostRegion: any) {
     const granularityRegion = environment.entityURL + outermostRegion.id;
+    if (this.clusterView) {
+      filters.country = outermostRegion.country;
+      this.mapRegions.push({
+        label: outermostRegion.countryLabel,
+        region: granularityRegion
+      });
+      this.loadMapRegion(filters, granularityRegion);
+      return;
+    }
     this.loadMapVisualization(filters, granularityRegion);
     this.mapRegions = this.mapRegions.slice(0, 1);
 
@@ -598,8 +614,6 @@ export class MapComponent implements AfterViewInit {
     this.cleanMap();
     this.dataRetrieved = false;
     this.activeLoadingAfter1Second();
-    // this.mapService.getMapInfo(filters, granularityRegion).subscribe(data => {
-
     this.mapService.getMapInfo(
       filters,
       granularityRegion,
@@ -996,6 +1010,12 @@ export class MapComponent implements AfterViewInit {
     //
     return marker;
 
+  }
+
+  onReset() {
+    this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
+    this.mapRegions = [this.europe];
+    this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
 
   private removeAllMarkersExceptClicked() {

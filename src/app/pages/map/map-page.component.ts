@@ -23,7 +23,7 @@ export class MapPageComponent implements AfterViewInit {
     this.hideProjectsNearBy = (this.actRoute.snapshot.queryParamMap.get('hideProjectsNearBy') == 'true');
     this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == 'true');
     this.openProjectInner = (this.actRoute.snapshot.queryParamMap.get('openProjectInner') == 'true');
-    this.showFilters = (this.actRoute.snapshot.queryParamMap.get('showFilters') == 'true');
+    this.showFilters = this.actRoute.snapshot.queryParamMap.get('showFilters') == 'true' || this.actRoute.snapshot.queryParamMap.get('showFilters') === null;
     this.country = this.actRoute.snapshot.queryParamMap.get('country');
     this.clusterView = this.actRoute.snapshot.queryParamMap.get('clusterView') == 'true';
     this.cci = this.actRoute.snapshot.queryParamMap.get('cci')?.split(',') as [];
