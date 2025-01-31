@@ -937,9 +937,9 @@ export class MapComponent implements AfterViewInit {
       display: flex;
       align-items: center;
       justify-content: center;
-      color: black;
+      color: white;
       font-size: 12px;
-      font-weight: 400;
+      font-weight: 700;
     ">
       ${formatCount}
     </div>`,
