@@ -247,7 +247,7 @@ export class MapComponent implements AfterViewInit {
     this.filterResult$$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(({ filters: formVal, source }) => {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
-      const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town));
+      const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town || formVal.nuts3));
       if (source === 'filters reset' || !this.filtersCount) {
         this.mapService.resetFilters = true;
         // this.allowZoomListener = true;
@@ -924,28 +924,26 @@ export class MapComponent implements AfterViewInit {
       this.markersGroup = new L.FeatureGroup();
       this.map.addLayer(this.markersGroup);
     }
-    const small = '#24A148';
-    const medium = '#FFBE5C';
-    const large = '#F39811';
+
     const formatCount = count > 999 ? (count / 1000).toFixed(1) + 'k' : count;
-    const size = count < 100 ? 'small' : count < 10000 ? 'medium' : 'large';
     const marker = L.marker(coords, {
       icon: L.divIcon({
-        html: `<div style="
+        html: `<div class="NIKI" style="
       width: 32px;
       height: 32px;
-      background-color: ${size === 'small' ? small : size === 'medium' ? medium : large};
+      background-color: #369;
+      border: 2px solid #15487b;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      color: black;
+      color: white;
       font-size: 12px;
-      font-weight: 400;
+      font-weight: 700;
     ">
       ${formatCount}
     </div>`,
-        className: `marker-cluster marker-cluster-${size}`,
+        className: `marker-cluster`,
         iconSize: L.point(42, 42)
       })
     });
@@ -1108,7 +1106,9 @@ export class MapComponent implements AfterViewInit {
     ).pipe(finalize(() => this.isLoadingZoom = false)).subscribe();
     /* The fragment causes the page to scroll to the map instead of the top when the page first loads.
     However, it should remain active when the user navigates between regions. */
-    const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
+    // i am leaving this here for now, cuz not able to remember why i did it...but it should be removed if the fragment's check is not needed
+    // const fragment = this.isFirstLoad ? undefined : this.translateService.sections.myregion;
+    const fragment = this.translateService.sections.myregion;
     this._router.navigate([], { relativeTo: this._route, fragment, queryParamsHandling: 'merge', skipLocationChange: true });
     this.isFirstLoad = false;
     this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
