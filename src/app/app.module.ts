@@ -5,7 +5,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomePageComponent } from './pages/home/home.component';
-import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
 import {DatePipe, DecimalPipe, isPlatformBrowser, ViewportScroller} from '@angular/common';
 
 import { registerLocaleData } from '@angular/common';
@@ -36,48 +36,42 @@ import {MapClusterComponentModule} from "./components/kohesio/map-cluster/map-cl
 registerLocaleData(LocaleFr);
 registerLocaleData(LocaleEnglish);
 
-@NgModule({
-  declarations: [
-    AppComponent,
-    HomePageComponent,
-    AboutComponent,
-    PrivacyPageComponent,
-    AccessibilityPageComponent,
-    ThemesComponent,
-    NotFoundComponent,
-    ForbiddenComponent,
-    ServicesPageComponent
-  ],
-  imports: [
-    AppRoutingModule,
-    BrowserModule.withServerTransition({ appId: 'serverApp' }),
-    HttpClientModule,
-    BrowserAnimationsModule,
-    ReactiveFormsModule,
-    MapComponentModule,
-    MapClusterComponentModule,
-    CarouselEclModule,
-    SiteHeaderEclModule,
-    FooterEclModule,
-    ProjectDetailModalModule,
-    MatDialogModule,
-    SurveyDialogModule,
-    SharedModule
-  ],
-  providers: [
-    DecimalPipe,
-    DatePipe,
-    provideHttpClient(withFetch()),
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeAppCustomLogic,
-      deps:[UserService, PLATFORM_ID],
-      multi: true,
-    },
-    {provide: HTTP_INTERCEPTORS, useClass: TransferStateInterceptor, multi: true}
-  ],
-  bootstrap: [AppComponent]
-})
+@NgModule({ declarations: [
+        AppComponent,
+        HomePageComponent,
+        AboutComponent,
+        PrivacyPageComponent,
+        AccessibilityPageComponent,
+        ThemesComponent,
+        NotFoundComponent,
+        ForbiddenComponent,
+        ServicesPageComponent
+    ],
+    bootstrap: [AppComponent], imports: [AppRoutingModule,
+        BrowserModule.withServerTransition({ appId: 'serverApp' }),
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        MapComponentModule,
+        MapClusterComponentModule,
+        CarouselEclModule,
+        SiteHeaderEclModule,
+        FooterEclModule,
+        ProjectDetailModalModule,
+        MatDialogModule,
+        SurveyDialogModule,
+        SharedModule], providers: [
+        DecimalPipe,
+        DatePipe,
+        provideHttpClient(withFetch()),
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeAppCustomLogic,
+            deps: [UserService, PLATFORM_ID],
+            multi: true,
+        },
+        { provide: HTTP_INTERCEPTORS, useClass: TransferStateInterceptor, multi: true },
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
 
 export function initializeAppCustomLogic(userService: UserService, platformId: Object): () => Observable<any> {

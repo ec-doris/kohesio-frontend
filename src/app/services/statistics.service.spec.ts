@@ -1,6 +1,6 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { StatisticsService } from "./statistics.service";
 import { Statistics } from '../models/statistics.model';
 
@@ -12,11 +12,13 @@ describe('StatisticsService', () => {
     beforeEach(async () => { 
 
         TestBed.configureTestingModule({
-            imports: [ HttpClientTestingModule ],
-            providers: [
-                StatisticsService
-            ]
-        });
+    imports: [],
+    providers: [
+        StatisticsService,
+        provideHttpClient(withInterceptorsFromDi()),
+        provideHttpClientTesting()
+    ]
+});
       
         httpClient = TestBed.inject(HttpClient);
         httpTestingController = TestBed.inject(HttpTestingController);

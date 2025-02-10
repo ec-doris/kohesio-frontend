@@ -1,5 +1,5 @@
 import {Inject, Injectable, PLATFORM_ID} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {catchError, map} from 'rxjs/operators';
 import {EMPTY, Observable, throwError} from 'rxjs';
 import { plainToInstance } from 'class-transformer';

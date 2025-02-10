@@ -1,5 +1,5 @@
 import {Inject, Injectable, Optional} from "@angular/core";
-import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from "@angular/common/http";
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from "@angular/common/http";
 import {TransferStateService} from "../services/transfer-state.service";
 import {Observable, of} from "rxjs";
 import {tap} from "rxjs/operators";

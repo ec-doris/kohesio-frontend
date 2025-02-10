@@ -1,5 +1,5 @@
 import {Inject, Injectable, LOCALE_ID} from '@angular/core';
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {FilterService} from "./filter.service";
 import {ActivatedRoute, ParamMap, Router, UrlSegment} from "@angular/router";
 import {Observable, Observer, forkJoin, firstValueFrom} from "rxjs";
