@@ -9,28 +9,54 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class MapService {
+  resetFilters = false;
 
   constructor(private http: HttpClient, @Inject(LOCALE_ID) public locale: string) {
   }
 
-  public getMapInfo(filters?: Filters, granularityRegion?: string): Observable<any> {
+  public getMapInfo(filters?: Filters, granularityRegion?: string, bbox?: any, zoom?: any): Observable<any> {
     const url = environment.api + '/map/search';
     let params: any = {};
-    if (filters) {
-      params = Object.assign(filters.getMapProjectsFilters());
+    // console.trace('getMapInfo');
+    if (this.resetFilters) {
+      params = {
+        zoom: 4,
+        boundingBox: '{"_southWest":{"lat":33.94335994657882,"lng":-28.564453125000004},"_northEast":{"lat":70.1403642720717,"lng":68.81835937500001}}',
+        language: 'en'
+      };
+      this.resetFilters = false;
+    } else {
+      if (filters) {
+        params = Object.assign(filters.getMapProjectsFilters());
+      }
+      if (granularityRegion) {
+        params.granularityRegion = granularityRegion;
+      }
+      params.language = this.locale;
+      if (bbox) {
+        params.boundingBox = this.boundingBoxToString(bbox);
+        params.zoom = zoom;
+      }
     }
-    if (granularityRegion) {
-      params.granularityRegion = granularityRegion;
-    }
-    params.language = this.locale;
-    return this.http.get<any>(url, { params: <any>params }).pipe(
-      map(data => {
-        return data;
-      })
-    );
+
+    return this.http.get<any>(url, { params: <any>params }).pipe(map(data => data));
   }
 
-  getMapInfoByRegion(params: any): Observable<any> {
+  boundingBoxToString(bbox: any): string {
+    const transformedParams = {
+      _southWest: {
+        lat: bbox._southWest.lat,
+        lng: bbox._southWest.lng
+      },
+      _northEast: {
+        lat: bbox._northEast.lat,
+        lng: bbox._northEast.lng
+      }
+    };
+    return JSON.stringify(transformedParams);
+  }
+
+  getMapInfoByRegion(params: any, zoomLevel: string, filters: any): Observable<any> {
     const url = environment.api + '/map/search';
 
     const transformedParams = {
@@ -44,14 +70,27 @@ export class MapService {
       }
     };
 
-
-    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams));
+    let httpParams = new HttpParams().set('boundingBox', JSON.stringify(transformedParams)).set('zoom', zoomLevel).set('language', this.locale);
+    Object.entries(filters).forEach(([ key, value ]: [ string, any ]) => {
+      if (value !== undefined && value !== '' && !(Array.isArray(value) && value.length === 0)) {
+        httpParams = httpParams.set(key, value);
+      }
+    });
+    if (httpParams.get('country') && !httpParams.get('region')) {
+      httpParams = httpParams.set('granularityRegion', httpParams.get('country') as any);
+    } else if (httpParams.get('region')) {
+      httpParams = httpParams.set('granularityRegion', httpParams.get('region') as any);
+    }
 
     return this.http.get<any>(url, { params: httpParams });
   }
 
-  public getPointsNearBy(): Observable<any> {
-    const url = environment.api + '/map/nearby';
+  getPointsNearBy(useCluster: boolean): Observable<any> {
+    let url = environment.api + '/map/nearby';
+    if (useCluster) {
+      url += `?useCluster=true&language=${this.locale}`;
+    }
+
     return this.http.get<any>(url).pipe(
       map(data => {
         return data;
@@ -67,6 +106,23 @@ export class MapService {
     }
     params.coordinate = coordinates;
     params.language = this.locale;
+    return this.http.get<any>(url, { params: <any>params }).pipe(
+      map(data => {
+        return data;
+      })
+    );
+  }
+
+  getProjectsPerCoordinates(coordinates: string, bbox: string, zoom: string, filters?: Filters): Observable<any> {
+    const url = environment.api + '/map/point';
+    let params: any = {};
+    if (filters) {
+      params = Object.assign(filters.getProjectsFilters());
+    }
+    params.coordinate = coordinates;
+    params.language = this.locale;
+    params.boundingBox = bbox;
+    params.zoom = zoom;
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;

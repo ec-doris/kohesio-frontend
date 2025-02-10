@@ -16,6 +16,7 @@ export class BeneficiaryDetail implements Deserializable{
     totalBudget: number = 0;
     totalEuBudget: number = 0;
     website: string = "";
+    picNumber: string = "";
     description: string = "";
     coordinates: string = "";
     budgetsPerFund!: [{
@@ -40,6 +41,7 @@ export class BeneficiaryDetail implements Deserializable{
             totalBudget: input.totalBudget,
             totalEuBudget: input.totalEuBudget,
             website: input.website,
+            picNumber: input.picNumber,
             description: input.description,
             coordinates: input.coordinates,
             budgetsPerFund: input.budgetsPerFund,

@@ -1,4 +1,5 @@
 import { NgModule } from '@angular/core';
+import { FilterChipsComponent } from '../home/filter-chips/filter-chips.component';
 import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './projects.component';
 import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
@@ -74,7 +75,8 @@ import {TruncateHtmlPipe} from "../../pipes/truncate-html.pipe";
     DialogEclModule,
     KohesioEclDropDownButtonModule,
     KohesioEclMessageModule,
-    OverlayModule
+    OverlayModule,
+    FilterChipsComponent
   ],
     declarations: [
         ProjectsComponent,

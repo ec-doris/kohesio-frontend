@@ -1,4 +1,6 @@
 import {AfterViewInit, Component, Inject, Input, PLATFORM_ID, Renderer2, ViewChild} from '@angular/core';
+import { filter } from 'rxjs';
+import { ImageEditFormComponent } from '../../components/kohesio/image-edit-form/image-edit-form.component';
 import {ProjectService} from "../../services/project.service";
 import {Router, ActivatedRoute, Params} from '@angular/router';
 import {ProjectDetail} from "../../models/project-detail.model";
@@ -126,6 +128,10 @@ export class ProjectDetailComponent implements AfterViewInit {
     public messageLanguageEditConflict?:string;
     public errorMessage?:string;
     public successMessage?:string;
+    youTube!: string;
+    tweet!: string;
+    facebook!: string;
+    instagram!: string;
 
     constructor(public dialog: MatDialog,
                 private projectService: ProjectService,
@@ -154,7 +160,15 @@ export class ProjectDetailComponent implements AfterViewInit {
           'status': new FormControl(),
           'label': new FormControl(this.project.label, { nonNullable: true }),
           'description': new FormControl(this.project.description, { nonNullable: true }),
-          'language': new FormControl(this.translateService.locale, {nonNullable: true})
+          'language': new FormControl(this.translateService.locale, {nonNullable: true}),
+          // youtubeVideoId: new FormControl(this.project.youtubeVideoId),
+          youtubeVideoId: new FormControl(`https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`),
+          twitterUsername: new FormControl(this.project.twitterUsername),
+          facebookUserId: new FormControl(this.project.facebookUserId),
+          instagramUsername: new FormControl(this.project.instagramUsername),
+          image_url: new FormControl(this.project.image_url),
+          image_description: new FormControl(this.project.image_description),
+          image_copyright: new FormControl(this.project.image_copyright)
         })
 
 
@@ -171,7 +185,12 @@ export class ProjectDetailComponent implements AfterViewInit {
             });
           }
         }
-
+        const youtubeUrl = `https://www.youtube.com/watch?v=${this.project.youtubeVideoId}`;
+        this.youTube = this.project.youtubeVideoId ? this.sanitizeUrls([ youtubeUrl ], 'YOUTUBE')[0]?.changingThisBreaksApplicationSecurity : '';
+        // this.tweet = this.project.twitterUsername;
+        this.tweet = this.project.twitterUsername ? this.sanitizeUrls([''], 'TWITTER')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.facebook = this.project.facebookUserId ? this.sanitizeUrls([''], 'FACEBOOK')[0]?.changingThisBreaksApplicationSecurity : '';
+        this.instagram = this.project.instagramUsername ? this.sanitizeUrls([''], 'INSTAGRAM')[0]?.changingThisBreaksApplicationSecurity : '';
         this.project.videos = this.sanitizeUrls(this.project.videos, 'YOUTUBE');
 
     }
@@ -193,7 +212,8 @@ export class ProjectDetailComponent implements AfterViewInit {
           } else {
             this.map.addCountryLayer(this.project.countryLabel);
           }
-          (<any>window).twttr.widgets.load();
+          // since <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> doesn't exist in index.html anymore
+          // (<any>window).twttr.widgets.load();
         }
 
     }
@@ -321,6 +341,13 @@ export class ProjectDetailComponent implements AfterViewInit {
                   status: edit.latest_version.status,
                   label: edit.latest_version.label,
                   description: edit.latest_version.summary,
+                  youtubeVideoId: `https://www.youtube.com/watch?v=${edit.latest_version.youtube_video_id}`,
+                  twitterUsername: edit.latest_version.twitter_username,
+                  facebookUserId: edit.latest_version.facebook_user_id,
+                  instagramUsername: edit.latest_version.instagram_username,
+                  image_url: edit.latest_version.image_url,
+                  image_description: edit.latest_version.image_description,
+                  image_copyright: edit.latest_version.image_copyright,
                   language: edit.language
                 });
                 this.myForm.markAsPristine();
@@ -407,6 +434,13 @@ export class ProjectDetailComponent implements AfterViewInit {
             versionId: version.edit_version_id,
             status: version.status,
             label: version.label,
+            youtubeVideoId: `https://www.youtube.com/watch?v=${version.youtube_video_id}`,
+            twitterUsername: version.twitter_username,
+            facebookUserId: version.facebook_user_id,
+            instagramUsername: version.instagram_username,
+            image_url: version.image_url,
+            image_description: version.image_description,
+            image_copyright: version.image_copyright,
             description: version.summary
           });
           this.updateQueryParams("editVersion", version.edit_version_id);
@@ -475,7 +509,15 @@ export class ProjectDetailComponent implements AfterViewInit {
       edit.label=this.myForm.value.label;
       edit.summary=this.myForm.value.description;
       edit.version_comment=version_comment;
-      edit.language=this.myForm.value.language;
+      edit.language = this.myForm.value.language;
+      // edit.youtube_video_id = this.myForm.value.youtubeVideoId;
+      edit.youtube_video_id = this.project.youtube_parser(this.myForm.value.youtubeVideoId) as string;
+      edit.twitter_username = this.myForm.value.twitterUsername;
+      edit.facebook_user_id = this.myForm.value.facebookUserId;
+      edit.instagram_username = this.myForm.value.instagramUsername;
+      edit.image_url = this.myForm.value.image_url;
+      edit.image_description = this.myForm.value.image_description;
+      edit.image_copyright = this.myForm.value.image_copyright;
       edit.status=status;
       this.editService.createVersion(edit).subscribe((version:EditVersion)=>{
         if (status == 'APPROVED' || status == 'SUBMITTED'){
@@ -508,14 +550,39 @@ export class ProjectDetailComponent implements AfterViewInit {
 
   sanitizeUrls(urls:any, type:string):any{
     const sanitizedUrls: string[] = [];
-    urls.forEach((url:string)=>{
-      if (type == 'YOUTUBE'){
+    urls.forEach((url: string) => {
+      if (type == 'YOUTUBE') {
         sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl(
-          "https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/" +
+          'https://europa.eu/webtools/crs/iframe/?oriurl=https://www.youtube.com/embed/' +
           this.project.youtube_parser(url)));
+      }
+      if (type == 'TWITTER') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://twitter.com/'));
+      }
+      if (type == 'INSTAGRAM') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://www.instagram.com/p/'));
+      }
+      if (type == 'FACEBOOK') {
+        sanitizedUrls.push(<string>this.sanitizer.bypassSecurityTrustResourceUrl('https://www.facebook.com/'));
       }
     });
     return sanitizedUrls;
   }
 
+  openEditImg() {
+    const dialogRef = this.dialog.open(ImageEditFormComponent, {
+      data: {
+        image_url: this.myForm.value.image_url,
+        image_description: this.myForm.value.image_description,
+        image_copyright: this.myForm.value.image_copyright
+      }
+    });
+    dialogRef.afterClosed().pipe(filter(result => !!result)).subscribe(result => {
+      this.myForm.patchValue({
+        image_url: result.image_url,
+        image_description: result.image_description,
+        image_copyright: result.image_copyright
+      });
+    });
+  }
 }

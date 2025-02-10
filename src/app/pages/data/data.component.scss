@@ -1,0 +1,15 @@
+iframe {
+  width: 100%;
+  height: auto;
+  min-height: 300px;
+}
+
+h1 {
+  font: normal normal 400 1.75rem / 2rem arial, sans-serif !important;
+  font-weight: 700 !important;
+}
+
+.kohesio-list-wrapper{
+  display: flex;
+  flex-direction: column;
+}

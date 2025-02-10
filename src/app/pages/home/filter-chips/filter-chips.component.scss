@@ -1,0 +1,21 @@
+mat-chip {
+  margin: 4px;
+}
+
+:host {
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+}
+
+:host ::ng-deep {
+  .custom-chip {
+    .mdc-evolution-chip__text-label {
+      color: blue !important;
+    }
+
+    mat-icon {
+      color: blue;
+    }
+  }
+}

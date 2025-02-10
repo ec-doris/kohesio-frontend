@@ -32,6 +32,7 @@ You can customize the map visualization using the following parameters:
 - coords - To show a specific popup in a certain coordinate (default is empty), this parameter depends on the mapRegion parameter 
 - openProjectInner - To show the project detail inside the map window (default is false, it means the projects will open in a new tab window)
 - project - It will open the project directly in a popup (default is empty). This parameter depends on the openProjectInner set to true
+- clusterView - To show the projects in a cluster view (default is false) if not set, the projects will be shown in a region view
 - cci - "Common Identification Code". It will take priority over the others parameters and will show only the coordinates for this particular cci
 - fund - Fund this project was financed from (ex: https://linkedopendata.eu/entity/Q2504369)
 
@@ -39,7 +40,7 @@ You can customize the map visualization using the following parameters:
 
 ### Pass multiple CCI parameters with the name "cci"
 ```html
-<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?heatScale=true&fund=Q2504368&cci=5BQ2463081,Q2463082"  width="800" height="800">
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?cci=2014PL16M2OP005,2014PL16M2OP008"  width="800" height="800">
 ```
 
 ### Drill-down region
@@ -55,4 +56,17 @@ You can customize the map visualization using the following parameters:
 ### Drill-down into a region with heat scale
 ```html
 <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?parentLocation=NAME_OF_YOUR_WEBSITE&?heatScale=true&mapRegion=Q2556137"  width="800" height="800">
+```
+## Filters
+The map supports the following filters:
+- keywords
+- town
+- country
+- region
+- projectCollection
+- theme
+- fund
+
+```html
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?country=Belgium"  width="800" height="800">
 ```

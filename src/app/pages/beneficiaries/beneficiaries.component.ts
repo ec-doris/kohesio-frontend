@@ -16,6 +16,7 @@ import { Filters } from '../../models/filters.model';
 import { BeneficiaryService } from '../../services/beneficiary.service';
 import { FilterService } from '../../services/filter.service';
 import { TranslateService } from '../../services/translate.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   templateUrl: './beneficiaries.component.html',
@@ -37,6 +38,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
   public pageSize = 15;
   public infoPopupLabelType: boolean = false;
   private destroyed = new Subject<void>();
+  private filterResult$$ = this.filterService.showResult$$.pipe(takeUntilDestroyed());
   private notOutside = false;
 
   constructor(private beneficaryService: BeneficiaryService,
@@ -107,6 +109,10 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       !this._route.snapshot.queryParamMap.get(this.translateService.queryParams.programme)) {
       this.performSearch();
     }
+    this.filterResult$$.subscribe(result => {
+      this.myForm.patchValue(result.filters);
+      this.performSearch();
+    })
   }
 
   ngAfterViewInit(): void {
@@ -135,6 +141,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       queryParams: this.getFormValues(),
       queryParamsHandling: 'merge'
     });
+    this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
+
   }
 
   performSearch() {
@@ -229,6 +237,8 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
 
   resetForm() {
     this.myForm.reset();
+    this.filterService.showResult$$.next({ filters: this.filterService.getFormFilters(this.myForm) });
+
   }
 
   onPaginate(event: any) {

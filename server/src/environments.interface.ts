@@ -24,4 +24,5 @@ interface environmentVARS {
   NODE_PORT:number;
   CSP_FRAME_ANCESTOR:string;
   LOG_LEVEL: string;
+  DATA_BUCKET_NAME: string;
 }

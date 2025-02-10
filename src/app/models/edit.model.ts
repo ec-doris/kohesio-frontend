@@ -19,7 +19,6 @@ export class Edit {
   edit_versions?: EditVersion[];
   showHistory:boolean = false;
   latest_status!:string;
-
 }
 
 export class EditWrapper {
@@ -43,5 +42,11 @@ export class EditVersion {
   summary?: string;
   @Type(() => Date)
   creation_time?: Date;
-
+  youtube_video_id!: string
+  twitter_username!: string
+  facebook_user_id!: string
+  instagram_username!: string
+  image_url!: string
+  image_description!: string
+  image_copyright!: string
 }

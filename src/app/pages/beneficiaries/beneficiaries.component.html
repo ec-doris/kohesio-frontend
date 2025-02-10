@@ -12,8 +12,8 @@
         </li>
     </ol>
 </nav>
-
-<button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
+<div style="display: flex">
+    <button class="ecl-button ecl-button--secondary" type="button" (click)="sidenav.toggle()">
     <span class="ecl-button__container">
         <span class="ecl-button__label" data-ecl-label="true" i18n="@@page.beneficiaries.button.filters">Filters</span>
         <svg *ngIf="!sidenavOpened" class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-button__icon ecl-button__icon--after" focusable="false" aria-hidden="true" data-ecl-icon="">
@@ -23,8 +23,9 @@
             <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
         </svg>
     </span>
-</button>
-
+    </button>
+    <app-filter-chips></app-filter-chips>
+</div>
 <ng-template cdkConnectedOverlay
              (overlayOutsideClick)="onOutsideClick()"
              [cdkConnectedOverlayOrigin]="infoPopupLabelTypeTrigger"
@@ -44,7 +45,7 @@
 </ng-template>
 
 <mat-drawer-container autosize >
-    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false">
+    <mat-drawer #sidenav [mode]="mobileQuery ? 'over' : 'side'" [opened]="!mobileQuery" (openedStart)="sidenavOpened = true" (closedStart)="sidenavOpened = false" style="width: 350px">
         <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
             <kohesio-ecl-form-group>
                 <kohesio-ecl-form-label>

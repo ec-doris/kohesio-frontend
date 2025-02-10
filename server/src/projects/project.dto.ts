@@ -40,6 +40,13 @@ export class ProjectSearchInDto extends BasicDTO{
 export class ProjectInDto extends BasicDTO{
 
   id: string;
+  youtubeVideoId?: string;
+  twitterUsername?: string;
+  facebookUserId?: string;
+  instagramUsername?: string;
+  image_url?: string;
+  image_description?: string;
+  image_copyright?: string;
 
 }
 
@@ -112,6 +119,13 @@ export class ProjectOutDto {
   hasSubmitted:boolean;
   canEdit:boolean;
   canApprove:boolean;
+  youtubeVideoId?: string;
+  twitterUsername?: string;
+  facebookUserId?: string;
+  instagramUsername?: string;
+  image_url?: string;
+  image_description?: string;
+  image_copyright?: string;
 
 }
 

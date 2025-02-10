@@ -10,7 +10,6 @@ declare const ECL: any;
 })
 
 export class SiteHeaderEclComponent implements AfterViewInit {
-    isSearchFormOpen = false;
     public searchkeywords:string | null | undefined = "";
 
     constructor(private router:Router,
@@ -34,9 +33,7 @@ export class SiteHeaderEclComponent implements AfterViewInit {
     ngAfterViewInit(): void {
        this.initializeECLMenu();
     }
-    toggleSearchForm() {
-      this.isSearchFormOpen = !this.isSearchFormOpen;
-    }
+
     initializeECLMenu() {
       if (this.isPlatformBrowser()) {
         if (ECL?.autoInit) {

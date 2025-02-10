@@ -65,6 +65,80 @@
     <div class="hasSubmittedVersion" *ngIf="this.project.hasSubmitted && this.editMode">There is already a submitted version, waiting for approval.</div>
     <div class="kohesio-page-detail-container">
         <div class="kohesio-side-content">
+            <div class="kohesio-side-content-block" *ngIf="!editMode && (youTube?.length || tweet || facebook || instagram)">
+                <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
+                <div class="content" style="display: flex; align-items: flex-end" *ngIf="youTube">
+                    <a
+                        [href]="youTube" target="_blank"
+                        i18n-matTooltip="Watch on Twitter|@@comp.footer.link.youtube"
+                        matTooltip="Watch on YouTube"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#youtube-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Youtube</span>
+                    </a>
+
+                </div>
+                <div class="content" style="display: flex;" *ngIf="tweet">
+                    <a
+                        [href]="tweet" target="_blank"
+
+                        matTooltip="{{project.twitterUsername}}"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/socialMedia/icons-social-media.svg#twitter-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">X</span>
+                    </a>
+                </div>
+                <div class="content" style="display: flex;" *ngIf="facebook">
+                    <a
+                        [href]="facebook" target="_blank"
+
+                        matTooltip="{{project.facebookUserId}}"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#facebook-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Facebook</span>
+                    </a>
+                </div>
+                <div class="content" style="display: flex;" *ngIf="instagram">
+                    <a
+                        [href]="instagram" target="_blank"
+
+                        matTooltip="{{project.instagramUsername}}"
+                        class="ecl-link ecl-link--standalone ecl-link--icon ecl-link--icon-before ecl-social-media-share__link">
+                        <svg class="ecl-icon ecl-icon--m ecl-link__icon ecl-social-media-share__icon" focusable="false" aria-hidden="true">
+                            <use xlink:href="assets/images/ecl/icons-social-media.2708809b.svg#instagram-color"></use>
+                        </svg>
+                        <span class="ecl-link__label">Instagram</span>
+                    </a>
+                </div>
+            </div>
+            <div class="kohesio-side-content-block" *ngIf="editMode">
+                <span class="title" i18n="@@page.project-detail.label.socialMedia">Social Media</span>
+                <div class="content" style="display: flex">
+                    <span  style="white-space: nowrap">
+                      <span i18n="@@comp.footer.link.youtube" style="padding-right: 5px">Youtube</span>
+                      <ng-container i18n="@@page.project-detail.link.link">Link:</ng-container>
+                    </span>&nbsp;
+                    <input style="width: 100%" formControlName="youtubeVideoId">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.twitter_username" style="white-space: nowrap">X Username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="twitterUsername">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.facebook_user_id" style="white-space: nowrap">Facebook Username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="facebookUserId">
+                </div>
+                <div class="content" style="display: flex;">
+                    <span i18n="@@page.project-detail.label.instagram_username" style="white-space: nowrap">Instagram Username: </span> &nbsp;
+                    <input style="width: 100%" formControlName="instagramUsername">
+                </div>
+            </div>
             <div class="kohesio-side-content-block">
                 <span class="title" i18n="@@page.project-detail.label.projectInfo">project info</span>
                 <div class="content">
@@ -203,37 +277,43 @@
         <div class="kohesio-main-content">
             <div class="kohesio-article-wrapper">
                 <article class="kohesio-article-post">
-                    <div class="project-theme-image">
-                        <ng-container *ngIf="project?.images && project.images.length">
-                            <div class="project-image-container hand-pointer"
-                            style="background-image: url('{{ project.images[0].image }}');"
-                            (click)="openImageOverlay(project.images[0].image, project.label, project.images[0].imageCopyright)"></div>
-                        </ng-container>
-                        <ng-container>
-                            <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                <ng-container *ngIf="project.themeIds.length == 1">
-                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">
-                                </ng-container>
-                                <ng-container *ngIf="project.themeIds.length > 1">
-                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'" alt="European Commission Topic">
-                                </ng-container>
-                            </div>
-                        </ng-container>
-                        <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
-                    </div>
+<!--                    <div class="project-theme-image">-->
+<!--                        <ng-container *ngIf="myForm.controls['image_url'].value || project?.images.length">-->
+<!--                            <div class="project-image-container hand-pointer"-->
+<!--                            style="background-image: url('{{ myForm.controls['image_url'].value || project.images[0].image }}');"-->
+<!--                            (click)="openImageOverlay(myForm.controls['image_url'].value || project.images[0].image, project.label,  myForm.controls['image_copyright'].value || project.images[0].imageCopyright)"></div>-->
+<!--                        </ng-container>-->
+<!--                        <ng-container>-->
+<!--                            <div class="default-theme-image" *ngIf="!(myForm.controls['image_url'].value || project?.images.length)">-->
+<!--                                <ng-container *ngIf="project.themeIds.length == 1">-->
+<!--                                    <img *ngIf="project?.themeIds" class="topic" [src]="myForm.controls['image_url'].value || 'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'" alt="European Commission Topic">-->
+<!--                                </ng-container>-->
+<!--                                <ng-container *ngIf="project.themeIds.length > 1">-->
+<!--                                    <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/TO_multiple.png'" alt="European Commission Topic">-->
+<!--                                </ng-container>-->
+<!--                            </div>-->
+<!--                        </ng-container>-->
+<!--                        <footer>-->
+<!--                            <span *ngIf="project?.images?.length">{{ project.images[0].imageCopyright }}</span>-->
+<!--                            <button class="ecl-button ecl-button&#45;&#45;secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>-->
+<!--                        </footer>-->
+<!--                    </div>-->
                     <div class="kohesio-article-post-inner">
                         <div class="kohesio-article-post-inner-header">
-                            <div class="project-theme-image-mobile">
-                                <ng-container *ngIf="project?.images && project.images.length">
-                                    <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>
-                                </ng-container>
-                                <ng-container>
-                                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">
-                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'"  alt="European Commission Topic">
-                                    </div>
-                                </ng-container>
-                                <footer *ngIf="project?.images && project.images.length">{{project.images[0].imageCopyright}}</footer>
-                            </div>
+<!--                            <div class="project-theme-image-mobile">-->
+<!--                                <ng-container *ngIf="project?.images && project.images.length">-->
+<!--                                    <div class="project-image-container" style="background-image: url('{{ project.images[0].image }}');"></div>-->
+<!--                                </ng-container>-->
+<!--                                <ng-container>-->
+<!--                                    <div class="default-theme-image" *ngIf="!project?.images || !project.images.length">-->
+<!--                                        <img *ngIf="project?.themeIds" class="topic" [src]="'assets/images/topics/' + (project.themeIds[0] || 'question_mark') + '.png'"  alt="European Commission Topic">-->
+<!--                                    </div>-->
+<!--                                </ng-container>-->
+<!--                                <footer *ngIf="project?.images && project.images.length">-->
+<!--                                    <span>{{project.images[0].imageCopyright}}</span>-->
+<!--                                    <button class="ecl-button ecl-button&#45;&#45;secondary" type="button" *ngIf="editMode" (click)="openEditImg()" i18n="@@page.project-detail.label.editImg">Edit Image</button>-->
+<!--                                </footer>-->
+<!--                            </div>-->
                             <h1 class="ecl-u-type-heading-4" style="width: 100%;">
                                 <ng-container *ngIf="editMode">
                                     <kohesio-ecl-form-group>
@@ -282,12 +362,12 @@
                     </ng-container>
                     <ng-container *ngIf="!project?.regionText"  i18n="@@page.project-detail.label.theRegion">[THE REGION]</ng-container>
                 </h2>
-                <app-map *ngIf="isPlatformBrowser()" mapId="map-details" [hideNavigation]="true"></app-map>
+                <app-map *ngIf="isPlatformBrowser()" mapId="map-details" [hideNavigation]="true" [showFilters]="false" [clusterView]="false"></app-map>
             </div>
-            <div class="kohesio-audio-visual-wrapper">
+            <!--<div class="kohesio-audio-visual-wrapper">
                 <div class="kohesio-project-detail-video-wrapper">
                     <div class="kohesio-project-detail-video" *ngFor="let video of project?.videos">
-                        <iframe [src]="video | transformVideoUrl" allowfullscreen=""></iframe>
+                        <iframe [src]="video" allowfullscreen=""></iframe>
                     </div>
                 </div>
                 <div class="kohesio-project-detail-twitter-wrapper">
@@ -295,7 +375,7 @@
                         <div class="tweet" [innerHTML]="getTweetHTML(tweet)"></div>
                     </ng-container>
                 </div>
-            </div>
+            </div>-->
         </div>
     </div>
     </form>

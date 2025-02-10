@@ -12,6 +12,7 @@ import {ForbiddenComponent} from "./components/kohesio/forbidden/forbidden.compo
 import {AccessibilityPageComponent} from "./pages/static/accessibility/accessibility.component";
 import { FilterService } from './services/filter.service';
 
+
 const routes: Routes = [
       {
         path: '',
@@ -63,6 +64,12 @@ const routes: Routes = [
           title: $localize`:@@page.faq.title:Frequently asked questions`
         },
         loadChildren: () => import('./pages/faq/faq.module').then(m => m.FaqModule)
+      },{
+        path: $localize`:@@translate.routes.data:data`,
+        data: {
+          title: $localize`:@@page.data.title:Data`
+        },
+        loadChildren: () => import('./pages/data/data.module').then(m => m.DataModule)
       },{
         path: 'map',
         component: MapPageComponent,

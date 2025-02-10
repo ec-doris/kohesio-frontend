@@ -36,6 +36,7 @@ const sharedModules = [
 @NgModule({
   declarations: [ FiltersComponent, FiltersPipe ],
   imports: sharedModules,
+  providers: [FiltersPipe],
   exports: [ ...sharedModules, FiltersPipe, FiltersComponent ]
 })
 export class SharedModule {

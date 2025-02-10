@@ -13,6 +13,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatTableModule } from '@angular/material/table';
@@ -40,7 +41,8 @@ const materialModules = [
   MatIconModule,
   MatButtonModule,
   MatChipsModule,
-  MatDivider
+  MatDivider,
+  MatProgressSpinner
 ];
 @NgModule({
   imports: materialModules,

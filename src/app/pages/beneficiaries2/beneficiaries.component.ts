@@ -25,7 +25,7 @@ import { BeneficeFormComponent } from './benefici-form/benefice-form.component';
   styleUrls: [ './beneficiaries.component.scss' ]
 })
 export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
-  filterResult$$ = this.filterService.showResult.pipe(takeUntilDestroyed());
+  filterResult$$ = this.filterService.showResult$$.pipe(takeUntilDestroyed());
   // filterTooltip = 'No filters applied';
   lastFiltersSearch: any = new Filters();
   filtersCount = 0;
@@ -84,7 +84,7 @@ export class BeneficiariesComponent implements AfterViewInit, OnDestroy {
       this.performSearch();
     });
 
-    this.filterResult$$.subscribe((formVal) => {
+    this.filterResult$$.subscribe(({ filters: formVal }) => {
       // this.filterTooltip = Object.values(formVal).filter((x: any) => x !== undefined && x != 'en' && x.length).length ? '' : 'No filters applied';
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;

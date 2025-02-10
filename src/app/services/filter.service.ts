@@ -12,7 +12,7 @@ import { Filters } from '../models/filters.model';
   providedIn: 'root'
 })
 export class FilterService {
-  showResult: Subject<any> = new Subject();
+  showResult$$: Subject<{ filters: Filters, source?: string }> = new Subject();
   public filters: any;
   private countryGeoJson: any;
 
@@ -45,7 +45,13 @@ export class FilterService {
     getMapFilters(): Observable<FiltersApi>{
       return this.getFilters(
         forkJoin([
-          this.getFilter('countries')
+          this.getFilter('thematic_objectives'),
+          this.getFilter('policy_objectives'),
+          this.getFilter('funds'),
+          this.getFilter('categoriesOfIntervention'),
+          this.getFilter('countries'),
+          this.getFilter('nuts3'),
+          this.getFilter('project_types')
         ])
       );
     }
@@ -284,11 +290,11 @@ export class FilterService {
       })
     );
   }
-  getFormFilters(form: any){
-    const formValues = { ...form.value }; // Use spread operator for shallow copy
+  getFormFilters(form: any) : Filters {
+    const formValues = { ...form.value || form };
 
     if (formValues.interventionField?.length) {
-      formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item.id);
+      formValues.interventionField = formValues.interventionField.map((item: AutoCompleteItem) => item?.id || item);
     }
 
     formValues.nuts3 = formValues.nuts3?.id || undefined;
@@ -353,7 +359,7 @@ export class FilterService {
     }
 
     lastFiltersSearch[filterKey.toLowerCase()] = undefined;
-    this.showResult.next(new Filters().deserialize(lastFiltersSearch));
+    this.showResult$$.next({ filters: new Filters().deserialize(lastFiltersSearch) });
   }
 
 }

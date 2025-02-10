@@ -11,6 +11,7 @@ import {ProjectModule} from "./projects/project.module";
 import {MapModule} from "./map/map.module";
 import {NotificationModule} from "./notifications/notification.module";
 import {CacheModule} from "@nestjs/cache-manager";
+import {DataModule} from "./data/data.module";
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import {CacheModule} from "@nestjs/cache-manager";
     ProjectModule,
     MapModule,
     NotificationModule,
+    DataModule,
     CacheModule.register({
       isGlobal: true
     })

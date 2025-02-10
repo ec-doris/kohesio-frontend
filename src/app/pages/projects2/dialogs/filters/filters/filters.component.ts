@@ -68,8 +68,7 @@ export class FiltersComponent implements OnInit {
   }
 
   onSubmit() {
-    this.service.showResult.next(this.service.getFormFilters(this.form));
-    // this.service.pagination.emit()
+    this.service.showResult$$.next({ filters: this.service.getFormFilters(this.form), source: 'filters submit' });
   }
 
   getDate(dateStringFormat: any) {
@@ -157,7 +156,7 @@ export class FiltersComponent implements OnInit {
       const params = { policy: environment.entityURL + policy };
       return this.service.getFilter('thematic_objectives', params).pipe(tap(themes => this.themeSelection = themes.thematic_objectives));
     } else {
-      this.themeSelection = this.filters.thematic_objectives;
+      this.themeSelection = this.service.filters.thematic_objectives;
       return of();
     }
   }
@@ -185,7 +184,7 @@ export class FiltersComponent implements OnInit {
     this.form.reset();
     this.themeSelection = this.filters.thematic_objectives;
     this.semanticTerms = [];
-    this.service.showResult.next(this.service.getFormFilters(this.form));
+    this.service.showResult$$.next({ filters: this.service.getFormFilters(this.form), source: 'filters reset' });
   }
 
   onOutsideClick() {
