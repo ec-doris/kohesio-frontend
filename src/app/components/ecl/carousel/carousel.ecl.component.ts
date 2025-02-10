@@ -12,6 +12,7 @@ declare let ECL: any;
 
 export class CarouselEclComponent implements AfterViewInit {
   @ViewChild('carouselSlider') carouselSlider!: ElementRef;
+  @ViewChildren('eclBanner') banners!: QueryList<ElementRef>;
   public carousel: any;
 
   constructor(public translateService: TranslateService,
@@ -25,21 +26,29 @@ export class CarouselEclComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     if (this.isPlatformBrowser()) {
-      let elt = this._doc.querySelector('[data-ecl-carousel]');
-      this.carousel = new ECL.Carousel(elt);
-
-      this.carousel.init();
-
-      // TODO: This is a one-time executable. Please remove it(the if block), if it's no longer compatible with the new ECL version.
-      if (this._doc.documentElement.clientWidth <= 768) {
-        const currentWidth = this._doc.defaultView?.getComputedStyle(this.carouselSlider.nativeElement).width;
-        const currentWidthValue = parseInt(currentWidth as string, 10);
-        const newWidthValue = currentWidthValue - 75;
-        this.renderer.setStyle(this.carouselSlider.nativeElement, 'width', `${newWidthValue}px`);
-      }
+        this.initCarousel();
     }
   }
 
+  initCarousel() {
+    let elt = this._doc.querySelector('[data-ecl-carousel]');
+    this.carousel = new ECL.Carousel(elt);
+
+    this.banners.forEach((bannerElement: ElementRef) => {
+      const banner = new ECL.Banner(bannerElement.nativeElement);
+      banner.init();
+    });
+    this.carousel.init();
+
+    // TODO: This is a one-time executable. Please remove it(the if block), if it's no longer compatible with the new ECL version.
+    if (this._doc.documentElement.clientWidth <= 768) {
+      debugger
+      const currentWidth = this._doc.defaultView?.getComputedStyle(this.carouselSlider.nativeElement).width;
+      const currentWidthValue = parseInt(currentWidth as string, 10);
+      const newWidthValue = currentWidthValue - 75;
+      this.renderer.setStyle(this.carouselSlider.nativeElement, 'width', `${newWidthValue}px`);
+    }
+  }
   isPlatformBrowser() {
     return isPlatformBrowser(this.platformId);
   }

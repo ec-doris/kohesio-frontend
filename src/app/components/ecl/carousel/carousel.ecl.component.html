@@ -1,8 +1,40 @@
-<div class="ecl-carousel" data-ecl-carousel data-ecl-auto-init="Carousel"  style="opacity: 1" aria-roledescription="carousel" >
+<div class="ecl-carousel" data-ecl-carousel style="opacity: 1"  data-ecl-auto-init="Carousel" aria-roledescription="carousel" aria-label="Carousel description here">
     <div class="ecl-carousel__container" style="width:100%;max-width: 1108px;">
         <div class="ecl-carousel__slides"  #carouselSlider id="ecl-carousel-slider">
-            <div class="ecl-carousel__slide" role="group" aria-label="slide 1 of 3">
-                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center">
+            <div class="ecl-carousel__slide" role="tabpanel" aria-label="slide 3 of 3">
+                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center" #eclBanner data-ecl-banner="" data-ecl-auto-init="Banner">
+                    <figure class="ecl-banner__picture-container">
+                        <picture class="ecl-picture ecl-banner__picture" data-ecl-banner-image=""><img class="ecl-banner__image" src="assets/images/banners/kohesio-data.png" alt="Alternative text" style=""></picture>
+                        <footer class="ecl-banner__credit" data-ecl-banner-footer="">
+                            <div class="ecl-container">© Copyright or credit</div>
+                        </footer>
+                    </figure>
+                    <!--                    <div class="ecl-banner__image" style="background-image:url(assets/images/banners/kohesio-data.png); background-size: cover;"></div>-->
+                    <div class="ecl-container ecl-banner__info">
+                        <div class="ecl-banner__container" data-ecl-banner-container="">
+                            <div class="ecl-banner__content">
+                                <div class="ecl-banner__title">
+                                    <span class="ecl-banner__title-text" i18n="@@page.home.carousel.banner3.title">Do you want to reuse our linked and open data?</span>
+                                </div>
+
+                                <p class="ecl-banner__description">
+                                    <span class="ecl-banner__description-text" i18n="@@page.home.carousel.banner3.description">Navigate the EU knowledge graph or get the datasets</span>
+                                </p>
+                                <div class="ecl-banner__cta">
+                                    <a [routerLink]="['/'+translateService.routes.services]" class="ecl-link ecl-link--cta ecl-link--icon ecl-banner__link-cta" aria-label="Subscribe">
+                                        <span class="ecl-link__label" i18n="@@page.home.carousel.banner3.button">Download the data</span>
+                                        <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-link__icon" focusable="false" aria-hidden="true">
+                                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
+                                        </svg>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <div class="ecl-carousel__slide" role="tabpanel" aria-label="slide 1 of 3">
+                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center"  data-ecl-banner="" #eclBanner data-ecl-auto-init="Banner">
                     <figure class="ecl-banner__picture-container">
                         <picture class="ecl-picture ecl-banner__picture" data-ecl-banner-image=""><img class="ecl-banner__image" src="assets/images/banners/kohesio-citizens.png" alt="Alternative text" style=""></picture>
                         <footer class="ecl-banner__credit" data-ecl-banner-footer="">
@@ -32,8 +64,8 @@
                     </div>
                 </section>
             </div>
-            <div class="ecl-carousel__slide"  #carouselSlides role="group" aria-label="slide 2 of 3">
-                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center">
+            <div class="ecl-carousel__slide" role="tabpanel" aria-label="slide 2 of 3">
+                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center" #eclBanner data-ecl-banner="" data-ecl-auto-init="Banner">
                     <figure class="ecl-banner__picture-container">
                         <picture class="ecl-picture ecl-banner__picture" data-ecl-banner-image=""><img class="ecl-banner__image" src="assets/images/banners/kohesio-policy.png" alt="Alternative text" style=""></picture>
                         <footer class="ecl-banner__credit" data-ecl-banner-footer="">
@@ -62,38 +94,7 @@
                     </div>
                 </section>
             </div>
-            <div class="ecl-carousel__slide" role="group"  #carouselSlides  aria-label="slide 3 of 3">
-                <section class="ecl-banner ecl-banner--m ecl-banner--font-m ecl-banner--box-bg-dark ecl-banner--color-light ecl-banner--h-left ecl-banner--v-center">
-                    <figure class="ecl-banner__picture-container">
-                        <picture class="ecl-picture ecl-banner__picture" data-ecl-banner-image=""><img class="ecl-banner__image" src="assets/images/banners/kohesio-data.png" alt="Alternative text" style=""></picture>
-                        <footer class="ecl-banner__credit" data-ecl-banner-footer="">
-                            <div class="ecl-container">© Copyright or credit</div>
-                        </footer>
-                    </figure>
-<!--                    <div class="ecl-banner__image" style="background-image:url(assets/images/banners/kohesio-data.png); background-size: cover;"></div>-->
-                    <div class="ecl-container ecl-banner__info">
-                        <div class="ecl-banner__container" data-ecl-banner-container="">
-                            <div class="ecl-banner__content">
-                                <div class="ecl-banner__title">
-                                    <span class="ecl-banner__title-text" i18n="@@page.home.carousel.banner3.title">Do you want to reuse our linked and open data?</span>
-                                </div>
 
-                                <p class="ecl-banner__description">
-                                    <span class="ecl-banner__description-text" i18n="@@page.home.carousel.banner3.description">Navigate the EU knowledge graph or get the datasets</span>
-                                </p>
-                                <div class="ecl-banner__cta">
-                                    <a [routerLink]="['/'+translateService.routes.services]" class="ecl-link ecl-link--cta ecl-link--icon ecl-banner__link-cta" aria-label="Subscribe">
-                                        <span class="ecl-link__label" i18n="@@page.home.carousel.banner3.button">Download the data</span>
-                                        <svg class="ecl-icon ecl-icon--xs ecl-icon--rotate-90 ecl-link__icon" focusable="false" aria-hidden="true">
-                                            <use xlink:href="assets/images/ecl/icons.a892a63d.svg#corner-arrow"></use>
-                                        </svg>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-            </div>
         </div>
     </div>
     <button class="ecl-carousel__prev" aria-hidden="true">
