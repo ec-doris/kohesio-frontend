@@ -245,7 +245,7 @@ export class TranslateService {
                     filterkeyParam += 'Beneficiaries';
                   }
                   if (transParamValue) {
-                    const paramKeyLabel = this.filterService.getFilterKey(queryParamKey == "sortProjects" ? "sort": queryParamKey,transParamValue);
+                    const paramKeyLabel = this.filterService.getFilterKey(queryParamKey as string == "sortProjects" ? "sort": queryParamKey,transParamValue);
                     if (paramKeyLabel) {
                       const transStaticLabel = this.getTranslatedLabel('translate.filter.sortProjects.',this.translationsStaticFiltersKey[filterkeyParam][paramKeyLabel]);
                       if (transStaticLabel){
