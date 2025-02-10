@@ -156,7 +156,7 @@ export class FiltersComponent implements OnInit {
       const params = { policy: environment.entityURL + policy };
       return this.service.getFilter('thematic_objectives', params).pipe(tap(themes => this.themeSelection = themes.thematic_objectives));
     } else {
-      this.themeSelection = this.filters.thematic_objectives;
+      this.themeSelection = this.service.filters.thematic_objectives;
       return of();
     }
   }
