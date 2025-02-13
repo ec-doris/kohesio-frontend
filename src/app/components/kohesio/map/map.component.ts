@@ -591,7 +591,8 @@ export class MapComponent implements AfterViewInit {
         label: outermostRegion.countryLabel,
         region: granularityRegion
       });
-      this.loadMapRegion(filters, granularityRegion);
+      this.stopZoomClusterBecauseOfFilter = true;
+      this.loadMapRegion(filters, granularityRegion, true);
       return;
     }
     this.loadMapVisualization(filters, granularityRegion);
@@ -1013,6 +1014,7 @@ export class MapComponent implements AfterViewInit {
   onReset() {
     this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
     this.mapRegions = [this.europe];
+    this.stopZoomClusterBecauseOfFilter = true;
     this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
 
