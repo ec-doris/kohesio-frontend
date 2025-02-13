@@ -100,12 +100,13 @@ export class MapService {
 
   public getProjectsPerCoordinate(coordinates: string, filters?: Filters): Observable<any> {
     const url = environment.api + '/map/point';
-    let params: any = {};
-    if (filters) {
-      params = Object.assign(filters.getProjectsFilters());
+    let params: any = filters ? { ...filters.getProjectsFilters() } : {};
+    if (params.country && !params.region) {
+      params.region = params.country;
     }
     params.coordinate = coordinates;
     params.language = this.locale;
+
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;
@@ -115,14 +116,15 @@ export class MapService {
 
   getProjectsPerCoordinates(coordinates: string, bbox: string, zoom: string, filters?: Filters): Observable<any> {
     const url = environment.api + '/map/point';
-    let params: any = {};
-    if (filters) {
-      params = Object.assign(filters.getProjectsFilters());
+    let params: any = filters ? { ...filters.getProjectsFilters() } : {};
+    if (params.country && !params.region) {
+      params.region = params.country;
     }
     params.coordinate = coordinates;
     params.language = this.locale;
     params.boundingBox = bbox;
     params.zoom = zoom;
+
     return this.http.get<any>(url, { params: <any>params }).pipe(
       map(data => {
         return data;
