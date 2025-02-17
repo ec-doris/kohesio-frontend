@@ -322,11 +322,11 @@ export class MapComponent implements AfterViewInit {
     if (this.clusterView) {
       this.setUpZoomListener();
     }
-    if (this.clusterView) {
-      this.map.on('dragend', () => {
-        this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
-      });
-    }
+    // if (this.clusterView) {
+    //   this.map.on('dragend', () => {
+    //     this.countryJson && this.drawPolygonsForRegion(this.countryJson, null);
+    //   });
+    // }
   }
 
   public addMarker(latitude: any, longitude: any, centralize = true, zoomWhenCentralize = 15, popupContent: string = '') {
