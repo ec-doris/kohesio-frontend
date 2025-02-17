@@ -1091,7 +1091,7 @@ export class MapComponent implements AfterViewInit {
     if (this.filters.projectTypes) {
       (this.filters as any).projectCollection = this.filters.projectTypes;
     }
-    const transFormedFilters = this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
+    const transFormedFilters = this.filters.getMapProjectsFilters();
     // let rescale = transFormedFilters.country || transFormedFilters.town;
     merge(
       timer(500).pipe(
