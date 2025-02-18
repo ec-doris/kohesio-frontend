@@ -196,7 +196,7 @@ export class ProjectsComponent implements AfterViewInit, OnDestroy {
     this.getThemes();
     this.filterResult$$.subscribe(result => {
       if (!result.filters.sort) {
-        result.filters.sort = null;
+        result.filters.sort = 'null';
       }
 
       const transformedFilters = this.filterService.getFormFilters(result.filters);
