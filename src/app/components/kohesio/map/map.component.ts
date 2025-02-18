@@ -1012,6 +1012,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   onReset() {
+    this.clickedMarker = null;
     this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
     this.mapRegions = [this.europe];
     this.stopZoomClusterBecauseOfFilter = true;
@@ -1068,6 +1069,7 @@ export class MapComponent implements AfterViewInit {
       if (this.stopZoomClusterBecauseOfFilter) {
         this.stopZoomClusterBecauseOfFilter = false;
       } else {
+        this.clickedMarker = null;
         this.zoomLevelSubject$$.next(true);
       }
       this.zoomLevel = this.map.getZoom();
@@ -1089,7 +1091,7 @@ export class MapComponent implements AfterViewInit {
     if (this.filters.projectTypes) {
       (this.filters as any).projectCollection = this.filters.projectTypes;
     }
-    const transFormedFilters = this.filterService.getFormFilters(this.filters).getMapProjectsFilters();
+    const transFormedFilters = this.filters.getMapProjectsFilters();
     // let rescale = transFormedFilters.country || transFormedFilters.town;
     merge(
       timer(500).pipe(
