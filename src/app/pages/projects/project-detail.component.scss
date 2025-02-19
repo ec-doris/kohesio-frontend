@@ -64,6 +64,11 @@ a:visited {
   flex-direction: column;
   align-items: flex-end;
   .edit-tools{
+    @media (max-width: 675px) {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
     width: 100%;
     display: flex;
     justify-content: space-between;
