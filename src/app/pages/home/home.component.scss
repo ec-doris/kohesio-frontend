@@ -32,10 +32,12 @@
     }
 
 
-    button {
-        position: absolute;
-        right: 15px;
+  button {
+    @media (min-width: 825px) {
+      position: absolute;
+      right: 15px;
     }
+  }
 }
 
 @include media(">medium") {

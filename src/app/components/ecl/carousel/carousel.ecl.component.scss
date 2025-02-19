@@ -35,3 +35,8 @@
   color: white;
 }
 
+@media (max-width: 880px) {
+  .ecl-banner__title-text {
+    white-space: wrap;
+  }
+}
