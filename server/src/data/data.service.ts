@@ -20,7 +20,7 @@ export class DataService {
     this.bucketName = this.configService.get("DATA_BUCKET_NAME");
   }
 
-  async list(currentUser: string, path: any):Promise<any>{
+  async list(path: any):Promise<any>{
     const client = new S3Client({
     });
 

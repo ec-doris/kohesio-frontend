@@ -21,19 +21,19 @@ export class DataController extends BaseController{
   @Get('/projects')
   async listProjects(@Req() req, @Query() filters: any):Promise<any | {} | void>{
     console.log("LIST DATA PROJECTS");
-    return await this.dataService.list(req.user.user_id, "projects").catch(this.errorHandler);
+    return await this.dataService.list("projects").catch(this.errorHandler);
   }
 
   @Get('/beneficiaries')
   async listBeneficiaries(@Req() req, @Query() filters: any):Promise<any | {} | void>{
     console.log("LIST DATA BENEFICIARIES");
-    return await this.dataService.list(req.user.user_id, "beneficiaries").catch(this.errorHandler);
+    return await this.dataService.list("beneficiaries").catch(this.errorHandler);
   }
 
   @Get('/nuts')
   async listNuts(@Req() req, @Query() filters: any):Promise<any | {} | void>{
     console.log("LIST DATA NUTS");
-    return await this.dataService.list(req.user.user_id, "nuts").catch(this.errorHandler);
+    return await this.dataService.list("nuts").catch(this.errorHandler);
   }
 
   @Get('/object')
