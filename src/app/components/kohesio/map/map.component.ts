@@ -129,7 +129,7 @@ export class MapComponent implements AfterViewInit {
               private _router: Router,
               private cdRef: ChangeDetectorRef,
               private translateService: TranslateService) {
-    this.filtersApi = this.route.snapshot.data['data'];
+    this.filtersApi = this.route.snapshot.data['filters'] || this.route.snapshot.data['data'];
     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
     breakpointObserver
