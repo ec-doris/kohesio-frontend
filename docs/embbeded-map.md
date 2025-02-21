@@ -70,3 +70,8 @@ The map supports the following filters:
 ```html
 <embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?country=Belgium"  width="800" height="800">
 ```
+
+### embed map with cluster view
+```html
+<embed type="text/html" src="https://kohesio.ec.europa.eu/en/map?clusterView=true"  width="800" height="800">
+```
