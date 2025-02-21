@@ -16,10 +16,12 @@ export class MapPageComponent implements AfterViewInit {
   public openProjectInner: boolean = false;
   clusterView = false;
   showFilters = true;
-  public cci: [];
-  public fund = '';
+  cci: [];
+  fund = '';
+  isEmbeddedMap: boolean = false;
 
   constructor(public actRoute: ActivatedRoute) {
+
     this.hideProjectsNearBy = (this.actRoute.snapshot.queryParamMap.get('hideProjectsNearBy') == 'true');
     this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == 'true');
     this.openProjectInner = (this.actRoute.snapshot.queryParamMap.get('openProjectInner') == 'true');
@@ -31,15 +33,18 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(
-      () => {
-        const filters = new Filters().deserialize({
-          country: this.country,
-          cci: this.cci,
-          fund: this.fund
-        });
-        this.map.loadMapRegion(filters);
-      }, 500);
+    this.isEmbeddedMap = window.self !== window.top;
+    if (this.isEmbeddedMap || (!this.isEmbeddedMap && !this.actRoute.snapshot.queryParamMap.keys.length)) {
+      setTimeout(
+        () => {
+          const filters = new Filters().deserialize({
+            country: this.country,
+            cci: this.cci,
+            fund: this.fund
+          });
+          this.map.loadMapRegion(filters);
+        }, 500);
+    }
   }
 
 }
