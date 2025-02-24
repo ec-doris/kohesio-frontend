@@ -18,7 +18,7 @@ export class MapPageComponent implements AfterViewInit {
   showFilters = true;
   cci: [];
   fund = '';
-  isEmbeddedMap: boolean = false;
+  isEmbeddedMap = false;
 
   constructor(public actRoute: ActivatedRoute) {
 
@@ -33,15 +33,18 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(
-      () => {
-        const filters = new Filters().deserialize({
-          country: this.country,
-          cci: this.cci,
-          fund: this.fund
-        });
-        this.map.loadMapRegion(filters);
-      }, 500);
+    this.isEmbeddedMap = window.self !== window.top;
+    if (!this.actRoute.snapshot.queryParamMap.keys.length) {
+      setTimeout(
+        () => {
+          const filters = new Filters().deserialize({
+            country: this.country,
+            cci: this.cci,
+            fund: this.fund
+          });
+          this.map.loadMapRegion(filters);
+        }, 700);
+     }
   }
 
 }
