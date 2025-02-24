@@ -33,18 +33,15 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.isEmbeddedMap = window.self !== window.top;
-    if (this.isEmbeddedMap || (!this.isEmbeddedMap && !this.actRoute.snapshot.queryParamMap.keys.length)) {
-      setTimeout(
-        () => {
-          const filters = new Filters().deserialize({
-            country: this.country,
-            cci: this.cci,
-            fund: this.fund
-          });
-          this.map.loadMapRegion(filters);
-        }, 500);
-    }
+    setTimeout(
+      () => {
+        const filters = new Filters().deserialize({
+          country: this.country,
+          cci: this.cci,
+          fund: this.fund
+        });
+        this.map.loadMapRegion(filters);
+      }, 500);
   }
 
 }

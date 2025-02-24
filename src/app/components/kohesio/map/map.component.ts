@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, merge, of, Subject, timer } from 'rxjs';
-import { concatMap, finalize, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, delay, finalize, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -259,40 +259,46 @@ export class MapComponent implements AfterViewInit {
     });
 
     if (this.showFilters && !this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName)) {
-      if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-        const queryParams: any = this.route.snapshot.queryParamMap;
-        const cntr = this.filtersApi.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country]).id;
-
-        of(queryParams).pipe(
-          concatMap(() => this.filterService.getRegions(cntr)),
-          concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr })),
-          concatMap(() => this.filterService.getFilter('nuts3', { country: environment.entityURL + cntr })),
-          concatMap(() => this.filterService.getFilter('priority_axis', { country: environment.entityURL + cntr })),
-          takeUntilDestroyed(this.destroyRef))
-          .subscribe(_ => {
-            const params: any = {};
-            Object.keys(queryParams.params).forEach((key: any) => {
-              if (this.translateService.paramMapping[key]) {
-                if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                  params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
-                } else if (key === this.translateService.queryParams.nuts3) {
-                  params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
-                } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
-                  params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
-                } else {
-                  params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
-                }
+      // if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
+      const queryParams: any = this.route.snapshot.queryParamMap;
+      const cntr = this.filtersApi.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country])?.id;
+      of(queryParams).pipe(
+        concatMap(() => {
+          if (!cntr) {
+            return of(null).pipe(delay(500));
+          }
+          return this.filterService.getRegions(cntr).pipe(
+            concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr })),
+            concatMap(() => this.filterService.getFilter('nuts3', { country: environment.entityURL + cntr })),
+            concatMap(() => this.filterService.getFilter('priority_axis', { country: environment.entityURL + cntr }))
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef))
+        .subscribe(_ => {
+          const params: any = {};
+          Object.keys(queryParams.params).forEach((key: any) => {
+            if (this.translateService.paramMapping[key]) {
+              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+              } else if (key === this.translateService.queryParams.nuts3) {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
+              } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
+              } else {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
               }
-            });
-            const translatedParams = this.translateKeys(params, this.translateService.queryParams);
-            this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-            this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
-            this.stopZoomClusterBecauseOfFilter = true;
-            this.loadMapRegion(this.lastFiltersSearch);
+            }
           });
-      } else {
-        // this.loadMapRegion(this.lastFiltersSearch);
-      }
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+          this.stopZoomClusterBecauseOfFilter = true;
+          this.loadMapRegion(this.lastFiltersSearch);
+        });
+      // } else {
+      //   debugger
+      //   // this.loadMapRegion(this.lastFiltersSearch);
+      // }
     }
     this.map = L.map(this.mapId,
       {
@@ -1014,7 +1020,7 @@ export class MapComponent implements AfterViewInit {
   onReset() {
     this.clickedMarker = null;
     this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
-    this.mapRegions = [this.europe];
+    this.mapRegions = [ this.europe ];
     this.stopZoomClusterBecauseOfFilter = true;
     this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
