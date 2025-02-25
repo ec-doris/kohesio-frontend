@@ -8,12 +8,11 @@ import { Filters } from 'src/app/models/filters.model';
   styleUrls: [ './map-page.component.scss' ]
 })
 export class MapPageComponent implements AfterViewInit {
-
   @ViewChild(MapComponent) map!: MapComponent;
-  public hideProjectsNearBy: boolean = false;
-  public country: string | null;
-  public heatScale: boolean = false;
-  public openProjectInner: boolean = false;
+  hideProjectsNearBy = false;
+  country: string | null;
+  heatScale = false;
+  openProjectInner = false;
   clusterView = false;
   showFilters = true;
   cci: [];
@@ -34,7 +33,7 @@ export class MapPageComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
     this.isEmbeddedMap = window.self !== window.top;
-    if (!this.actRoute.snapshot.queryParamMap.keys.length) {
+    if (this.actRoute.snapshot.queryParamMap.get('mapRegion')) {
       setTimeout(
         () => {
           const filters = new Filters().deserialize({

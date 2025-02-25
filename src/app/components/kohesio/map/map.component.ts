@@ -113,6 +113,7 @@ export class MapComponent implements AfterViewInit {
   private destroyRef = inject(DestroyRef);
   private isMapMovingOnClick!: boolean;
   private clickedMarker: any;
+  public onlyOnceParamsApply = true;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -248,7 +249,7 @@ export class MapComponent implements AfterViewInit {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town || formVal.nuts3));
-      if (source === 'filters reset' || !this.filtersCount) {
+      if ((source === 'filters reset' || !this.filtersCount)  && this.clusterView ) {
         this.mapService.resetFilters = true;
         // this.allowZoomListener = true;
       }
@@ -545,12 +546,13 @@ export class MapComponent implements AfterViewInit {
   loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
-    // if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
-    //   let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
-    //   let regionsQueryParamArray = regionsQueryParam.split(',');
-    //   granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
-    //   this.hasQueryParams = true;
-    // }
+    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
+      let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
+      let regionsQueryParamArray = regionsQueryParam.split(',');
+      granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
+      this.hasQueryParams = true;
+    }
+    this.onlyOnceParamsApply = false;
 
     if (!granularityRegion) {
       this.mapRegions = [];
