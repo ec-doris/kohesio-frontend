@@ -19,7 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter, merge, of, Subject, timer } from 'rxjs';
-import { concatMap, finalize, takeUntil, tap } from 'rxjs/operators';
+import { concatMap, delay, finalize, takeUntil, tap } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { FiltersApi } from '../../../models/filters-api.model';
 import { Filters } from '../../../models/filters.model';
@@ -113,6 +113,8 @@ export class MapComponent implements AfterViewInit {
   private destroyRef = inject(DestroyRef);
   private isMapMovingOnClick!: boolean;
   private clickedMarker: any;
+  public onlyOnceParamsApply = true;
+  // private countryStyle: any;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -129,7 +131,7 @@ export class MapComponent implements AfterViewInit {
               private _router: Router,
               private cdRef: ChangeDetectorRef,
               private translateService: TranslateService) {
-    this.filtersApi = this.route.snapshot.data['data'];
+    this.filtersApi = this.route.snapshot.data['filters'] || this.route.snapshot.data['data'];
     this.mobileQuery = breakpointObserver.isMatched('(max-width: 768px)');
 
     breakpointObserver
@@ -248,7 +250,7 @@ export class MapComponent implements AfterViewInit {
       this.lastFiltersSearch = formVal;
       this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language' && (value as [])?.length).length;
       const rescale = !!(source === 'filters submit' && (formVal.country || formVal.town || formVal.nuts3));
-      if (source === 'filters reset' || !this.filtersCount) {
+      if ((source === 'filters reset' || !this.filtersCount)  && this.clusterView ) {
         this.mapService.resetFilters = true;
         // this.allowZoomListener = true;
       }
@@ -259,40 +261,46 @@ export class MapComponent implements AfterViewInit {
     });
 
     if (this.showFilters && !this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName)) {
-      if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
-        const queryParams: any = this.route.snapshot.queryParamMap;
-        const cntr = this.filtersApi.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country]).id;
-
-        of(queryParams).pipe(
-          concatMap(() => this.filterService.getRegions(cntr)),
-          concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr })),
-          concatMap(() => this.filterService.getFilter('nuts3', { country: environment.entityURL + cntr })),
-          concatMap(() => this.filterService.getFilter('priority_axis', { country: environment.entityURL + cntr })),
-          takeUntilDestroyed(this.destroyRef))
-          .subscribe(_ => {
-            const params: any = {};
-            Object.keys(queryParams.params).forEach((key: any) => {
-              if (this.translateService.paramMapping[key]) {
-                if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
-                  params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
-                } else if (key === this.translateService.queryParams.nuts3) {
-                  params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
-                } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
-                  params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
-                } else {
-                  params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
-                }
+      // if (this.route.snapshot.queryParamMap.get(this.translateService.queryParams.country)) {
+      const queryParams: any = this.route.snapshot.queryParamMap;
+      const cntr = this.filtersApi.countries?.find(x => x.value == queryParams.params[this.translateService.queryParams.country])?.id;
+      of(queryParams).pipe(
+        concatMap(() => {
+          if (!cntr) {
+            return of(null).pipe(delay(500));
+          }
+          return this.filterService.getRegions(cntr).pipe(
+            concatMap(() => this.filterService.getFilter('programs', { country: environment.entityURL + cntr })),
+            concatMap(() => this.filterService.getFilter('nuts3', { country: environment.entityURL + cntr })),
+            concatMap(() => this.filterService.getFilter('priority_axis', { country: environment.entityURL + cntr }))
+          );
+        }),
+        takeUntilDestroyed(this.destroyRef))
+        .subscribe(_ => {
+          const params: any = {};
+          Object.keys(queryParams.params).forEach((key: any) => {
+            if (this.translateService.paramMapping[key]) {
+              if (key === this.translateService.queryParams.keywords || key === this.translateService.queryParams.town) {
+                params[key] = this.route.snapshot.queryParamMap.get(this.translateService.queryParams[key]);
+              } else if (key === this.translateService.queryParams.nuts3) {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], this.translateService.queryParams[key]).id;
+              } else if (key === this.translateService.queryParams.projectStart || key === this.translateService.queryParams.projectEnd) {
+                params[key] = [ this.getDate(this.route.snapshot.queryParamMap.get(this.translateService.queryParams[this.translateService.paramMapping[key]])) ];
+              } else {
+                params[key] = this.getFilterKey(this.translateService.paramMapping[key], key);
               }
-            });
-            const translatedParams = this.translateKeys(params, this.translateService.queryParams);
-            this.lastFiltersSearch = new Filters().deserialize(translatedParams);
-            this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
-            this.stopZoomClusterBecauseOfFilter = true;
-            this.loadMapRegion(this.lastFiltersSearch);
+            }
           });
-      } else {
-        // this.loadMapRegion(this.lastFiltersSearch);
-      }
+          const translatedParams = this.translateKeys(params, this.translateService.queryParams);
+          this.lastFiltersSearch = new Filters().deserialize(translatedParams);
+          this.filtersCount = Object.entries(this.lastFiltersSearch).filter(([ key, value ]) => value !== undefined && key != 'language').length;
+          this.stopZoomClusterBecauseOfFilter = true;
+          this.loadMapRegion(this.lastFiltersSearch);
+        });
+      // } else {
+      //   debugger
+      //   // this.loadMapRegion(this.lastFiltersSearch);
+      // }
     }
     this.map = L.map(this.mapId,
       {
@@ -539,12 +547,13 @@ export class MapComponent implements AfterViewInit {
   loadMapRegion(filters: Filters, granularityRegion?: string, reScale?: boolean) {
     this.filters = filters;
     this.nearByView = false;
-    // if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.clusterView) {
-    //   let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
-    //   let regionsQueryParamArray = regionsQueryParam.split(',');
-    //   granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
-    //   this.hasQueryParams = true;
-    // }
+    if (this._route.snapshot.queryParamMap.has(this.queryParamMapRegionName) && this.onlyOnceParamsApply) {
+      let regionsQueryParam = this._route.snapshot.queryParamMap.get(this.queryParamMapRegionName) + '';
+      let regionsQueryParamArray = regionsQueryParam.split(',');
+      granularityRegion = environment.entityURL + regionsQueryParamArray[regionsQueryParamArray.length - 1];
+      this.hasQueryParams = true;
+    }
+    this.onlyOnceParamsApply = false;
 
     if (!granularityRegion) {
       this.mapRegions = [];
@@ -735,6 +744,9 @@ export class MapComponent implements AfterViewInit {
 
   showOutermostRegions() {
     if (this.hideOuterMostRegions || this.nearByView) {
+      return false;
+    }
+    if (this.clusterView && this.map?.getZoom() > 4) {
       return false;
     }
     if (this.mapRegions.length > 1 || (this.mapRegions.length == 1 && this.mapRegions[0].region)) {
@@ -1014,7 +1026,7 @@ export class MapComponent implements AfterViewInit {
   onReset() {
     this.clickedMarker = null;
     this._router.navigate([], { relativeTo: this.route, queryParams: {}, queryParamsHandling: '' });
-    this.mapRegions = [this.europe];
+    this.mapRegions = [ this.europe ];
     this.stopZoomClusterBecauseOfFilter = true;
     this.filterService.showResult$$.next({ filters: new Filters(), source: 'filters reset' });
   }
@@ -1043,7 +1055,7 @@ export class MapComponent implements AfterViewInit {
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
       tap(() => {
-        this.hideOuterMostRegions = true;
+        // this.hideOuterMostRegions = true;
         if (this.map.getZoom() < 4) {
           this.markers.clearLayers();
           this.loadMapRegion(this.filters);
@@ -1146,6 +1158,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private polygonsStyle(feature: any) {
+    // if (this.countryStyle === this.filters.country) {
+    //   return;
+    // }
+    // this.countryStyle = this.filters.country;
     let backgroundColor = '#ff7800';
     if (feature.properties && this.heatScale && this.heatMapScale && this.heatMapScale.length) {
       backgroundColor = this.heatMapScale[this.heatMapScale.length - 1].color;
@@ -1161,7 +1177,7 @@ export class MapComponent implements AfterViewInit {
       color: '#ff7800',
       opacity: 1,
       weight: 2,
-      fillOpacity: 0.5,
+      fillOpacity: 0.4,
       fillColor: backgroundColor
     };
     if (this.heatScale) {

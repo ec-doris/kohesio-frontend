@@ -73,14 +73,14 @@ export class HomePageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    if (this.isPlatformBrowser()) {
-      setTimeout(
-        () => {
-          if (!this._route.snapshot.queryParamMap.keys.length) {
-            this.map.loadMapRegion(new Filters());
-          }
-        }, 500);
-    }
+    // if (this.isPlatformBrowser()) {
+    //   setTimeout(
+    //     () => {
+    //       if (!this._route.snapshot.queryParamMap.keys.length) {
+    //         this.map.loadMapRegion(new Filters());
+    //       }
+    //     }, 500);
+    // }
   }
 
   public ngOnInit() {
