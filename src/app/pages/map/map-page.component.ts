@@ -8,18 +8,19 @@ import { Filters } from 'src/app/models/filters.model';
   styleUrls: [ './map-page.component.scss' ]
 })
 export class MapPageComponent implements AfterViewInit {
-
   @ViewChild(MapComponent) map!: MapComponent;
-  public hideProjectsNearBy: boolean = false;
-  public country: string | null;
-  public heatScale: boolean = false;
-  public openProjectInner: boolean = false;
+  hideProjectsNearBy = false;
+  country: string | null;
+  heatScale = false;
+  openProjectInner = false;
   clusterView = false;
   showFilters = true;
-  public cci: [];
-  public fund = '';
+  cci: [];
+  fund = '';
+  isEmbeddedMap = false;
 
   constructor(public actRoute: ActivatedRoute) {
+
     this.hideProjectsNearBy = (this.actRoute.snapshot.queryParamMap.get('hideProjectsNearBy') == 'true');
     this.heatScale = (this.actRoute.snapshot.queryParamMap.get('heatScale') == 'true');
     this.openProjectInner = (this.actRoute.snapshot.queryParamMap.get('openProjectInner') == 'true');
@@ -31,15 +32,18 @@ export class MapPageComponent implements AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    setTimeout(
-      () => {
-        const filters = new Filters().deserialize({
-          country: this.country,
-          cci: this.cci,
-          fund: this.fund
-        });
-        this.map.loadMapRegion(filters);
-      }, 500);
+    this.isEmbeddedMap = window.self !== window.top;
+    if (this.actRoute.snapshot.queryParamMap.get('mapRegion')) {
+      setTimeout(
+        () => {
+          const filters = new Filters().deserialize({
+            country: this.country,
+            cci: this.cci,
+            fund: this.fund
+          });
+          this.map.loadMapRegion(filters);
+        }, 700);
+     }
   }
 
 }

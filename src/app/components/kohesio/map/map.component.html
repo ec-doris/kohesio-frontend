@@ -40,9 +40,11 @@
                     </button>
                     &nbsp;
                 } @else {
-                    <ng-container *ngFor="let region of mapRegions">
-                        <button type="button" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
-                        &nbsp;
+                    <ng-container *ngIf="!collapsedBreadCrumb">
+                        <ng-container *ngFor="let region of mapRegions">
+                            <button type="button" (click)="loadMapRegion(filters, region.region)" class="ecl-button ecl-button--secondary" type="button">{{ region.label }}</button>
+                            &nbsp;
+                        </ng-container>
                     </ng-container>
                 }
                 <button class="ecl-button ecl-button--secondary" type="button" (click)="collapsedBreadCrumb = !collapsedBreadCrumb" *ngIf="!clusterView">
