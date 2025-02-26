@@ -114,6 +114,7 @@ export class MapComponent implements AfterViewInit {
   private isMapMovingOnClick!: boolean;
   private clickedMarker: any;
   public onlyOnceParamsApply = true;
+  // private countryStyle: any;
 
   constructor(private mapService: MapService,
               private filterService: FilterService,
@@ -745,6 +746,9 @@ export class MapComponent implements AfterViewInit {
     if (this.hideOuterMostRegions || this.nearByView) {
       return false;
     }
+    if (this.clusterView && this.map?.getZoom() > 4) {
+      return false;
+    }
     if (this.mapRegions.length > 1 || (this.mapRegions.length == 1 && this.mapRegions[0].region)) {
       const index = (this.mapRegions.length > 1 && !this.mapRegions[0].region) ? 1 : 0;
       const countryId = this.mapRegions[index].region.replace(environment.entityURL, '');
@@ -1051,7 +1055,7 @@ export class MapComponent implements AfterViewInit {
   private setUpZoomListener(): void {
     this.zoomLevelSubject$$.pipe(
       tap(() => {
-        this.hideOuterMostRegions = true;
+        // this.hideOuterMostRegions = true;
         if (this.map.getZoom() < 4) {
           this.markers.clearLayers();
           this.loadMapRegion(this.filters);
@@ -1154,6 +1158,10 @@ export class MapComponent implements AfterViewInit {
   }
 
   private polygonsStyle(feature: any) {
+    // if (this.countryStyle === this.filters.country) {
+    //   return;
+    // }
+    // this.countryStyle = this.filters.country;
     let backgroundColor = '#ff7800';
     if (feature.properties && this.heatScale && this.heatMapScale && this.heatMapScale.length) {
       backgroundColor = this.heatMapScale[this.heatMapScale.length - 1].color;
