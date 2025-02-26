@@ -1177,7 +1177,7 @@ export class MapComponent implements AfterViewInit {
       color: '#ff7800',
       opacity: 1,
       weight: 2,
-      fillOpacity: 0.5,
+      fillOpacity: 0.4,
       fillColor: backgroundColor
     };
     if (this.heatScale) {
